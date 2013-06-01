@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EquityDao">
+	<insert id="insertOneEquity" parameterType="Equity">
+		insert into equity (id, portfolioId, companyId, namePersonal, quantity, unitCostPrice, yieldPersonal, parityPersonal, 
+		stopLossLocal, objectivLocal, yieldFrequency, yieldMonth, lastUpdate)
+		values (0, #{portfolioId}, #{companyId}, #{namePersonal}, #{quantity},
+		#{unitCostPrice}, #{yieldPersonal}, #{parityPersonal}, #{stopLossLocal}, #{objectivLocal}, #{yieldFrequency}, #{yieldMonth}, NOW())
+	</insert>
+	<select id="selectOneEquity" parameterType="String" resultType="Equity">
+		select * from equity where id = #{id}
+	</select>
+	<update id="updateOneEquity" parameterType="Equity">
+		update equity set 
+			namePersonal = #{namePersonal}, 
+			sectorPersonal = #{sectorPersonal },
+			industryPersonal = #{industryPersonal },
+			marketCapPersonal = #{marketCapPersonal },
+			quantity = #{quantity}, 
+			unitCostPrice = #{unitCostPrice}, 
+			yieldPersonal = #{yieldPersonal }, 
+			parityPersonal = #{parityPersonal}, 
+			stopLossLocal = #{stopLossLocal }, 
+			objectivLocal = #{objectivLocal }, 
+			yieldFrequency = #{yieldFrequency}, 
+			yieldMonth = #{yieldMonth }, 
+			lastUpdate = NOW() 
+			where id = #{id}
+	</update>
+	<delete id="deleteOneEquity" parameterType="Equity">
+		delete from equity where id = #{id}
+	</delete>
+</mapper>

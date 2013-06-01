@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CurrencyData">
+	<insert id="insertOneCurrencyData" parameterType="CurrencyData">
+		insert into currency (id, currency1, currency2, value)
+		values (0, #{currency1}, #{currency2},
+		#{value})
+	</insert>
+	<select id="selectOneCurrencyData" parameterType="String" resultType="CurrencyData">
+		select * from currency where id = #{id}
+	</select>
+	<update id="updateOneCurrencyData" parameterType="CurrencyData">
+		update currency set value = #{value}, lastUpdate = NOW() where id = #{id};
+	</update>
+	<delete id="deleteOneCurrencyData" parameterType="CurrencyData">
+		delete from currency where id = #{id}
+	</delete>
+	<select id="selectListCurrencyData" parameterType="String" resultType="CurrencyData">
+		select * from currency where currency2 = #{id}
+	</select>
+	<select id="selectListAllCurrencyData" resultType="CurrencyData">
+		select id, currency1, currency2, value, lastUpdate from currency
+	</select>
+	<select id="selectOneCurrencyDataWithParam" parameterType="CurrencyData" resultType="CurrencyData">
+		select * from currency where currency1 = #{currency1} and currency2 = #{currency2}
+	</select>
+</mapper>

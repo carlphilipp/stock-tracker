@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+ 
+<root>
+	<constant>
+		<added>Ajouté</added>
+		<updated>Mis à jour</updated>
+		<modified>Modifié</modified>
+		<deleted>Effacé</deleted>
+	</constant>
+	<menu>
+		<title name="portfolio">Portefeuille</title>
+		<title name="history">Historique</title>
+		<title name="accounts">Comptes</title>
+		<title name="list">Liste</title>
+		<title name="charts">Graphique</title>
+		<title name="currencies">Devise</title>
+		<title name="options">Options</title>
+		<title name="about">A propos</title>
+		<title name="logout">Déconnexion</title>
+	</menu>
+	<portfolio>
+		<title>Portefeuille</title>
+		<review>
+			<liquidity>Liquidités</liquidity>
+			<yieldYear>Dividendes/An</yieldYear>
+			<shareValue>Valeur de la part</shareValue>
+		</review>
+		<add>Ajouter</add>
+		<equities>
+			<company>Société</company>
+			<quantity>Quantité</quantity>
+			<unitCostPrice>Prix de Revient Unitaire</unitCostPrice>
+			<quote>Cours</quote>
+			<currency>Devise</currency>
+			<parities>Parités</parities>
+			<value>Valeur</value>
+			<percentTotal>% du Total</percentTotal>
+			<yieldTtm>Dividendes TTM&lt;br&gt;Par An</yieldTtm>
+			<yieldPerUnitCostPrice>Dividendes par PRU&lt;br&gt;par An</yieldPerUnitCostPrice>
+			<valueGained>Gain</valueGained>
+			<stopLoss>Stop Loss</stopLoss>
+			<objective>Objectif</objective>
+			<info>info</info>
+			<modify>modifier</modify>
+		</equities>
+		<chartTitle>Graphique de l'historique</chartTitle>
+		<chartTitleValue>Graphique de la valeur</chartTitleValue>
+		<chart>
+			<all>Tout</all>
+			<fiveYears>5a</fiveYears>
+			<twoYears>2a</twoYears>
+			<oneYear>1a</oneYear>
+			<sixMonths>6m</sixMonths>
+			<threeMonths>3m</threeMonths>
+			<oneMonth>1m</oneMonth>
+			<oneWeek>1s</oneWeek>
+		</chart>
+	</portfolio>
+	<portfolio_hidden>
+		<refresh>Mise à jour ?</refresh>
+		<updateCurrencies>Mettre à jour les devises</updateCurrencies>
+		<add>Ajouter une société</add>
+		<yahooId>Identifiant yahoo</yahooId>
+		<quantity>Quantité</quantity>
+		<unitCostPrice>Prix de Revient Unitaire</unitCostPrice>
+		<modifyEquity>Modification</modifyEquity>
+		<customizeName>Personnalisation du nom</customizeName>
+		<customizeSector>Personnalisation du secteur</customizeSector>
+		<customizeIndustry>Personnalisation de l'industrie</customizeIndustry>
+		<customizeMarketCap>Personnalisation du market cap</customizeMarketCap>
+		<defautParity>Parité défaut</defautParity>
+		<personalParity>Parité personnelle</personalParity>
+		<yahooYield>Dividendes Yahoo</yahooYield>
+		<personalYield>Dividendes personneles</personalYield>
+		<stopLoss>Stop loss</stopLoss>
+		<objective>Objectif</objective>
+		<modify>Modifier</modify>
+		<or>ou</or>
+		<delete>effacer</delete>
+		<deleteConfirm>Êtes-vous sûr de vouloir effacer cette société de votre portefeuille?</deleteConfirm>
+	</portfolio_hidden>
+	<history>
+		<title>Historique du portefeuille</title>
+		<update>Mise à jour</update>
+		<date>Date</date>
+		<account>Compte</account>
+		<liquidityMovement>Entrées Sorties liquidités</liquidityMovement>
+		<dividends>Divid. reçus</dividends>
+		<buy>Achat</buy>
+		<sell>Vente</sell>
+		<taxe>Taxe</taxe>
+		<portfolioValue>Valeur du portefeuille</portfolioValue>
+		<shareQuantity>Nombre de&lt;br&gt;parts</shareQuantity>
+		<shareValue>Valeur de&lt;br&gt;la part</shareValue>
+		<monthlyYield>Rend. brut par mois</monthlyYield>
+		<commentary>Commentaire</commentary>
+		<option>Option</option>
+		<details>details</details>
+		<all>Tout</all>
+		<delete>suppr</delete>
+	</history>
+	<history_hidden>
+		<refresh>Mettre à jour l'historique</refresh>
+		<account>Compte</account>
+		<movement>Mouvement</movement>
+		<yield>Dividendes</yield>
+		<buy>Achat</buy>
+		<sell>Vente</sell>
+		<taxe>Taxe</taxe>
+		<commentary>Commentaire</commentary>
+		<update>Mise à jour</update>
+	</history_hidden>
+	<accounts>
+		<title>Comptes</title>
+		<add>Ajouter</add>
+		<account>Compte</account>
+		<currency>Devise</currency>
+		<liquidity>Liquidités</liquidity>
+		<parity>Parité</parity>
+		<value>Valeur en</value>
+		<option>Option</option>
+		<modify>Modifier</modify>
+		<total>Total</total>
+	</accounts>
+	<accounts_hidden>
+		<add>Ajouter un compte</add>
+		<accountName>Nom du compte</accountName>
+		<currency>Devise</currency>
+		<liquidity>Liquidités</liquidity>
+	</accounts_hidden>
+	<list>
+		<title>Ma liste</title>
+		<add>Ajouter</add>
+		<date>Date</date>
+		<company>Companie</company>
+		<quote>Cours</quote>
+		<lowMaxYear>Plus bas&#160;&#160;&#160;&#160; - &#160;&#160;&#160;&#160;Cours&#160;&#160;&#160;&#160; - &#160;&#160;&#160;&#160;Plus haut</lowMaxYear>
+		<yield>Dividende TTM Par An</yield>
+		<lowerLimit>Limite basse</lowerLimit>
+		<higherLimit>Limite haute</higherLimit>
+		<info>info</info>
+		<modify>modifier</modify>
+	</list>
+	<list_hidden>
+		<refresh>Mettre à jour ?</refresh>
+		<confirm>Confirme</confirm>
+		<add>Ajouter une societé à la liste</add>
+		<yahooId>Identifiant Yahoo</yahooId>
+		<lowerLimit>Limite basse</lowerLimit>
+		<higherLimit>Limite haute</higherLimit>
+		<modify>Modifier la societé</modify>	
+	</list_hidden>
+	<charts>
+		<title>Graphiques</title>
+	</charts>
+	<currencies>
+		<title>Devise</title>
+		<portfolioCurrency>Devise du portefeuille</portfolioCurrency>
+		<currency>Devise</currency>
+		<lastUpdate>Mise à jour</lastUpdate>
+	</currencies>
+	<currencies_hidden>
+		<refresh>Mettre à jour ?</refresh>
+		<confirm>Confirme</confirm>
+	</currencies_hidden>
+	<options>
+		<title>Options</title>
+		<defautCurrency>Devise par défaut</defautCurrency>
+		<format>Formattage des nombres</format>
+		<timeZone>Fuseau horaire</timeZone>
+		<datePattern>Type de date</datePattern>
+		<portfolioColumn>Colonnes du portefeuille affichées</portfolioColumn>
+		<loadHistory>Charger l'historique</loadHistory>
+		<liquidity>Liquidités</liquidity>
+		<account>Compte</account>
+		<load>Charger</load>
+	</options>
+	<options_hidden>
+		<title>Modification des options</title>
+		<currency>Devise par défaut</currency>
+		<format>Formattage des nombres</format>
+		<timeZone>Fuseau horaire</timeZone>
+		<datePattern>Type de date</datePattern>
+		<columns>Colonnes du portefeuille à afficher</columns>
+		<quote>Cours</quote>
+		<parities>Parités</parities>
+		<yieldTTM>Dividendes par Année</yieldTTM>
+		<yieldPerUnitCostPrice>Dividendes par PRU par année</yieldPerUnitCostPrice>
+		<stopLoss>Stop loss</stopLoss>
+		<objective>Objectif</objective>
+	</options_hidden>
+	<about>
+	</about>
+	<logout>
+	</logout>
+</root>

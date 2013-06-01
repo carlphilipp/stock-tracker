@@ -1,0 +1,64 @@
+# Copyright 2013 Carl-Philipp Harmant
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+log4j.rootCategory=info, mail, file, CONSOLE
+#log4j.rootCategory=info, mail, file
+
+### file appender
+log4j.appender.file=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.file.File=########################### path to log file
+log4j.appender.file.DatePattern='.'yyyy-MM-dd
+log4j.appender.file.layout=org.apache.log4j.EnhancedPatternLayout
+log4j.appender.file.layout.ConversionPattern=%d{dd/MM/yyyy HH:mm:ss}{Europe/Paris} - %-5p [%c{1}:%L] %m%n
+ 
+#email appender
+log4j.appender.mail=org.apache.log4j.net.SMTPAppender
+#defines how emails are sent
+log4j.appender.mail.BufferSize=20
+log4j.appender.mail.SMTPHost=########################### 
+log4j.appender.mail.SMTPProtocol=########################### 
+log4j.appender.mail.SMTPPort=########################### 
+log4j.appender.mail.SMTPUsername=########################### 
+log4j.appender.mail.SMTPPassword=########################### 
+log4j.appender.mail.From=########################### 
+log4j.appender.mail.To=c########################### 
+log4j.appender.mail.Subject=[Stock] Log Error
+log4j.appender.mail.threshold=error
+log4j.appender.mail.layout=org.apache.log4j.EnhancedPatternLayout
+log4j.appender.mail.layout.ConversionPattern=%d{dd/MM/yyyy HH:mm:ss}{Europe/Paris} - %-5p [%c{1}:%L] %m%n
+
+
+
+# Console
+#log4j.rootLogger=INFO, CONSOLE
+#log4j.rootCategory=INFO, CONSOLE, EMAIL
+log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender
+log4j.appender.CONSOLE.layout=org.apache.log4j.EnhancedPatternLayout
+log4j.appender.CONSOLE.layout.ConversionPattern=%d{dd/MM/yyyy HH:mm:ss}{Europe/Paris} - %-5p [%c{1}:%L] %m%n
+ 
+log4j.logger.fr.cph.stock=INFO
+
+
+#log4j.debug=true
+
+# ibatis
+#log4j.logger.com.ibatis=INFO
+# shows SQL of prepared statements
+#log4j.logger.java.sql.Connection=INFO
+
+# shows parameters inserted into prepared statements
+#log4j.logger.java.sql.PreparedStatement=DEBUG
+
+# shows query results
+#log4j.logger.java.sql.ResultSet=DEBUG

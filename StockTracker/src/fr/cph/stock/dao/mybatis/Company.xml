@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+ 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CompanyDao">
+	<insert id="insertOneCompany" parameterType="Company">
+		insert into company (id, yahooId, name, market, currency, industry, sector, quote,
+		yesterdayClose, changeInPercent, yield,
+		marketCapitalization, yearHigh, yearLow, realTime, fund, lastUpdate)
+		values (0, #{yahooId}, #{name}, #{market}, #{currency}, #{industry}, #{sector}, #{quote},
+		#{yesterdayClose}, #{changeInPercent}, #{yield}, #{marketCapitalization}, #{yearHigh}, #{yearLow}, #{realTime}, #{fund}, NOW())
+	</insert>
+	<select id="selectOneCompany" parameterType="int" resultType="Company">
+		select * from company where id = #{id}
+	</select>
+	<update id="updateOneCompany" parameterType="Company">
+		update company set name = #{name},
+		market = #{market},
+		currency = #{currency},
+		industry = #{industry},
+		sector = #{sector},
+		quote = #{quote},
+		yearLow = #{yearLow},
+		yearHigh = #{yearHigh},
+		yesterdayClose = #{yesterdayClose },
+		changeInPercent = #{changeInPercent},
+		yield = #{yield},
+		marketCapitalization = #{marketCapitalization},
+		realTime = #{realTime},
+		fund = #{fund},
+		lastUpdate = NOW()
+		where yahooId = #{yahooId}
+	</update>
+	<delete id="deleteOneCompany" parameterType="Company">
+		delete from company where id = #{id}
+	</delete>
+	<select id="selectOneCompanyWithYahooId" parameterType="String" resultType="Company">
+		select * from company where yahooId = #{yahooId}
+	</select>
+	<select id="selectAllCompanyNotRealTime" parameterType="Boolean" resultType="Company">
+		select * from company where realTime = #{realTime}
+	</select>
+	<select id="selectAllUnusedCompanyIds" resultType="int">
+		SELECT company.id from company where company.id NOT IN (SELECT equity.companyId FROM equity UNION  SELECT follow.companyId FROM follow)
+	</select>
+
+</mapper>

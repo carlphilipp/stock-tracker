@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+ 
+<!DOCTYPE project> 
+<project name="Stock" default="coverage" basedir="../">
+
+	<property file="ant/build.properties" />
+	
+	<path id="class.path">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${tomcat.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="/opt/eclipse/plugins/org.junit_4.10.0.v4_10_0_v20120426-0900/junit.jar" />
+		<pathelement location="/opt/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar" />
+	</path>
+
+	<!-- To make work Cobertura -->
+	<taskdef classpathref="class.path" resource="tasks.properties" />
+ 
+	<target name="init">
+		<mkdir dir="${classes.dir}" />
+		<mkdir dir="${instrumented.dir}" />
+		<mkdir dir="${reports.dir}" />
+	</target>
+
+	<target name="clean" description="Remove all files created by the build/test process.">
+		<delete dir="${classes.dir}" />
+		<delete dir="${instrumented.dir}" />
+		<delete dir="${reports.dir}" />
+		<delete file="cobertura.ser" />
+		<delete file="${app.name}.war" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac includeantruntime="true" srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
+			<classpath refid="class.path" />
+		</javac>
+		<!--
+		<javac includeantruntime="true" srcdir="${test.dir}" destdir="${classes.dir}" debug="yes">
+			<classpath refid="class.path" />	
+		</javac>
+		-->
+	</target>
+	
+	<target name="moveXML" depends="compile">
+		<copy todir="${classes.dir}/fr/cph/stock/dao/mybatis" >
+			<fileset dir="${src.dir}/fr/cph/stock/dao/mybatis" >
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="instrument" depends="init,compile,moveXML">
+		<delete file="cobertura.ser" />
+		<delete dir="${instrumented.dir}" />
+		<cobertura-instrument todir="${instrumented.dir}">
+			<ignore regex="org.apache.log4j.*" />
+			<fileset dir="${classes.dir}">
+				<include name="**/*.class" />
+				<exclude name="**/*Test.class" />
+				<exclude name="**/AllTests.class" />
+			</fileset>
+		</cobertura-instrument>
+	</target>
+
+	<target name="test" depends="init,compile,moveXML">
+		<junit fork="yes" dir="${basedir}" failureProperty="test.failed" printsummary="yes">
+			<jvmarg value="-XX:-UseSplitVerifier"/>
+			
+			<formatter type="plain" usefile="false" />
+
+			<classpath location="${instrumented.dir}" />
+			<classpath location="${classes.dir}" />
+
+			<classpath refid="class.path" />
+
+			<batchtest todir="${reports.dir}">
+				<fileset dir="${test.dir}">
+					<include name="**/*Test.java" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+
+	<target name="coverage-report">
+		<cobertura-report destdir="${reports.dir}">
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</cobertura-report>
+	</target>
+
+	<target name="coverage" depends="clean,compile,moveXML,instrument,test,coverage-report" />
+	
+	<target name="warify" depends="clean,compile">
+		<war destfile="${app.name}.war">
+			<fileset dir="WebContent">
+				<exclude name="**/*.jar" />
+				<exclude name="**/*.sql" />
+			</fileset>
+			
+			<zipfileset dir="src" includes="**/*.properties" excludes="**/*.template" prefix="WEB-INF/classes"/>
+			<zipfileset dir="src/fr/cph/stock/language/xml" includes="**/*.xml" prefix="WEB-INF/classes/fr/cph/stock/language/xml"/>
+			<zipfileset dir="src/fr/cph/stock/dao/mybatis" includes="**/*.xml" prefix="WEB-INF/classes/fr/cph/stock/dao/mybatis"/>
+			
+			<lib dir="WebContent/WEB-INF/lib">
+				<exclude name="cobertura.jar"/>
+				<exclude name="commons-compress-1.4.1-sources.jar"/>
+				<exclude name="json-lib-2.4-jdk15-sources.jar"/>
+				<exclude name="mybatis-3.1.1-javadoc.jar"/>
+				<exclude name="mybatis-3.1.1-sources.jar"/>
+	  		</lib>
+	  		
+			<classes dir="${classes.dir}"/>
+		</war>
+	</target>
+	
+	<target name="deploy" depends="warify">
+		<input message="SSH password:" addproperty="ssh.password">
+		</input>
+		
+		<sshexec host="${ssh.ip}" username="${ssh.login}" password="${ssh.password}" trust="yes"
+				  command="${tomcat.bin.dir}/shutdown.sh" />
+		<sshexec host="${ssh.ip}" username="${ssh.login}" password="${ssh.password}" trust="yes"
+		  command="rm -f ${tomcat.webapps.dir}/${app.name}.war;rm -f -R ${tomcat.webapps.dir}/${app.name}" />
+		
+		<scp remoteTodir="${ssh.login}@${ssh.ip}:${tomcat.webapps.dir}"
+			password="${ssh.password}"
+		  	trust="yes"
+		  	sftp="true">
+			<fileset file="${app.name}.war" />
+		</scp>
+		
+		<sshexec host="${ssh.ip}" username="${ssh.login}" password="${ssh.password}" trust="yes"
+				  command="${tomcat.bin.dir}/startup.sh" />
+	</target>
+	
+</project>
