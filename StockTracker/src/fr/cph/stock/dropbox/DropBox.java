@@ -46,14 +46,14 @@ public class DropBox {
 	private static DropboxAPI<WebAuthSession> dropBoxAPI;
 
 	public DropBox() {
-		AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
-		WebAuthSession session = new WebAuthSession(appKeys, ACCESS_TYPE, new AccessTokenPair(tokenKey, tokenValue));
-		dropBoxAPI = new DropboxAPI<>(session);
 		Properties prop = Util.getProperties("app.properties");
 		APP_KEY = prop.getProperty("app_key");
 		APP_SECRET = prop.getProperty("app_secret");
 		tokenKey = prop.getProperty("token_key");
 		tokenValue = prop.getProperty("token_value");
+		AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+		WebAuthSession session = new WebAuthSession(appKeys, ACCESS_TYPE, new AccessTokenPair(tokenKey, tokenValue));
+		dropBoxAPI = new DropboxAPI<>(session);
 	}
 
 	public void deleteOldFileIfNeeded(File file) throws ParseException, DropboxException {
