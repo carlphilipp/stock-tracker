@@ -26,8 +26,8 @@ public enum Currency {
 //	AUD("Australia Dollar", "$", "AUD"), 
 //	CAD("Canada Dollar", "$", "CAD"), 
 //	CHF("Switzerland Franc", "CHF", "CHF"), 
-	EUR("Euro", "€", "EUR"), 
-	GBP("United Kingdom Pound", "£", "GBP"), 
+	EUR("Euro", "â‚¬", "EUR"), 
+	GBP("United Kingdom Pound", "Â£", "GBP"),
 //	HKD("Hong Kong Dollar", "$", "HKD"), 
 //	SGD("Singapore Dollar", "$", "SGD"), 
 	USD("United States Dollar", "$", "USD");
