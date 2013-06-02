@@ -16,34 +16,95 @@
 
 package fr.cph.stock.entities.chart;
 
-public abstract class AChart implements IChart{
+/**
+ * This class represents an abstract chart
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
+public abstract class AChart implements IChart {
 
+	/** Data **/
 	protected String data;
+	/** Title **/
 	protected String title;
+	/** Draw **/
 	protected String draw;
+	/** Colors **/
 	protected String colors;
-	
+
+	/**
+	 * Get colors
+	 * 
+	 * @return the colors
+	 */
 	public String getColors() {
 		return colors;
 	}
+
+	/**
+	 * Set colors
+	 * 
+	 * @param colors
+	 *            the colors
+	 */
 	public void setColors(String colors) {
 		this.colors = colors;
 	}
+
+	/**
+	 * Get draw
+	 * 
+	 * @return the draw
+	 */
 	public String getDraw() {
 		return draw;
 	}
+
+	/**
+	 * Set draw
+	 * 
+	 * @param draw
+	 *            the draw
+	 */
 	public void setDraw(String draw) {
 		this.draw = draw;
 	}
-	public String getTitle(){
+
+	/**
+	 * Get title
+	 * 
+	 * @return the title
+	 */
+	public String getTitle() {
 		return title;
 	}
-	public void setTitle(String title){
+
+	/**
+	 * Set title
+	 * 
+	 * @param title
+	 *            the title
+	 */
+	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	/**
+	 * Get data
+	 * 
+	 * @return the data
+	 */
 	public String getData() {
 		return data;
 	}
+
+	/**
+	 * Set data
+	 * 
+	 * @param data
+	 *            the data
+	 */
 	public void setData(String data) {
 		this.data = data;
 	}

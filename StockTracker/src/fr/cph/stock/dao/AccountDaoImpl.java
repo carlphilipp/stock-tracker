@@ -25,8 +25,19 @@ import org.apache.ibatis.session.SqlSession;
 
 import fr.cph.stock.entities.Account;
 
+/**
+ * This class implements IDao functions and add some more. It access to the Account in DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class AccountDaoImpl extends AbstractDao<Account> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
+	 */
 	@Override
 	public void insert(Account account) {
 		SqlSession session = getSqlSessionFactory();
@@ -38,6 +49,11 @@ public class AccountDaoImpl extends AbstractDao<Account> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#select(int)
+	 */
 	@Override
 	public Account select(int id) {
 		SqlSession session = getSqlSessionFactory();
@@ -50,6 +66,11 @@ public class AccountDaoImpl extends AbstractDao<Account> {
 		return accountResult;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
+	 */
 	@Override
 	public void update(Account account) {
 		SqlSession session = getSqlSessionFactory();
@@ -62,6 +83,11 @@ public class AccountDaoImpl extends AbstractDao<Account> {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Account account) {
 		SqlSession session = getSqlSessionFactory();
@@ -73,6 +99,13 @@ public class AccountDaoImpl extends AbstractDao<Account> {
 		}
 	}
 
+	/**
+	 * Get all account for the user
+	 * 
+	 * @param userId
+	 *            the user id
+	 * @return a list of account
+	 */
 	public List<Account> selectAllAccountWithUserId(int userId) {
 		SqlSession session = getSqlSessionFactory();
 		List<Account> accountResult = new ArrayList<Account>();
@@ -84,6 +117,15 @@ public class AccountDaoImpl extends AbstractDao<Account> {
 		return accountResult;
 	}
 
+	/**
+	 * Get an account
+	 * 
+	 * @param userId
+	 *            the user id
+	 * @param name
+	 *            the name of the account
+	 * @return an account
+	 */
 	public Account selectOneAccountWithName(int userId, String name) {
 		SqlSession session = getSqlSessionFactory();
 		Account account = new Account();

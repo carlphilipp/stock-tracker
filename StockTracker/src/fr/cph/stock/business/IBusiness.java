@@ -36,103 +36,363 @@ import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
 
+/**
+ * Interface defining function that access database and process information
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public interface IBusiness {
 
-	void updateEquity(int userId, String ticker, Equity equity)
-			throws UnsupportedEncodingException, YahooException;
-
-	public void deleteEquity(Equity equity);
-
-	public void createUser(String login, String md5Password, String email)
-			throws NoSuchAlgorithmException, UnsupportedEncodingException,
-			LoginException;
-
-	User getUser(String login);
-
-	void deleteUser(String login);
-
-	User checkUser(String login, String md5Password) throws LoginException;
-
-	Portfolio getUserPortfolio(int userId, Date from, Date to)
-			throws YahooException;
-
-	Currency loadCurrencyData(Currency currency) throws YahooException;
-
-	void createEquity(int userId, String ticker, Equity equity)
-			throws UnsupportedEncodingException, YahooException,
+	/**
+	 * Create an equity
+	 * 
+	 * @param userId
+	 * @param ticker
+	 * @param equity
+	 * @throws UnsupportedEncodingException
+	 * @throws YahooException
+	 * @throws EquityException
+	 */
+	void createEquity(int userId, String ticker, Equity equity) throws UnsupportedEncodingException, YahooException,
 			EquityException;
 
-	List<Company> addOrUpdateCompanies(List<String> tickers)
-			throws YahooException;
+	/**
+	 * Update an equity
+	 * 
+	 * @param userId
+	 * @param ticker
+	 * @param equity
+	 * @throws UnsupportedEncodingException
+	 * @throws YahooException
+	 */
+	void updateEquity(int userId, String ticker, Equity equity) throws UnsupportedEncodingException, YahooException;
 
-	List<ShareValue> getShareValue(User user);;
+	/**
+	 * Delete an equity
+	 * 
+	 * @param equity
+	 */
+	void deleteEquity(Equity equity);
 
-	void updateAllCurrencies() throws YahooException;
+	/**
+	 * Create a user
+	 * 
+	 * @param login
+	 * @param md5Password
+	 * @param email
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 * @throws LoginException
+	 */
+	void createUser(String login, String md5Password, String email) throws NoSuchAlgorithmException,
+			UnsupportedEncodingException, LoginException;
 
-	List<Index> getIndexes(String yahooId, Date from, Date to);
+	/**
+	 * Get user
+	 * 
+	 * @param login
+	 * @return
+	 */
+	User getUser(String login);
 
-	List<Follow> getListFollow(int userId);
+	/**
+	 * Delete user
+	 * 
+	 * @param login
+	 */
+	void deleteUser(String login);
 
-	void deleteShareValue(ShareValue sv);
+	/**
+	 * Check if user credentials are correct
+	 * 
+	 * @param login
+	 * @param md5Password
+	 * @return
+	 * @throws LoginException
+	 */
+	User checkUser(String login, String md5Password) throws LoginException;
 
-	void addFollow(User user, String ticker, Double lower, Double higher)
-			throws YahooException;
-
-	void deleteFollow(int id);
-
-	void addShareValue(ShareValue share);
-
-	Object[][] getAllCurrencyData(Currency currency);
-
-	boolean updateIndex(String yahooId, Date from, Date to, boolean force)
-			throws YahooException;
-
-	void updatePortfolio(Portfolio portfolio);
-
+	/**
+	 * Update a user
+	 * 
+	 * @param user
+	 */
 	void updateUser(User user);
 
-	void updateIndex(String yahooId) throws YahooException;
-
-	void updateFollow(User user, String ticker, Double lower, Double higher);
-
-	void updateCompaniesNotRealTime();
-
-	void updateCompaniesRealTime();
-
-	void addOrUpdateCompaniesLimitedRequest(
-			List<String> companiesYahooIdRealTime) throws YahooException;
-
-	Account selectOneAccountWithName(int userId, String name);
-
-	void updateLiquidity(Account account, double liquidity);
-
-	void addAccount(Account account);
-
-	void updateAccount(Account account);
-
-	void deleteAccount(Account account);
-
-	void updateOneCurrency(Currency currency) throws YahooException;
-
-	void updateCommentaryShareValue(ShareValue sv);
-
-	ShareValue selectOneShareValue(int id);
-
+	/**
+	 * Allow a user to login
+	 * 
+	 * @param login
+	 */
 	void validateUser(String login);
 
+	/**
+	 * Get user with email
+	 * 
+	 * @param email
+	 * @return
+	 */
 	User getUserWithEmail(String email);
 
+	/**
+	 * Update a user password
+	 * 
+	 * @param user
+	 */
 	void updateOneUserPassword(User user);
 
-	void cleanDB();
+	/**
+	 * Get a portfolio
+	 * 
+	 * @param userId
+	 * @param from
+	 * @param to
+	 * @return
+	 * @throws YahooException
+	 */
+	Portfolio getUserPortfolio(int userId, Date from, Date to) throws YahooException;
 
+	/**
+	 * Update a portfolio
+	 * 
+	 * @param portfolio
+	 */
+	void updatePortfolio(Portfolio portfolio);
+
+	/**
+	 * Update liquidity in the account
+	 * 
+	 * @param account
+	 * @param liquidity
+	 */
+	void updateLiquidity(Account account, double liquidity);
+
+	/**
+	 * Load a currency with its data
+	 * 
+	 * @param currency
+	 * @return
+	 * @throws YahooException
+	 */
+	Currency loadCurrencyData(Currency currency) throws YahooException;
+
+	/**
+	 * Update all current currencies
+	 * 
+	 * @throws YahooException
+	 */
+	void updateAllCurrencies() throws YahooException;
+
+	/**
+	 * Update one currency
+	 * 
+	 * @param currency
+	 * @throws YahooException
+	 */
+	void updateOneCurrency(Currency currency) throws YahooException;
+
+	/**
+	 * Get all currency data
+	 * 
+	 * @param currency
+	 * @return
+	 */
+	Object[][] getAllCurrencyData(Currency currency);
+
+	/**
+	 * Add or update companies
+	 * 
+	 * @param tickers
+	 * @return
+	 * @throws YahooException
+	 */
+	List<Company> addOrUpdateCompanies(List<String> tickers) throws YahooException;
+
+	/**
+	 * Update company that do not have any real time data. (usually funds)
+	 */
+	void updateCompaniesNotRealTime();
+
+	/**
+	 * Update company
+	 */
+	void updateCompaniesRealTime();
+
+	/**
+	 * 
+	 * @param companiesYahooIdRealTime
+	 * @throws YahooException
+	 */
+	void addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException;
+
+	/**
+	 * Get a list of share value that belong to a user
+	 * 
+	 * @param user
+	 * @return
+	 */
+	List<ShareValue> getShareValue(User user);
+
+	/**
+	 * Add a share value
+	 * 
+	 * @param share
+	 */
+	void addShareValue(ShareValue share);
+
+	/**
+	 * Get a share value
+	 * 
+	 * @param id
+	 * @return
+	 */
+	ShareValue selectOneShareValue(int id);
+
+	/**
+	 * Delete a share value
+	 * 
+	 * @param sv
+	 */
+	void deleteShareValue(ShareValue sv);
+
+	/**
+	 * Get index information
+	 * 
+	 * @param yahooId
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	List<Index> getIndexes(String yahooId, Date from, Date to);
+
+	/**
+	 * Update an index
+	 * 
+	 * @param yahooId
+	 * @param from
+	 * @param to
+	 * @param force
+	 * @return
+	 * @throws YahooException
+	 */
+	boolean updateIndex(String yahooId, Date from, Date to, boolean force) throws YahooException;
+
+	/**
+	 * Update an index
+	 * 
+	 * @param yahooId
+	 * @throws YahooException
+	 */
+	void updateIndex(String yahooId) throws YahooException;
+
+	/**
+	 * Don't remember what it does
+	 * 
+	 * @param yahooId
+	 * @param timeZone
+	 * @throws YahooException
+	 */
+	void checkUpdateIndex(String yahooId, TimeZone timeZone) throws YahooException;
+
+	/**
+	 * Get a list of followed companies
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	List<Follow> getListFollow(int userId);
+
+	/**
+	 * Add a company to follow
+	 * 
+	 * @param user
+	 * @param ticker
+	 * @param lower
+	 * @param higher
+	 * @throws YahooException
+	 */
+	void addFollow(User user, String ticker, Double lower, Double higher) throws YahooException;
+
+	/**
+	 * Update a company to follow
+	 * 
+	 * @param user
+	 * @param ticker
+	 * @param lower
+	 * @param higher
+	 */
+	void updateFollow(User user, String ticker, Double lower, Double higher);
+
+	/**
+	 * Delete a company that the user follow
+	 * 
+	 * @param id
+	 */
+	void deleteFollow(int id);
+
+	/**
+	 * Add an account
+	 * 
+	 * @param account
+	 */
+	void addAccount(Account account);
+
+	/**
+	 * Update an account
+	 * 
+	 * @param account
+	 */
+	void updateAccount(Account account);
+
+	/**
+	 * Get one account with its name
+	 * 
+	 * @param userId
+	 * @param name
+	 * @return
+	 */
+	Account selectOneAccountWithName(int userId, String name);
+
+	/**
+	 * 
+	 * @param account
+	 */
+	void deleteAccount(Account account);
+
+	/**
+	 * Update commentare in share value
+	 * 
+	 * @param sv
+	 */
+	void updateCommentaryShareValue(ShareValue sv);
+
+	/**
+	 * Auto update all companies data and if there is no error, auto update the share value of selected user
+	 * 
+	 * @param date
+	 * @throws YahooException
+	 */
 	void autoUpdateUserShareValue(Calendar date) throws YahooException;
 
-	void updateCurrentShareValue(Portfolio portfolio, Account account,
-			Double liquidityMovement, Double yield, Double buy, Double sell,
-			Double taxe, String commentary);
+	/**
+	 * Update current share value
+	 * 
+	 * @param portfolio
+	 * @param account
+	 * @param liquidityMovement
+	 * @param yield
+	 * @param buy
+	 * @param sell
+	 * @param taxe
+	 * @param commentary
+	 */
+	void updateCurrentShareValue(Portfolio portfolio, Account account, Double liquidityMovement, Double yield, Double buy,
+			Double sell, Double taxe, String commentary);
 
-	void checkUpdateIndex(String yahooId, TimeZone timeZone)
-			throws YahooException;
+	/**
+	 * Delete companies that are not used anymore
+	 */
+	void cleanDB();
 
 }

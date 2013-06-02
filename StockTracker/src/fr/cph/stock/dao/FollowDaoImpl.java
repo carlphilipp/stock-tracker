@@ -25,10 +25,21 @@ import org.apache.ibatis.session.SqlSession;
 
 import fr.cph.stock.entities.Follow;
 
+/**
+ * This class implements IDao functions and add some more. It access to the Follow object in DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class FollowDaoImpl extends AbstractDao<Follow> {
-	
-//	private static final Logger log = Logger.getLogger(FollowDaoImpl.class);
 
+	// private static final Logger log = Logger.getLogger(FollowDaoImpl.class);
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
+	 */
 	@Override
 	public void insert(Follow follow) {
 		SqlSession session = getSqlSessionFactory();
@@ -40,6 +51,11 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#select(int)
+	 */
 	@Override
 	public Follow select(int id) {
 		SqlSession session = getSqlSessionFactory();
@@ -52,6 +68,11 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 		return follow;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
+	 */
 	@Override
 	public void update(Follow follow) {
 		SqlSession session = getSqlSessionFactory();
@@ -63,6 +84,11 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Follow follow) {
 		SqlSession session = getSqlSessionFactory();
@@ -73,7 +99,14 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 			session.close();
 		}
 	}
-	
+
+	/**
+	 * Get a list of company of the user given
+	 * 
+	 * @param userId
+	 *            the user id
+	 * @return a list of follow
+	 */
 	public List<Follow> selectListFollow(int userId) {
 		SqlSession session = getSqlSessionFactory();
 		List<Follow> follow = new ArrayList<Follow>();
@@ -84,7 +117,16 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 		}
 		return follow;
 	}
-	
+
+	/**
+	 * Get on company that the user follow
+	 * 
+	 * @param userId
+	 *            the user id
+	 * @param companyId
+	 *            the company id
+	 * @return a Follow object
+	 */
 	public Follow selectOneFollow(int userId, int companyId) {
 		SqlSession session = getSqlSessionFactory();
 		Follow follow = null;

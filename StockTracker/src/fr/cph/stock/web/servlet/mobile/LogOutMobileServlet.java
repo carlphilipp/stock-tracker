@@ -31,13 +31,26 @@ import org.apache.log4j.Logger;
 
 import fr.cph.stock.entities.User;
 
+/**
+ * This servlet is called by mobiles to logout from the app
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "LogOutMobileServlet", urlPatterns = { "/logoutmobile" })
 public class LogOutMobileServlet extends HttpServlet {
 
+	/** Serialization **/
+	private static final long serialVersionUID = 1L;
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(LogOutMobileServlet.class);
 
-	private static final long serialVersionUID = 1L;
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
@@ -59,6 +72,12 @@ public class LogOutMobileServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

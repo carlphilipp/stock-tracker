@@ -36,46 +36,82 @@ import fr.cph.stock.entities.chart.TimeValueChart;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.MarketCapitalization;
 
+/**
+ * This class represents a portofolio that belongs to a user
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class Portfolio {
 
-//	private static final Logger log = Logger.getLogger(Portfolio.class);
+	// private static final Logger log = Logger.getLogger(Portfolio.class);
 
+	/** Precision of calculation **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
-
+	/** Id **/
 	private int id;
+	/** User Id that get this portfolio **/
 	private int userId;
+	/** Currency **/
 	private Currency currency;
+	/** Liquidity **/
 	private Double liquidity;
+	/** List of equities **/
 	private List<Equity> equities;
+	/** List of share value **/
 	private List<ShareValue> shareValues;
+	/** List of accounts **/
 	private List<Account> accounts;
+	/** Map representing the indexes **/
 	private Map<String, List<Index>> indexes;
 
 	// Calculated
+	/** Total quantity **/
 	private Double totalQuantity;
+	/** Average unit cost price **/
 	private Double averageUnitCostPrice;
+	/** Average quote price **/
 	private Double averageQuotePrice;
+	/** Total value **/
 	private Double totalValue;
+	/** Total plus minus value **/
 	private Double totalPlusMinusValue;
+	/** Yield per year **/
 	private Double yieldYear;
+	/** Yield per year in percentage **/
 	private Double yieldYearPerc;
+	/** Total gain **/
 	private Double totalGain;
+	/** Last company update **/
 	private Date lastCompanyUpdate;
+	/** Best performance of the share value **/
 	private Double maxShareValue;
+	/** Date of the best performance **/
 	private Date maxShareValueDate;
+	/** Current share value gain **/
 	private Double currentShareValuesGain;
+	/** Current share value gain in percentage **/
 	private Double currentShareValuesGainPorcentage;
+	/** Current share value yield **/
 	private Double currentShareValuesYield;
+	/** Current share value taxes **/
 	private Double currentShareValuesTaxes;
+	/** Current share value taxes **/
 	private Double currentShareValuesVolume;
-
+	/** Total variation **/
 	private Double totalVariation;
-
+	/** Map that represents data of sector chart **/
 	private Map<String, Double> chartSectorData;
+	/** Map that represents data of capitalization chart **/
 	private Map<String, Double> chartCapData;
+	/** Maps that represents data of share value (user + cac40 + s&p500 **/
 	private Map<Date, Double> chartShareValueData, chartShareValueData2, chartShareValueData3;
+	/** Chart objects **/
 	private IChart timechart, timeValueChart, piechartsector, piechartcap;
 
+	/**
+	 * Constructor
+	 */
 	public Portfolio() {
 		totalQuantity = new Double(0);
 		averageUnitCostPrice = new Double(0);
@@ -88,110 +124,251 @@ public class Portfolio {
 		indexes = new HashMap<String, List<Index>>();
 	}
 
+	/**
+	 * Get currency
+	 * 
+	 * @return the currency
+	 */
 	public Currency getCurrency() {
 		return currency;
 	}
 
+	/**
+	 * Set the currency
+	 * 
+	 * @param currency
+	 *            the currency
+	 */
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
 
+	/**
+	 * Get equities
+	 * 
+	 * @return the equities
+	 */
 	public List<Equity> getEquities() {
 		return equities;
 	}
 
+	/**
+	 * Set equities
+	 * 
+	 * @param equities
+	 *            the equities
+	 */
 	public void setEquities(List<Equity> equities) {
 		this.equities = equities;
 	}
 
+	/**
+	 * Get id
+	 * 
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Set id
+	 * 
+	 * @param id
+	 *            the id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * Get user id
+	 * 
+	 * @return the user id
+	 */
 	public int getUserId() {
 		return userId;
 	}
 
+	/**
+	 * Set user id
+	 * 
+	 * @param userId
+	 *            the user id
+	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
 	public String toString() {
 		return id + " - UserId: " + userId + " - Currency - " + currency + "\n" + equities;
 	}
 
+	/**
+	 * Get liquidity
+	 * 
+	 * @return the liquidity
+	 */
 	public Double getLiquidity() {
 		return liquidity;
 	}
 
+	/**
+	 * Set liquidity
+	 * 
+	 * @param liquidity
+	 *            the liquidity
+	 */
 	public void setLiquidity(Double liquidity) {
 		this.liquidity = liquidity;
 	}
 
+	/**
+	 * Get total quantity
+	 * 
+	 * @return the total quantity
+	 */
 	public Double getTotalQuantity() {
 		return totalQuantity;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Double getAverageUnitCostPrice() {
 		return averageUnitCostPrice;
 	}
 
+	/**
+	 * Get average quote price
+	 * 
+	 * @return the average quote price
+	 */
 	public Double getAverageQuotePrice() {
 		return averageQuotePrice;
 	}
 
+	/**
+	 * Get total value
+	 * 
+	 * @return the total value
+	 */
 	public Double getTotalValue() {
 		return totalValue + getLiquidity();
 	}
 
+	/**
+	 * Get total plus minus value
+	 * 
+	 * @return the total plus minus value
+	 */
 	public Double getTotalPlusMinusValue() {
 		return totalPlusMinusValue;
 	}
 
+	/**
+	 * Get total plus minus value in absolute
+	 * 
+	 * @return the total plus minus value in absolute
+	 */
 	public Double getTotalPlusMinusValueAbsolute() {
 		return Math.abs(totalPlusMinusValue);
 	}
 
+	/**
+	 * Get yield year
+	 * 
+	 * @return the yield year
+	 */
 	public Double getYieldYear() {
 		return yieldYear;
 	}
 
+	/**
+	 * Get total gain
+	 * 
+	 * @return the total gain
+	 */
 	public Double getTotalGain() {
 		return totalGain;
 	}
 
+	/**
+	 * Get a map containing all the data indexes
+	 * 
+	 * @return a map with (Index name) => List of Index
+	 */
 	public Map<String, List<Index>> getIndexes() {
 		return indexes;
 	}
 
+	/**
+	 * Set a map containing all the data indexes
+	 * 
+	 * @param indexes
+	 *            a map with (Index name) => List of Index
+	 */
 	public void setIndexes(Map<String, List<Index>> indexes) {
 		this.indexes = indexes;
 	}
 
+	/**
+	 * Get Yield per year in percentage
+	 * 
+	 * @return
+	 */
 	public Double getYieldYearPerc() {
 		return yieldYearPerc;
 	}
 
+	/**
+	 * Get a list of share value
+	 * 
+	 * @return a list of share value
+	 */
 	public List<ShareValue> getShareValues() {
 		return shareValues;
 	}
 
+	/**
+	 * Set the share value
+	 * 
+	 * @param shareValues
+	 *            a list of share value
+	 */
 	public void setShareValues(List<ShareValue> shareValues) {
 		this.shareValues = shareValues;
 	}
 
+	/**
+	 * Get last company update date
+	 * 
+	 * @return a date
+	 */
 	public Date getLastCompanyUpdate() {
 		return lastCompanyUpdate;
 	}
 
+	/**
+	 * Set last company ypdate date
+	 * 
+	 * @param lastCompanyUpdate
+	 *            the date
+	 */
 	public void setLastCompanyUpdate(Date lastCompanyUpdate) {
 		this.lastCompanyUpdate = lastCompanyUpdate;
 	}
 
+	/**
+	 * This function generates all calculated field
+	 */
 	public void compute() {
 		Double totalUnitCostPrice = new Double(0);
 		Double totalAverageQuotePrice = new Double(0);
@@ -225,7 +402,8 @@ public class Portfolio {
 				}
 
 			}
-			totalVariation = totalValueStart == 0 ? totalValueStart : (((totalValueStart + totalGainToday) / totalValueStart) - 1) * 100;
+			totalVariation = totalValueStart == 0 ? totalValueStart
+					: (((totalValueStart + totalGainToday) / totalValueStart) - 1) * 100;
 			averageUnitCostPrice = totalUnitCostPrice / equities.size();
 			averageQuotePrice = totalAverageQuotePrice / equities.size();
 			totalPlusMinusValue = ((totalValue - totalOriginalValue) / totalOriginalValue) * 100;
@@ -234,6 +412,11 @@ public class Portfolio {
 		}
 	}
 
+	/**
+	 * Get chart sector data
+	 * 
+	 * @return a map
+	 */
 	protected Map<String, Double> getChartSectorData() {
 		if (chartSectorData == null) {
 			Map<String, Double> data = new HashMap<String, Double>();
@@ -273,6 +456,11 @@ public class Portfolio {
 		return chartSectorData;
 	}
 
+	/**
+	 * Get chart share value data
+	 * 
+	 * @return a map
+	 */
 	protected Map<Date, Double> getChartShareValueData() {
 		Map<Date, Double> data = new HashMap<Date, Double>();
 		List<ShareValue> shareValues = getShareValues();
@@ -288,6 +476,9 @@ public class Portfolio {
 		return chartShareValueData;
 	}
 
+	/**
+	 * Generate chart share value data
+	 */
 	protected void getChartShareValueData2() {
 		if (chartShareValueData2 == null && chartShareValueData3 == null) {
 			Map<Date, Double> data = new HashMap<Date, Double>();
@@ -310,6 +501,11 @@ public class Portfolio {
 		}
 	}
 
+	/**
+	 * Get chart capitalization data
+	 * 
+	 * @return a map
+	 */
 	protected Map<String, Double> getChartCapData() {
 		if (chartCapData == null) {
 			Map<String, Double> data = new HashMap<String, Double>();
@@ -349,6 +545,11 @@ public class Portfolio {
 		return chartCapData;
 	}
 
+	/**
+	 * Get a list of yahoo id representing equities that do not have real time data
+	 * 
+	 * @return a list of yahoo id
+	 */
 	public List<String> getCompaniesYahooIdRealTime() {
 		List<String> res = new ArrayList<String>();
 		for (Equity e : getEquities()) {
@@ -359,6 +560,12 @@ public class Portfolio {
 		return res;
 	}
 
+	/**
+	 * Add indexes
+	 * 
+	 * @param indexes
+	 *            a list of indexes
+	 */
 	public void addIndexes(List<Index> indexes) {
 		if (indexes.size() > 0) {
 			String index = indexes.get(0).getYahooId();
@@ -366,12 +573,17 @@ public class Portfolio {
 		}
 	}
 
+	/**
+	 * Get portfolio review. An horrible function.
+	 * 
+	 * @return
+	 */
 	public String getPortfolioReview() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<table class=\"shareValueTableDetails\">");
 		for (Equity equity : getEquities()) {
-			sb.append("<tr><td width=200px><b>" + equity.getCurrentName() + "</b></td><td width=180px>" + equity.getQuantity() + " * "
-					+ equity.getCompany().getQuote());
+			sb.append("<tr><td width=200px><b>" + equity.getCurrentName() + "</b></td><td width=180px>" + equity.getQuantity()
+					+ " * " + equity.getCompany().getQuote());
 			if (equity.getCompany().getCurrency() != getCurrency()) {
 				sb.append(" * " + getCurrency().getParity(equity.getCompany().getCurrency()));
 			}
@@ -384,6 +596,11 @@ public class Portfolio {
 		return sb.toString();
 	}
 
+	/**
+	 * Get pie chart sector
+	 * 
+	 * @return
+	 */
 	public IChart getPieChartSector() {
 		if (piechartsector == null) {
 			Map<String, Double> map = getChartSectorData();
@@ -393,6 +610,11 @@ public class Portfolio {
 		return piechartsector;
 	}
 
+	/**
+	 * Get pie chart capitalization
+	 * 
+	 * @return the chart
+	 */
 	public IChart getPieChartCap() {
 		if (piechartcap == null) {
 			Map<String, Double> map = getChartCapData();
@@ -402,6 +624,11 @@ public class Portfolio {
 		return piechartcap;
 	}
 
+	/**
+	 * Get time value chart
+	 * 
+	 * @return the chart
+	 */
 	public IChart getTimeValueChart() {
 		if (timeValueChart == null && shareValues.size() > 0) {
 			getChartShareValueData2();
@@ -412,6 +639,11 @@ public class Portfolio {
 		return timeValueChart;
 	}
 
+	/**
+	 * Get time chart
+	 * 
+	 * @return the chart
+	 */
 	public IChart getTimeChart() {
 		if (timechart == null && shareValues.size() > 0) {
 			Map<Date, Double> map = getChartShareValueData();
@@ -422,14 +654,32 @@ public class Portfolio {
 		return timechart;
 	}
 
+	/**
+	 * Get List of accounts
+	 * 
+	 * @return the list of accounts
+	 */
 	public List<Account> getAccounts() {
 		return accounts;
 	}
 
+	/**
+	 * Set list of accounts
+	 * 
+	 * @param accounts
+	 *            the list of accounts
+	 */
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
 
+	/**
+	 * Get one account with its name
+	 * 
+	 * @param name
+	 *            the account name
+	 * @return the account
+	 */
 	public Account getAccount(String name) {
 		Account res = null;
 		for (Account account : getAccounts()) {
@@ -441,6 +691,12 @@ public class Portfolio {
 		return res;
 	}
 
+	/**
+	 * Get one account with its id
+	 * 
+	 * @param id
+	 * @return the account
+	 */
 	public Account getAccount(int id) {
 		Account res = null;
 		for (Account account : getAccounts()) {
@@ -452,6 +708,11 @@ public class Portfolio {
 		return res;
 	}
 
+	/**
+	 * Get the first account created
+	 * 
+	 * @return the account
+	 */
 	public Account getFirstAccount() {
 		Account res = null;
 		for (Account account : getAccounts()) {
@@ -463,6 +724,11 @@ public class Portfolio {
 		return res;
 	}
 
+	/**
+	 * Get a string containing the list of sector
+	 * 
+	 * @return a string
+	 */
 	public String getSectorCompanies() {
 		StringBuilder res = new StringBuilder();
 		Map<String, List<Equity>> map = new HashMap<String, List<Equity>>();
@@ -507,6 +773,11 @@ public class Portfolio {
 		return res.toString();
 	}
 
+	/**
+	 * Get a string containing the list of capitalization
+	 * 
+	 * @return a string
+	 */
 	public String getCapCompanies() {
 		StringBuilder res = new StringBuilder();
 		Map<String, List<Equity>> map = new HashMap<String, List<Equity>>();
@@ -543,6 +814,9 @@ public class Portfolio {
 		return res.toString();
 	}
 
+	/**
+	 * This function generates the share value info (because it muse be calculated each time)
+	 */
 	private void generateShareValueInfo() {
 		List<ShareValue> shareValues = getShareValues();
 		if (shareValues.size() != 0 && maxShareValue == null && maxShareValueDate == null && currentShareValuesYield == null
@@ -604,41 +878,81 @@ public class Portfolio {
 		}
 	}
 
+	/**
+	 * Get max share value
+	 * 
+	 * @return a double
+	 */
 	public Double getMaxShareValue() {
 		generateShareValueInfo();
 		return maxShareValue;
 	}
 
+	/**
+	 * Get max share value date
+	 * 
+	 * @return a double
+	 */
 	public Date getMaxShareValueDate() {
 		generateShareValueInfo();
 		return maxShareValueDate;
 	}
 
+	/**
+	 * Get current share value yield
+	 * 
+	 * @return a double
+	 */
 	public Double getCurrentShareValuesYield() {
 		generateShareValueInfo();
 		return currentShareValuesYield;
 	}
 
+	/**
+	 * Get current share value taxes
+	 * 
+	 * @return a double
+	 */
 	public Double getCurrentShareValuesTaxes() {
 		generateShareValueInfo();
 		return currentShareValuesTaxes;
 	}
 
+	/**
+	 * Get current share values volume
+	 * 
+	 * @return a double
+	 */
 	public Double getCurrentShareValuesVolume() {
 		generateShareValueInfo();
 		return currentShareValuesVolume;
 	}
 
+	/**
+	 * Get current share values gain
+	 * 
+	 * @return a double
+	 */
 	public Double getCurrenShareValuesGain() {
 		generateShareValueInfo();
 		return currentShareValuesGain;
 	}
 
+	/**
+	 * Get current share values gain in Percentage
+	 * 
+	 * @return a double
+	 */
 	public Double getCurrenShareValuesGainPorcentage() {
 		generateShareValueInfo();
 		return currentShareValuesGainPorcentage;
 	}
 
+	/**
+	 * Get a view of the object in json
+	 * 
+	 * @return a JSONObject
+	 */
 	public JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.put("id", getId());
@@ -697,6 +1011,11 @@ public class Portfolio {
 		return json;
 	}
 
+	/**
+	 * Get total variation
+	 * 
+	 * @return the total variation
+	 */
 	public Double getTotalVariation() {
 		return totalVariation;
 	}

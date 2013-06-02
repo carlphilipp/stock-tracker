@@ -21,11 +21,23 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import fr.cph.stock.dao.mybatis.Mybatis;
 
+/**
+ * Abstract class that load DB objects
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ * @param <T>
+ *            the type of object the current class will process
+ */
+public abstract class AbstractDao<T> implements IDao<T> {
 
-public abstract class AbstractDao<T> implements IDao<T>{
-	
-	protected SqlSessionFactory sqlSessionFactory = Mybatis.getSqlMapInstance();
-	
+	private SqlSessionFactory sqlSessionFactory = Mybatis.getSqlMapInstance();
+
+	/**
+	 * Open session to DB
+	 * 
+	 * @return a session to access to the DB
+	 */
 	protected SqlSession getSqlSessionFactory() {
 		return sqlSessionFactory.openSession();
 	}

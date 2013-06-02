@@ -20,12 +20,23 @@ import java.util.Date;
 
 import fr.cph.stock.enumtype.Currency;
 
+/**
+ * This class represents currency data. It will get 2 currencies and get the value of the first currency depending on the second
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class CurrencyData {
 
+	/** id **/
 	private int id;
+	/** First currency **/
 	private Currency currency1;
+	/** Second currency **/
 	private Currency currency2;
+	/** Value of the first currency compare to the second **/
 	private Double value;
+	/** Last update of the value **/
 	private Date lastUpdate;
 
 	public int getId() {
@@ -67,7 +78,8 @@ public class CurrencyData {
 	public void setCurrency2(Currency currency2) {
 		this.currency2 = currency2;
 	}
-	public String toString(){
+
+	public String toString() {
 		return currency1 + " " + currency2 + " " + lastUpdate;
 	}
 }

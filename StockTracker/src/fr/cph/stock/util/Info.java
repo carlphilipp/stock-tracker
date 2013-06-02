@@ -18,8 +18,15 @@ package fr.cph.stock.util;
 
 import java.util.Properties;
 
+/**
+ * This class get the general info from a property file
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class Info {
 
+	/** Access in a static way to the property file **/
 	static {
 		Properties prop = Util.getProperties("app.properties");
 		NAME = prop.getProperty("name");
@@ -30,11 +37,15 @@ public class Info {
 		admins = prop.getProperty("admins").split(";");
 	}
 
+	/** Name of the webapp **/
 	public static String NAME;
+	/** Current address of the webapp **/
 	public static String ADDRESS;
+	/** Current folder after the address **/
 	public static String FOLDER;
-
+	/** Yahoo id of cac40 **/
 	public static String YAHOOID_CAC40;
+	/** Yahoo id of s&p500 **/
 	public static String YAHOOID_SP500;
 
 	public static String[] admins;

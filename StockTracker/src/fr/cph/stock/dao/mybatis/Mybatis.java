@@ -22,6 +22,10 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+/**
+ * @author Carl-Philipp Harmant
+ * 
+ */
 
 public class Mybatis {
 	private static final SqlSessionFactory sqlSessionFactory;
@@ -37,8 +41,12 @@ public class Mybatis {
 		}
 	}
 
+	/**
+	 * Get a session factory
+	 * 
+	 * @return a sql session factory
+	 */
 	public static SqlSessionFactory getSqlMapInstance() {
 		return sqlSessionFactory;
 	}
 }
-

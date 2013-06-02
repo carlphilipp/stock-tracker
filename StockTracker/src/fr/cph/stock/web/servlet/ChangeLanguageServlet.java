@@ -27,13 +27,27 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+/**
+ * This servlet is called to change the user language
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
+
 @WebServlet(name = "ChangeLanguageServlet", urlPatterns = { "/language" })
 public class ChangeLanguageServlet extends HttpServlet {
 
+	/** Serialization **/
+	private static final long serialVersionUID = 1L;
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(ChangeLanguageServlet.class);
 
-	private static final long serialVersionUID = 1L;
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			String language = request.getParameter("language");
@@ -46,6 +60,12 @@ public class ChangeLanguageServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

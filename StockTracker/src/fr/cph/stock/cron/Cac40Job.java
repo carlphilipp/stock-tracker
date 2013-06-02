@@ -25,6 +25,12 @@ import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 
+/**
+ * Job that try to update DB with today's cac40 value
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class Cac40Job implements Job {
 
 	private static final Logger log = Logger.getLogger(Cac40Job.class);

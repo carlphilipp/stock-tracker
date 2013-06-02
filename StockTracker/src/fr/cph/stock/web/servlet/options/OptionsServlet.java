@@ -43,18 +43,35 @@ import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
 
+/**
+ * This servlet is called whenever the user want to access or modify its options
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "OptionsServlet", urlPatterns = { "/options" })
 public class OptionsServlet extends HttpServlet {
+
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-
-	private final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
-
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(OptionsServlet.class);
+	/** Business **/
 	private IBusiness business;
-	private List<String> formatList;
-	private List<String> timeZoneList;
+	/** Language **/
 	private LanguageFactory language;
+	/** Cookie valididity time **/
+	private final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
+	/** Format list **/
+	private List<String> formatList;
+	/** Timezone List **/
+	private List<String> timeZoneList;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
 	@Override
 	public void init() throws ServletException {
 		business = new Business();
@@ -70,6 +87,12 @@ public class OptionsServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
@@ -85,14 +108,12 @@ public class OptionsServlet extends HttpServlet {
 				String autoUpdate = request.getParameter("autoUpdate");
 				String updateSendMail = null;
 				Integer updateTime = null;
-				if(autoUpdate == null){
+				if (autoUpdate == null) {
 					updateTime = null;
-				}else{
+				} else {
 					updateTime = Integer.valueOf(request.getParameter("updateTime"));
 					updateSendMail = request.getParameter("autoUpdateEmail");
 				}
-				
-				
 
 				String quote = request.getParameter("quote");
 				String currency2 = request.getParameter("currency2");
@@ -200,10 +221,26 @@ public class OptionsServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
 
+	/**
+	 * Add cookie to response
+	 * 
+	 * @param response
+	 *            the response
+	 * @param cookieName
+	 *            the cookie name
+	 * @param checked
+	 * @return true or false
+	 */
 	private boolean addCookieToResponse(HttpServletResponse response, String cookieName, String checked) {
 		boolean res = false;
 		String value;

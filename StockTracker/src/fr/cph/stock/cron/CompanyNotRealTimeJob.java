@@ -23,6 +23,12 @@ import org.quartz.JobExecutionContext;
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 
+/**
+ * Job that update companies that don't have any real time data.
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class CompanyNotRealTimeJob implements Job {
 
 	private static final Logger log = Logger.getLogger(CompanyNotRealTimeJob.class);

@@ -36,6 +36,13 @@ import com.dropbox.client2.session.WebAuthSession;
 
 import fr.cph.stock.util.Util;
 
+/**
+ * This class connects to dropbox, upload and delete files. It is used to save DB into dropbox. It deletes last week dump and
+ * upload the new one
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class DropBox {
 
 	private static String APP_KEY;
@@ -56,6 +63,14 @@ public class DropBox {
 		dropBoxAPI = new DropboxAPI<>(session);
 	}
 
+	/**
+	 * Delete the file from last week.
+	 * 
+	 * @param file
+	 *            the file to delete
+	 * @throws ParseException
+	 * @throws DropboxException
+	 */
 	public void deleteOldFileIfNeeded(File file) throws ParseException, DropboxException {
 		String date = file.getName().substring(0, file.getName().indexOf("-stock"));
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
@@ -69,6 +84,14 @@ public class DropBox {
 		}
 	}
 
+	/**
+	 * Upload a file to dropbox
+	 * 
+	 * @param file
+	 *            the file to upload
+	 * @throws DropboxException
+	 * @throws IOException
+	 */
 	public void uploadFile(File file) throws DropboxException, IOException {
 
 		FileInputStream inputStream = null;
@@ -86,31 +109,31 @@ public class DropBox {
 		}
 	}
 
-//	public static void main(String args[]) throws DropboxException, MalformedURLException, IOException, URISyntaxException {
-//		AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
-//		WebAuthSession session = new WebAuthSession(appKeys, ACCESS_TYPE);
-//		WebAuthInfo authInfo = session.getAuthInfo();
-//
-//		RequestTokenPair pair = authInfo.requestTokenPair;
-//		String url = authInfo.url;
-//
-//		Desktop.getDesktop().browse(new URL(url).toURI());
-//		JOptionPane.showMessageDialog(null, "Press ok to continue once you have authenticated.");
-//		session.retrieveWebAccessToken(pair);
-//
-//		AccessTokenPair tokens = session.getAccessTokenPair();
-//		System.out.println("Use this token pair in future so you don't have to re-authenticate each time:");
-//		System.out.println("Key token: " + tokens.key);
-//		System.out.println("Secret token: " + tokens.secret);
-//
-//		dropBoxAPI = new DropboxAPI<>(session);
-//
-//		System.out.println();
-//		System.out.print("Uploading file...");
-//		String fileContents = "Hello World!";
-//		ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContents.getBytes());
-//		Entry newEntry = dropBoxAPI.putFile("/testing.txt", inputStream, fileContents.length(), null, null);
-//		System.out.println("Done. \nRevision of file: " + newEntry.rev);
-//
-//	}
+	// public static void main(String args[]) throws DropboxException, MalformedURLException, IOException, URISyntaxException {
+	// AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
+	// WebAuthSession session = new WebAuthSession(appKeys, ACCESS_TYPE);
+	// WebAuthInfo authInfo = session.getAuthInfo();
+	//
+	// RequestTokenPair pair = authInfo.requestTokenPair;
+	// String url = authInfo.url;
+	//
+	// Desktop.getDesktop().browse(new URL(url).toURI());
+	// JOptionPane.showMessageDialog(null, "Press ok to continue once you have authenticated.");
+	// session.retrieveWebAccessToken(pair);
+	//
+	// AccessTokenPair tokens = session.getAccessTokenPair();
+	// System.out.println("Use this token pair in future so you don't have to re-authenticate each time:");
+	// System.out.println("Key token: " + tokens.key);
+	// System.out.println("Secret token: " + tokens.secret);
+	//
+	// dropBoxAPI = new DropboxAPI<>(session);
+	//
+	// System.out.println();
+	// System.out.print("Uploading file...");
+	// String fileContents = "Hello World!";
+	// ByteArrayInputStream inputStream = new ByteArrayInputStream(fileContents.getBytes());
+	// Entry newEntry = dropBoxAPI.putFile("/testing.txt", inputStream, fileContents.length(), null, null);
+	// System.out.println("Done. \nRevision of file: " + newEntry.rev);
+	//
+	// }
 }

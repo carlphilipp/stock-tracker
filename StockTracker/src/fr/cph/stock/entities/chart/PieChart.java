@@ -19,14 +19,29 @@ package fr.cph.stock.entities.chart;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * This class represents an pie chart
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class PieChart extends AChart {
 
+	/** Equties **/
 	private Map<String, Double> equities;
 
+	/**
+	 * Constructor that will construct a chart with the given equities
+	 * 
+	 * @param equities
+	 */
 	public PieChart(Map<String, Double> equities) {
 		this.equities = equities;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.cph.stock.entities.chart.IChart#generate()
+	 */
 	@Override
 	public void generate() {
 		StringBuilder dataTemp = new StringBuilder();
@@ -44,7 +59,7 @@ public class PieChart extends AChart {
 			}
 			drawTemp.append("{ data : d" + i);
 			drawTemp.append(", label : '" + key + "'}");
-			titleTemp.append("'" +key+"'");
+			titleTemp.append("'" + key + "'");
 			dataTemp.append("var d" + i + " = [[0," + value + "]];");
 			i++;
 		}

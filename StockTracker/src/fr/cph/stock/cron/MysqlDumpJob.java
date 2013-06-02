@@ -30,6 +30,12 @@ import fr.cph.stock.dropbox.DropBox;
 import fr.cph.stock.util.MySQLDumper;
 import fr.cph.stock.util.Util;
 
+/**
+ * Job that save DB to dropbox
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class MysqlDumpJob implements Job {
 
 	private static final Logger log = Logger.getLogger(MysqlDumpJob.class);

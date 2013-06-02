@@ -20,8 +20,17 @@ import org.apache.ibatis.session.SqlSession;
 
 import fr.cph.stock.entities.Equity;
 
+/**
+ * This class implements IDao functions and add some more. It access to the Equity in DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class EquityDaoImpl extends AbstractDao<Equity> {
 
+	/* (non-Javadoc)
+	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
+	 */
 	@Override
 	public void insert(Equity equity) {
 		SqlSession session = getSqlSessionFactory();
@@ -34,6 +43,9 @@ public class EquityDaoImpl extends AbstractDao<Equity> {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.cph.stock.dao.IDao#select(int)
+	 */
 	@Override
 	public Equity select(int id) {
 		SqlSession session = getSqlSessionFactory();
@@ -46,6 +58,9 @@ public class EquityDaoImpl extends AbstractDao<Equity> {
 		return equity;
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
+	 */
 	@Override
 	public void update(Equity equity) {
 		SqlSession session = getSqlSessionFactory();
@@ -58,6 +73,9 @@ public class EquityDaoImpl extends AbstractDao<Equity> {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Equity equity) {
 		SqlSession session = getSqlSessionFactory();

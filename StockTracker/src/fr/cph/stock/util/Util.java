@@ -20,10 +20,29 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.log4j.Logger;
 
+/**
+ * This class is access only in a static way
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class Util {
+	/**
+	 * Constructor
+	 */
+	private Util() {
+	}
 
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(Util.class);
 
+	/**
+	 * Get the timezone difference with Paris
+	 * 
+	 * @param timezone
+	 *            the timezone
+	 * @return an hour
+	 */
 	public static int timeZoneDiff(TimeZone timezone) {
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
 		int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
@@ -41,16 +60,41 @@ public class Util {
 		return hourDifference;
 	}
 
+	/**
+	 * Get date in timezone
+	 * 
+	 * @param date
+	 *            the date
+	 * @param timeZone
+	 *            the timezone
+	 * @return a Calendar
+	 */
 	public static Calendar getDateInTimeZone(Date date, TimeZone timeZone) {
 		Calendar calendar = Calendar.getInstance(timeZone);
 		calendar.setTime(date);
 		return calendar;
 	}
 
+	/**
+	 * Get current calendar in time zone
+	 * 
+	 * @param timeZone
+	 *            the timezone
+	 * @return the calendar
+	 */
 	public static Calendar getCurrentCalendarInTimeZone(TimeZone timeZone) {
 		return Calendar.getInstance(timeZone);
 	}
 
+	/**
+	 * Test if 2 calendar are in the same day
+	 * 
+	 * @param calendar1
+	 *            the 1st calendar
+	 * @param calendar2
+	 *            the 2nd calendar
+	 * @return a boolean
+	 */
 	public static boolean isSameDay(Calendar calendar1, Calendar calendar2) {
 		boolean res = false;
 		if (calendar1.getTimeZone() == calendar2.getTimeZone()) {
@@ -62,12 +106,26 @@ public class Util {
 		return res;
 	}
 
+	/**
+	 * Get current date in specified format
+	 * 
+	 * @param format
+	 *            the format to use
+	 * @return the formatted date
+	 */
 	public static String getCurrentDateInFormat(String format) {
 		Calendar cal = Util.getCurrentCalendarInTimeZone(TimeZone.getTimeZone("Europe/Paris"));
 		DateFormat formatter = new SimpleDateFormat(format);
 		return formatter.format(cal.getTime());
 	}
 
+	/**
+	 * No idea what it is doing
+	 * 
+	 * @param hour1
+	 * @param hour2
+	 * @return
+	 */
 	public static int getRealHour(int hour1, int hour2) {
 		int res = 0;
 		int add = hour1 + hour2;
@@ -83,6 +141,14 @@ public class Util {
 		return res;
 	}
 
+	/**
+	 * Get random colors
+	 * 
+	 * @param size
+	 * @param colors
+	 * @param res
+	 * @return
+	 */
 	public static List<String> getRandomColors(int size, List<String> colors, List<String> res) {
 		if (res.size() != size) {
 			Random random = new Random();
@@ -95,6 +161,15 @@ public class Util {
 		return res;
 	}
 
+	/**
+	 * Create tar.gz file
+	 * 
+	 * @param input
+	 *            the input path
+	 * @param output
+	 *            the output path
+	 * @throws IOException
+	 */
 	public static void createTarGz(String input, String output) throws IOException {
 		FileOutputStream fOut = null;
 		BufferedOutputStream bOut = null;
@@ -131,6 +206,12 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Make a pause
+	 * 
+	 * @param timeInMs
+	 *            the time to wait in ms
+	 */
 	public static void makeAPause(int timeInMs) {
 		try {
 			Thread.currentThread();
@@ -140,18 +221,32 @@ public class Util {
 		}
 	}
 
+	/**
+	 * Reset hours, minutes, seconds and milliseconds
+	 * 
+	 * @param date
+	 *            the date
+	 * @return the date with reseted field
+	 */
 	public static Date resetHourMinSecMill(Date date) {
-		Calendar cal = Calendar.getInstance(); 
-		cal.setTime(date); 
-		cal.set(Calendar.HOUR_OF_DAY, 17); 
-		cal.set(Calendar.MINUTE, 0); 
-		cal.set(Calendar.SECOND, 0); 
-		cal.set(Calendar.MILLISECOND, 0); 
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		cal.set(Calendar.HOUR_OF_DAY, 17);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
 		Date zeroedDate = cal.getTime();
 		return zeroedDate;
 	}
-	
-	public static Properties getProperties(String path){
+
+	/**
+	 * Get properties from a property file
+	 * 
+	 * @param path
+	 *            the path of the property file
+	 * @return a properties file
+	 */
+	public static Properties getProperties(String path) {
 		Properties prop = new Properties();
 		try {
 			prop.load(Util.class.getClassLoader().getResourceAsStream(path));

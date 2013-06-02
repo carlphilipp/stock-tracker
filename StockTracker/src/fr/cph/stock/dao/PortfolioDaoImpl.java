@@ -28,10 +28,21 @@ import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 
+/**
+ * This class implements IDao functions and add some more. It access to the Portfolio in DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
 
-//	private static final Logger log = Logger.getLogger(PortfolioDaoImpl.class);
+	// private static final Logger log = Logger.getLogger(PortfolioDaoImpl.class);
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
+	 */
 	@Override
 	public void insert(Portfolio portfolio) {
 		SqlSession session = getSqlSessionFactory();
@@ -43,6 +54,11 @@ public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#select(int)
+	 */
 	@Override
 	public Portfolio select(int id) {
 		SqlSession session = getSqlSessionFactory();
@@ -55,6 +71,13 @@ public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
 		return portfolioResult;
 	}
 
+	/**
+	 * Get portfolio with user id
+	 * 
+	 * @param userId
+	 *            the user id
+	 * @return a Portfolio
+	 */
 	public Portfolio selectPortfolioWithId(int userId) {
 		SqlSession session = getSqlSessionFactory();
 		Portfolio portfolioResult = null;
@@ -66,6 +89,11 @@ public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
 		return portfolioResult;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
+	 */
 	@Override
 	public void update(Portfolio portfolio) {
 		SqlSession session = getSqlSessionFactory();
@@ -77,6 +105,11 @@ public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Portfolio portfolio) {
 		SqlSession session = getSqlSessionFactory();
@@ -88,6 +121,17 @@ public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
 		}
 	}
 
+	/**
+	 * Get portfolio, loaded with its equities
+	 * 
+	 * @param userId
+	 *            the user id
+	 * @param from
+	 *            the from date
+	 * @param to
+	 *            the to date
+	 * @return a portfolio
+	 */
 	public Portfolio selectPortfolioFromUserIdWithEquities(int userId, Date from, Date to) {
 		SqlSession session = getSqlSessionFactory();
 		Portfolio portfolio = null;

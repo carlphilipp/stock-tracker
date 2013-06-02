@@ -38,10 +38,22 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 
+/**
+ * This class connect to yahoo api and convert the jsonObjects to java bean of the app
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class YahooExternalDataAccess implements IExternalDataAccess {
 
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(YahooExternalDataAccess.class);
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.external.IExternalDataAccess#getCompaniesData(java.util.List)
+	 */
 	@Override
 	public List<Company> getCompaniesData(List<String> yahooIds) throws YahooException {
 		List<Company> companies = new ArrayList<Company>();
@@ -98,6 +110,11 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		return companies;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.external.IExternalDataAccess#getCompanyInfo(fr.cph.stock.entities.Company)
+	 */
 	@Override
 	public Company getCompanyInfo(Company company) throws YahooException {
 		String requestStocks = "select * from yahoo.finance.stocks where symbol='" + company.getYahooId() + "'";
@@ -127,48 +144,11 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		return company;
 	}
 
-//	@Override
-//	public Company getCompanyData(String id) throws YahooException {
-//		String requestQuotes = "select * from yahoo.finance.quotes where symbol in ('" + id + "')";
-//		String requestStocks = "select * from yahoo.finance.stocks where symbol='" + id + "'";
-//		Yahoo yahoo = new Yahoo(requestQuotes);
-//		Company company = null;
-//
-//		JSONObject json = yahoo.getJSONObject();
-//		yahoo = new Yahoo(requestStocks);
-//		JSONObject json2 = yahoo.getJSONObject();
-//
-//		company = new Company();
-//		JSONObject jsonn = null;
-//		try {
-//			jsonn = json.getJSONObject("query").getJSONObject("results").getJSONObject("quote");
-//		} catch (JSONException e) {
-//			throw new YahooException(YahooException.ERROR, e);
-//		}
-//		company.setYahooId(jsonn.optString("symbol"));
-//		company.setName(WordUtils.capitalizeFully(jsonn.optString("Name")));
-//		if (jsonn.optString("StockExchange").equals("null")) {
-//			throw new YahooException(id + YahooException.TOCKEN_UNKNOWN);
-//		}
-//		company.setMarket(Market.valueOf(jsonn.optString("StockExchange").toUpperCase()));
-//
-//		company.setCurrency(Market.getCurrency(company.getMarket()));
-//		if (!jsonn.optString("DividendYield").equals("null")) {
-//			company.setYield(Double.valueOf(jsonn.optString("DividendYield")));
-//		}
-//		company.setQuote(Double.valueOf(jsonn.optString("LastTradePriceOnly")));
-//		String marketCap = jsonn.optString("MarketCapitalization");
-//		if (marketCap != null && !marketCap.equals("null")) {
-//			company.setMarketCapitalization(marketCap);
-//		}
-//
-//		jsonn = json2.getJSONObject("query").getJSONObject("results").getJSONObject("stock");
-//		company.setSector(jsonn.optString("Sector"));
-//		company.setIndustry(jsonn.optString("Industry"));
-//
-//		return company;
-//	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.external.IExternalDataAccess#getCurrencyData(fr.cph.stock.enumtype.Currency)
+	 */
 	@Override
 	public List<CurrencyData> getCurrencyData(Currency currency) throws YahooException {
 		Currency[] currencies = Currency.values();
@@ -221,6 +201,11 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		return currenciesData;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.external.IExternalDataAccess#getIndexDataHistory(java.lang.String, java.util.Date, java.util.Date)
+	 */
 	@Override
 	public List<Index> getIndexDataHistory(String yahooId, Date from, Date to) throws YahooException {
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -233,8 +218,8 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			endDate = formatter.format(to);
 		}
 		List<Index> indexes = new ArrayList<Index>();
-		String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate
-				+ "\" and endDate = \"" + endDate + "\"";
+		String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \""
+				+ startDate + "\" and endDate = \"" + endDate + "\"";
 		Yahoo yahoo = new Yahoo(request);
 		JSONObject json = yahoo.getJSONObject();
 		JSONArray jsonResults = getJSONArrayFromJSONObject(json);
@@ -258,6 +243,11 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		return indexes;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.external.IExternalDataAccess#getCompanyDataHistory(java.lang.String, java.util.Date, java.util.Date)
+	 */
 	@Override
 	public List<Company> getCompanyDataHistory(String yahooId, Date from, Date to) throws YahooException {
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -270,8 +260,8 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			endDate = formatter.format(to);
 		}
 		List<Company> companies = new ArrayList<Company>();
-		String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate
-				+ "\" and endDate = \"" + endDate + "\"";
+		String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \""
+				+ startDate + "\" and endDate = \"" + endDate + "\"";
 		Yahoo yahoo = new Yahoo(request);
 		JSONObject json = yahoo.getJSONObject();
 		JSONArray jsonResults = getJSONArrayFromJSONObject(json);
@@ -291,6 +281,11 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		return companies;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.external.IExternalDataAccess#getIndexData(java.lang.String)
+	 */
 	@Override
 	public Index getIndexData(String yahooId) throws YahooException {
 		String requestQuotes = "select * from yahoo.finance.quotes where symbol in ('" + yahooId + "')";
@@ -310,6 +305,14 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		return index;
 	}
 
+	/**
+	 * Get a json array from a json object. Don't remember the goal of this function
+	 * 
+	 * @param json
+	 *            the jsonObject
+	 * @return a jsonArray
+	 * @throws YahooException
+	 */
 	protected JSONArray getJSONArrayFromJSONObject(JSONObject json) throws YahooException {
 		JSONObject jQuery = json.optJSONObject("query");
 		JSONArray quotes = null;
@@ -320,8 +323,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				if (quotes == null) {
 					JSONObject quote = jsonResults.getJSONObject("quote");
 					if (quote == null) {
-						JSONObject error2 = json.getJSONObject("query").getJSONObject("diagnostics")
-								.optJSONObject("javascript");
+						JSONObject error2 = json.getJSONObject("query").getJSONObject("diagnostics").optJSONObject("javascript");
 						if (error2 == null) {
 							throw new YahooException("Can't get the error message");
 						} else {
@@ -348,6 +350,13 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		return quotes;
 	}
 
+	/**
+	 * Format a list to json
+	 * 
+	 * @param list
+	 *            a list
+	 * @return a String json friendly
+	 */
 	protected String getFormattedList(List<String> list) {
 		StringBuilder sb = new StringBuilder();
 		int i = 0;
@@ -361,6 +370,13 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		return sb.toString();
 	}
 
+	/**
+	 * Guess the market from the id
+	 * 
+	 * @param yahooId
+	 *            the yahoo id
+	 * @return a Market
+	 */
 	public Market guessMarket(String yahooId) {
 		String suffix = yahooId.substring(yahooId.indexOf('.') + 1, yahooId.length());
 		return Market.getMarketFromSuffix(suffix);

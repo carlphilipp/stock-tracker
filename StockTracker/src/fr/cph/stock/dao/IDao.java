@@ -16,14 +16,47 @@
 
 package fr.cph.stock.dao;
 
+/**
+ * Interface that defines basics operation to DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ * @param <T>
+ *            the type of object the current class will process
+ */
 public interface IDao<T> {
 
+	/**
+	 * Insert an object into DB
+	 * 
+	 * @param obj
+	 *            the object to insert
+	 */
 	void insert(T obj);
 
+	/**
+	 * Get an object from DB
+	 * 
+	 * @param id
+	 *            the id of the object to get
+	 * @return the object
+	 */
 	T select(int id);
-	
+
+	/**
+	 * Update an object in DB
+	 * 
+	 * @param obj
+	 *            the object to update
+	 */
 	void update(T obj);
-	
+
+	/**
+	 * Delete an object in DB
+	 * 
+	 * @param obj
+	 *            the object to delete
+	 */
 	void delete(T obj);
-	
+
 }

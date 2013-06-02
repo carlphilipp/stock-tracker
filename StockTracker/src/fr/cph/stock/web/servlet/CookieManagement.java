@@ -20,8 +20,21 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 
+/**
+ * Cookie management
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class CookieManagement {
 
+	/**
+	 * Get the name of the language stored in cookies
+	 * 
+	 * @param cookies
+	 *            a list of cookie
+	 * @return the name of the language
+	 */
 	public static String getCookieLanguage(List<Cookie> cookies) {
 		String language = null;
 		for (Cookie cookie : cookies) {
@@ -36,6 +49,15 @@ public class CookieManagement {
 		return language;
 	}
 
+	/**
+	 * Check if a cookie is already present
+	 * 
+	 * @param cookies
+	 *            a list of cookie
+	 * @param cookieName
+	 *            a cookie name
+	 * @return true or false
+	 */
 	public static boolean containsCookie(List<Cookie> cookies, String cookieName) {
 		boolean res = false;
 		if (cookies != null) {

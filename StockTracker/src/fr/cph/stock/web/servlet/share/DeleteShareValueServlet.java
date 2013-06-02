@@ -36,19 +36,40 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 
+/**
+ * This servlet is called when the user want to delete a share value
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "DeleteShareValueServlet", urlPatterns = { "/deletesharevalue" })
 public class DeleteShareValueServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
+	/** Serialization **/
+	private static final long serialVersionUID = 1L;
+	/** Logger **/
+	private static final Logger log = Logger.getLogger(DeleteShareValueServlet.class);
+	/** Business **/
+	private IBusiness business;
+	/** Precision **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
-	private static final Logger log = Logger.getLogger(DeleteShareValueServlet.class);
-	private IBusiness business;
-
-	public void init() {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override
+	public void init() throws ServletException {
 		business = new Business();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			HttpSession session = request.getSession(false);
@@ -83,7 +104,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 				message.append("Done !");
 				request.setAttribute("message", message);
 			}
-			
+
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 		} catch (Throwable t) {
 			log.error(t.getMessage(), t);
@@ -91,6 +112,12 @@ public class DeleteShareValueServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

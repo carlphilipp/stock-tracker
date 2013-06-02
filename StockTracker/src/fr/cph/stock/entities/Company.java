@@ -21,31 +21,56 @@ import java.sql.Timestamp;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 
+/**
+ * This class represents a company
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class Company {
 
-//	private static final Logger log = Logger.getLogger(Company.class);
+	// private static final Logger log = Logger.getLogger(Company.class);
 
+	/** Id **/
 	private int id;
+	/** Yahoo id, example, total would be "FP.PA" **/
 	private String yahooId;
+	/** Name of the company **/
 	private String name;
+	/** Market of the company **/
 	private Market market;
+	/** Currency **/
 	private Currency currency;
+	/** Sector **/
 	private String sector;
+	/** Industry **/
 	private String industry;
+	/** Current quote **/
 	private double quote;
+	/** Yield **/
 	private double yield;
+	/** Market capitalization **/
 	private String marketCapitalization;
+	/** Quote yesterday **/
 	private Double yesterdayClose;
+	/** change in percent since yesterday **/
 	private String changeInPercent;
+	/** Year lowest **/
 	private Double yearLow;
+	/** Year High **/
 	private Double yearHigh;
+	/** Min gap **/
 	private Double minGap;
+	/** Max gap **/
 	private Double maxGap;
+	/** Is this comapny under read time data **/
 	private Boolean realTime;
+	/** Is it a found **/
 	private Boolean fund;
+	/** Last update **/
 	private Timestamp lastUpdate;
 
-	// calculated
+	// Not stored in data base
 	private Double change;
 	private Double gapYearLow;
 	private Double gapYearHigh;
@@ -131,8 +156,8 @@ public class Company {
 	}
 
 	public String toString() {
-		return "Company : " + id + " - " + yahooId + " - " + name + " - " + market + " - " + currency + " - " + sector + " - " + industry
-				+ " - " + quote + " - " + yield + " - " + marketCapitalization;
+		return "Company : " + id + " - " + yahooId + " - " + name + " - " + market + " - " + currency + " - " + sector + " - "
+				+ industry + " - " + quote + " - " + yield + " - " + marketCapitalization;
 	}
 
 	public String getMarketCapitalization() {

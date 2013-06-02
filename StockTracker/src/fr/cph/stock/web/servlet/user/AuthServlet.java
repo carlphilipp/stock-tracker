@@ -34,22 +34,31 @@ import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.web.servlet.CookieManagement;
 
+/**
+ * This servlet is called when the user want to login
+ * @author Carl-Philipp Harmant
+ *
+ */
 @WebServlet(name = "AuthServlet", urlPatterns = { "/auth" })
 public class AuthServlet extends HttpServlet {
 
-	private static final Logger log = Logger.getLogger(AuthServlet.class);
-
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-
-	private final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
-
+	/** Logger **/
+	private static final Logger log = Logger.getLogger(AuthServlet.class);
+	/** Business **/
 	private IBusiness business;
+	/** Cookie  validity **/
+	private final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
+	/** Cookie list **/
 	private List<String> lcookies;
 
-	public AuthServlet() {
-		super();
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override	
 	public void init() {
 		business = new Business();
 		lcookies = new ArrayList<String>();
@@ -63,6 +72,12 @@ public class AuthServlet extends HttpServlet {
 		lcookies.add("autoUpdate");
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			request.getSession().invalidate();

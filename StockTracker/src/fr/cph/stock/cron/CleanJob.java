@@ -23,6 +23,12 @@ import org.quartz.JobExecutionContext;
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 
+/**
+ * Job that clean companies unused in DB
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class CleanJob implements Job {
 
 	private static final Logger log = Logger.getLogger(CleanJob.class);

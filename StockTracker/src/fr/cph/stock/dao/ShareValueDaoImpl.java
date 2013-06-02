@@ -23,8 +23,19 @@ import org.apache.ibatis.session.SqlSession;
 
 import fr.cph.stock.entities.ShareValue;
 
+/**
+ * This class implements IDao functions and add some more. It access to the ShareValue in DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
+	 */
 	@Override
 	public void insert(ShareValue shareValue) {
 		SqlSession session = getSqlSessionFactory();
@@ -36,6 +47,11 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		}
 	}
 
+	/**
+	 * Insert a share value with a date
+	 * 
+	 * @param shareValue
+	 */
 	public void insertWithDate(ShareValue shareValue) {
 		SqlSession session = getSqlSessionFactory();
 		try {
@@ -46,6 +62,11 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#select(int)
+	 */
 	@Override
 	public ShareValue select(int id) {
 		SqlSession session = getSqlSessionFactory();
@@ -58,6 +79,11 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		return shareValue;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
+	 */
 	@Override
 	public void update(ShareValue shareValue) {
 		SqlSession session = getSqlSessionFactory();
@@ -69,6 +95,11 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(ShareValue shareValue) {
 		SqlSession session = getSqlSessionFactory();
@@ -80,6 +111,13 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		}
 	}
 
+	/**
+	 * Get the last share value of a user
+	 * 
+	 * @param userId
+	 *            the user id
+	 * @return a share value
+	 */
 	public ShareValue selectLastValue(int userId) {
 		SqlSession session = getSqlSessionFactory();
 		ShareValue shareValue = null;
@@ -91,6 +129,13 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		return shareValue;
 	}
 
+	/**
+	 * Get all ShareValue of a user
+	 * 
+	 * @param userId
+	 *            a user id
+	 * @return a list of share value
+	 */
 	public List<ShareValue> selectAllValue(int userId) {
 		SqlSession session = getSqlSessionFactory();
 		List<ShareValue> shareValues = new ArrayList<ShareValue>();

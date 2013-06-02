@@ -28,8 +28,31 @@ import javax.servlet.http.HttpSession;
 
 import fr.cph.stock.entities.User;
 
+/**
+ * This classes is called each time the user try to access a page that needs to be logged in (basicely, every single page) It
+ * checks if the session is valid or not
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class SessionFilter implements Filter {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
+	 */
+	@Override
+	public void init(FilterConfig config) throws ServletException {
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
+	 */
+	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException {
 		try {
 			HttpServletRequest request = (HttpServletRequest) req;
@@ -51,13 +74,13 @@ public class SessionFilter implements Filter {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.Filter#destroy()
+	 */
 	@Override
 	public void destroy() {
-
-	}
-
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {
 
 	}
 }

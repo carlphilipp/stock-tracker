@@ -26,26 +26,61 @@ import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
+/**
+ * This class will read XMLs
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class XMLRetriever {
-	
+
+	/** The current document xml **/
 	private Document document;
 
-	public XMLRetriever(String path) throws IOException, DocumentException{
+	/**
+	 * Constructor
+	 * 
+	 * @param path
+	 *            the path of the xml file
+	 * @throws IOException
+	 * @throws DocumentException
+	 */
+	public XMLRetriever(String path) throws IOException, DocumentException {
 		InputStream inputStream = Resources.getResourceAsStream(path);
 		document = parse(inputStream);
 	}
-	
+
+	/**
+	 * Parser of the input stream
+	 * 
+	 * @param inputStream
+	 *            the stream
+	 * @return a Document
+	 * @throws DocumentException
+	 */
 	protected Document parse(InputStream inputStream) throws DocumentException {
 		SAXReader reader = new SAXReader();
 		Document document = reader.read(inputStream);
 		return document;
 	}
-	
-	public Node getNode(String node){
+
+	/**
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public Node getNode(String node) {
 		return document.selectSingleNode(node);
 	}
-	
-	public List<? extends Node> getListNode(String node){
+
+	/**
+	 * Get list node
+	 * 
+	 * @param node
+	 *            the node
+	 * @return a list of node
+	 */
+	public List<? extends Node> getListNode(String node) {
 		return document.selectNodes(node);
 	}
 }

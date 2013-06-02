@@ -23,8 +23,19 @@ import org.apache.ibatis.session.SqlSession;
 
 import fr.cph.stock.entities.CurrencyData;
 
+/**
+ * This class implements IDao functions and add some more. It access to the Currency in DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
+	 */
 	@Override
 	public void insert(CurrencyData currencyData) {
 		SqlSession session = getSqlSessionFactory();
@@ -37,6 +48,11 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#select(int)
+	 */
 	@Override
 	public CurrencyData select(int id) {
 		SqlSession session = getSqlSessionFactory();
@@ -49,6 +65,11 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 		return currencyData;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
+	 */
 	@Override
 	public void update(CurrencyData currencyData) {
 		SqlSession session = getSqlSessionFactory();
@@ -60,6 +81,11 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(CurrencyData currencyData) {
 		SqlSession session = getSqlSessionFactory();
@@ -70,9 +96,15 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 			session.close();
 		}
 	}
-	
 
-	public CurrencyData selectOneCurrencyDataWithParam(CurrencyData currencyD){
+	/**
+	 * Get one currency data
+	 * 
+	 * @param currencyD
+	 *            the currency data
+	 * @return a currency data
+	 */
+	public CurrencyData selectOneCurrencyDataWithParam(CurrencyData currencyD) {
 		SqlSession session = getSqlSessionFactory();
 		CurrencyData currencyData = null;
 		try {
@@ -83,6 +115,13 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 		return currencyData;
 	}
 
+	/**
+	 * Get a list of currency data
+	 * 
+	 * @param currency
+	 *            the currency
+	 * @return a list of currency
+	 */
 	public List<CurrencyData> selectListCurrency(String currency) {
 		SqlSession session = getSqlSessionFactory();
 		List<CurrencyData> currencyDataList = new ArrayList<CurrencyData>();
@@ -93,7 +132,12 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 		}
 		return currencyDataList;
 	}
-	
+
+	/**
+	 * Get all currency data
+	 * 
+	 * @return a list of currency data
+	 */
 	public List<CurrencyData> selectListAllCurrency() {
 		SqlSession session = getSqlSessionFactory();
 		List<CurrencyData> currencyDataList = new ArrayList<CurrencyData>();

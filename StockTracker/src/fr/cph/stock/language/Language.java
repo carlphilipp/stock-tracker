@@ -29,13 +29,24 @@ import org.dom4j.Node;
 
 import fr.cph.stock.exception.LanguageException;
 
+/**
+ * Extract from XML files and put in a map, all the translation needed.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class Language {
 
+	/** Path of the XML file **/
 	private String path;
+	/** Object that allow to process the xml **/
 	private XMLRetriever xml;
+	/** The result map **/
 	private Map<String, String> map;
+	/** The file system **/
 	private static FileSystem system = FileSystems.getDefault();
 
+	/** Definitions of the XML document **/
 	private static final String BASE = "/root";
 	private static final String CONSTANT = "/constant";
 	private static final String MENU = "/menu/title";
@@ -53,6 +64,13 @@ public class Language {
 	private static final String OPTIONS = "/options";
 	private static final String OPTIONS_HIDDEN = "/options_hidden";
 
+	/**
+	 * Constructor
+	 * 
+	 * @param path
+	 *            the path of the xml file
+	 * @throws LanguageException
+	 */
 	protected Language(String path) throws LanguageException {
 		this.path = path;
 		try {
@@ -63,10 +81,20 @@ public class Language {
 		map = new HashMap<String, String>();
 	}
 
+	/**
+	 * Get the language name (from the xml name file)
+	 * 
+	 * @return the language name
+	 */
 	public String getLanguageName() {
-		return path.substring(path.indexOf(system.getSeparator() + "xml" + system.getSeparator() ) + 5, path.indexOf(".xml"));
+		return path.substring(path.indexOf(system.getSeparator() + "xml" + system.getSeparator()) + 5, path.indexOf(".xml"));
 	}
 
+	/**
+	 * Get the language map
+	 * 
+	 * @return a map
+	 */
 	public Map<String, String> getLanguage() {
 		Node menuNode = xml.getNode(BASE + MENU);
 		@SuppressWarnings("unchecked")
@@ -77,7 +105,7 @@ public class Language {
 		}
 		Node node = xml.getNode(BASE + PORTFOLIO);
 		List<String> nodes = new ArrayList<String>();
-		Node node2 ;
+		Node node2;
 		nodes.add(BASE + PORTFOLIO + "/title");
 		nodes.add(BASE + PORTFOLIO + "/review/liquidity");
 		nodes.add(BASE + PORTFOLIO + "/review/yieldYear");
@@ -109,7 +137,7 @@ public class Language {
 		nodes.add(BASE + PORTFOLIO + "/chart/threeMonths");
 		nodes.add(BASE + PORTFOLIO + "/chart/oneMonth");
 		nodes.add(BASE + PORTFOLIO + "/chart/oneWeek");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -119,7 +147,7 @@ public class Language {
 		nodes.add(BASE + CONSTANT + "/updated");
 		nodes.add(BASE + CONSTANT + "/modified");
 		nodes.add(BASE + CONSTANT + "/deleted");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -147,7 +175,7 @@ public class Language {
 		nodes.add(BASE + PORTFOLIO_HIDDEN + "/or");
 		nodes.add(BASE + PORTFOLIO_HIDDEN + "/delete");
 		nodes.add(BASE + PORTFOLIO_HIDDEN + "/deleteConfirm");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -171,7 +199,7 @@ public class Language {
 		nodes.add(BASE + HISTORY + "/details");
 		nodes.add(BASE + HISTORY + "/all");
 		nodes.add(BASE + HISTORY + "/delete");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -186,7 +214,7 @@ public class Language {
 		nodes.add(BASE + HISTORY_HIDDEN + "/taxe");
 		nodes.add(BASE + HISTORY_HIDDEN + "/commentary");
 		nodes.add(BASE + HISTORY_HIDDEN + "/update");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -202,7 +230,7 @@ public class Language {
 		nodes.add(BASE + ACCOUNTS + "/option");
 		nodes.add(BASE + ACCOUNTS + "/modify");
 		nodes.add(BASE + ACCOUNTS + "/total");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -212,7 +240,7 @@ public class Language {
 		nodes.add(BASE + ACCOUNTS_HIDDEN + "/accountName");
 		nodes.add(BASE + ACCOUNTS_HIDDEN + "/currency");
 		nodes.add(BASE + ACCOUNTS_HIDDEN + "/liquidity");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -229,7 +257,7 @@ public class Language {
 		nodes.add(BASE + LIST + "/higherLimit");
 		nodes.add(BASE + LIST + "/info");
 		nodes.add(BASE + LIST + "/modify");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -242,14 +270,14 @@ public class Language {
 		nodes.add(BASE + LIST_HIDDEN + "/lowerLimit");
 		nodes.add(BASE + LIST_HIDDEN + "/higherLimit");
 		nodes.add(BASE + LIST_HIDDEN + "/modify");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + CHARTS);
 		nodes = new ArrayList<String>();
 		nodes.add(BASE + CHARTS + "/title");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -259,7 +287,7 @@ public class Language {
 		nodes.add(BASE + CURRENCIES + "/portfolioCurrency");
 		nodes.add(BASE + CURRENCIES + "/currency");
 		nodes.add(BASE + CURRENCIES + "/lastUpdate");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -267,7 +295,7 @@ public class Language {
 		nodes = new ArrayList<String>();
 		nodes.add(BASE + CURRENCIES_HIDDEN + "/refresh");
 		nodes.add(BASE + CURRENCIES_HIDDEN + "/confirm");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -283,7 +311,7 @@ public class Language {
 		nodes.add(BASE + OPTIONS + "/liquidity");
 		nodes.add(BASE + OPTIONS + "/account");
 		nodes.add(BASE + OPTIONS + "/load");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
@@ -300,13 +328,23 @@ public class Language {
 		nodes.add(BASE + OPTIONS_HIDDEN + "/yieldPerUnitCostPrice");
 		nodes.add(BASE + OPTIONS_HIDDEN + "/stopLoss");
 		nodes.add(BASE + OPTIONS_HIDDEN + "/objective");
-		for(String n : nodes){
+		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
 		return map;
 	}
 
+	/**
+	 * Add the informations to the result map
+	 * 
+	 * @param map
+	 *            the result map
+	 * @param base
+	 *            the node base
+	 * @param node
+	 *            the node
+	 */
 	protected void addToMap(Map<String, String> map, Node base, Node node) {
 		map.put(base.getName().toUpperCase() + "_" + node.getName().toUpperCase(), node.getStringValue());
 	}

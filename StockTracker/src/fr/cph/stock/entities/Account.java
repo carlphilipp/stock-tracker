@@ -19,14 +19,27 @@ package fr.cph.stock.entities;
 import net.sf.json.JSONObject;
 import fr.cph.stock.enumtype.Currency;
 
+/**
+ * This class represents the account of the user
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class Account {
 
+	/** id **/
 	private int id;
+	/** user id **/
 	private int userId;
+	/** name of the account **/
 	private String name;
+	/** currnecy of the account **/
 	private Currency currency;
+	/** liquidity of the account **/
 	private Double liquidity;
+	/** is it allowed to delete it from db ? **/
 	private Boolean del;
+	/** parity of the account **/
 	private Double parity;
 
 	public int getId() {
@@ -70,7 +83,8 @@ public class Account {
 	}
 
 	public String toString() {
-		return "[Account;id=" + id + "userId=" + userId + ";name=" + name + ";currency=" + currency + ";liquidity=" + liquidity + "]";
+		return "[Account;id=" + id + "userId=" + userId + ";name=" + name + ";currency=" + currency + ";liquidity=" + liquidity
+				+ "]";
 	}
 
 	public Boolean getDel() {
@@ -89,6 +103,11 @@ public class Account {
 		this.parity = parity;
 	}
 
+	/**
+	 * Get a JSONObject of the current object
+	 * 
+	 * @return a json object
+	 */
 	public JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.accumulate("id", id);

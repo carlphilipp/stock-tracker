@@ -33,36 +33,57 @@ import fr.cph.stock.security.Security;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 
+/**
+ * This servlet is called when the user has lost his password and want to get a new ont
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "LostServlet", urlPatterns = { "/lost" })
 public class LostServlet extends HttpServlet {
 
-	private static final Logger log = Logger.getLogger(LostServlet.class);
-
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-	
+	/** Logger **/
+	private static final Logger log = Logger.getLogger(LostServlet.class);
+	/** Business **/
 	private IBusiness business;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override
 	public void init() {
 		business = new Business();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			String email = request.getParameter("email");
-			if(!email.equals("")){
+			if (!email.equals("")) {
 				User user = business.getUserWithEmail(email);
-				if(user != null){
+				if (user != null) {
 					StringBuilder body = new StringBuilder();
-					String check = Security.encodeToSha256(user.getLogin() +user.getPassword()  + user.getEmail());
-					body.append("Dear " + user.getLogin() + ",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n" + "If it's you, click on this link:  "  + Info.ADDRESS +
-							Info.FOLDER+ "/newpassword?&login=" + user.getLogin() + "&check=" + check + ".\n\nBest regards,\nThe " +Info.NAME +" team.");
+					String check = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+					body.append("Dear " + user.getLogin()
+							+ ",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n"
+							+ "If it's you, click on this link:  " + Info.ADDRESS + Info.FOLDER + "/newpassword?&login="
+							+ user.getLogin() + "&check=" + check + ".\n\nBest regards,\nThe " + Info.NAME + " team.");
 					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[] { email }, null);
-					request.setAttribute("ok","Check your email!");
-				}else{
-					request.setAttribute("error","User not found!");
+					request.setAttribute("ok", "Check your email!");
+				} else {
+					request.setAttribute("error", "User not found!");
 				}
-			}else {
-				request.setAttribute("error","User not found!");
+			} else {
+				request.setAttribute("error", "User not found!");
 			}
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} catch (Throwable t) {
@@ -71,9 +92,14 @@ public class LostServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
 
 }

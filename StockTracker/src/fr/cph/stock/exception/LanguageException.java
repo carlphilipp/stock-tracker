@@ -16,10 +16,23 @@
 
 package fr.cph.stock.exception;
 
+/**
+ * This class represents an exception from Languages
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class LanguageException extends Exception {
 
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param message
+	 *            the error message
+	 */
 	public LanguageException(String str, Exception e) {
 		super(str, e);
 	}

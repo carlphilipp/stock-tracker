@@ -24,18 +24,42 @@ import java.util.Map.Entry;
 
 import fr.cph.stock.util.Util;
 
+/**
+ * This class represents an time chart
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class TimeValueChart extends AChart {
 
+	/** Starting date **/
 	private Date date;
+	/** Portfolio value **/
 	private Map<Date, Double> portfolioValue;
+	/** Liqudity **/
 	private Map<Date, Double> liquidity;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param portfolioValue
+	 *            the portfolio value
+	 * @param liquidity
+	 *            the liquidity
+	 * @param date
+	 *            the starting date
+	 */
 	public TimeValueChart(Map<Date, Double> portfolioValue, Map<Date, Double> liquidity, Date date) {
 		this.portfolioValue = portfolioValue;
 		this.liquidity = liquidity;
 		this.date = date;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.entities.chart.IChart#generate()
+	 */
 	@Override
 	public void generate() {
 		StringBuilder dataTemp = new StringBuilder();
@@ -69,7 +93,10 @@ public class TimeValueChart extends AChart {
 		draw = drawTemp.toString();
 		generateColors();
 	}
-	
+
+	/**
+	 * Generate colors
+	 */
 	private void generateColors() {
 		List<String> colorsListRes = new ArrayList<String>();
 		List<String> colorsList = new ArrayList<String>();

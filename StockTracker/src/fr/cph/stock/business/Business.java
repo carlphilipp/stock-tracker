@@ -59,14 +59,24 @@ import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 
+/**
+ * Business class that access database and process data
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class Business implements IBusiness {
 
 	private static final Logger log = Logger.getLogger(Business.class);
 
+	/** Max update company update at a time **/
 	private final int MAX_UPDATE_COMPANY = 15;
+	/** Force pause between 2 requests to yahoo **/
 	private final int PAUSE = 400;
+	/** Precision of calculation **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
+	/** Data Access Objects **/
 	private IExternalDataAccess yahoo;
 	private CompanyDaoImpl daoCompany;
 	private PortfolioDaoImpl daoPortfolio;
@@ -78,6 +88,9 @@ public class Business implements IBusiness {
 	private FollowDaoImpl daoFollow;
 	private AccountDaoImpl daoAccount;
 
+	/**
+	 * Class constructor
+	 */
 	public Business() {
 		yahoo = new YahooExternalDataAccess();
 		daoCompany = new CompanyDaoImpl();
@@ -91,6 +104,11 @@ public class Business implements IBusiness {
 		daoAccount = new AccountDaoImpl();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#createEquity(int, java.lang.String, fr.cph.stock.entities.Equity)
+	 */
 	@Override
 	public void createEquity(int userId, String ticker, Equity equity) throws YahooException, EquityException {
 
@@ -113,6 +131,11 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateEquity(int, java.lang.String, fr.cph.stock.entities.Equity)
+	 */
 	@Override
 	public void updateEquity(int userId, String ticker, Equity equity) throws UnsupportedEncodingException, YahooException {
 		Company company = daoCompany.selectWithYahooId(ticker);
@@ -134,6 +157,11 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#deleteEquity(fr.cph.stock.entities.Equity)
+	 */
 	@Override
 	public void deleteEquity(Equity equity) {
 		daoEquity.delete(equity);
@@ -163,6 +191,11 @@ public class Business implements IBusiness {
 		return companyInDB;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#addOrUpdateCompanies(java.util.List)
+	 */
 	@Override
 	public List<Company> addOrUpdateCompanies(List<String> tickers) throws YahooException {
 		log.debug("Updating: " + tickers);
@@ -192,6 +225,12 @@ public class Business implements IBusiness {
 		return companiesResult;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#addFollow(fr.cph.stock.entities.User, java.lang.String, java.lang.Double,
+	 * java.lang.Double)
+	 */
 	@Override
 	public void addFollow(User user, String ticker, Double lower, Double higher) throws YahooException {
 		Company company = addOrUpdateCompany(ticker);
@@ -211,6 +250,12 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateFollow(fr.cph.stock.entities.User, java.lang.String, java.lang.Double,
+	 * java.lang.Double)
+	 */
 	@Override
 	public void updateFollow(User user, String ticker, Double lower, Double higher) {
 		Company company = daoCompany.selectWithYahooId(ticker);
@@ -220,6 +265,11 @@ public class Business implements IBusiness {
 		daoFollow.update(foll);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#deleteFollow(int)
+	 */
 	@Override
 	public void deleteFollow(int id) {
 		Follow follow = new Follow();
@@ -227,6 +277,11 @@ public class Business implements IBusiness {
 		daoFollow.delete(follow);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#createUser(java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void createUser(String login, String md5Password, String email) throws NoSuchAlgorithmException,
 			UnsupportedEncodingException, LoginException {
@@ -256,16 +311,31 @@ public class Business implements IBusiness {
 		createUserDefautAccount(user);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#getUser(java.lang.String)
+	 */
 	@Override
 	public User getUser(String login) {
 		return daoUser.selectWithLogin(login);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#getUserWithEmail(java.lang.String)
+	 */
 	@Override
 	public User getUserWithEmail(String email) {
 		return daoUser.selectWithEmail(email);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#deleteUser(java.lang.String)
+	 */
 	@Override
 	public void deleteUser(String login) {
 		User user = new User();
@@ -273,6 +343,11 @@ public class Business implements IBusiness {
 		daoUser.delete(user);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#checkUser(java.lang.String, java.lang.String)
+	 */
 	@Override
 	public User checkUser(String login, String md5Password) throws LoginException {
 		User user = daoUser.selectWithLogin(login);
@@ -295,6 +370,11 @@ public class Business implements IBusiness {
 		return user;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#getUserPortfolio(int, java.util.Date, java.util.Date)
+	 */
 	@Override
 	public Portfolio getUserPortfolio(int userId, Date from, Date to) throws YahooException {
 		Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, from, to);
@@ -324,15 +404,22 @@ public class Business implements IBusiness {
 		return portfolio;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateLiquidity(fr.cph.stock.entities.Account, double)
+	 */
 	@Override
 	public void updateLiquidity(Account account, double liquidity) {
-		// Portfolio portfolio = daoPortfolio.selectPortfolioWithId(userId);
-		// portfolio.setLiquidity(liquidity);
-		// daoPortfolio.update(portfolio);
 		account.setLiquidity(liquidity);
 		daoAccount.update(account);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#loadCurrencyData(fr.cph.stock.enumtype.Currency)
+	 */
 	@Override
 	public Currency loadCurrencyData(Currency currency) throws YahooException {
 		List<CurrencyData> currencyDataList = daoCurrency.selectListCurrency(currency.getCode());
@@ -353,6 +440,11 @@ public class Business implements IBusiness {
 		return currency;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateAllCurrencies()
+	 */
 	@Override
 	public void updateAllCurrencies() throws YahooException {
 		for (Currency currency : Currency.values()) {
@@ -373,6 +465,11 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateOneCurrency(fr.cph.stock.enumtype.Currency)
+	 */
 	@Override
 	public void updateOneCurrency(Currency currency) throws YahooException {
 		List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
@@ -392,6 +489,11 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#getAllCurrencyData(fr.cph.stock.enumtype.Currency)
+	 */
 	@Override
 	public Object[][] getAllCurrencyData(Currency currency) {
 		List<CurrencyData> currencies = daoCurrency.selectListAllCurrency();
@@ -417,6 +519,13 @@ public class Business implements IBusiness {
 		return res;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateCurrentShareValue(fr.cph.stock.entities.Portfolio,
+	 * fr.cph.stock.entities.Account, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double, java.lang.Double,
+	 * java.lang.String)
+	 */
 	@Override
 	public void updateCurrentShareValue(Portfolio portfolio, Account account, Double liquidityMovement, Double yield, Double buy,
 			Double sell, Double taxe, String commentary) {
@@ -456,11 +565,21 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#getShareValue(fr.cph.stock.entities.User)
+	 */
 	@Override
 	public List<ShareValue> getShareValue(User user) {
 		return daoShareValue.selectAllValue(user.getId());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#getIndexes(java.lang.String, java.util.Date, java.util.Date)
+	 */
 	@Override
 	public List<Index> getIndexes(String yahooId, Date from, Date to) {
 		List<Index> indexes = daoIndex.selectListFrom(yahooId, from, to);
@@ -472,7 +591,7 @@ public class Business implements IBusiness {
 				currentIndex.setDate(from);
 			} else {
 				Index lastIndex = indexes.get(i - 1);
-				 double shareValue = currentIndex.getValue() * lastIndex.getShareValue() / lastIndex.getValue();
+				double shareValue = currentIndex.getValue() * lastIndex.getShareValue() / lastIndex.getValue();
 				shareValue = (new BigDecimal(shareValue, mathContext)).doubleValue();
 				currentIndex.setShareValue(shareValue);
 			}
@@ -480,12 +599,22 @@ public class Business implements IBusiness {
 		return indexes;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateIndex(java.lang.String)
+	 */
 	@Override
 	public void updateIndex(String yahooId) throws YahooException {
 		Index index = yahoo.getIndexData(yahooId);
 		daoIndex.insert(index);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#checkUpdateIndex(java.lang.String, java.util.TimeZone)
+	 */
 	@Override
 	public void checkUpdateIndex(String yahooId, TimeZone timeZone) throws YahooException {
 		Index index = daoIndex.selectLast(yahooId);
@@ -500,6 +629,11 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateIndex(java.lang.String, java.util.Date, java.util.Date, boolean)
+	 */
 	@Override
 	public boolean updateIndex(String yahooId, Date from, Date to, boolean force) throws YahooException {
 		List<Index> indexes;
@@ -537,6 +671,11 @@ public class Business implements IBusiness {
 		return res;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateCompaniesNotRealTime()
+	 */
 	@Override
 	public void updateCompaniesNotRealTime() {
 		List<Company> companies = daoCompany.selectAllCompany(false);
@@ -556,6 +695,11 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#addOrUpdateCompaniesLimitedRequest(java.util.List)
+	 */
 	@Override
 	public void addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException {
 		if (companiesYahooIdRealTime.size() <= MAX_UPDATE_COMPANY) {
@@ -579,6 +723,11 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateCompaniesRealTime()
+	 */
 	@Override
 	public void updateCompaniesRealTime() {
 		List<Company> companies = daoCompany.selectAllCompany(true);
@@ -616,61 +765,121 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#getListFollow(int)
+	 */
 	@Override
 	public List<Follow> getListFollow(int userId) {
 		return daoFollow.selectListFollow(userId);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#deleteShareValue(fr.cph.stock.entities.ShareValue)
+	 */
 	@Override
 	public void deleteShareValue(ShareValue sv) {
 		daoShareValue.delete(sv);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#addShareValue(fr.cph.stock.entities.ShareValue)
+	 */
 	@Override
 	public void addShareValue(ShareValue share) {
 		daoShareValue.insertWithDate(share);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updatePortfolio(fr.cph.stock.entities.Portfolio)
+	 */
 	@Override
 	public void updatePortfolio(Portfolio portfolio) {
 		daoPortfolio.update(portfolio);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateUser(fr.cph.stock.entities.User)
+	 */
 	@Override
 	public void updateUser(User user) {
 		daoUser.update(user);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateOneUserPassword(fr.cph.stock.entities.User)
+	 */
 	@Override
 	public void updateOneUserPassword(User user) {
 		daoUser.updateOneUserPassword(user);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#selectOneAccountWithName(int, java.lang.String)
+	 */
 	@Override
 	public Account selectOneAccountWithName(int userId, String name) {
 		return daoAccount.selectOneAccountWithName(userId, name);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#addAccount(fr.cph.stock.entities.Account)
+	 */
 	@Override
 	public void addAccount(Account account) {
 		daoAccount.insert(account);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateAccount(fr.cph.stock.entities.Account)
+	 */
 	@Override
 	public void updateAccount(Account account) {
 		daoAccount.update(account);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#deleteAccount(fr.cph.stock.entities.Account)
+	 */
 	@Override
 	public void deleteAccount(Account account) {
 		daoAccount.delete(account);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#selectOneShareValue(int)
+	 */
 	@Override
 	public ShareValue selectOneShareValue(int id) {
 		return daoShareValue.select(id);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#updateCommentaryShareValue(fr.cph.stock.entities.ShareValue)
+	 */
 	@Override
 	public void updateCommentaryShareValue(ShareValue shareValue) {
 		daoShareValue.update(shareValue);
@@ -695,6 +904,11 @@ public class Business implements IBusiness {
 		daoAccount.insert(account);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#validateUser(java.lang.String)
+	 */
 	@Override
 	public void validateUser(String login) {
 		User user = daoUser.selectWithLogin(login);
@@ -702,6 +916,11 @@ public class Business implements IBusiness {
 		daoUser.update(user);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#cleanDB()
+	 */
 	@Override
 	public void cleanDB() {
 		List<Integer> companies = daoCompany.selectAllUnusedCompanyIds();
@@ -713,6 +932,11 @@ public class Business implements IBusiness {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.business.IBusiness#autoUpdateUserShareValue(java.util.Calendar)
+	 */
 	@Override
 	public void autoUpdateUserShareValue(Calendar calendar) throws YahooException {
 		boolean tryToUpdate = false, canUpdate = false;

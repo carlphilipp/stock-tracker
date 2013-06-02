@@ -22,8 +22,19 @@ import org.apache.ibatis.session.SqlSession;
 
 import fr.cph.stock.entities.Company;
 
+/**
+ * This class implements IDao functions and add some more. It access to the Company in DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class CompanyDaoImpl extends AbstractDao<Company> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
+	 */
 	@Override
 	public void insert(Company company) {
 		SqlSession session = getSqlSessionFactory();
@@ -35,6 +46,11 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#select(int)
+	 */
 	@Override
 	public Company select(int id) {
 		SqlSession session = getSqlSessionFactory();
@@ -47,6 +63,11 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		return company;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
+	 */
 	@Override
 	public void update(Company company) {
 		SqlSession session = getSqlSessionFactory();
@@ -58,6 +79,11 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(Company company) {
 		SqlSession session = getSqlSessionFactory();
@@ -69,6 +95,13 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		}
 	}
 
+	/**
+	 * Get a company
+	 * 
+	 * @param yahooId
+	 *            the yahoo id
+	 * @return a company
+	 */
 	public Company selectWithYahooId(String yahooId) {
 		SqlSession session = getSqlSessionFactory();
 		Company company = null;
@@ -79,10 +112,17 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		}
 		return company;
 	}
-	
+
+	/**
+	 * Get all the companies in DB
+	 * 
+	 * @param realTime
+	 *            a boolean that represents a real time data information. If
+	 * @return a list of company
+	 */
 	public List<Company> selectAllCompany(boolean realTime) {
 		SqlSession session = getSqlSessionFactory();
-		 List<Company> companies = null;
+		List<Company> companies = null;
 		try {
 			companies = session.selectList("CompanyDao.selectAllCompanyNotRealTime", realTime);
 		} finally {
@@ -90,10 +130,15 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		}
 		return companies;
 	}
-	
+
+	/**
+	 * Get a list of unsed company
+	 * 
+	 * @return a list of integer representing company ids.
+	 */
 	public List<Integer> selectAllUnusedCompanyIds() {
 		SqlSession session = getSqlSessionFactory();
-		 List<Integer> companies = null;
+		List<Integer> companies = null;
 		try {
 			companies = session.selectList("CompanyDao.selectAllUnusedCompanyIds");
 		} finally {

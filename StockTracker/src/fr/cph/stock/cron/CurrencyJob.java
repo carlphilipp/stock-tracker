@@ -24,6 +24,12 @@ import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 
+/**
+ * Job that update currencies
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class CurrencyJob implements Job {
 
 	private static final Logger log = Logger.getLogger(CurrencyJob.class);

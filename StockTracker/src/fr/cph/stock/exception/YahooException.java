@@ -18,16 +18,35 @@ package fr.cph.stock.exception;
 
 public class YahooException extends Exception {
 
-	public static String ERROR = "Yahoo result null. Table is probably locked.";
-	public static String TOCKEN_UNKNOWN = "  yahooID is unknown.";
-	public static String CONNECT_ERROR = "Can't connect to yahoo website";
-	public static final String ENCODE_ERROR = "Url encoding did not work";
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-	
-	
+	/** Error message **/
+	public static String ERROR = "Yahoo result null. Table is probably locked.";
+	/** Error message **/
+	public static String TOCKEN_UNKNOWN = "  yahooID is unknown.";
+	/** Error message **/
+	public static String CONNECT_ERROR = "Can't connect to yahoo website";
+	/** Error message **/
+	public static final String ENCODE_ERROR = "Url encoding did not work";
+
+	/**
+	 * Constructor
+	 * 
+	 * @param message
+	 *            the error message
+	 */
 	public YahooException(String message) {
 		super(message);
 	}
+
+	/**
+	 * Constructor
+	 * 
+	 * @param message
+	 *            the error message
+	 * @param e
+	 *            the exception
+	 */
 	public YahooException(String message, Exception e) {
 		super(message, e);
 	}

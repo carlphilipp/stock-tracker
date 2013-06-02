@@ -22,8 +22,19 @@ import org.apache.ibatis.session.SqlSession;
 
 import fr.cph.stock.entities.User;
 
+/**
+ * This class implements IDao functions and add some more. It access to the User in DB.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class UserDaoImpl extends AbstractDao<User> {
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
+	 */
 	@Override
 	public void insert(User user) {
 		SqlSession session = getSqlSessionFactory();
@@ -35,6 +46,11 @@ public class UserDaoImpl extends AbstractDao<User> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#select(int)
+	 */
 	@Override
 	public User select(int id) {
 		SqlSession session = getSqlSessionFactory();
@@ -47,6 +63,11 @@ public class UserDaoImpl extends AbstractDao<User> {
 		return userResult;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
+	 */
 	@Override
 	public void update(User user) {
 		SqlSession session = getSqlSessionFactory();
@@ -57,8 +78,14 @@ public class UserDaoImpl extends AbstractDao<User> {
 			session.close();
 		}
 	}
-	
-	public void updateOneUserPassword(User user){
+
+	/**
+	 * Update one user password
+	 * 
+	 * @param user
+	 *            the user
+	 */
+	public void updateOneUserPassword(User user) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("UserDao.updateOneUserPassword", user);
@@ -68,6 +95,11 @@ public class UserDaoImpl extends AbstractDao<User> {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
+	 */
 	@Override
 	public void delete(User user) {
 		SqlSession session = getSqlSessionFactory();
@@ -79,6 +111,13 @@ public class UserDaoImpl extends AbstractDao<User> {
 		}
 	}
 
+	/**
+	 * Get a user with its login
+	 * 
+	 * @param login
+	 *            the login
+	 * @return a user
+	 */
 	public User selectWithLogin(String login) {
 		SqlSession session = getSqlSessionFactory();
 		User userResult = null;
@@ -89,7 +128,14 @@ public class UserDaoImpl extends AbstractDao<User> {
 		}
 		return userResult;
 	}
-	
+
+	/**
+	 * Get a user with its email
+	 * 
+	 * @param email
+	 *            the email
+	 * @return a user
+	 */
 	public User selectWithEmail(String email) {
 		SqlSession session = getSqlSessionFactory();
 		User userResult = null;
@@ -100,7 +146,12 @@ public class UserDaoImpl extends AbstractDao<User> {
 		}
 		return userResult;
 	}
-	
+
+	/**
+	 * Get all users
+	 * 
+	 * @return a list of user
+	 */
 	public List<User> selectAllUsers() {
 		SqlSession session = getSqlSessionFactory();
 		List<User> userList = null;

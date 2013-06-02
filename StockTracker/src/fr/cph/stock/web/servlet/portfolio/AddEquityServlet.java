@@ -38,21 +38,38 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.web.servlet.CookieManagement;
 
+/**
+ * This servlet is called when the user want to add an equity
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "AddEquityServlet", urlPatterns = { "/add" })
 public class AddEquityServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
+	/** Serialization **/
+	private static final long serialVersionUID = 1L;
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(AddEquityServlet.class);
+	/** Business **/
 	private IBusiness business;
 
-	public AddEquityServlet() {
-		super();
-	}
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override
 	public void init() {
 		business = new Business();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
@@ -88,6 +105,12 @@ public class AddEquityServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

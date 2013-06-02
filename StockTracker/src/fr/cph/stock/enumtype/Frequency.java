@@ -16,6 +16,12 @@
 
 package fr.cph.stock.enumtype;
 
+/**
+ * Enum that represents the frequency of yield
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public enum Frequency {
 	MONTLY, YEARLY, QUARTERLY, BIANNUAL
 }

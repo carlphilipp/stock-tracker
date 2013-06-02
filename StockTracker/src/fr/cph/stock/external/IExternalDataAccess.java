@@ -25,20 +25,80 @@ import fr.cph.stock.entities.Index;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
 
+/**
+ * This interface represents the access to external sources
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public interface IExternalDataAccess {
 
-//	Company getCompanyData(String id) throws  YahooException;
+	/**
+	 * Get companies data
+	 * 
+	 * @param ids
+	 *            a list of id
+	 * @return a list of company
+	 * @throws YahooException
+	 */
+	List<Company> getCompaniesData(List<String> ids) throws YahooException;
 
-	List<CurrencyData> getCurrencyData(Currency currency) throws YahooException;
+	/**
+	 * Get company history data
+	 * 
+	 * @param id
+	 *            the id
+	 * @param from
+	 *            date from
+	 * @param to
+	 *            date to
+	 * @return a list of company
+	 * @throws YahooException
+	 */
+	List<Company> getCompanyDataHistory(String id, Date from, Date to) throws YahooException;
 
-	List<Company> getCompaniesData(List<String> yahooIds) throws YahooException;
-	
+	/**
+	 * Get company info
+	 * 
+	 * @param company
+	 *            the company
+	 * @return a company
+	 * @throws YahooException
+	 */
 	Company getCompanyInfo(Company company) throws YahooException;
 
-	Index getIndexData(String yahooId) throws YahooException;
+	/**
+	 * Get currency data
+	 * 
+	 * @param currency
+	 *            the currency
+	 * @return a list of currency data
+	 * @throws YahooException
+	 */
+	List<CurrencyData> getCurrencyData(Currency currency) throws YahooException;
 
-	List<Index> getIndexDataHistory(String yahooId, Date from, Date to) throws YahooException;
+	/**
+	 * Get index data
+	 * 
+	 * @param id
+	 *            the id
+	 * @return an Index
+	 * @throws YahooException
+	 */
+	Index getIndexData(String id) throws YahooException;
 
-	List<Company> getCompanyDataHistory(String yahooId, Date from, Date to) throws YahooException;
-	
+	/**
+	 * Get index history
+	 * 
+	 * @param id
+	 *            the index id
+	 * @param from
+	 *            date from
+	 * @param to
+	 *            date to
+	 * @return a list of index containing data
+	 * @throws YahooException
+	 */
+	List<Index> getIndexDataHistory(String id, Date from, Date to) throws YahooException;
+
 }

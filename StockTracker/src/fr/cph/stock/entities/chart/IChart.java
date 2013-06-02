@@ -16,8 +16,17 @@
 
 package fr.cph.stock.entities.chart;
 
+/**
+ * Interface for charts
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public interface IChart {
-	
-	void generate(); 
+
+	/**
+	 * Generates data
+	 */
+	void generate();
 
 }

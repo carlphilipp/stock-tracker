@@ -26,18 +26,42 @@ import fr.cph.stock.entities.Index;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Util;
 
+/**
+ * This class represents an time chart
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class TimeChart extends AChart {
 
+	/** Starting date of the chart **/
 	private Date date;
+	/** Share value info **/
 	private Map<Date, Double> shareValue;
+	/** Indexes **/
 	private Map<String, List<Index>> indexes;
 
+	/**
+	 * Constructor that constructs a time chart
+	 * 
+	 * @param shareValue
+	 *            the share values
+	 * @param indexes
+	 *            the indexes
+	 * @param date
+	 *            the starting date
+	 */
 	public TimeChart(Map<Date, Double> shareValue, Map<String, List<Index>> indexes, Date date) {
 		this.shareValue = shareValue;
 		this.indexes = indexes;
 		this.date = date;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.entities.chart.IChart#generate()
+	 */
 	@Override
 	public void generate() {
 		StringBuilder dataTemp = new StringBuilder();
@@ -71,7 +95,7 @@ public class TimeChart extends AChart {
 				if (k != 0) {
 					dataTemp.append(",");
 				}
-				dataTemp.append("[" + indexTemp.getDate() .getTime() + "," + indexTemp.getShareValue() + "]");
+				dataTemp.append("[" + indexTemp.getDate().getTime() + "," + indexTemp.getShareValue() + "]");
 				k++;
 			}
 			dataTemp.append("]");
@@ -83,6 +107,9 @@ public class TimeChart extends AChart {
 		generateColors();
 	}
 
+	/**
+	 * Generate colors
+	 */
 	private void generateColors() {
 		List<String> colorsListRes = new ArrayList<String>();
 		List<String> colorsList = new ArrayList<String>();

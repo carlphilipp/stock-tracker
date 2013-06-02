@@ -30,19 +30,38 @@ import org.apache.log4j.Logger;
 
 import fr.cph.stock.exception.YahooException;
 
+/**
+ * This class take care of the connexion to Yahoo API. It uses YQL language.
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class Yahoo {
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(Yahoo.class);
-
-	
+	/** Url base **/
 	private static String URL_BASE = "http://query.yahooapis.com/v1/public/yql?q=";
+	/** Url end **/
 	private static String URL_END = "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=cbfunc";
-
+	/** The request **/
 	private String request;
 
+	/**
+	 * Constructor that build a yahoo object with the given request
+	 * 
+	 * @param request
+	 *            the request
+	 */
 	public Yahoo(String request) {
 		this.request = request;
 	}
 
+	/**
+	 * This function build the URL.
+	 * 
+	 * @return a url
+	 * @throws YahooException
+	 */
 	protected String urlBuilder() throws YahooException {
 		try {
 			return URL_BASE + URLEncoder.encode(request, "UTF-8") + URL_END;
@@ -51,11 +70,19 @@ public class Yahoo {
 		}
 	}
 
-	protected String connectUrl(String adress) throws YahooException {
-		log.debug("URL " + adress);
+	/**
+	 * THis function connect to the given address and return in a string the content of the page
+	 * 
+	 * @param address
+	 *            the address
+	 * @return the content of the page
+	 * @throws YahooException
+	 */
+	protected String connectUrl(String address) throws YahooException {
+		log.debug("URL " + address);
 		String toreturn = null;
 		try {
-			URL url = new URL(adress);
+			URL url = new URL(address);
 			URLConnection uc = url.openConnection();
 			Charset charset = Charset.forName("UTF8");
 			InputStreamReader in = new InputStreamReader(uc.getInputStream(), charset);
@@ -72,12 +99,25 @@ public class Yahoo {
 		return toreturn;
 	}
 
+	/**
+	 * Convert the string to a json object, removing the unwanted part
+	 * 
+	 * @param data
+	 *            the data to convert
+	 * @return a JSONObject
+	 */
 	protected JSONObject convertDataToJSONObject(String data) {
 		String test = data.substring(7, data.length());
 		String test2 = test.substring(0, test.length() - 2);
 		return JSONObject.fromObject(test2);
 	}
 
+	/**
+	 * Connect to url and get the response in JSON
+	 * 
+	 * @return a JSONObject that contains the data
+	 * @throws YahooException
+	 */
 	public JSONObject getJSONObject() throws YahooException {
 		String data = connectUrl(urlBuilder());
 		return convertDataToJSONObject(data);

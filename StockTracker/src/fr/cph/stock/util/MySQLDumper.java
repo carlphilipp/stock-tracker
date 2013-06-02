@@ -24,20 +24,40 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+/**
+ * This class dump the mysql database
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class MySQLDumper {
 
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(MySQLDumper.class);
-
+	/** Ip **/
 	private static String ip;
 	// private static String port = "3306";
+	/** Database **/
 	private static String database;
+	/** Database user **/
 	private static String user;
+	/** Database password **/
 	private static String pass;
+	/** Path **/
 	private static final String path = "stock";
+	/** Extension of the file **/
 	private static final String sqlExt = ".sql";
+	/** Compression of the file **/
 	private static final String tarGzExt = ".tar.gz";
+	/** Date **/
 	public String date;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param date
+	 *            the date
+	 */
 	public MySQLDumper(String date) {
 		this.date = date;
 		Properties prop = Util.getProperties("app.properties");
@@ -47,18 +67,38 @@ public class MySQLDumper {
 		pass = prop.getProperty("db.password");
 	}
 
+	/**
+	 * Get current file name
+	 * 
+	 * @return the file name
+	 */
 	private String getCurrentNameFile() {
 		return date + "-" + path;
 	}
 
+	/**
+	 * Get current file name with extension
+	 * 
+	 * @return the file name with extension
+	 */
 	public String getCurrentSqlNameFile() {
 		return getCurrentNameFile() + sqlExt;
 	}
 
+	/**
+	 * Get current file name with compression
+	 * 
+	 * @return the current file name with compression
+	 */
 	public String getCurrentTarGzNameFile() {
 		return getCurrentNameFile() + tarGzExt;
 	}
 
+	/**
+	 * Get the dump database and export to to local
+	 * 
+	 * @throws Exception
+	 */
 	public void export() throws Exception {
 		String dumpCommand = "mysqldump " + database + " -h " + ip + " -u " + user + " -p" + pass;
 		Runtime rt = Runtime.getRuntime();

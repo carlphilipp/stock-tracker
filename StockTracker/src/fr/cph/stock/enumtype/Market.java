@@ -16,27 +16,49 @@
 
 package fr.cph.stock.enumtype;
 
+/**
+ * Enum that represents the market place
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public enum Market {
-	PARIS("Paris"), NASDAQNM("NasdaqNM"), NYSE("Nyse"), AMSTERDAM("Amsterdam"), XETRA("Xetra"), NGM("NGM"), LONDON("London"), MILAN("Milan"), PCX(
-			"PCX"), AMEX("AMEX"), FRANKFURT("Frankfurt"), UNKNOWN("unknown");
+	PARIS("Paris"), NASDAQNM("NasdaqNM"), NYSE("Nyse"), AMSTERDAM("Amsterdam"), XETRA("Xetra"), NGM("NGM"), LONDON("London"), MILAN(
+			"Milan"), PCX("PCX"), AMEX("AMEX"), FRANKFURT("Frankfurt"), UNKNOWN("unknown");
 
-	private String marketType;
-
+	/**
+	 * Constructor
+	 * 
+	 * @param marketType
+	 *            the market type
+	 */
 	Market(String marketType) {
 		this.marketType = marketType;
 	}
 
+	/**
+	 * Get market
+	 * 
+	 * @return the market
+	 */
 	public String getMarket() {
 		return marketType;
 	}
-	
-	public static Market getMarketFromSuffix(String suffix){
+
+	/**
+	 * Get market from suffix
+	 * 
+	 * @param suffix
+	 *            the suffix
+	 * @return the market
+	 */
+	public static Market getMarketFromSuffix(String suffix) {
 		Market market;
-		switch(suffix){
-		case "PA": 
+		switch (suffix) {
+		case "PA":
 			market = Market.PARIS;
 			break;
-		case "AM": 
+		case "AM":
 			market = Market.AMSTERDAM;
 			break;
 		default:
@@ -45,6 +67,13 @@ public enum Market {
 		return market;
 	}
 
+	/**
+	 * Get currency from the given market
+	 * 
+	 * @param m
+	 *            the market
+	 * @return the currency
+	 */
 	public static Currency getCurrency(Market m) {
 		Currency currency = null;
 		switch (m) {
@@ -72,4 +101,7 @@ public enum Market {
 		}
 		return currency;
 	}
+
+	/** Market type **/
+	private String marketType;
 }

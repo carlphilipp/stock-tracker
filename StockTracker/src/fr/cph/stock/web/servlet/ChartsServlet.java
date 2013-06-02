@@ -40,14 +40,29 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 
+/**
+ * This servlet is called to change display the charts
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "ChartsServlet", urlPatterns = { "/charts" })
 public class ChartsServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
+	/** Serialization **/
+	private static final long serialVersionUID = 1L;
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(ChartsServlet.class);
+	/** Business **/
 	private IBusiness business;
+	/** Language **/
 	private LanguageFactory language;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
 	@Override
 	public void init() throws ServletException {
 		business = new Business();
@@ -59,6 +74,12 @@ public class ChartsServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
@@ -68,7 +89,7 @@ public class ChartsServlet extends HttpServlet {
 				portfolio = business.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					List<Index> indexes = business.getIndexes(Info. YAHOOID_CAC40, from, null);
+					List<Index> indexes = business.getIndexes(Info.YAHOOID_CAC40, from, null);
 					List<Index> indexes2 = business.getIndexes(Info.YAHOOID_SP500, from, null);
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
@@ -91,6 +112,12 @@ public class ChartsServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

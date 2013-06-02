@@ -33,17 +33,43 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 
+/**
+ * This class is used to send emails
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class Mail {
 
+	/** The logger **/
 	private static final Logger log = Logger.getLogger(Mail.class);
-
+	/** Smtp host **/
 	private static String SMTP_HOST_NAME;
+	/** Smtp port **/
 	private static String SMTP_PORT;
+	/** Email of the sender **/
 	private static String emailFrom;
+	/** Password of the sender **/
 	private static String passwordFrom;
+	/** SSL factory **/
 	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
-	private Mail(String emailSubjectTxt, String emailMsgTxt, String[] sendTo, String attachFile) throws MessagingException, IOException {
+	/**
+	 * Constructor
+	 * 
+	 * @param emailSubjectTxt
+	 *            the subject
+	 * @param emailMsgTxt
+	 *            the content
+	 * @param sendTo
+	 *            the targets
+	 * @param attachFile
+	 *            the files to attach
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
+	private Mail(String emailSubjectTxt, String emailMsgTxt, String[] sendTo, String attachFile) throws MessagingException,
+			IOException {
 		Properties prop = Util.getProperties("app.properties");
 		SMTP_HOST_NAME = prop.getProperty("email.smtp_host_name");
 		SMTP_PORT = prop.getProperty("email.smtp_port");
@@ -53,8 +79,24 @@ public class Mail {
 		sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt, emailFrom, attachFile);
 	}
 
-	public void sendSSLMessage(String recipients[], String subject, String message, String from, String attachFile) throws MessagingException,
-			IOException {
+	/**
+	 * Send the SSL message
+	 * 
+	 * @param recipients
+	 *            tab of recipients
+	 * @param subject
+	 *            the subject
+	 * @param message
+	 *            the content
+	 * @param from
+	 *            the sender
+	 * @param attachFile
+	 *            the attach files
+	 * @throws MessagingException
+	 * @throws IOException
+	 */
+	public void sendSSLMessage(String recipients[], String subject, String message, String from, String attachFile)
+			throws MessagingException, IOException {
 		boolean debug = false;
 
 		Properties props = new Properties();
@@ -97,6 +139,18 @@ public class Mail {
 		Transport.send(msg);
 	}
 
+	/**
+	 * Static access to send a mail
+	 * 
+	 * @param emailSubjectTxt
+	 *            the email subject
+	 * @param emailMsgTxt
+	 *            the email content
+	 * @param sendTo
+	 *            the recipients
+	 * @param attachFile
+	 *            the attach files
+	 */
 	public static void sendMail(String emailSubjectTxt, String emailMsgTxt, String[] sendTo, String attachFile) {
 		try {
 			new Mail(emailSubjectTxt, emailMsgTxt, sendTo, attachFile);

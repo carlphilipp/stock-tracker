@@ -41,18 +41,39 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 
+/**
+ * Creat history from CSV file
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "CreateHistoryServlet", urlPatterns = { "/createhistory" })
 @MultipartConfig
 public class CreateHistoryServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
+	/** Serialization **/
+	private static final long serialVersionUID = 1L;
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(CreateHistoryServlet.class);
+	/** Business **/
 	private IBusiness business;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override
 	public void init() {
 		business = new Business();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
@@ -60,7 +81,7 @@ public class CreateHistoryServlet extends HttpServlet {
 			String liquidity = request.getParameter("liquidity");
 			String _account = request.getParameter("account");
 
-			Portfolio portfolio = business.getUserPortfolio(user.getId(),  null, null);
+			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 			Account account = portfolio.getAccount(_account);
 
 			Part p1 = request.getPart("file");
@@ -82,6 +103,12 @@ public class CreateHistoryServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

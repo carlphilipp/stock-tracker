@@ -29,16 +29,34 @@ import org.apache.ibatis.io.Resources;
 
 import fr.cph.stock.exception.LanguageException;
 
+/**
+ * Build languages
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class LanguageFactory {
 
+	/** The factory **/
 	protected static LanguageFactory facto;
+	/** The result map **/
 	protected static Map<String, Map<String, String>> map;
+	/** The file system **/
 	private static FileSystem system = FileSystems.getDefault();
 
+	/**
+	 * Constructor to lock the construction of the object
+	 */
 	private LanguageFactory() {
 
 	}
 
+	/**
+	 * Access to the factory from outside
+	 * 
+	 * @return a LanguageFactory
+	 * @throws LanguageException
+	 */
 	public static LanguageFactory getInstance() throws LanguageException {
 		if (facto == null) {
 			facto = new LanguageFactory();
@@ -47,15 +65,18 @@ public class LanguageFactory {
 		return facto;
 	}
 
-	private static Map<String, Map<String, String>> getLanguageMap()
-			throws LanguageException {
+	/**
+	 * Get the language map
+	 * 
+	 * @return the language map
+	 * @throws LanguageException
+	 */
+	private static Map<String, Map<String, String>> getLanguageMap() throws LanguageException {
 		Map<String, Map<String, String>> map = new HashMap<String, Map<String, String>>();
 		File file = null;
 		try {
-			file = Resources.getResourceAsFile("fr" + system.getSeparator()
-					+ "cph" + system.getSeparator() + "stock"
-					+ system.getSeparator() + "language"
-					+ system.getSeparator() + "xml");
+			file = Resources.getResourceAsFile("fr" + system.getSeparator() + "cph" + system.getSeparator() + "stock"
+					+ system.getSeparator() + "language" + system.getSeparator() + "xml");
 		} catch (IOException e) {
 			throw new LanguageException(e.getMessage(), e);
 		}
@@ -64,11 +85,9 @@ public class LanguageFactory {
 			for (File f : files) {
 				String absolutPath = f.getAbsolutePath();
 				String path = absolutPath.substring(
-						absolutPath.indexOf("fr" + system.getSeparator()
-								+ "cph" + system.getSeparator() + "stock"
-								+ system.getSeparator() + "language"
-								+ system.getSeparator() + "xml"
-								+ system.getSeparator()), absolutPath.length());
+						absolutPath.indexOf("fr" + system.getSeparator() + "cph" + system.getSeparator() + "stock"
+								+ system.getSeparator() + "language" + system.getSeparator() + "xml" + system.getSeparator()),
+						absolutPath.length());
 				Language language = new Language(path);
 				map.put(language.getLanguageName(), language.getLanguage());
 			}
@@ -76,6 +95,13 @@ public class LanguageFactory {
 		return map;
 	}
 
+	/**
+	 * Get the current language needed
+	 * 
+	 * @param language
+	 *            the language
+	 * @return a map
+	 */
 	public Map<String, String> getLanguage(String language) {
 		return map.get(language);
 	}

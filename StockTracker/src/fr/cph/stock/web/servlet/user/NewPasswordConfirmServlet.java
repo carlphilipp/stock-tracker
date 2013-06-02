@@ -31,19 +31,38 @@ import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.Security;
 
+/**
+ * This servlet is called when new password asked
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "NewPasswordConfirmServlet", urlPatterns = { "/newpasswordconf" })
 public class NewPasswordConfirmServlet extends HttpServlet {
 
-	private static final Logger log = Logger.getLogger(NewPasswordConfirmServlet.class);
-	
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-	
+	/** Logger **/
+	private static final Logger log = Logger.getLogger(NewPasswordConfirmServlet.class);
+	/** Business **/
 	private IBusiness business;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override
 	public void init() {
 		business = new Business();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			String login = request.getParameter("login");
@@ -62,6 +81,12 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

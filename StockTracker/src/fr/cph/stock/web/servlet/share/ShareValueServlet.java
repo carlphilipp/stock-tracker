@@ -38,16 +38,32 @@ import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
 
+
+/**
+ * This servlet is called when the user want to access to the history page
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "ShareValueServlet", urlPatterns = { "/sharevalue" })
 public class ShareValueServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 
+	/** Serialization **/
+	private static final long serialVersionUID = 1L;
+	/** Logger **/
 	private static final Logger log = Logger.getLogger(ShareValueServlet.class);
+	/** Business **/
 	private IBusiness business;
+	/** Language **/
+	private LanguageFactory language;
+	/** Item max **/
 	private final int ITEM_MAX = 20;
 
-	private LanguageFactory language;
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
 	@Override
 	public void init() throws ServletException {
 		business = new Business();
@@ -59,6 +75,12 @@ public class ShareValueServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
@@ -98,6 +120,12 @@ public class ShareValueServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

@@ -16,16 +16,37 @@
 
 package fr.cph.stock.exception;
 
+/**
+ * This class represents an exception from Login
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class LoginException extends Exception {
 
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-	
-	public LoginException(String str){
+
+	/**
+	 * Constructor
+	 * 
+	 * @param str
+	 *            the error message
+	 */
+	public LoginException(String str) {
 		super(str);
 	}
-	
-	public LoginException(String str, Exception e){
-		super(str,e);
+
+	/**
+	 * Constructor
+	 * 
+	 * @param str
+	 *            the error message
+	 * @param e
+	 *            the exception
+	 */
+	public LoginException(String str, Exception e) {
+		super(str, e);
 	}
 
 }

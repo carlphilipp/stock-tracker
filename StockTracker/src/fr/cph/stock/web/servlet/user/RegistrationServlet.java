@@ -31,18 +31,38 @@ import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.LoginException;
 
+/**
+ * This servlet is called when the user want to register
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "RegistrationServlet", urlPatterns = { "/register" })
 public class RegistrationServlet extends HttpServlet {
 
-	private static final Logger log = Logger.getLogger(RegistrationServlet.class);
-
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
+	/** Logger **/
+	private static final Logger log = Logger.getLogger(RegistrationServlet.class);
+	/** Business **/
 	private IBusiness business;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
+	@Override
 	public void init() {
 		business = new Business();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
 			String login = request.getParameter("login");
@@ -64,6 +84,12 @@ public class RegistrationServlet extends HttpServlet {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

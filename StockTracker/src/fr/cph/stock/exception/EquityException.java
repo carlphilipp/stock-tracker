@@ -16,19 +16,32 @@
 
 package fr.cph.stock.exception;
 
+/**
+ * This class represents an exception from Equities
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class EquityException extends Exception {
 
-	/**
-	 * 
-	 */
-	public static String ENTITY_ALREADY_RECORDED = " is already listed !";
-	
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
+	/** Error message **/
+	public static String ENTITY_ALREADY_RECORDED = " is already listed !";
 
+	/**
+	 * Constructor
+	 */
 	public EquityException() {
 		super();
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param message
+	 *            the error message
+	 */
 	public EquityException(String message) {
 		super(message);
 	}

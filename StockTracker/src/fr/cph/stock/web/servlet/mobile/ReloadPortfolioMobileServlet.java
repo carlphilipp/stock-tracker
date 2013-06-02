@@ -31,20 +31,37 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
 
+/**
+ * This servlet is called by mobile to reload the portfolio
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 @WebServlet(name = "ReloadPortfolioMobileServlet", urlPatterns = { "/reloadportfoliomobile" })
 public class ReloadPortfolioMobileServlet extends HttpServlet {
 
-	private static final Logger log = Logger.getLogger(ReloadPortfolioMobileServlet.class);
-
+	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-
+	/** Logger **/
+	private static final Logger log = Logger.getLogger(ReloadPortfolioMobileServlet.class);
+	/** Business **/
 	private IBusiness business;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.GenericServlet#init()
+	 */
 	@Override
 	public void init() {
 		business = new Business();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
@@ -63,6 +80,11 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		doGet(request, response);

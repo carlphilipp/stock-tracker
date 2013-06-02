@@ -27,8 +27,14 @@ import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 
+/**
+ * Job that check if cac40 today's value has been added to DB. If it's not the case, it will update it if possible
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class Cac40CheckJob implements Job {
-	
+
 	private static final Logger log = Logger.getLogger(Cac40CheckJob.class);
 	private IBusiness business;
 

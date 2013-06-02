@@ -29,9 +29,15 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 
+/**
+ * This class is loading user data from a CSV file to DB. Not very stable, shouln't be use btw.
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class Csv {
-	
-//	private static final Logger log = Logger.getLogger(Csv.class);
+
+	// private static final Logger log = Logger.getLogger(Csv.class);
 
 	private User user;
 	private BufferedReader reader;

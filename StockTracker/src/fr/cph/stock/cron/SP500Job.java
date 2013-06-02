@@ -25,6 +25,12 @@ import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 
+/**
+ * Job that try to update DB with today's s&p500 value
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class SP500Job implements Job {
 
 	private static final Logger log = Logger.getLogger(SP500Job.class);
