@@ -27,6 +27,7 @@
 <script type="text/javascript" src="js/jquery.confirm-1.3.js"></script>
 <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/analytics.js"></script>
 <link rel="shortcut icon" href="./favicon.ico" />
 <script>
 $(document).ready(function() { 

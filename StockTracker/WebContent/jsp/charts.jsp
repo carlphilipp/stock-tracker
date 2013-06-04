@@ -23,6 +23,7 @@
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/flotr2.min.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/analytics.js"></script>
 <link rel="shortcut icon" href="./favicon.ico" />
 <script>
 	function search(tab, str){

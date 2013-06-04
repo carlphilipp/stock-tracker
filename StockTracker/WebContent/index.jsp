@@ -27,6 +27,7 @@
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/jquery.reveal.js"></script>
 <script type="text/javascript" src="js/md5.js"></script>
+<script type="text/javascript" src="js/analytics.js"></script>
 <script type="text/javascript">
 	function checkRegister() {
 		if (document.getElementById('password1').value != document.getElementById('password2').value) {

@@ -27,6 +27,7 @@
 <script type="text/javascript" src="js/jquery.reveal.js"></script>
 <script type="text/javascript" src="js/jquery.confirm-1.3.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/analytics.js"></script>
 <script type="text/javascript">
 	function refresh() {
 		document.sendRefreshShare.action = "updatesharevalue";

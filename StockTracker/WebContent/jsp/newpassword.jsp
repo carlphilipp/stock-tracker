@@ -23,6 +23,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/md5.js"></script>
+<script type="text/javascript" src="js/analytics.js"></script>
 <script type="text/javascript">
 	function checkReset() {
 		console.log(document.getElementById('password').value);
