@@ -28,7 +28,6 @@
 <script type="text/javascript" src="js/jquery.confirm-1.3.js"></script>
 <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
-<script type="text/javascript" src="js/analytics.js"></script>
 <script type="text/javascript">
 $(document).ready(function() { 
     // call the tablesorter plugin 
@@ -68,6 +67,7 @@ $(document).ready(function() {
 <link type="text/css" rel="stylesheet" href="./reveal.css">
 <link rel="shortcut icon" href="./favicon.ico" />
 <title>${appTitle }</title>
+<script type="text/javascript" src="js/analytics.js"></script>
 </head>
 <body>
 	<fmt:setLocale value="${user.locale }" />

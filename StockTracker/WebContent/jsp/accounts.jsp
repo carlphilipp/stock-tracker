@@ -21,14 +21,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="shortcut icon" href="./favicon.ico" />
+<link type="text/css" rel="stylesheet" href="./style.css" />
+<link type="text/css" rel="stylesheet" href="./reveal.css">
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/flotr2.min.js"></script>
 <script type="text/javascript" src="js/jquery.reveal.js"></script>
 <script type="text/javascript" src="js/jquery.confirm-1.3.js"></script>
 <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
-<script type="text/javascript" src="js/analytics.js"></script>
-<link rel="shortcut icon" href="./favicon.ico" />
 <script>
 $(document).ready(function() { 
     // call the tablesorter plugin 
@@ -42,9 +43,8 @@ $(document).ready(function() {
 });  
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link type="text/css" rel="stylesheet" href="./style.css" />
-<link type="text/css" rel="stylesheet" href="./reveal.css">
 <title>${appTitle }</title>
+<script type="text/javascript" src="js/analytics.js"></script>
 </head>
 <body>
 	<fmt:setLocale value="${user.locale }" />
