@@ -24,7 +24,7 @@ package fr.cph.stock.enumtype;
  */
 public enum Market {
 	PARIS("Paris"), NASDAQNM("NasdaqNM"), NYSE("Nyse"), AMSTERDAM("Amsterdam"), XETRA("Xetra"), NGM("NGM"), LONDON("London"), MILAN(
-			"Milan"), PCX("PCX"), AMEX("AMEX"), FRANKFURT("Frankfurt"), UNKNOWN("unknown");
+			"Milan"), PCX("PCX"), AMEX("AMEX"), FRANKFURT("Frankfurt"), OTC("Other OTC"), UNKNOWN("unknown");
 
 	/**
 	 * Constructor
@@ -43,6 +43,20 @@ public enum Market {
 	 */
 	public String getMarket() {
 		return marketType;
+	}
+	
+	public static Market getMarket(String mark){
+		Market market = null;
+		try{
+			market = valueOf(mark);
+		}catch(Exception e){
+			if(mark.equals("OTHER OTC")){
+				market = Market.OTC;
+			}else{
+				market = Market.UNKNOWN;
+			}
+		}
+		return market;
 	}
 
 	/**
@@ -82,6 +96,7 @@ public enum Market {
 		case XETRA:
 		case MILAN:
 		case FRANKFURT:
+		case OTC:
 			currency = Currency.EUR;
 			break;
 		case NASDAQNM:

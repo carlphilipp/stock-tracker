@@ -102,15 +102,17 @@
 		<div class="main">
 			<div class="share_container">
 				<h2 style="margin-top: 5px;">${language['LIST_TITLE']}&nbsp;<a href="#" data-reveal-id="refresh"><img alt="" src="image/refresh.png" style="border: 0"></a></h2>
-				<c:if test="${!empty message}">
+				<div id="clear" class="clear">
+					<c:if test="${!empty message}">
 						<span class="cQuoteUp">${message}</span><br>
-				</c:if>
-				<c:if test="${!empty error}">
+					</c:if>
+					<c:if test="${!empty error}">
 						<span class="cQuoteDown">${error}</span><br>
-				</c:if>
-				<c:if test="${!empty updateStatus}">
+					</c:if>
+					<c:if test="${!empty updateStatus}">
 						${updateStatus}<br>
-				</c:if>
+					</c:if>
+				</div>
 				[<a href="#" data-reveal-id="addFollow">${language['LIST_ADD']}</a>]
 				<table id="tableList" border="1" class="shadow">
 					<tr class="tBackGround">

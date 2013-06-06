@@ -87,7 +87,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				}
 			} else {
 				company.setName(WordUtils.capitalizeFully(jsonCompany.optString("Name")));
-				company.setMarket(Market.valueOf(jsonCompany.optString("StockExchange").toUpperCase()));
+				company.setMarket(Market.getMarket(jsonCompany.optString("StockExchange").toUpperCase()));
 
 				company.setCurrency(Market.getCurrency(company.getMarket()));
 				if (!jsonCompany.optString("DividendYield").equals("null")) {

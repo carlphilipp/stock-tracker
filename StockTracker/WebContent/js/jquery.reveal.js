@@ -19,6 +19,7 @@
 
 	$('a[data-reveal-id]').live('click', function(e) {
 		e.preventDefault();
+		poufpoufpouf("clear");
 		var modalLocation = $(this).attr('data-reveal-id');
 		$('#'+modalLocation).reveal($(this).data());
 	});

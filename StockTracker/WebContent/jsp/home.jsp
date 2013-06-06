@@ -22,12 +22,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/flotr2.min.js"></script>
 <script type="text/javascript" src="js/jquery.reveal.js"></script>
 <script type="text/javascript" src="js/jquery.confirm-1.3.js"></script>
 <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/base.js"></script>>
 <script type="text/javascript">
 $(document).ready(function() { 
     // call the tablesorter plugin 
@@ -241,7 +242,7 @@ $(document).ready(function() {
 				</td></tr>
 				</table>
 				</c:if>
-				<div class="clear">
+				<div id="clear" class="clear">
 				<c:if test="${!empty updateStatus}">
 						${updateStatus}<br>
 				</c:if>
