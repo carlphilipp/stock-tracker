@@ -28,7 +28,7 @@
 <script type="text/javascript" src="js/jquery.reveal.js"></script>
 <script type="text/javascript" src="js/jquery.confirm-1.3.js"></script>
 <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
-<script type="text/javascript" src="js/base.js"></script>>
+<script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript">
 $(document).ready(function() { 
     // call the tablesorter plugin 
