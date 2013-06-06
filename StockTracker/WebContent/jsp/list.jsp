@@ -202,7 +202,7 @@
 				</table>
 			</div>
 		</div>
-		<div id="footer"></div>
+		<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2013</div>
 	</div>
 </body>
 </html>

@@ -94,6 +94,7 @@
 		<servlet-name>AccountsServlet</servlet-name>
 		<servlet-name>ChangeLanguageServlet</servlet-name>
 		<servlet-name>PerformanceServlet</servlet-name>
+		<servlet-name>AboutServlet</servlet-name>
 	</filter-mapping>
 	<filter>
 		<filter-name>SessionMobileFilter</filter-name>

@@ -259,18 +259,22 @@ h1 {
 	position: relative;
 	margin-top: 30px;
 	width: 1100px;
-	border-bottom: thin solid #000000;
+	border-top: thin solid #000000;
 	margin-bottom: 20px;
 	float: left;
+	text-align: center;
+	line-height: 28px;
 }
 
 #footer2 {
 	position: relative;
 	margin-top: 30px;
 	width: 1100px;
-	border-bottom: thin solid #000000;
+	border-top: thin solid #000000;
 	margin-bottom: 20px;
 	float: left;
+	text-align: center;
+	line-height: 28px;
 }
 
 #loginContainer {
