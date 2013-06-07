@@ -1,0 +1,109 @@
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script type="text/javascript" src="./js/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="./js/flotr2.min.js"></script>
+<script type="text/javascript" src="./js/base.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link type="text/css" rel="stylesheet" href="./style.css" />
+<style type="text/css">
+#graphicSector {
+	width: #WIDTH#px;
+	height: #HEIGHT#px;
+}
+</style>
+</head>
+<body>
+	<br>
+	<div align="center">
+		<div id="graphicSector"></div>
+	</div>
+	<br>
+	<div id="graphicSectorLegend" align="center"></div>
+	<script type="text/javascript">		
+	(function basic_pie(container) {
+			#DATA#
+			var graph;var idx = -1; var idx2 = -1; 
+			#TITLE#
+			#COMPANIES#
+			graph = Flotr.draw(container, #DRAW#,
+		{
+			HtmlText : true,
+			shadowSize: 0,
+			colors: ['#e48984', '#88b0e3', '#b0cd71' , '#ffb47a' , '#ddeeb7'],
+			grid : {
+				verticalLines : false,
+				horizontalLines : false
+			},
+			xaxis : {
+				showLabels : false,
+			},
+			yaxis : {
+				showLabels : false
+			},
+			pie : {
+				show : true,
+				explode : getExplode(title),
+					labelFormatter : function (total, value) {
+					idx++;
+					idx2--;
+					return '<span class="bold"><a href="javascript:poufpouf(\'display'+ idx + '\')">'+(100 * value / total).toFixed(0)+ '%</a></span>';
+				},
+				fill: true,
+				fillColor: null,
+				fillOpacity: 1,
+				startAngle: Math.PI/4,
+				lineWidth: 1,
+				sizeRatio: 0.7,
+				startAngle: Math.PI/4,
+				pie3D: false,
+				pie3DviewAngle: (Math.PI/2 * 0.8),
+				pie3DspliceThickness: 20,
+				epsilon: 0.1
+			},
+			mouse : {
+				track : false,
+				trackFormatter: function(obj){
+					return obj.series.label;
+				},
+		    	position: 'se',
+		    	relative: false,
+		    	margin: 5,
+		    	lineColor: '#000000',
+		    	trackDecimals: 1,
+		    	sensibility: 2,
+		    	trackY: true,
+		    	radius: 3,
+		    	fillColor: null,
+		    	fillOpacity: 0.4
+			},
+			legend : {
+				position : 'se',
+				backgroundColor : '#D2E8FF',
+				container: document.getElementById('graphicSectorLegend'),
+				labelFormatter : function (str) {
+					idx2++;
+		            return '<a href="javascript:poufpouf(\'display'+ idx2 + '\')"><b>'+ str + '</b></a><br><span id="display'+ idx2 + '" style="display: none;">' + companies[idx2] + '</span>'; 
+				}
+			}
+		});
+	})(document.getElementById("graphicSector"));
+	</script>
+</body>
+</html>

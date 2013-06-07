@@ -1,0 +1,346 @@
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/list_vertical_margin"
+    android:paddingLeft="@dimen/list_horizontal_margin"
+    android:paddingRight="@dimen/list_horizontal_margin"
+    android:paddingTop="@dimen/list_vertical_margin" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/errorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/red"
+            android:textIsSelectable="false"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/totalValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/green"
+            android:textIsSelectable="true"
+            android:textSize="50sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/upRelative"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/totalValue"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/totalGain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green"
+                android:textIsSelectable="true"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/totalPlusMinusValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/totalGain"
+                android:textColor="@color/green"
+                android:textIsSelectable="true"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/lastUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/upRelative"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/grey"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/info_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/lastUpdate"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="@dimen/title_bottom_margin"
+            android:paddingTop="@dimen/title_top_margin"
+            android:text="@string/info_title"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/infoLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/info_title"
+            android:paddingLeft="@dimen/account_horizontal_margin"
+            android:paddingRight="@dimen/account_horizontal_margin" >
+
+            <TextView
+                android:id="@+id/liquidityStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/liquidityStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/line_vertical_margin"
+                android:layout_toLeftOf="@+id/liquidity"
+                android:layout_toRightOf="@+id/liquidityStr"
+                android:background="@color/grey_light" />
+
+            <TextView
+                android:id="@+id/liquidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+               
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+            <!--  android:layout_below="@+id/info_title" -->
+
+            <TextView
+                android:id="@+id/yieldYearStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/liquidityStr"
+                android:text="@string/yieldYearStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/liquidityStr"
+                android:layout_marginTop="@dimen/line_vertical_margin"
+                android:layout_toLeftOf="@+id/yieldYear"
+                android:layout_toRightOf="@+id/yieldYearStr"
+                android:background="@color/grey_light" />
+
+            <TextView
+                android:id="@+id/yieldYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/liquidityStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/shareValueStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/yieldYearStr"
+                android:text="@string/shareValueStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/yieldYear"
+                android:layout_marginTop="@dimen/line_vertical_margin"
+                android:layout_toLeftOf="@+id/shareValue"
+                android:layout_toRightOf="@+id/shareValueStr"
+                android:background="@color/grey_light" />
+
+            <TextView
+                android:id="@+id/shareValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/yieldYearStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/performance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/infoLayout"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="@dimen/title_bottom_margin"
+            android:paddingTop="@dimen/title_top_margin"
+            android:text="@string/performance_title"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/performanceLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/performance"
+            android:paddingLeft="@dimen/account_horizontal_margin"
+            android:paddingRight="@dimen/account_horizontal_margin" >
+
+            <TextView
+                android:id="@+id/gainStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="@string/gainStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/line_vertical_margin"
+                android:layout_toLeftOf="@+id/gain2"
+                android:layout_toRightOf="@+id/gainStr"
+                android:background="@color/grey_light" />
+
+            <TextView
+                android:id="@+id/gain2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+               
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+            <!--  android:layout_below="@+id/performance" -->
+
+            <TextView
+                android:id="@+id/perfStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/gain2"
+                android:text="@string/perfStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/gain2"
+                android:layout_marginTop="@dimen/line_vertical_margin"
+                android:layout_toLeftOf="@+id/perf"
+                android:layout_toRightOf="@+id/perfStr"
+                android:background="@color/grey_light" />
+
+            <TextView
+                android:id="@+id/perf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/gain2"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/yieldPerfStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/perf"
+                android:text="@string/yieldPerfStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/perf"
+                android:layout_marginTop="@dimen/line_vertical_margin"
+                android:layout_toLeftOf="@+id/yieldPerf"
+                android:layout_toRightOf="@+id/yieldPerfStr"
+                android:background="@color/grey_light" />
+
+            <TextView
+                android:id="@+id/yieldPerf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/perf"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <TextView
+                android:id="@+id/taxesStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/yieldPerf"
+                android:text="@string/taxesStr"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/yieldPerf"
+                android:layout_marginTop="@dimen/line_vertical_margin"
+                android:layout_toLeftOf="@+id/taxes"
+                android:layout_toRightOf="@+id/taxesStr"
+                android:background="@color/grey_light" />
+
+            <TextView
+                android:id="@+id/taxes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/yieldPerf"
+                android:textColor="@color/grey"
+                android:textIsSelectable="true" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/accounts_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/performanceLayout"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="@dimen/title_bottom_margin"
+            android:paddingTop="@dimen/title_top_margin"
+            android:text="@string/accounts_title"
+            android:textColor="@color/black"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/accountsLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/accounts_title"
+            android:paddingLeft="@dimen/account_horizontal_margin2"
+            android:paddingRight="@dimen/account_horizontal_margin2" >
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

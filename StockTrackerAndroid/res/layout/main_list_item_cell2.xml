@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="@dimen/list_vertical_margin"
+    android:paddingLeft="@dimen/list_horizontal_margin"
+    android:paddingRight="@dimen/list_horizontal_margin"
+    android:paddingTop="@dimen/list_vertical_margin" >
+
+    <TextView
+        android:id="@+id/equity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="@string/equity"
+        android:textColor="@color/black"
+        android:textIsSelectable="false"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:id="@+id/equity_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/equity" >
+
+        <TextView
+            android:id="@+id/current_performance_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="@string/current_performance_main"
+            android:textColor="@color/grey"
+            android:textIsSelectable="false"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="25sp"
+            android:layout_toLeftOf="@+id/current_performance_value"
+            android:layout_toRightOf="@+id/current_performance_main"
+            android:background="@color/grey_light" />
+
+        <TextView
+            android:id="@+id/current_performance_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textIsSelectable="false"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/equity_layout2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/equity_layout" >
+
+        <TextView
+            android:id="@+id/today_performance_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="@string/today_performance_main"
+            android:textColor="@color/grey"
+            android:textIsSelectable="false"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="25sp"
+            android:layout_toLeftOf="@+id/today_performance_value"
+            android:layout_toRightOf="@+id/today_performance_main"
+            android:background="@color/grey_light" />
+        <!--     android:layout_below="@+id/current_performance_main"  -->
+
+        <TextView
+            android:id="@+id/today_performance_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textIsSelectable="false"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</RelativeLayout>

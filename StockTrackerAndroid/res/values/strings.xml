@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  
+  Copyright 2013 Carl-Philipp Harmant
+ 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+      http://www.apache.org/licenses/LICENSE-2.0
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+<resources>
+
+    <string name="app_name">Stock Tracker</string>
+    <string name="account_activity_name">Account</string>
+    <string name="equity_activity_name">Equity</string>
+    <string name="overall_activity_name">Overall</string>
+    <string name="action_update">Update Share Value</string>
+    <string name="action_logout">Logout</string>
+    <string name="desc_img">Up and Down</string>
+    <string name="action_retry">Retry</string>
+    <!-- Main -->
+    <string name="account">ACCOUNT</string>
+    <string name="portfolio_main">Portfolio Value</string>
+    <string name="liquidity_main">Liquidity</string>
+    <string name="equity">EQUITY</string>
+    <string name="current_performance_main">Current Performance</string>
+    <string name="today_performance_main">Today</string>
+    <string name="overall">OVERALL</string>
+    <string name="performance_main">Performance</string>
+    <string name="last_updated_main">Last Updated</string>
+    <string name="chart">CHARTS</string>
+    <string name="account2">Account</string>
+    <string name="portfolioValue">Portfolio Value</string>
+    <string name="shareQuantity">Share Quantity</string>
+    <string name="shareValue2">Share Value</string>
+    <string name="monthlyYield">Monthly Yield</string>
+    <!-- List item equity -->
+    <string name="unit">Unit Cost</string>
+    <string name="quote">Quote</string>
+    <string name="quantity">Quantity</string>
+    <string name="value">Value</string>
+    <string name="yield">Yield</string>
+    <string name="today">Today</string>
+    <string name="gain">Gain</string>
+    <string name="refresh">Refresh</string>
+    <string name="load">Load</string>
+	<string name="capChartDesc">Cap Chart</string>
+	<string name="capChartStr">Capitalization</string>
+	<string name="sectorChartDesc">Sector Chart</string>
+	<string name="sectorChartText">Sector</string>
+	<string name="shareValueChartDesc">Share Value Chart</string>
+	<string name="shareValueChartText">Share Value</string>
+</resources>
