@@ -242,7 +242,8 @@ $(document).ready(function() {
 				</td></tr>
 				</table>
 				</c:if>
-				<div id="clear" class="clear">
+				<div class="clear">
+				<div id="clear">
 				<c:if test="${!empty updateStatus}">
 						${updateStatus}<br>
 				</c:if>
@@ -266,8 +267,9 @@ $(document).ready(function() {
 				<c:if test="${!empty modifyError}">
 					<span class="cQuoteDown">${modifyError}</span><br>
 				</c:if>
-				[<a href="#" data-reveal-id="addEquity">${language['PORTFOLIO_ADD']}</a>]
 				</div>
+				</div>
+				[<a href="#" data-reveal-id="addEquity">${language['PORTFOLIO_ADD']}</a>]
 				<table id="tableEquity" border="1" class="shadow tablesorter">
 					 <thead>
 					<tr class="tBackGround" style="height:50px;">
