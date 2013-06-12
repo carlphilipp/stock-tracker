@@ -33,16 +33,30 @@ import fr.cph.stock.android.entity.Portfolio;
 import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.task.MainTask;
 
+/**
+ * This class represents the base activity of the app
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class BaseActivity extends Activity {
 
+	/** Tag **/
 	private static final String TAG = "Base";
-
+	/** Preference name in Android **/
 	public static final String PREFS_NAME = "StockTracker";
-
+	/** Login view **/
 	private View mLoginStatusView;
+	/** Login **/
 	private String login;
+	/** Password **/
 	private String password;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.v(TAG, "BaseActivity onCreate");
@@ -50,7 +64,7 @@ public class BaseActivity extends Activity {
 		setContentView(R.layout.loading);
 		mLoginStatusView = findViewById(R.id.login_status);
 		SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
-		
+
 		if (settings.contains("login") && settings.contains("password")) {
 			showProgress(true, null);
 			login = settings.getString("login", null);
@@ -68,6 +82,14 @@ public class BaseActivity extends Activity {
 
 	}
 
+	/**
+	 * Show progress bar
+	 * 
+	 * @param show
+	 *            show the bar or not
+	 * @param errorMessage
+	 *            the error message
+	 */
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
 	private void showProgress(final boolean show, String errorMessage) {
 		// On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -75,7 +97,6 @@ public class BaseActivity extends Activity {
 		// the progress spinner.
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
 			int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
 			mLoginStatusView.setVisibility(View.VISIBLE);
 			mLoginStatusView.animate().setDuration(shortAnimTime).alpha(show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
 				@Override
@@ -89,19 +110,31 @@ public class BaseActivity extends Activity {
 			mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
 		}
 	}
-	
+
+	/**
+	 * Load home
+	 * 
+	 * @param portfolio
+	 *            the portfolio
+	 */
 	public void loadHome(Portfolio portfolio) {
 		Intent intent = new Intent(this, MainActivity.class);
 		intent.putExtra("portfolio", portfolio);
 		showProgress(false, null);
 		finish();
-		startActivity(intent);	
+		startActivity(intent);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
-	
-	public void displayError(JSONObject json){
+
+	/**
+	 * Display error
+	 * 
+	 * @param jsonObject
+	 *            the json object
+	 */
+	public void displayError(JSONObject jsonObject) {
 		Intent intent = new Intent(this, ErrorActivity.class);
-		intent.putExtra("data", json.toString());
+		intent.putExtra("data", jsonObject.toString());
 		intent.putExtra("login", login);
 		intent.putExtra("password", password);
 		startActivity(intent);

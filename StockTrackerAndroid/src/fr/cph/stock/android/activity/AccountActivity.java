@@ -41,15 +41,20 @@ import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.util.Util;
 
 /**
+ * This class represents the account activity
+ * 
  * @author Carl-Philipp Harmant
- *
+ * 
  */
 public class AccountActivity extends Activity implements IStockTrackerActivity {
 
+	/** Tag **/
 	private static final String TAG = "AccountActivity";
-
-	private MenuItem menuItem;
+	/** Portfolio **/
 	private Portfolio portfolio;
+
+	/** Graphical component **/
+	private MenuItem menuItem;
 	private TextView errorView;
 	private TextView totalValueView;
 	private TextView totalGainView;
@@ -64,6 +69,11 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 	private TextView taxesView;
 	private List<TextView> textViews;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.v(TAG, "Account Activity onCreate");
@@ -170,6 +180,102 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		buildUi(false);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		MainTask mainTask;
+		switch (item.getItemId()) {
+		case R.id.action_logout:
+			mainTask = new MainTask(this, UrlType.LOGOUT, null);
+			mainTask.execute((Void) null);
+			return true;
+		case R.id.refresh:
+			menuItem = item;
+			menuItem.setActionView(R.layout.progressbar);
+			menuItem.expandActionView();
+			mainTask = new MainTask(this, UrlType.RELOAD, null);
+			mainTask.execute((Void) null);
+			return true;
+		case android.R.id.home:
+			finish();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.android.activity.IStockTrackerActivity#reloadData(fr.cph.stock.android.entity.Portfolio)
+	 */
+	@Override
+	public void reloadData(Portfolio portfolio) {
+		menuItem.collapseActionView();
+		menuItem.setActionView(null);
+		this.portfolio = portfolio;
+		Intent resultIntent = new Intent();
+		resultIntent.putExtra("portfolio", portfolio);
+		setResult(Activity.RESULT_OK, resultIntent);
+		buildUi(true);
+		StockTrackerApp app = (StockTrackerApp) getApplication();
+		app.toast();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.android.activity.IStockTrackerActivity#displayError(org.json.JSONObject)
+	 */
+	@Override
+	public void displayError(JSONObject json) {
+		boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
+		if (sessionError) {
+			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
+		} else {
+			errorView.setText(json.optString("error"));
+			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) LayoutParams.WRAP_CONTENT,
+					(int) LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.BELOW, errorView.getId());
+			params.addRule(RelativeLayout.CENTER_HORIZONTAL);
+			totalValueView.setLayoutParams(params);
+			menuItem.collapseActionView();
+			menuItem.setActionView(null);
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fr.cph.stock.android.activity.IStockTrackerActivity#logOut()
+	 */
+	@Override
+	public void logOut() {
+		((StockTrackerApp) getApplication()).logOut(this);
+	}
+
+	/**
+	 * Build UI
+	 * 
+	 * @param withAccounts
+	 */
 	private void buildUi(boolean withAccounts) {
 		totalValueView.setText(portfolio.getTotalValue());
 		totalGainView.setText(portfolio.getTotalGain());
@@ -210,69 +316,4 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		MainTask mainTask;
-		switch (item.getItemId()) {
-		case R.id.action_logout:
-			mainTask = new MainTask(this, UrlType.LOGOUT, null);
-			mainTask.execute((Void) null);
-			return true;
-		case R.id.refresh:
-			menuItem = item;
-			menuItem.setActionView(R.layout.progressbar);
-			menuItem.expandActionView();
-			mainTask = new MainTask(this, UrlType.RELOAD, null);
-			mainTask.execute((Void) null);
-			return true;
-		case android.R.id.home:
-			finish();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	@Override
-	public void reloadData(Portfolio portfolio) {
-		menuItem.collapseActionView();
-		menuItem.setActionView(null);
-		this.portfolio = portfolio;
-		Intent resultIntent = new Intent();
-		resultIntent.putExtra("portfolio", portfolio);
-		setResult(Activity.RESULT_OK, resultIntent);
-		buildUi(true);
-		StockTrackerApp app = (StockTrackerApp) getApplication();
-		app.toast();
-	}
-
-	@Override
-	public void displayError(JSONObject json) {
-		boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
-		if (sessionError) {
-			((StockTrackerApp) getApplication()).loadErrorActivity(this, json);
-		} else {
-			errorView.setText(json.optString("error"));
-			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams((int) LayoutParams.WRAP_CONTENT,
-					(int) LayoutParams.WRAP_CONTENT);
-			params.addRule(RelativeLayout.BELOW, errorView.getId());
-			params.addRule(RelativeLayout.CENTER_HORIZONTAL);
-			totalValueView.setLayoutParams(params);
-			menuItem.collapseActionView();
-			menuItem.setActionView(null);
-		}
-	}
-
-	@Override
-	public void logOut() {
-		((StockTrackerApp) getApplication()).logOut(this);
-	}
 }

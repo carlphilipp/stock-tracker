@@ -29,7 +29,7 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 /**
- * Default app
+ * This class extends Application. It defines some functions that will be available anywhere within the app
  * 
  * @author Carl-Philipp Harmant
  * 
@@ -37,8 +37,10 @@ import android.widget.Toast;
 public class StockTrackerApp extends Application {
 
 	/**
+	 * This function logout the user and removes its login/password from the preferences. It also loads the login activity
 	 * 
 	 * @param activity
+	 *            the activity to finish
 	 */
 	public void logOut(Activity activity) {
 		SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
@@ -58,13 +60,15 @@ public class StockTrackerApp extends Application {
 	}
 
 	/**
+	 * Check if a session is valid or not
 	 * 
-	 * @param json
-	 * @return
+	 * @param jsonObject
+	 *            the json session object to check
+	 * @return true or false
 	 */
-	public boolean isSessionError(JSONObject json) {
+	public boolean isSessionError(JSONObject jsonObject) {
 		boolean result = false;
-		String error = json.optString("error");
+		String error = jsonObject.optString("error");
 		if (error.equals("No active session") || error.equals("User session not found")) {
 			result = true;
 		}
@@ -72,13 +76,17 @@ public class StockTrackerApp extends Application {
 	}
 
 	/**
+	 * This function loads the error activity to the screen. It happens usually when the session is timeout and needs to request a
+	 * new session id to the server
 	 * 
 	 * @param currentActivity
-	 * @param json
+	 *            the activity to stop
+	 * @param jsonObject
+	 *            the json object containing the error message
 	 */
-	public void loadErrorActivity(Activity currentActivity, JSONObject json) {
+	public void loadErrorActivity(Activity currentActivity, JSONObject jsonObject) {
 		Intent intent = new Intent(this, ErrorActivity.class);
-		intent.putExtra("data", json.toString());
+		intent.putExtra("data", jsonObject.toString());
 		SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
 		String login = settings.getString("login", null);
 		String password = settings.getString("password", null);
@@ -90,7 +98,7 @@ public class StockTrackerApp extends Application {
 	}
 
 	/**
-	 * 
+	 * This function toast a toast "updated" message to the screen
 	 */
 	public void toast() {
 		Context context = getApplicationContext();

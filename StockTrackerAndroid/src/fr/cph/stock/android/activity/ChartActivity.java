@@ -46,10 +46,18 @@ import fr.cph.stock.android.enumtype.UrlType;
 import fr.cph.stock.android.task.MainTask;
 import fr.cph.stock.android.web.DebugWebChromeClient;
 
+/**
+ * This class reprents the chart activity
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class ChartActivity extends Activity implements IStockTrackerActivity {
 
+	/** Tag **/
 	private static final String TAG = "ChartActivity";
 
+	/** Graphics components **/
 	private MenuItem menuItem;
 	private TextView errorView;
 	private ChartType chartType;
@@ -57,6 +65,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 	private WebView webView;
 	private ActionBar actionBar;
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreate(android.os.Bundle)
+	 */
 	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +91,10 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		webView.reload();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	private String getData() {
 		DisplayMetrics metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -136,6 +151,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		return data;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -143,6 +161,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		MainTask mainTask;
@@ -166,6 +187,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		}
 	}
 
+	/**
+	 * 
+	 */
 	public void reloadData(Portfolio portfolio) {
 		menuItem.collapseActionView();
 		menuItem.setActionView(null);
@@ -179,6 +203,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		app.toast();
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.cph.stock.android.activity.IStockTrackerActivity#displayError(org.json.JSONObject)
+	 */
 	@Override
 	public void displayError(JSONObject json) {
 		boolean sessionError = ((StockTrackerApp) getApplication()).isSessionError(json);
@@ -196,6 +223,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see fr.cph.stock.android.activity.IStockTrackerActivity#logOut()
+	 */
 	@Override
 	public void logOut() {
 		((StockTrackerApp) getApplication()).logOut(this);
