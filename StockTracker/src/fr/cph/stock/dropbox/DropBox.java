@@ -26,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import com.dropbox.client2.DropboxAPI;
 import com.dropbox.client2.DropboxAPI.Entry;
 import com.dropbox.client2.exception.DropboxException;
@@ -44,6 +46,9 @@ import fr.cph.stock.util.Util;
  * 
  */
 public class DropBox {
+	
+	@SuppressWarnings("unused")
+	private static final Logger log = Logger.getLogger(DropBox.class);
 
 	private static String APP_KEY;
 	private static String APP_SECRET;
@@ -80,6 +85,7 @@ public class DropBox {
 		cal.add(Calendar.DAY_OF_MONTH, -7);
 		List<Entry> listEntry = dropBoxAPI.search("/", sdf.format(cal.getTime()) + "-stock.tar.gz", 1, false);
 		if (listEntry.size() != 0) {
+			// This write a "Invalid cookie header" in the console. Not sure why.
 			dropBoxAPI.delete(sdf.format(cal.getTime()) + "-stock.tar.gz");
 		}
 	}
