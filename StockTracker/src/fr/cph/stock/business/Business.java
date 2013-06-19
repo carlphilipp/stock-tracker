@@ -447,18 +447,24 @@ public class Business implements IBusiness {
 	 */
 	@Override
 	public void updateAllCurrencies() throws YahooException {
+		List<Currency> currencyDone = new ArrayList<Currency>();
 		for (Currency currency : Currency.values()) {
 			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+			Util.makeAPause(PAUSE);
 			if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
 				for (CurrencyData currencyData : currenciesData) {
-					CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
-					if (c == null) {
-						daoCurrency.insert(currencyData);
-					} else {
-						currencyData.setId(c.getId());
-						daoCurrency.update(currencyData);
+					if (!(currencyDone.contains(currencyData.getCurrency1()) || currencyDone
+							.contains(currencyData.getCurrency2()))) {
+						CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
+						if (c == null) {
+							daoCurrency.insert(currencyData);
+						} else {
+							currencyData.setId(c.getId());
+							daoCurrency.update(currencyData);
+						}
 					}
 				}
+				currencyDone.add(currency);
 			} else {
 				log.warn("Impossible to update this currency: " + currency.getCode());
 			}
