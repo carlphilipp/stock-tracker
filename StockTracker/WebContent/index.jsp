@@ -28,6 +28,7 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="js/jquery.reveal.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/md5.js"></script>
 <script type="text/javascript">
 	function checkRegister() {
