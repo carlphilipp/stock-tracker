@@ -62,7 +62,7 @@
 		select * from sharevalue where id = #{id}
 	</select>
 	<update id="updateOneShareValue" parameterType="ShareValue">
-		update sharevalue set accountName = #{accountName}, portfolioValue =
+		update sharevalue set portfolioValue =
 		#{portfolioValue}, shareQuantity =
 		#{shareQuantity} , yield = #{yield }, buy = #{buy }, sell = #{sell}, taxe = #{taxe},
 		shareValue = #{shareValue},
