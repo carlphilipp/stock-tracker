@@ -971,8 +971,10 @@ public class Portfolio {
 		}
 		json.put("equities", equities);
 		JSONArray shareValues = new JSONArray();
-		for (int i = 0; i < 20; i++) {
+		int i = 0;
+		while (i < this.shareValues.size()) {
 			shareValues.add(this.shareValues.get(i).getJSONObject());
+			i++;
 		}
 		json.put("shareValues", shareValues);
 		JSONArray accounts = new JSONArray();
