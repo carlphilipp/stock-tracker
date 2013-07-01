@@ -155,10 +155,16 @@ public class Company {
 		this.yesterdayClose = yesterdayClose;
 	}
 
+	@Override
 	public String toString() {
-		return "Company : " + id + " - " + yahooId + " - " + name + " - " + market + " - " + currency + " - " + sector + " - "
-				+ industry + " - " + quote + " - " + yield + " - " + marketCapitalization;
+		return "Company [id=" + id + ", yahooId=" + yahooId + ", name=" + name + ", market=" + market + ", currency=" + currency
+				+ ", sector=" + sector + ", industry=" + industry + ", quote=" + quote + ", yield=" + yield
+				+ ", marketCapitalization=" + marketCapitalization + ", yesterdayClose=" + yesterdayClose + ", changeInPercent="
+				+ changeInPercent + ", yearLow=" + yearLow + ", yearHigh=" + yearHigh + ", minGap=" + minGap + ", maxGap="
+				+ maxGap + ", realTime=" + realTime + ", fund=" + fund + ", lastUpdate=" + lastUpdate + ", change=" + change
+				+ ", gapYearLow=" + gapYearLow + ", gapYearHigh=" + gapYearHigh + "]";
 	}
+	
 
 	public String getMarketCapitalization() {
 		return marketCapitalization;
