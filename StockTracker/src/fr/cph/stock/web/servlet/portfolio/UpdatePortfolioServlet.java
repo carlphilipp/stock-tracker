@@ -76,20 +76,29 @@ public class UpdatePortfolioServlet extends HttpServlet {
 			StringBuilder sb = new StringBuilder("");
 			User user = (User) session.getAttribute("user");
 			String updateCurrencies = request.getParameter("currencyUpdate");
+			String error = null;
 			try {
 				Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 				if (updateCurrencies != null) {
 					business.updateOneCurrency(portfolio.getCurrency());
 				}
-				business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
+				error = business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 			} catch (YahooException e1) {
 				sb.append(e1.getMessage() + " ");
 			}
 			if (!sb.toString().equals("")) {
 				request.setAttribute("updateStatus", "<span class='cQuoteDown'>" + sb.toString() + "</span>");
 			} else {
-				request.setAttribute("updateStatus",
-						"<span class='cQuoteUp'>" + language.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
+				if (error != null && !error.equals("")) {
+					request.setAttribute(
+							"updateStatus",
+							"<span class='cQuoteOrange'>"
+									+ error
+									+ "The company does not exist anymore. Please delete it from your portfolio. The other companies has been updated.</span>");
+				} else {
+					request.setAttribute("updateStatus",
+							"<span class='cQuoteUp'>" + language.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
+				}
 			}
 			request.getRequestDispatcher("home").forward(request, response);
 

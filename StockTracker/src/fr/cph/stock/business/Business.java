@@ -52,6 +52,7 @@ import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.exception.YahooUnknownTickerException;
 import fr.cph.stock.external.IExternalDataAccess;
 import fr.cph.stock.external.YahooExternalDataAccess;
 import fr.cph.stock.security.Security;
@@ -707,9 +708,14 @@ public class Business implements IBusiness {
 	 * @see fr.cph.stock.business.IBusiness#addOrUpdateCompaniesLimitedRequest(java.util.List)
 	 */
 	@Override
-	public void addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException {
+	public String addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException {
+		StringBuilder sb = new StringBuilder();
 		if (companiesYahooIdRealTime.size() <= MAX_UPDATE_COMPANY) {
-			addOrUpdateCompanies(companiesYahooIdRealTime);
+			try {
+				addOrUpdateCompanies(companiesYahooIdRealTime);
+			} catch (YahooUnknownTickerException e) {
+				sb.append(e.getMessage() + " ");
+			}
 		} else {
 			int from = 0;
 			int to = MAX_UPDATE_COMPANY;
@@ -718,8 +724,12 @@ public class Business implements IBusiness {
 				if (to > companiesYahooIdRealTime.size()) {
 					to = companiesYahooIdRealTime.size();
 				}
-				addOrUpdateCompanies(companiesYahooIdRealTime.subList(from, to));
-				Util.makeAPause(PAUSE);
+				try {
+					addOrUpdateCompanies(companiesYahooIdRealTime.subList(from, to));
+					Util.makeAPause(PAUSE);
+				} catch (YahooUnknownTickerException e) {
+					sb.append(e.getMessage() + " ");
+				}
 				if (to == companiesYahooIdRealTime.size()) {
 					isOk = false;
 				}
@@ -727,6 +737,7 @@ public class Business implements IBusiness {
 				to = to + MAX_UPDATE_COMPANY;
 			}
 		}
+		return sb.toString();
 	}
 
 	/*
@@ -1000,6 +1011,11 @@ public class Business implements IBusiness {
 		if (yahooIdList.size() <= MAX_UPDATE_COMPANY) {
 			try {
 				addOrUpdateCompanies(yahooIdList);
+			} catch (YahooUnknownTickerException e) {
+				log.warn(e.getMessage());
+				StringBuilder body = new StringBuilder();
+				body.append(e.getMessage());
+				Mail.sendMail("[Error] " + Info.NAME, body.toString(), Info.admins, null);
 			} catch (YahooException e) {
 				canUpdate = false;
 				log.warn("All companies update failed: " + e.getMessage());
@@ -1015,6 +1031,11 @@ public class Business implements IBusiness {
 				try {
 					addOrUpdateCompanies(yahooIdList.subList(from, to));
 					Util.makeAPause(PAUSE);
+				} catch (YahooUnknownTickerException e) {
+					log.warn(e.getMessage());
+					StringBuilder body = new StringBuilder();
+					body.append(e.getMessage());
+					Mail.sendMail("[Error] " + Info.NAME, body.toString(), Info.admins, null);
 				} catch (YahooException e) {
 					canUpdate = false;
 					isOk = false;
@@ -1029,5 +1050,10 @@ public class Business implements IBusiness {
 			}
 		}
 		return canUpdate;
+	}
+
+	public static void main(String[] args) {
+		StringBuilder sb = new StringBuilder();
+		log.info(sb.toString().equals(""));
 	}
 }

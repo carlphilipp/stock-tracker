@@ -37,6 +37,7 @@ import fr.cph.stock.entities.Index;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.exception.YahooUnknownTickerException;
 
 /**
  * This class connect to yahoo api and convert the jsonObjects to java bean of the app
@@ -83,7 +84,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 					}
 					companies.add(company);
 				} else {
-					throw new YahooException(jsonCompany.optString("symbol") + YahooException.TOCKEN_UNKNOWN);
+					throw new YahooUnknownTickerException(jsonCompany.optString("symbol") + YahooUnknownTickerException.TOCKEN_UNKNOWN);
 				}
 			} else {
 				company.setName(WordUtils.capitalizeFully(jsonCompany.optString("Name")));

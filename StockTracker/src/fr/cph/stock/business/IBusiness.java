@@ -222,9 +222,10 @@ public interface IBusiness {
 	/**
 	 * 
 	 * @param companiesYahooIdRealTime
+	 * @return 
 	 * @throws YahooException
 	 */
-	void addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException;
+	String addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException;
 
 	/**
 	 * Get a list of share value that belong to a user

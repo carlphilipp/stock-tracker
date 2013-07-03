@@ -23,8 +23,6 @@ public class YahooException extends Exception {
 	/** Error message **/
 	public static String ERROR = "Yahoo result null. Table is probably locked.";
 	/** Error message **/
-	public static String TOCKEN_UNKNOWN = "  yahooID is unknown.";
-	/** Error message **/
 	public static String CONNECT_ERROR = "Can't connect to yahoo website";
 	/** Error message **/
 	public static final String ENCODE_ERROR = "Url encoding did not work";
