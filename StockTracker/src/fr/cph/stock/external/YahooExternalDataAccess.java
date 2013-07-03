@@ -99,9 +99,9 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 					company.setMarketCapitalization(marketCap);
 				}
 				Double previousClose = jsonCompany.optDouble("PreviousClose");
-				if(previousClose != null && !previousClose.isNaN()){
+				if (previousClose != null && !previousClose.isNaN()) {
 					company.setYesterdayClose(previousClose);
-				}else{
+				} else {
 					company.setYesterdayClose(0.0);
 				}
 				company.setChangeInPercent(jsonCompany.optString("ChangeinPercent"));
@@ -125,7 +125,11 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		String requestStocks = "select * from yahoo.finance.stocks where symbol='" + company.getYahooId() + "'";
 		Yahoo yahoo = new Yahoo(requestStocks);
 		JSONObject jsonCompanyInfo = yahoo.getJSONObject();
-		jsonCompanyInfo = jsonCompanyInfo.getJSONObject("query").getJSONObject("results").getJSONObject("stock");
+		try {
+			jsonCompanyInfo = jsonCompanyInfo.getJSONObject("query").getJSONObject("results").getJSONObject("stock");
+		} catch (JSONException e) {
+			throw new YahooException("Error while getting info from json : " + company.getYahooId() + " " + jsonCompanyInfo, e);
+		}
 		String sector = jsonCompanyInfo.optString("Sector");
 		String industry = jsonCompanyInfo.optString("Industry");
 		if (sector.equals("") && industry.equals("")) {
