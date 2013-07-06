@@ -18,6 +18,8 @@ package fr.cph.stock.android.activity;
 
 import org.json.JSONObject;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -104,6 +106,19 @@ public class MainActivity extends Activity implements IStockTrackerActivity {
 
 		errorView = (TextView) findViewById(R.id.errorMessage);
 		errorView.setOnClickListener(new ErrorMainOnClickListener(listView, errorView));
+		EasyTracker.getInstance().setContext(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	@Override

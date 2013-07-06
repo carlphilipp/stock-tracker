@@ -32,6 +32,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.analytics.tracking.android.EasyTracker;
+
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
 import fr.cph.stock.android.entity.Account;
@@ -178,6 +181,19 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			currencyId++;
 		}
 		buildUi(false);
+		EasyTracker.getInstance().setContext(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	/*

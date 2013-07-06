@@ -23,6 +23,8 @@ import java.io.StringWriter;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
@@ -89,6 +91,19 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		// myWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		webView.loadDataWithBaseURL("file:///android_asset/www/", data, "text/html", "UTF-8", null);
 		webView.reload();
+		EasyTracker.getInstance().setContext(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	/**

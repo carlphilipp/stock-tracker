@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.ListActivity;
@@ -65,6 +67,19 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 
 		lastUpdatedView = (TextView) findViewById(R.id.lastUpdated);
 		lastUpdatedView.setText(portfolio.getLastUpdate());
+		EasyTracker.getInstance().setContext(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	@Override

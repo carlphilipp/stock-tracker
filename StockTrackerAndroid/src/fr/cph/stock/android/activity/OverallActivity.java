@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.Dialog;
@@ -69,6 +71,19 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		shareValues = portfolio.getShareValues();
 		ada = new ShareValueAdapter(shareValues, getApplicationContext());
 		setListAdapter(ada);
+		EasyTracker.getInstance().setContext(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	@Override

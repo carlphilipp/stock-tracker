@@ -18,6 +18,8 @@ package fr.cph.stock.android.activity;
 
 import org.json.JSONObject;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
@@ -79,7 +81,19 @@ public class BaseActivity extends Activity {
 			startActivity(intent);
 			finish();
 		}
+		EasyTracker.getInstance().setContext(this);
+	}
 
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	/**

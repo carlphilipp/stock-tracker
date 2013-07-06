@@ -19,6 +19,8 @@ package fr.cph.stock.android.activity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.analytics.tracking.android.EasyTracker;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,6 +54,19 @@ public class ErrorActivity extends Activity {
 		}
 		Button button = (Button) findViewById(R.id.retry_button);
 		button.setOnClickListener(new ErrorButtonOnClickListener(this, login, password));
+		EasyTracker.getInstance().setContext(this);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		EasyTracker.getInstance().activityStart(this);
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		EasyTracker.getInstance().activityStop(this);
 	}
 
 	public void displayError(JSONObject json) {
