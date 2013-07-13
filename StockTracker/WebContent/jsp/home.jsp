@@ -107,7 +107,7 @@ $(document).ready(function() {
 				</tr>
 				<tr>
 					<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZENAME']}:</td>
-					<td><input id="modifyNamePersonal" name="namePersonal" type="text" placeholder="Custom Company Name" pattern="[\w\d _\-àèé/%\.,&]"></td>
+					<td><input id="modifyNamePersonal" name="namePersonal" type="text" placeholder="Custom Company Name" pattern="[\w\d _\-àèé/%\.,&\(\)]+"></td>
 				</tr>
 				<tr>
 					<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZESECTOR']}:</td>
