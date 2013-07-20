@@ -23,8 +23,6 @@ import java.io.StringWriter;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
-import com.google.analytics.tracking.android.EasyTracker;
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.LayoutParams;
@@ -40,6 +38,10 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
+
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
 import fr.cph.stock.android.entity.Portfolio;
@@ -59,6 +61,8 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 	/** Tag **/
 	private static final String TAG = "ChartActivity";
 
+	private Tracker tracker;
+
 	/** Graphics components **/
 	private MenuItem menuItem;
 	private TextView errorView;
@@ -67,7 +71,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 	private WebView webView;
 	private ActionBar actionBar;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
 	@SuppressLint("SetJavaScriptEnabled")
@@ -91,7 +97,11 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		// myWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 		webView.loadDataWithBaseURL("file:///android_asset/www/", data, "text/html", "UTF-8", null);
 		webView.reload();
-		EasyTracker.getInstance().setContext(this);
+
+		// Set context
+		EasyTracker.getInstance().setContext(getApplicationContext());
+		// Instantiate the Tracker
+		tracker = EasyTracker.getTracker();
 	}
 
 	@Override
@@ -166,7 +176,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		return data;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
 	@Override
@@ -176,7 +188,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 */
 	@Override
@@ -191,6 +205,7 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 			menuItem = item;
 			menuItem.setActionView(R.layout.progressbar);
 			menuItem.expandActionView();
+			tracker.sendEvent("Buttons Category", "Reload", "", 0L);
 			mainTask = new MainTask(this, UrlType.RELOAD, null);
 			mainTask.execute((Void) null);
 			return true;
@@ -218,7 +233,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		app.toast();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.cph.stock.android.activity.IStockTrackerActivity#displayError(org.json.JSONObject)
 	 */
 	@Override
@@ -238,7 +255,9 @@ public class ChartActivity extends Activity implements IStockTrackerActivity {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.cph.stock.android.activity.IStockTrackerActivity#logOut()
 	 */
 	@Override

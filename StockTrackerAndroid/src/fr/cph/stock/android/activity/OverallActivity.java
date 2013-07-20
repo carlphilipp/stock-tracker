@@ -22,6 +22,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -54,6 +55,8 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 
 	private static final String TAG = "OverallActivity";
 
+	private Tracker tracker;
+
 	private MenuItem menuItem;
 	private MenuItem refreshItem;
 	private List<ShareValue> shareValues;
@@ -71,7 +74,10 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 		shareValues = portfolio.getShareValues();
 		ada = new ShareValueAdapter(shareValues, getApplicationContext());
 		setListAdapter(ada);
-		EasyTracker.getInstance().setContext(this);
+		// Set context
+		EasyTracker.getInstance().setContext(getApplicationContext());
+		// Instantiate the Tracker
+		tracker = EasyTracker.getTracker();
 	}
 
 	@Override
@@ -106,6 +112,7 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 			menuItem = item;
 			menuItem.setActionView(R.layout.progressbar);
 			menuItem.expandActionView();
+			tracker.sendEvent("Buttons Category", "Reload", "", 0L);
 			mainTask = new MainTask(this, UrlType.RELOAD, null);
 			mainTask.execute((Void) null);
 			return true;
@@ -149,9 +156,9 @@ public class OverallActivity extends ListActivity implements IStockTrackerActivi
 				EditText commentaryView = (EditText) alert.findViewById(R.id.commentaryEditText);
 
 				String params = null;
-				params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield=" + yieldView.getText()
-						+ "&buy=" + buyView.getText() + "&sell=" + sellView.getText() + "&taxe=" + taxeView.getText()
-						+ "&commentary=" + commentaryView.getText().toString().replaceAll(" ", "%20");
+				params = "?accountId=" + account.getId() + "&liquidity=" + liquidityView.getText() + "&yield="
+						+ yieldView.getText() + "&buy=" + buyView.getText() + "&sell=" + sellView.getText() + "&taxe="
+						+ taxeView.getText() + "&commentary=" + commentaryView.getText().toString().replaceAll(" ", "%20");
 				MainTask mainTask = new MainTask(OverallActivity.this, UrlType.UPDATEHISTORY, params);
 				mainTask.execute((Void) null);
 				alert.dismiss();

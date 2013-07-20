@@ -34,6 +34,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
 
 import fr.cph.stock.android.R;
 import fr.cph.stock.android.StockTrackerApp;
@@ -53,6 +54,9 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 
 	/** Tag **/
 	private static final String TAG = "AccountActivity";
+
+	private Tracker tracker;
+
 	/** Portfolio **/
 	private Portfolio portfolio;
 
@@ -181,7 +185,10 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			currencyId++;
 		}
 		buildUi(false);
-		EasyTracker.getInstance().setContext(this);
+		// Set context
+		EasyTracker.getInstance().setContext(getApplicationContext());
+		// Instantiate the Tracker
+		tracker = EasyTracker.getTracker();
 	}
 
 	@Override
@@ -226,6 +233,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			menuItem = item;
 			menuItem.setActionView(R.layout.progressbar);
 			menuItem.expandActionView();
+			tracker.sendEvent("Buttons Category", "Reload", "", 0L);
 			mainTask = new MainTask(this, UrlType.RELOAD, null);
 			mainTask.execute((Void) null);
 			return true;

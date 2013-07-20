@@ -21,6 +21,7 @@ import java.util.List;
 import org.json.JSONObject;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.Tracker;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -45,6 +46,8 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 
 	private static final String TAG = "EquityActivity";
 
+	private Tracker tracker;
+
 	private EquityAdapter mAdapter;
 	private List<Equity> equities;
 	private TextView lastUpdatedView;
@@ -67,7 +70,10 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 
 		lastUpdatedView = (TextView) findViewById(R.id.lastUpdated);
 		lastUpdatedView.setText(portfolio.getLastUpdate());
-		EasyTracker.getInstance().setContext(this);
+		// Set context
+		EasyTracker.getInstance().setContext(getApplicationContext());
+		// Instantiate the Tracker
+		tracker = EasyTracker.getTracker();
 	}
 
 	@Override
@@ -102,6 +108,7 @@ public class EquityActivity extends ListActivity implements IStockTrackerActivit
 			menuItem = item;
 			menuItem.setActionView(R.layout.progressbar);
 			menuItem.expandActionView();
+			tracker.sendEvent("Buttons Category", "Reload", "", 0L);
 			mainTask = new MainTask(this, UrlType.RELOAD, null);
 			mainTask.execute((Void) null);
 			return true;
