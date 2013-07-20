@@ -20,11 +20,15 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import fr.cph.stock.dao.CompanyDaoImpl;
 import fr.cph.stock.dao.EquityDaoImpl;
@@ -37,6 +41,7 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
 
+@RunWith(JUnit4.class)
 public class BusinessTest {
 
 	private User user;
@@ -79,7 +84,7 @@ public class BusinessTest {
 		CompanyDaoImpl daoCompany = new CompanyDaoImpl();
 		Portfolio port = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		Equity eq = port.getEquities().get(0);
-		Assert.assertNotNull(eq);
+		assertNotNull(eq);
 		daoEquity.delete(eq);
 		daoCompany.delete(eq.getCompany());
 	}
@@ -94,7 +99,7 @@ public class BusinessTest {
 		CompanyDaoImpl daoCompany = new CompanyDaoImpl();
 		Portfolio port = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		Equity eq = port.getEquities().get(0);
-		Assert.assertNotNull(eq);
+		assertNotNull(eq);
 		business.deleteEquity(eq);
 		daoCompany.delete(eq.getCompany());
 	}
@@ -107,35 +112,35 @@ public class BusinessTest {
 		String email = "test@test.com";
 		business.createUser(login, md5Password, email);
 		User user = business.getUser(login);
-		Assert.assertNotNull(user);
-		Assert.assertEquals(login, user.getLogin());
-		Assert.assertEquals(128, user.getPassword().length());
-		Assert.assertEquals(email, user.getEmail());
+		assertNotNull(user);
+		assertEquals(login, user.getLogin());
+		assertEquals(128, user.getPassword().length());
+		assertEquals(email, user.getEmail());
 		Portfolio portfolio = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
-		Assert.assertNotNull(portfolio);
-		Assert.assertEquals(portfolio.getCurrency(), Currency.EUR);
-		Assert.assertEquals(0, portfolio.getEquities().size());
+		assertNotNull(portfolio);
+		assertEquals(portfolio.getCurrency(), Currency.EUR);
+		assertEquals(0, portfolio.getEquities().size());
 
 		// Clean
 		business.deleteUser(login);
 		user = business.getUser(login);
-		Assert.assertNull(user);
+		assertNull(user);
 	}
 
 	@Test
-	public void testCheckUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException{
+	public void testCheckUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
 		IBusiness business = new Business();
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@test.com";
 		business.createUser(login, md5Password, email);
 		User user = business.checkUser(login, md5Password);
-		Assert.assertNotNull(user);
-		
+		assertNotNull(user);
+
 		// Clean
 		business.deleteUser(login);
 		user = business.getUser(login);
-		Assert.assertNull(user);
+		assertNull(user);
 	}
 
 }
