@@ -311,6 +311,14 @@ public class User {
 	public void setUpdateSendMail(Boolean updateSendMail) {
 		this.updateSendMail = updateSendMail;
 	}
+	
+	public String getLanguage(){
+		return this.locale.substring(0, this.locale.indexOf('_'));
+	}
+	
+	public String getCountry(){
+		return this.locale.substring(this.locale.indexOf('_') + 1, this.locale.length());
+	}
 
 	/**
 	 * Get JSONObject view of the current user

@@ -69,5 +69,9 @@ public class PieChart extends AChart {
 		titleTemp.append("];");
 		title = titleTemp.toString();
 	}
+	
+	public Map<String, Double> getEquities() {
+		return equities;
+	}
 
 }

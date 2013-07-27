@@ -39,7 +39,6 @@ $(document).ready(function() {
 		var size = node.childNodes.length;
 		if(size == 5){
 			var percent = node.childNodes[3].innerHTML;
-			console.log(parseFloat(percent.replace('%','').replace(',','.')));
 			return parseFloat(percent.replace('%','').replace(',','.'));
 	    	}else{
 			if(size == 3){

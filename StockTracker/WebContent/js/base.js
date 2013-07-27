@@ -32,6 +32,7 @@ function poufpoufpouf(id) {
 	$("#" + id).hide("fast");
 }
 function addEquity() {
+	displayWaitbar();
 	document.sendEquity.action = "add";
 	document.sendEquity.method = "post";
 	document.sendEquity.submit();
@@ -47,21 +48,25 @@ function deleteEquity() {
 	document.sendEquityDelete.submit();
 }
 function refresh() {
+	displayWaitbar();
 	document.sendRefresh.action = "updateportfolio";
 	document.sendRefresh.method = "post";
 	document.sendRefresh.submit();
 }
 function refreshList() {
+	displayWaitbar();
 	document.sendRefresh.action = "updatelist";
 	document.sendRefresh.method = "post";
 	document.sendRefresh.submit();
 }
 function refreshCurrency(){
+	displayWaitbar();
 	document.sendRefresh.action = "currencies?update=1";
 	document.sendRefresh.method = "post";
 	document.sendRefresh.submit();
 }
 function addFollow() {
+	displayWaitbar();
 	document.sendFollow.action = "addfollow";
 	document.sendFollow.method = "post";
 	document.sendFollow.submit();
@@ -159,9 +164,16 @@ function updateShare(id, commentary){
 function checkForm(formId, divId, buttonId, func) {
 	if ($('#' + formId)[0].checkValidity()) {
 		$('#' + divId).trigger('reveal:close');
-		console.log("function " + func.name);
 		setTimeout(func, 350);
 	} else {
 		$('#' + buttonId).click();
 	}
+}
+
+function displayWaitbar(){
+	var newdiv = document.createElement('div');
+	newdiv.setAttribute('id','loading');
+	var container = document.getElementById('container');
+	container.parentNode.insertBefore(newdiv, container);
+	container.style.opacity='0.1';
 }

@@ -133,5 +133,9 @@ public class TimeChart extends AChart {
 	public Date getDate() {
 		return date;
 	}
+	
+	public Map<Date, Double> getShareValue() {
+		return shareValue;
+	}
 
 }

@@ -478,3 +478,10 @@ font-size:small;
 .center{
 	text-align: center;
 }
+
+#loading {
+	background:url('image/loadingUSD.gif') no-repeat center;
+	height: 128px; width: 128px;
+	position: fixed; left: 50%; top: 40%; z-index: 1000;
+	margin: -25px 0 0 -25px;
+}
