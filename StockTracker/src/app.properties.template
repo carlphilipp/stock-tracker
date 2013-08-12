@@ -37,3 +37,6 @@ email.smtp_host_name=smtp.gmail.com
 email.smtp_port=465
 email.from=
 email.password=
+
+# Report
+report.ireport=report.jrxml

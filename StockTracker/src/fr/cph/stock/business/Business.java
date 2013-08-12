@@ -1015,7 +1015,7 @@ public class Business implements IBusiness {
 				log.warn(e.getMessage());
 				StringBuilder body = new StringBuilder();
 				body.append(e.getMessage());
-				Mail.sendMail("[Error] " + Info.NAME, body.toString(), Info.admins, null);
+				Mail.sendMail("[Error] " + Info.NAME, body.toString(), Info.ADMINS, null);
 			} catch (YahooException e) {
 				canUpdate = false;
 				log.warn("All companies update failed: " + e.getMessage());
@@ -1035,7 +1035,7 @@ public class Business implements IBusiness {
 					log.warn(e.getMessage());
 					StringBuilder body = new StringBuilder();
 					body.append(e.getMessage());
-					Mail.sendMail("[Error] " + Info.NAME, body.toString(), Info.admins, null);
+					Mail.sendMail("[Error] " + Info.NAME, body.toString(), Info.ADMINS, null);
 				} catch (YahooException e) {
 					canUpdate = false;
 					isOk = false;

@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Report" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4638fe93-d2c5-47ad-9f5d-be4c8a4276e7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="432"/>
+	<style name="Heading 1" fontSize="16" isBold="true"/>
+	<style name="Heading 4" fontSize="12" isBold="true" isItalic="true"/>
+	<style name="Default"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#73E6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#CFE6E6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Equities" uuid="606915ed-26f0-4bfb-a44d-17cfb5f97baa">
+		<parameter name="user" class="fr.cph.stock.entities.User" isForPrompting="false"/>
+		<parameter name="portfolio" class="fr.cph.stock.entities.Portfolio" isForPrompting="false"/>
+		<field name="currentName" class="java.lang.String"/>
+		<field name="quantity" class="java.lang.Double"/>
+		<field name="unitCostPrice" class="java.lang.Double"/>
+		<field name="value" class="java.lang.Double"/>
+		<field name="plusMinusValue" class="java.lang.Double"/>
+		<field name="company.currency.code" class="java.lang.String"/>
+		<field name="plusMinusUnitCostPriceValue" class="java.lang.Double"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\carl\\workspace2\\ReportTest\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="equities" class="java.util.Collection" isForPrompting="false"/>
+	<parameter name="user" class="fr.cph.stock.entities.User" isForPrompting="false"/>
+	<parameter name="sectorPie" class="java.awt.Image" isForPrompting="false"/>
+	<parameter name="capPie" class="java.awt.Image" isForPrompting="false"/>
+	<parameter name="shareValuePie" class="java.awt.Image" isForPrompting="false"/>
+	<parameter name="portfolio" class="fr.cph.stock.entities.Portfolio" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="login" class="java.lang.String">
+		<fieldDescription><![CDATA[login]]></fieldDescription>
+	</field>
+	<field name="timeZone" class="java.lang.String">
+		<fieldDescription><![CDATA[timeZone]]></fieldDescription>
+	</field>
+	<field name="updateHourTime" class="java.lang.Integer">
+		<fieldDescription><![CDATA[updateHourTime]]></fieldDescription>
+	</field>
+	<field name="locale" class="java.lang.String">
+		<fieldDescription><![CDATA[locale]]></fieldDescription>
+	</field>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[email]]></fieldDescription>
+	</field>
+	<field name="datePatternWithoutHourMin" class="java.lang.String">
+		<fieldDescription><![CDATA[datePatternWithoutHourMin]]></fieldDescription>
+	</field>
+	<field name="datePattern" class="java.lang.String">
+		<fieldDescription><![CDATA[datePattern]]></fieldDescription>
+	</field>
+	<field name="company" class="fr.cph.stock.entities.Company">
+		<fieldDescription><![CDATA[company]]></fieldDescription>
+	</field>
+	<field name="namePersonal" class="java.lang.String">
+		<fieldDescription><![CDATA[namePersonal]]></fieldDescription>
+	</field>
+	<field name="quantity" class="java.lang.Double">
+		<fieldDescription><![CDATA[quantity]]></fieldDescription>
+	</field>
+	<field name="value" class="java.lang.Double">
+		<fieldDescription><![CDATA[value]]></fieldDescription>
+	</field>
+	<field name="plusMinusValue" class="java.lang.Double">
+		<fieldDescription><![CDATA[plusMinusValue]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[company.currency.name]]></fieldDescription>
+	</field>
+	<field name="unitCostPrice" class="java.lang.Double">
+		<fieldDescription><![CDATA[unitCostPrice]]></fieldDescription>
+	</field>
+	<field name="currenShareValuesGain" class="java.lang.Double">
+		<fieldDescription><![CDATA[currenShareValuesGain]]></fieldDescription>
+	</field>
+	<field name="currenShareValuesGainPorcentage" class="java.lang.Double">
+		<fieldDescription><![CDATA[currenShareValuesGainPorcentage]]></fieldDescription>
+	</field>
+	<field name="currentShareValuesYield" class="java.lang.Double">
+		<fieldDescription><![CDATA[currentShareValuesYield]]></fieldDescription>
+	</field>
+	<field name="currentShareValuesTaxes" class="java.lang.Double">
+		<fieldDescription><![CDATA[currentShareValuesTaxes]]></fieldDescription>
+	</field>
+	<field name="currentShareValuesVolume" class="java.lang.Double">
+		<fieldDescription><![CDATA[currentShareValuesVolume]]></fieldDescription>
+	</field>
+	<field name="currentName" class="java.lang.String">
+		<fieldDescription><![CDATA[currentName]]></fieldDescription>
+	</field>
+	<title>
+		<band height="505">
+			<rectangle>
+				<reportElement uuid="92b4d5fc-3a36-45f7-8cb5-c57b217cd06d" x="-30" y="0" width="622" height="67" backcolor="#F9F9F9"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement uuid="9b598056-a1d6-42b4-8bfe-6b5082ac3bf5" style="Heading 1" x="0" y="0" width="555" height="41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="25"/>
+				</textElement>
+				<text><![CDATA[Stock Tracker Report]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="a3e02231-5223-4be6-8942-0b8e98a88231" x="0" y="193" width="555" height="300"/>
+				<imageExpression><![CDATA[$P{shareValuePie}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="39005668-5943-4823-a87c-53d1ba9d154d" x="196" y="79" width="93" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Gain: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f902c566-3433-404d-a1dd-a3ba7b29ccde" x="196" y="119" width="93" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Yield: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="41d7f06a-7458-46cb-a90f-85a41d16be6e" x="196" y="99" width="93" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Performance: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="60d1a45f-ec61-4d09-a000-24534ccb5fc9" x="196" y="139" width="93" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Taxes: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c53a397d-2216-4c35-a184-9d2c45fddc79" x="196" y="159" width="93" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Volume: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="6b9b9b62-e74f-4570-8999-7f6a13c99b90" x="289" y="79" width="93" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(NumberFormat.getCurrencyInstance(new Locale($P{user}.getLanguage(),$P{user}.getCountry()))).format(Double.parseDouble((new DecimalFormat("#")).format($P{portfolio}.getCurrenShareValuesGain())))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="cc5e50e2-19cd-4a9b-95f3-550c3d0d189c" x="289" y="159" width="93" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(NumberFormat.getCurrencyInstance(new Locale($P{user}.getLanguage(),$P{user}.getCountry()))).format(Double.parseDouble((new DecimalFormat("#")).format($P{portfolio}.getCurrentShareValuesVolume())))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="c9349cff-7cf7-445e-badc-ae2fda522e3c" x="289" y="139" width="93" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(NumberFormat.getCurrencyInstance(new Locale($P{user}.getLanguage(),$P{user}.getCountry()))).format(Double.parseDouble((new DecimalFormat("#")).format($P{portfolio}.getCurrentShareValuesTaxes())))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7a3d0148-765b-4e6d-a3bf-bc4794c65d81" x="289" y="119" width="93" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(NumberFormat.getCurrencyInstance(new Locale($P{user}.getLanguage(),$P{user}.getCountry()))).format(Double.parseDouble((new DecimalFormat("#")).format($P{portfolio}.getCurrentShareValuesYield())))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="d17251c2-89b9-4ec0-a667-50a042703c46" x="289" y="99" width="93" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[(NumberFormat.getPercentInstance(new Locale($P{user}.getLanguage(),$P{user}.getCountry()))).format(Double.parseDouble((new DecimalFormat("#")).format($P{portfolio}.getCurrenShareValuesGainPorcentage()))/100.0)]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="6559237a-2e4e-43cc-ab9c-b33444fe80d7" x="0" y="41" width="555" height="26"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date: " + (new SimpleDateFormat($P{user}.getDatePatternWithoutHourMin())).format($P{portfolio}.getShareValues().get($P{portfolio}.getShareValues().size()-1).getDate()) + " to " + (new SimpleDateFormat($P{user}.getDatePatternWithoutHourMin())).format($P{portfolio}.getShareValues().get(0).getDate())]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="51" splitType="Stretch">
+			<componentElement>
+				<reportElement uuid="38a8c4a8-1b29-4d3b-83d1-639e688bd117" key="table 3" style="table 3" x="0" y="0" width="555" height="50"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Equities" uuid="1eb262fd-e08e-486d-9de8-7b864cca4e9f">
+						<datasetParameter name="user">
+							<datasetParameterExpression><![CDATA[$P{user}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="portfolio">
+							<datasetParameterExpression><![CDATA[$P{portfolio}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($P{equities})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="151" uuid="f0de8b9e-8867-490c-85e2-b9dd39a73a8f">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="6a5540ab-dff7-4196-9f20-d5b018dba45a" x="10" y="0" width="141" height="30"/>
+								<textElement verticalAlignment="Middle"/>
+								<text><![CDATA[Company]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="64e3c61a-5d44-499b-86a9-61f77b6c09ee" x="10" y="0" width="141" height="20"/>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$F{currentName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="88" uuid="7c537860-38b8-43ea-9e08-3175f48c4d7b">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="c8e713a4-c3dc-4d88-972c-ae91a5a7e6d6" x="0" y="0" width="88" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Quantity]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="fd5e12d8-22a3-401b-b96d-e2c5a9bfd43b" x="0" y="0" width="88" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[(new DecimalFormat("0")).format($F{quantity})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="115" uuid="fca3595c-6457-4b8d-95f6-6d698f452d2b">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<staticText>
+								<reportElement uuid="dc5baf16-5ce6-4466-b792-3339f4262170" x="0" y="0" width="115" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Unit Cost Price]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="d22982bb-eac1-4403-848a-0afc946fbee8" x="0" y="0" width="115" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[(new DecimalFormat("#.00")).format($F{unitCostPrice}) + " (" + $F{company.currency.code} + ")"]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="63c00d05-c679-4fca-8a9e-a1e2bb6de83d">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement uuid="d75b2f71-93ce-4fde-bf37-21c44d61a6b9" x="0" y="0" width="100" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA["Gain (" + $P{portfolio}.getCurrency().getCode() + ")"]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="26f5d25f-fcbc-4e0e-b60e-1d7142e8b36c" x="0" y="0" width="100" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[(new DecimalFormat("#")).format($F{plusMinusUnitCostPriceValue})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="100" uuid="2a6b5837-2134-4885-be0a-23d5ec9907a0">
+						<jr:columnHeader style="table 3_CH" height="30" rowSpan="1">
+							<textField>
+								<reportElement uuid="39e1614e-4e0a-428d-89aa-1eccb016e79c" x="0" y="0" width="100" height="30"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA["Value (" + $P{portfolio}.getCurrency().getCode() + ")"]]></textFieldExpression>
+							</textField>
+						</jr:columnHeader>
+						<jr:detailCell style="table 3_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement uuid="2126b485-1d03-47ca-8775-f8c58ae07bb4" x="0" y="0" width="100" height="20"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[(new DecimalFormat("#")).format($F{value})]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="50">
+			<rectangle>
+				<reportElement uuid="077fd570-10aa-40b4-b550-40184e5c7e55" x="-49" y="0" width="629" height="50" backcolor="#F9F9F9"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement uuid="3246c515-194a-4595-a71b-8aca4e78e01b" x="431" y="18" width="113" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="622df186-d968-482a-a85d-b344e29a5370" x="544" y="18" width="36" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="e6e1337a-7785-4d67-86f1-8896d71d5880" x="0" y="18" width="160" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="223">
+			<image>
+				<reportElement uuid="a7859854-77aa-4343-9f0a-611ee0f02432" x="21" y="0" width="222" height="222"/>
+				<imageExpression><![CDATA[$P{sectorPie}]]></imageExpression>
+			</image>
+			<image>
+				<reportElement uuid="94eb5a23-12a3-4c22-a878-03c27a73c9e3" x="289" y="1" width="222" height="222"/>
+				<imageExpression><![CDATA[$P{capPie}]]></imageExpression>
+			</image>
+		</band>
+	</summary>
+</jasperReport>

@@ -138,4 +138,7 @@ public class TimeChart extends AChart {
 		return shareValue;
 	}
 
+	public Map<String, List<Index>> getIndexes() {
+		return indexes;
+	}
 }

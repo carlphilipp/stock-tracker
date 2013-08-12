@@ -34,7 +34,8 @@ public class Info {
 		FOLDER = prop.getProperty("folder");
 		YAHOOID_CAC40 = prop.getProperty("yahoocac40");
 		YAHOOID_SP500 = prop.getProperty("yahoosp500");
-		admins = prop.getProperty("admins").split(";");
+		ADMINS = prop.getProperty("admins").split(";");
+		REPORT = prop.getProperty("report.ireport");
 	}
 
 	/** Name of the webapp **/
@@ -47,7 +48,9 @@ public class Info {
 	public static String YAHOOID_CAC40;
 	/** Yahoo id of s&p500 **/
 	public static String YAHOOID_SP500;
-
-	public static String[] admins;
+	/** Admins **/
+	public static String[] ADMINS;
+	/** Jrxml repport **/
+	public static String REPORT;
 
 }

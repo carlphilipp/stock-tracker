@@ -16,7 +16,10 @@
 
 package fr.cph.stock.web.servlet.performance;
 
+import java.awt.Image;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -29,6 +32,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+
 import org.apache.log4j.Logger;
 
 import fr.cph.stock.business.Business;
@@ -36,9 +42,12 @@ import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.entities.chart.PieChart;
+import fr.cph.stock.entities.chart.TimeChart;
 import fr.cph.stock.exception.LanguageException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
+import fr.cph.stock.report.PdfReport;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Util;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -83,15 +92,17 @@ public class PerformanceServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute("user");
-		Portfolio portfolio;
+		Portfolio portfolio = null;
 		try {
+			String createPdf = request.getParameter("pdf");
 			try {
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 				String fromString = request.getParameter("from");
 				String toString = request.getParameter("to");
+				
 				Date fromDate = null;
 				Date toDate = null;
 				if (fromString != null) {
@@ -114,6 +125,7 @@ public class PerformanceServlet extends HttpServlet {
 					List<Index> indexes2 = business.getIndexes(Info.YAHOOID_SP500, from, toDate);
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
+					portfolio.compute();
 
 					Date _from = from;
 					if (indexes.size() > 0) {
@@ -150,10 +162,33 @@ public class PerformanceServlet extends HttpServlet {
 			} catch (YahooException e) {
 				log.error("Error: " + e.getMessage(), e);
 			}
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute("language", language.getLanguage(lang));
-			request.setAttribute("appTitle", Info.NAME + " &bull;   Performance");
-			request.getRequestDispatcher("jsp/performance.jsp").forward(request, response);
+			if (createPdf != null && createPdf.equals("pdf")) {
+				Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");
+				Image capChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartCap(), "Cap Chart");
+				Image timeChart = PdfReport.createTimeChart((TimeChart) portfolio.getTimeChart(), "Share value");
+				PdfReport pdf = new PdfReport(Info.REPORT);
+				pdf.addParam("portfolio", portfolio);
+				pdf.addParam("equities", portfolio.getEquities());
+				pdf.addParam("user", user);
+				pdf.addParam("sectorPie", sectorChart);
+				pdf.addParam("capPie", capChart);
+				pdf.addParam("shareValuePie", timeChart);
+				response.setContentType("application/pdf");
+				DateFormat df = new SimpleDateFormat("dd-MM-yy");
+				String formattedDate = df.format(new Date()); 
+				response.addHeader("Content-Disposition", "attachment; filename=" + user.getLogin() + formattedDate + ".pdf");
+				OutputStream responseOutputStream = response.getOutputStream();
+				try {
+					JasperExportManager.exportReportToPdfStream(pdf.getReport(), responseOutputStream);
+				} catch (JRException e) {
+					throw new ServletException("Error: " + e.getMessage(), e);
+				}
+			} else {
+				String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+				request.setAttribute("language", language.getLanguage(lang));
+				request.setAttribute("appTitle", Info.NAME + " &bull;   Performance");
+				request.getRequestDispatcher("jsp/performance.jsp").forward(request, response);
+			}
 		} catch (Throwable t) {
 			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);

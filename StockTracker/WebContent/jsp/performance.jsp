@@ -76,6 +76,10 @@
 							From <input type="text" id="from" name="from" style="width:70px;"/> to <input type="text" id="to" name="to" style="width:70px;"/><input type="submit" value="modify">
 						</form>
 					</div>
+					<form id="pdf" method="post" action="">
+						<input type="hidden" name="pdf" value="pdf">
+						<a href="javascript:document.getElementById('pdf').submit();">Generate pdf</a>
+					</form>
 				</div>
 				<table id="tableEquityTotal" border="1" class="shadow">
 					<tr>
