@@ -1,17 +1,36 @@
 package fr.cph.stock.exception;
 
+/**
+ * Yahoo unknown exception
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class YahooUnknownTickerException extends YahooException {
 
+	/** **/
 	private static final long serialVersionUID = 149761237308430399L;
 
 	/** Error message **/
-	public static String TOCKEN_UNKNOWN = " yahooID is unknown.";
+	public static final String TOCKEN_UNKNOWN = " yahooID is unknown.";
 
-	public YahooUnknownTickerException(String message) {
+	/**
+	 * 
+	 * @param message
+	 *            the message
+	 */
+	public YahooUnknownTickerException(final String message) {
 		super(message);
 	}
 
-	public YahooUnknownTickerException(String message, Exception e) {
+	/**
+	 * 
+	 * @param message
+	 *            the message
+	 * @param e
+	 *            the exception
+	 */
+	public YahooUnknownTickerException(final String message, final Exception e) {
 		super(message, e);
 	}
 

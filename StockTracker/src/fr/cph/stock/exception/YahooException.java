@@ -16,14 +16,20 @@
 
 package fr.cph.stock.exception;
 
+/**
+ * Business class that access database and process data
+ * 
+ * @author Carl-Philipp Harmant
+ * @version 1
+ */
 public class YahooException extends Exception {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1870609472239446880L;
 	/** Error message **/
-	public static String ERROR = "Yahoo result null. Table is probably locked.";
+	public static final String ERROR = "Yahoo result null. Table is probably locked.";
 	/** Error message **/
-	public static String CONNECT_ERROR = "Can't connect to yahoo website";
+	public static final String CONNECT_ERROR = "Can't connect to yahoo website";
 	/** Error message **/
 	public static final String ENCODE_ERROR = "Url encoding did not work";
 
@@ -33,7 +39,7 @@ public class YahooException extends Exception {
 	 * @param message
 	 *            the error message
 	 */
-	public YahooException(String message) {
+	public YahooException(final String message) {
 		super(message);
 	}
 
@@ -45,8 +51,7 @@ public class YahooException extends Exception {
 	 * @param e
 	 *            the exception
 	 */
-	public YahooException(String message, Exception e) {
+	public YahooException(final String message, final Exception e) {
 		super(message, e);
 	}
-
 }

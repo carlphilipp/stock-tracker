@@ -16,7 +16,6 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import javax.servlet.ServletException;
@@ -48,44 +47,34 @@ import fr.cph.stock.web.servlet.CookieManagement;
 public class AddEquityServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4917456731220463031L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(AddEquityServlet.class);
+	private static final Logger LOG = Logger.getLogger(AddEquityServlet.class);
 	/** Business **/
 	private IBusiness business;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
 	@Override
-	public void init() {
+	public final void init() {
 		business = new Business();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			LanguageFactory language = LanguageFactory.getInstance();
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("user");
 			String ticker = request.getParameter("ticker").toUpperCase();
-			String _unitCostPrice = request.getParameter("unitCostPrice");
-			String _quantity = request.getParameter("quantity");
-			String _parityPersonal = request.getParameter("parityPersonal");
+			String unitCostP = request.getParameter("unitCostPrice");
+			String quant = request.getParameter("quantity");
+			String parityPerso = request.getParameter("parityPersonal");
 
-			Double quantity = NumberUtils.createDouble(_quantity);
-			Double unitCostPrice = NumberUtils.createDouble(_unitCostPrice);
+			Double quantity = NumberUtils.createDouble(quant);
+			Double unitCostPrice = NumberUtils.createDouble(unitCostP);
 			Double parityPersonal = null;
-			if (!_parityPersonal.equals("")) {
-				parityPersonal = NumberUtils.createDouble(_parityPersonal);
+			if (!parityPerso.equals("")) {
+				parityPersonal = NumberUtils.createDouble(parityPerso);
 			}
 
 			Equity equity = new Equity();
@@ -100,18 +89,13 @@ public class AddEquityServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher("home").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

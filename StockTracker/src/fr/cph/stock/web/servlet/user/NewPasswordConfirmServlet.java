@@ -16,8 +16,6 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,27 +41,28 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 	/** Serialization **/
 	private static final long serialVersionUID = 1L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(NewPasswordConfirmServlet.class);
+	private static final Logger LOG = Logger.getLogger(NewPasswordConfirmServlet.class);
 	/** Business **/
 	private IBusiness business;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
+	/** Init **/
 	@Override
-	public void init() {
+	public final void init() {
 		business = new Business();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Get method
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the answer
+	 * @throws ServletException
+	 *             the exception
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			String login = request.getParameter("login");
 			String password = request.getParameter("password");
@@ -76,18 +75,23 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 			request.setAttribute("ok", "Password changed!");
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Post method
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the answer
+	 * @throws ServletException
+	 *             the servlet exception
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

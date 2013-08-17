@@ -43,9 +43,11 @@ public class XMLRetriever {
 	 * @param path
 	 *            the path of the xml file
 	 * @throws IOException
+	 *             the io exception
 	 * @throws DocumentException
+	 *             the document exception
 	 */
-	public XMLRetriever(String path) throws IOException, DocumentException {
+	public XMLRetriever(final String path) throws IOException, DocumentException {
 		InputStream inputStream = Resources.getResourceAsStream(path);
 		document = parse(inputStream);
 	}
@@ -57,19 +59,21 @@ public class XMLRetriever {
 	 *            the stream
 	 * @return a Document
 	 * @throws DocumentException
+	 *             the document exception
 	 */
-	protected Document parse(InputStream inputStream) throws DocumentException {
+	protected final Document parse(final InputStream inputStream) throws DocumentException {
 		SAXReader reader = new SAXReader();
-		Document document = reader.read(inputStream);
-		return document;
+		Document doc = reader.read(inputStream);
+		return doc;
 	}
 
 	/**
 	 * 
 	 * @param node
-	 * @return
+	 *            the node
+	 * @return a node
 	 */
-	public Node getNode(String node) {
+	public final Node getNode(final String node) {
 		return document.selectSingleNode(node);
 	}
 
@@ -80,7 +84,7 @@ public class XMLRetriever {
 	 *            the node
 	 * @return a list of node
 	 */
-	public List<? extends Node> getListNode(String node) {
+	public final List<? extends Node> getListNode(final String node) {
 		return document.selectNodes(node);
 	}
 }

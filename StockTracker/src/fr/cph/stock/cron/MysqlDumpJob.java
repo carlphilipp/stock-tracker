@@ -38,10 +38,11 @@ import fr.cph.stock.util.Util;
  */
 public class MysqlDumpJob implements Job {
 
-	private static final Logger log = Logger.getLogger(MysqlDumpJob.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(MysqlDumpJob.class);
 
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		File tarGzFile = null;
 		File sqlFile = null;
 		try {
@@ -60,27 +61,24 @@ public class MysqlDumpJob implements Job {
 			dropBox.uploadFile(tarGzFile);
 
 		} catch (FileNotFoundException fe) {
-			log.error("Error while executing MysqlDumpJob: " + fe.getMessage(), fe);
+			LOG.error("Error while executing MysqlDumpJob: " + fe.getMessage(), fe);
 		} catch (DropboxException | IOException e) {
-			log.error("Error while executing MysqlDumpJob: " + e.getMessage(), e);
+			LOG.error("Error while executing MysqlDumpJob: " + e.getMessage(), e);
 		} catch (Throwable t) {
-			log.error("Error while executing MysqlDumpJob: " + t.getMessage(), t);
+			LOG.error("Error while executing MysqlDumpJob: " + t.getMessage(), t);
 		} finally {
-			if(tarGzFile != null){
-				if(tarGzFile.exists()){
-					tarGzFile.delete();
+			if (tarGzFile != null && tarGzFile.exists()) {
+				boolean del = tarGzFile.delete();
+				if (!del) {
+					LOG.error("Error while deleting the tar file: " + tarGzFile.getAbsolutePath());
 				}
 			}
-			if(sqlFile != null){
-				if(sqlFile.exists()){
-					sqlFile.delete();
+			if (sqlFile != null && sqlFile.exists()) {
+				boolean del = sqlFile.delete();
+				if (!del) {
+					LOG.error("Error while deleting the tar file: " + sqlFile.getAbsolutePath());
 				}
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		MysqlDumpJob mysql = new MysqlDumpJob();
-		mysql.execute(null);
 	}
 }

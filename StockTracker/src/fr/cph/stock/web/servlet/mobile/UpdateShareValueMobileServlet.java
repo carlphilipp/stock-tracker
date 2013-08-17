@@ -42,29 +42,23 @@ import fr.cph.stock.entities.User;
  */
 @WebServlet(name = "UpdateShareValueMobileServlet", urlPatterns = { "/updatesharevaluemobile" })
 public class UpdateShareValueMobileServlet extends HttpServlet {
-	
+
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2877166802472612746L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(ReloadPortfolioMobileServlet.class);
+	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
 	/** Business **/
 	private IBusiness business;
-	/** Precision**/
+	/** Precision **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.GenericServlet#init()
-	 */
 	@Override
-	public void init() {
+	public final void init() {
 		business = new Business();
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
 			User user = (User) session.getAttribute("user");
@@ -85,29 +79,31 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 					}
 				}
 
+				if (account == null) {
+					response.getWriter().write("{\"error\":\"Account not found\"}");
+				} else {
+					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
+					newLiquidity = new BigDecimal(newLiquidity, mathContext).doubleValue();
+					business.updateLiquidity(account, newLiquidity);
+					portfolio = business.getUserPortfolio(user.getId(), null, null);
+					business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
+					response.sendRedirect("homemobile");
+				}
+
 				// business.updateOneCurrency(portfolio.getCurrency());
-				//business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
-				
-				double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
-				newLiquidity = (new BigDecimal(newLiquidity, mathContext)).doubleValue();
-				business.updateLiquidity(account, newLiquidity);
-				portfolio = business.getUserPortfolio(user.getId(), null, null);
-				business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
-				response.sendRedirect("homemobile");
+				// business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
+
 			} catch (NumberFormatException e) {
 				response.getWriter().write("{\"error\":" + e.getMessage() + "\"}");
 			}
 		} catch (Throwable t) {
-			log.error("Error: " + t.getMessage(), t);
+			LOG.error("Error: " + t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

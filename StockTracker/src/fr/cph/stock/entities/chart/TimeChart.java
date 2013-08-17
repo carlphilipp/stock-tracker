@@ -51,10 +51,10 @@ public class TimeChart extends AChart {
 	 * @param date
 	 *            the starting date
 	 */
-	public TimeChart(Map<Date, Double> shareValue, Map<String, List<Index>> indexes, Date date) {
+	public TimeChart(final Map<Date, Double> shareValue, final Map<String, List<Index>> indexes, final Date date) {
 		this.shareValue = shareValue;
 		this.indexes = indexes;
-		this.date = date;
+		this.date = (Date) date.clone();
 	}
 
 	/*
@@ -63,7 +63,7 @@ public class TimeChart extends AChart {
 	 * @see fr.cph.stock.entities.chart.IChart#generate()
 	 */
 	@Override
-	public void generate() {
+	public final void generate() {
 		StringBuilder dataTemp = new StringBuilder();
 		StringBuilder drawTemp = new StringBuilder();
 		dataTemp.append("d1 = [");
@@ -102,8 +102,8 @@ public class TimeChart extends AChart {
 			j++;
 		}
 		drawTemp.append("]");
-		data = dataTemp.toString();
-		draw = drawTemp.toString();
+		setData(dataTemp.toString());
+		setDraw(drawTemp.toString());
 		generateColors();
 	}
 
@@ -127,18 +127,37 @@ public class TimeChart extends AChart {
 				sb.append(",");
 			}
 		}
-		colors = sb.toString();
+		setColors(sb.toString());
 	}
 
-	public Date getDate() {
-		return date;
+	/**
+	 * Getter
+	 * 
+	 * @return the date
+	 */
+	public final Date getDate() {
+		if (date != null) {
+			return (Date) date.clone();
+		} else {
+			return null;
+		}
 	}
-	
-	public Map<Date, Double> getShareValue() {
+
+	/**
+	 * Getter
+	 * 
+	 * @return the share values
+	 */
+	public final Map<Date, Double> getShareValue() {
 		return shareValue;
 	}
 
-	public Map<String, List<Index>> getIndexes() {
+	/**
+	 * Getter
+	 * 
+	 * @return the map of indexes
+	 */
+	public final Map<String, List<Index>> getIndexes() {
 		return indexes;
 	}
 }

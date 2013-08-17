@@ -36,8 +36,9 @@ import fr.cph.stock.web.servlet.CookieManagement;
 
 /**
  * This servlet is called when the user want to login
+ * 
  * @author Carl-Philipp Harmant
- *
+ * 
  */
 @WebServlet(name = "AuthServlet", urlPatterns = { "/auth" })
 public class AuthServlet extends HttpServlet {
@@ -45,21 +46,16 @@ public class AuthServlet extends HttpServlet {
 	/** Serialization **/
 	private static final long serialVersionUID = 1L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(AuthServlet.class);
+	private static final Logger LOG = Logger.getLogger(AuthServlet.class);
 	/** Business **/
 	private IBusiness business;
-	/** Cookie  validity **/
-	private final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
+	/** Cookie validity **/
+	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 	/** Cookie list **/
 	private List<String> lcookies;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
-	@Override	
-	public void init() {
+	@Override
+	public final void init() {
 		business = new Business();
 		lcookies = new ArrayList<String>();
 		lcookies.add("quote");
@@ -72,13 +68,8 @@ public class AuthServlet extends HttpServlet {
 		lcookies.add("autoUpdate");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			request.getSession().invalidate();
 			String login = request.getParameter("login");
@@ -120,7 +111,7 @@ public class AuthServlet extends HttpServlet {
 				}
 			}
 		} catch (Throwable t) {
-			log.error("Error: " + t.getMessage(), t);
+			LOG.error("Error: " + t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

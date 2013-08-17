@@ -16,7 +16,6 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
@@ -46,9 +45,9 @@ import fr.cph.stock.entities.User;
 public class DeleteShareValueServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6742409927502374595L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(DeleteShareValueServlet.class);
+	private static final Logger LOG = Logger.getLogger(DeleteShareValueServlet.class);
 	/** Business **/
 	private IBusiness business;
 	/** Precision **/
@@ -60,7 +59,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	@Override
-	public void init() throws ServletException {
+	public final void init() throws ServletException {
 		business = new Business();
 	}
 
@@ -70,22 +69,22 @@ public class DeleteShareValueServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
 			StringBuilder message = new StringBuilder();
 			User user = (User) session.getAttribute("user");
-			String _shareId = request.getParameter("shareId");
-			int shareId = Integer.parseInt(_shareId);
+			String shareIdd = request.getParameter("shareId");
+			int shareId = Integer.parseInt(shareIdd);
 			Double liquidityMovement = Double.parseDouble(request.getParameter("liquidityMovement"));
 			Double yield = Double.parseDouble(request.getParameter("yield"));
 			Double buy = Double.parseDouble(request.getParameter("buy"));
 			Double sell = Double.parseDouble(request.getParameter("sell"));
 			Double taxe = Double.parseDouble(request.getParameter("taxe"));
-			String _account = request.getParameter("account");
+			String acc = request.getParameter("account");
 
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
-			Account account = portfolio.getAccount(_account);
+			Account account = portfolio.getAccount(acc);
 			ShareValue shareValue = new ShareValue();
 			shareValue.setId(shareId);
 			if (account == null) {
@@ -94,10 +93,10 @@ public class DeleteShareValueServlet extends HttpServlet {
 				request.setAttribute("warn", message);
 			} else {
 				Double total = liquidityMovement + yield - buy + sell - taxe;
-				total = (new BigDecimal(total, mathContext)).doubleValue();
+				total = new BigDecimal(total, mathContext).doubleValue();
 				if (total != 0.0) {
 					double newLiquidity = account.getLiquidity() - total;
-					business.updateLiquidity(account, (new BigDecimal(newLiquidity, mathContext)).doubleValue());
+					business.updateLiquidity(account, new BigDecimal(newLiquidity, mathContext).doubleValue());
 					message.append("Liquidity new value: " + (new BigDecimal(newLiquidity, mathContext)).doubleValue() + "<br>");
 				}
 				business.deleteShareValue(shareValue);
@@ -107,7 +106,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
@@ -118,7 +117,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 }

@@ -49,19 +49,14 @@ public class TimeValueChart extends AChart {
 	 * @param date
 	 *            the starting date
 	 */
-	public TimeValueChart(Map<Date, Double> portfolioValue, Map<Date, Double> liquidity, Date date) {
+	public TimeValueChart(final Map<Date, Double> portfolioValue, final Map<Date, Double> liquidity, final Date date) {
 		this.portfolioValue = portfolioValue;
 		this.liquidity = liquidity;
-		this.date = date;
+		this.date = (Date) date.clone();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.entities.chart.IChart#generate()
-	 */
 	@Override
-	public void generate() {
+	public final void generate() {
 		StringBuilder dataTemp = new StringBuilder();
 		StringBuilder drawTemp = new StringBuilder();
 		dataTemp.append("d1 = [");
@@ -89,8 +84,8 @@ public class TimeValueChart extends AChart {
 		drawTemp.append(",");
 		drawTemp.append("{data: d2, label: 'My liquidities'}");
 		drawTemp.append("]");
-		data = dataTemp.toString();
-		draw = drawTemp.toString();
+		setData(dataTemp.toString());
+		setDraw(drawTemp.toString());
 		generateColors();
 	}
 
@@ -114,11 +109,20 @@ public class TimeValueChart extends AChart {
 				sb.append(",");
 			}
 		}
-		colors = sb.toString();
+		setColors(sb.toString());
 	}
 
-	public Date getDate() {
-		return date;
+	/**
+	 * Get date
+	 * 
+	 * @return a date
+	 */
+	public final Date getDate() {
+		if (date != null) {
+			return (Date) date.clone();
+		} else {
+			return null;
+		}
 	}
 
 }

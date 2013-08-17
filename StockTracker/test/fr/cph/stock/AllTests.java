@@ -30,7 +30,8 @@ import fr.cph.stock.entities.UserTest;
 import fr.cph.stock.external.YahooTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ CompanyDaoImplTest.class, UserDaoImplTest.class, PortfolioDaoImplTest.class, EquityDaoImplTest.class, CompanyTest.class, UserTest.class , YahooTest.class, BusinessTest.class})
+@SuiteClasses({ CompanyDaoImplTest.class, UserDaoImplTest.class, PortfolioDaoImplTest.class, EquityDaoImplTest.class,
+		CompanyTest.class, UserTest.class, YahooTest.class, BusinessTest.class })
 public class AllTests {
 
 }

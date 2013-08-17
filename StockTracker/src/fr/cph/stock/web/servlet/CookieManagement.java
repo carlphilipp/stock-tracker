@@ -26,7 +26,13 @@ import javax.servlet.http.Cookie;
  * @author Carl-Philipp Harmant
  * 
  */
-public class CookieManagement {
+public final class CookieManagement {
+
+	/**
+	 * Constructor
+	 */
+	private CookieManagement() {
+	}
 
 	/**
 	 * Get the name of the language stored in cookies
@@ -35,7 +41,7 @@ public class CookieManagement {
 	 *            a list of cookie
 	 * @return the name of the language
 	 */
-	public static String getCookieLanguage(List<Cookie> cookies) {
+	public static String getCookieLanguage(final List<Cookie> cookies) {
 		String language = null;
 		for (Cookie cookie : cookies) {
 			if (cookie.getName().equals("language")) {
@@ -58,7 +64,7 @@ public class CookieManagement {
 	 *            a cookie name
 	 * @return true or false
 	 */
-	public static boolean containsCookie(List<Cookie> cookies, String cookieName) {
+	public static boolean containsCookie(final List<Cookie> cookies, final String cookieName) {
 		boolean res = false;
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {

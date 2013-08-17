@@ -45,36 +45,50 @@ public class Language {
 	private Map<String, String> map;
 	/** The file system **/
 	private static FileSystem system = FileSystems.getDefault();
-
 	/** Definitions of the XML document **/
 	private static final String BASE = "/root";
+	/** **/
 	private static final String CONSTANT = "/constant";
+	/** **/
 	private static final String MENU = "/menu/title";
+	/** **/
 	private static final String PORTFOLIO = "/portfolio";
+	/** **/
 	private static final String PORTFOLIO_HIDDEN = "/portfolio_hidden";
+	/** **/
 	private static final String HISTORY = "/history";
+	/** **/
 	private static final String HISTORY_HIDDEN = "/history_hidden";
+	/** **/
 	private static final String ACCOUNTS = "/accounts";
+	/** **/
 	private static final String ACCOUNTS_HIDDEN = "/accounts_hidden";
+	/** **/
 	private static final String LIST = "/list";
+	/** **/
 	private static final String LIST_HIDDEN = "/list_hidden";
+	/** **/
 	private static final String CHARTS = "/charts";
+	/** **/
 	private static final String CURRENCIES = "/currencies";
+	/** **/
 	private static final String CURRENCIES_HIDDEN = "/currencies_hidden";
+	/** **/
 	private static final String OPTIONS = "/options";
+	/** **/
 	private static final String OPTIONS_HIDDEN = "/options_hidden";
 
 	/**
 	 * Constructor
 	 * 
-	 * @param path
+	 * @param p
 	 *            the path of the xml file
-	 * @throws LanguageException
+	 * @throws LanguageException the language exception
 	 */
-	protected Language(String path) throws LanguageException {
-		this.path = path;
+	protected Language(final String p) throws LanguageException {
+		this.path = p;
 		try {
-			xml = new XMLRetriever(path);
+			xml = new XMLRetriever(p);
 		} catch (IOException | DocumentException e) {
 			throw new LanguageException(e.getMessage(), e);
 		}
@@ -86,7 +100,7 @@ public class Language {
 	 * 
 	 * @return the language name
 	 */
-	public String getLanguageName() {
+	public final String getLanguageName() {
 		return path.substring(path.indexOf(system.getSeparator() + "xml" + system.getSeparator()) + 5, path.indexOf(".xml"));
 	}
 
@@ -95,7 +109,7 @@ public class Language {
 	 * 
 	 * @return a map
 	 */
-	public Map<String, String> getLanguage() {
+	public final Map<String, String> getLanguage() {
 		Node menuNode = xml.getNode(BASE + MENU);
 		@SuppressWarnings("unchecked")
 		List<Node> menuNodes = (List<Node>) xml.getListNode(BASE + MENU);
@@ -338,15 +352,15 @@ public class Language {
 	/**
 	 * Add the informations to the result map
 	 * 
-	 * @param map
+	 * @param m
 	 *            the result map
 	 * @param base
 	 *            the node base
 	 * @param node
 	 *            the node
 	 */
-	protected void addToMap(Map<String, String> map, Node base, Node node) {
-		map.put(base.getName().toUpperCase() + "_" + node.getName().toUpperCase(), node.getStringValue());
+	protected final void addToMap(final Map<String, String> m, final Node base, final Node node) {
+		m.put(base.getName().toUpperCase() + "_" + node.getName().toUpperCase(), node.getStringValue());
 	}
 
 }

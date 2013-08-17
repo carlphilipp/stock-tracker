@@ -16,7 +16,6 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import javax.servlet.ServletException;
@@ -38,7 +37,6 @@ import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
 
-
 /**
  * This servlet is called when the user want to access to the history page
  * 
@@ -51,37 +49,27 @@ public class ShareValueServlet extends HttpServlet {
 	/** Serialization **/
 	private static final long serialVersionUID = 1L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(ShareValueServlet.class);
+	private static final Logger LOG = Logger.getLogger(ShareValueServlet.class);
 	/** Business **/
 	private IBusiness business;
 	/** Language **/
 	private LanguageFactory language;
 	/** Item max **/
-	private final int ITEM_MAX = 20;
+	private static final int ITEM_MAX = 20;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
 	@Override
-	public void init() throws ServletException {
+	public final void init() throws ServletException {
 		business = new Business();
 		try {
 			language = LanguageFactory.getInstance();
 		} catch (LanguageException e) {
-			log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			throw new ServletException("Error: " + e.getMessage(), e);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
 			User user = (User) session.getAttribute("user");
@@ -107,7 +95,7 @@ public class ShareValueServlet extends HttpServlet {
 				}
 				request.setAttribute("portfolio", portfolio);
 			} catch (YahooException e) {
-				log.error(e.getMessage(), e);
+				LOG.error(e.getMessage(), e);
 				throw new ServletException("Error: " + e.getMessage(), e);
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
@@ -115,19 +103,13 @@ public class ShareValueServlet extends HttpServlet {
 			request.setAttribute("appTitle", Info.NAME + " &bull; History");
 			request.getRequestDispatcher("jsp/sharevalue.jsp").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

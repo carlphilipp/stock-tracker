@@ -42,7 +42,7 @@ public class Index {
 	 * 
 	 * @return the id
 	 */
-	public int getId() {
+	public final int getId() {
 		return id;
 	}
 
@@ -52,7 +52,7 @@ public class Index {
 	 * @param id
 	 *            the id
 	 */
-	public void setId(int id) {
+	public final void setId(final int id) {
 		this.id = id;
 	}
 
@@ -61,7 +61,7 @@ public class Index {
 	 * 
 	 * @return the yahoo id
 	 */
-	public String getYahooId() {
+	public final String getYahooId() {
 		return yahooId;
 	}
 
@@ -71,7 +71,7 @@ public class Index {
 	 * @param yahooId
 	 *            the yahoo id
 	 */
-	public void setYahooId(String yahooId) {
+	public final void setYahooId(final String yahooId) {
 		this.yahooId = yahooId;
 	}
 
@@ -80,7 +80,7 @@ public class Index {
 	 * 
 	 * @return the value
 	 */
-	public Double getValue() {
+	public final Double getValue() {
 		return value;
 	}
 
@@ -90,7 +90,7 @@ public class Index {
 	 * @param value
 	 *            the value
 	 */
-	public void setValue(Double value) {
+	public final void setValue(final Double value) {
 		this.value = value;
 	}
 
@@ -99,8 +99,12 @@ public class Index {
 	 * 
 	 * @return the date
 	 */
-	public Date getDate() {
-		return date;
+	public final Date getDate() {
+		if (date != null) {
+			return (Date) date.clone();
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -109,8 +113,8 @@ public class Index {
 	 * @param date
 	 *            the date
 	 */
-	public void setDate(Date date) {
-		this.date = date;
+	public final void setDate(final Date date) {
+		this.date = (Date) date.clone();
 	}
 
 	/**
@@ -118,7 +122,7 @@ public class Index {
 	 * 
 	 * @return the share value
 	 */
-	public Double getShareValue() {
+	public final Double getShareValue() {
 		return shareValue;
 	}
 
@@ -128,17 +132,12 @@ public class Index {
 	 * @param shareValue
 	 *            the share value
 	 */
-	public void setShareValue(Double shareValue) {
+	public final void setShareValue(final Double shareValue) {
 		this.shareValue = shareValue;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
-	public String toString() {
+	public final String toString() {
 		return "Index value : " + shareValue;
 	}
 

@@ -16,7 +16,6 @@
 
 package fr.cph.stock.web.servlet.accounts;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import javax.servlet.ServletException;
@@ -49,37 +48,27 @@ import fr.cph.stock.web.servlet.CookieManagement;
 public class AccountsServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5015939908893417514L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(AccountsServlet.class);
+	private static final Logger LOG = Logger.getLogger(AccountsServlet.class);
 	/** Business **/
 	private IBusiness business;
 	/** Language **/
 	private LanguageFactory language;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
 	@Override
-	public void init() throws ServletException {
+	public final void init() throws ServletException {
 		business = new Business();
 		try {
 			language = LanguageFactory.getInstance();
 		} catch (LanguageException e) {
-			log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			throw new ServletException("Error: " + e.getMessage(), e);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
 			User user = (User) session.getAttribute("user");
@@ -88,12 +77,12 @@ public class AccountsServlet extends HttpServlet {
 			String mod = request.getParameter("mod");
 			String del = request.getParameter("delete");
 			if (add != null) {
-				String _account = request.getParameter("account");
+				String acc = request.getParameter("account");
 				String currency = request.getParameter("currency");
 				String liquidity = request.getParameter("liquidity");
 
 				Account account = new Account();
-				account.setName(_account);
+				account.setName(acc);
 				account.setCurrency(Currency.getEnum(currency));
 				account.setLiquidity(Double.valueOf(liquidity));
 				account.setUserId(user.getId());
@@ -103,11 +92,11 @@ public class AccountsServlet extends HttpServlet {
 			}
 			if (mod != null) {
 				String id = request.getParameter("id");
-				String _account = request.getParameter("account");
+				String acc = request.getParameter("account");
 				String currency = request.getParameter("currency");
 				String liquidity = request.getParameter("liquidity");
 				Account account = new Account();
-				account.setName(_account);
+				account.setName(acc);
 				account.setCurrency(Currency.getEnum(currency));
 				account.setLiquidity(Double.valueOf(liquidity));
 				account.setUserId(user.getId());
@@ -119,7 +108,7 @@ public class AccountsServlet extends HttpServlet {
 			if (del != null) {
 				String id = request.getParameter("id");
 				String delete = request.getParameter("delete2");
-				log.debug(delete);
+				LOG.debug(delete);
 				if (delete.equals("true")) {
 					Account account = new Account();
 					account.setId(Integer.parseInt(id));
@@ -137,18 +126,13 @@ public class AccountsServlet extends HttpServlet {
 			request.setAttribute("appTitle", Info.NAME + " &bull;   Accounts");
 			request.getRequestDispatcher("jsp/accounts.jsp").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

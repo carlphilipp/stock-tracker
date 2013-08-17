@@ -40,8 +40,9 @@ public interface IExternalDataAccess {
 	 *            a list of id
 	 * @return a list of company
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	List<Company> getCompaniesData(List<String> ids) throws YahooException;
+	List<Company> getCompaniesData(final List<String> ids) throws YahooException;
 
 	/**
 	 * Get company history data
@@ -54,8 +55,9 @@ public interface IExternalDataAccess {
 	 *            date to
 	 * @return a list of company
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	List<Company> getCompanyDataHistory(String id, Date from, Date to) throws YahooException;
+	List<Company> getCompanyDataHistory(final String id, final Date from, final Date to) throws YahooException;
 
 	/**
 	 * Get company info
@@ -64,8 +66,9 @@ public interface IExternalDataAccess {
 	 *            the company
 	 * @return a company
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	Company getCompanyInfo(Company company) throws YahooException;
+	Company getCompanyInfo(final Company company) throws YahooException;
 
 	/**
 	 * Get currency data
@@ -74,8 +77,9 @@ public interface IExternalDataAccess {
 	 *            the currency
 	 * @return a list of currency data
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	List<CurrencyData> getCurrencyData(Currency currency) throws YahooException;
+	List<CurrencyData> getCurrencyData(final Currency currency) throws YahooException;
 
 	/**
 	 * Get index data
@@ -84,8 +88,9 @@ public interface IExternalDataAccess {
 	 *            the id
 	 * @return an Index
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	Index getIndexData(String id) throws YahooException;
+	Index getIndexData(final String id) throws YahooException;
 
 	/**
 	 * Get index history
@@ -98,7 +103,8 @@ public interface IExternalDataAccess {
 	 *            date to
 	 * @return a list of index containing data
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	List<Index> getIndexDataHistory(String id, Date from, Date to) throws YahooException;
+	List<Index> getIndexDataHistory(final String id, final Date from, final Date to) throws YahooException;
 
 }

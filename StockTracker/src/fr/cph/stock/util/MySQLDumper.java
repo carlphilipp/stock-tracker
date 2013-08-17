@@ -33,33 +33,33 @@ import org.apache.log4j.Logger;
 public class MySQLDumper {
 
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(MySQLDumper.class);
+	private static final Logger LOG = Logger.getLogger(MySQLDumper.class);
 	/** Ip **/
-	private static String ip;
+	private String ip;
 	// private static String port = "3306";
 	/** Database **/
-	private static String database;
+	private String database;
 	/** Database user **/
-	private static String user;
+	private String user;
 	/** Database password **/
-	private static String pass;
+	private String pass;
 	/** Path **/
-	private static final String path = "stock";
+	private static final String PATH = "stock";
 	/** Extension of the file **/
-	private static final String sqlExt = ".sql";
+	private static final String SQLEXT = ".sql";
 	/** Compression of the file **/
-	private static final String tarGzExt = ".tar.gz";
+	private static final String TARGZEXT = ".tar.gz";
 	/** Date **/
-	public String date;
+	private String date;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param date
+	 * @param d
 	 *            the date
 	 */
-	public MySQLDumper(String date) {
-		this.date = date;
+	public MySQLDumper(final String d) {
+		this.date = d;
 		Properties prop = Util.getProperties("app.properties");
 		ip = prop.getProperty("db.ip");
 		database = prop.getProperty("db.name");
@@ -73,7 +73,7 @@ public class MySQLDumper {
 	 * @return the file name
 	 */
 	private String getCurrentNameFile() {
-		return date + "-" + path;
+		return date + "-" + PATH;
 	}
 
 	/**
@@ -81,8 +81,8 @@ public class MySQLDumper {
 	 * 
 	 * @return the file name with extension
 	 */
-	public String getCurrentSqlNameFile() {
-		return getCurrentNameFile() + sqlExt;
+	public final String getCurrentSqlNameFile() {
+		return getCurrentNameFile() + SQLEXT;
 	}
 
 	/**
@@ -90,22 +90,23 @@ public class MySQLDumper {
 	 * 
 	 * @return the current file name with compression
 	 */
-	public String getCurrentTarGzNameFile() {
-		return getCurrentNameFile() + tarGzExt;
+	public final String getCurrentTarGzNameFile() {
+		return getCurrentNameFile() + TARGZEXT;
 	}
 
 	/**
 	 * Get the dump database and export to to local
 	 * 
 	 * @throws Exception
+	 *             the exception
 	 */
-	public void export() throws Exception {
+	public final void export() throws Exception {
 		String dumpCommand = "mysqldump " + database + " -h " + ip + " -u " + user + " -p" + pass;
 		Runtime rt = Runtime.getRuntime();
 		PrintStream ps;
 		Process child = rt.exec(dumpCommand);
 		try {
-			ps = new PrintStream(date + "-" + path + sqlExt);
+			ps = new PrintStream(date + "-" + PATH + SQLEXT, "UTF-8");
 		} catch (FileNotFoundException fileEx) {
 			File file = new File("");
 			throw new FileNotFoundException(fileEx.getMessage() + " / " + file.getPath());
@@ -118,7 +119,7 @@ public class MySQLDumper {
 			}
 			InputStream err = child.getErrorStream();
 			while ((ch = err.read()) != -1) {
-				log.error(ch);
+				LOG.error(ch);
 			}
 			ps.close();
 		} catch (Exception exc) {

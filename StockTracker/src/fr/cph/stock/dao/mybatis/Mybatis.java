@@ -27,17 +27,22 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
  * 
  */
 
-public class Mybatis {
-	private static final SqlSessionFactory sqlSessionFactory;
+public final class Mybatis {
+
+	/** Constructor **/
+	private Mybatis() {
+	}
+
+	/** **/
+	private static final SqlSessionFactory SQL_SESSION_FACTORY;
 
 	static {
 		try {
 			String resource = "fr/cph/stock/dao/mybatis/mybatis-config.xml";
 			InputStream inputStream = Resources.getResourceAsStream(resource);
-			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+			SQL_SESSION_FACTORY = new SqlSessionFactoryBuilder().build(inputStream);
 		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException("Erreur durant l'initialisation de IBatis. Cause: " + e);
+			throw new RuntimeException("Erreur durant l'initialisation de MyBatis. Cause: " + e);
 		}
 	}
 
@@ -47,6 +52,6 @@ public class Mybatis {
 	 * @return a sql session factory
 	 */
 	public static SqlSessionFactory getSqlMapInstance() {
-		return sqlSessionFactory;
+		return SQL_SESSION_FACTORY;
 	}
 }

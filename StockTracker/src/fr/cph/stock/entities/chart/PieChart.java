@@ -27,23 +27,26 @@ import java.util.Map.Entry;
  */
 public class PieChart extends AChart {
 
-	/** Equties **/
+	/** Equities **/
 	private Map<String, Double> equities;
 
 	/**
 	 * Constructor that will construct a chart with the given equities
 	 * 
 	 * @param equities
+	 *            the equities
 	 */
-	public PieChart(Map<String, Double> equities) {
+	public PieChart(final Map<String, Double> equities) {
 		this.equities = equities;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fr.cph.stock.entities.chart.IChart#generate()
 	 */
 	@Override
-	public void generate() {
+	public final void generate() {
 		StringBuilder dataTemp = new StringBuilder();
 		StringBuilder titleTemp = new StringBuilder();
 		StringBuilder drawTemp = new StringBuilder();
@@ -63,14 +66,19 @@ public class PieChart extends AChart {
 			dataTemp.append("var d" + i + " = [[0," + value + "]];");
 			i++;
 		}
-		data = dataTemp.toString();
+		setData(dataTemp.toString());
 		drawTemp.append("]");
-		draw = drawTemp.toString();
+		setDraw(drawTemp.toString());
 		titleTemp.append("];");
-		title = titleTemp.toString();
+		setTitle(titleTemp.toString());
 	}
-	
-	public Map<String, Double> getEquities() {
+
+	/**
+	 * get equities
+	 * 
+	 * @return the equities
+	 */
+	public final Map<String, Double> getEquities() {
 		return equities;
 	}
 

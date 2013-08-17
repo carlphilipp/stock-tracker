@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,15 +32,8 @@ import fr.cph.stock.entities.Follow;
  */
 public class FollowDaoImpl extends AbstractDao<Follow> {
 
-	// private static final Logger log = Logger.getLogger(FollowDaoImpl.class);
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
-	 */
 	@Override
-	public void insert(Follow follow) {
+	public final void insert(final Follow follow) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("FollowDao.insertOneFollow", follow);
@@ -51,13 +43,8 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#select(int)
-	 */
 	@Override
-	public Follow select(int id) {
+	public final Follow select(final int id) {
 		SqlSession session = getSqlSessionFactory();
 		Follow follow = null;
 		try {
@@ -68,13 +55,8 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 		return follow;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
-	 */
 	@Override
-	public void update(Follow follow) {
+	public final void update(final Follow follow) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("FollowDao.updateOneFollow", follow);
@@ -84,13 +66,8 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
-	 */
 	@Override
-	public void delete(Follow follow) {
+	public final void delete(final Follow follow) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("FollowDao.deleteOneFollow", follow);
@@ -107,9 +84,9 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 	 *            the user id
 	 * @return a list of follow
 	 */
-	public List<Follow> selectListFollow(int userId) {
+	public final List<Follow> selectListFollow(final int userId) {
 		SqlSession session = getSqlSessionFactory();
-		List<Follow> follow = new ArrayList<Follow>();
+		List<Follow> follow = null;
 		try {
 			follow = session.selectList("FollowDao.selectListFollow", userId);
 		} finally {
@@ -127,7 +104,7 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 	 *            the company id
 	 * @return a Follow object
 	 */
-	public Follow selectOneFollow(int userId, int companyId) {
+	public final Follow selectOneFollow(final int userId, final int companyId) {
 		SqlSession session = getSqlSessionFactory();
 		Follow follow = null;
 		Map<String, Integer> map = new HashMap<String, Integer>();
@@ -140,5 +117,4 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 		}
 		return follow;
 	}
-
 }

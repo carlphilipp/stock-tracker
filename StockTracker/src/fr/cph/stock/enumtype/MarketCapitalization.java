@@ -23,8 +23,22 @@ package fr.cph.stock.enumtype;
  * 
  */
 public enum MarketCapitalization {
-	NANO_CAP("Nano-Cap"), MICRO_CAP("Micro-Cap"), SMALL_CAP("Small-Cap"), MID_CAP("Mid-Cap"), LARGE_CAP("Large-Cap"), MEGA_CAP(
-			"Mega-Cap"), FOND_TRACKERS("Fonds/Tracker"), UNKNOWN("Unknown");
+	/** **/
+	NANO_CAP("Nano-Cap"), 
+	/** **/
+	MICRO_CAP("Micro-Cap"), 
+	/** **/
+	SMALL_CAP("Small-Cap"), 
+	/** **/
+	MID_CAP("Mid-Cap"), 
+	/** **/
+	LARGE_CAP("Large-Cap"), 
+	/** **/
+	MEGA_CAP("Mega-Cap"), 
+	/** **/
+	FOND_TRACKERS("Fonds/Tracker"), 
+	/** **/
+	UNKNOWN("Unknown");
 
 	/**
 	 * Constructor
@@ -32,7 +46,7 @@ public enum MarketCapitalization {
 	 * @param marketCap
 	 *            the market cap
 	 */
-	private MarketCapitalization(String marketCap) {
+	private MarketCapitalization(final String marketCap) {
 		this.market = marketCap;
 	}
 
@@ -41,7 +55,7 @@ public enum MarketCapitalization {
 	 * 
 	 * @return the market
 	 */
-	public String getValue() {
+	public final String getValue() {
 		return market;
 	}
 

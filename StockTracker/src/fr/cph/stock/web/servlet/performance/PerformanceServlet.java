@@ -17,7 +17,6 @@
 package fr.cph.stock.web.servlet.performance;
 
 import java.awt.Image;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -62,37 +61,27 @@ import fr.cph.stock.web.servlet.CookieManagement;
 public class PerformanceServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2435465891228710040L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(PerformanceServlet.class);
+	private static final Logger LOG = Logger.getLogger(PerformanceServlet.class);
 	/** Business **/
 	private IBusiness business;
 	/** Language **/
 	private LanguageFactory language;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
 	@Override
-	public void init() throws ServletException {
+	public final void init() throws ServletException {
 		business = new Business();
 		try {
 			language = LanguageFactory.getInstance();
 		} catch (LanguageException e) {
-			log.error(e.getMessage(), e);
+			LOG.error(e.getMessage(), e);
 			throw new ServletException("Error: " + e.getMessage(), e);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		HttpSession session = request.getSession(false);
 		User user = (User) session.getAttribute("user");
 		Portfolio portfolio = null;
@@ -102,16 +91,14 @@ public class PerformanceServlet extends HttpServlet {
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 				String fromString = request.getParameter("from");
 				String toString = request.getParameter("to");
-				
+
 				Date fromDate = null;
 				Date toDate = null;
-				if (fromString != null) {
-					if (!fromString.equals(""))
-						fromDate = formatter.parse(fromString);
+				if (fromString != null && !fromString.equals("")) {
+					fromDate = formatter.parse(fromString);
 				}
-				if (toString != null) {
-					if (!toString.equals(""))
-						toDate = formatter.parse(toString);
+				if (toString != null && !toString.equals("")) {
+					toDate = formatter.parse(toString);
 				}
 				portfolio = business.getUserPortfolio(user.getId(), fromDate, toDate);
 				if (portfolio.getShareValues().size() != 0) {
@@ -127,40 +114,40 @@ public class PerformanceServlet extends HttpServlet {
 					portfolio.addIndexes(indexes2);
 					portfolio.compute();
 
-					Date _from = from;
+					Date fro = from;
 					if (indexes.size() > 0) {
 						Date derp = indexes.get(0).getDate();
-						if (derp.before(_from)) {
-							_from = derp;
+						if (derp.before(fro)) {
+							fro = derp;
 						}
 					}
 					if (indexes2.size() > 0) {
 						Date date2 = indexes2.get(0).getDate();
-						if (date2.before(_from)) {
-							_from = date2;
+						if (date2.before(fro)) {
+							fro = date2;
 						}
 					}
 
-					Date _to = portfolio.getShareValues().get(0).getDate();
+					Date t = portfolio.getShareValues().get(0).getDate();
 					if (indexes.size() > 1) {
 						Date date3 = indexes.get(indexes.size() - 1).getDate();
-						if (date3.after(_to)) {
-							_to = date3;
+						if (date3.after(t)) {
+							t = date3;
 						}
 					}
 					if (indexes2.size() > 1) {
 						Date date = indexes2.get(indexes2.size() - 1).getDate();
-						if (date.after(_to)) {
-							_to = date;
+						if (date.after(t)) {
+							t = date;
 						}
 					}
-					request.setAttribute("_from", _from);
-					request.setAttribute("_to", _to);
+					request.setAttribute("_from", fro);
+					request.setAttribute("_to", t);
 				}
 
 				request.setAttribute("portfolio", portfolio);
 			} catch (YahooException e) {
-				log.error("Error: " + e.getMessage(), e);
+				LOG.error("Error: " + e.getMessage(), e);
 			}
 			if (createPdf != null && createPdf.equals("pdf")) {
 				Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");
@@ -175,7 +162,7 @@ public class PerformanceServlet extends HttpServlet {
 				pdf.addParam("shareValuePie", timeChart);
 				response.setContentType("application/pdf");
 				DateFormat df = new SimpleDateFormat("dd-MM-yy");
-				String formattedDate = df.format(new Date()); 
+				String formattedDate = df.format(new Date());
 				response.addHeader("Content-Disposition", "attachment; filename=" + user.getLogin() + formattedDate + ".pdf");
 				OutputStream responseOutputStream = response.getOutputStream();
 				try {
@@ -190,18 +177,13 @@ public class PerformanceServlet extends HttpServlet {
 				request.getRequestDispatcher("jsp/performance.jsp").forward(request, response);
 			}
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

@@ -16,8 +16,6 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +30,7 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.security.Security;
 
 /**
- * This servlet is called when new password asked
+ * This servlet is called when a new password is asked
  * 
  * @author Carl-Philipp Harmant
  * 
@@ -41,29 +39,31 @@ import fr.cph.stock.security.Security;
 public class NewPasswordServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4548932564405559822L;
+
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(NewPasswordServlet.class);
+	private static final Logger LOG = Logger.getLogger(NewPasswordServlet.class);
 	/** Business **/
 	private IBusiness business;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
+	/** Init **/
 	@Override
-	public void init() {
+	public final void init() {
 		business = new Business();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Get method
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the answer
+	 * @throws ServletException
+	 *             the exception
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			String login = request.getParameter("login");
 			String check = request.getParameter("check");
@@ -80,18 +80,23 @@ public class NewPasswordServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher("jsp/newpassword.jsp").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Post method
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the answer
+	 * @throws ServletException
+	 *             the servlet exception
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

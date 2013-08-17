@@ -25,20 +25,20 @@ package fr.cph.stock.entities.chart;
 public abstract class AChart implements IChart {
 
 	/** Data **/
-	protected String data;
+	private String data;
 	/** Title **/
-	protected String title;
+	private String title;
 	/** Draw **/
-	protected String draw;
+	private String draw;
 	/** Colors **/
-	protected String colors;
+	private String colors;
 
 	/**
 	 * Get colors
 	 * 
 	 * @return the colors
 	 */
-	public String getColors() {
+	public final String getColors() {
 		return colors;
 	}
 
@@ -48,7 +48,7 @@ public abstract class AChart implements IChart {
 	 * @param colors
 	 *            the colors
 	 */
-	public void setColors(String colors) {
+	public final void setColors(final String colors) {
 		this.colors = colors;
 	}
 
@@ -57,7 +57,7 @@ public abstract class AChart implements IChart {
 	 * 
 	 * @return the draw
 	 */
-	public String getDraw() {
+	public final String getDraw() {
 		return draw;
 	}
 
@@ -67,7 +67,7 @@ public abstract class AChart implements IChart {
 	 * @param draw
 	 *            the draw
 	 */
-	public void setDraw(String draw) {
+	public final void setDraw(final String draw) {
 		this.draw = draw;
 	}
 
@@ -76,7 +76,7 @@ public abstract class AChart implements IChart {
 	 * 
 	 * @return the title
 	 */
-	public String getTitle() {
+	public final String getTitle() {
 		return title;
 	}
 
@@ -86,7 +86,7 @@ public abstract class AChart implements IChart {
 	 * @param title
 	 *            the title
 	 */
-	public void setTitle(String title) {
+	public final void setTitle(final String title) {
 		this.title = title;
 	}
 
@@ -95,7 +95,7 @@ public abstract class AChart implements IChart {
 	 * 
 	 * @return the data
 	 */
-	public String getData() {
+	public final String getData() {
 		return data;
 	}
 
@@ -105,7 +105,7 @@ public abstract class AChart implements IChart {
 	 * @param data
 	 *            the data
 	 */
-	public void setData(String data) {
+	public final void setData(final String data) {
 		this.data = data;
 	}
 }

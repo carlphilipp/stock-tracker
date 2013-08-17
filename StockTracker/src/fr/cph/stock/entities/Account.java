@@ -42,64 +42,109 @@ public class Account {
 	/** parity of the account **/
 	private Double parity;
 
-	public int getId() {
+	/**
+	 * 
+	 * @return the id
+	 */
+	public final int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	/**
+	 * @param id
+	 *            the id
+	 */
+	public final void setId(final int id) {
 		this.id = id;
 	}
 
-	public int getUserId() {
+	/**
+	 * @return the user id
+	 */
+	public final int getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	/**
+	 * @param userId
+	 *            the user id
+	 */
+	public final void setUserId(final int userId) {
 		this.userId = userId;
 	}
 
-	public String getName() {
+	/**
+	 * @return the name
+	 */
+	public final String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	/**
+	 * @param name
+	 *            the name
+	 */
+	public final void setName(final String name) {
 		this.name = name;
 	}
 
-	public Currency getCurrency() {
+	/**
+	 * @return the currency
+	 */
+	public final Currency getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(Currency currency) {
+	/**
+	 * @param currency
+	 *            the currency
+	 */
+	public final void setCurrency(final Currency currency) {
 		this.currency = currency;
 	}
 
-	public double getLiquidity() {
+	/**
+	 * @return the liquidity
+	 */
+	public final double getLiquidity() {
 		return liquidity;
 	}
 
-	public void setLiquidity(Double liquidity) {
+	/**
+	 * @param liquidity
+	 *            the liquidity
+	 */
+	public final void setLiquidity(final Double liquidity) {
 		this.liquidity = liquidity;
 	}
 
-	public String toString() {
-		return "[Account;id=" + id + "userId=" + userId + ";name=" + name + ";currency=" + currency + ";liquidity=" + liquidity
-				+ "]";
-	}
-
-	public Boolean getDel() {
+	/**
+	 * @return a boolean
+	 */
+	public final Boolean getDel() {
 		return del;
 	}
 
-	public void setDel(Boolean del) {
+	/**
+	 * @param del
+	 *            the boolean
+	 */
+	public final void setDel(final Boolean del) {
 		this.del = del;
 	}
 
-	public Double getParity() {
+	/**
+	 * @return the parity
+	 */
+	public final Double getParity() {
 		return parity;
 	}
 
-	public void setParity(Double parity) {
+	/**
+	 * @param parity
+	 *            the parity
+	 */
+	public final void setParity(final Double parity) {
 		this.parity = parity;
 	}
 
@@ -108,7 +153,7 @@ public class Account {
 	 * 
 	 * @return a json object
 	 */
-	public JSONObject getJSONObject() {
+	public final JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.accumulate("id", id);
 		json.accumulate("name", name);
@@ -117,4 +162,9 @@ public class Account {
 		return json;
 	}
 
+	@Override
+	public final String toString() {
+		return "[Account;id=" + id + "userId=" + userId + ";name=" + name + ";currency=" + currency + ";liquidity=" + liquidity
+				+ "]";
+	}
 }

@@ -33,21 +33,26 @@ import fr.cph.stock.util.Info;
  */
 public class Cac40Job implements Job {
 
-	private static final Logger log = Logger.getLogger(Cac40Job.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(Cac40Job.class);
+	/** Business **/
 	private IBusiness business;
 
+	/**
+	 * Constructor
+	 */
 	public Cac40Job() {
 		business = new Business();
 	}
 
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		try {
 			business.updateIndex(Info.YAHOOID_CAC40);
 		} catch (YahooException e) {
-			log.warn("Error while executing Cac40Job: " + e.getMessage());
+			LOG.warn("Error while executing Cac40Job: " + e.getMessage());
 		} catch (Throwable t) {
-			log.error("Error while executing Cac40Job: " + t.getMessage(), t);
+			LOG.error("Error while executing Cac40Job: " + t.getMessage(), t);
 		}
 	}
 }

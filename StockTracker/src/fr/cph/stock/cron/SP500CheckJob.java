@@ -34,24 +34,29 @@ import fr.cph.stock.util.Info;
  * @version 1
  */
 public class SP500CheckJob implements Job {
-	
-	private static final Logger log = Logger.getLogger(SP500CheckJob.class);
+
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(SP500CheckJob.class);
+	/** **/
 	private IBusiness business;
 
+	/**
+	 * Constructor
+	 */
 	public SP500CheckJob() {
 		business = new Business();
 	}
-	
+
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		try {
-			log.debug("SP500 Check job running");
+			LOG.debug("SP500 Check job running");
 			TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
 			business.checkUpdateIndex(Info.YAHOOID_SP500, timeZone);
 		} catch (YahooException e) {
-			log.warn("Error while executing SP500CheckJob: " + e.getMessage());
+			LOG.warn("Error while executing SP500CheckJob: " + e.getMessage());
 		} catch (Throwable t) {
-			log.error("Error while executing SP500CheckJob: " + t.getMessage(), t);
+			LOG.error("Error while executing SP500CheckJob: " + t.getMessage(), t);
 		}
 	}
 

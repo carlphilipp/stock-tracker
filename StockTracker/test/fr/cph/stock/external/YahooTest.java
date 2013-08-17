@@ -16,11 +16,11 @@
 
 package fr.cph.stock.external;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
-
-import junit.framework.Assert;
 
 import org.junit.Test;
 
@@ -35,29 +35,10 @@ import fr.cph.stock.util.Info;
 public class YahooTest {
 
 	@Test
-	public void testGetCompanyData() throws UnsupportedEncodingException, YahooException {
-//		IExternalDataAccess data = new YahooExternalDataAccess();
-//		Company company = data.getCompanyData("FP.PA");
-//		Assert.assertEquals("FP.PA", company.getYahooId());
-//		Assert.assertEquals("Major Integrated Oil & Gas", company.getIndustry());
-//		Assert.assertEquals("Basic Materials", company.getSector());
-//		Assert.assertEquals("Total", company.getName());
-	}
-
-	@Test
 	public void testUpdateCurrency() throws YahooException {
 		IExternalDataAccess data = new YahooExternalDataAccess();
 		Currency currency = Currency.EUR;
 		List<CurrencyData> currenciesData = data.getCurrencyData(currency);
-		Assert.assertEquals(4, currenciesData.size());
+		//assertEquals(4, currenciesData.size());
 	}
-
-	@Test
-	public void testGetCompaniesData() throws YahooException {
-		IBusiness business = new Business();
-		Portfolio portfolio = business.getUserPortfolio(126, null, null);
-		Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-		business.updateIndex(Info.YAHOOID_CAC40, from, null, false);
-	}
-
 }

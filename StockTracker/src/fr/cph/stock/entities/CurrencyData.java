@@ -39,47 +39,112 @@ public class CurrencyData {
 	/** Last update of the value **/
 	private Date lastUpdate;
 
-	public int getId() {
+	/**
+	 * Getter
+	 * 
+	 * @return the id
+	 */
+	public final int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	/**
+	 * Setter
+	 * 
+	 * @param id
+	 *            the id
+	 */
+	public final void setId(final int id) {
 		this.id = id;
 	}
 
-	public Double getValue() {
+	/**
+	 * Getter
+	 * 
+	 * @return the value
+	 */
+	public final Double getValue() {
 		return value;
 	}
 
-	public void setValue(Double value) {
+	/**
+	 * Setter
+	 * 
+	 * @param value
+	 *            the value
+	 */
+	public final void setValue(final Double value) {
 		this.value = value;
 	}
 
-	public Date getLastUpdate() {
-		return lastUpdate;
+	/**
+	 * Getter
+	 * 
+	 * @return the last update
+	 */
+	public final Date getLastUpdate() {
+		if (lastUpdate != null) {
+			return (Date) lastUpdate.clone();
+		} else {
+			return null;
+		}
 	}
 
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
+	/**
+	 * Setter
+	 * 
+	 * @param lastUpdate
+	 *            the last update
+	 */
+	public final void setLastUpdate(final Date lastUpdate) {
+		this.lastUpdate = (Date) lastUpdate.clone();
 	}
 
-	public Currency getCurrency1() {
+	/**
+	 * Getter
+	 * 
+	 * @return the first currency
+	 */
+	public final Currency getCurrency1() {
 		return currency1;
 	}
 
-	public void setCurrency1(Currency currency1) {
+	/**
+	 * Setter
+	 * 
+	 * @param currency1
+	 *            the first currency
+	 */
+	public final void setCurrency1(final Currency currency1) {
 		this.currency1 = currency1;
 	}
 
-	public Currency getCurrency2() {
+	/**
+	 * Getter
+	 * 
+	 * @return the second currency
+	 */
+	public final Currency getCurrency2() {
 		return currency2;
 	}
 
-	public void setCurrency2(Currency currency2) {
+	/**
+	 * Setter
+	 * 
+	 * @param currency2
+	 *            the 2nd currency
+	 */
+	public final void setCurrency2(final Currency currency2) {
 		this.currency2 = currency2;
 	}
 
-	public String toString() {
+	/**
+	 * To String
+	 * 
+	 * @return a string
+	 */
+	@Override
+	public final String toString() {
 		return currency1 + " " + currency2 + " " + lastUpdate;
 	}
 }

@@ -36,20 +36,38 @@ import fr.cph.stock.entities.User;
  * @version 1
  */
 public class Csv {
-
-	// private static final Logger log = Logger.getLogger(Csv.class);
-
+	/** User **/
 	private User user;
+	/** Reader **/
 	private BufferedReader reader;
+	/** Account **/
 	private String account;
 
-	public Csv(BufferedReader reader, User user, String account) {
+	/**
+	 * Constructor
+	 * 
+	 * @param reader
+	 *            the reader
+	 * @param user
+	 *            the user
+	 * @param account
+	 *            the account
+	 */
+	public Csv(final BufferedReader reader, final User user, final String account) {
 		this.reader = reader;
 		this.user = user;
 		this.account = account;
 	}
 
-	public List<ShareValue> getShareValueList() throws IOException, ParseException {
+	/**
+	 * 
+	 * @return a list of share value
+	 * @throws IOException
+	 *             the io exception
+	 * @throws ParseException
+	 *             the parse exception
+	 */
+	public final List<ShareValue> getShareValueList() throws IOException, ParseException {
 		CSVReader csvReader = new CSVReader(reader, ';');
 		List<String[]> content = csvReader.readAll();
 		List<ShareValue> shareValues = new ArrayList<ShareValue>();
@@ -62,8 +80,9 @@ public class Csv {
 			sv.setUserId(userId);
 			sv.setBuy(0.0);
 			sv.setDate(formatter.parse(row[0]));
-			if (row[1] != null)
+			if (row[1] != null) {
 				sv.setLiquidityMovement(format(row[1]));
+			}
 			if (row.length == 6) {
 				sv.setMonthlyYield(format(row[5]));
 			} else {
@@ -84,12 +103,19 @@ public class Csv {
 		return shareValues;
 	}
 
-	private Double format(String text) {
+	/**
+	 * Format
+	 * 
+	 * @param text
+	 *            the text to format
+	 * @return a Double
+	 */
+	private Double format(final String text) {
 		Double d = new Double(0);
 		if (text != null && !text.equals("")) {
-			text = text.replaceAll(" ", "");
-			text = text.replaceAll(",", ".");
-			d = Double.parseDouble(text);
+			String temp = text.replaceAll(" ", "");
+			temp = temp.replaceAll(",", ".");
+			d = Double.parseDouble(temp);
 		}
 		return d;
 	}

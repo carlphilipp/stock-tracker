@@ -25,7 +25,7 @@ package fr.cph.stock.exception;
 public class LoginException extends Exception {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5434242692908156608L;
 
 	/**
 	 * Constructor
@@ -33,7 +33,7 @@ public class LoginException extends Exception {
 	 * @param str
 	 *            the error message
 	 */
-	public LoginException(String str) {
+	public LoginException(final String str) {
 		super(str);
 	}
 
@@ -45,8 +45,7 @@ public class LoginException extends Exception {
 	 * @param e
 	 *            the exception
 	 */
-	public LoginException(String str, Exception e) {
+	public LoginException(final String str, final Exception e) {
 		super(str, e);
 	}
-
 }

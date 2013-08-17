@@ -16,9 +16,10 @@
 
 package fr.cph.stock.dao;
 
-import java.util.UUID;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import junit.framework.Assert;
+import java.util.UUID;
 
 import org.junit.After;
 import org.junit.Before;
@@ -67,19 +68,19 @@ public class PortfolioDaoImplTest {
 		dao.insert(portfolio);
 		
 		Portfolio port  = dao.selectPortfolioFromUserIdWithEquities(userId, null, null);
-		Assert.assertEquals(userId, port.getUserId());
-		Assert.assertEquals(Currency.EUR, port.getCurrency());
+		assertEquals(userId, port.getUserId());
+		assertEquals(Currency.EUR, port.getCurrency());
 		
 		port.setCurrency(Currency.USD);
 		dao.update(port);
 		
 		port = dao.selectPortfolioFromUserIdWithEquities(userId, null, null);
-		Assert.assertEquals(userId, port.getUserId());
-		Assert.assertEquals(Currency.USD, port.getCurrency());
+		assertEquals(userId, port.getUserId());
+		assertEquals(Currency.USD, port.getCurrency());
 		
 		dao.delete(port);
 		portfolio = dao.select(port.getId());
-		Assert.assertNull(portfolio);
+		assertNull(portfolio);
 	}
 	
 	@Test
@@ -88,7 +89,6 @@ public class PortfolioDaoImplTest {
 		
 		daoEquity  = new EquityDaoImpl();
 		
-		dao = new PortfolioDaoImpl();
 		daoCompany = new CompanyDaoImpl();
 		portfolio = new Portfolio();
 		portfolio.setCurrency(Currency.EUR);
@@ -105,6 +105,8 @@ public class PortfolioDaoImplTest {
 		company.setSector("Banque");
 		company.setYahooId("NK.ECA");
 		company.setYield(5.0);
+		company.setRealTime(true);
+		company.setFund(false);
 		daoCompany.insert(company);
 		company = daoCompany.selectWithYahooId("NK.ECA");
 		
@@ -121,7 +123,7 @@ public class PortfolioDaoImplTest {
 		daoEquity.insert(equity);
 		
 		portfolio = dao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
-		Assert.assertEquals(1, portfolio.getEquities().size());
+		assertEquals(1, portfolio.getEquities().size());
 		equity = portfolio.getEquities().get(0);
 
 		// Clean

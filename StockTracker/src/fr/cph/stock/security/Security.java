@@ -29,7 +29,13 @@ import org.apache.commons.codec.binary.Hex;
  * @author Carl-Philipp Harmant
  * 
  */
-public class Security {
+public final class Security {
+
+	/**
+	 * Constructor
+	 */
+	private Security() {
+	}
 
 	/**
 	 * Encode to sha256 the user password
@@ -38,9 +44,11 @@ public class Security {
 	 *            the password to encode
 	 * @return an encoded string
 	 * @throws NoSuchAlgorithmException
+	 *             the NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
+	 *             the UnsupportedEncodingException
 	 */
-	public static String encodeToSha256(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public static String encodeToSha256(final String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		MessageDigest digest = MessageDigest.getInstance("SHA-256");
 		byte[] hash = digest.digest(str.getBytes("UTF-8"));
 		String encoded = Hex.encodeHexString(hash);
@@ -52,7 +60,9 @@ public class Security {
 	 * 
 	 * @return a key encrypted
 	 * @throws NoSuchAlgorithmException
+	 *             the NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
+	 *             the UnsupportedEncodingException
 	 */
 	public static String generateSalt() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		SecureRandom random = new SecureRandom();

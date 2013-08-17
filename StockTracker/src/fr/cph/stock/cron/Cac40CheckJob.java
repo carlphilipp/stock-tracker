@@ -35,23 +35,28 @@ import fr.cph.stock.util.Info;
  */
 public class Cac40CheckJob implements Job {
 
-	private static final Logger log = Logger.getLogger(Cac40CheckJob.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(Cac40CheckJob.class);
+	/** Business **/
 	private IBusiness business;
 
+	/**
+	 * Constructor
+	 */
 	public Cac40CheckJob() {
 		business = new Business();
 	}
 
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		try {
-			log.debug("Cac40 Check job running");
+			LOG.debug("Cac40 Check job running");
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			business.checkUpdateIndex(Info.YAHOOID_CAC40, timeZone);
 		} catch (YahooException e) {
-			log.warn("Error while executing Cac40CheckJob: " + e.getMessage());
+			LOG.warn("Error while executing Cac40CheckJob: " + e.getMessage());
 		} catch (Throwable t) {
-			log.error("Error while executing Cac40CheckJob: " + t.getMessage(), t);
+			LOG.error("Error while executing Cac40CheckJob: " + t.getMessage(), t);
 		}
 	}
 }

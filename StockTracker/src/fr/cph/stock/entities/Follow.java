@@ -48,7 +48,7 @@ public class Follow {
 	 * 
 	 * @return the company
 	 */
-	public Company getCompany() {
+	public final Company getCompany() {
 		return company;
 	}
 
@@ -58,7 +58,7 @@ public class Follow {
 	 * @param company
 	 *            the company
 	 */
-	public void setCompany(Company company) {
+	public final void setCompany(final Company company) {
 		this.company = company;
 	}
 
@@ -67,7 +67,7 @@ public class Follow {
 	 * 
 	 * @return the id
 	 */
-	public int getId() {
+	public final int getId() {
 		return id;
 	}
 
@@ -77,7 +77,7 @@ public class Follow {
 	 * @param id
 	 *            the id
 	 */
-	public void setId(int id) {
+	public final void setId(final int id) {
 		this.id = id;
 	}
 
@@ -86,7 +86,7 @@ public class Follow {
 	 * 
 	 * @return the company id
 	 */
-	public int getCompanyId() {
+	public final int getCompanyId() {
 		return companyId;
 	}
 
@@ -96,7 +96,7 @@ public class Follow {
 	 * @param companyId
 	 *            the company id
 	 */
-	public void setCompanyId(int companyId) {
+	public final void setCompanyId(final int companyId) {
 		this.companyId = companyId;
 	}
 
@@ -105,7 +105,7 @@ public class Follow {
 	 * 
 	 * @return the user id
 	 */
-	public int getUserId() {
+	public final int getUserId() {
 		return userId;
 	}
 
@@ -115,7 +115,7 @@ public class Follow {
 	 * @param userId
 	 *            the user id
 	 */
-	public void setUserId(int userId) {
+	public final void setUserId(final int userId) {
 		this.userId = userId;
 	}
 
@@ -124,7 +124,7 @@ public class Follow {
 	 * 
 	 * @return the lower limit
 	 */
-	public Double getLowerLimit() {
+	public final Double getLowerLimit() {
 		return lowerLimit;
 	}
 
@@ -134,7 +134,7 @@ public class Follow {
 	 * @param lowerLimit
 	 *            the lower limit
 	 */
-	public void setLowerLimit(Double lowerLimit) {
+	public final void setLowerLimit(final Double lowerLimit) {
 		this.lowerLimit = lowerLimit;
 	}
 
@@ -143,7 +143,7 @@ public class Follow {
 	 * 
 	 * @return the higher limit
 	 */
-	public Double getHigherLimit() {
+	public final Double getHigherLimit() {
 		return higherLimit;
 	}
 
@@ -153,7 +153,7 @@ public class Follow {
 	 * @param higherLimit
 	 *            the higher limit
 	 */
-	public void setHigherLimit(Double higherLimit) {
+	public final void setHigherLimit(final Double higherLimit) {
 		this.higherLimit = higherLimit;
 	}
 
@@ -162,7 +162,7 @@ public class Follow {
 	 * 
 	 * @return the gap lower limit
 	 */
-	public Double getGapLowerLimit() {
+	public final Double getGapLowerLimit() {
 		if (gapLowerLimit == null) {
 			gapLowerLimit = (company.getQuote() / getLowerLimit() - 1) * 100;
 		}
@@ -175,7 +175,7 @@ public class Follow {
 	 * @param gapLowerLimit
 	 *            the gap lower limit
 	 */
-	public void setGapLowerLimit(Double gapLowerLimit) {
+	public final void setGapLowerLimit(final Double gapLowerLimit) {
 		this.gapLowerLimit = gapLowerLimit;
 	}
 
@@ -184,7 +184,7 @@ public class Follow {
 	 * 
 	 * @return the gap higher limit
 	 */
-	public Double getGapHigherLimit() {
+	public final Double getGapHigherLimit() {
 		if (gapHigherLimit == null) {
 			gapHigherLimit = (getHigherLimit() / company.getQuote() - 1) * 100;
 		}
@@ -197,19 +197,18 @@ public class Follow {
 	 * @param gapHigherLimit
 	 *            the gap higher limit
 	 */
-	public void setGapHigherLimit(Double gapHigherLimit) {
+	public final void setGapHigherLimit(final Double gapHigherLimit) {
 		this.gapHigherLimit = gapHigherLimit;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * To String
 	 * 
-	 * @see java.lang.Object#toString()
+	 * @return a string
 	 */
 	@Override
-	public String toString() {
+	public final String toString() {
 		return "id: " + id + " - companyId " + companyId + " - userId " + userId + " - lowerLimit " + lowerLimit
 				+ " - higherLimit " + higherLimit;
 	}
-
 }

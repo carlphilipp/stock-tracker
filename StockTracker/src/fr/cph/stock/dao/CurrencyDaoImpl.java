@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -31,13 +30,8 @@ import fr.cph.stock.entities.CurrencyData;
  */
 public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
-	 */
 	@Override
-	public void insert(CurrencyData currencyData) {
+	public final void insert(final CurrencyData currencyData) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("CurrencyData.insertOneCurrencyData", currencyData);
@@ -48,13 +42,8 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#select(int)
-	 */
 	@Override
-	public CurrencyData select(int id) {
+	public final CurrencyData select(final int id) {
 		SqlSession session = getSqlSessionFactory();
 		CurrencyData currencyData = null;
 		try {
@@ -65,13 +54,8 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 		return currencyData;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
-	 */
 	@Override
-	public void update(CurrencyData currencyData) {
+	public final void update(final CurrencyData currencyData) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("CurrencyData.updateOneCurrencyData", currencyData);
@@ -81,13 +65,8 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
-	 */
 	@Override
-	public void delete(CurrencyData currencyData) {
+	public final void delete(final CurrencyData currencyData) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("CurrencyData.deleteOneCurrencyData", currencyData);
@@ -104,7 +83,7 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 	 *            the currency data
 	 * @return a currency data
 	 */
-	public CurrencyData selectOneCurrencyDataWithParam(CurrencyData currencyD) {
+	public final CurrencyData selectOneCurrencyDataWithParam(final CurrencyData currencyD) {
 		SqlSession session = getSqlSessionFactory();
 		CurrencyData currencyData = null;
 		try {
@@ -122,9 +101,9 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 	 *            the currency
 	 * @return a list of currency
 	 */
-	public List<CurrencyData> selectListCurrency(String currency) {
+	public final List<CurrencyData> selectListCurrency(final String currency) {
 		SqlSession session = getSqlSessionFactory();
-		List<CurrencyData> currencyDataList = new ArrayList<CurrencyData>();
+		List<CurrencyData> currencyDataList = null;
 		try {
 			currencyDataList = session.selectList("CurrencyData.selectListCurrencyData", currency);
 		} finally {
@@ -138,9 +117,9 @@ public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
 	 * 
 	 * @return a list of currency data
 	 */
-	public List<CurrencyData> selectListAllCurrency() {
+	public final List<CurrencyData> selectListAllCurrency() {
 		SqlSession session = getSqlSessionFactory();
-		List<CurrencyData> currencyDataList = new ArrayList<CurrencyData>();
+		List<CurrencyData> currencyDataList = null;
 		try {
 			currencyDataList = session.selectList("CurrencyData.selectListAllCurrencyData");
 		} finally {

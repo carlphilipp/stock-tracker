@@ -37,13 +37,8 @@ import fr.cph.stock.entities.User;
  */
 public class SessionFilter implements Filter {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
-	 */
 	@Override
-	public void init(FilterConfig config) throws ServletException {
+	public final void init(final FilterConfig config) throws ServletException {
 
 	}
 
@@ -53,7 +48,8 @@ public class SessionFilter implements Filter {
 	 * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
 	 */
 	@Override
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws ServletException {
+	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
+			throws ServletException {
 		try {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;
@@ -80,7 +76,7 @@ public class SessionFilter implements Filter {
 	 * @see javax.servlet.Filter#destroy()
 	 */
 	@Override
-	public void destroy() {
+	public final void destroy() {
 
 	}
 }

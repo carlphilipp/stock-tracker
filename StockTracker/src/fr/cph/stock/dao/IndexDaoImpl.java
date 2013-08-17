@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,13 +33,8 @@ import fr.cph.stock.entities.Index;
  */
 public class IndexDaoImpl extends AbstractDao<Index> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
-	 */
 	@Override
-	public void insert(Index index) {
+	public final void insert(final Index index) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("IndexDao.insertOneIndex", index);
@@ -50,13 +44,8 @@ public class IndexDaoImpl extends AbstractDao<Index> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#select(int)
-	 */
 	@Override
-	public Index select(int id) {
+	public final Index select(final int id) {
 		SqlSession session = getSqlSessionFactory();
 		Index index = null;
 		try {
@@ -72,9 +61,9 @@ public class IndexDaoImpl extends AbstractDao<Index> {
 	 * 
 	 * @param ind
 	 *            the index
-	 * @return
+	 * @return an index
 	 */
-	public Index selectOneIndexWithIdAndIndex(Index ind) {
+	public final Index selectOneIndexWithIdAndIndex(final Index ind) {
 		SqlSession session = getSqlSessionFactory();
 		Index index = null;
 		try {
@@ -85,13 +74,8 @@ public class IndexDaoImpl extends AbstractDao<Index> {
 		return index;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
-	 */
 	@Override
-	public void update(Index index) {
+	public final void update(final Index index) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("IndexDao.updateOneIndex", index);
@@ -101,13 +85,8 @@ public class IndexDaoImpl extends AbstractDao<Index> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
-	 */
 	@Override
-	public void delete(Index index) {
+	public final void delete(final Index index) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("IndexDao.deleteOneIndex", index);
@@ -128,9 +107,9 @@ public class IndexDaoImpl extends AbstractDao<Index> {
 	 *            second date
 	 * @return a list of Index
 	 */
-	public List<Index> selectListFrom(String yahooId, Date from, Date to) {
+	public final List<Index> selectListFrom(final String yahooId, final Date from, final Date to) {
 		SqlSession session = getSqlSessionFactory();
-		List<Index> indexes = new ArrayList<Index>();
+		List<Index> indexes = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("yahooId", yahooId);
 		map.put("from", from);
@@ -150,7 +129,7 @@ public class IndexDaoImpl extends AbstractDao<Index> {
 	 *            the index requested
 	 * @return and Index with last data
 	 */
-	public Index selectLast(String yahooId) {
+	public final Index selectLast(final String yahooId) {
 		SqlSession session = getSqlSessionFactory();
 		Index index = null;
 		try {

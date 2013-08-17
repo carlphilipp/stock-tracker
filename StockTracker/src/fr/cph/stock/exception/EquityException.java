@@ -27,7 +27,7 @@ public class EquityException extends Exception {
 	/** Serialization **/
 	private static final long serialVersionUID = 1L;
 	/** Error message **/
-	public static String ENTITY_ALREADY_RECORDED = " is already listed !";
+	public static final String ENTITY_ALREADY_RECORDED = " is already listed !";
 
 	/**
 	 * Constructor
@@ -42,7 +42,7 @@ public class EquityException extends Exception {
 	 * @param message
 	 *            the error message
 	 */
-	public EquityException(String message) {
+	public EquityException(final String message) {
 		super(message);
 	}
 

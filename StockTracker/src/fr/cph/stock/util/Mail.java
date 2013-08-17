@@ -39,14 +39,14 @@ import org.apache.log4j.Logger;
  * @author Carl-Philipp Harmant
  * 
  */
-public class Mail {
+public final class Mail {
 
 	/** The logger **/
-	private static final Logger log = Logger.getLogger(Mail.class);
+	private static final Logger LOG = Logger.getLogger(Mail.class);
 	/** Smtp host **/
-	private static String SMTP_HOST_NAME;
+	private static String smptHostName;
 	/** Smtp port **/
-	private static String SMTP_PORT;
+	private static String smtpPort;
 	/** Email of the sender **/
 	private static String emailFrom;
 	/** Password of the sender **/
@@ -66,13 +66,15 @@ public class Mail {
 	 * @param attachFile
 	 *            the files to attach
 	 * @throws MessagingException
+	 *             the messaging exception
 	 * @throws IOException
+	 *             the io exception
 	 */
-	private Mail(String emailSubjectTxt, String emailMsgTxt, String[] sendTo, String attachFile) throws MessagingException,
-			IOException {
+	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile)
+			throws MessagingException, IOException {
 		Properties prop = Util.getProperties("app.properties");
-		SMTP_HOST_NAME = prop.getProperty("email.smtp_host_name");
-		SMTP_PORT = prop.getProperty("email.smtp_port");
+		smptHostName = prop.getProperty("email.smtp_host_name");
+		smtpPort = prop.getProperty("email.smtp_port");
 		emailFrom = prop.getProperty("email.from");
 		passwordFrom = prop.getProperty("email.password");
 		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
@@ -93,18 +95,20 @@ public class Mail {
 	 * @param attachFile
 	 *            the attach files
 	 * @throws MessagingException
+	 *             the messaging exception
 	 * @throws IOException
+	 *             the io exception
 	 */
-	public void sendSSLMessage(String recipients[], String subject, String message, String from, String attachFile)
-			throws MessagingException, IOException {
+	public void sendSSLMessage(final String[] recipients, final String subject, final String message, final String from,
+			final String attachFile) throws MessagingException, IOException {
 		boolean debug = false;
 
 		Properties props = new Properties();
-		props.put("mail.smtp.host", SMTP_HOST_NAME);
+		props.put("mail.smtp.host", smptHostName);
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.debug", "false");
-		props.put("mail.smtp.port", SMTP_PORT);
-		props.put("mail.smtp.socketFactory.port", SMTP_PORT);
+		props.put("mail.smtp.port", smtpPort);
+		props.put("mail.smtp.socketFactory.port", smtpPort);
 		props.put("mail.smtp.socketFactory.class", SSL_FACTORY);
 		props.put("mail.smtp.socketFactory.fallback", "false");
 
@@ -151,11 +155,12 @@ public class Mail {
 	 * @param attachFile
 	 *            the attach files
 	 */
-	public static void sendMail(String emailSubjectTxt, String emailMsgTxt, String[] sendTo, String attachFile) {
+	public static void sendMail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo,
+			final String attachFile) {
 		try {
 			new Mail(emailSubjectTxt, emailMsgTxt, sendTo, attachFile);
 		} catch (MessagingException | IOException e1) {
-			log.error("Error while trying to send an email : " + e1.getMessage(), e1);
+			LOG.error("Error while trying to send an email : " + e1.getMessage(), e1);
 		}
 	}
 }

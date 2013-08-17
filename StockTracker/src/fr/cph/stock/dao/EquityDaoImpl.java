@@ -28,11 +28,8 @@ import fr.cph.stock.entities.Equity;
  */
 public class EquityDaoImpl extends AbstractDao<Equity> {
 
-	/* (non-Javadoc)
-	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
-	 */
 	@Override
-	public void insert(Equity equity) {
+	public final void insert(final Equity equity) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("EquityDao.insertOneEquity", equity);
@@ -40,14 +37,11 @@ public class EquityDaoImpl extends AbstractDao<Equity> {
 		} finally {
 			session.close();
 		}
-		
+
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.cph.stock.dao.IDao#select(int)
-	 */
 	@Override
-	public Equity select(int id) {
+	public final Equity select(final int id) {
 		SqlSession session = getSqlSessionFactory();
 		Equity equity = null;
 		try {
@@ -58,11 +52,8 @@ public class EquityDaoImpl extends AbstractDao<Equity> {
 		return equity;
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
-	 */
 	@Override
-	public void update(Equity equity) {
+	public final void update(final Equity equity) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("EquityDao.updateOneEquity", equity);
@@ -70,14 +61,11 @@ public class EquityDaoImpl extends AbstractDao<Equity> {
 		} finally {
 			session.close();
 		}
-		
+
 	}
 
-	/* (non-Javadoc)
-	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
-	 */
 	@Override
-	public void delete(Equity equity) {
+	public final void delete(final Equity equity) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("EquityDao.deleteOneEquity", equity);
@@ -86,5 +74,4 @@ public class EquityDaoImpl extends AbstractDao<Equity> {
 			session.close();
 		}
 	}
-
 }

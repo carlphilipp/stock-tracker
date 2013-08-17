@@ -17,7 +17,6 @@
 package fr.cph.stock.web.servlet.share;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
@@ -52,43 +51,33 @@ import fr.cph.stock.entities.User;
 public class CreateHistoryServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2999218921595727810L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(CreateHistoryServlet.class);
+	private static final Logger LOG = Logger.getLogger(CreateHistoryServlet.class);
 	/** Business **/
 	private IBusiness business;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
 	@Override
-	public void init() {
+	public final void init() {
 		business = new Business();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
 			User user = (User) session.getAttribute("user");
 			String liquidity = request.getParameter("liquidity");
-			String _account = request.getParameter("account");
+			String acc = request.getParameter("account");
 
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
-			Account account = portfolio.getAccount(_account);
+			Account account = portfolio.getAccount(acc);
 
 			Part p1 = request.getPart("file");
 			InputStream is = p1.getInputStream();
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-			Csv csv = new Csv(br, user, _account);
+			Csv csv = new Csv(br, user, acc);
 			List<ShareValue> shareValues = csv.getShareValueList();
 			for (ShareValue sv : shareValues) {
 				business.addShareValue(sv);
@@ -98,18 +87,13 @@ public class CreateHistoryServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 }

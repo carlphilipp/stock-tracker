@@ -33,11 +33,10 @@ import fr.cph.stock.enumtype.Month;
  */
 public class Equity implements Comparable<Equity> {
 
-	// private static final Logger log = Logger.getLogger(Equity.class);
-
 	/** Precision for calculation **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
-
+	/** **/
+	private static final int PERCENT = 100;
 	/** Company **/
 	private Company company;
 	/** Id **/
@@ -104,11 +103,9 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the cap
 	 */
-	public Double getGapObjectivLocal() {
-		if (gapObjectivLocal == null) {
-			if (getObjectivLocal() != null) {
-				gapObjectivLocal = (getObjectivLocal() / company.getQuote() - 1) * 100;
-			}
+	public final Double getGapObjectivLocal() {
+		if (gapObjectivLocal == null && getObjectivLocal() != null) {
+			gapObjectivLocal = (getObjectivLocal() / company.getQuote() - 1) * PERCENT;
 		}
 		return gapObjectivLocal;
 	}
@@ -118,10 +115,10 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the value
 	 */
-	public Double getValue() {
+	public final Double getValue() {
 		if (value == null) {
 			value = quantity * company.getQuote() * getParity();
-			value = (new BigDecimal(value, mathContext)).doubleValue();
+			value = new BigDecimal(value, mathContext).doubleValue();
 		}
 		return value;
 	}
@@ -131,9 +128,9 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the plus minus value
 	 */
-	public Double getPlusMinusUnitCostPriceValue() {
+	public final Double getPlusMinusUnitCostPriceValue() {
 		if (plusMinusUnitCostPriceValue == null) {
-			plusMinusUnitCostPriceValue = getValue() - (unitCostPrice * getCurrentParity() * quantity);
+			plusMinusUnitCostPriceValue = getValue() - unitCostPrice * getCurrentParity() * quantity;
 		}
 		return plusMinusUnitCostPriceValue;
 	}
@@ -143,11 +140,11 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return a yield
 	 */
-	public Double getYieldYear() {
+	public final Double getYieldYear() {
 		if (yieldYear == null) {
-			yieldYear = getCurrentPruYield() * getValue() / 100;
+			yieldYear = getCurrentPruYield() * getValue() / PERCENT;
 		}
-		return yieldYear.doubleValue();
+		return yieldYear;
 	}
 
 	/**
@@ -155,9 +152,9 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the plus minus value
 	 */
-	public Double getPlusMinusValue() {
+	public final Double getPlusMinusValue() {
 		if (plusMinusValue == null) {
-			plusMinusValue = (getValue() - getOriginalValue()) / getOriginalValue() * 100;
+			plusMinusValue = (getValue() - getOriginalValue()) / getOriginalValue() * PERCENT;
 		}
 		return plusMinusValue;
 	}
@@ -167,11 +164,11 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the yield
 	 */
-	public Double getYieldUnitCostPrice() {
+	public final Double getYieldUnitCostPrice() {
 		if (yieldUnitCostPrice == null) {
 			yieldUnitCostPrice = getCurrentPruYield();
 		}
-		return yieldUnitCostPrice.doubleValue();
+		return yieldUnitCostPrice;
 	}
 
 	/**
@@ -179,11 +176,9 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the gap
 	 */
-	public Double getGapStopLossLocal() {
-		if (gapStopLossLocal == null) {
-			if (getStopLossLocal() != null) {
-				gapStopLossLocal = (company.getQuote() / getStopLossLocal() - 1) * 100;
-			}
+	public final Double getGapStopLossLocal() {
+		if (gapStopLossLocal == null && getStopLossLocal() != null) {
+			gapStopLossLocal = (company.getQuote() / getStopLossLocal() - 1) * PERCENT;
 		}
 		return gapStopLossLocal;
 	}
@@ -193,9 +188,9 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the gap
 	 */
-	public Double getGapObjectiv() {
+	public final Double getGapObjectiv() {
 		if (gapObjectivLocal == null) {
-			gapObjectivLocal = (getObjectivLocal() / company.getQuote() - 1) * 100;
+			gapObjectivLocal = (getObjectivLocal() / company.getQuote() - 1) * PERCENT;
 		}
 		return gapObjectivLocal;
 	}
@@ -206,7 +201,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param gapObjectivLocal
 	 *            the gap objective
 	 */
-	public void setGapObjectivLocal(Double gapObjectivLocal) {
+	public final void setGapObjectivLocal(final Double gapObjectivLocal) {
 		this.gapObjectivLocal = gapObjectivLocal;
 	}
 
@@ -215,7 +210,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the market cap in decimal
 	 */
-	public BigDecimal getMarketCapitalizationLocal() {
+	public final BigDecimal getMarketCapitalizationLocal() {
 		if (marketCapitalizationLocal == null) {
 			BigDecimal big = getMarketCapitalizationInBigDecimal();
 			if (big == null) {
@@ -232,19 +227,19 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the market capitalization
 	 */
-	public MarketCapitalization getMarketCapitalizationType() {
+	public final MarketCapitalization getMarketCapitalizationType() {
 		if (marketCapitalizationType == null) {
 			BigDecimal cap = getMarketCapitalizationLocal();
 			if (cap != null) {
-				if (cap.compareTo(new BigDecimal(200000000.0)) == 1) {
+				if (cap.compareTo(new BigDecimal("200000000")) == 1) {
 					marketCapitalizationType = MarketCapitalization.MEGA_CAP;
-				} else if (cap.compareTo(new BigDecimal(10000000.0)) == 1) {
+				} else if (cap.compareTo(new BigDecimal("10000000")) == 1) {
 					marketCapitalizationType = MarketCapitalization.LARGE_CAP;
-				} else if (cap.compareTo(new BigDecimal(2000000.0)) == 1) {
+				} else if (cap.compareTo(new BigDecimal("2000000")) == 1) {
 					marketCapitalizationType = MarketCapitalization.MID_CAP;
-				} else if (cap.compareTo(new BigDecimal(250.0)) == 1) {
+				} else if (cap.compareTo(new BigDecimal("250")) == 1) {
 					marketCapitalizationType = MarketCapitalization.SMALL_CAP;
-				} else if (cap.compareTo(new BigDecimal(50.0)) == 1) {
+				} else if (cap.compareTo(new BigDecimal("50")) == 1) {
 					marketCapitalizationType = MarketCapitalization.MICRO_CAP;
 				} else {
 					marketCapitalizationType = MarketCapitalization.NANO_CAP;
@@ -261,9 +256,9 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the market cap in decimal
 	 */
-	public BigDecimal getMarketCapitalizationInBigDecimal() {
+	public final BigDecimal getMarketCapitalizationInBigDecimal() {
 		if (getCurrentMarketCap() != null) {
-			String str = new String(getCurrentMarketCap());
+			String str = getCurrentMarketCap().intern();
 			StringBuilder sb = new StringBuilder();
 			char c = str.charAt(str.length() - 1);
 			if (c == 'B') {
@@ -297,7 +292,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the company
 	 */
-	public Company getCompany() {
+	public final Company getCompany() {
 		return company;
 	}
 
@@ -307,7 +302,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param company
 	 *            the company
 	 */
-	public void setCompany(Company company) {
+	public final void setCompany(final Company company) {
 		this.company = company;
 	}
 
@@ -316,7 +311,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the quantity
 	 */
-	public Double getQuantity() {
+	public final Double getQuantity() {
 		return quantity;
 	}
 
@@ -326,7 +321,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param quantity
 	 *            the quantity
 	 */
-	public void setQuantity(Double quantity) {
+	public final void setQuantity(final Double quantity) {
 		this.quantity = quantity;
 	}
 
@@ -335,7 +330,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the unit cost price
 	 */
-	public Double getUnitCostPrice() {
+	public final Double getUnitCostPrice() {
 		return unitCostPrice;
 	}
 
@@ -345,7 +340,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param unitCostPrice
 	 *            the unit cost price
 	 */
-	public void setUnitCostPrice(Double unitCostPrice) {
+	public final void setUnitCostPrice(final Double unitCostPrice) {
 		this.unitCostPrice = unitCostPrice;
 	}
 
@@ -354,7 +349,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the parity
 	 */
-	public double getParity() {
+	public final double getParity() {
 		return parity;
 	}
 
@@ -364,7 +359,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param parity
 	 *            the parity
 	 */
-	public void setParity(Double parity) {
+	public final void setParity(final Double parity) {
 		this.parity = parity;
 	}
 
@@ -373,7 +368,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the yield personal
 	 */
-	public Double getYieldPersonal() {
+	public final Double getYieldPersonal() {
 		return yieldPersonal;
 	}
 
@@ -383,7 +378,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param yieldPersonal
 	 *            the yield personal
 	 */
-	public void setYieldPersonal(Double yieldPersonal) {
+	public final void setYieldPersonal(final Double yieldPersonal) {
 		this.yieldPersonal = yieldPersonal;
 	}
 
@@ -392,7 +387,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the stop loss
 	 */
-	public Double getStopLossLocal() {
+	public final Double getStopLossLocal() {
 		return stopLossLocal;
 	}
 
@@ -402,7 +397,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param stopLossLocal
 	 *            the stop loss
 	 */
-	public void setStopLossLocal(Double stopLossLocal) {
+	public final void setStopLossLocal(final Double stopLossLocal) {
 		this.stopLossLocal = stopLossLocal;
 	}
 
@@ -411,7 +406,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the objective
 	 */
-	public Double getObjectivLocal() {
+	public final Double getObjectivLocal() {
 		return objectivLocal;
 	}
 
@@ -421,7 +416,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param objectivLocal
 	 *            the objective
 	 */
-	public void setObjectivLocal(Double objectivLocal) {
+	public final void setObjectivLocal(final Double objectivLocal) {
 		this.objectivLocal = objectivLocal;
 	}
 
@@ -430,7 +425,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the frequency
 	 */
-	public Frequency getYieldFrequency() {
+	public final Frequency getYieldFrequency() {
 		return yieldFrequency;
 	}
 
@@ -440,7 +435,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param yieldFrequency
 	 *            the frequency
 	 */
-	public void setYieldFrequency(Frequency yieldFrequency) {
+	public final void setYieldFrequency(final Frequency yieldFrequency) {
 		this.yieldFrequency = yieldFrequency;
 	}
 
@@ -449,7 +444,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the month
 	 */
-	public Month getYieldMonth() {
+	public final Month getYieldMonth() {
 		return yieldMonth;
 	}
 
@@ -459,7 +454,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param yieldMonth
 	 *            the yield per month
 	 */
-	public void setYieldMonth(Month yieldMonth) {
+	public final void setYieldMonth(final Month yieldMonth) {
 		this.yieldMonth = yieldMonth;
 	}
 
@@ -469,7 +464,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param id
 	 *            the id
 	 */
-	public void setid(int id) {
+	public final void setid(final int id) {
 		this.id = id;
 	}
 
@@ -478,7 +473,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the id
 	 */
-	public int getId() {
+	public final int getId() {
 		return id;
 	}
 
@@ -487,7 +482,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the company id
 	 */
-	public int getCompanyId() {
+	public final int getCompanyId() {
 		return companyId;
 	}
 
@@ -497,7 +492,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param companyId
 	 *            the id
 	 */
-	public void setCompanyId(int companyId) {
+	public final void setCompanyId(final int companyId) {
 		this.companyId = companyId;
 	}
 
@@ -506,7 +501,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the portfolio id
 	 */
-	public int getPortfolioId() {
+	public final int getPortfolioId() {
 		return portfolioId;
 	}
 
@@ -516,7 +511,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param portfolioId
 	 *            the id
 	 */
-	public void setPortfolioId(int portfolioId) {
+	public final void setPortfolioId(final int portfolioId) {
 		this.portfolioId = portfolioId;
 	}
 
@@ -525,7 +520,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the personal sector
 	 */
-	public String getSectorPersonal() {
+	public final String getSectorPersonal() {
 		return sectorPersonal;
 	}
 
@@ -534,7 +529,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the current sector
 	 */
-	public String getCurrentSector() {
+	public final String getCurrentSector() {
 		String sector;
 		if (getSectorPersonal() == null) {
 			sector = company.getSector();
@@ -550,7 +545,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param sectorPersonal
 	 *            the personal sector
 	 */
-	public void setSectorPersonal(String sectorPersonal) {
+	public final void setSectorPersonal(final String sectorPersonal) {
 		this.sectorPersonal = sectorPersonal;
 	}
 
@@ -559,7 +554,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the industry
 	 */
-	public String getIndustryPersonal() {
+	public final String getIndustryPersonal() {
 		return industryPersonal;
 	}
 
@@ -568,7 +563,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the current industry
 	 */
-	public String getCurrentIndustry() {
+	public final String getCurrentIndustry() {
 		String industry;
 		if (getIndustryPersonal() == null) {
 			industry = company.getIndustry();
@@ -584,7 +579,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param industryPersonal
 	 *            the industry
 	 */
-	public void setIndustryPersonal(String industryPersonal) {
+	public final void setIndustryPersonal(final String industryPersonal) {
 		this.industryPersonal = industryPersonal;
 	}
 
@@ -593,7 +588,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the market cap
 	 */
-	public String getMarketCapPersonal() {
+	public final String getMarketCapPersonal() {
 		return marketCapPersonal;
 	}
 
@@ -602,7 +597,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the current market cap
 	 */
-	public String getCurrentMarketCap() {
+	public final String getCurrentMarketCap() {
 		String marketCap;
 		if (getMarketCapPersonal() == null) {
 			marketCap = company.getMarketCapitalization();
@@ -618,7 +613,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param marketCapPersonal
 	 *            the market cap personnal
 	 */
-	public void setMarketCapPersonal(String marketCapPersonal) {
+	public final void setMarketCapPersonal(final String marketCapPersonal) {
 		this.marketCapPersonal = marketCapPersonal;
 	}
 
@@ -628,7 +623,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param marketCapitalizationType
 	 *            the market cpitalization type
 	 */
-	public void setMarketCapitalizationType(MarketCapitalization marketCapitalizationType) {
+	public final void setMarketCapitalizationType(final MarketCapitalization marketCapitalizationType) {
 		this.marketCapitalizationType = marketCapitalizationType;
 	}
 
@@ -637,7 +632,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the original value
 	 */
-	public Double getOriginalValue() {
+	public final Double getOriginalValue() {
 		if (originalValue == null) {
 			originalValue = getQuantity() * getUnitCostPrice() * getCurrentParity();
 		}
@@ -650,7 +645,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param originalValue
 	 *            the original value
 	 */
-	public void setOriginalValue(Double originalValue) {
+	public final void setOriginalValue(final Double originalValue) {
 		this.originalValue = originalValue;
 	}
 
@@ -659,22 +654,22 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the yield
 	 */
-	public Double getCurrentPruYield() {
+	public final Double getCurrentPruYield() {
 		double res;
 		if (getYieldPersonal() != null) {
 			if (getUnitCostPrice() == 0) {
 				res = 0;
 			} else {
-				res = getYieldPersonal() / getUnitCostPrice() * 100;
+				res = getYieldPersonal() / getUnitCostPrice() * PERCENT;
 			}
 		} else {
 			if (getUnitCostPrice() == 0) {
 				res = 0;
 			} else {
-				res = getCompany().getYield() / getUnitCostPrice() * 100;
+				res = getCompany().getYield() / getUnitCostPrice() * PERCENT;
 			}
 		}
-		res = (new BigDecimal(res, mathContext)).doubleValue();
+		res = new BigDecimal(res, mathContext).doubleValue();
 		return res;
 	}
 
@@ -683,14 +678,14 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the current yield
 	 */
-	public Double getCurrentYield() {
+	public final Double getCurrentYield() {
 		double res;
 		if (getYieldPersonal() != null) {
-			res = getYieldPersonal() / getCompany().getQuote() * 100;
+			res = getYieldPersonal() / getCompany().getQuote() * PERCENT;
 		} else {
-			res = getCompany().getYield() / getCompany().getQuote() * 100;
+			res = getCompany().getYield() / getCompany().getQuote() * PERCENT;
 		}
-		res = (new BigDecimal(res, mathContext)).doubleValue();
+		res = new BigDecimal(res, mathContext).doubleValue();
 		return res;
 	}
 
@@ -699,7 +694,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the parity
 	 */
-	public Double getParityPersonal() {
+	public final Double getParityPersonal() {
 		return parityPersonal;
 	}
 
@@ -709,7 +704,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param parityPersonal
 	 *            the parity
 	 */
-	public void setParityPersonal(Double parityPersonal) {
+	public final void setParityPersonal(final Double parityPersonal) {
 		this.parityPersonal = parityPersonal;
 	}
 
@@ -718,13 +713,13 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the current parity
 	 */
-	public Double getCurrentParity() {
+	public final Double getCurrentParity() {
 		if (getParityPersonal() != null) {
 			currentParity = getParityPersonal();
 		} else {
 			currentParity = getParity();
 		}
-		currentParity = (new BigDecimal(currentParity, mathContext)).doubleValue();
+		currentParity = new BigDecimal(currentParity, mathContext).doubleValue();
 		return currentParity;
 	}
 
@@ -733,8 +728,8 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the date
 	 */
-	public Date getLastUpdate() {
-		return lastUpdate;
+	public final Date getLastUpdate() {
+		return (Date) lastUpdate.clone();
 	}
 
 	/**
@@ -743,8 +738,8 @@ public class Equity implements Comparable<Equity> {
 	 * @param lastUpdate
 	 *            a date
 	 */
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
+	public final void setLastUpdate(final Date lastUpdate) {
+		this.lastUpdate = (Date) lastUpdate.clone();
 	}
 
 	/**
@@ -752,7 +747,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the personal name
 	 */
-	public String getNamePersonal() {
+	public final String getNamePersonal() {
 		return namePersonal;
 	}
 
@@ -762,7 +757,7 @@ public class Equity implements Comparable<Equity> {
 	 * @param namePersonal
 	 *            the name
 	 */
-	public void setNamePersonal(String namePersonal) {
+	public final void setNamePersonal(final String namePersonal) {
 		this.namePersonal = namePersonal;
 	}
 
@@ -771,7 +766,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return the current name
 	 */
-	public String getCurrentName() {
+	public final String getCurrentName() {
 		String temp = null;
 		if (getNamePersonal() != null) {
 			temp = getNamePersonal();
@@ -786,7 +781,7 @@ public class Equity implements Comparable<Equity> {
 	 * 
 	 * @return a JSONObject
 	 */
-	public JSONObject getJSONObject() {
+	public final JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.put("name", getCurrentName());
 		json.put("unitCostPrice", getUnitCostPrice());
@@ -807,7 +802,7 @@ public class Equity implements Comparable<Equity> {
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString() {
+	public final String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Equity " + id + " - portfolioId: " + portfolioId + "\n");
 		sb.append("Quantity: " + quantity + " -  Unit Cost Price: " + unitCostPrice + "\n");
@@ -821,7 +816,7 @@ public class Equity implements Comparable<Equity> {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public int compareTo(Equity equity) {
+	public int compareTo(final Equity equity) {
 		return this.getCurrentName().compareTo(equity.getCurrentName());
 	}
 

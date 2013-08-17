@@ -32,27 +32,24 @@ import fr.cph.stock.exception.YahooException;
  */
 public class CurrencyJob implements Job {
 
-	private static final Logger log = Logger.getLogger(CurrencyJob.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(CurrencyJob.class);
+	/** **/
 	private IBusiness business;
 
+	/** Constructor **/
 	public CurrencyJob() {
 		business = new Business();
 	}
 
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		try {
 			business.updateAllCurrencies();
 		} catch (YahooException e) {
-			log.warn("Error while executing CurrencyJob: " + e.getMessage());
+			LOG.warn("Error while executing CurrencyJob: " + e.getMessage());
 		} catch (Throwable t) {
-			log.error("Error while executing CurrencyJob: " + t.getMessage(), t);
+			LOG.error("Error while executing CurrencyJob: " + t.getMessage(), t);
 		}
-	}
-	
-
-	public static void main(String[] args) {
-		CurrencyJob m = new CurrencyJob();
-		m.execute(null);
 	}
 }

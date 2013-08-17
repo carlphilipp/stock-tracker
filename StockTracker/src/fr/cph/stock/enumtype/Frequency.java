@@ -23,5 +23,12 @@ package fr.cph.stock.enumtype;
  * 
  */
 public enum Frequency {
-	MONTLY, YEARLY, QUARTERLY, BIANNUAL
+	/** **/
+	MONTLY, 
+	/** **/
+	YEARLY, 
+	/** **/
+	QUARTERLY, 
+	/** **/
+	BIANNUAL
 }

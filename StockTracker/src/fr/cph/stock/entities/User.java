@@ -16,6 +16,7 @@
 
 package fr.cph.stock.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
 
@@ -27,7 +28,12 @@ import net.sf.json.JSONObject;
  * @author Carl-Philipp Harmant
  * 
  */
-public class User {
+public class User implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7736017495914032958L;
 
 	/** Id **/
 	private int id;
@@ -68,7 +74,7 @@ public class User {
 	 * @param password
 	 *            the password
 	 */
-	public User(String login, String password) {
+	public User(final String login, final String password) {
 		this.login = login;
 		this.password = password;
 	}
@@ -78,7 +84,7 @@ public class User {
 	 * 
 	 * @return the id
 	 */
-	public int getId() {
+	public final int getId() {
 		return id;
 	}
 
@@ -88,7 +94,7 @@ public class User {
 	 * @param id
 	 *            the id
 	 */
-	public void setId(int id) {
+	public final void setId(final int id) {
 		this.id = id;
 	}
 
@@ -97,7 +103,7 @@ public class User {
 	 * 
 	 * @return the login
 	 */
-	public String getLogin() {
+	public final String getLogin() {
 		return login;
 	}
 
@@ -107,7 +113,7 @@ public class User {
 	 * @param login
 	 *            the login
 	 */
-	public void setLogin(String login) {
+	public final void setLogin(final String login) {
 		this.login = login;
 	}
 
@@ -116,7 +122,7 @@ public class User {
 	 * 
 	 * @return the password
 	 */
-	public String getPassword() {
+	public final String getPassword() {
 		return password;
 	}
 
@@ -126,7 +132,7 @@ public class User {
 	 * @param password
 	 *            the password
 	 */
-	public void setPassword(String password) {
+	public final void setPassword(final String password) {
 		this.password = password;
 	}
 
@@ -135,7 +141,7 @@ public class User {
 	 * 
 	 * @return the email
 	 */
-	public String getEmail() {
+	public final String getEmail() {
 		return email;
 	}
 
@@ -145,7 +151,7 @@ public class User {
 	 * @param email
 	 *            the email
 	 */
-	public void setEmail(String email) {
+	public final void setEmail(final String email) {
 		this.email = email;
 	}
 
@@ -154,7 +160,7 @@ public class User {
 	 * 
 	 * @return the locale
 	 */
-	public String getLocale() {
+	public final String getLocale() {
 		return locale;
 	}
 
@@ -164,7 +170,7 @@ public class User {
 	 * @param locale
 	 *            the locale
 	 */
-	public void setLocale(Locale locale) {
+	public final void setLocale(final Locale locale) {
 		this.locale = locale.toString();
 	}
 
@@ -174,7 +180,7 @@ public class User {
 	 * @param locale
 	 *            the locale
 	 */
-	public void setLocale(String locale) {
+	public final void setLocale(final String locale) {
 		this.locale = locale;
 	}
 
@@ -183,8 +189,12 @@ public class User {
 	 * 
 	 * @return the last update
 	 */
-	public Date getLastUpdate() {
-		return lastUpdate;
+	public final Date getLastUpdate() {
+		if (lastUpdate != null) {
+			return (Date) lastUpdate.clone();
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -193,8 +203,8 @@ public class User {
 	 * @param lastUpdate
 	 *            the last update
 	 */
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
+	public final void setLastUpdate(final Date lastUpdate) {
+		this.lastUpdate = (Date) lastUpdate.clone();
 	}
 
 	/**
@@ -202,7 +212,7 @@ public class User {
 	 * 
 	 * @return the timezone
 	 */
-	public String getTimeZone() {
+	public final String getTimeZone() {
 		return timeZone;
 	}
 
@@ -212,7 +222,7 @@ public class User {
 	 * @param timeZone
 	 *            the timezone
 	 */
-	public void setTimeZone(String timeZone) {
+	public final void setTimeZone(final String timeZone) {
 		this.timeZone = timeZone;
 	}
 
@@ -221,7 +231,7 @@ public class User {
 	 * 
 	 * @return the date pattern
 	 */
-	public String getDatePattern() {
+	public final String getDatePattern() {
 		return datePattern;
 	}
 
@@ -231,7 +241,7 @@ public class User {
 	 * @param datePattern
 	 *            the date pattern
 	 */
-	public void setDatePattern(String datePattern) {
+	public final void setDatePattern(final String datePattern) {
 		this.datePattern = datePattern;
 		setDatePatternWithoutHourMin(datePattern.substring(0, datePattern.indexOf(' ')));
 	}
@@ -241,7 +251,7 @@ public class User {
 	 * 
 	 * @return the date pattern
 	 */
-	public String getDatePatternWithoutHourMin() {
+	public final String getDatePatternWithoutHourMin() {
 		return datePatternWithoutHourMin;
 	}
 
@@ -251,7 +261,7 @@ public class User {
 	 * @param datePatternWithoutHourMin
 	 *            the date pattern
 	 */
-	public void setDatePatternWithoutHourMin(String datePatternWithoutHourMin) {
+	public final void setDatePatternWithoutHourMin(final String datePatternWithoutHourMin) {
 		this.datePatternWithoutHourMin = datePatternWithoutHourMin;
 	}
 
@@ -260,7 +270,7 @@ public class User {
 	 * 
 	 * @return if the user is allowed or not to enter the website
 	 */
-	public Boolean getAllow() {
+	public final Boolean getAllow() {
 		return allow;
 	}
 
@@ -270,7 +280,7 @@ public class User {
 	 * @param allow
 	 *            the boolean that will tell if the user is allowed to enter the website
 	 */
-	public void setAllow(Boolean allow) {
+	public final void setAllow(final Boolean allow) {
 		this.allow = allow;
 	}
 
@@ -279,7 +289,7 @@ public class User {
 	 * 
 	 * @return the hour time
 	 */
-	public Integer getUpdateHourTime() {
+	public final Integer getUpdateHourTime() {
 		return updateHourTime;
 	}
 
@@ -289,7 +299,7 @@ public class User {
 	 * @param updateHourTime
 	 *            the hour time
 	 */
-	public void setUpdateHourTime(Integer updateHourTime) {
+	public final void setUpdateHourTime(final Integer updateHourTime) {
 		this.updateHourTime = updateHourTime;
 	}
 
@@ -298,7 +308,7 @@ public class User {
 	 * 
 	 * @return true or false
 	 */
-	public Boolean getUpdateSendMail() {
+	public final Boolean getUpdateSendMail() {
 		return updateSendMail;
 	}
 
@@ -308,15 +318,23 @@ public class User {
 	 * @param updateSendMail
 	 *            true or false
 	 */
-	public void setUpdateSendMail(Boolean updateSendMail) {
+	public final void setUpdateSendMail(final Boolean updateSendMail) {
 		this.updateSendMail = updateSendMail;
 	}
-	
-	public String getLanguage(){
+
+	/**
+	 * Getter
+	 * @return a language
+	 */
+	public final String getLanguage() {
 		return this.locale.substring(0, this.locale.indexOf('_'));
 	}
-	
-	public String getCountry(){
+
+	/**
+	 * Getter
+	 * @return a country
+	 */
+	public final String getCountry() {
 		return this.locale.substring(this.locale.indexOf('_') + 1, this.locale.length());
 	}
 
@@ -325,7 +343,7 @@ public class User {
 	 * 
 	 * @return a JSONObject
 	 */
-	public JSONObject getJSONObject() {
+	public final JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.put("id", getId());
 		json.put("login", getLogin());

@@ -9,17 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.time.Millisecond;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-
-import fr.cph.stock.entities.Index;
-import fr.cph.stock.entities.Portfolio;
-import fr.cph.stock.entities.chart.PieChart;
-import fr.cph.stock.entities.chart.TimeChart;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -29,30 +18,81 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.time.Millisecond;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+
+import fr.cph.stock.entities.Index;
+import fr.cph.stock.entities.chart.PieChart;
+import fr.cph.stock.entities.chart.TimeChart;
+
+/**
+ * Class that takes care of pdf reports
+ * 
+ * @author Carl-Philipp Harmant
+ * 
+ */
 public class PdfReport {
 
+	/** **/
 	private String jrxml;
 
+	/** **/
 	private Map<String, Object> parameters;
 
-	public PdfReport(String jrxml) {
-		this.jrxml = jrxml;
+	/**
+	 * Constructor
+	 * 
+	 * @param jrxmlPath
+	 *            the jrxml file to load
+	 */
+	public PdfReport(final String jrxmlPath) {
+		this.jrxml = jrxmlPath;
 		this.parameters = new HashMap<String, Object>();
 	}
 
-	public void addParam(String param, Object object) {
+	/**
+	 * Add param
+	 * 
+	 * @param param
+	 *            the param
+	 * @param object
+	 *            the object
+	 */
+	public final void addParam(final String param, final Object object) {
 		this.parameters.put(param, object);
 	}
 
-	public JasperPrint getReport() throws FileNotFoundException, JRException {
+	/**
+	 * Get report
+	 * 
+	 * @return a jasper print
+	 * @throws FileNotFoundException
+	 *             the file not found exception
+	 * @throws JRException
+	 *             the jreException
+	 */
+	public final JasperPrint getReport() throws FileNotFoundException, JRException {
 		InputStream inputStream = PdfReport.class.getClassLoader().getResourceAsStream(jrxml);
 		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 		JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 		return jasperPrint;
 	}
-	
-	public static Image createPieChart(PieChart pieChart, String title){
+
+	/**
+	 * Create pie chart
+	 * 
+	 * @param pieChart
+	 *            the pie chart
+	 * @param title
+	 *            the title
+	 * @return an image
+	 */
+	public static Image createPieChart(final PieChart pieChart, final String title) {
 		Map<String, Double> map = pieChart.getEquities();
 		DefaultPieDataset data = new DefaultPieDataset();
 		for (Entry<String, Double> e : map.entrySet()) {
@@ -61,7 +101,17 @@ public class PdfReport {
 		JFreeChart chart = ChartFactory.createPieChart(title, data, true, true, true);
 		return chart.createBufferedImage(500, 500);
 	}
-	public static Image createTimeChart(TimeChart pieChart, String title){
+
+	/**
+	 * Create a time chart
+	 * 
+	 * @param pieChart
+	 *            the pie chart
+	 * @param title
+	 *            the title
+	 * @return an image
+	 */
+	public static Image createTimeChart(final TimeChart pieChart, final String title) {
 		Map<Date, Double> mapShareValueChart = pieChart.getShareValue();
 		Map<String, List<Index>> mapIndexChart = pieChart.getIndexes();
 

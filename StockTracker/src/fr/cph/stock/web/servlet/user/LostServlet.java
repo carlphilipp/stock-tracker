@@ -16,8 +16,6 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,29 +41,30 @@ import fr.cph.stock.util.Mail;
 public class LostServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1724898618001479554L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(LostServlet.class);
+	private static final Logger LOG = Logger.getLogger(LostServlet.class);
 	/** Business **/
 	private IBusiness business;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
+	/** Init **/
 	@Override
-	public void init() {
+	public final void init() {
 		business = new Business();
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Get method
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the answer
+	 * @throws ServletException
+	 *             the exception
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			String email = request.getParameter("email");
 			if (!email.equals("")) {
@@ -77,7 +76,7 @@ public class LostServlet extends HttpServlet {
 							+ ",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n"
 							+ "If it's you, click on this link:  " + Info.ADDRESS + Info.FOLDER + "/newpassword?&login="
 							+ user.getLogin() + "&check=" + check + ".\n\nBest regards,\nThe " + Info.NAME + " team.");
-					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[] { email }, null);
+					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[] {email}, null);
 					request.setAttribute("ok", "Check your email!");
 				} else {
 					request.setAttribute("error", "User not found!");
@@ -87,18 +86,23 @@ public class LostServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Post method
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the answer
+	 * @throws ServletException
+	 *             the servlet exception
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

@@ -44,10 +44,10 @@ import fr.cph.stock.enumtype.MarketCapitalization;
  */
 public class Portfolio {
 
-	// private static final Logger log = Logger.getLogger(Portfolio.class);
-
 	/** Precision of calculation **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
+	/** **/
+	private static final int PERCENT = 100;
 	/** Id **/
 	private int id;
 	/** User Id that get this portfolio **/
@@ -129,7 +129,7 @@ public class Portfolio {
 	 * 
 	 * @return the currency
 	 */
-	public Currency getCurrency() {
+	public final Currency getCurrency() {
 		return currency;
 	}
 
@@ -139,7 +139,7 @@ public class Portfolio {
 	 * @param currency
 	 *            the currency
 	 */
-	public void setCurrency(Currency currency) {
+	public final void setCurrency(final Currency currency) {
 		this.currency = currency;
 	}
 
@@ -148,7 +148,7 @@ public class Portfolio {
 	 * 
 	 * @return the equities
 	 */
-	public List<Equity> getEquities() {
+	public final List<Equity> getEquities() {
 		return equities;
 	}
 
@@ -158,7 +158,7 @@ public class Portfolio {
 	 * @param equities
 	 *            the equities
 	 */
-	public void setEquities(List<Equity> equities) {
+	public final void setEquities(final List<Equity> equities) {
 		this.equities = equities;
 	}
 
@@ -167,7 +167,7 @@ public class Portfolio {
 	 * 
 	 * @return the id
 	 */
-	public int getId() {
+	public final int getId() {
 		return id;
 	}
 
@@ -177,7 +177,7 @@ public class Portfolio {
 	 * @param id
 	 *            the id
 	 */
-	public void setId(int id) {
+	public final void setId(final int id) {
 		this.id = id;
 	}
 
@@ -186,7 +186,7 @@ public class Portfolio {
 	 * 
 	 * @return the user id
 	 */
-	public int getUserId() {
+	public final int getUserId() {
 		return userId;
 	}
 
@@ -196,17 +196,12 @@ public class Portfolio {
 	 * @param userId
 	 *            the user id
 	 */
-	public void setUserId(int userId) {
+	public final void setUserId(final int userId) {
 		this.userId = userId;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
-	public String toString() {
+	public final String toString() {
 		return id + " - UserId: " + userId + " - Currency - " + currency + "\n" + equities;
 	}
 
@@ -215,7 +210,7 @@ public class Portfolio {
 	 * 
 	 * @return the liquidity
 	 */
-	public Double getLiquidity() {
+	public final Double getLiquidity() {
 		return liquidity;
 	}
 
@@ -225,7 +220,7 @@ public class Portfolio {
 	 * @param liquidity
 	 *            the liquidity
 	 */
-	public void setLiquidity(Double liquidity) {
+	public final void setLiquidity(final Double liquidity) {
 		this.liquidity = liquidity;
 	}
 
@@ -234,15 +229,15 @@ public class Portfolio {
 	 * 
 	 * @return the total quantity
 	 */
-	public Double getTotalQuantity() {
+	public final Double getTotalQuantity() {
 		return totalQuantity;
 	}
 
 	/**
 	 * 
-	 * @return
+	 * @return the average unit cost price
 	 */
-	public Double getAverageUnitCostPrice() {
+	public final Double getAverageUnitCostPrice() {
 		return averageUnitCostPrice;
 	}
 
@@ -251,7 +246,7 @@ public class Portfolio {
 	 * 
 	 * @return the average quote price
 	 */
-	public Double getAverageQuotePrice() {
+	public final Double getAverageQuotePrice() {
 		return averageQuotePrice;
 	}
 
@@ -260,7 +255,7 @@ public class Portfolio {
 	 * 
 	 * @return the total value
 	 */
-	public Double getTotalValue() {
+	public final Double getTotalValue() {
 		return totalValue + getLiquidity();
 	}
 
@@ -269,7 +264,7 @@ public class Portfolio {
 	 * 
 	 * @return the total plus minus value
 	 */
-	public Double getTotalPlusMinusValue() {
+	public final Double getTotalPlusMinusValue() {
 		return totalPlusMinusValue;
 	}
 
@@ -278,7 +273,7 @@ public class Portfolio {
 	 * 
 	 * @return the total plus minus value in absolute
 	 */
-	public Double getTotalPlusMinusValueAbsolute() {
+	public final Double getTotalPlusMinusValueAbsolute() {
 		return Math.abs(totalPlusMinusValue);
 	}
 
@@ -287,7 +282,7 @@ public class Portfolio {
 	 * 
 	 * @return the yield year
 	 */
-	public Double getYieldYear() {
+	public final Double getYieldYear() {
 		return yieldYear;
 	}
 
@@ -296,7 +291,7 @@ public class Portfolio {
 	 * 
 	 * @return the total gain
 	 */
-	public Double getTotalGain() {
+	public final Double getTotalGain() {
 		return totalGain;
 	}
 
@@ -305,7 +300,7 @@ public class Portfolio {
 	 * 
 	 * @return a map with (Index name) => List of Index
 	 */
-	public Map<String, List<Index>> getIndexes() {
+	public final Map<String, List<Index>> getIndexes() {
 		return indexes;
 	}
 
@@ -315,16 +310,16 @@ public class Portfolio {
 	 * @param indexes
 	 *            a map with (Index name) => List of Index
 	 */
-	public void setIndexes(Map<String, List<Index>> indexes) {
+	public final void setIndexes(final Map<String, List<Index>> indexes) {
 		this.indexes = indexes;
 	}
 
 	/**
 	 * Get Yield per year in percentage
 	 * 
-	 * @return
+	 * @return a double
 	 */
-	public Double getYieldYearPerc() {
+	public final Double getYieldYearPerc() {
 		return yieldYearPerc;
 	}
 
@@ -333,7 +328,7 @@ public class Portfolio {
 	 * 
 	 * @return a list of share value
 	 */
-	public List<ShareValue> getShareValues() {
+	public final List<ShareValue> getShareValues() {
 		return shareValues;
 	}
 
@@ -343,7 +338,7 @@ public class Portfolio {
 	 * @param shareValues
 	 *            a list of share value
 	 */
-	public void setShareValues(List<ShareValue> shareValues) {
+	public final void setShareValues(final List<ShareValue> shareValues) {
 		this.shareValues = shareValues;
 	}
 
@@ -352,8 +347,12 @@ public class Portfolio {
 	 * 
 	 * @return a date
 	 */
-	public Date getLastCompanyUpdate() {
-		return lastCompanyUpdate;
+	public final Date getLastCompanyUpdate() {
+		if (lastCompanyUpdate != null) {
+			return (Date) lastCompanyUpdate.clone();
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -362,14 +361,14 @@ public class Portfolio {
 	 * @param lastCompanyUpdate
 	 *            the date
 	 */
-	public void setLastCompanyUpdate(Date lastCompanyUpdate) {
-		this.lastCompanyUpdate = lastCompanyUpdate;
+	public final void setLastCompanyUpdate(final Date lastCompanyUpdate) {
+		this.lastCompanyUpdate = (Date) lastCompanyUpdate.clone();
 	}
 
 	/**
 	 * This function generates all calculated field
 	 */
-	public void compute() {
+	public final void compute() {
 		Double totalUnitCostPrice = new Double(0);
 		Double totalAverageQuotePrice = new Double(0);
 		Double totalOriginalValue = new Double(0);
@@ -396,18 +395,18 @@ public class Portfolio {
 					}
 				}
 				if (equity.getCompany().getChange() != null) {
-					double valueStart = equity.getValue() / ((equity.getCompany().getChange() / 100) + 1);
+					double valueStart = equity.getValue() / (equity.getCompany().getChange() / PERCENT + 1);
 					totalValueStart += valueStart;
-					totalGainToday += valueStart * equity.getCompany().getChange() / 100;
+					totalGainToday += valueStart * equity.getCompany().getChange() / PERCENT;
 				}
 
 			}
 			totalVariation = totalValueStart == 0 ? totalValueStart
-					: (((totalValueStart + totalGainToday) / totalValueStart) - 1) * 100;
+					: ((totalValueStart + totalGainToday) / totalValueStart - 1) * PERCENT;
 			averageUnitCostPrice = totalUnitCostPrice / equities.size();
 			averageQuotePrice = totalAverageQuotePrice / equities.size();
-			totalPlusMinusValue = ((totalValue - totalOriginalValue) / totalOriginalValue) * 100;
-			yieldYearPerc = yieldYear / getTotalValue() * 100;
+			totalPlusMinusValue = ((totalValue - totalOriginalValue) / totalOriginalValue) * PERCENT;
+			yieldYearPerc = yieldYear / getTotalValue() * PERCENT;
 			setLastCompanyUpdate(lastUpdate);
 		}
 	}
@@ -417,7 +416,7 @@ public class Portfolio {
 	 * 
 	 * @return a map
 	 */
-	protected Map<String, Double> getChartSectorData() {
+	protected final Map<String, Double> getChartSectorData() {
 		if (chartSectorData == null) {
 			Map<String, Double> data = new HashMap<String, Double>();
 			for (Equity e : getEquities()) {
@@ -461,14 +460,14 @@ public class Portfolio {
 	 * 
 	 * @return a map
 	 */
-	protected Map<Date, Double> getChartShareValueData() {
+	protected final Map<Date, Double> getChartShareValueData() {
 		Map<Date, Double> data = new HashMap<Date, Double>();
-		List<ShareValue> shareValues = getShareValues();
-		int max = shareValues.size();
-		double base = shareValues.get(max - 1).getShareValue();
+		List<ShareValue> shareValuess = getShareValues();
+		int max = shareValuess.size();
+		double base = shareValuess.get(max - 1).getShareValue();
 		for (int i = max - 1; i != -1; i--) {
-			ShareValue temp = shareValues.get(i);
-			Double value = temp.getShareValue() * 100 / base;
+			ShareValue temp = shareValuess.get(i);
+			Double value = temp.getShareValue() * PERCENT / base;
 			data.put(temp.getDate(), value);
 		}
 		chartShareValueData = new TreeMap<Date, Double>();
@@ -479,19 +478,19 @@ public class Portfolio {
 	/**
 	 * Generate chart share value data
 	 */
-	protected void getChartShareValueData2() {
+	protected final void getChartShareValueData2() {
 		if (chartShareValueData2 == null && chartShareValueData3 == null) {
 			Map<Date, Double> data = new HashMap<Date, Double>();
 			Map<Date, Double> data2 = new HashMap<Date, Double>();
-			List<ShareValue> shareValues = getShareValues();
-			int max = shareValues.size();
+			List<ShareValue> shareValuess = getShareValues();
+			int max = shareValuess.size();
 			for (int i = max - 1; i != -1; i--) {
-				ShareValue temp = shareValues.get(i);
+				ShareValue temp = shareValuess.get(i);
 				Double value = temp.getPortfolioValue();
-				Double liquidity = temp.getLiquidities();
+				Double liqui = temp.getLiquidities();
 				data.put(temp.getDate(), value);
-				if (liquidity != null) {
-					data2.put(temp.getDate(), liquidity);
+				if (liqui != null) {
+					data2.put(temp.getDate(), liqui);
 				}
 			}
 			chartShareValueData2 = new TreeMap<Date, Double>();
@@ -506,7 +505,7 @@ public class Portfolio {
 	 * 
 	 * @return a map
 	 */
-	protected Map<String, Double> getChartCapData() {
+	protected final Map<String, Double> getChartCapData() {
 		if (chartCapData == null) {
 			Map<String, Double> data = new HashMap<String, Double>();
 			for (Equity e : getEquities()) {
@@ -550,7 +549,7 @@ public class Portfolio {
 	 * 
 	 * @return a list of yahoo id
 	 */
-	public List<String> getCompaniesYahooIdRealTime() {
+	public final List<String> getCompaniesYahooIdRealTime() {
 		List<String> res = new ArrayList<String>();
 		for (Equity e : getEquities()) {
 			if (e.getCompany().getRealTime()) {
@@ -566,7 +565,7 @@ public class Portfolio {
 	 * @param indexes
 	 *            a list of indexes
 	 */
-	public void addIndexes(List<Index> indexes) {
+	public final void addIndexes(final List<Index> indexes) {
 		if (indexes.size() > 0) {
 			String index = indexes.get(0).getYahooId();
 			this.indexes.put(index, indexes);
@@ -576,9 +575,9 @@ public class Portfolio {
 	/**
 	 * Get portfolio review. An horrible function.
 	 * 
-	 * @return
+	 * @return a string
 	 */
-	public String getPortfolioReview() {
+	public final String getPortfolioReview() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<table class=\"shareValueTableDetails\">");
 		for (Equity equity : getEquities()) {
@@ -599,9 +598,9 @@ public class Portfolio {
 	/**
 	 * Get pie chart sector
 	 * 
-	 * @return
+	 * @return the chart
 	 */
-	public IChart getPieChartSector() {
+	public final IChart getPieChartSector() {
 		if (piechartsector == null) {
 			Map<String, Double> map = getChartSectorData();
 			piechartsector = new PieChart(map);
@@ -615,7 +614,7 @@ public class Portfolio {
 	 * 
 	 * @return the chart
 	 */
-	public IChart getPieChartCap() {
+	public final IChart getPieChartCap() {
 		if (piechartcap == null) {
 			Map<String, Double> map = getChartCapData();
 			piechartcap = new PieChart(map);
@@ -629,7 +628,7 @@ public class Portfolio {
 	 * 
 	 * @return the chart
 	 */
-	public IChart getTimeValueChart() {
+	public final IChart getTimeValueChart() {
 		if (timeValueChart == null && shareValues.size() > 0) {
 			getChartShareValueData2();
 			timeValueChart = new TimeValueChart(chartShareValueData2, chartShareValueData3, shareValues.get(0).getDate());
@@ -644,7 +643,7 @@ public class Portfolio {
 	 * 
 	 * @return the chart
 	 */
-	public IChart getTimeChart() {
+	public final IChart getTimeChart() {
 		if (timechart == null && shareValues.size() > 0) {
 			Map<Date, Double> map = getChartShareValueData();
 			// Modifying first element of each to make it pretty in chart
@@ -659,7 +658,7 @@ public class Portfolio {
 	 * 
 	 * @return the list of accounts
 	 */
-	public List<Account> getAccounts() {
+	public final List<Account> getAccounts() {
 		return accounts;
 	}
 
@@ -669,7 +668,7 @@ public class Portfolio {
 	 * @param accounts
 	 *            the list of accounts
 	 */
-	public void setAccounts(List<Account> accounts) {
+	public final void setAccounts(final List<Account> accounts) {
 		this.accounts = accounts;
 	}
 
@@ -680,7 +679,7 @@ public class Portfolio {
 	 *            the account name
 	 * @return the account
 	 */
-	public Account getAccount(String name) {
+	public final Account getAccount(final String name) {
 		Account res = null;
 		for (Account account : getAccounts()) {
 			if (account.getName().equals(name)) {
@@ -695,9 +694,10 @@ public class Portfolio {
 	 * Get one account with its id
 	 * 
 	 * @param id
+	 *            the id
 	 * @return the account
 	 */
-	public Account getAccount(int id) {
+	public final Account getAccount(final int id) {
 		Account res = null;
 		for (Account account : getAccounts()) {
 			if (account.getId() == id) {
@@ -713,7 +713,7 @@ public class Portfolio {
 	 * 
 	 * @return the account
 	 */
-	public Account getFirstAccount() {
+	public final Account getFirstAccount() {
 		Account res = null;
 		for (Account account : getAccounts()) {
 			if (!account.getDel()) {
@@ -729,7 +729,7 @@ public class Portfolio {
 	 * 
 	 * @return a string
 	 */
-	public String getSectorCompanies() {
+	public final String getSectorCompanies() {
 		StringBuilder res = new StringBuilder();
 		Map<String, List<Equity>> map = new HashMap<String, List<Equity>>();
 		Company company = null;
@@ -778,7 +778,7 @@ public class Portfolio {
 	 * 
 	 * @return a string
 	 */
-	public String getCapCompanies() {
+	public final String getCapCompanies() {
 		StringBuilder res = new StringBuilder();
 		Map<String, List<Equity>> map = new HashMap<String, List<Equity>>();
 		List<Equity> companies = null;
@@ -818,28 +818,28 @@ public class Portfolio {
 	 * This function generates the share value info (because it muse be calculated each time)
 	 */
 	private void generateShareValueInfo() {
-		List<ShareValue> shareValues = getShareValues();
-		if (shareValues.size() != 0 && maxShareValue == null && maxShareValueDate == null && currentShareValuesYield == null
+		List<ShareValue> shareValuess = getShareValues();
+		if (shareValuess.size() != 0 && maxShareValue == null && maxShareValueDate == null && currentShareValuesYield == null
 				&& currentShareValuesTaxes == null && currentShareValuesVolume == null && currentShareValuesGain == null
 				&& currentShareValuesGainPorcentage == null) {
-			ShareValue lastShareValue = shareValues.get(0);
-			ShareValue firstShareValue = shareValues.get(shareValues.size() - 1);
+			ShareValue lastShareValue = shareValuess.get(0);
+			ShareValue firstShareValue = shareValuess.get(shareValuess.size() - 1);
 			double liquidityMov = 0;
 			currentShareValuesYield = new Double(0);
 			currentShareValuesTaxes = new Double(0);
 			currentShareValuesVolume = new Double(0);
 
-			double max = shareValues.get(0).getShareValue();
-			Date date = shareValues.get(0).getDate();
-			for (int i = 0; i <= shareValues.size() - 1; i++) {
-				ShareValue sv = shareValues.get(i);
+			double max = shareValuess.get(0).getShareValue();
+			Date date = shareValuess.get(0).getDate();
+			for (int i = 0; i <= shareValuess.size() - 1; i++) {
+				ShareValue sv = shareValuess.get(i);
 				double current = sv.getShareValue();
 				Account account = getAccount(sv.getAccount().getName());
 				if (current > max) {
 					max = current;
 					date = sv.getDate();
 				}
-				if (sv.getLiquidityMovement() != null && i != shareValues.size() - 1) {
+				if (sv.getLiquidityMovement() != null && i != shareValuess.size() - 1) {
 					liquidityMov += sv.getLiquidityMovement() * account.getParity();
 				}
 				if (sv.getYield() != null) {
@@ -872,7 +872,7 @@ public class Portfolio {
 
 			double last = lastShareValue.getShareValue();
 			double first = firstShareValue.getShareValue();
-			currentShareValuesGainPorcentage = last * 100 / first - 100;
+			currentShareValuesGainPorcentage = last * PERCENT / first - PERCENT;
 			maxShareValue = max;
 			maxShareValueDate = date;
 		}
@@ -883,7 +883,7 @@ public class Portfolio {
 	 * 
 	 * @return a double
 	 */
-	public Double getMaxShareValue() {
+	public final Double getMaxShareValue() {
 		generateShareValueInfo();
 		return maxShareValue;
 	}
@@ -893,9 +893,13 @@ public class Portfolio {
 	 * 
 	 * @return a double
 	 */
-	public Date getMaxShareValueDate() {
+	public final Date getMaxShareValueDate() {
 		generateShareValueInfo();
-		return maxShareValueDate;
+		if (maxShareValueDate != null) {
+			return (Date) maxShareValueDate.clone();
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -903,7 +907,7 @@ public class Portfolio {
 	 * 
 	 * @return a double
 	 */
-	public Double getCurrentShareValuesYield() {
+	public final Double getCurrentShareValuesYield() {
 		generateShareValueInfo();
 		return currentShareValuesYield;
 	}
@@ -913,7 +917,7 @@ public class Portfolio {
 	 * 
 	 * @return a double
 	 */
-	public Double getCurrentShareValuesTaxes() {
+	public final Double getCurrentShareValuesTaxes() {
 		generateShareValueInfo();
 		return currentShareValuesTaxes;
 	}
@@ -923,7 +927,7 @@ public class Portfolio {
 	 * 
 	 * @return a double
 	 */
-	public Double getCurrentShareValuesVolume() {
+	public final Double getCurrentShareValuesVolume() {
 		generateShareValueInfo();
 		return currentShareValuesVolume;
 	}
@@ -933,7 +937,7 @@ public class Portfolio {
 	 * 
 	 * @return a double
 	 */
-	public Double getCurrenShareValuesGain() {
+	public final Double getCurrenShareValuesGain() {
 		generateShareValueInfo();
 		return currentShareValuesGain;
 	}
@@ -943,7 +947,7 @@ public class Portfolio {
 	 * 
 	 * @return a double
 	 */
-	public Double getCurrenShareValuesGainPorcentage() {
+	public final Double getCurrenShareValuesGainPorcentage() {
 		generateShareValueInfo();
 		return currentShareValuesGainPorcentage;
 	}
@@ -953,7 +957,7 @@ public class Portfolio {
 	 * 
 	 * @return a JSONObject
 	 */
-	public JSONObject getJSONObject() {
+	public final JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.put("id", getId());
 		json.put("userId", getUserId());
@@ -965,23 +969,23 @@ public class Portfolio {
 		json.put("totalPlusMinusValue", getTotalPlusMinusValue());
 		json.put("yieldYear", getYieldYear());
 		json.put("yieldYearPerc", getYieldYearPerc());
-		JSONArray equities = new JSONArray();
+		JSONArray equitiess = new JSONArray();
 		for (Equity e : getEquities()) {
-			equities.add(e.getJSONObject());
+			equitiess.add(e.getJSONObject());
 		}
-		json.put("equities", equities);
-		JSONArray shareValues = new JSONArray();
+		json.put("equities", equitiess);
+		JSONArray shareValuess = new JSONArray();
 		int i = 0;
 		while (i < this.shareValues.size()) {
-			shareValues.add(this.shareValues.get(i).getJSONObject());
+			shareValuess.add(this.shareValues.get(i).getJSONObject());
 			i++;
 		}
-		json.put("shareValues", shareValues);
-		JSONArray accounts = new JSONArray();
+		json.put("shareValues", shareValuess);
+		JSONArray accs = new JSONArray();
 		for (Account acc : this.accounts) {
-			accounts.add(acc.getJSONObject());
+			accs.add(acc.getJSONObject());
 		}
-		json.put("accounts", accounts);
+		json.put("accounts", accs);
 		JSONObject jsonPerf = new JSONObject();
 		jsonPerf.accumulate("gain", currentShareValuesGain);
 		jsonPerf.accumulate("performance", currentShareValuesGainPorcentage);
@@ -1018,7 +1022,7 @@ public class Portfolio {
 	 * 
 	 * @return the total variation
 	 */
-	public Double getTotalVariation() {
+	public final Double getTotalVariation() {
 		return totalVariation;
 	}
 

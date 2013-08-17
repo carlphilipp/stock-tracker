@@ -30,13 +30,8 @@ import fr.cph.stock.entities.User;
  */
 public class UserDaoImpl extends AbstractDao<User> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
-	 */
 	@Override
-	public void insert(User user) {
+	public final void insert(final User user) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("UserDao.insertOneUser", user);
@@ -46,13 +41,8 @@ public class UserDaoImpl extends AbstractDao<User> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#select(int)
-	 */
 	@Override
-	public User select(int id) {
+	public final User select(final int id) {
 		SqlSession session = getSqlSessionFactory();
 		User userResult = null;
 		try {
@@ -63,13 +53,8 @@ public class UserDaoImpl extends AbstractDao<User> {
 		return userResult;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
-	 */
 	@Override
-	public void update(User user) {
+	public final void update(final User user) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("UserDao.updateOneUser", user);
@@ -85,7 +70,7 @@ public class UserDaoImpl extends AbstractDao<User> {
 	 * @param user
 	 *            the user
 	 */
-	public void updateOneUserPassword(User user) {
+	public final void updateOneUserPassword(final User user) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("UserDao.updateOneUserPassword", user);
@@ -95,13 +80,8 @@ public class UserDaoImpl extends AbstractDao<User> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
-	 */
 	@Override
-	public void delete(User user) {
+	public final void delete(final User user) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("UserDao.deleteOneUser", user);
@@ -118,7 +98,7 @@ public class UserDaoImpl extends AbstractDao<User> {
 	 *            the login
 	 * @return a user
 	 */
-	public User selectWithLogin(String login) {
+	public final User selectWithLogin(final String login) {
 		SqlSession session = getSqlSessionFactory();
 		User userResult = null;
 		try {
@@ -136,7 +116,7 @@ public class UserDaoImpl extends AbstractDao<User> {
 	 *            the email
 	 * @return a user
 	 */
-	public User selectWithEmail(String email) {
+	public final User selectWithEmail(final String email) {
 		SqlSession session = getSqlSessionFactory();
 		User userResult = null;
 		try {
@@ -152,7 +132,7 @@ public class UserDaoImpl extends AbstractDao<User> {
 	 * 
 	 * @return a list of user
 	 */
-	public List<User> selectAllUsers() {
+	public final List<User> selectAllUsers() {
 		SqlSession session = getSqlSessionFactory();
 		List<User> userList = null;
 		try {
@@ -162,5 +142,4 @@ public class UserDaoImpl extends AbstractDao<User> {
 		}
 		return userList;
 	}
-
 }

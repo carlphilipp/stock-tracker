@@ -46,25 +46,34 @@ import fr.cph.stock.util.Util;
  * 
  */
 public class DropBox {
-	
+
+	/** **/
 	@SuppressWarnings("unused")
-	private static final Logger log = Logger.getLogger(DropBox.class);
+	private static final Logger LOG = Logger.getLogger(DropBox.class);
+	/** **/
+	private String appKey;
+	/** **/
+	private String appSecret;
+	/** **/
+	private AccessType accessType = AccessType.APP_FOLDER;
+	/** **/
+	private String tokenKey;
+	/** **/
+	private String tokenValue;
+	/** **/
+	private DropboxAPI<WebAuthSession> dropBoxAPI;
 
-	private static String APP_KEY;
-	private static String APP_SECRET;
-	private static final AccessType ACCESS_TYPE = AccessType.APP_FOLDER;
-	private static String tokenKey;
-	private static String tokenValue;
-	private static DropboxAPI<WebAuthSession> dropBoxAPI;
-
+	/**
+	 * Constructor
+	 */
 	public DropBox() {
 		Properties prop = Util.getProperties("app.properties");
-		APP_KEY = prop.getProperty("app_key");
-		APP_SECRET = prop.getProperty("app_secret");
+		appKey = prop.getProperty("app_key");
+		appSecret = prop.getProperty("app_secret");
 		tokenKey = prop.getProperty("token_key");
 		tokenValue = prop.getProperty("token_value");
-		AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
-		WebAuthSession session = new WebAuthSession(appKeys, ACCESS_TYPE, new AccessTokenPair(tokenKey, tokenValue));
+		AppKeyPair appKeys = new AppKeyPair(appKey, appSecret);
+		WebAuthSession session = new WebAuthSession(appKeys, accessType, new AccessTokenPair(tokenKey, tokenValue));
 		dropBoxAPI = new DropboxAPI<>(session);
 	}
 
@@ -74,9 +83,11 @@ public class DropBox {
 	 * @param file
 	 *            the file to delete
 	 * @throws ParseException
+	 *             the parse exception
 	 * @throws DropboxException
+	 *             the dropbox exception
 	 */
-	public void deleteOldFileIfNeeded(File file) throws ParseException, DropboxException {
+	public final void deleteOldFileIfNeeded(final File file) throws ParseException, DropboxException {
 		String date = file.getName().substring(0, file.getName().indexOf("-stock"));
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Date d = sdf.parse(date);
@@ -96,10 +107,11 @@ public class DropBox {
 	 * @param file
 	 *            the file to upload
 	 * @throws DropboxException
+	 *             the dropbox exception
 	 * @throws IOException
+	 *             the io exception
 	 */
-	public void uploadFile(File file) throws DropboxException, IOException {
-
+	public final void uploadFile(final File file) throws DropboxException, IOException {
 		FileInputStream inputStream = null;
 		try {
 			inputStream = new FileInputStream(file);

@@ -16,7 +16,6 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
@@ -47,9 +46,9 @@ import fr.cph.stock.exception.YahooException;
 public class UpdateShareValueServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 7284798829015895373L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(UpdateShareValueServlet.class);
+	private static final Logger LOG = Logger.getLogger(UpdateShareValueServlet.class);
 	/** Business **/
 	private IBusiness business;
 	/** Precision **/
@@ -61,7 +60,7 @@ public class UpdateShareValueServlet extends HttpServlet {
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	@Override
-	public void init() {
+	public final void init() {
 		business = new Business();
 	}
 
@@ -71,52 +70,52 @@ public class UpdateShareValueServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
 			StringBuilder message = new StringBuilder();
 
 			User user = (User) session.getAttribute("user");
 
-			String _commentaryUpdated = request.getParameter("commentaryUpdated");
-			if (_commentaryUpdated == null) {
+			String commUpdated = request.getParameter("commentaryUpdated");
+			if (commUpdated == null) {
 
-				Integer _account = Integer.parseInt(request.getParameter("account"));
+				Integer acc = Integer.parseInt(request.getParameter("account"));
 				Double movement = Double.parseDouble(request.getParameter("movement"));
 				Double yield = Double.parseDouble(request.getParameter("yield"));
 				Double buy = Double.parseDouble(request.getParameter("buy"));
 				Double sell = Double.parseDouble(request.getParameter("sell"));
 				Double taxe = Double.parseDouble(request.getParameter("taxe"));
-				String _commentary = request.getParameter("commentary");
+				String comm = request.getParameter("commentary");
 
 				String commentary = null;
-				if (!_commentary.equals("")) {
-					commentary = _commentary;
+				if (!comm.equals("")) {
+					commentary = comm;
 				}
 
 				try {
 					Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
-					Account account = portfolio.getAccount(_account);
+					Account account = portfolio.getAccount(acc);
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
-					newLiquidity = (new BigDecimal(newLiquidity, mathContext)).doubleValue();
+					newLiquidity = new BigDecimal(newLiquidity, mathContext).doubleValue();
 					business.updateLiquidity(account, newLiquidity);
 					message.append("'" + account.getName() + "' liquidity new value: " + newLiquidity);
 					portfolio = business.getUserPortfolio(user.getId(), null, null);
 					business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 				} catch (YahooException e) {
-					log.error(e.getMessage(), e);
+					LOG.error(e.getMessage(), e);
 				}
 			} else {
 				int shareId = Integer.valueOf(request.getParameter("shareId"));
 				ShareValue sv = business.selectOneShareValue(shareId);
-				sv.setCommentary(_commentaryUpdated);
+				sv.setCommentary(commUpdated);
 				business.updateCommentaryShareValue(sv);
 				message.append("Modified!");
 			}
 			request.setAttribute("message", message);
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
@@ -127,7 +126,7 @@ public class UpdateShareValueServlet extends HttpServlet {
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 }

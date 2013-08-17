@@ -33,21 +33,26 @@ import fr.cph.stock.util.Info;
  */
 public class SP500Job implements Job {
 
-	private static final Logger log = Logger.getLogger(SP500Job.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(SP500Job.class);
+	/** **/
 	private IBusiness business;
 
+	/**
+	 * Constructor
+	 */
 	public SP500Job() {
 		business = new Business();
 	}
 
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		try {
 			business.updateIndex(Info.YAHOOID_SP500);
 		} catch (YahooException e) {
-			log.warn("Error while executing SP500Job: " + e.getMessage());
+			LOG.warn("Error while executing SP500Job: " + e.getMessage());
 		} catch (Throwable t) {
-			log.error("Error while executing SP500Job: " + t.getMessage(), t);
+			LOG.error("Error while executing SP500Job: " + t.getMessage(), t);
 		}
 	}
 }

@@ -23,17 +23,41 @@ package fr.cph.stock.enumtype;
  * 
  */
 public enum Market {
-	PARIS("Paris"), NASDAQNM("NasdaqNM"), NYSE("Nyse"), AMSTERDAM("Amsterdam"), XETRA("Xetra"), NGM("NGM"), LONDON("London"), MILAN(
-			"Milan"), PCX("PCX"), AMEX("AMEX"), FRANKFURT("Frankfurt"), OTC("Other OTC"), UNKNOWN("unknown");
+	/** **/
+	PARIS("Paris"),
+	/** **/
+	NASDAQNM("NasdaqNM"),
+	/** **/
+	NYSE("Nyse"),
+	/** **/
+	AMSTERDAM("Amsterdam"),
+	/** **/
+	XETRA("Xetra"),
+	/** **/
+	NGM("NGM"),
+	/** **/
+	LONDON("London"),
+	/** **/
+	MILAN("Milan"),
+	/** **/
+	PCX("PCX"),
+	/** **/
+	AMEX("AMEX"),
+	/** **/
+	FRANKFURT("Frankfurt"),
+	/** **/
+	OTC("Other OTC"),
+	/** **/
+	UNKNOWN("unknown");
 
 	/**
 	 * Constructor
 	 * 
-	 * @param marketType
+	 * @param market
 	 *            the market type
 	 */
-	Market(String marketType) {
-		this.marketType = marketType;
+	Market(final String market) {
+		this.marketType = market;
 	}
 
 	/**
@@ -44,15 +68,22 @@ public enum Market {
 	public String getMarket() {
 		return marketType;
 	}
-	
-	public static Market getMarket(String mark){
+
+	/**
+	 * Get market
+	 * 
+	 * @param mark
+	 *            the market
+	 * @return the market
+	 */
+	public static Market getMarket(final String mark) {
 		Market market = null;
-		try{
+		try {
 			market = valueOf(mark);
-		}catch(Exception e){
-			if(mark.equals("OTHER OTC")){
+		} catch (Exception e) {
+			if (mark.equals("OTHER OTC")) {
 				market = Market.OTC;
-			}else{
+			} else {
 				market = Market.UNKNOWN;
 			}
 		}
@@ -66,7 +97,7 @@ public enum Market {
 	 *            the suffix
 	 * @return the market
 	 */
-	public static Market getMarketFromSuffix(String suffix) {
+	public static Market getMarketFromSuffix(final String suffix) {
 		Market market;
 		switch (suffix) {
 		case "PA":
@@ -88,7 +119,7 @@ public enum Market {
 	 *            the market
 	 * @return the currency
 	 */
-	public static Currency getCurrency(Market m) {
+	public static Currency getCurrency(final Market m) {
 		Currency currency = null;
 		switch (m) {
 		case PARIS:

@@ -36,13 +36,21 @@ import org.quartz.impl.StdSchedulerFactory;
  */
 public class Job {
 
-	private static final Logger log = Logger.getLogger(Job.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(Job.class);
 
+	/** Constructor **/
 	public Job() {
-		log.info("Running Job class");
+		LOG.info("Running Job class");
 	}
 
-	public void run() throws SchedulerException {
+	/**
+	 * Run
+	 * 
+	 * @throws SchedulerException
+	 *             the exception
+	 */
+	public final void run() throws SchedulerException {
 		Scheduler sched = new StdSchedulerFactory().getScheduler();
 
 		JobDetail jobCurrency = JobBuilder.newJob(CurrencyJob.class).withIdentity("jobCurrency", "currency").build();

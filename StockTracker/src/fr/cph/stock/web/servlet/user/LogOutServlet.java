@@ -16,8 +16,6 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,17 +37,23 @@ import fr.cph.stock.entities.User;
 public class LogOutServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
-	/** Logger **/
-	private static final Logger log = Logger.getLogger(LogOutServlet.class);
+	private static final long serialVersionUID = -6107097536653860984L;
 
-	/*
-	 * (non-Javadoc)
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(LogOutServlet.class);
+
+	/**
+	 * Get method
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the answer
+	 * @throws ServletException
+	 *             the exception
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
 			if (session != null) {
@@ -61,18 +65,23 @@ public class LogOutServlet extends HttpServlet {
 			}
 			response.sendRedirect("index.jsp");
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Post method
 	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 * @param request
+	 *            the request
+	 * @param response
+	 *            the answer
+	 * @throws ServletException
+	 *             the servlet exception
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 }

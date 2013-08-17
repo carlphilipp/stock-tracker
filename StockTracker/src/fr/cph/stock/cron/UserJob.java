@@ -35,23 +35,26 @@ import fr.cph.stock.exception.YahooException;
  */
 public class UserJob implements Job {
 
-	private static final Logger log = Logger.getLogger(UserJob.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(UserJob.class);
+	/** **/
 	private IBusiness business;
 
+	/** Constructor **/
 	public UserJob() {
 		business = new Business();
 	}
 
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		try {
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
 			business.autoUpdateUserShareValue(cal);
 		} catch (YahooException e) {
-			log.error("Error while executing UserJob: " + e.getMessage());
+			LOG.error("Error while executing UserJob: " + e.getMessage());
 		} catch (Throwable t) {
-			log.error("Error while executing UserJob: " + t.getMessage(), t);
+			LOG.error("Error while executing UserJob: " + t.getMessage(), t);
 		}
 	}
 

@@ -29,8 +29,6 @@ import fr.cph.stock.enumtype.Market;
  */
 public class Company {
 
-	// private static final Logger log = Logger.getLogger(Company.class);
-
 	/** Id **/
 	private int id;
 	/** Yahoo id, example, total would be "FP.PA" **/
@@ -69,206 +67,351 @@ public class Company {
 	private Boolean fund;
 	/** Last update **/
 	private Timestamp lastUpdate;
-
-	// Not stored in data base
+	/** **/
 	private Double change;
+	/** **/
 	private Double gapYearLow;
+	/** **/
 	private Double gapYearHigh;
 
-	public int getId() {
+	/**
+	 * 
+	 * @return the id
+	 */
+	public final int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	/**
+	 * @param id
+	 *            the id
+	 */
+	public final void setId(final int id) {
 		this.id = id;
 	}
 
-	public String getYahooId() {
+	/**
+	 * @return the yahoo id
+	 */
+	public final String getYahooId() {
 		return yahooId;
 	}
 
-	public void setYahooId(String yahooId) {
+	/**
+	 * @param yahooId
+	 *            the yahoo id
+	 */
+	public final void setYahooId(final String yahooId) {
 		this.yahooId = yahooId;
 	}
 
-	public String getName() {
+	/**
+	 * @return the name
+	 */
+	public final String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	/**
+	 * @param name
+	 *            the name
+	 */
+	public final void setName(final String name) {
 		this.name = name;
 	}
 
-	public Market getMarket() {
+	/**
+	 * @return the market
+	 */
+	public final Market getMarket() {
 		return market;
 	}
 
-	public void setMarket(Market market) {
+	/**
+	 * @param market
+	 *            the market
+	 */
+	public final void setMarket(final Market market) {
 		this.market = market;
 	}
 
-	public Currency getCurrency() {
+	/**
+	 * @return the currency
+	 */
+	public final Currency getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(Currency currency) {
+	/**
+	 * @param currency
+	 *            the currency
+	 */
+	public final void setCurrency(final Currency currency) {
 		this.currency = currency;
 	}
 
-	public String getIndustry() {
+	/**
+	 * @return the industry
+	 */
+	public final String getIndustry() {
 		return industry;
 	}
 
-	public void setIndustry(String industry) {
+	/**
+	 * @param industry
+	 *            the industry
+	 */
+	public final void setIndustry(final String industry) {
 		this.industry = industry;
 	}
 
-	public String getSector() {
+	/**
+	 * @return the sector
+	 */
+	public final String getSector() {
 		return sector;
 	}
 
-	public void setSector(String sector) {
+	/**
+	 * @param sector
+	 *            the sector
+	 */
+	public final void setSector(final String sector) {
 		this.sector = sector;
 	}
 
-	public double getQuote() {
+	/**
+	 * @return the quote
+	 */
+	public final double getQuote() {
 		return quote;
 	}
 
-	public void setQuote(double quote) {
+	/**
+	 * @param quote
+	 *            the quote
+	 */
+	public final void setQuote(final double quote) {
 		this.quote = quote;
 	}
 
-	public double getYield() {
+	/**
+	 * @return the yield
+	 */
+	public final double getYield() {
 		return yield;
 	}
 
-	public void setYield(double yield) {
+	/**
+	 * @param yield
+	 *            the yield
+	 */
+	public final void setYield(final double yield) {
 		this.yield = yield;
 	}
 
-	public Double getYesterdayClose() {
+	/**
+	 * @return the yesterday close
+	 */
+	public final Double getYesterdayClose() {
 		return yesterdayClose;
 	}
 
-	public void setYesterdayClose(Double yesterdayClose) {
+	/**
+	 * @param yesterdayClose
+	 *            the yesterday close
+	 */
+	public final void setYesterdayClose(final Double yesterdayClose) {
 		this.yesterdayClose = yesterdayClose;
 	}
 
-	@Override
-	public String toString() {
-		return "Company [id=" + id + ", yahooId=" + yahooId + ", name=" + name + ", market=" + market + ", currency=" + currency
-				+ ", sector=" + sector + ", industry=" + industry + ", quote=" + quote + ", yield=" + yield
-				+ ", marketCapitalization=" + marketCapitalization + ", yesterdayClose=" + yesterdayClose + ", changeInPercent="
-				+ changeInPercent + ", yearLow=" + yearLow + ", yearHigh=" + yearHigh + ", minGap=" + minGap + ", maxGap="
-				+ maxGap + ", realTime=" + realTime + ", fund=" + fund + ", lastUpdate=" + lastUpdate + ", change=" + change
-				+ ", gapYearLow=" + gapYearLow + ", gapYearHigh=" + gapYearHigh + "]";
-	}
-	
-
-	public String getMarketCapitalization() {
+	/**
+	 * @return the market capitalization
+	 */
+	public final String getMarketCapitalization() {
 		return marketCapitalization;
 	}
 
-	public void setMarketCapitalization(String marketCapitalization) {
+	/**
+	 * @param marketCapitalization
+	 *            the market capitalization
+	 */
+	public final void setMarketCapitalization(final String marketCapitalization) {
 		this.marketCapitalization = marketCapitalization;
 	}
 
-	public Timestamp getLastUpdate() {
-		return lastUpdate;
+	/**
+	 * @return the last update
+	 */
+	public final Timestamp getLastUpdate() {
+		if (lastUpdate != null) {
+			return (Timestamp) lastUpdate.clone();
+		} else {
+			return null;
+		}
 	}
 
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
+	/**
+	 * @param lastUpdate
+	 *            the last update
+	 */
+	public final void setLastUpdate(final Timestamp lastUpdate) {
+		this.lastUpdate = (Timestamp) lastUpdate.clone();
 	}
 
-	public Double getYearLow() {
+	/**
+	 * @return the year low
+	 */
+	public final Double getYearLow() {
 		return yearLow;
 	}
 
-	public void setYearLow(Double yearLow) {
+	/**
+	 * @param yearLow
+	 *            the year low
+	 */
+	public final void setYearLow(final Double yearLow) {
 		this.yearLow = yearLow;
 	}
 
-	public Double getMinGap() {
+	/**
+	 * @return the min gap
+	 */
+	public final Double getMinGap() {
 		return minGap;
 	}
 
-	public void setMinGap(Double minGap) {
+	/**
+	 * @param minGap
+	 *            the min gap
+	 */
+	public final void setMinGap(final Double minGap) {
 		this.minGap = minGap;
 	}
 
-	public Double getMaxGap() {
+	/**
+	 * @return the max gap
+	 */
+	public final Double getMaxGap() {
 		return maxGap;
 	}
 
-	public void setMaxGap(Double maxGap) {
+	/**
+	 * @param maxGap
+	 *            the max gap
+	 */
+	public final void setMaxGap(final Double maxGap) {
 		this.maxGap = maxGap;
 	}
 
-	public Double getYearHigh() {
+	/**
+	 * @return the year high
+	 */
+	public final Double getYearHigh() {
 		return yearHigh;
 	}
 
-	public void setYearHigh(Double yearHigh) {
+	/**
+	 * @param yearHigh
+	 *            the year high
+	 */
+	public final void setYearHigh(final Double yearHigh) {
 		this.yearHigh = yearHigh;
 	}
 
-	public Double getChange() {
+	/**
+	 * @return the change
+	 */
+	public final Double getChange() {
 		return change;
 	}
 
-	public void setChange(double change) {
+	/**
+	 * @param change
+	 *            the change
+	 */
+	public final void setChange(final double change) {
 		this.change = change;
 	}
 
-	public Double getGapYearLow() {
-		if (getYearLow() != null) {
-			if (gapYearLow == null) {
-				gapYearLow = ((getQuote() / getYearLow()) - 1) * 100;
-			}
+	/**
+	 * @return the gap year low
+	 */
+	public final Double getGapYearLow() {
+		if (getYearLow() != null && gapYearLow == null) {
+			gapYearLow = (getQuote() / getYearLow() - 1) * 100;
 		}
 		return gapYearLow;
 	}
 
-	public void setGapYearLow(Double gapYearLow) {
+	/**
+	 * @param gapYearLow
+	 *            the gap year low
+	 */
+	public final void setGapYearLow(final Double gapYearLow) {
 		this.gapYearLow = gapYearLow;
 	}
 
-	public Double getGapYearHigh() {
-		if (getYearHigh() != null) {
-			if (gapYearHigh == null) {
-				gapYearHigh = ((getYearHigh() / getQuote()) - 1) * 100;
-			}
+	/**
+	 * @return the gap year high
+	 */
+	public final Double getGapYearHigh() {
+		if (getYearHigh() != null && gapYearHigh == null) {
+			gapYearHigh = (getYearHigh() / getQuote() - 1) * 100;
 		}
 		return gapYearHigh;
 	}
 
-	public void setGapYearHigh(Double gapYearHigh) {
+	/**
+	 * @param gapYearHigh
+	 *            the gap year high
+	 */
+	public final void setGapYearHigh(final Double gapYearHigh) {
 		this.gapYearHigh = gapYearHigh;
 	}
 
-	public Boolean getRealTime() {
+	/**
+	 * @return if realtime
+	 */
+	public final Boolean getRealTime() {
 		return realTime;
 	}
 
-	public void setRealTime(Boolean realTime) {
+	/**
+	 * @param realTime
+	 *            if realtime
+	 */
+	public final void setRealTime(final Boolean realTime) {
 		this.realTime = realTime;
 	}
 
-	public Boolean getFund() {
+	/**
+	 * @return the fund
+	 */
+	public final Boolean getFund() {
 		return fund;
 	}
 
-	public void setFund(Boolean fund) {
+	/**
+	 * @param fund
+	 *            the fund
+	 */
+	public final void setFund(final Boolean fund) {
 		this.fund = fund;
 	}
 
-	public String getChangeInPercent() {
+	/**
+	 * @return the change in percent
+	 */
+	public final String getChangeInPercent() {
 		return changeInPercent;
 	}
 
-	public void setChangeInPercent(String changeInPercent) {
+	/**
+	 * @param changeInPercent
+	 *            the change in percent
+	 */
+	public final void setChangeInPercent(final String changeInPercent) {
 		if (changeInPercent != null) {
 			char c = changeInPercent.charAt(0);
 			String number = null;
@@ -282,4 +425,13 @@ public class Company {
 		this.changeInPercent = changeInPercent;
 	}
 
+	@Override
+	public final String toString() {
+		return "Company [id=" + id + ", yahooId=" + yahooId + ", name=" + name + ", market=" + market + ", currency=" + currency
+				+ ", sector=" + sector + ", industry=" + industry + ", quote=" + quote + ", yield=" + yield
+				+ ", marketCapitalization=" + marketCapitalization + ", yesterdayClose=" + yesterdayClose + ", changeInPercent="
+				+ changeInPercent + ", yearLow=" + yearLow + ", yearHigh=" + yearHigh + ", minGap=" + minGap + ", maxGap="
+				+ maxGap + ", realTime=" + realTime + ", fund=" + fund + ", lastUpdate=" + lastUpdate + ", change=" + change
+				+ ", gapYearLow=" + gapYearLow + ", gapYearHigh=" + gapYearHigh + "]";
+	}
 }

@@ -64,7 +64,7 @@ public class ShareValue {
 	 * 
 	 * @return the account
 	 */
-	public Account getAccount() {
+	public final Account getAccount() {
 		return account;
 	}
 
@@ -73,7 +73,7 @@ public class ShareValue {
 	 * 
 	 * @return the amount buy
 	 */
-	public Double getBuy() {
+	public final Double getBuy() {
 		return buy;
 	}
 
@@ -82,7 +82,7 @@ public class ShareValue {
 	 * 
 	 * @return the commentary
 	 */
-	public String getCommentary() {
+	public final String getCommentary() {
 		return commentary;
 	}
 
@@ -91,8 +91,12 @@ public class ShareValue {
 	 * 
 	 * @return the date
 	 */
-	public Date getDate() {
-		return date;
+	public final Date getDate() {
+		if (date != null) {
+			return (Date) date.clone();
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -100,7 +104,7 @@ public class ShareValue {
 	 * 
 	 * @return the details
 	 */
-	public String getDetails() {
+	public final String getDetails() {
 		return details;
 	}
 
@@ -109,7 +113,7 @@ public class ShareValue {
 	 * 
 	 * @return the id
 	 */
-	public int getId() {
+	public final int getId() {
 		return id;
 	}
 
@@ -118,7 +122,7 @@ public class ShareValue {
 	 * 
 	 * @return the jsonObject
 	 */
-	public JSONObject getJSONObject() {
+	public final JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.put("date", date);
 		json.put("account", account.getName());
@@ -135,14 +139,14 @@ public class ShareValue {
 	 * 
 	 * @return the liquidites
 	 */
-	public Double getLiquidities() {
-		String details = getDetails();
+	public final Double getLiquidities() {
+		String dets = getDetails();
 		String updated = null;
-		if (details != null) {
-			int begin = details.indexOf("<tr><td colspan=3><b>Liquidity:</b> ");
-			details = details.substring(begin);
+		if (dets != null) {
+			int begin = dets.indexOf("<tr><td colspan=3><b>Liquidity:</b> ");
+			dets = dets.substring(begin);
 			String pattern = "<tr><td colspan=3><b>Liquidity:</b> (\\-?[0-9]+\\.?[0-9]*) \\(.*";
-			updated = details.replaceAll(pattern, "$1");
+			updated = dets.replaceAll(pattern, "$1");
 		}
 		return updated == null ? null : Double.valueOf(updated);
 	}
@@ -152,7 +156,7 @@ public class ShareValue {
 	 * 
 	 * @return the liquidity movement
 	 */
-	public Double getLiquidityMovement() {
+	public final Double getLiquidityMovement() {
 		return liquidityMovement;
 	}
 
@@ -161,7 +165,7 @@ public class ShareValue {
 	 * 
 	 * @return the monthly yield value
 	 */
-	public Double getMonthlyYield() {
+	public final Double getMonthlyYield() {
 		return monthlyYield;
 	}
 
@@ -170,7 +174,7 @@ public class ShareValue {
 	 * 
 	 * @return the portfolio value
 	 */
-	public Double getPortfolioValue() {
+	public final Double getPortfolioValue() {
 		return portfolioValue;
 	}
 
@@ -179,7 +183,7 @@ public class ShareValue {
 	 * 
 	 * @return the amount sold
 	 */
-	public Double getSell() {
+	public final Double getSell() {
 		return sell;
 	}
 
@@ -188,7 +192,7 @@ public class ShareValue {
 	 * 
 	 * @return the share quantity
 	 */
-	public Double getShareQuantity() {
+	public final Double getShareQuantity() {
 		return shareQuantity;
 	}
 
@@ -197,7 +201,7 @@ public class ShareValue {
 	 * 
 	 * @return the share value
 	 */
-	public Double getShareValue() {
+	public final Double getShareValue() {
 		return shareValue;
 	}
 
@@ -206,7 +210,7 @@ public class ShareValue {
 	 * 
 	 * @return the amount of taxe
 	 */
-	public Double getTaxe() {
+	public final Double getTaxe() {
 		return taxe;
 	}
 
@@ -215,7 +219,7 @@ public class ShareValue {
 	 * 
 	 * @return the user id
 	 */
-	public int getUserId() {
+	public final int getUserId() {
 		return userId;
 	}
 
@@ -224,7 +228,7 @@ public class ShareValue {
 	 * 
 	 * @return the received yield
 	 */
-	public Double getYield() {
+	public final Double getYield() {
 		return yield;
 	}
 
@@ -234,7 +238,7 @@ public class ShareValue {
 	 * @param account
 	 *            the account
 	 */
-	public void setAccount(Account account) {
+	public final void setAccount(final Account account) {
 		this.account = account;
 	}
 
@@ -244,7 +248,7 @@ public class ShareValue {
 	 * @param buy
 	 *            the amount bought
 	 */
-	public void setBuy(Double buy) {
+	public final void setBuy(final Double buy) {
 		this.buy = buy;
 	}
 
@@ -254,7 +258,7 @@ public class ShareValue {
 	 * @param commentary
 	 *            the commentary
 	 */
-	public void setCommentary(String commentary) {
+	public final void setCommentary(final String commentary) {
 		this.commentary = commentary;
 	}
 
@@ -264,8 +268,8 @@ public class ShareValue {
 	 * @param date
 	 *            the date
 	 */
-	public void setDate(Date date) {
-		this.date = date;
+	public final void setDate(final Date date) {
+		this.date = (Date) date.clone();
 	}
 
 	/**
@@ -274,7 +278,7 @@ public class ShareValue {
 	 * @param details
 	 *            the details
 	 */
-	public void setDetails(String details) {
+	public final void setDetails(final String details) {
 		this.details = details;
 	}
 
@@ -284,7 +288,7 @@ public class ShareValue {
 	 * @param id
 	 *            the id
 	 */
-	public void setId(int id) {
+	public final void setId(final int id) {
 		this.id = id;
 	}
 
@@ -294,7 +298,7 @@ public class ShareValue {
 	 * @param liquidityMovement
 	 *            the liquidity movement
 	 */
-	public void setLiquidityMovement(Double liquidityMovement) {
+	public final void setLiquidityMovement(final Double liquidityMovement) {
 		this.liquidityMovement = liquidityMovement;
 	}
 
@@ -304,7 +308,7 @@ public class ShareValue {
 	 * @param monthlyYield
 	 *            the monthly yield
 	 */
-	public void setMonthlyYield(Double monthlyYield) {
+	public final void setMonthlyYield(final Double monthlyYield) {
 		this.monthlyYield = monthlyYield;
 	}
 
@@ -314,7 +318,7 @@ public class ShareValue {
 	 * @param portfolioValue
 	 *            the portfolio value
 	 */
-	public void setPortfolioValue(Double portfolioValue) {
+	public final void setPortfolioValue(final Double portfolioValue) {
 		this.portfolioValue = portfolioValue;
 	}
 
@@ -324,7 +328,7 @@ public class ShareValue {
 	 * @param sell
 	 *            the amount sold
 	 */
-	public void setSell(Double sell) {
+	public final void setSell(final Double sell) {
 		this.sell = sell;
 	}
 
@@ -334,7 +338,7 @@ public class ShareValue {
 	 * @param shareQuantity
 	 *            the share quantity
 	 */
-	public void setShareQuantity(Double shareQuantity) {
+	public final void setShareQuantity(final Double shareQuantity) {
 		this.shareQuantity = shareQuantity;
 	}
 
@@ -344,7 +348,7 @@ public class ShareValue {
 	 * @param shareValue
 	 *            the share value
 	 */
-	public void setShareValue(Double shareValue) {
+	public final void setShareValue(final Double shareValue) {
 		this.shareValue = shareValue;
 	}
 
@@ -354,7 +358,7 @@ public class ShareValue {
 	 * @param taxe
 	 *            the amount of taxes
 	 */
-	public void setTaxe(Double taxe) {
+	public final void setTaxe(final Double taxe) {
 		this.taxe = taxe;
 	}
 
@@ -364,7 +368,7 @@ public class ShareValue {
 	 * @param userId
 	 *            the user id
 	 */
-	public void setUserId(int userId) {
+	public final void setUserId(final int userId) {
 		this.userId = userId;
 	}
 
@@ -374,8 +378,7 @@ public class ShareValue {
 	 * @param yield
 	 *            the yield received
 	 */
-	public void setYield(Double yield) {
+	public final void setYield(final Double yield) {
 		this.yield = yield;
 	}
-
 }

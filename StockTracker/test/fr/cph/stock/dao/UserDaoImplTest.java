@@ -16,7 +16,8 @@
 
 package fr.cph.stock.dao;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -36,21 +37,21 @@ public class UserDaoImplTest {
 		dao.insert(user);
 		
 		user = dao.selectWithLogin(login);
-		Assert.assertEquals(login, user.getLogin());
-		Assert.assertEquals(password, user.getPassword());
-		Assert.assertEquals(email, user.getEmail());
-		
+		assertEquals(login, user.getLogin());
+		assertEquals(password, user.getPassword());
+		assertEquals(email, user.getEmail());
+	
 		user.setEmail("caca@gmail.com");
 		dao.update(user);
 		
 		user = dao.selectWithLogin(login);
-		Assert.assertEquals(login, user.getLogin());
-		Assert.assertEquals(password, user.getPassword());
-		Assert.assertEquals("caca@gmail.com", user.getEmail());
+		assertEquals(login, user.getLogin());
+		assertEquals(password, user.getPassword());
+		assertEquals("caca@gmail.com", user.getEmail());
 		
 		dao.delete(user);
 		user = dao.selectWithLogin(login);
-		Assert.assertNull(user);
+		assertNull(user);
 	}
 
 }

@@ -16,7 +16,7 @@
  -->
  
 <!DOCTYPE project> 
-<project name="Stock" default="coverage" basedir="../">
+<project name="Stock" default="deploy" basedir="../">
 
 	<property file="ant/build.properties" />
 	
@@ -27,9 +27,26 @@
 		<fileset dir="${tomcat.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
-		<pathelement location="/opt/eclipse/plugins/org.junit_4.10.0.v4_10_0_v20120426-0900/junit.jar" />
-		<pathelement location="/opt/eclipse/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar" />
+		<pathelement location="${junit.jar}" />
+		<pathelement location="${hamcrest.jar}" />
+		<pathelement location="${classes.dir}" />
 	</path>
+	
+	<path id="pmd.classpath">
+		<pathelement location="${classes.dir}" />
+		<fileset dir="${pmd.home.dir}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${tomcat.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	
+	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" />
 
 	<!-- To make work Cobertura -->
 	<taskdef classpathref="class.path" resource="tasks.properties" />
@@ -48,26 +65,35 @@
 		<delete file="${app.name}.war" />
 	</target>
 
-	<target name="compile" depends="init">
+	<target name="compile" depends="clean,init,moveXML,moveProp">
 		<javac includeantruntime="true" srcdir="${src.dir}" destdir="${classes.dir}" debug="yes">
 			<classpath refid="class.path" />
 		</javac>
-		<!--
 		<javac includeantruntime="true" srcdir="${test.dir}" destdir="${classes.dir}" debug="yes">
 			<classpath refid="class.path" />	
+			<exclude name="**/AllTests**"/>
 		</javac>
-		-->
 	</target>
 	
-	<target name="moveXML" depends="compile">
+	<target name="moveXML">
 		<copy todir="${classes.dir}/fr/cph/stock/dao/mybatis" >
 			<fileset dir="${src.dir}/fr/cph/stock/dao/mybatis" >
 				<exclude name="**/*.java" />
 			</fileset>
 		</copy>
 	</target>
+	
+	<target name="moveProp">
+		<copy todir="${classes.dir}" >
+			<fileset dir="${src.dir}" >
+				<include name="**/*.properties"/>
+				<include name="**/*.jrxml"/>
+				<exclude name="**/*.template" />
+			</fileset>
+		</copy>
+	</target>
 
-	<target name="instrument" depends="init,compile,moveXML">
+	<target name="instrument" depends="init">
 		<delete file="cobertura.ser" />
 		<delete dir="${instrumented.dir}" />
 		<cobertura-instrument todir="${instrumented.dir}">
@@ -80,18 +106,18 @@
 		</cobertura-instrument>
 	</target>
 
-	<target name="test" depends="init,compile,moveXML">
+	<target name="test" depends="compile,moveXML,instrument">
 		<junit fork="yes" dir="${basedir}" failureProperty="test.failed" printsummary="yes">
 			<jvmarg value="-XX:-UseSplitVerifier"/>
 			
 			<formatter type="plain" usefile="false" />
-
+			
 			<classpath location="${instrumented.dir}" />
 			<classpath location="${classes.dir}" />
 
 			<classpath refid="class.path" />
 
-			<batchtest todir="${reports.dir}">
+			<batchtest todir="${reports.dir}/cobertura">
 				<fileset dir="${test.dir}">
 					<include name="**/*Test.java" />
 				</fileset>
@@ -99,15 +125,13 @@
 		</junit>
 	</target>
 
-	<target name="coverage-report">
-		<cobertura-report destdir="${reports.dir}">
+	<target name="report.cobertura" depends="">
+		<cobertura-report destdir="${reports.dir}/cobertura">
 			<fileset dir="${src.dir}">
 				<include name="**/*.java" />
 			</fileset>
 		</cobertura-report>
 	</target>
-
-	<target name="coverage" depends="clean,compile,moveXML,instrument,test,coverage-report" />
 	
 	<target name="warify" depends="clean,compile">
 		<war destfile="${app.name}.war">
@@ -117,6 +141,7 @@
 			</fileset>
 			
 			<zipfileset dir="src" includes="**/*.properties" excludes="**/*.template" prefix="WEB-INF/classes"/>
+			<zipfileset dir="src" includes="**/*.jrxml" prefix="WEB-INF/classes"/>
 			<zipfileset dir="src/fr/cph/stock/language/xml" includes="**/*.xml" prefix="WEB-INF/classes/fr/cph/stock/language/xml"/>
 			<zipfileset dir="src/fr/cph/stock/dao/mybatis" includes="**/*.xml" prefix="WEB-INF/classes/fr/cph/stock/dao/mybatis"/>
 			
@@ -128,7 +153,9 @@
 				<exclude name="mybatis-3.1.1-sources.jar"/>
 	  		</lib>
 	  		
-			<classes dir="${classes.dir}"/>
+			<classes dir="${classes.dir}">
+				<exclude name="**/*Test.class"/>
+			</classes>
 		</war>
 	</target>
 	
@@ -152,4 +179,50 @@
 				  command="${tomcat.bin.dir}/startup.sh" />
 	</target>
 	
+	<target name="report.findbugs" depends="compile" description="Run code analysis over code to check for problems.">
+        <!-- Fail this target if FindBugs is not installed. -->
+        <available file="${findbugs.home.dir}/lib/findbugs.jar" property="findbugs.available" />
+        <fail unless="findbugs.available" message="Error: FINDBUGS_HOME not set or findbugs.jar not found." />
+        <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${findbugs.home.dir}/lib/findbugs-ant.jar" />
+        <!-- Run FindBugs. -->
+        <mkdir dir="${reports.dir}/findbugs" />
+        <findbugs home="${findbugs.home.dir}" workHard="true" output="html" outputFile="${reports.dir}/findbugs/findbugs.html">
+            <class location="${classes.dir}" />
+            <auxClasspath>
+                <fileset file="${junit.jar}" />
+            </auxClasspath>
+        </findbugs>
+    </target>
+	
+	<target name="report.checkstyle" description="Generate a report of code convention violations.">
+		<taskdef resource="checkstyletask.properties" classpath="${checkstyle.home.dir}/checkstyle-5.6-all.jar" />
+	    <!-- run verification of installation-->
+	    <available file="${checkstyle.home.dir}/checkstyle-5.6.jar" property="checkstyle.available" />
+	    <fail unless="checkstyle.available" message="Error: CHECKSTYLE_HOME not set or checkstyle-5.6.jar not found." />
+	    <mkdir dir="${reports.dir}/checkstyle" />
+	    <!-- run analysis-->
+	    <checkstyle config="checkstyle/sun_checks.xml" classpathref="class.path" failureProperty="checkstyle.failure" failOnViolation="false" >
+	    	<formatter type="xml" tofile="${reports.dir}/checkstyle/checkstyle_report.xml" />
+	    	<fileset dir="${src.dir}" includes="**/*.java" />
+	    </checkstyle>
+	    <style in="${reports.dir}/checkstyle/checkstyle_report.xml"
+	    	out="${reports.dir}/checkstyle/checkstyle_report.html"
+	   		style="${checkstyle.home.dir}/contrib/checkstyle-noframes.xsl" />
+	</target>
+
+	<target name="report.pmd">
+		<mkdir dir="${reports.dir}/pmd" />
+		<pmd rulesetfiles="pmd/basic.xml">
+			<formatter type="xml" toFile="${reports.dir}/pmd/pmd_report.xml" />
+			<fileset dir="${src.dir}">
+				<include name="**/*.java" />
+			</fileset>
+		</pmd>
+		<xslt in="${reports.dir}/pmd/pmd_report.xml" 
+			style="${pmd.home.dir}/etc/xslt/pmd-report-per-class.xslt" 
+			out="${reports.dir}/pmd/pmd_report.html"  />
+	</target>
+	
+	<target name="reports" depends="clean,compile,test,report.checkstyle,report.findbugs,report.pmd,report.cobertura" />
+
 </project>

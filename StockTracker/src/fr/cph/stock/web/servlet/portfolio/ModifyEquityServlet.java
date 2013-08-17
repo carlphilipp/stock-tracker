@@ -16,7 +16,6 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import javax.servlet.ServletException;
@@ -47,29 +46,19 @@ import fr.cph.stock.web.servlet.CookieManagement;
 public class ModifyEquityServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 886732846315131952L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(ModifyEquityServlet.class);
+	private static final Logger LOG = Logger.getLogger(ModifyEquityServlet.class);
 	/** Business **/
 	private IBusiness business;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.GenericServlet#init()
-	 */
 	@Override
-	public void init() {
+	public final void init() {
 		business = new Business();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			if (request.getCharacterEncoding() == null) {
 				request.setCharacterEncoding("UTF-8");
@@ -89,41 +78,50 @@ public class ModifyEquityServlet extends HttpServlet {
 					request.setAttribute("modified", language.getLanguage(lang).get("CONSTANT_DELETED") + " !");
 				} else {
 					String ticker = request.getParameter("ticker");
-					String _namePersonal = request.getParameter("namePersonal");
-					if (!_namePersonal.equals("")) {
-						namePersonal = _namePersonal;
+					String namePerso = request.getParameter("namePersonal");
+					if (!namePerso.equals("")) {
+						namePersonal = namePerso;
 					}
-					String _sectorPersonal = request.getParameter("sectorPersonal");
-					if (!_sectorPersonal.equals("")) {
-						sectorPersonal = _sectorPersonal;
+					String sectorPerso = request.getParameter("sectorPersonal");
+					if (!sectorPerso.equals("")) {
+						sectorPersonal = sectorPerso;
 					}
-					String _industryPersonal = request.getParameter("industryPersonal");
-					if (!_industryPersonal.equals("")) {
-						industryPersonal = _industryPersonal;
+					String industryPerso = request.getParameter("industryPersonal");
+					if (!industryPerso.equals("")) {
+						industryPersonal = industryPerso;
 					}
-					String _marketCapPersonal = request.getParameter("marketCapPersonal");
-					if (!_marketCapPersonal.equals("")) {
-						marketCapPersonal = _marketCapPersonal;
+					String marketCapPerso = request.getParameter("marketCapPersonal");
+					if (!marketCapPerso.equals("")) {
+						marketCapPersonal = marketCapPerso;
 					}
-					String _quantity = request.getParameter("quantity");
-					if (!_quantity.equals(""))
-						quantity = NumberUtils.createDouble(_quantity);
-					String _unitCostPrice = request.getParameter("unitCostPrice");
-					if (!_unitCostPrice.equals(""))
-						unitCostPrice = NumberUtils.createDouble(_unitCostPrice);
-					String _stopLoss = request.getParameter("stopLoss");
-					if (!_stopLoss.equals(""))
-						stopLoss = NumberUtils.createDouble(_stopLoss);
-					String _objective = request.getParameter("objective");
-					if (!_objective.equals(""))
-						objective = NumberUtils.createDouble(_objective);
-					String _yieldPersonal = request.getParameter("yieldPersonal");
-					if (!_yieldPersonal.equals(""))
-						yieldPersonal = NumberUtils.createDouble(_yieldPersonal);
-					String _parityPersonal = request.getParameter("modifyParityPersonal");
-					if (!_parityPersonal.equals(""))
-						parityPersonal = NumberUtils.createDouble(_parityPersonal);
-
+					String quant = request.getParameter("quantity");
+					if (!quant.equals("")) {
+						quantity = NumberUtils.createDouble(quant);
+					} else {
+						quantity = 0.0;
+					}
+					String unitCostP = request.getParameter("unitCostPrice");
+					if (!unitCostP.equals("")) {
+						unitCostPrice = NumberUtils.createDouble(unitCostP);
+					} else {
+						unitCostPrice = 0.0;
+					}
+					String stopLo = request.getParameter("stopLoss");
+					if (!stopLo.equals("")) {
+						stopLoss = NumberUtils.createDouble(stopLo);
+					}
+					String objc = request.getParameter("objective");
+					if (!objc.equals("")) {
+						objective = NumberUtils.createDouble(objc);
+					}
+					String yieldPerso = request.getParameter("yieldPersonal");
+					if (!yieldPerso.equals("")) {
+						yieldPersonal = NumberUtils.createDouble(yieldPerso);
+					}
+					String parityPerso = request.getParameter("modifyParityPersonal");
+					if (!parityPerso.equals("")) {
+						parityPersonal = NumberUtils.createDouble(parityPerso);
+					}
 					if (quantity == 0 || unitCostPrice == 0) {
 						request.setAttribute("modifyError", "Error: quantity and/or unit cost price can not be 0");
 					} else {
@@ -143,27 +141,21 @@ public class ModifyEquityServlet extends HttpServlet {
 					}
 				}
 			} catch (YahooException e) {
-				log.warn(e.getMessage(), e);
+				LOG.warn(e.getMessage(), e);
 				request.setAttribute("modifyError", "Error: " + e.getMessage());
 			} catch (NumberFormatException e) {
-				log.warn(e.getMessage(), e);
+				LOG.warn(e.getMessage(), e);
 				request.setAttribute("modifyError", "Error: " + e.getMessage());
 			}
 			request.getRequestDispatcher("home").forward(request, response);
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

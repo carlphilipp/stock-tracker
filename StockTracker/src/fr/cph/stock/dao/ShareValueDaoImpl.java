@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -31,13 +30,8 @@ import fr.cph.stock.entities.ShareValue;
  */
 public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
-	 */
 	@Override
-	public void insert(ShareValue shareValue) {
+	public final void insert(final ShareValue shareValue) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("ShareValue.insertOneShareValue", shareValue);
@@ -51,8 +45,9 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 	 * Insert a share value with a date
 	 * 
 	 * @param shareValue
+	 *            the share value
 	 */
-	public void insertWithDate(ShareValue shareValue) {
+	public final void insertWithDate(final ShareValue shareValue) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("ShareValue.insertOneShareValueWithDate", shareValue);
@@ -62,13 +57,8 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#select(int)
-	 */
 	@Override
-	public ShareValue select(int id) {
+	public final ShareValue select(final int id) {
 		SqlSession session = getSqlSessionFactory();
 		ShareValue shareValue = null;
 		try {
@@ -79,13 +69,8 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		return shareValue;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
-	 */
 	@Override
-	public void update(ShareValue shareValue) {
+	public final void update(final ShareValue shareValue) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("ShareValue.updateOneShareValue", shareValue);
@@ -95,13 +80,8 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
-	 */
 	@Override
-	public void delete(ShareValue shareValue) {
+	public final void delete(final ShareValue shareValue) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("ShareValue.deleteOneShareValue", shareValue);
@@ -118,7 +98,7 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 	 *            the user id
 	 * @return a share value
 	 */
-	public ShareValue selectLastValue(int userId) {
+	public final ShareValue selectLastValue(final int userId) {
 		SqlSession session = getSqlSessionFactory();
 		ShareValue shareValue = null;
 		try {
@@ -136,9 +116,9 @@ public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
 	 *            a user id
 	 * @return a list of share value
 	 */
-	public List<ShareValue> selectAllValue(int userId) {
+	public final List<ShareValue> selectAllValue(final int userId) {
 		SqlSession session = getSqlSessionFactory();
-		List<ShareValue> shareValues = new ArrayList<ShareValue>();
+		List<ShareValue> shareValues = null;
 		try {
 			shareValues = session.selectList("ShareValue.selectAllValue", userId);
 		} finally {

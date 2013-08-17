@@ -16,8 +16,6 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,17 +39,13 @@ import fr.cph.stock.entities.User;
 public class LogOutMobileServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
-	/** Logger **/
-	private static final Logger log = Logger.getLogger(LogOutMobileServlet.class);
+	private static final long serialVersionUID = -6390397454452936077L;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(LogOutMobileServlet.class);
+
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
 			if (session != null) {
@@ -67,18 +61,13 @@ public class LogOutMobileServlet extends HttpServlet {
 			json.put("session", "null");
 			response.getWriter().write(json.toString());
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

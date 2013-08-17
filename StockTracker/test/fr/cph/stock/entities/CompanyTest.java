@@ -34,7 +34,6 @@ public class CompanyTest {
 	public void testCompany() throws ParseException, YahooException {
 		TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
 		Calendar currentCal = Util.getCurrentCalendarInTimeZone(timeZone);
-		log.info(currentCal);
 	}
 
 }

@@ -30,10 +30,12 @@ public class LanguageException extends Exception {
 	/**
 	 * Constructor
 	 * 
-	 * @param message
+	 * @param str
 	 *            the error message
+	 * @param e
+	 *            the exception
 	 */
-	public LanguageException(String str, Exception e) {
+	public LanguageException(final String str, final Exception e) {
 		super(str, e);
 	}
 

@@ -16,13 +16,13 @@
 
 package fr.cph.stock.business;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 import org.junit.After;
 import org.junit.Before;
@@ -30,7 +30,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import fr.cph.stock.dao.CompanyDaoImpl;
 import fr.cph.stock.dao.EquityDaoImpl;
 import fr.cph.stock.dao.PortfolioDaoImpl;
 import fr.cph.stock.dao.UserDaoImpl;
@@ -81,12 +80,10 @@ public class BusinessTest {
 		equity.setQuantity(10.0);
 		business.updateEquity(user.getId(), "FP.PA", equity);
 		EquityDaoImpl daoEquity = new EquityDaoImpl();
-		CompanyDaoImpl daoCompany = new CompanyDaoImpl();
 		Portfolio port = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		Equity eq = port.getEquities().get(0);
 		assertNotNull(eq);
 		daoEquity.delete(eq);
-		daoCompany.delete(eq.getCompany());
 	}
 
 	@Test
@@ -96,12 +93,10 @@ public class BusinessTest {
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);
 		business.updateEquity(user.getId(), "FP.PA", equity);
-		CompanyDaoImpl daoCompany = new CompanyDaoImpl();
 		Portfolio port = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		Equity eq = port.getEquities().get(0);
 		assertNotNull(eq);
 		business.deleteEquity(eq);
-		daoCompany.delete(eq.getCompany());
 	}
 
 	@Test
@@ -122,6 +117,9 @@ public class BusinessTest {
 		assertEquals(0, portfolio.getEquities().size());
 
 		// Clean
+		Portfolio port = new Portfolio();
+		port.setId(portfolio.getId());
+		portfolioDao.delete(port);
 		business.deleteUser(login);
 		user = business.getUser(login);
 		assertNull(user);
@@ -138,6 +136,10 @@ public class BusinessTest {
 		assertNotNull(user);
 
 		// Clean
+		Portfolio portfolio = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
+		Portfolio port = new Portfolio();
+		port.setId(portfolio.getId());
+		portfolioDao.delete(port);
 		business.deleteUser(login);
 		user = business.getUser(login);
 		assertNull(user);

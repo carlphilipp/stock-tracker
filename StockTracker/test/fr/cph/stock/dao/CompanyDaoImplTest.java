@@ -16,9 +16,10 @@
 
 package fr.cph.stock.dao;
 
-import java.util.UUID;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
-import junit.framework.Assert;
+import java.util.UUID;
 
 import org.junit.Test;
 
@@ -51,27 +52,31 @@ public class CompanyDaoImplTest {
 		company.setSector(sector);
 		company.setYahooId(yahooId);
 		company.setYield(yield);
+		company.setRealTime(true);
+		company.setFund(false);
 		dao.insert(company);
 		
 		company = dao.selectWithYahooId(yahooId);
-		Assert.assertEquals(yahooId, company.getYahooId());
-		Assert.assertEquals(name, company.getName());
-		Assert.assertEquals(market, company.getMarket());
-		Assert.assertEquals(currency, company.getCurrency());
-		Assert.assertEquals(industry, company.getIndustry());
-		Assert.assertEquals(sector, company.getSector());
-		Assert.assertEquals(quote, company.getQuote());
-		Assert.assertEquals(yield, company.getYield());
+		assertEquals(yahooId, company.getYahooId());
+		assertEquals(name, company.getName());
+		assertEquals(market, company.getMarket());
+		assertEquals(currency, company.getCurrency());
+		assertEquals(industry, company.getIndustry());
+		assertEquals(sector, company.getSector());
+		assertEquals(quote, company.getQuote(), 0.00001);
+		assertEquals(yield, company.getYield(), 0.00001);
+		assertEquals(true, company.getRealTime());
+		assertEquals(false, company.getFund());
 		
 		company.setCurrency(Currency.USD);
 		dao.update(company);
 		
 		company = dao.selectWithYahooId(yahooId);
-		Assert.assertEquals(Currency.USD, company.getCurrency());
+		assertEquals(Currency.USD, company.getCurrency());
 		
 		dao.delete(company);
 		company = dao.selectWithYahooId(yahooId);
-		Assert.assertNull(company);
+		assertNull(company);
 	}
 
 }

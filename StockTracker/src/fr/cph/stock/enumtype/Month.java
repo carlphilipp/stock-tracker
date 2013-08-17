@@ -23,5 +23,28 @@ package fr.cph.stock.enumtype;
  * 
  */
 public enum Month {
-	JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
+	/** **/
+	JANUARY, 
+	/** **/
+	FEBRUARY, 
+	/** **/
+	MARCH, 
+	/** **/
+	APRIL, 
+	/** **/
+	MAY,
+	/** **/
+	JUNE, 
+	/** **/
+	JULY, 
+	/** **/
+	AUGUST, 
+	/** **/
+	SEPTEMBER, 
+	/** **/
+	OCTOBER, 
+	/** **/
+	NOVEMBER, 
+	/** **/
+	DECEMBER
 }

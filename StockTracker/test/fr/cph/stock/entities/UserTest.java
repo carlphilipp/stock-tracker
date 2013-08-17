@@ -16,7 +16,7 @@
 
 package fr.cph.stock.entities;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
@@ -28,9 +28,9 @@ public class UserTest {
 		String password = "mypassword";
 		String email = "mail@gmail.com";
 		User user = new User(login, password);
-		Assert.assertEquals(login, user.getLogin());
+		assertEquals(login, user.getLogin());
 		user.setEmail(email);
-		Assert.assertEquals(email, user.getEmail());
+		assertEquals(email, user.getEmail());
 	}
 
 }

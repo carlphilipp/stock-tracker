@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
  * @author Carl-Philipp Harmant
  * 
  */
-public class Util {
+public final class Util {
 	/**
 	 * Constructor
 	 */
@@ -34,7 +34,7 @@ public class Util {
 	}
 
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(Util.class);
+	private static final Logger LOG = Logger.getLogger(Util.class);
 
 	/**
 	 * Get the timezone difference with Paris
@@ -43,7 +43,7 @@ public class Util {
 	 *            the timezone
 	 * @return an hour
 	 */
-	public static int timeZoneDiff(TimeZone timezone) {
+	public static int timeZoneDiff(final TimeZone timezone) {
 		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
 		int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
@@ -54,8 +54,9 @@ public class Util {
 
 		int hourDifference = hourOfDay - hourOfDay2;
 		int dayDifference = dayOfMonth - dayOfMonth2;
+		final int hourInDay = 24;
 		if (dayDifference != 0) {
-			hourDifference = hourDifference + 24;
+			hourDifference = hourDifference + hourInDay;
 		}
 		return hourDifference;
 	}
@@ -69,7 +70,7 @@ public class Util {
 	 *            the timezone
 	 * @return a Calendar
 	 */
-	public static Calendar getDateInTimeZone(Date date, TimeZone timeZone) {
+	public static Calendar getDateInTimeZone(final Date date, final TimeZone timeZone) {
 		Calendar calendar = Calendar.getInstance(timeZone);
 		calendar.setTime(date);
 		return calendar;
@@ -82,7 +83,7 @@ public class Util {
 	 *            the timezone
 	 * @return the calendar
 	 */
-	public static Calendar getCurrentCalendarInTimeZone(TimeZone timeZone) {
+	public static Calendar getCurrentCalendarInTimeZone(final TimeZone timeZone) {
 		return Calendar.getInstance(timeZone);
 	}
 
@@ -95,13 +96,12 @@ public class Util {
 	 *            the 2nd calendar
 	 * @return a boolean
 	 */
-	public static boolean isSameDay(Calendar calendar1, Calendar calendar2) {
+	public static boolean isSameDay(final Calendar calendar1, final Calendar calendar2) {
 		boolean res = false;
-		if (calendar1.getTimeZone() == calendar2.getTimeZone()) {
-			if (calendar1.get(Calendar.DAY_OF_YEAR) == calendar2.get(Calendar.DAY_OF_YEAR)
-					&& calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)) {
-				res = true;
-			}
+		if (calendar1.getTimeZone() == calendar2.getTimeZone()
+				&& calendar1.get(Calendar.DAY_OF_YEAR) == calendar2.get(Calendar.DAY_OF_YEAR)
+				&& calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)) {
+			res = true;
 		}
 		return res;
 	}
@@ -113,7 +113,7 @@ public class Util {
 	 *            the format to use
 	 * @return the formatted date
 	 */
-	public static String getCurrentDateInFormat(String format) {
+	public static String getCurrentDateInFormat(final String format) {
 		Calendar cal = Util.getCurrentCalendarInTimeZone(TimeZone.getTimeZone("Europe/Paris"));
 		DateFormat formatter = new SimpleDateFormat(format);
 		return formatter.format(cal.getTime());
@@ -123,17 +123,20 @@ public class Util {
 	 * No idea what it is doing
 	 * 
 	 * @param hour1
+	 *            the 1st hour
 	 * @param hour2
-	 * @return
+	 *            the second hour
+	 * @return an int
 	 */
-	public static int getRealHour(int hour1, int hour2) {
+	public static int getRealHour(final int hour1, final int hour2) {
+		final int hourInDay = 24;
 		int res = 0;
 		int add = hour1 + hour2;
-		if (add >= 24) {
-			res = add - 24;
+		if (add >= hourInDay) {
+			res = add - hourInDay;
 		} else {
 			if (add < 0) {
-				res = add + 24;
+				res = add + hourInDay;
 			} else {
 				res = add;
 			}
@@ -145,11 +148,14 @@ public class Util {
 	 * Get random colors
 	 * 
 	 * @param size
+	 *            the size
 	 * @param colors
+	 *            the list of color
 	 * @param res
-	 * @return
+	 *            the res
+	 * @return a list of string
 	 */
-	public static List<String> getRandomColors(int size, List<String> colors, List<String> res) {
+	public static List<String> getRandomColors(final int size, final List<String> colors, List<String> res) {
 		if (res.size() != size) {
 			Random random = new Random();
 			String color = colors.get(random.nextInt(colors.size()));
@@ -169,8 +175,9 @@ public class Util {
 	 * @param output
 	 *            the output path
 	 * @throws IOException
+	 *             the exception
 	 */
-	public static void createTarGz(String input, String output) throws IOException {
+	public static void createTarGz(final String input, final String output) throws IOException {
 		FileOutputStream fOut = null;
 		BufferedOutputStream bOut = null;
 		GzipCompressorOutputStream gzOut = null;
@@ -190,16 +197,21 @@ public class Util {
 			throw new IOException(e);
 		} finally {
 			try {
-				if (tOut != null)
+				if (tOut != null) {
 					tOut.finish();
-				if (tOut != null)
+				}
+				if (tOut != null) {
 					tOut.close();
-				if (gzOut != null)
+				}
+				if (gzOut != null) {
 					gzOut.close();
-				if (bOut != null)
+				}
+				if (bOut != null) {
 					bOut.close();
-				if (tOut != null)
+				}
+				if (tOut != null) {
 					fOut.close();
+				}
 			} catch (IOException e) {
 				throw new IOException(e);
 			}
@@ -212,12 +224,12 @@ public class Util {
 	 * @param timeInMs
 	 *            the time to wait in ms
 	 */
-	public static void makeAPause(int timeInMs) {
+	public static void makeAPause(final int timeInMs) {
 		try {
 			Thread.currentThread();
 			Thread.sleep(timeInMs);
 		} catch (InterruptedException e) {
-			log.warn(e.getMessage());
+			LOG.warn(e.getMessage());
 		}
 	}
 
@@ -228,10 +240,11 @@ public class Util {
 	 *            the date
 	 * @return the date with reseted field
 	 */
-	public static Date resetHourMinSecMill(Date date) {
+	public static Date resetHourMinSecMill(final Date date) {
+		final int hourOfDay = 17;
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		cal.set(Calendar.HOUR_OF_DAY, 17);
+		cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
@@ -246,12 +259,12 @@ public class Util {
 	 *            the path of the property file
 	 * @return a properties file
 	 */
-	public static Properties getProperties(String path) {
+	public static Properties getProperties(final String path) {
 		Properties prop = new Properties();
 		try {
 			prop.load(Util.class.getClassLoader().getResourceAsStream(path));
 		} catch (IOException e) {
-			log.error(e);
+			LOG.error(e);
 		}
 		return prop;
 	}

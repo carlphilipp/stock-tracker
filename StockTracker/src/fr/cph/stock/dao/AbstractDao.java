@@ -31,6 +31,7 @@ import fr.cph.stock.dao.mybatis.Mybatis;
  */
 public abstract class AbstractDao<T> implements IDao<T> {
 
+	/** Sql session **/
 	private SqlSessionFactory sqlSessionFactory = Mybatis.getSqlMapInstance();
 
 	/**
@@ -38,7 +39,7 @@ public abstract class AbstractDao<T> implements IDao<T> {
 	 * 
 	 * @return a session to access to the DB
 	 */
-	protected SqlSession getSqlSessionFactory() {
+	protected final SqlSession getSqlSessionFactory() {
 		return sqlSessionFactory.openSession();
 	}
 

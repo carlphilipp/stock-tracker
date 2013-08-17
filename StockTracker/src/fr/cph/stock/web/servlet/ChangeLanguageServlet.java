@@ -16,8 +16,6 @@
 
 package fr.cph.stock.web.servlet;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -38,35 +36,27 @@ import org.apache.log4j.Logger;
 public class ChangeLanguageServlet extends HttpServlet {
 
 	/** Serialization **/
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1381535043505856447L;
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(ChangeLanguageServlet.class);
+	private static final Logger LOG = Logger.getLogger(ChangeLanguageServlet.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			String language = request.getParameter("language");
-			Cookie cookie = new Cookie("language", language);
-			response.addCookie(cookie);
+			if (language.equals("English") || language.equals("Francais")) {
+				Cookie cookie = new Cookie("language", language.intern());
+				response.addCookie(cookie);
+			}
 			response.sendRedirect("home");
 		} catch (Throwable t) {
-			log.error(t.getMessage(), t);
+			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
 

@@ -31,19 +31,22 @@ import fr.cph.stock.business.IBusiness;
  */
 public class CleanJob implements Job {
 
-	private static final Logger log = Logger.getLogger(CleanJob.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(CleanJob.class);
+	/** **/
 	private IBusiness business;
 
+	/** Constructor  **/
 	public CleanJob() {
 		business = new Business();
 	}
 
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		try {
 			business.cleanDB();
 		} catch (Throwable t) {
-			log.error("Error while executing CleanJob: " + t.getMessage(), t);
+			LOG.error("Error while executing CleanJob: " + t.getMessage(), t);
 		}
 	}
 }

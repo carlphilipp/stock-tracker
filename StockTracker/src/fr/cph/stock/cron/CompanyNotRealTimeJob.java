@@ -31,19 +31,22 @@ import fr.cph.stock.business.IBusiness;
  */
 public class CompanyNotRealTimeJob implements Job {
 
-	private static final Logger log = Logger.getLogger(CompanyNotRealTimeJob.class);
+	/** Logger **/
+	private static final Logger LOG = Logger.getLogger(CompanyNotRealTimeJob.class);
+	/** **/
 	private IBusiness business;
 
+	/** Constructor **/
 	public CompanyNotRealTimeJob() {
 		business = new Business();
 	}
 
 	@Override
-	public void execute(JobExecutionContext context) {
+	public final void execute(final JobExecutionContext context) {
 		try {
 			business.updateCompaniesNotRealTime();
 		} catch (Throwable t) {
-			log.error("Error while executing CompanyNotRealTimeJob: " + t.getMessage(), t);
+			LOG.error("Error while executing CompanyNotRealTimeJob: " + t.getMessage(), t);
 		}
 	}
 

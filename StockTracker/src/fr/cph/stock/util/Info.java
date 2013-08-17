@@ -16,6 +16,9 @@
 
 package fr.cph.stock.util;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -25,6 +28,11 @@ import java.util.Properties;
  * 
  */
 public class Info {
+	/**
+	 * Constructor
+	 */
+	private Info() {
+	}
 
 	/** Access in a static way to the property file **/
 	static {
@@ -34,23 +42,23 @@ public class Info {
 		FOLDER = prop.getProperty("folder");
 		YAHOOID_CAC40 = prop.getProperty("yahoocac40");
 		YAHOOID_SP500 = prop.getProperty("yahoosp500");
-		ADMINS = prop.getProperty("admins").split(";");
+		ADMINS = Collections.unmodifiableList(Arrays.asList(prop.getProperty("admins").split(";")));
 		REPORT = prop.getProperty("report.ireport");
 	}
 
 	/** Name of the webapp **/
-	public static String NAME;
+	public static final String NAME;
 	/** Current address of the webapp **/
-	public static String ADDRESS;
+	public static final String ADDRESS;
 	/** Current folder after the address **/
-	public static String FOLDER;
+	public static final String FOLDER;
 	/** Yahoo id of cac40 **/
-	public static String YAHOOID_CAC40;
+	public static final String YAHOOID_CAC40;
 	/** Yahoo id of s&p500 **/
-	public static String YAHOOID_SP500;
+	public static final String YAHOOID_SP500;
 	/** Admins **/
-	public static String[] ADMINS;
+	public static final List<String> ADMINS;
 	/** Jrxml repport **/
-	public static String REPORT;
+	public static final String REPORT;
 
 }

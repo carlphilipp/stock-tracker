@@ -30,13 +30,8 @@ import fr.cph.stock.entities.Company;
  */
 public class CompanyDaoImpl extends AbstractDao<Company> {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#insert(java.lang.Object)
-	 */
 	@Override
-	public void insert(Company company) {
+	public final void insert(final Company company) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("CompanyDao.insertOneCompany", company);
@@ -46,13 +41,8 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#select(int)
-	 */
 	@Override
-	public Company select(int id) {
+	public final Company select(final int id) {
 		SqlSession session = getSqlSessionFactory();
 		Company company = null;
 		try {
@@ -63,13 +53,8 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		return company;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#update(java.lang.Object)
-	 */
 	@Override
-	public void update(Company company) {
+	public final void update(final Company company) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("CompanyDao.updateOneCompany", company);
@@ -79,13 +64,8 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see fr.cph.stock.dao.IDao#delete(java.lang.Object)
-	 */
 	@Override
-	public void delete(Company company) {
+	public final void delete(final Company company) {
 		SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("CompanyDao.deleteOneCompany", company);
@@ -102,7 +82,7 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 	 *            the yahoo id
 	 * @return a company
 	 */
-	public Company selectWithYahooId(String yahooId) {
+	public final Company selectWithYahooId(final String yahooId) {
 		SqlSession session = getSqlSessionFactory();
 		Company company = null;
 		try {
@@ -120,7 +100,7 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 	 *            a boolean that represents a real time data information. If
 	 * @return a list of company
 	 */
-	public List<Company> selectAllCompany(boolean realTime) {
+	public final List<Company> selectAllCompany(final boolean realTime) {
 		SqlSession session = getSqlSessionFactory();
 		List<Company> companies = null;
 		try {
@@ -136,7 +116,7 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 	 * 
 	 * @return a list of integer representing company ids.
 	 */
-	public List<Integer> selectAllUnusedCompanyIds() {
+	public final List<Integer> selectAllUnusedCompanyIds() {
 		SqlSession session = getSqlSessionFactory();
 		List<Integer> companies = null;
 		try {
@@ -146,5 +126,4 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 		}
 		return companies;
 	}
-
 }

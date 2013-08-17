@@ -35,12 +35,12 @@ import fr.cph.stock.exception.LanguageException;
  * @author Carl-Philipp Harmant
  * 
  */
-public class LanguageFactory {
+public final class LanguageFactory {
 
 	/** The factory **/
-	protected static LanguageFactory facto;
+	private static LanguageFactory facto;
 	/** The result map **/
-	protected static Map<String, Map<String, String>> map;
+	private static Map<String, Map<String, String>> map;
 	/** The file system **/
 	private static FileSystem system = FileSystems.getDefault();
 
@@ -48,7 +48,6 @@ public class LanguageFactory {
 	 * Constructor to lock the construction of the object
 	 */
 	private LanguageFactory() {
-
 	}
 
 	/**
@@ -56,6 +55,7 @@ public class LanguageFactory {
 	 * 
 	 * @return a LanguageFactory
 	 * @throws LanguageException
+	 *             the language exception
 	 */
 	public static LanguageFactory getInstance() throws LanguageException {
 		if (facto == null) {
@@ -70,9 +70,10 @@ public class LanguageFactory {
 	 * 
 	 * @return the language map
 	 * @throws LanguageException
+	 *             the language exception
 	 */
 	private static Map<String, Map<String, String>> getLanguageMap() throws LanguageException {
-		Map<String, Map<String, String>> map = new HashMap<String, Map<String, String>>();
+		Map<String, Map<String, String>> m = new HashMap<String, Map<String, String>>();
 		File file = null;
 		try {
 			file = Resources.getResourceAsFile("fr" + system.getSeparator() + "cph" + system.getSeparator() + "stock"
@@ -89,10 +90,10 @@ public class LanguageFactory {
 								+ system.getSeparator() + "language" + system.getSeparator() + "xml" + system.getSeparator()),
 						absolutPath.length());
 				Language language = new Language(path);
-				map.put(language.getLanguageName(), language.getLanguage());
+				m.put(language.getLanguageName(), language.getLanguage());
 			}
 		}
-		return map;
+		return m;
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class LanguageFactory {
 	 *            the language
 	 * @return a map
 	 */
-	public Map<String, String> getLanguage(String language) {
+	public Map<String, String> getLanguage(final String language) {
 		return map.get(language);
 	}
 

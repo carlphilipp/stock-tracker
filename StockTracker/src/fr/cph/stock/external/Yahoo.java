@@ -38,22 +38,22 @@ import fr.cph.stock.exception.YahooException;
  */
 public class Yahoo {
 	/** Logger **/
-	private static final Logger log = Logger.getLogger(Yahoo.class);
+	private static final Logger LOG = Logger.getLogger(Yahoo.class);
 	/** Url base **/
-	private static String URL_BASE = "http://query.yahooapis.com/v1/public/yql?q=";
+	private static final String URL_BASE = "http://query.yahooapis.com/v1/public/yql?q=";
 	/** Url end **/
-	private static String URL_END = "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=cbfunc";
+	private static final String URL_END = "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=cbfunc";
 	/** The request **/
 	private String request;
 
 	/**
 	 * Constructor that build a yahoo object with the given request
 	 * 
-	 * @param request
+	 * @param req
 	 *            the request
 	 */
-	public Yahoo(String request) {
-		this.request = request;
+	public Yahoo(final String req) {
+		this.request = req;
 	}
 
 	/**
@@ -61,8 +61,9 @@ public class Yahoo {
 	 * 
 	 * @return a url
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	protected String urlBuilder() throws YahooException {
+	protected final String urlBuilder() throws YahooException {
 		try {
 			return URL_BASE + URLEncoder.encode(request, "UTF-8") + URL_END;
 		} catch (UnsupportedEncodingException e) {
@@ -77,9 +78,10 @@ public class Yahoo {
 	 *            the address
 	 * @return the content of the page
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	protected String connectUrl(String address) throws YahooException {
-		log.debug("URL " + address);
+	protected final String connectUrl(final String address) throws YahooException {
+		LOG.debug("URL " + address);
 		String toreturn = null;
 		try {
 			URL url = new URL(address);
@@ -93,6 +95,7 @@ public class Yahoo {
 				c = in.read();
 			}
 			toreturn = build.toString();
+			in.close();
 		} catch (IOException e) {
 			throw new YahooException("Error: " + YahooException.CONNECT_ERROR, e);
 		}
@@ -106,7 +109,7 @@ public class Yahoo {
 	 *            the data to convert
 	 * @return a JSONObject
 	 */
-	protected JSONObject convertDataToJSONObject(String data) {
+	protected final JSONObject convertDataToJSONObject(final String data) {
 		String test = data.substring(7, data.length());
 		String test2 = test.substring(0, test.length() - 2);
 		return JSONObject.fromObject(test2);
@@ -117,10 +120,10 @@ public class Yahoo {
 	 * 
 	 * @return a JSONObject that contains the data
 	 * @throws YahooException
+	 *             the yahoo exception
 	 */
-	public JSONObject getJSONObject() throws YahooException {
+	public final JSONObject getJSONObject() throws YahooException {
 		String data = connectUrl(urlBuilder());
 		return convertDataToJSONObject(data);
 	}
-
 }

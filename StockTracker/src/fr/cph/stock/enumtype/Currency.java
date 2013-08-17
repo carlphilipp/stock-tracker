@@ -31,26 +31,28 @@ public enum Currency {
 	// AUD("Australia Dollar", "$", "AUD"),
 	// CAD("Canada Dollar", "$", "CAD"),
 	// CHF("Switzerland Franc", "CHF", "CHF"),
+	/** **/
 	EUR("Euro", "€", "EUR"), GBP("United Kingdom Pound", "£", "GBP"),
 	// HKD("Hong Kong Dollar", "$", "HKD"),
 	// SGD("Singapore Dollar", "$", "SGD"),
+	/** **/
 	USD("United States Dollar", "$", "USD");
 	// ZAR("South Africa Rand", "R", "ZAR");
 
 	/**
 	 * Constructor
 	 * 
-	 * @param name
+	 * @param n
 	 *            the name
-	 * @param symbol
+	 * @param sy
 	 *            the symbol
-	 * @param code
+	 * @param c
 	 *            the code
 	 */
-	Currency(String name, String symbol, String code) {
-		this.name = name;
-		this.symbol = symbol;
-		this.code = code;
+	Currency(final String n, final String sy, final String c) {
+		this.name = n;
+		this.symbol = sy;
+		this.code = c;
 	}
 
 	/**
@@ -58,7 +60,7 @@ public enum Currency {
 	 * 
 	 * @return the name
 	 */
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 
@@ -67,7 +69,7 @@ public enum Currency {
 	 * 
 	 * @return the symbol
 	 */
-	public String getSymbol() {
+	public final String getSymbol() {
 		return symbol;
 	}
 
@@ -76,7 +78,7 @@ public enum Currency {
 	 * 
 	 * @return the code
 	 */
-	public String getCode() {
+	public final String getCode() {
 		return code;
 	}
 
@@ -85,18 +87,18 @@ public enum Currency {
 	 * 
 	 * @return the list of currency data
 	 */
-	public List<CurrencyData> getCurrencyData() {
+	public final List<CurrencyData> getCurrencyData() {
 		return currencyData;
 	}
 
 	/**
 	 * Set currency data list
 	 * 
-	 * @param currencyData
+	 * @param currencyD
 	 *            the currency data list
 	 */
-	public void setCurrencyData(List<CurrencyData> currencyData) {
-		this.currencyData = currencyData;
+	public final void setCurrencyData(final List<CurrencyData> currencyD) {
+		this.currencyData = currencyD;
 	}
 
 	/**
@@ -106,11 +108,11 @@ public enum Currency {
 	 *            the currency
 	 * @return the parity
 	 */
-	public Double getParity(Currency currency) {
+	public final Double getParity(final Currency currency) {
 		Double res = new Double(0);
-		for (CurrencyData currencyData : getCurrencyData()) {
-			if (currencyData.getCurrency1() == currency) {
-				res = currencyData.getValue();
+		for (CurrencyData currencyD : getCurrencyData()) {
+			if (currencyD.getCurrency1() == currency) {
+				res = currencyD.getValue();
 				break;
 			}
 		}
@@ -124,7 +126,7 @@ public enum Currency {
 	 *            the str value
 	 * @return the currency
 	 */
-	public static Currency getEnum(String value) {
+	public static Currency getEnum(final String value) {
 		if (value == null) {
 			throw new IllegalArgumentException();
 		}
@@ -141,7 +143,7 @@ public enum Currency {
 	 * 
 	 * @return the JSONObject
 	 */
-	public JSONObject getJSONObject() {
+	public final JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.put("name", getName());
 		json.put("symbol", getSymbol());
