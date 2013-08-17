@@ -14,7 +14,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
- 
+<!DOCTYPE root SYSTEM "Language.dtd"> 
 <root>
 	<constant>
 		<added>Added</added>
@@ -204,8 +204,6 @@
 		<stopLoss>Stop loss</stopLoss>
 		<objective>Objective</objective>
 	</options_hidden>
-	<about>
-	</about>
-	<logout>
-	</logout>
+	<about />
+	<logout />
 </root>

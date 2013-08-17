@@ -1,0 +1,106 @@
+<!ELEMENT about EMPTY >
+<!ELEMENT account ( #PCDATA ) >
+<!ELEMENT accountName ( #PCDATA ) >
+<!ELEMENT accounts ( title, add, account, currency, liquidity, parity, value, option, modify, total ) >
+<!ELEMENT accounts_hidden ( add, accountName, currency, liquidity ) >
+<!ELEMENT add ( #PCDATA ) >
+<!ELEMENT added ( #PCDATA ) >
+<!ELEMENT all ( #PCDATA ) >
+<!ELEMENT buy ( #PCDATA ) >
+<!ELEMENT chart ( all, fiveYears, twoYears, oneYear, sixMonths, threeMonths, oneMonth, oneWeek ) >
+<!ELEMENT chartTitle ( #PCDATA ) >
+<!ELEMENT chartTitleValue ( #PCDATA ) >
+<!ELEMENT charts ( title ) >
+<!ELEMENT columns ( #PCDATA ) >
+<!ELEMENT commentary ( #PCDATA ) >
+<!ELEMENT company ( #PCDATA ) >
+<!ELEMENT confirm ( #PCDATA ) >
+<!ELEMENT constant ( added, updated, modified, deleted ) >
+<!ELEMENT currencies ( title, portfolioCurrency, currency, lastUpdate ) >
+<!ELEMENT currencies_hidden ( refresh, confirm ) >
+<!ELEMENT currency ( #PCDATA ) >
+<!ELEMENT customizeIndustry ( #PCDATA ) >
+<!ELEMENT customizeMarketCap ( #PCDATA ) >
+<!ELEMENT customizeName ( #PCDATA ) >
+<!ELEMENT customizeSector ( #PCDATA ) >
+<!ELEMENT date ( #PCDATA ) >
+<!ELEMENT datePattern ( #PCDATA ) >
+<!ELEMENT defautCurrency ( #PCDATA ) >
+<!ELEMENT defautParity ( #PCDATA ) >
+<!ELEMENT delete ( #PCDATA ) >
+<!ELEMENT deleteConfirm ( #PCDATA ) >
+<!ELEMENT deleted ( #PCDATA ) >
+<!ELEMENT details ( #PCDATA ) >
+<!ELEMENT dividends ( #PCDATA ) >
+<!ELEMENT equities ( company, quantity, unitCostPrice, quote, currency, parities, value, percentTotal, yieldTtm, yieldPerUnitCostPrice, valueGained, stopLoss, objective, info, modify ) >
+<!ELEMENT fiveYears ( #PCDATA ) >
+<!ELEMENT format ( #PCDATA ) >
+<!ELEMENT higherLimit ( #PCDATA ) >
+<!ELEMENT history ( title, update, date, account, liquidityMovement, dividends, buy, sell, taxe, portfolioValue, shareQuantity, shareValue, monthlyYield, commentary, option, details, all, delete ) >
+<!ELEMENT history_hidden ( refresh, account, movement, yield, buy, sell, taxe, commentary, update ) >
+<!ELEMENT info ( #PCDATA ) >
+<!ELEMENT lastUpdate ( #PCDATA ) >
+<!ELEMENT liquidity ( #PCDATA ) >
+<!ELEMENT liquidityMovement ( #PCDATA ) >
+<!ELEMENT list ( title, add, date, company, quote, lowMaxYear, yield, lowerLimit, higherLimit, info, modify ) >
+<!ELEMENT list_hidden ( refresh, confirm, add, yahooId, lowerLimit, higherLimit, modify ) >
+<!ELEMENT load ( #PCDATA ) >
+<!ELEMENT loadHistory ( #PCDATA ) >
+<!ELEMENT logout EMPTY >
+<!ELEMENT lowMaxYear ( #PCDATA ) >
+<!ELEMENT lowerLimit ( #PCDATA ) >
+<!ELEMENT menu ( title+ ) >
+<!ELEMENT modified ( #PCDATA ) >
+<!ELEMENT modify ( #PCDATA ) >
+<!ELEMENT modifyEquity ( #PCDATA ) >
+<!ELEMENT monthlyYield ( #PCDATA ) >
+<!ELEMENT movement ( #PCDATA ) >
+<!ELEMENT objective ( #PCDATA ) >
+<!ELEMENT oneMonth ( #PCDATA ) >
+<!ELEMENT oneWeek ( #PCDATA ) >
+<!ELEMENT oneYear ( #PCDATA ) >
+<!ELEMENT option ( #PCDATA ) >
+<!ELEMENT options ( title, defautCurrency, format, timeZone, datePattern, portfolioColumn, loadHistory, liquidity, account, load ) >
+<!ELEMENT options_hidden ( title, currency, format, timeZone, datePattern, columns, quote, parities, yieldTTM, yieldPerUnitCostPrice, stopLoss, objective ) >
+<!ELEMENT or ( #PCDATA ) >
+<!ELEMENT parities ( #PCDATA ) >
+<!ELEMENT parity ( #PCDATA ) >
+<!ELEMENT percentTotal ( #PCDATA ) >
+<!ELEMENT personalParity ( #PCDATA ) >
+<!ELEMENT personalYield ( #PCDATA ) >
+<!ELEMENT portfolio ( title, review, add, equities, chartTitle, chartTitleValue, chart ) >
+<!ELEMENT portfolioColumn ( #PCDATA ) >
+<!ELEMENT portfolioCurrency ( #PCDATA ) >
+<!ELEMENT portfolioValue ( #PCDATA ) >
+<!ELEMENT portfolio_hidden ( refresh, updateCurrencies, add, yahooId, quantity, unitCostPrice, modifyEquity, customizeName, customizeSector, customizeIndustry, customizeMarketCap, defautParity, personalParity, yahooYield, personalYield, stopLoss, objective, modify, or, delete, deleteConfirm ) >
+<!ELEMENT quantity ( #PCDATA ) >
+<!ELEMENT quote ( #PCDATA ) >
+<!ELEMENT refresh ( #PCDATA ) >
+<!ELEMENT review ( liquidity, yieldYear, shareValue ) >
+<!ELEMENT root ( constant, menu, portfolio, portfolio_hidden, history, history_hidden, accounts, accounts_hidden, list, list_hidden, charts, currencies, currencies_hidden, options, options_hidden, about, logout ) >
+<!ELEMENT sell ( #PCDATA ) >
+<!ELEMENT shareQuantity ( #PCDATA ) >
+<!ELEMENT shareValue ( #PCDATA ) >
+<!ELEMENT sixMonths ( #PCDATA ) >
+<!ELEMENT stopLoss ( #PCDATA ) >
+<!ELEMENT taxe ( #PCDATA ) >
+<!ELEMENT threeMonths ( #PCDATA ) >
+<!ELEMENT timeZone ( #PCDATA ) >
+<!ELEMENT title ( #PCDATA ) >
+<!ATTLIST title name NMTOKEN #IMPLIED >
+<!ELEMENT total ( #PCDATA ) >
+<!ELEMENT twoYears ( #PCDATA ) >
+<!ELEMENT unitCostPrice ( #PCDATA ) >
+<!ELEMENT update ( #PCDATA ) >
+<!ELEMENT updateCurrencies ( #PCDATA ) >
+<!ELEMENT updated ( #PCDATA ) >
+<!ELEMENT value ( #PCDATA ) >
+<!ELEMENT valueGained ( #PCDATA ) >
+<!ELEMENT yahooId ( #PCDATA ) >
+<!ELEMENT yahooYield ( #PCDATA ) >
+<!ELEMENT yield ( #PCDATA ) >
+<!ELEMENT yieldPerUnitCostPrice ( #PCDATA ) >
+<!ELEMENT yieldTTM ( #PCDATA ) >
+<!ELEMENT yieldTtm ( #PCDATA ) >
+<!ELEMENT yieldYear ( #PCDATA ) >
+
