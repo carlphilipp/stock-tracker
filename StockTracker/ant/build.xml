@@ -143,6 +143,7 @@
 			<zipfileset dir="src" includes="**/*.properties" excludes="**/*.template" prefix="WEB-INF/classes"/>
 			<zipfileset dir="src" includes="**/*.jrxml" prefix="WEB-INF/classes"/>
 			<zipfileset dir="src/fr/cph/stock/language/xml" includes="**/*.xml" prefix="WEB-INF/classes/fr/cph/stock/language/xml"/>
+			<zipfileset dir="src/fr/cph/stock/language" includes="**/*.dtd" prefix="WEB-INF/classes/fr/cph/stock/language"/>
 			<zipfileset dir="src/fr/cph/stock/dao/mybatis" includes="**/*.xml" prefix="WEB-INF/classes/fr/cph/stock/dao/mybatis"/>
 			
 			<lib dir="WebContent/WEB-INF/lib">
