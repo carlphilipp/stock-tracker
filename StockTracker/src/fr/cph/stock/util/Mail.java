@@ -99,7 +99,7 @@ public final class Mail {
 	 * @throws IOException
 	 *             the io exception
 	 */
-	public void sendSSLMessage(final String[] recipients, final String subject, final String message, final String from,
+	private void sendSSLMessage(final String[] recipients, final String subject, final String message, final String from,
 			final String attachFile) throws MessagingException, IOException {
 		boolean debug = false;
 

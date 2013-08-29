@@ -53,7 +53,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
 	@Override

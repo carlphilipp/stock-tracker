@@ -42,7 +42,7 @@ public class UserJob implements Job {
 
 	/** Constructor **/
 	public UserJob() {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
 	@Override

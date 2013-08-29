@@ -66,7 +66,7 @@ import fr.cph.stock.util.Util;
  * @author Carl-Philipp Harmant
  * @version 1
  */
-public class Business implements IBusiness {
+public final class Business implements IBusiness {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(Business.class);
@@ -78,31 +78,33 @@ public class Business implements IBusiness {
 	private final int percent = 100;
 	/** Precision of calculation **/
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
+	/** Singleton **/
+	private static Business business;
 	/** Data Access Objects **/
-	private IExternalDataAccess yahoo;
+	private final IExternalDataAccess yahoo;
 	/** **/
-	private CompanyDaoImpl daoCompany;
+	private final CompanyDaoImpl daoCompany;
 	/** **/
-	private PortfolioDaoImpl daoPortfolio;
+	private final PortfolioDaoImpl daoPortfolio;
 	/** **/
-	private EquityDaoImpl daoEquity;
+	private final EquityDaoImpl daoEquity;
 	/** **/
-	private UserDaoImpl daoUser;
+	private final UserDaoImpl daoUser;
 	/** **/
-	private CurrencyDaoImpl daoCurrency;
+	private final CurrencyDaoImpl daoCurrency;
 	/** **/
-	private ShareValueDaoImpl daoShareValue;
+	private final ShareValueDaoImpl daoShareValue;
 	/** **/
-	private IndexDaoImpl daoIndex;
+	private final IndexDaoImpl daoIndex;
 	/** **/
-	private FollowDaoImpl daoFollow;
+	private final FollowDaoImpl daoFollow;
 	/** **/
-	private AccountDaoImpl daoAccount;
+	private final AccountDaoImpl daoAccount;
 
 	/**
 	 * Class constructor
 	 */
-	public Business() {
+	private Business() {
 		yahoo = new YahooExternalDataAccess();
 		daoCompany = new CompanyDaoImpl();
 		daoPortfolio = new PortfolioDaoImpl();
@@ -113,6 +115,18 @@ public class Business implements IBusiness {
 		daoIndex = new IndexDaoImpl();
 		daoFollow = new FollowDaoImpl();
 		daoAccount = new AccountDaoImpl();
+	}
+
+	/**
+	 * Static singleton getter
+	 * 
+	 * @return a IBusiness instance
+	 */
+	public static final IBusiness getInstance() {
+		if (business == null) {
+			business = new Business();
+		}
+		return business;
 	}
 
 	@Override
@@ -162,38 +176,6 @@ public class Business implements IBusiness {
 	@Override
 	public final void deleteEquity(final Equity equity) {
 		daoEquity.delete(equity);
-	}
-
-	/**
-	 * 
-	 * @param ticker
-	 *            the ticker
-	 * @return a company
-	 * @throws YahooException
-	 *             the yahoo exception
-	 */
-	protected final Company addOrUpdateCompany(final String ticker) throws YahooException {
-		List<String> tickers = new ArrayList<String>();
-		tickers.add(ticker);
-		Company companyYahoo = yahoo.getCompaniesData(tickers).get(0);
-		Company companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
-		if (companyInDB == null) {
-			companyYahoo = yahoo.getCompanyInfo(companyYahoo);
-			daoCompany.insert(companyYahoo);
-			companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
-		} else {
-			companyInDB.setQuote(companyYahoo.getQuote());
-			companyInDB.setYield(companyYahoo.getYield());
-			companyInDB.setName(companyYahoo.getName());
-			companyInDB.setCurrency(Market.getCurrency(companyYahoo.getMarket()));
-			companyInDB.setMarketCapitalization(companyYahoo.getMarketCapitalization());
-			companyInDB.setMarket(companyYahoo.getMarket());
-			companyInDB.setYearHigh(companyYahoo.getYearHigh());
-			companyInDB.setYearLow(companyYahoo.getYearLow());
-			companyInDB.setYesterdayClose(companyYahoo.getYesterdayClose());
-			daoCompany.update(companyInDB);
-		}
-		return companyInDB;
 	}
 
 	@Override
@@ -494,10 +476,10 @@ public class Business implements IBusiness {
 		}
 	}
 
-	@Override
-	public final List<ShareValue> getShareValue(final User user) {
-		return daoShareValue.selectAllValue(user.getId());
-	}
+	// @Override
+	// public final List<ShareValue> getShareValue(final User user) {
+	// return daoShareValue.selectAllValue(user.getId());
+	// }
 
 	@Override
 	public final List<Index> getIndexes(final String yahooId, final Date from, final Date to) {
@@ -538,43 +520,43 @@ public class Business implements IBusiness {
 		}
 	}
 
-	@Override
-	public final boolean updateIndex(final String yahooId, final Date from, final Date to, final boolean force)
-			throws YahooException {
-		List<Index> indexes;
-		if (force) {
-			indexes = yahoo.getIndexDataHistory(yahooId, from, to);
-		} else {
-			Index index = daoIndex.selectLast(yahooId);
-
-			if (index == null) {
-				indexes = yahoo.getIndexDataHistory(yahooId, from, to);
-			} else {
-				Date lastUpdate = index.getDate();
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(lastUpdate);
-				cal.add(Calendar.DATE, 1);
-				cal.add(Calendar.HOUR_OF_DAY, 20);
-				cal.add(Calendar.SECOND, 0);
-				cal.add(Calendar.MILLISECOND, 0);
-				indexes = yahoo.getIndexDataHistory(yahooId, cal.getTime(), to);
-			}
-		}
-		if (!force) {
-			for (Index indexTemp : indexes) {
-				daoIndex.insert(indexTemp);
-			}
-		} else {
-			for (Index indexTemp : indexes) {
-				Index ind = daoIndex.selectOneIndexWithIdAndIndex(indexTemp);
-				if (ind == null) {
-					daoIndex.insert(indexTemp);
-				}
-			}
-		}
-		boolean res = indexes.size() == 0 ? false : true;
-		return res;
-	}
+	// @Override
+	// public final boolean updateIndex(final String yahooId, final Date from, final Date to, final boolean force)
+	// throws YahooException {
+	// List<Index> indexes;
+	// if (force) {
+	// indexes = yahoo.getIndexDataHistory(yahooId, from, to);
+	// } else {
+	// Index index = daoIndex.selectLast(yahooId);
+	//
+	// if (index == null) {
+	// indexes = yahoo.getIndexDataHistory(yahooId, from, to);
+	// } else {
+	// Date lastUpdate = index.getDate();
+	// Calendar cal = Calendar.getInstance();
+	// cal.setTime(lastUpdate);
+	// cal.add(Calendar.DATE, 1);
+	// cal.add(Calendar.HOUR_OF_DAY, 20);
+	// cal.add(Calendar.SECOND, 0);
+	// cal.add(Calendar.MILLISECOND, 0);
+	// indexes = yahoo.getIndexDataHistory(yahooId, cal.getTime(), to);
+	// }
+	// }
+	// if (!force) {
+	// for (Index indexTemp : indexes) {
+	// daoIndex.insert(indexTemp);
+	// }
+	// } else {
+	// for (Index indexTemp : indexes) {
+	// Index ind = daoIndex.selectOneIndexWithIdAndIndex(indexTemp);
+	// if (ind == null) {
+	// daoIndex.insert(indexTemp);
+	// }
+	// }
+	// }
+	// boolean res = indexes.size() == 0 ? false : true;
+	// return res;
+	// }
 
 	@Override
 	public final void updateCompaniesNotRealTime() {
@@ -628,42 +610,42 @@ public class Business implements IBusiness {
 		return sb.toString();
 	}
 
-	@Override
-	public final void updateCompaniesRealTime() {
-		List<Company> companies = daoCompany.selectAllCompany(true);
-		List<String> yahooIdList = new ArrayList<String>();
-		for (Company c : companies) {
-			if (c.getRealTime()) {
-				yahooIdList.add(c.getYahooId());
-			}
-		}
-		if (yahooIdList.size() <= MAX_UPDATE_COMPANY) {
-			try {
-				addOrUpdateCompanies(yahooIdList);
-			} catch (YahooException e) {
-				LOG.warn(e.getMessage());
-			}
-		} else {
-			int from = 0;
-			int to = MAX_UPDATE_COMPANY;
-			boolean isOk = true;
-			while (isOk) {
-				if (to > yahooIdList.size()) {
-					to = yahooIdList.size();
-				}
-				try {
-					addOrUpdateCompanies(yahooIdList.subList(from, to));
-				} catch (YahooException e) {
-					LOG.error("Company update real time error: " + e.getMessage());
-				}
-				if (to == yahooIdList.size()) {
-					isOk = false;
-				}
-				from = to;
-				to = to + MAX_UPDATE_COMPANY;
-			}
-		}
-	}
+	// @Override
+	// public final void updateCompaniesRealTime() {
+	// List<Company> companies = daoCompany.selectAllCompany(true);
+	// List<String> yahooIdList = new ArrayList<String>();
+	// for (Company c : companies) {
+	// if (c.getRealTime()) {
+	// yahooIdList.add(c.getYahooId());
+	// }
+	// }
+	// if (yahooIdList.size() <= MAX_UPDATE_COMPANY) {
+	// try {
+	// addOrUpdateCompanies(yahooIdList);
+	// } catch (YahooException e) {
+	// LOG.warn(e.getMessage());
+	// }
+	// } else {
+	// int from = 0;
+	// int to = MAX_UPDATE_COMPANY;
+	// boolean isOk = true;
+	// while (isOk) {
+	// if (to > yahooIdList.size()) {
+	// to = yahooIdList.size();
+	// }
+	// try {
+	// addOrUpdateCompanies(yahooIdList.subList(from, to));
+	// } catch (YahooException e) {
+	// LOG.error("Company update real time error: " + e.getMessage());
+	// }
+	// if (to == yahooIdList.size()) {
+	// isOk = false;
+	// }
+	// from = to;
+	// to = to + MAX_UPDATE_COMPANY;
+	// }
+	// }
+	// }
 
 	@Override
 	public final List<Follow> getListFollow(final int userId) {
@@ -695,10 +677,10 @@ public class Business implements IBusiness {
 		daoUser.updateOneUserPassword(user);
 	}
 
-	@Override
-	public final Account selectOneAccountWithName(final int userId, final String name) {
-		return daoAccount.selectOneAccountWithName(userId, name);
-	}
+	// @Override
+	// public final Account selectOneAccountWithName(final int userId, final String name) {
+	// return daoAccount.selectOneAccountWithName(userId, name);
+	// }
 
 	@Override
 	public final void addAccount(final Account account) {
@@ -723,35 +705,6 @@ public class Business implements IBusiness {
 	@Override
 	public final void updateCommentaryShareValue(final ShareValue shareValue) {
 		daoShareValue.update(shareValue);
-	}
-
-	/**
-	 * 
-	 * @param login
-	 *            the login
-	 */
-	protected final void createUserPortfolio(final String login) {
-		User user = daoUser.selectWithLogin(login);
-		Portfolio portfolio = new Portfolio();
-		portfolio.setCurrency(Currency.EUR);
-		portfolio.setUserId(user.getId());
-		daoPortfolio.insert(portfolio);
-	}
-
-	/**
-	 * 
-	 * @param u
-	 *            the user
-	 */
-	protected final void createUserDefautAccount(final User u) {
-		User user = daoUser.selectWithLogin(u.getLogin());
-		Account account = new Account();
-		account.setCurrency(Currency.EUR);
-		account.setLiquidity(0.0);
-		account.setName("Default");
-		account.setUserId(user.getId());
-		account.setDel(false);
-		daoAccount.insert(account);
 	}
 
 	@Override
@@ -874,5 +827,66 @@ public class Business implements IBusiness {
 			}
 		}
 		return canUpdate;
+	}
+
+	/**
+	 * 
+	 * @param ticker
+	 *            the ticker
+	 * @return a company
+	 * @throws YahooException
+	 *             the yahoo exception
+	 */
+	protected final Company addOrUpdateCompany(final String ticker) throws YahooException {
+		List<String> tickers = new ArrayList<String>();
+		tickers.add(ticker);
+		Company companyYahoo = yahoo.getCompaniesData(tickers).get(0);
+		Company companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
+		if (companyInDB == null) {
+			companyYahoo = yahoo.getCompanyInfo(companyYahoo);
+			daoCompany.insert(companyYahoo);
+			companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
+		} else {
+			companyInDB.setQuote(companyYahoo.getQuote());
+			companyInDB.setYield(companyYahoo.getYield());
+			companyInDB.setName(companyYahoo.getName());
+			companyInDB.setCurrency(Market.getCurrency(companyYahoo.getMarket()));
+			companyInDB.setMarketCapitalization(companyYahoo.getMarketCapitalization());
+			companyInDB.setMarket(companyYahoo.getMarket());
+			companyInDB.setYearHigh(companyYahoo.getYearHigh());
+			companyInDB.setYearLow(companyYahoo.getYearLow());
+			companyInDB.setYesterdayClose(companyYahoo.getYesterdayClose());
+			daoCompany.update(companyInDB);
+		}
+		return companyInDB;
+	}
+
+	/**
+	 * 
+	 * @param login
+	 *            the login
+	 */
+	protected final void createUserPortfolio(final String login) {
+		User user = daoUser.selectWithLogin(login);
+		Portfolio portfolio = new Portfolio();
+		portfolio.setCurrency(Currency.EUR);
+		portfolio.setUserId(user.getId());
+		daoPortfolio.insert(portfolio);
+	}
+
+	/**
+	 * 
+	 * @param u
+	 *            the user
+	 */
+	protected final void createUserDefautAccount(final User u) {
+		User user = daoUser.selectWithLogin(u.getLogin());
+		Account account = new Account();
+		account.setCurrency(Currency.EUR);
+		account.setLiquidity(0.0);
+		account.setName("Default");
+		account.setUserId(user.getId());
+		account.setDel(false);
+		daoAccount.insert(account);
 	}
 }

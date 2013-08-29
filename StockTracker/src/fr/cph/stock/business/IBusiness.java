@@ -258,11 +258,6 @@ public interface IBusiness {
 	void updateCompaniesNotRealTime();
 
 	/**
-	 * Update company
-	 */
-	void updateCompaniesRealTime();
-
-	/**
 	 * 
 	 * @param companiesYahooIdRealTime
 	 *            a list of company id
@@ -271,15 +266,6 @@ public interface IBusiness {
 	 *             the yahoo exception
 	 */
 	String addOrUpdateCompaniesLimitedRequest(final List<String> companiesYahooIdRealTime) throws YahooException;
-
-	/**
-	 * Get a list of share value that belong to a user
-	 * 
-	 * @param user
-	 *            a user
-	 * @return list of sharevalue object
-	 */
-	List<ShareValue> getShareValue(final User user);
 
 	/**
 	 * Add a share value
@@ -318,23 +304,6 @@ public interface IBusiness {
 	 * @return a list of index
 	 */
 	List<Index> getIndexes(final String yahooId, final Date from, final Date to);
-
-	/**
-	 * Update an index
-	 * 
-	 * @param yahooId
-	 *            the yahoo id
-	 * @param from
-	 *            the from date
-	 * @param to
-	 *            the to date
-	 * @param force
-	 *            a boolean
-	 * @return a boolean
-	 * @throws YahooException
-	 *             the yahoo exception
-	 */
-	boolean updateIndex(final String yahooId, final Date from, final Date to, final boolean force) throws YahooException;
 
 	/**
 	 * Update an index
@@ -420,17 +389,6 @@ public interface IBusiness {
 	 *            the account to update
 	 */
 	void updateAccount(final Account account);
-
-	/**
-	 * Get one account with its name
-	 * 
-	 * @param userId
-	 *            the user id
-	 * @param name
-	 *            the name
-	 * @return an account
-	 */
-	Account selectOneAccountWithName(final int userId, final String name);
 
 	/**
 	 * Delete account

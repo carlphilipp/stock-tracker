@@ -56,7 +56,7 @@ public class HomeMobileServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
 	@Override

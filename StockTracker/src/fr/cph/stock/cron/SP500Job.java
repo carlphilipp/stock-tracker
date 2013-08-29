@@ -42,7 +42,7 @@ public class SP500Job implements Job {
 	 * Constructor
 	 */
 	public SP500Job() {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
 	@Override

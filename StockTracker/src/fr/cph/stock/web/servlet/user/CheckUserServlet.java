@@ -47,7 +47,7 @@ public class CheckUserServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
 	@Override
@@ -56,14 +56,18 @@ public class CheckUserServlet extends HttpServlet {
 			String login = request.getParameter("login");
 			String check = request.getParameter("check");
 			User user = business.getUser(login);
-			String serverCheck = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
-			if (check.equals(serverCheck)) {
-				business.validateUser(login);
-				request.setAttribute("message", "It worked!<br>You can now <a href='index.jsp'>login</a>");
+			if (user != null) {
+				String serverCheck = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+				if (check.equals(serverCheck)) {
+					business.validateUser(login);
+					request.setAttribute("message", "It worked!<br>You can now <a href='index.jsp'>login</a>");
+				} else {
+					request.setAttribute("message", "Sorry, it did not work");
+				}
+				request.setAttribute("user", user);
 			} else {
 				request.setAttribute("message", "Sorry, it did not work");
 			}
-			request.setAttribute("user", user);
 			request.getRequestDispatcher("/jsp/check.jsp").forward(request, response);
 
 		} catch (Throwable t) {

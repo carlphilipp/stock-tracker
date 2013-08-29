@@ -38,7 +38,7 @@ public class CleanJob implements Job {
 
 	/** Constructor  **/
 	public CleanJob() {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
 	@Override

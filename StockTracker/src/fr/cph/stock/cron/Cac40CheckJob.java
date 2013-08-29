@@ -44,7 +44,7 @@ public class Cac40CheckJob implements Job {
 	 * Constructor
 	 */
 	public Cac40CheckJob() {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
 	@Override

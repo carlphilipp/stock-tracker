@@ -56,7 +56,7 @@ public class AuthServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		business = new Business();
+		business = Business.getInstance();
 		lcookies = new ArrayList<String>();
 		lcookies.add("quote");
 		lcookies.add("currency");

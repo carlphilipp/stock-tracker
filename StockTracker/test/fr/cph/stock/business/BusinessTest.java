@@ -74,7 +74,7 @@ public class BusinessTest {
 
 	@Test
 	public void testAddOrUpdateEquity() throws UnsupportedEncodingException, YahooException {
-		IBusiness business = new Business();
+		IBusiness business = Business.getInstance();
 		Equity equity = new Equity();
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);
@@ -88,7 +88,7 @@ public class BusinessTest {
 
 	@Test
 	public void testDeleteEquity() throws UnsupportedEncodingException, YahooException {
-		IBusiness business = new Business();
+		IBusiness business = Business.getInstance();
 		Equity equity = new Equity();
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);
@@ -101,10 +101,10 @@ public class BusinessTest {
 
 	@Test
 	public void testCreateDeleteUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		IBusiness business = new Business();
+		IBusiness business = Business.getInstance();
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
-		String email = "test@test.com";
+		String email = "test@testderpderp.com";
 		business.createUser(login, md5Password, email);
 		User user = business.getUser(login);
 		assertNotNull(user);
@@ -127,7 +127,7 @@ public class BusinessTest {
 
 	@Test
 	public void testCheckUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		IBusiness business = new Business();
+		IBusiness business = Business.getInstance();
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@test.com";

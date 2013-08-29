@@ -48,19 +48,9 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 	/** Init **/
 	@Override
 	public final void init() {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
-	/**
-	 * Get method
-	 * 
-	 * @param request
-	 *            the request
-	 * @param response
-	 *            the answer
-	 * @throws ServletException
-	 *             the exception
-	 */
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
@@ -80,16 +70,6 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * Post method
-	 * 
-	 * @param request
-	 *            the request
-	 * @param response
-	 *            the answer
-	 * @throws ServletException
-	 *             the servlet exception
-	 */
 	@Override
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);

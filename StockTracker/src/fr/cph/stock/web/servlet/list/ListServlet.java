@@ -57,7 +57,7 @@ public class ListServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		business = new Business();
+		business = Business.getInstance();
 		try {
 			language = LanguageFactory.getInstance();
 		} catch (LanguageException e) {

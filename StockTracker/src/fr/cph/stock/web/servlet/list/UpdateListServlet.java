@@ -59,7 +59,7 @@ public class UpdateListServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		business = new Business();
+		business = Business.getInstance();
 		try {
 			language = LanguageFactory.getInstance();
 		} catch (LanguageException e) {
@@ -68,11 +68,6 @@ public class UpdateListServlet extends HttpServlet {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {

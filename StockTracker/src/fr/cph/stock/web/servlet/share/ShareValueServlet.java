@@ -59,7 +59,7 @@ public class ShareValueServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		business = new Business();
+		business = Business.getInstance();
 		try {
 			language = LanguageFactory.getInstance();
 		} catch (LanguageException e) {
@@ -73,19 +73,25 @@ public class ShareValueServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			User user = (User) session.getAttribute("user");
-			int page = Integer.parseInt(request.getParameter("page"));
+			String page = request.getParameter("page");
+			int pageNumber = 0;
+			if(page == null || page.equals("")){
+				pageNumber = 1;
+			}else{
+				pageNumber = Integer.parseInt(page);
+			}
 			Portfolio portfolio;
 			try {
 				portfolio = business.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
-					int begin = page * ITEM_MAX - ITEM_MAX;
-					int end = page * ITEM_MAX - 1;
+					int begin = pageNumber * ITEM_MAX - ITEM_MAX;
+					int end = pageNumber * ITEM_MAX - 1;
 					int nbPage = portfolio.getShareValues().size() / ITEM_MAX + 1;
-					if (page == 0) {
+					if (pageNumber == 0) {
 						begin = 0;
 						end = portfolio.getShareValues().size() - 1;
 					}
-					if (page == nbPage) {
+					if (pageNumber == nbPage) {
 						end = portfolio.getShareValues().size() - 1;
 					}
 					request.setAttribute("begin", begin);

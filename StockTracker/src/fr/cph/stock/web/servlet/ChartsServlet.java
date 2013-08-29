@@ -59,7 +59,7 @@ public class ChartsServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		business = new Business();
+		business = Business.getInstance();
 		try {
 			language = LanguageFactory.getInstance();
 		} catch (LanguageException e) {
@@ -101,11 +101,6 @@ public class ChartsServlet extends HttpServlet {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-	 */
 	@Override
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);

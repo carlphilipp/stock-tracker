@@ -68,7 +68,7 @@ public class OptionsServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		business = new Business();
+		business = Business.getInstance();
 		formatList = Arrays.asList(Locale.getISOLanguages());
 		Collections.sort(formatList);
 		timeZoneList = Arrays.asList(TimeZone.getAvailableIDs());

@@ -39,7 +39,7 @@ public class CurrencyJob implements Job {
 
 	/** Constructor **/
 	public CurrencyJob() {
-		business = new Business();
+		business = Business.getInstance();
 	}
 
 	@Override

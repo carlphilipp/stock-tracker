@@ -78,7 +78,7 @@ public class HomeServlet extends HttpServlet {
 			LOG.error(e.getMessage(), e);
 		}
 
-		business = new Business();
+		business = Business.getInstance();
 		try {
 			language = LanguageFactory.getInstance();
 		} catch (LanguageException e) {
