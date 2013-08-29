@@ -25,6 +25,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
 
 /**
  * This class will read XMLs
@@ -62,7 +64,8 @@ public class XMLRetriever {
 	 *             the document exception
 	 */
 	protected final Document parse(final InputStream inputStream) throws DocumentException {
-		SAXReader reader = new SAXReader();
+		SAXReader reader = new SAXReader(true);
+		reader.setEntityResolver(getEntityResolver());
 		Document doc = reader.read(inputStream);
 		return doc;
 	}
@@ -86,5 +89,15 @@ public class XMLRetriever {
 	 */
 	public final List<? extends Node> getListNode(final String node) {
 		return document.selectNodes(node);
+	}
+
+	private EntityResolver getEntityResolver() {
+		EntityResolver resolver = new EntityResolver() {
+			public InputSource resolveEntity(String publicId, String systemId) {
+				InputStream in = getClass().getResourceAsStream("Language.dtd");
+				return new InputSource(in);
+			}
+		};
+		return resolver;
 	}
 }
