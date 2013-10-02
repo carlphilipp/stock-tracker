@@ -35,6 +35,7 @@ token_value=
 # Email
 email.smtp_host_name=smtp.gmail.com
 email.smtp_port=465
+email.from.username=
 email.from=
 email.password=
 

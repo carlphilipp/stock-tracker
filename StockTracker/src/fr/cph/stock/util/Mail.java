@@ -19,6 +19,7 @@ package fr.cph.stock.util;
 import java.io.File;
 import java.io.IOException;
 import java.security.Security;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -47,6 +48,8 @@ public final class Mail {
 	private static String smptHostName;
 	/** Smtp port **/
 	private static String smtpPort;
+	/** **/
+	private static String emailFromUserName;
 	/** Email of the sender **/
 	private static String emailFrom;
 	/** Password of the sender **/
@@ -70,11 +73,12 @@ public final class Mail {
 	 * @throws IOException
 	 *             the io exception
 	 */
-	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile)
-			throws MessagingException, IOException {
+	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) throws MessagingException,
+			IOException {
 		Properties prop = Util.getProperties("app.properties");
 		smptHostName = prop.getProperty("email.smtp_host_name");
 		smtpPort = prop.getProperty("email.smtp_port");
+		emailFromUserName = prop.getProperty("email.from.username");
 		emailFrom = prop.getProperty("email.from");
 		passwordFrom = prop.getProperty("email.password");
 		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
@@ -99,22 +103,25 @@ public final class Mail {
 	 * @throws IOException
 	 *             the io exception
 	 */
-	private void sendSSLMessage(final String[] recipients, final String subject, final String message, final String from,
-			final String attachFile) throws MessagingException, IOException {
+	private void sendSSLMessage(final String[] recipients, final String subject, final String message, final String from, final String attachFile)
+			throws MessagingException, IOException {
 		boolean debug = false;
 
 		Properties props = new Properties();
 		props.put("mail.smtp.host", smptHostName);
 		props.put("mail.smtp.auth", "true");
-		props.put("mail.debug", "false");
+		//props.put("mail.debug", "true");
 		props.put("mail.smtp.port", smtpPort);
 		props.put("mail.smtp.socketFactory.port", smtpPort);
 		props.put("mail.smtp.socketFactory.class", SSL_FACTORY);
 		props.put("mail.smtp.socketFactory.fallback", "false");
+		props.put("mail.smtp.ssl.enable", true);
 
 		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(emailFrom, passwordFrom);
+				// First argument msut be the email in case of querying Gmail
+				// Must be only the username if querying Yahoo.
+				return new PasswordAuthentication(emailFromUserName, passwordFrom);
 			}
 		});
 
@@ -133,6 +140,7 @@ public final class Mail {
 		// Setting the Subject and Content Type
 		msg.setSubject(subject);
 		msg.setContent(message, "text/plain");
+		msg.setSentDate(new Date());
 		if (attachFile != null) {
 			File file = new File(attachFile);
 			FileDataSource fds = new FileDataSource(file);
@@ -155,8 +163,7 @@ public final class Mail {
 	 * @param attachFile
 	 *            the attach files
 	 */
-	public static void sendMail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo,
-			final String attachFile) {
+	public static void sendMail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) {
 		try {
 			new Mail(emailSubjectTxt, emailMsgTxt, sendTo, attachFile);
 		} catch (MessagingException | IOException e1) {
