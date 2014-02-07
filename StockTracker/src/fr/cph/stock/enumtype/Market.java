@@ -36,6 +36,8 @@ public enum Market {
 	/** **/
 	NGM("NGM"),
 	/** **/
+	NCM("NCM"),
+	/** **/
 	LONDON("London"),
 	/** **/
 	MILAN("Milan"),
@@ -138,6 +140,9 @@ public enum Market {
 			break;
 		case LONDON:
 			currency = Currency.GBP;
+			break;
+		case NCM:
+			currency = Currency.AUD;
 			break;
 		case UNKNOWN:
 			currency = null;
