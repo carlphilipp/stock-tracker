@@ -73,10 +73,11 @@ public class UpdatePortfolioServlet extends HttpServlet {
 				}
 				error = business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 			} catch (YahooException e1) {
+				LOG.error(e1.getMessage(), e1);
 				sb.append(e1.getMessage() + " ");
 			}
 			if (!sb.toString().equals("")) {
-				request.setAttribute("updateStatus", "<span class='cQuoteDown'>" + sb.toString() + "</span>");
+				request.setAttribute("updateStatus", "<span class='cQuoteDown'>Error !</span>");
 			} else {
 				if (error != null && !error.equals("")) {
 					request.setAttribute(
@@ -85,8 +86,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 									+ error
 									+ "The company does not exist anymore. Please delete it from your portfolio. The other companies has been updated.</span>");
 				} else {
-					request.setAttribute("updateStatus",
-							"<span class='cQuoteUp'>" + language.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
+					request.setAttribute("updateStatus", "<span class='cQuoteUp'>" + language.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
 				}
 			}
 			request.getRequestDispatcher("home").forward(request, response);
