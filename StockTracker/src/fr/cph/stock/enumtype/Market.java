@@ -136,13 +136,11 @@ public enum Market {
 		case NYSE:
 		case NGM:
 		case PCX:
+		case NCM:
 			currency = Currency.USD;
 			break;
 		case LONDON:
 			currency = Currency.GBP;
-			break;
-		case NCM:
-			currency = Currency.AUD;
 			break;
 		case UNKNOWN:
 			currency = null;
