@@ -350,8 +350,10 @@ $(document).ready(function() {
 							</c:if>
 							<c:if test="${cookie.parity.value == 'checked' }">
 								<td class="tdCenter">
-									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5" value="${equity.parity }" /><br>
-									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5" value="${equity.parityPersonal }" />
+									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5" value="${equity.parity }" />
+									<c:if test="${equity.parityPersonal != 1 }">
+										<br><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5" value="${equity.parityPersonal }" />
+									</c:if>
 								</td>
 							</c:if>
 							<td class="tdRight"><fmt:formatNumber type="number" value="${equity.value }" maxFractionDigits="0" /><br>
