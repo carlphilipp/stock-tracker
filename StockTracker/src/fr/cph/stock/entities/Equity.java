@@ -695,7 +695,11 @@ public class Equity implements Comparable<Equity> {
 	 * @return the parity
 	 */
 	public final Double getParityPersonal() {
-		return parityPersonal;
+		if(parityPersonal == null){
+			return 1.0;
+		}else{
+			return parityPersonal;
+		}
 	}
 
 	/**
