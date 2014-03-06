@@ -43,7 +43,6 @@ import fr.cph.stock.enumtype.MarketCapitalization;
  * 
  */
 public class Portfolio {
-
 	/** Precision of calculation **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 	/** **/
@@ -382,7 +381,7 @@ public class Portfolio {
 				totalUnitCostPrice += equity.getUnitCostPrice();
 				totalAverageQuotePrice += equity.getCompany().getQuote() * equity.getParity();
 				totalValue += equity.getValue();
-				totalOriginalValue += equity.getQuantity() * equity.getUnitCostPrice() * equity.getParity();
+				totalOriginalValue += equity.getQuantity() * equity.getUnitCostPrice() * equity.getParityPersonal();
 				yieldYear += equity.getYieldYear();
 				totalGain += equity.getPlusMinusUnitCostPriceValue();
 				if (equity.getCompany().getRealTime()) {
@@ -401,8 +400,7 @@ public class Portfolio {
 				}
 
 			}
-			totalVariation = totalValueStart == 0 ? totalValueStart
-					: ((totalValueStart + totalGainToday) / totalValueStart - 1) * PERCENT;
+			totalVariation = totalValueStart == 0 ? totalValueStart : ((totalValueStart + totalGainToday) / totalValueStart - 1) * PERCENT;
 			averageUnitCostPrice = totalUnitCostPrice / equities.size();
 			averageQuotePrice = totalAverageQuotePrice / equities.size();
 			totalPlusMinusValue = ((totalValue - totalOriginalValue) / totalOriginalValue) * PERCENT;
@@ -581,16 +579,16 @@ public class Portfolio {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<table class=\"shareValueTableDetails\">");
 		for (Equity equity : getEquities()) {
-			sb.append("<tr><td width=200px><b>" + equity.getCurrentName() + "</b></td><td width=180px>" + equity.getQuantity()
-					+ " * " + equity.getCompany().getQuote());
+			sb.append("<tr><td width=200px><b>" + equity.getCurrentName() + "</b></td><td width=180px>" + equity.getQuantity() + " * "
+					+ equity.getCompany().getQuote());
 			if (equity.getCompany().getCurrency() != getCurrency()) {
 				sb.append(" * " + getCurrency().getParity(equity.getCompany().getCurrency()));
 			}
 			sb.append("</td><td>" + equity.getValue() + " (" + getCurrency().getCode() + ")</td></tr>");
 		}
 		sb.append("<tr><td colspan=3><b>Liquidity:</b> " + getLiquidity() + " (" + getCurrency().getCode() + ")</td></tr>");
-		sb.append("<tr><td colspan=3><b>Total:</b> " + new BigDecimal(getTotalValue(), mathContext).doubleValue() + " ("
-				+ getCurrency().getCode() + ")</td></tr>");
+		sb.append("<tr><td colspan=3><b>Total:</b> " + new BigDecimal(getTotalValue(), mathContext).doubleValue() + " (" + getCurrency().getCode()
+				+ ")</td></tr>");
 		sb.append("</table>");
 		return sb.toString();
 	}
@@ -865,7 +863,8 @@ public class Portfolio {
 			// log.info("Dividendes recues: " + currentShareValuesYield +
 			// " (déja incluse dans le portefeuille d'arrivée");
 			// log.info("Gain (arrivée - départ): " + (fin - depart));
-			// log.info("Gain en pourcentage (arrivée - départ) / départ * 100: " + (fin - depart)
+			// log.info("Gain en pourcentage (arrivée - départ) / départ * 100: " + (fin -
+			// depart)
 			// / depart * 100);
 
 			currentShareValuesGain = fin - depart;
