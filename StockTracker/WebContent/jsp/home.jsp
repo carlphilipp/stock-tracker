@@ -231,11 +231,21 @@ $(document).ready(function() {
 					</c:choose>
 				| Today:
 					<c:choose>
-						<c:when test="${portfolio.totalVariation < 0}">	
-							<span class="cQuoteDown shareValue"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.totalVariation }" />%</span>
+						<c:when test="${portfolio.totalGainToday < 0}">
+							<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif" alt="Down"> 
+							<span class="cQuoteDown shareValue"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="0" value="${portfolio.totalGainTodayAbsolute }" /> </span>
 						</c:when>
 						<c:otherwise>
-							<span class="cQuoteUp shareValue">+<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.totalVariation }" />%</span>
+							<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up"> 
+							<span class="cQuoteUp shareValue"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="0" value="${portfolio.totalGainToday }" /> </span>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${portfolio.totalVariation < 0}">	
+							<span class="cQuoteDown shareValue">(<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.totalVariation }" />%)</span>
+						</c:when>
+						<c:otherwise>
+							<span class="cQuoteUp shareValue">(<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.totalVariation }" />%)</span>
 						</c:otherwise>
 					</c:choose>
 				</td></tr>

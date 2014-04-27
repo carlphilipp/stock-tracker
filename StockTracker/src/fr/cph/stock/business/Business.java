@@ -73,7 +73,7 @@ public final class Business implements IBusiness {
 	/** Max update company update at a time **/
 	private static final int MAX_UPDATE_COMPANY = 15;
 	/** Force pause between 2 requests to yahoo **/
-	private static final int PAUSE = 600;
+	private static final int PAUSE = 1000;
 	/** **/
 	private final int percent = 100;
 	/** Precision of calculation **/

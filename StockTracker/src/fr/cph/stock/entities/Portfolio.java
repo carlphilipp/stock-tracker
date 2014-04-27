@@ -97,8 +97,10 @@ public class Portfolio {
 	private Double currentShareValuesTaxes;
 	/** Current share value taxes **/
 	private Double currentShareValuesVolume;
-	/** Total variation **/
+	/** Total variation percentage **/
 	private Double totalVariation;
+	/** Total gain today **/
+	private Double totalGainToday;
 	/** Map that represents data of sector chart **/
 	private Map<String, Double> chartSectorData;
 	/** Map that represents data of capitalization chart **/
@@ -373,7 +375,7 @@ public class Portfolio {
 		Double totalOriginalValue = new Double(0);
 		totalVariation = new Double(0);
 		double totalValueStart = 0;
-		double totalGainToday = 0;
+		totalGainToday = new Double(0);
 		Date lastUpdate = null;
 		if (equities != null) {
 			for (Equity equity : equities) {
@@ -407,6 +409,14 @@ public class Portfolio {
 			yieldYearPerc = yieldYear / getTotalValue() * PERCENT;
 			setLastCompanyUpdate(lastUpdate);
 		}
+	}
+
+	public final Double getTotalGainToday() {
+		return totalGainToday;
+	}
+	
+	public final Double getTotalGainTodayAbsolute() {
+		return Math.abs(totalGainToday);
 	}
 
 	/**
