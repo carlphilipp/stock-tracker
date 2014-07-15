@@ -110,9 +110,9 @@ public class Yahoo {
 	 * @return a JSONObject
 	 */
 	protected final JSONObject convertDataToJSONObject(final String data) {
-		String test = data.substring(7, data.length());
-		String test2 = test.substring(0, test.length() - 2);
-		return JSONObject.fromObject(test2);
+		String temp = data.substring(11, data.length());
+		String temp2 = temp.substring(0, temp.length() - 2);
+		return JSONObject.fromObject(temp2);
 	}
 
 	/**

@@ -508,8 +508,8 @@ $(document).ready(function() {
         // Draw selected area
         graph = drawGraph({
             xaxis: {
-                min: area.x1,
-                max: area.x2,
+              	min: area.x1,
+              	max: area.x2,
                 mode: 'time',
                 labelsAngle: 45
             },
