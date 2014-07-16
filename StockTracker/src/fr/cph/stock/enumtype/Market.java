@@ -129,7 +129,6 @@ public enum Market {
 		case XETRA:
 		case MILAN:
 		case FRANKFURT:
-		case OTC:
 			currency = Currency.EUR;
 			break;
 		case NASDAQNM:
@@ -137,6 +136,7 @@ public enum Market {
 		case NGM:
 		case PCX:
 		case NCM:
+		case OTC:
 			currency = Currency.USD;
 			break;
 		case LONDON:
