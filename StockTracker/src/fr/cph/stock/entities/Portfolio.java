@@ -363,7 +363,9 @@ public class Portfolio {
 	 *            the date
 	 */
 	public final void setLastCompanyUpdate(final Date lastCompanyUpdate) {
-		this.lastCompanyUpdate = (Date) lastCompanyUpdate.clone();
+		if(lastCompanyUpdate != null){
+			this.lastCompanyUpdate = (Date) lastCompanyUpdate.clone();
+		}
 	}
 
 	/**
