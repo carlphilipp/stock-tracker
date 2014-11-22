@@ -122,7 +122,7 @@ public class ModifyEquityServlet extends HttpServlet {
 					if (!parityPerso.equals("")) {
 						parityPersonal = NumberUtils.createDouble(parityPerso);
 					}
-					if (quantity == 0 || unitCostPrice == 0) {
+					if (quantity == 0) {
 						request.setAttribute("modifyError", "Error: quantity and/or unit cost price can not be 0");
 					} else {
 						Equity equity = new Equity();
