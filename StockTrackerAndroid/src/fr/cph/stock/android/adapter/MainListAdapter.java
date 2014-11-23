@@ -72,8 +72,7 @@ public class MainListAdapter extends BaseAdapter {
 		switch (position) {
 		case 0:
 			if (v == null) {
-				LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(
-						Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				v = vi.inflate(R.layout.main_list_item_cell1, null);
 			}
 			textView = (TextView) v.findViewById(R.id.portfolio_value_main);
@@ -84,8 +83,7 @@ public class MainListAdapter extends BaseAdapter {
 			break;
 		case 1:
 			if (v == null) {
-				LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(
-						Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				v = vi.inflate(R.layout.main_list_item_cell2, null);
 			}
 			textView = (TextView) v.findViewById(R.id.current_performance_value);
@@ -103,28 +101,27 @@ public class MainListAdapter extends BaseAdapter {
 			} else {
 				textView.setTextColor(Color.rgb(160, 0, 0));
 			}
-//
-//			textView = (TextView) v.findViewById(R.id.equity_list);
-//			StringBuilder sb = new StringBuilder();
-//			int i = 0;
-//			for (Equity e : portfolio.getEquities()) {
-//				if (i > 4) {
-//					sb.append("... + " + (portfolio.getEquities().size() - 5) + " others.");
-//					break;
-//				} else {
-//					if (i != 0) {
-//						sb.append(", ");
-//					}
-//				}
-//				sb.append(e.getName());
-//				i++;
-//			}
-//			textView.setText(sb.toString());
+			//
+			// textView = (TextView) v.findViewById(R.id.equity_list);
+			// StringBuilder sb = new StringBuilder();
+			// int i = 0;
+			// for (Equity e : portfolio.getEquities()) {
+			// if (i > 4) {
+			// sb.append("... + " + (portfolio.getEquities().size() - 5) + " others.");
+			// break;
+			// } else {
+			// if (i != 0) {
+			// sb.append(", ");
+			// }
+			// }
+			// sb.append(e.getName());
+			// i++;
+			// }
+			// textView.setText(sb.toString());
 			break;
 		case 2:
 			if (v == null) {
-				LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(
-						Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				v = vi.inflate(R.layout.main_list_item_cell3, null);
 			}
 			textView = (TextView) v.findViewById(R.id.performance_value);
@@ -139,8 +136,7 @@ public class MainListAdapter extends BaseAdapter {
 			break;
 		case 3:
 			if (v == null) {
-				LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(
-						Context.LAYOUT_INFLATER_SERVICE);
+				LayoutInflater vi = (LayoutInflater) activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				v = vi.inflate(R.layout.main_list_item_cell4, null);
 			}
 			ImageButton shareValueView = (ImageButton) v.findViewById(R.id.shareValueChart);

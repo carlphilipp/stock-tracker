@@ -130,7 +130,7 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			viewPoint1.setId(viewId1);
 			viewPoint1.setBackgroundColor(getResources().getColor(R.color.grey_light));
 			params = new RelativeLayout.LayoutParams((int) LayoutParams.MATCH_PARENT, 2);
-			params.addRule(RelativeLayout.RIGHT_OF, currentAccountNameTextView.getId());
+			params.addRule(RelativeLayout.RIGHT_OF, nameID);
 			params.addRule(RelativeLayout.LEFT_OF, currencyId);
 			params.setMargins(0, Util.convertDpToPxl(15, getApplicationContext()), 0, 0);
 			if (i != 0) {
@@ -153,7 +153,6 @@ public class AccountActivity extends Activity implements IStockTrackerActivity {
 			textViews.add(currentCurrencyTextView);
 
 			View viewPoint2 = new View(getApplicationContext());
-			currentAccountNameTextView.setId(viewId1);
 			viewPoint2.setBackgroundColor(getResources().getColor(R.color.grey_light));
 			params = new RelativeLayout.LayoutParams((int) LayoutParams.MATCH_PARENT, 2);
 			params.addRule(RelativeLayout.RIGHT_OF, currencyId);

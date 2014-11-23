@@ -78,7 +78,7 @@ public class Connect {
 		String toreturn = null;
 		client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 30000);
 		client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 60000);
-		Log.i(TAG, "adress: " + adress);
+		Log.d(TAG, "adress: " + adress);
 		HttpGet get = new HttpGet(adress);
 		HttpResponse getResponse = client.execute(get);
 		HttpEntity responseEntity = getResponse.getEntity();

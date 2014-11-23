@@ -61,7 +61,9 @@ public class EntityBuilder {
 		user.setUserId(userIdStr);
 
 		String localeStr = jsonUser.getString("locale");
-		Locale locale = new Locale(localeStr);
+		String language = localeStr.split("_")[0];
+		String country = localeStr.split("_")[1];
+		Locale locale = new Locale(language, country);
 		user.setLocale(locale);
 
 		formatCurrencyZero = NumberFormat.getCurrencyInstance(user.getLocale());
