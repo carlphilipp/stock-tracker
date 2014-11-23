@@ -73,6 +73,8 @@ public class Company {
 	private Double gapYearLow;
 	/** **/
 	private Double gapYearHigh;
+	/** Manually used by user **/
+	private Boolean manual;
 
 	/**
 	 * 
@@ -433,5 +435,13 @@ public class Company {
 				+ changeInPercent + ", yearLow=" + yearLow + ", yearHigh=" + yearHigh + ", minGap=" + minGap + ", maxGap="
 				+ maxGap + ", realTime=" + realTime + ", fund=" + fund + ", lastUpdate=" + lastUpdate + ", change=" + change
 				+ ", gapYearLow=" + gapYearLow + ", gapYearHigh=" + gapYearHigh + "]";
+	}
+
+	public Boolean getManual() {
+		return manual;
+	}
+
+	public void setManual(Boolean manual) {
+		this.manual = manual;
 	}
 }

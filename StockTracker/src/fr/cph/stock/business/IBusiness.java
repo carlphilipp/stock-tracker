@@ -444,4 +444,29 @@ public interface IBusiness {
 	 */
 	void cleanDB();
 
+	/**
+	 * @param name
+	 * @param industry
+	 * @param sector
+	 * @param currency
+	 * @param quote
+	 * @return
+	 */
+	Company createManualCompany(String name, String industry, String sector, Currency currency, double quote);
+
+	/**
+	 * @param userId
+	 * @param company
+	 * @param equity
+	 * @throws EquityException
+	 */
+	void createManualEquity(int userId, Company company, Equity equity) throws EquityException;
+
+	/**
+	 * @param company
+	 */
+	void deleteCompany(final Company company);
+
+	void updateCompanyManual(Integer companyIdRes, Double quoteRes);
+
 }

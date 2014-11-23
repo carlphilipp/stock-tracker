@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--  
-  Copyright 2013 Carl-Philipp Harmant
+  Copyright 2014 Carl-Philipp Harmant
  
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@
 	<insert id="insertOneCompany" parameterType="Company">
 		insert into company (id, yahooId, name, market, currency, industry, sector, quote,
 		yesterdayClose, changeInPercent, yield,
-		marketCapitalization, yearHigh, yearLow, realTime, fund, lastUpdate)
+		marketCapitalization, yearHigh, yearLow, realTime, fund, manual, lastUpdate)
 		values (0, #{yahooId}, #{name}, #{market}, #{currency}, #{industry}, #{sector}, #{quote},
-		#{yesterdayClose}, #{changeInPercent}, #{yield}, #{marketCapitalization}, #{yearHigh}, #{yearLow}, #{realTime}, #{fund}, NOW())
+		#{yesterdayClose}, #{changeInPercent}, #{yield}, #{marketCapitalization}, #{yearHigh}, #{yearLow}, #{realTime}, #{fund}, #{manual}, NOW())
 	</insert>
 	<select id="selectOneCompany" parameterType="int" resultType="Company">
 		select * from company where id = #{id}
@@ -42,6 +42,7 @@
 		marketCapitalization = #{marketCapitalization},
 		realTime = #{realTime},
 		fund = #{fund},
+		manual = #{manual},
 		lastUpdate = NOW()
 		where yahooId = #{yahooId}
 	</update>
@@ -51,8 +52,8 @@
 	<select id="selectOneCompanyWithYahooId" parameterType="String" resultType="Company">
 		select * from company where yahooId = #{yahooId}
 	</select>
-	<select id="selectAllCompanyNotRealTime" parameterType="Boolean" resultType="Company">
-		select * from company where realTime = #{realTime}
+	<select id="selectAllCompanyNotRealTime" parameterType="Map" resultType="Company">
+		select * from company where realTime = #{realTime} and manual = #{manual}
 	</select>
 	<select id="selectAllUnusedCompanyIds" resultType="int">
 		SELECT company.id from company where company.id NOT IN (SELECT equity.companyId FROM equity UNION  SELECT follow.companyId FROM follow)

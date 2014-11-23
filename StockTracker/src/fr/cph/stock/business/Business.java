@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
@@ -146,6 +147,25 @@ public final class Business implements IBusiness {
 		equity.setPortfolioId(portfolio.getId());
 		if (isAlreadyThere) {
 			throw new EquityException(ticker + EquityException.ENTITY_ALREADY_RECORDED);
+		} else {
+			daoEquity.insert(equity);
+		}
+	}
+	
+	@Override
+	public final void createManualEquity(final int userId, final Company company, final Equity equity) throws EquityException{
+		Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
+		boolean isAlreadyThere = false;
+		for (Equity e : portfolio.getEquities()) {
+			if (e.getCompanyId() == company.getId()) {
+				isAlreadyThere = true;
+				equity.setid(e.getId());
+			}
+		}
+		equity.setCompanyId(company.getId());
+		equity.setPortfolioId(portfolio.getId());
+		if (isAlreadyThere) {
+			throw new EquityException(company.getName() + EquityException.ENTITY_ALREADY_RECORDED);
 		} else {
 			daoEquity.insert(equity);
 		}
@@ -713,6 +733,11 @@ public final class Business implements IBusiness {
 		user.setAllow(true);
 		daoUser.update(user);
 	}
+	
+	@Override
+	public final void deleteCompany(final Company company) {
+		daoCompany.delete(company);
+	}
 
 	@Override
 	public final void cleanDB() {
@@ -768,6 +793,31 @@ public final class Business implements IBusiness {
 				}
 			}
 		}
+	}
+	
+	@Override
+	public final Company createManualCompany(final String name, final String industry, final String sector, final Currency currency, final double quote){
+		Company company = new Company();
+		String uuid = UUID.randomUUID().toString();
+		company.setYahooId(uuid);
+		company.setName(name);
+		company.setCurrency(currency);
+		company.setIndustry(industry);
+		company.setQuote(quote);
+		company.setSector(sector);
+		company.setManual(true);
+		company.setRealTime(false);
+		company.setFund(false);
+		daoCompany.insert(company);
+		Company res = daoCompany.selectWithYahooId(uuid);
+		return res;
+	}
+	
+	@Override
+	public void updateCompanyManual(Integer companyId, Double newQuote){
+		Company company = daoCompany.select(companyId);
+		company.setQuote(newQuote);
+		daoCompany.update(company);
 	}
 
 	/**

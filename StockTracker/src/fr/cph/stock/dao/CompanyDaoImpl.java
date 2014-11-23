@@ -16,7 +16,9 @@
 
 package fr.cph.stock.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 
@@ -103,8 +105,12 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 	public final List<Company> selectAllCompany(final boolean realTime) {
 		SqlSession session = getSqlSessionFactory();
 		List<Company> companies = null;
+		Map<String, Boolean> options = new HashMap<String, Boolean>();
+		options.put("realTime", realTime);
+		// Remove manual companies
+		options.put("manual", false);
 		try {
-			companies = session.selectList("CompanyDao.selectAllCompanyNotRealTime", realTime);
+			companies = session.selectList("CompanyDao.selectAllCompanyNotRealTime", options);
 		} finally {
 			session.close();
 		}

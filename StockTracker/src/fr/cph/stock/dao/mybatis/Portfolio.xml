@@ -51,6 +51,7 @@
 		<result property="yesterdayClose" column="yesterdayClose" />
 		<result property="changeInPercent" column="changeInPercent" />
 		<result property="fund" column="fund" />
+		<result property="manual" column="manual" />
 		<result property="marketCapitalization" column="marketCapitalization" />
 		<result property="lastUpdate" column="companyLastUpdate" />
 	</resultMap>
@@ -78,7 +79,7 @@
 		companyId, namePersonal, 
 		sectorPersonal,industryPersonal, marketCapPersonal, yesterdayClose, changeInPercent,
 		quantity,unitCostPrice, parityPersonal, yieldPersonal, stopLossLocal, objectivLocal, yieldFrequency, yieldMonth, 
-		company.id as companyId, yahooId, name, market, currency, sector, industry, quote, yield, marketCapitalization, realTime, fund,
+		company.id as companyId, yahooId, name, market, currency, sector, industry, quote, yield, marketCapitalization, realTime, fund, manual,
 		equity.lastUpdate as equityLastUpdate,
 		company.lastUpdate as companyLastUpdate
 		from equity 

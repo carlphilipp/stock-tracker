@@ -30,8 +30,10 @@ import org.apache.log4j.Logger;
 
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
@@ -65,28 +67,62 @@ public class AddEquityServlet extends HttpServlet {
 			LanguageFactory language = LanguageFactory.getInstance();
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("user");
-			String ticker = request.getParameter("ticker").toUpperCase();
-			String unitCostP = request.getParameter("unitCostPrice");
-			String quant = request.getParameter("quantity");
-			String parityPerso = request.getParameter("parityPersonal");
+			String manual = request.getParameter("manual");
+			if (manual != null && manual.equals("true")) {
+				String manualName = request.getParameter("manualName");
+				String manualUnitCostPrice = request.getParameter("manualUnitCostPrice");
+				String manualQuantity = request.getParameter("manualQuantity");
+				String manualParityPersonal = request.getParameter("manualParityPersonal");
+				String manualCurrency = request.getParameter("manualCurrency");
+				String manualIndustry = request.getParameter("manualIndustry");
+				String manualSector = request.getParameter("manualSector");
+				String manualQuote = request.getParameter("manualQuote");
+				
 
-			Double quantity = NumberUtils.createDouble(quant);
-			Double unitCostPrice = NumberUtils.createDouble(unitCostP);
-			Double parityPersonal = null;
-			if (!parityPerso.equals("")) {
-				parityPersonal = NumberUtils.createDouble(parityPerso);
+				Double quantity = NumberUtils.createDouble(manualQuantity);
+				Double unitCostPrice = NumberUtils.createDouble(manualUnitCostPrice);
+				Double parityPersonal = null;
+				if (!manualParityPersonal.equals("")) {
+					parityPersonal = NumberUtils.createDouble(manualParityPersonal);
+				}
+				Double quote = NumberUtils.createDouble(manualQuote);
+				Company company = business.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), quote);
+				
+				Equity equity = new Equity();
+				equity.setQuantity(quantity);
+				equity.setUnitCostPrice(unitCostPrice);
+				equity.setParityPersonal(parityPersonal);
+				try {
+					business.createManualEquity(user.getId(), company, equity);
+					request.setAttribute("added", language.getLanguage(lang).get("CONSTANT_ADDED") + " !");
+				} catch (EquityException e) {
+					request.setAttribute("addError", e.getMessage());
+				}
+			} else {
+				String ticker = request.getParameter("ticker").toUpperCase();
+				String unitCostP = request.getParameter("unitCostPrice");
+				String quant = request.getParameter("quantity");
+				String parityPerso = request.getParameter("parityPersonal");
+
+				Double quantity = NumberUtils.createDouble(quant);
+				Double unitCostPrice = NumberUtils.createDouble(unitCostP);
+				Double parityPersonal = null;
+				if (!parityPerso.equals("")) {
+					parityPersonal = NumberUtils.createDouble(parityPerso);
+				}
+
+				Equity equity = new Equity();
+				equity.setQuantity(quantity);
+				equity.setUnitCostPrice(unitCostPrice);
+				equity.setParityPersonal(parityPersonal);
+				try {
+					business.createEquity(user.getId(), ticker, equity);
+					request.setAttribute("added", language.getLanguage(lang).get("CONSTANT_ADDED") + " !");
+				} catch (YahooException | EquityException e) {
+					request.setAttribute("addError", e.getMessage());
+				}
 			}
 
-			Equity equity = new Equity();
-			equity.setQuantity(quantity);
-			equity.setUnitCostPrice(unitCostPrice);
-			equity.setParityPersonal(parityPersonal);
-			try {
-				business.createEquity(user.getId(), ticker, equity);
-				request.setAttribute("added", language.getLanguage(lang).get("CONSTANT_ADDED") + " !");
-			} catch (YahooException | EquityException e) {
-				request.setAttribute("addError", e.getMessage());
-			}
 			request.getRequestDispatcher("home").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

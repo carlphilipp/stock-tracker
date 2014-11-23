@@ -39,6 +39,7 @@ import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LanguageException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
@@ -117,6 +118,7 @@ public class HomeServlet extends HttpServlet {
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute("language", language.getLanguage(lang));
 			request.setAttribute("appTitle", Info.NAME + " &bull; Portfolio");
+			request.setAttribute("currencies", Currency.values());
 			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

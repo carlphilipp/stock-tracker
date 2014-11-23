@@ -74,13 +74,16 @@ $(document).ready(function() {
 	<fmt:setTimeZone value="${user.timeZone }"/>
 	<div id="addEquity" class="reveal-modal">
 		<h1>${language['PORTFOLIO_HIDDEN_ADD']}</h1>
+		<input id="manual" type="checkbox" onclick="hideShowManual();" />Manual
 		<form id="sendEquity" name="sendEquity" autocomplete="on" action="add">
-		<table>
+		<table id="notManualForm">
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_YAHOOID']}: </td><td><input name="ticker" type="text" required autofocus placeholder="Ex: GOOG"></td>
-			</tr><tr>
+			</tr>
+			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_QUANTITY']}: </td><td><input name="quantity" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
-			</tr><tr>
+			</tr>
+			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_UNITCOSTPRICE']}: </td><td><input name="unitCostPrice" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
@@ -94,12 +97,58 @@ $(document).ready(function() {
 			</tr>
 		</table>
 		</form>
+		<form id="sendEquityManual" name="sendEquityManual" autocomplete="on" action="add">
+		<input type="hidden" name="manual" value="true">
+    <table id="manualForm">
+      <tr>
+         <td>Manual Name:</td>
+         <td><input name="manualName" type="text"></td>
+      </tr>
+      <tr>
+        <td>${language['PORTFOLIO_HIDDEN_QUANTITY']}: </td><td><input name="manualQuantity" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+      </tr>
+      <tr>
+        <td>${language['PORTFOLIO_HIDDEN_UNITCOSTPRICE']}: </td><td><input name="manualUnitCostPrice" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+      </tr>
+      <tr>
+        <td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
+        <td><input name="manualParityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+      </tr>
+      <tr>
+         <td>Currency: </td>
+         <td>
+            <select name="manualCurrency" required>
+              <c:forEach var="currency" items="${currencies}">
+                <option value="${currency.code }">${currency.name }</option>
+              </c:forEach>
+            </select>
+         </td>
+      </tr>
+      <tr>
+         <td>Industry: </td>
+         <td><input name="manualIndustry" type="text" ></td>
+      </tr>
+      <tr>
+         <td>Sector: </td>
+         <td><input name="manualSector" type="text"></td>
+      </tr>
+      <tr>
+         <td>Quote: </td>
+         <td><input name="manualQuote" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+      </tr>
+      <tr>
+        <td><input type="button" value="Add" onclick="javascript:execFunWithTimeout(checkForm('sendEquityManual', 'addEquity', 'processSendEquity2', addEquityManual))">
+        <input id="processSendEquity2" type="submit" style="display: none;"></td>
+        <td></td>
+      </tr>
+    </table>
+    </form>
 		<a class="close-reveal-modal">&#215;</a>
 	</div>
 	<div id="modifyEquity" class="reveal-modal">
 		<h1>${language['PORTFOLIO_HIDDEN_MODIFYEQUITY']}</h1>
 		<form name="sendEquityModify" id="sendEquityModify" autocomplete="on">
-			<table>
+			<table id="notManualForm2">
 				<tr>
 					<td>${language['PORTFOLIO_HIDDEN_YAHOOID']}: </td>
 					<td><span id="modifyTicker"></span><input type="hidden" id="modifyTickerHidden" name="ticker" value=""></td>
@@ -153,19 +202,89 @@ $(document).ready(function() {
 					<td><input type="text" id="modifyObjective" name="objective" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 				</tr>
 				<tr>
-					<td><input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}" onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify', 'modifyEquity', 'processModifyEquity', modifyEquity))">
-					<input id="processModifyEquity" type="submit" style="display: none;">
-					</td><td></td>
+					<td>
+					 <input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}" onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify', 'modifyEquity', 'processModifyEquity', modifyEquity))">
+					 <input id="processModifyEquity" type="submit" style="display: none;">
+					</td>
+					<td></td>
 				</tr>
 			</table>
 			</form>
 			<form name="sendEquityDelete" id="sendEquityDelete">
-			${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
-			<input name="delete" type="hidden" value="true">
-			<input id="processDeleteEquity" type="submit" style="display: none;">
-			<input id="deleteTicker" type="hidden" name="id" value="">
-			
-			</form>
+       ${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
+       <input name="delete" type="hidden" value="true">
+       <input id="processDeleteEquity" type="submit" style="display: none;">
+       <input id="deleteTicker" type="hidden" name="id" value="">
+      </form>
+			<%-- Manual modify Equity --%>
+			<form name="sendEquityModify2" id="sendEquityModify2" autocomplete="on">
+			 <input type="hidden" id="manual" name="manual" value="true">
+			 <input type="hidden" id="modifyTickerHidden2" name="ticker" value="">
+      <table id="manualForm2">
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_CUSTOMIZENAME']}:</td>
+          <td><input id="modifyNamePersonal2" name="namePersonal" type="text" placeholder="Custom Company Name" pattern="[\w\d _\-àèé/%\.,&\(\)]+"></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_CUSTOMIZESECTOR']}:</td>
+          <td><input id="modifySectorPersonal2" name="sectorPersonal" type="text" placeholder="Custom Sector"></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEINDUSTRY']}:</td>
+          <td><input id="modifyIndustryPersonal2" name="industryPersonal" type="text" placeholder="Custom Industry"></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEMARKETCAP']}:</td>
+          <td><input id="modifyMarketCapPersonal2" name="marketCapPersonal" type="text" pattern="\d+(\.\d+)?[BM]" placeholder="Pattern: \d+(\.\d+)?[BM]"></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_QUANTITY']}:</td>
+          <td><input id="modifyQuantity2" name="quantity" type="text" pattern="\d+(\.\d+)?" required autofocus></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_UNITCOSTPRICE']}:</td>
+          <td><input id="modifyUnitCostPrice2" name="unitCostPrice" type="text" required></td>
+        </tr>
+        <tr>
+          <td>Quote:</td>
+          <td><input id="modifyQuote2" name="quote" type="text" required></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_DEFAUTPARITY']}:</td>
+          <td><span id="modifyParity2"></span></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
+          <td><input id="modifyParityPersonal2" name="modifyParityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_PERSONALYIELD']}:</td>
+          <td> <input id="modifyYieldPersonal2" name="yieldPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_STOPLOSS']}:</td>
+          <td><input id="modifyStopLoss2" name="stopLoss" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+        </tr>
+        <tr>
+          <td>${language['PORTFOLIO_HIDDEN_OBJECTIVE']}:</td>
+          <td><input type="text" id="modifyObjective2" name="objective" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+        </tr>
+        <tr>
+          <td><input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}" onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify2', 'modifyEquity', 'processModifyEquity', modifyEquityManual))">
+          <input id="processModifyEquity" type="submit" style="display: none;">
+          </td><td></td>
+        </tr>
+      </table>
+        <input id="companyId2" type="hidden" name="companyId" value="">
+      </form>
+      <form name="sendEquityDelete2" id="sendEquityDelete2">
+       ${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete2', 'modifyEquity', 'processDeleteEquity2', deleteEquityManual))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
+       <input name="delete" type="hidden" value="true">
+       <input id="processDeleteEquity2" type="submit" style="display: none;">
+       <input id="deleteTicker2" type="hidden" name="id" value="">
+       <input id="companyId" type="hidden" name="companyId" value="">
+       <input type="hidden" id="manual" name="manual" value="true">
+      </form>
 			<a class="close-reveal-modal">&#215;</a>
 	</div>
 	<div id="refresh" class="reveal-modal">
@@ -313,9 +432,19 @@ $(document).ready(function() {
 					</thead>
 					<c:forEach var="equity" items="${portfolio.equities}">
 						<tr>
-							<td><span class="bold">${equity.currentName}</span><br>(${equity.company.yahooId})
-								[<a href="javascript:poufpouf('${equity.company.yahooId}')">${language['PORTFOLIO_INFO']}</a>] [<a href="#" data-reveal-id="modifyEquity"
-									onclick="javascript:updateTicker('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+							<td><span class="bold">${equity.currentName}</span><br>
+								<c:if test="${equity.company.manual == false }">
+								   (${equity.company.yahooId})
+								</c:if>
+								[<a href="javascript:poufpouf('${equity.company.yahooId}')">${language['PORTFOLIO_INFO']}</a>] 
+								<c:choose>
+								  <c:when test="${equity.company.manual == false }">
+								    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateTicker('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+                  </c:when>
+                  <c:otherwise>
+                    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateManual('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}','${equity.company.id}', '${equity.company.quote}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+                  </c:otherwise>
+								</c:choose>
 									<span id="${equity.company.yahooId}" class="companyInfo" style="display: none;"> 
 											<br> - 
 												<c:choose>
@@ -344,15 +473,18 @@ $(document).ready(function() {
 							<td class="tdRight"><fmt:formatNumber type="number" maxFractionDigits="3" value="${equity.unitCostPrice}" /></td>
 							<c:if test="${cookie.quote.value == 'checked' }">
 								<td class="tdRight">
-									<fmt:formatNumber type="number" maxFractionDigits="3" value="${equity.company.quote}" /><br>
-									<c:choose>
-										<c:when test="${equity.company.change < 0}">
-											<span class="cQuoteDown"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${equity.company.change}" />%</span>
-										</c:when>
-										<c:otherwise>
-											<span class="cQuoteUp">+<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${equity.company.change}" />%</span>
-										</c:otherwise>
-									</c:choose>
+									<fmt:formatNumber type="number" maxFractionDigits="3" value="${equity.company.quote}" />
+									<c:if test="${equity.company.manual == false }">
+									 <br>
+	                   <c:choose>
+	                    <c:when test="${equity.company.change < 0}">
+	                      <span class="cQuoteDown"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${equity.company.change}" />%</span>
+	                    </c:when>
+	                    <c:otherwise>
+	                      <span class="cQuoteUp">+<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${equity.company.change}" />%</span>
+	                    </c:otherwise>
+	                   </c:choose>
+                  </c:if>
 								</td>
 							</c:if>
 							<c:if test="${cookie.currency.value == 'checked' }">
@@ -368,13 +500,21 @@ $(document).ready(function() {
 							</c:if>
 							<td class="tdRight"><fmt:formatNumber type="number" value="${equity.value }" maxFractionDigits="0" /><br>
 							<c:choose>
-									<c:when test="${fn:startsWith(equity.plusMinusValue, '-')}">
-										<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.plusMinusValue }" />%</span>
-									</c:when>
-									<c:otherwise>
-										<span class="cQuoteUp">+<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.plusMinusValue }" />%</span>
-									</c:otherwise>
-								</c:choose></td>
+							 <c:when test="${equity.unitCostPrice == 0.0}">
+							   <span class="cQuoteUp">N/A</span>
+							 </c:when>
+							 <c:otherwise>
+							   <c:choose>
+                  <c:when test="${fn:startsWith(equity.plusMinusValue, '-')}">
+                    <span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.plusMinusValue }" />%</span>
+                  </c:when>
+                  <c:otherwise>
+                    <span class="cQuoteUp">+<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.plusMinusValue }" />%</span>
+                  </c:otherwise>
+                 </c:choose>
+							 </c:otherwise>
+							</c:choose>							
+							</td>
 							<td class="tdRight">
 								<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.value / (portfolio.totalValue-portfolio.liquidity) * 100}" />%
 							</td>

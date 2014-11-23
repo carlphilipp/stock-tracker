@@ -154,7 +154,11 @@ public class Equity implements Comparable<Equity> {
 	 */
 	public final Double getPlusMinusValue() {
 		if (plusMinusValue == null) {
-			plusMinusValue = (getValue() - getOriginalValue()) / getOriginalValue() * PERCENT;
+			if (getUnitCostPrice() == 0) {
+				plusMinusValue = 0.0;
+			} else {
+				plusMinusValue = (getValue() - getOriginalValue()) / getOriginalValue() * PERCENT;
+			}
 		}
 		return plusMinusValue;
 	}
@@ -695,11 +699,11 @@ public class Equity implements Comparable<Equity> {
 	 * @return the parity
 	 */
 	public final Double getParityPersonal() {
-		if(parityPersonal == null){
+/*		if (parityPersonal == null) {
 			return 1.0;
-		}else{
+		} else {*/
 			return parityPersonal;
-		}
+		//}
 	}
 
 	/**

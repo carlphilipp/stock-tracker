@@ -30,6 +30,7 @@ import org.apache.log4j.Logger;
 
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -71,11 +72,23 @@ public class ModifyEquityServlet extends HttpServlet {
 			String namePersonal = null, sectorPersonal = null, industryPersonal = null, marketCapPersonal = null;
 			try {
 				if (request.getParameter("delete") != null) {
-					String id = request.getParameter("id");
-					Equity e = new Equity();
-					e.setid(Integer.parseInt(id));
-					business.deleteEquity(e);
-					request.setAttribute("modified", language.getLanguage(lang).get("CONSTANT_DELETED") + " !");
+					if (request.getParameter("manual") != null) {
+						String id = request.getParameter("id");
+						String companyId = request.getParameter("companyId");
+						Equity e = new Equity();
+						e.setid(Integer.parseInt(id));
+						business.deleteEquity(e);
+						Company company = new Company();
+						company.setId(Integer.parseInt(companyId));
+						business.deleteCompany(company);
+						request.setAttribute("modified", language.getLanguage(lang).get("CONSTANT_DELETED") + " !");
+					} else {
+						String id = request.getParameter("id");
+						Equity e = new Equity();
+						e.setid(Integer.parseInt(id));
+						business.deleteEquity(e);
+						request.setAttribute("modified", language.getLanguage(lang).get("CONSTANT_DELETED") + " !");
+					}
 				} else {
 					String ticker = request.getParameter("ticker");
 					String namePerso = request.getParameter("namePersonal");
@@ -123,7 +136,7 @@ public class ModifyEquityServlet extends HttpServlet {
 						parityPersonal = NumberUtils.createDouble(parityPerso);
 					}
 					if (quantity == 0) {
-						request.setAttribute("modifyError", "Error: quantity and/or unit cost price can not be 0");
+						request.setAttribute("modifyError", "Error: quantity can not be 0");
 					} else {
 						Equity equity = new Equity();
 						equity.setNamePersonal(namePersonal);
@@ -138,6 +151,17 @@ public class ModifyEquityServlet extends HttpServlet {
 						equity.setParityPersonal(parityPersonal);
 						business.updateEquity(user.getId(), ticker, equity);
 						request.setAttribute("modified", language.getLanguage(lang).get("CONSTANT_MODIFIED") + " !");
+					}
+					if(request.getParameter("manual") != null){
+						String companyId = request.getParameter("companyId");
+						String quote = request.getParameter("quote");
+						Double quoteRes = null;
+						Integer companyIdRes = null;
+						if(quote != null && !quote.equals("") && companyId != null && !companyId.equals("")){
+							quoteRes = Double.parseDouble(quote);
+							companyIdRes = Integer.parseInt(companyId);
+							business.updateCompanyManual(companyIdRes, quoteRes);
+						}
 					}
 				}
 			} catch (YahooException e) {

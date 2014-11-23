@@ -45,6 +45,7 @@
 		<result property="yearHigh" column="yearHigh" />
 		<result property="yield" column="yield" />
 		<result property="realTime" column="realTime" />
+		<result property="manual" column="manual" />
 		<result property="marketCapitalization" column="marketCapitalization" />
 		<result property="lastUpdate" column="lastUpdate" />
 	</resultMap>
@@ -84,6 +85,7 @@
 		yearHigh,
 		realTime,
 		marketCapitalization,
+		manual,
 		lastUpdate
 		from follow
 		JOIN company ON follow.companyId = company.id 

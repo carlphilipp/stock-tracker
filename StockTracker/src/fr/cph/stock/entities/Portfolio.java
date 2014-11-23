@@ -385,7 +385,7 @@ public class Portfolio {
 				totalUnitCostPrice += equity.getUnitCostPrice();
 				totalAverageQuotePrice += equity.getCompany().getQuote() * equity.getParity();
 				totalValue += equity.getValue();
-				totalOriginalValue += equity.getQuantity() * equity.getUnitCostPrice() * equity.getParityPersonal();
+				totalOriginalValue += equity.getQuantity() * equity.getUnitCostPrice() * equity.getCurrentParity();
 				yieldYear += equity.getYieldYear();
 				totalGain += equity.getPlusMinusUnitCostPriceValue();
 				if (equity.getCompany().getRealTime()) {
