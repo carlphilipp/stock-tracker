@@ -62,7 +62,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			JSONObject jsonCompany = jsonResults.getJSONObject(j);
 			Company company = new Company();
 			company.setYahooId(jsonCompany.optString("symbol"));
-
+			company.setManual(false);
 			if (jsonCompany.optString("StockExchange").equals("null")) {
 				company = getCompanyInfo(company);
 				if (company.getSector() != null && company.getIndustry() != null && company.getMarketCapitalization() != null) {
