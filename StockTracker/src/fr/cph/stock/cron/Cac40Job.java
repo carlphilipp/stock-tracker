@@ -48,6 +48,7 @@ public class Cac40Job implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
+			LOG.info("CAC40 Job");
 			business.updateIndex(Info.YAHOOID_CAC40);
 		} catch (YahooException e) {
 			LOG.warn("Error while executing Cac40Job: " + e.getMessage());

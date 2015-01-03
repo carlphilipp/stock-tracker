@@ -46,10 +46,10 @@
 	</path>
 
 	
-	<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" />
+	<!--  taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" /-->
 
 	<!-- To make work Cobertura -->
-	<taskdef classpathref="class.path" resource="tasks.properties" />
+	<!-- taskdef classpathref="class.path" resource="tasks.properties" / -->
  
 	<target name="init">
 		<mkdir dir="${classes.dir}" />

@@ -48,6 +48,7 @@ public class SP500Job implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
+			LOG.info("S&P500 Job");
 			business.updateIndex(Info.YAHOOID_SP500);
 		} catch (YahooException e) {
 			LOG.warn("Error while executing SP500Job: " + e.getMessage());

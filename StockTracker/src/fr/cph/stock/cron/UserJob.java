@@ -48,6 +48,7 @@ public class UserJob implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
+			LOG.info("User job");
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
 			business.autoUpdateUserShareValue(cal);

@@ -102,8 +102,14 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 					company.setYesterdayClose(0.0);
 				}
 				company.setChangeInPercent(jsonCompany.optString("ChangeinPercent"));
-				company.setYearLow(jsonCompany.optDouble("YearLow"));
-				company.setYearHigh(jsonCompany.optDouble("YearHigh"));
+				Double yearLow = jsonCompany.optDouble("YearLow");
+				if(!yearLow.isNaN()){
+					company.setYearLow(yearLow);
+				}
+				Double yearHigh = jsonCompany.optDouble("YearHigh");
+				if(!yearHigh.isNaN()){
+					company.setYearHigh(yearHigh);
+				}
 				company.setRealTime(true);
 				company.setFund(false);
 				companies.add(company);

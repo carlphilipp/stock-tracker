@@ -58,7 +58,8 @@ public class Job {
 				.newTrigger()
 				.withIdentity("triggerCurrency", "currency")
 				.withSchedule(
-						CronScheduleBuilder.cronSchedule("0 55 * ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+						//CronScheduleBuilder.cronSchedule("0 55 * ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+						CronScheduleBuilder.cronSchedule("0 55 * ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
 				.build();
 		sched.scheduleJob(jobCurrency, triggerCurrency);
 
@@ -67,7 +68,8 @@ public class Job {
 				.newTrigger()
 				.withIdentity("triggerCac40", "index")
 				.withSchedule(
-						CronScheduleBuilder.cronSchedule("0 15 18 ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+						//CronScheduleBuilder.cronSchedule("0 15 18 ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+						CronScheduleBuilder.cronSchedule("0 15 18 ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
 				.build();
 		sched.scheduleJob(jobCac40, triggerCac40);
 
@@ -76,7 +78,9 @@ public class Job {
 				.newTrigger()
 				.withIdentity("triggerCac40Check", "index")
 				.withSchedule(
-						CronScheduleBuilder.cronSchedule("0 30 18-23 ? * MON-FRI").inTimeZone(
+						/*CronScheduleBuilder.cronSchedule("0 30 18-23 ? * MON-FRI").inTimeZone(
+								TimeZone.getTimeZone("Europe/Paris"))).build();*/
+						CronScheduleBuilder.cronSchedule("0 30 18-23 ? * *").inTimeZone(
 								TimeZone.getTimeZone("Europe/Paris"))).build();
 		sched.scheduleJob(jobCac40Check, triggerCac40Check);
 
@@ -85,7 +89,9 @@ public class Job {
 				.newTrigger()
 				.withIdentity("triggerSP500", "index")
 				.withSchedule(
-						CronScheduleBuilder.cronSchedule("0 10 17 ? * MON-FRI").inTimeZone(
+						/*CronScheduleBuilder.cronSchedule("0 10 17 ? * MON-FRI").inTimeZone(
+								TimeZone.getTimeZone("America/New_York"))).build();*/
+						CronScheduleBuilder.cronSchedule("0 10 17 ? * *").inTimeZone(
 								TimeZone.getTimeZone("America/New_York"))).build();
 		sched.scheduleJob(jobSP500, triggerSP500);
 
@@ -94,8 +100,10 @@ public class Job {
 				.newTrigger()
 				.withIdentity("triggerSP500Check", "index")
 				.withSchedule(
-						CronScheduleBuilder.cronSchedule("0 15 18-23 ? * MON-FRI").inTimeZone(
-								TimeZone.getTimeZone("America/New_York"))).build();
+						/*CronScheduleBuilder.cronSchedule("0 15 18-23 ? * MON-FRI").inTimeZone(
+								TimeZone.getTimeZone("America/New_York"))).build();*/
+						CronScheduleBuilder.cronSchedule("0 15 18-23 ? * *").inTimeZone(
+									TimeZone.getTimeZone("America/New_York"))).build();
 		sched.scheduleJob(jobSP500Check, triggerSP500Check);
 
 		JobDetail jobCompanyNotRealTime = JobBuilder.newJob(CompanyNotRealTimeJob.class)
@@ -112,7 +120,8 @@ public class Job {
 				.newTrigger()
 				.withIdentity("triggerClean", "company")
 				.withSchedule(
-						CronScheduleBuilder.cronSchedule("0 30 0 ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+						//CronScheduleBuilder.cronSchedule("0 30 0 ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+						CronScheduleBuilder.cronSchedule("0 30 0 ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
 				.build();
 		sched.scheduleJob(jobClean, triggerClean);
 
@@ -121,7 +130,8 @@ public class Job {
 				.newTrigger()
 				.withIdentity("triggerUser", "user")
 				.withSchedule(
-						CronScheduleBuilder.cronSchedule("0 0 * ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+						//CronScheduleBuilder.cronSchedule("0 0 * ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+						CronScheduleBuilder.cronSchedule("0 0 * ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
 				.build();
 		sched.scheduleJob(jobUser, triggerUser);
 
@@ -133,5 +143,13 @@ public class Job {
 		sched.scheduleJob(jobMysql, triggerMysql);
 
 		sched.start();
+		
+/*		Seconds
+		Minutes
+		Hours
+		Day-of-Month
+		Month
+		Day-of-Week
+		Year (optional field)*/
 	}
 }

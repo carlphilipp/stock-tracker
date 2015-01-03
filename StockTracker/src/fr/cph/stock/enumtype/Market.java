@@ -28,6 +28,8 @@ public enum Market {
 	/** **/
 	NASDAQNM("NasdaqNM"),
 	/** **/
+	NASDAQSC("NASDAQSC"),
+	/** **/
 	NYSE("Nyse"),
 	/** **/
 	AMSTERDAM("Amsterdam"),
@@ -132,6 +134,7 @@ public enum Market {
 			currency = Currency.EUR;
 			break;
 		case NASDAQNM:
+		case NASDAQSC:
 		case NYSE:
 		case NGM:
 		case PCX:
