@@ -282,6 +282,16 @@ public class Equity implements Comparable<Equity> {
 					for (int i = 0; i < 3 - reverse; i++) {
 						sb.append("0");
 					}
+				} else{
+					if (c == 'T') {
+						str = str.replaceAll("T", "");
+						int point = str.indexOf('.');
+						int reverse = str.length() - point - 1;
+						sb.append(str.replaceAll("\\.", ""));
+						for (int i = 0; i < 9 - reverse; i++) {
+							sb.append("0");
+						}
+					}
 				}
 			}
 			return new BigDecimal(sb.toString());
