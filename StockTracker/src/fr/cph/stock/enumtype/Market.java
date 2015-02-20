@@ -52,6 +52,8 @@ public enum Market {
 	/** **/
 	OTC("Other OTC"),
 	/** **/
+	CDNX("CDNX"),
+	/** **/
 	UNKNOWN("unknown");
 
 	/**
@@ -144,6 +146,9 @@ public enum Market {
 			break;
 		case LONDON:
 			currency = Currency.GBP;
+			break;
+		case CDNX:
+			currency = Currency.CAD;
 			break;
 		case UNKNOWN:
 			currency = null;
