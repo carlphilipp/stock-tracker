@@ -23,8 +23,17 @@ package fr.cph.stock.enumtype;
  * 
  */
 public enum Market {
+	
+	/** **/
+	PNK("PNK"),
+	/** **/
+	NYQ("NYQ"),
+	/** **/
+	NMS("NMS"),
 	/** **/
 	PARIS("Paris"),
+	
+	PAR("PAR"),
 	/** **/
 	NASDAQNM("NasdaqNM"),
 	/** **/
@@ -129,6 +138,7 @@ public enum Market {
 		Currency currency = null;
 		switch (m) {
 		case PARIS:
+		case PAR:
 		case AMSTERDAM:
 		case XETRA:
 		case MILAN:
@@ -141,6 +151,9 @@ public enum Market {
 		case NGM:
 		case PCX:
 		case NCM:
+		case NYQ:
+		case NMS:
+		case PNK:
 		case OTC:
 			currency = Currency.USD;
 			break;
