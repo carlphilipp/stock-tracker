@@ -24,6 +24,7 @@ package fr.cph.stock.enumtype;
  */
 public enum Market {
 	
+	VAN("VAN"),
 	/** **/
 	PNK("PNK"),
 	/** **/
@@ -160,6 +161,7 @@ public enum Market {
 		case LONDON:
 			currency = Currency.GBP;
 			break;
+		case VAN:
 		case CDNX:
 			currency = Currency.CAD;
 			break;
