@@ -15,14 +15,12 @@ public class IndexServlet extends HttpServlet {
 
 	/** **/
 	private static final long serialVersionUID = 1L;
-	/** Logger **/
-	private static final Logger LOG = Logger.getLogger(IndexServlet.class);
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		if (request.getServerName().equals("stocktracker.fr")) {
-			response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
-			response.setHeader("Location", "http://www.stocktracker.fr");
+			response.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+			response.setHeader("Location", "https://www.stocktracker.fr");
 		} else {
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
