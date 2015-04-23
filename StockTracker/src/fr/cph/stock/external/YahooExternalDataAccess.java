@@ -84,9 +84,15 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				}
 			} else {
 				company.setName(WordUtils.capitalizeFully(jsonCompany.optString("Name")));
-				company.setMarket(Market.getMarket(jsonCompany.optString("StockExchange").toUpperCase()));
+				String stockExchange = jsonCompany.optString("StockExchange").toUpperCase();
+				company.setMarket(Market.getMarket(stockExchange));
 
-				company.setCurrency(Market.getCurrency(company.getMarket()));
+				if (company.getMarket().equals(Market.UNKNOWN)) {
+					company.setCurrency(Currency.getEnum(jsonCompany.optString("Currency")));
+				} else {
+					company.setCurrency(Market.getCurrency(company.getMarket()));
+				}
+
 				if (!jsonCompany.optString("DividendYield").equals("null")) {
 					company.setYield(Double.valueOf(jsonCompany.optString("DividendYield")));
 				}
@@ -103,11 +109,11 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				}
 				company.setChangeInPercent(jsonCompany.optString("ChangeinPercent"));
 				Double yearLow = jsonCompany.optDouble("YearLow");
-				if(!yearLow.isNaN()){
+				if (!yearLow.isNaN()) {
 					company.setYearLow(yearLow);
 				}
 				Double yearHigh = jsonCompany.optDouble("YearHigh");
-				if(!yearHigh.isNaN()){
+				if (!yearHigh.isNaN()) {
 					company.setYearHigh(yearHigh);
 				}
 				company.setRealTime(true);

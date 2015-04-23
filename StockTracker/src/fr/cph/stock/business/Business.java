@@ -211,7 +211,8 @@ public final class Business implements IBusiness {
 				companyInDB.setQuote(companyYahoo.getQuote());
 				companyInDB.setYield(companyYahoo.getYield());
 				companyInDB.setName(companyYahoo.getName());
-				companyInDB.setCurrency(Market.getCurrency(companyYahoo.getMarket()));
+				//companyInDB.setCurrency(Market.getCurrency(companyYahoo.getMarket()));
+				companyInDB.setCurrency(companyYahoo.getCurrency());
 				companyInDB.setMarketCapitalization(companyYahoo.getMarketCapitalization());
 				companyInDB.setMarket(companyYahoo.getMarket());
 				companyInDB.setYearHigh(companyYahoo.getYearHigh());
