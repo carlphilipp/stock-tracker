@@ -56,15 +56,18 @@ public class RegistrationServlet extends HttpServlet {
 			String login = request.getParameter("login");
 			String password = request.getParameter("password");
 			String email = request.getParameter("email");
-			try {
-				business.createUser(login, password, email);
-				User user = business.getUser(login);
-				request.setAttribute("user", user);
-			} catch (LoginException e) {
-				request.setAttribute("error", e.getMessage());
+			if (!isValidEmailAddress(email)) {
+				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+			} else {
+				try {
+					business.createUser(login, password, email);
+					User user = business.getUser(login);
+					request.setAttribute("user", user);
+				} catch (LoginException e) {
+					request.setAttribute("error", e.getMessage());
+				}
+				request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
 			}
-			request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
-
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
@@ -77,4 +80,10 @@ public class RegistrationServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
+	private boolean isValidEmailAddress(final String email) {
+		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+		java.util.regex.Matcher m = p.matcher(email);
+		return m.matches();
+	}
 }

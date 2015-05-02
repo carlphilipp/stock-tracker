@@ -758,7 +758,7 @@ public final class Business implements IBusiness {
 				int hourDiff = Util.timeZoneDiff(TimeZone.getTimeZone(user.getTimeZone()));
 				int hour = Util.getRealHour(user.getUpdateHourTime(), hourDiff);
 
-				if (user.getLogin().equals("carl") || user.getLogin().equals("carlphilipp")) {
+/*				if (user.getLogin().equals("carl") || user.getLogin().equals("carlphilipp")) {
 					LOG.info("========================");
 					LOG.info("User : " + user.getLogin());
 					LOG.info("Current paris hour: " + calendar.get(Calendar.HOUR_OF_DAY));
@@ -766,7 +766,7 @@ public final class Business implements IBusiness {
 					LOG.info("Hour diff: " + hourDiff);
 					LOG.info("User wants to update at " + user.getUpdateHourTime());
 					LOG.info("Hour retained for user: " + hour);
-				}
+				}*/
 
 				int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 				if (hour == currentHour) {
