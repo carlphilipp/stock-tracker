@@ -211,7 +211,7 @@ public final class Business implements IBusiness {
 				companyInDB.setQuote(companyYahoo.getQuote());
 				companyInDB.setYield(companyYahoo.getYield());
 				companyInDB.setName(companyYahoo.getName());
-				//companyInDB.setCurrency(Market.getCurrency(companyYahoo.getMarket()));
+				// companyInDB.setCurrency(Market.getCurrency(companyYahoo.getMarket()));
 				companyInDB.setCurrency(companyYahoo.getCurrency());
 				companyInDB.setMarketCapitalization(companyYahoo.getMarketCapitalization());
 				companyInDB.setMarket(companyYahoo.getMarket());
@@ -758,15 +758,12 @@ public final class Business implements IBusiness {
 				int hourDiff = Util.timeZoneDiff(TimeZone.getTimeZone(user.getTimeZone()));
 				int hour = Util.getRealHour(user.getUpdateHourTime(), hourDiff);
 
-/*				if (user.getLogin().equals("carl") || user.getLogin().equals("carlphilipp")) {
-					LOG.info("========================");
-					LOG.info("User : " + user.getLogin());
-					LOG.info("Current paris hour: " + calendar.get(Calendar.HOUR_OF_DAY));
-					LOG.info("User current time zone: " + user.getTimeZone());
-					LOG.info("Hour diff: " + hourDiff);
-					LOG.info("User wants to update at " + user.getUpdateHourTime());
-					LOG.info("Hour retained for user: " + hour);
-				}*/
+				/*
+				 * if (user.getLogin().equals("carl") || user.getLogin().equals("carlphilipp")) { LOG.info("========================");
+				 * LOG.info("User : " + user.getLogin()); LOG.info("Current paris hour: " + calendar.get(Calendar.HOUR_OF_DAY));
+				 * LOG.info("User current time zone: " + user.getTimeZone()); LOG.info("Hour diff: " + hourDiff); LOG.info("User wants to update at "
+				 * + user.getUpdateHourTime()); LOG.info("Hour retained for user: " + hour); }
+				 */
 
 				int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 				if (hour == currentHour) {

@@ -88,7 +88,10 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				company.setMarket(Market.getMarket(stockExchange));
 
 				if (company.getMarket().equals(Market.UNKNOWN)) {
-					company.setCurrency(Currency.getEnum(jsonCompany.optString("Currency")));
+					String currency = jsonCompany.optString("Currency");
+					if(currency != null && !currency.equals("null") && !currency.equals("")){
+						company.setCurrency(Currency.getEnum(currency));
+					}
 				} else {
 					company.setCurrency(Market.getCurrency(company.getMarket()));
 				}
@@ -96,7 +99,10 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				if (!jsonCompany.optString("DividendYield").equals("null")) {
 					company.setYield(Double.valueOf(jsonCompany.optString("DividendYield")));
 				}
-				company.setQuote(Double.valueOf(jsonCompany.optString("LastTradePriceOnly")));
+				String lastTrade = jsonCompany.optString("LastTradePriceOnly");
+				if(lastTrade != null && !lastTrade.equals("null") && !lastTrade.equals("")){
+					company.setQuote(Double.valueOf(lastTrade));
+				}
 				String marketCap = jsonCompany.optString("MarketCapitalization");
 				if (marketCap != null && !marketCap.equals("null") && !marketCap.equals("")) {
 					company.setMarketCapitalization(marketCap);
