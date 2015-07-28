@@ -282,7 +282,7 @@ public class Equity implements Comparable<Equity> {
 					for (int i = 0; i < 3 - reverse; i++) {
 						sb.append("0");
 					}
-				} else{
+				} else {
 					if (c == 'T') {
 						str = str.replaceAll("T", "");
 						int point = str.indexOf('.');
@@ -693,13 +693,17 @@ public class Equity implements Comparable<Equity> {
 	 * @return the current yield
 	 */
 	public final Double getCurrentYield() {
-		double res;
+		Double res;
 		if (getYieldPersonal() != null) {
 			res = getYieldPersonal() / getCompany().getQuote() * PERCENT;
 		} else {
 			res = getCompany().getYield() / getCompany().getQuote() * PERCENT;
 		}
-		res = new BigDecimal(res, mathContext).doubleValue();
+		if (res.isInfinite() || res.isNaN()) {
+			res = 0.0;
+		} else {
+			res = new BigDecimal(res, mathContext).doubleValue();
+		}
 		return res;
 	}
 
@@ -709,11 +713,11 @@ public class Equity implements Comparable<Equity> {
 	 * @return the parity
 	 */
 	public final Double getParityPersonal() {
-/*		if (parityPersonal == null) {
-			return 1.0;
-		} else {*/
-			return parityPersonal;
-		//}
+		/*
+		 * if (parityPersonal == null) { return 1.0; } else {
+		 */
+		return parityPersonal;
+		// }
 	}
 
 	/**
