@@ -43,14 +43,14 @@
 		</environment>
 	</environments>
 	<mappers>
-		<mapper resource="fr/cph/stock/dao/mybatis/User.xml" />
-		<mapper resource="fr/cph/stock/dao/mybatis/Company.xml" />
-		<mapper resource="fr/cph/stock/dao/mybatis/Equity.xml" />
-		<mapper resource="fr/cph/stock/dao/mybatis/Portfolio.xml" />
-		<mapper resource="fr/cph/stock/dao/mybatis/CurrencyData.xml" />
-		<mapper resource="fr/cph/stock/dao/mybatis/ShareValue.xml" />
-		<mapper resource="fr/cph/stock/dao/mybatis/Index.xml" />
-		<mapper resource="fr/cph/stock/dao/mybatis/Follow.xml" />
-		<mapper resource="fr/cph/stock/dao/mybatis/Account.xml" />
+		<mapper resource="mybatis/User.xml" />
+		<mapper resource="mybatis/Company.xml" />
+		<mapper resource="mybatis/Equity.xml" />
+		<mapper resource="mybatis/Portfolio.xml" />
+		<mapper resource="mybatis/CurrencyData.xml" />
+		<mapper resource="mybatis/ShareValue.xml" />
+		<mapper resource="mybatis/Index.xml" />
+		<mapper resource="mybatis/Follow.xml" />
+		<mapper resource="mybatis/Account.xml" />
 	</mappers>
 </configuration>

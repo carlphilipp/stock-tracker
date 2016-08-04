@@ -38,7 +38,7 @@ public final class Mybatis {
 
 	static {
 		try {
-			String resource = "fr/cph/stock/dao/mybatis/mybatis-config.xml";
+			String resource = "mybatis/mybatis-config.xml";
 			InputStream inputStream = Resources.getResourceAsStream(resource);
 			SQL_SESSION_FACTORY = new SqlSessionFactoryBuilder().build(inputStream);
 		} catch (Exception e) {

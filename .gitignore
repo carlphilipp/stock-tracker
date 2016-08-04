@@ -8,3 +8,5 @@
 .idea
 .gradle
 build
+log4j.properties
+app.properties
