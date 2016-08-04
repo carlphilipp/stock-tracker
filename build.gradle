@@ -39,23 +39,6 @@ dependencies {
     )
 }
 
-sourceSets {
-    main {
-        java {
-            srcDir 'src'
-        }
-        resources {
-            srcDir 'resources'
-        }
-    }
-
-    test {
-        java {
-            srcDir 'test'
-        }
-    }
-}
-
 task wrapper(type: Wrapper) {
     gradleVersion = '2.14.1'
 }
