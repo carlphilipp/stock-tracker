@@ -3,6 +3,9 @@ apply plugin: 'idea'
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'WebContent/WEB-INF/lib'
+    }
 }
 
 sourceCompatibility = 1.7
@@ -10,14 +13,25 @@ targetCompatibility = 1.7
 
 dependencies {
     compile(
+            [name: 'dropbox-java-sdk-1.5.3'],
+            [name: 'json-lib-2.4-jdk15'],
+            [name: 'dom4j-2.0.0-ALPHA-2'],
+            [group: 'org.jfree', name: 'jfreechart', version: '1.0.19'],
             [group: 'org.mybatis', name: 'mybatis', version: '3.1.1'],
             [group: 'javax.activation', name: 'activation', version: '1.1.1'],
-            [group: 'com.dropbox.core', name: 'dropbox-core-sdk', version: '1.6'],
+            //[group: 'com.dropbox.core', name: 'dropbox-core-sdk', version: '1.6'],
             [group: 'org.quartz-scheduler', name: 'quartz', version: '2.1.6'],
             //[group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'],
             [group: 'log4j', name: 'log4j', version: '1.2.17'],
             [group: 'org.apache.tomcat', name: 'tomcat-catalina', version: '7.0.70'],
-            [group: 'net.sf.json-lib', name: 'json-lib', version: '2.4']
+            [group: 'commons-lang', name: 'commons-lang', version: '2.3'],
+            [group: 'javax.mail', name: 'mail', version: '1.4.4'],
+            [group: 'net.sf.opencsv', name: 'opencsv', version: '2.3'],
+            [group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.1.0'],
+            [group: 'commons-codec', name: 'commons-codec', version: '1.7'],
+            [group: 'org.apache.commons', name: 'commons-compress', version: '1.4.1'],
+            [group: 'com.lowagie', name: 'itext', version: '2.1.7'],
+            [group: 'org.mybatis', name: 'mybatis', version: '3.1.1']
     )
 
     testCompile(
@@ -29,6 +43,9 @@ sourceSets {
     main {
         java {
             srcDir 'src'
+        }
+        resources {
+            srcDir 'resources'
         }
     }
 

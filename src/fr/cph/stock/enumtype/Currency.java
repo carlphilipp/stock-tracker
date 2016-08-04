@@ -29,10 +29,10 @@ import fr.cph.stock.entities.CurrencyData;
  */
 public enum Currency {
 	AUD("Australia Dollar", "$", "AUD"),
-	// CAD("Canada Dollar", "$", "CAD"),
+	CAD("Canada Dollar", "$", "CAD"),
 	// CHF("Switzerland Franc", "CHF", "CHF"),
 	/** **/
-	EUR("Euro", "€", "EUR"), GBP("United Kingdom Pound", "£", "GBP"),
+	EUR("Euro", "ï¿½", "EUR"), GBP("United Kingdom Pound", "ï¿½", "GBP"),
 	// HKD("Hong Kong Dollar", "$", "HKD"),
 	// SGD("Singapore Dollar", "$", "SGD"),
 	/** **/
