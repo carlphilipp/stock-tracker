@@ -16,6 +16,10 @@
 
 package fr.cph.stock.external;
 
+import fr.cph.stock.exception.YahooException;
+import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -23,12 +27,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
-
-import net.sf.json.JSONObject;
-
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.exception.YahooException;
 
 /**
  * This class take care of the connexion to Yahoo API. It uses YQL language.
@@ -82,24 +80,23 @@ public class Yahoo {
 	 */
 	protected final String connectUrl(final String address) throws YahooException {
 		LOG.debug("URL " + address);
-		String toreturn = null;
+		String toReturn;
 		try {
-			URL url = new URL(address);
-			URLConnection uc = url.openConnection();
-			Charset charset = Charset.forName("UTF8");
-			InputStreamReader in = new InputStreamReader(uc.getInputStream(), charset);
+			final URL url = new URL(address);
+			final URLConnection uc = url.openConnection();
+			final InputStreamReader in = new InputStreamReader(uc.getInputStream(), Charset.forName("UTF8"));
 			int c = in.read();
-			StringBuilder build = new StringBuilder();
+			final StringBuilder build = new StringBuilder();
 			while (c != -1) {
 				build.append((char) c);
 				c = in.read();
 			}
-			toreturn = build.toString();
+			toReturn = build.toString();
 			in.close();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new YahooException("Error: " + YahooException.CONNECT_ERROR, e);
 		}
-		return toreturn;
+		return toReturn;
 	}
 
 	/**
@@ -110,8 +107,8 @@ public class Yahoo {
 	 * @return a JSONObject
 	 */
 	protected final JSONObject convertDataToJSONObject(final String data) {
-		String temp = data.substring(11, data.length());
-		String temp2 = temp.substring(0, temp.length() - 2);
+		final String temp = data.substring(11, data.length());
+		final String temp2 = temp.substring(0, temp.length() - 2);
 		return JSONObject.fromObject(temp2);
 	}
 
@@ -123,7 +120,7 @@ public class Yahoo {
 	 *             the yahoo exception
 	 */
 	public final JSONObject getJSONObject() throws YahooException {
-		String data = connectUrl(urlBuilder());
+		final String data = connectUrl(urlBuilder());
 		return convertDataToJSONObject(data);
 	}
 }
