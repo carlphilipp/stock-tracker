@@ -36,7 +36,7 @@ public class Info {
 
 	/** Access in a static way to the property file **/
 	static {
-		Properties prop = Util.getProperties("app.properties");
+		final Properties prop = Util.getProperties("app.properties");
 		NAME = prop.getProperty("name");
 		ADDRESS = prop.getProperty("address");
 		FOLDER = prop.getProperty("folder");

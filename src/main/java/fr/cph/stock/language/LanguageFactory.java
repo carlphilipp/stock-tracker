@@ -30,16 +30,16 @@ import java.util.Map;
 
 /**
  * Build languages
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public final class LanguageFactory {
 
 	/** The factory **/
-	private static LanguageFactory facto;
-	/** The result map **/
-	private static Map<String, Map<String, String>> map;
+	private static LanguageFactory languageFactory;
+	/** The result languageMap **/
+	private static Map<String, Map<String, String>> languageMap;
 	/** The file system **/
 	private static FileSystem system = FileSystems.getDefault();
 
@@ -51,29 +51,29 @@ public final class LanguageFactory {
 
 	/**
 	 * Access to the factory from outside
-	 * 
+	 *
 	 * @return a LanguageFactory
 	 * @throws LanguageException
 	 *             the language exception
 	 */
 	public static LanguageFactory getInstance() throws LanguageException {
-		if (facto == null) {
-			facto = new LanguageFactory();
-			map = getLanguageMap();
+		if (languageFactory == null) {
+			languageFactory = new LanguageFactory();
+			languageMap = getLanguageMap();
 		}
-		return facto;
+		return languageFactory;
 	}
 
 	/**
-	 * Get the language map
-	 * 
-	 * @return the language map
+	 * Get the language languageMap
+	 *
+	 * @return the language languageMap
 	 * @throws LanguageException
 	 *             the language exception
 	 */
 	private static Map<String, Map<String, String>> getLanguageMap() throws LanguageException {
-		Map<String, Map<String, String>> m = new HashMap<>();
-		File file = null;
+		Map<String, Map<String, String>> languageMap = new HashMap<>();
+		File file;
 		try {
 			file = Resources.getResourceAsFile("fr" + system.getSeparator() + "cph" + system.getSeparator() + "stock"
 					+ system.getSeparator() + "language" + system.getSeparator() + "xml");
@@ -89,21 +89,21 @@ public final class LanguageFactory {
 								+ system.getSeparator() + "language" + system.getSeparator() + "xml" + system.getSeparator()),
 						absolutPath.length());
 				Language language = new Language(path);
-				m.put(language.getLanguageName(), language.getLanguage());
+				languageMap.put(language.getLanguageName(), language.getLanguage());
 			}
 		}
-		return m;
+		return languageMap;
 	}
 
 	/**
 	 * Get the current language needed
-	 * 
+	 *
 	 * @param language
 	 *            the language
-	 * @return a map
+	 * @return a languageMap
 	 */
 	public Map<String, String> getLanguage(final String language) {
-		return map.get(language);
+		return languageMap.get(language);
 	}
 
 }

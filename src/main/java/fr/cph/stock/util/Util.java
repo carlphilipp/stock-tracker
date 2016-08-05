@@ -1,24 +1,15 @@
 package fr.cph.stock.util;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.Random;
-import java.util.TimeZone;
-
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.log4j.Logger;
+
+import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * This class is access only in a static way
@@ -44,16 +35,16 @@ public final class Util {
 	 * @return an hour
 	 */
 	public static int timeZoneDiff(final TimeZone timezone) {
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-		int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-		int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+		final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
+		final int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+		final int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-		Calendar calendar2 = Calendar.getInstance(timezone);
-		int hourOfDay2 = calendar2.get(Calendar.HOUR_OF_DAY);
-		int dayOfMonth2 = calendar2.get(Calendar.DAY_OF_MONTH);
+		final Calendar calendar2 = Calendar.getInstance(timezone);
+		final int hourOfDay2 = calendar2.get(Calendar.HOUR_OF_DAY);
+		final int dayOfMonth2 = calendar2.get(Calendar.DAY_OF_MONTH);
 
 		int hourDifference = hourOfDay - hourOfDay2;
-		int dayDifference = dayOfMonth - dayOfMonth2;
+		final int dayDifference = dayOfMonth - dayOfMonth2;
 		final int hourInDay = 24;
 		if (dayDifference != 0) {
 			hourDifference = hourDifference + hourInDay;
@@ -71,7 +62,7 @@ public final class Util {
 	 * @return a Calendar
 	 */
 	public static Calendar getDateInTimeZone(final Date date, final TimeZone timeZone) {
-		Calendar calendar = Calendar.getInstance(timeZone);
+		final Calendar calendar = Calendar.getInstance(timeZone);
 		calendar.setTime(date);
 		return calendar;
 	}
@@ -114,8 +105,8 @@ public final class Util {
 	 * @return the formatted date
 	 */
 	public static String getCurrentDateInFormat(final String format) {
-		Calendar cal = Util.getCurrentCalendarInTimeZone(TimeZone.getTimeZone("Europe/Paris"));
-		DateFormat formatter = new SimpleDateFormat(format);
+		final Calendar cal = Util.getCurrentCalendarInTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+		final DateFormat formatter = new SimpleDateFormat(format);
 		return formatter.format(cal.getTime());
 	}
 
@@ -157,8 +148,8 @@ public final class Util {
 	 */
 	public static List<String> getRandomColors(final int size, final List<String> colors, List<String> res) {
 		if (res.size() != size) {
-			Random random = new Random();
-			String color = colors.get(random.nextInt(colors.size()));
+			final Random random = new Random();
+			final String color = colors.get(random.nextInt(colors.size()));
 			if (!res.contains(color)) {
 				res.add(color);
 			}
@@ -193,7 +184,7 @@ public final class Util {
 			tOut.putArchiveEntry(tarEntry);
 			IOUtils.copy(new FileInputStream(f), tOut);
 			tOut.closeArchiveEntry();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new IOException(e);
 		} finally {
 			try {
@@ -242,14 +233,13 @@ public final class Util {
 	 */
 	public static Date resetHourMinSecMill(final Date date) {
 		final int hourOfDay = 17;
-		Calendar cal = Calendar.getInstance();
+		final Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
 		cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-		Date zeroedDate = cal.getTime();
-		return zeroedDate;
+		return cal.getTime();
 	}
 
 	/**
@@ -260,11 +250,11 @@ public final class Util {
 	 * @return a properties file
 	 */
 	public static Properties getProperties(final String path) {
-		Properties prop = new Properties();
+		final Properties prop = new Properties();
 		try {
 			prop.load(Util.class.getClassLoader().getResourceAsStream(path));
-		} catch (IOException e) {
-			LOG.error(e);
+		} catch (final IOException e) {
+			LOG.error(e.getMessage(), e);
 		}
 		return prop;
 	}

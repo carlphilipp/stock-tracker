@@ -16,23 +16,18 @@
 
 package fr.cph.stock.util;
 
+import org.apache.log4j.Logger;
+
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.IOException;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
-
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import org.apache.log4j.Logger;
 
 /**
  * This class is used to send emails
@@ -75,7 +70,7 @@ public final class Mail {
 	 */
 	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) throws MessagingException,
 			IOException {
-		Properties prop = Util.getProperties("app.properties");
+		final Properties prop = Util.getProperties("app.properties");
 		smptHostName = prop.getProperty("email.smtp_host_name");
 		smtpPort = prop.getProperty("email.smtp_port");
 		emailFromUserName = prop.getProperty("email.from.username");
@@ -105,9 +100,9 @@ public final class Mail {
 	 */
 	private void sendSSLMessage(final String[] recipients, final String subject, final String message, final String from, final String attachFile)
 			throws MessagingException, IOException {
-		boolean debug = false;
+		final boolean debug = false;
 
-		Properties props = new Properties();
+		final Properties props = new Properties();
 		props.put("mail.smtp.host", smptHostName);
 		props.put("mail.smtp.auth", "true");
 		//props.put("mail.debug", "true");
@@ -117,7 +112,7 @@ public final class Mail {
 		props.put("mail.smtp.socketFactory.fallback", "false");
 		props.put("mail.smtp.ssl.enable", true);
 
-		Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+		final Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				// First argument msut be the email in case of querying Gmail
 				// Must be only the username if querying Yahoo.
@@ -127,11 +122,11 @@ public final class Mail {
 
 		session.setDebug(debug);
 
-		Message msg = new MimeMessage(session);
-		InternetAddress addressFrom = new InternetAddress(from);
+		final Message msg = new MimeMessage(session);
+		final InternetAddress addressFrom = new InternetAddress(from);
 		msg.setFrom(addressFrom);
 
-		InternetAddress[] addressTo = new InternetAddress[recipients.length];
+		final InternetAddress[] addressTo = new InternetAddress[recipients.length];
 		for (int i = 0; i < recipients.length; i++) {
 			addressTo[i] = new InternetAddress(recipients[i]);
 		}

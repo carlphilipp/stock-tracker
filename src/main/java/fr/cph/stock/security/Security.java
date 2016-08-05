@@ -16,12 +16,12 @@
 
 package fr.cph.stock.security;
 
+import org.apache.commons.codec.binary.Hex;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-
-import org.apache.commons.codec.binary.Hex;
 
 /**
  * Class that takes care of encoding password and generate salt
@@ -49,10 +49,9 @@ public final class Security {
 	 *             the UnsupportedEncodingException
 	 */
 	public static String encodeToSha256(final String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
-		byte[] hash = digest.digest(str.getBytes("UTF-8"));
-		String encoded = Hex.encodeHexString(hash);
-		return encoded;
+		final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+		final byte[] hash = digest.digest(str.getBytes("UTF-8"));
+		return Hex.encodeHexString(hash);
 	}
 
 	/**
@@ -65,7 +64,7 @@ public final class Security {
 	 *             the UnsupportedEncodingException
 	 */
 	public static String generateSalt() throws NoSuchAlgorithmException, UnsupportedEncodingException {
-		SecureRandom random = new SecureRandom();
+		final SecureRandom random = new SecureRandom();
 		return Security.encodeToSha256(random.toString());
 	}
 }

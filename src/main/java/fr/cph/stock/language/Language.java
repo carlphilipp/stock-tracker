@@ -38,43 +38,24 @@ public class Language {
 
 	/** Path of the XML file **/
 	private String path;
-	/** Object that allow to process the xml **/
 	private XMLRetriever xml;
-	/** The result map **/
 	private Map<String, String> map;
-	/** The file system **/
 	private static FileSystem system = FileSystems.getDefault();
-	/** Definitions of the XML document **/
 	private static final String BASE = "/root";
-	/** **/
 	private static final String CONSTANT = "/constant";
-	/** **/
 	private static final String MENU = "/menu/title";
-	/** **/
 	private static final String PORTFOLIO = "/portfolio";
-	/** **/
 	private static final String PORTFOLIO_HIDDEN = "/portfolio_hidden";
-	/** **/
 	private static final String HISTORY = "/history";
-	/** **/
 	private static final String HISTORY_HIDDEN = "/history_hidden";
-	/** **/
 	private static final String ACCOUNTS = "/accounts";
-	/** **/
 	private static final String ACCOUNTS_HIDDEN = "/accounts_hidden";
-	/** **/
 	private static final String LIST = "/list";
-	/** **/
 	private static final String LIST_HIDDEN = "/list_hidden";
-	/** **/
 	private static final String CHARTS = "/charts";
-	/** **/
 	private static final String CURRENCIES = "/currencies";
-	/** **/
 	private static final String CURRENCIES_HIDDEN = "/currencies_hidden";
-	/** **/
 	private static final String OPTIONS = "/options";
-	/** **/
 	private static final String OPTIONS_HIDDEN = "/options_hidden";
 
 	/**
@@ -84,14 +65,14 @@ public class Language {
 	 *            the path of the xml file
 	 * @throws LanguageException the language exception
 	 */
-	protected Language(final String p) throws LanguageException {
-		this.path = p;
+	protected Language(final String path) throws LanguageException {
+		this.path = path;
 		try {
-			xml = new XMLRetriever(p);
-		} catch (IOException | DocumentException e) {
+			this.xml = new XMLRetriever(path);
+		} catch (final IOException | DocumentException e) {
 			throw new LanguageException(e.getMessage(), e);
 		}
-		map = new HashMap<>();
+		this.map = new HashMap<>();
 	}
 
 	/**

@@ -16,13 +16,13 @@
 
 package fr.cph.stock.util;
 
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Properties;
-
-import org.apache.log4j.Logger;
 
 /**
  * This class dump the mysql database
@@ -60,7 +60,7 @@ public class MySQLDumper {
 	 */
 	public MySQLDumper(final String d) {
 		this.date = d;
-		Properties prop = Util.getProperties("app.properties");
+		final Properties prop = Util.getProperties("app.properties");
 		ip = prop.getProperty("db.ip");
 		database = prop.getProperty("db.name");
 		user = prop.getProperty("db.user");
@@ -101,10 +101,10 @@ public class MySQLDumper {
 	 *             the exception
 	 */
 	public final void export() throws Exception {
-		String dumpCommand = "mysqldump " + database + " -h " + ip + " -u " + user + " -p" + pass;
-		Runtime rt = Runtime.getRuntime();
+		final String dumpCommand = "mysqldump " + database + " -h " + ip + " -u " + user + " -p" + pass;
+		final Runtime rt = Runtime.getRuntime();
 		PrintStream ps;
-		Process child = rt.exec(dumpCommand);
+		final Process child = rt.exec(dumpCommand);
 		try {
 			ps = new PrintStream(date + "-" + PATH + SQLEXT, "UTF-8");
 		} catch (FileNotFoundException fileEx) {
