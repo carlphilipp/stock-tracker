@@ -23,12 +23,12 @@ import org.apache.ibatis.session.SqlSession;
 import fr.cph.stock.entities.ShareValue;
 
 /**
- * This class implements IDao functions and add some more. It access to the ShareValue in DB.
+ * This class implements IDAO functions and add some more. It access to the ShareValue in DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  */
-public class ShareValueDaoImpl extends AbstractDao<ShareValue> {
+public class ShareValueDAO extends AbstractDAO<ShareValue> {
 
 	@Override
 	public final void insert(final ShareValue shareValue) {

@@ -24,15 +24,15 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
+import fr.cph.stock.dao.EquityDAO;
+import fr.cph.stock.dao.UserDAO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import fr.cph.stock.dao.EquityDaoImpl;
-import fr.cph.stock.dao.PortfolioDaoImpl;
-import fr.cph.stock.dao.UserDaoImpl;
+import fr.cph.stock.dao.PortfolioDAO;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -44,14 +44,14 @@ import fr.cph.stock.exception.YahooException;
 public class BusinessTest {
 
 	private User user;
-	private UserDaoImpl userDao;
+	private UserDAO userDao;
 	private Portfolio portfolio;
-	private PortfolioDaoImpl portfolioDao;
+	private PortfolioDAO portfolioDao;
 
 	@Before
 	public void setUp() {
 		user = new User();
-		userDao = new UserDaoImpl();
+		userDao = new UserDAO();
 		user.setLogin("lolzcarlz");
 		user.setPassword("passwordd");
 		user.setEmail("poke@poke.com");
@@ -59,7 +59,7 @@ public class BusinessTest {
 		user = userDao.selectWithLogin("lolzcarlz");
 
 		portfolio = new Portfolio();
-		portfolioDao = new PortfolioDaoImpl();
+		portfolioDao = new PortfolioDAO();
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());
 		portfolioDao.insert(portfolio);
@@ -79,7 +79,7 @@ public class BusinessTest {
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);
 		business.updateEquity(user.getId(), "FP.PA", equity);
-		EquityDaoImpl daoEquity = new EquityDaoImpl();
+		EquityDAO daoEquity = new EquityDAO();
 		Portfolio port = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		Equity eq = port.getEquities().get(0);
 		assertNotNull(eq);

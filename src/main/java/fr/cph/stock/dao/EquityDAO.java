@@ -21,12 +21,12 @@ import org.apache.ibatis.session.SqlSession;
 import fr.cph.stock.entities.Equity;
 
 /**
- * This class implements IDao functions and add some more. It access to the Equity in DB.
+ * This class implements IDAO functions and add some more. It access to the Equity in DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  */
-public class EquityDaoImpl extends AbstractDao<Equity> {
+public class EquityDAO extends AbstractDAO<Equity> {
 
 	@Override
 	public final void insert(final Equity equity) {

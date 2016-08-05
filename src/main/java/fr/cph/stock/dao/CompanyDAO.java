@@ -24,12 +24,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements IDao functions and add some more. It access to the Company in DB.
+ * This class implements IDAO functions and add some more. It access to the Company in DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  */
-public class CompanyDaoImpl extends AbstractDao<Company> {
+public class CompanyDAO extends AbstractDAO<Company> {
 
 	@Override
 	public final void insert(final Company company) {

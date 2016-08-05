@@ -16,7 +16,7 @@
 
 package fr.cph.stock.dao;
 
-import fr.cph.stock.entities.Follow;
+import fr.cph.stock.entities.Account;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.HashMap;
@@ -24,18 +24,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements IDao functions and add some more. It access to the Follow object in DB.
+ * This class implements IDAO functions and add some more. It access to the Account in DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  */
-public class FollowDaoImpl extends AbstractDao<Follow> {
+public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
-	public final void insert(final Follow follow) {
+	public final void insert(final Account account) {
 		SqlSession session = getSqlSessionFactory();
 		try {
-			session.insert("FollowDao.insertOneFollow", follow);
+			session.insert("AccountDAO.insertOneAccount", account);
 			session.commit();
 		} finally {
 			session.close();
@@ -43,33 +43,34 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 	}
 
 	@Override
-	public final Follow select(final int id) {
+	public final Account select(final int id) {
 		SqlSession session = getSqlSessionFactory();
-		Follow follow = null;
+		Account accountResult = null;
 		try {
-			follow = session.selectOne("FollowDao.selectOneFollow", id);
+			accountResult = session.selectOne("AccountDAO.selectOneAccount", id);
 		} finally {
 			session.close();
 		}
-		return follow;
+		return accountResult;
 	}
 
 	@Override
-	public final void update(final Follow follow) {
+	public final void update(final Account account) {
 		SqlSession session = getSqlSessionFactory();
 		try {
-			session.update("FollowDao.updateOneFollow", follow);
+			session.update("AccountDAO.updateOneAccount", account);
 			session.commit();
 		} finally {
 			session.close();
 		}
+
 	}
 
 	@Override
-	public final void delete(final Follow follow) {
+	public final void delete(final Account account) {
 		SqlSession session = getSqlSessionFactory();
 		try {
-			session.delete("FollowDao.deleteOneFollow", follow);
+			session.delete("AccountDAO.deleteOneAccount", account);
 			session.commit();
 		} finally {
 			session.close();
@@ -77,43 +78,43 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 	}
 
 	/**
-	 * Get a list of company of the user given
+	 * Get all account for the user
 	 * 
 	 * @param userId
 	 *            the user id
-	 * @return a list of follow
+	 * @return a list of account
 	 */
-	public final List<Follow> selectListFollow(final int userId) {
+	public final List<Account> selectAllAccountWithUserId(final int userId) {
 		SqlSession session = getSqlSessionFactory();
-		List<Follow> follow = null;
+		List<Account> accountResult = null;
 		try {
-			follow = session.selectList("FollowDao.selectListFollow", userId);
+			accountResult = session.selectList("AccountDAO.selectAllAccountWithUserId", userId);
 		} finally {
 			session.close();
 		}
-		return follow;
+		return accountResult;
 	}
 
 	/**
-	 * Get on company that the user follow
+	 * Get an account
 	 * 
 	 * @param userId
 	 *            the user id
-	 * @param companyId
-	 *            the company id
-	 * @return a Follow object
+	 * @param name
+	 *            the name of the account
+	 * @return an account
 	 */
-	public final Follow selectOneFollow(final int userId, final int companyId) {
+	public final Account selectOneAccountWithName(final int userId, final String name) {
 		SqlSession session = getSqlSessionFactory();
-		Follow follow = null;
-		Map<String, Integer> map = new HashMap<>();
-		map.put("userId", userId);
-		map.put("companyId", companyId);
+		Account account = null;
+		Map<String, Object> map = new HashMap<>();
 		try {
-			follow = session.selectOne("FollowDao.selectOneFollow", map);
+			map.put("userId", userId);
+			map.put("name", name);
+			account = session.selectOne("AccountDAO.selectOneAccountWithName", map);
 		} finally {
 			session.close();
 		}
-		return follow;
+		return account;
 	}
 }

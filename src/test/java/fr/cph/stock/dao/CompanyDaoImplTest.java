@@ -31,7 +31,7 @@ public class CompanyDaoImplTest {
 
 	@Test
 	public void testCRUDCompany(){
-		CompanyDaoImpl dao = new CompanyDaoImpl();
+		CompanyDAO dao = new CompanyDAO();
 		
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
 		

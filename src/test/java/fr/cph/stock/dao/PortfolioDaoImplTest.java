@@ -36,14 +36,14 @@ public class PortfolioDaoImplTest {
 	private User user;
 	private Portfolio portfolio;
 	private Company company;
-	private UserDaoImpl daoUser;
-	private CompanyDaoImpl daoCompany;
-	private EquityDaoImpl daoEquity;
+	private UserDAO daoUser;
+	private CompanyDAO daoCompany;
+	private EquityDAO daoEquity;
 	private Equity equity;
 	
 	@Before
 	public void setUp(){
-		daoUser = new UserDaoImpl();
+		daoUser = new UserDAO();
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
 		user = new User(uuid, "password");
 		user.setEmail("carl@carl.com");
@@ -58,7 +58,7 @@ public class PortfolioDaoImplTest {
 	
 	@Test
 	public void testCRUDPortfolio(){
-		PortfolioDaoImpl dao = new PortfolioDaoImpl();
+		PortfolioDAO dao = new PortfolioDAO();
 		
 		int userId = user.getId();
 
@@ -85,11 +85,11 @@ public class PortfolioDaoImplTest {
 	
 	@Test
 	public void testselectPortfolioFromUser(){
-		PortfolioDaoImpl dao = new PortfolioDaoImpl();
+		PortfolioDAO dao = new PortfolioDAO();
 		
-		daoEquity  = new EquityDaoImpl();
+		daoEquity  = new EquityDAO();
 		
-		daoCompany = new CompanyDaoImpl();
+		daoCompany = new CompanyDAO();
 		portfolio = new Portfolio();
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());
@@ -110,7 +110,7 @@ public class PortfolioDaoImplTest {
 		daoCompany.insert(company);
 		company = daoCompany.selectWithYahooId("NK.ECA");
 		
-		daoEquity = new EquityDaoImpl();
+		daoEquity = new EquityDAO();
 		equity =  new Equity();
 		equity.setPortfolioId(portfolio.getId());
 		equity.setCompany(company);

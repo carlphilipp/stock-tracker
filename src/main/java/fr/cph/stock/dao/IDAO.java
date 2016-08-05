@@ -16,30 +16,47 @@
 
 package fr.cph.stock.dao;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-
-import fr.cph.stock.dao.mybatis.Mybatis;
-
 /**
- * Abstract class that load DB objects
+ * Interface that defines basics operation to DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  * @param <T>
  *            the type of object the current class will process
  */
-public abstract class AbstractDao<T> implements IDao<T> {
-
-	/** Sql session **/
-	private SqlSessionFactory sqlSessionFactory = Mybatis.getSqlMapInstance();
+public interface IDAO<T> {
 
 	/**
-	 * Open session to DB
+	 * Insert an object into DB
 	 * 
-	 * @return a session to access to the DB
+	 * @param obj
+	 *            the object to insert
 	 */
-	protected final SqlSession getSqlSessionFactory() {
-		return sqlSessionFactory.openSession();
-	}
+	void insert(final T obj);
+
+	/**
+	 * Get an object from DB
+	 * 
+	 * @param id
+	 *            the id of the object to get
+	 * @return the object
+	 */
+	T select(final int id);
+
+	/**
+	 * Update an object in DB
+	 * 
+	 * @param obj
+	 *            the object to update
+	 */
+	void update(final T obj);
+
+	/**
+	 * Delete an object in DB
+	 * 
+	 * @param obj
+	 *            the object to delete
+	 */
+	void delete(final T obj);
+
 }

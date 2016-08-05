@@ -23,12 +23,12 @@ import org.apache.ibatis.session.SqlSession;
 import fr.cph.stock.entities.User;
 
 /**
- * This class implements IDao functions and add some more. It access to the User in DB.
+ * This class implements IDAO functions and add some more. It access to the User in DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  */
-public class UserDaoImpl extends AbstractDao<User> {
+public class UserDAO extends AbstractDAO<User> {
 
 	@Override
 	public final void insert(final User user) {

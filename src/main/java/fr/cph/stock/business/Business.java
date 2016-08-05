@@ -61,38 +61,38 @@ public final class Business implements IBusiness {
 	/** Data Access Objects **/
 	private final IExternalDataAccess yahoo;
 	/** **/
-	private final CompanyDaoImpl daoCompany;
+	private final CompanyDAO daoCompany;
 	/** **/
-	private final PortfolioDaoImpl daoPortfolio;
+	private final PortfolioDAO daoPortfolio;
 	/** **/
-	private final EquityDaoImpl daoEquity;
+	private final EquityDAO daoEquity;
 	/** **/
-	private final UserDaoImpl daoUser;
+	private final UserDAO daoUser;
 	/** **/
-	private final CurrencyDaoImpl daoCurrency;
+	private final CurrencyDAO daoCurrency;
 	/** **/
-	private final ShareValueDaoImpl daoShareValue;
+	private final ShareValueDAO daoShareValue;
 	/** **/
-	private final IndexDaoImpl daoIndex;
+	private final IndexDAO daoIndex;
 	/** **/
-	private final FollowDaoImpl daoFollow;
+	private final FollowDAO daoFollow;
 	/** **/
-	private final AccountDaoImpl daoAccount;
+	private final AccountDAO daoAccount;
 
 	/**
 	 * Class constructor
 	 */
 	private Business() {
 		yahoo = new YahooExternalDataAccess();
-		daoCompany = new CompanyDaoImpl();
-		daoPortfolio = new PortfolioDaoImpl();
-		daoEquity = new EquityDaoImpl();
-		daoUser = new UserDaoImpl();
-		daoCurrency = new CurrencyDaoImpl();
-		daoShareValue = new ShareValueDaoImpl();
-		daoIndex = new IndexDaoImpl();
-		daoFollow = new FollowDaoImpl();
-		daoAccount = new AccountDaoImpl();
+		daoCompany = new CompanyDAO();
+		daoPortfolio = new PortfolioDAO();
+		daoEquity = new EquityDAO();
+		daoUser = new UserDAO();
+		daoCurrency = new CurrencyDAO();
+		daoShareValue = new ShareValueDAO();
+		daoIndex = new IndexDAO();
+		daoFollow = new FollowDAO();
+		daoAccount = new AccountDAO();
 	}
 
 	/**

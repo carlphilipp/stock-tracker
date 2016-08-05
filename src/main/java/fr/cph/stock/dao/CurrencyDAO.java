@@ -23,12 +23,12 @@ import org.apache.ibatis.session.SqlSession;
 import fr.cph.stock.entities.CurrencyData;
 
 /**
- * This class implements IDao functions and add some more. It access to the Currency in DB.
+ * This class implements IDAO functions and add some more. It access to the Currency in DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  */
-public class CurrencyDaoImpl extends AbstractDao<CurrencyData> {
+public class CurrencyDAO extends AbstractDAO<CurrencyData> {
 
 	@Override
 	public final void insert(final CurrencyData currencyData) {

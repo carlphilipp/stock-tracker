@@ -28,12 +28,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements IDao functions and add some more. It access to the Portfolio in DB.
+ * This class implements IDAO functions and add some more. It access to the Portfolio in DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  */
-public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
+public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
 	@Override
 	public final void insert(final Portfolio portfolio) {
@@ -117,7 +117,7 @@ public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
 			if (portfolio != null) {
 				List<Equity> equities = session.selectList("PortfolioDao.selectEquityFromPortfolio", portfolio.getId());
 				portfolio.setEquities(equities);
-				List<Account> accounts = session.selectList("AccountDao.selectAllAccountWithUserId", userId);
+				List<Account> accounts = session.selectList("AccountDAO.selectAllAccountWithUserId", userId);
 				portfolio.setAccounts(accounts);
 				if (from == null) {
 					List<ShareValue> shares = session.selectList("ShareValue.selectAllValue", userId);

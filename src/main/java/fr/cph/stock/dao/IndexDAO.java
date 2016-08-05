@@ -25,12 +25,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements IDao functions and add some more. It access to the Index in DB.
+ * This class implements IDAO functions and add some more. It access to the Index in DB.
  * 
  * @author Carl-Philipp Harmant
  * 
  */
-public class IndexDaoImpl extends AbstractDao<Index> {
+public class IndexDAO extends AbstractDAO<Index> {
 
 	@Override
 	public final void insert(final Index index) {
