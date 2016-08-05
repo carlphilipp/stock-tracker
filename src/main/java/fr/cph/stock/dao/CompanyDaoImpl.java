@@ -16,13 +16,12 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.entities.Company;
+import org.apache.ibatis.session.SqlSession;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.session.SqlSession;
-
-import fr.cph.stock.entities.Company;
 
 /**
  * This class implements IDao functions and add some more. It access to the Company in DB.
@@ -105,7 +104,7 @@ public class CompanyDaoImpl extends AbstractDao<Company> {
 	public final List<Company> selectAllCompany(final boolean realTime) {
 		SqlSession session = getSqlSessionFactory();
 		List<Company> companies = null;
-		Map<String, Boolean> options = new HashMap<String, Boolean>();
+		Map<String, Boolean> options = new HashMap<>();
 		options.put("realTime", realTime);
 		// Remove manual companies
 		options.put("manual", false);

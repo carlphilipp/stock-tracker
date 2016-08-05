@@ -16,19 +16,6 @@
 
 package fr.cph.stock.web.servlet.list;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Follow;
@@ -38,6 +25,17 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This servlet is called when the user want to update the list
@@ -77,7 +75,7 @@ public class UpdateListServlet extends HttpServlet {
 			List<Follow> follows = null;
 			try {
 				follows = business.getListFollow(user.getId());
-				List<String> followsString = new ArrayList<String>();
+				List<String> followsString = new ArrayList<>();
 				for (Follow f : follows) {
 					if (f.getCompany().getRealTime() != null && f.getCompany().getRealTime()) {
 						followsString.add(f.getCompany().getYahooId());

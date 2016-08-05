@@ -16,21 +16,6 @@
 
 package fr.cph.stock.external;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
-import org.apache.commons.lang.WordUtils;
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.entities.Index;
@@ -38,6 +23,19 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.WordUtils;
+import org.apache.log4j.Logger;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class connect to yahoo api and convert the jsonObjects to java bean of the app
@@ -52,7 +50,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 
 	@Override
 	public final List<Company> getCompaniesData(final List<String> yahooIds) throws YahooException {
-		List<Company> companies = new ArrayList<Company>();
+		List<Company> companies = new ArrayList<>();
 
 		String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
 		Yahoo yahoo = new Yahoo(requestQuotes);
@@ -166,7 +164,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	@Override
 	public final List<CurrencyData> getCurrencyData(final Currency currency) throws YahooException {
 		Currency[] currencies = Currency.values();
-		List<CurrencyData> currenciesData = new ArrayList<CurrencyData>();
+		List<CurrencyData> currenciesData = new ArrayList<>();
 		for (Currency c : currencies) {
 			if (c != currency) {
 				StringBuilder sb = new StringBuilder();
@@ -226,7 +224,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		} else {
 			endDate = formatter.format(to);
 		}
-		List<Index> indexes = new ArrayList<Index>();
+		List<Index> indexes = new ArrayList<>();
 		String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \""
 				+ startDate + "\" and endDate = \"" + endDate + "\"";
 		Yahoo yahoo = new Yahoo(request);
@@ -263,7 +261,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		} else {
 			endDate = formatter.format(to);
 		}
-		List<Company> companies = new ArrayList<Company>();
+		List<Company> companies = new ArrayList<>();
 		String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \""
 				+ startDate + "\" and endDate = \"" + endDate + "\"";
 		Yahoo yahoo = new Yahoo(request);

@@ -16,9 +16,11 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.User;
+import fr.cph.stock.web.servlet.CookieManagement;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,13 +28,9 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-import fr.cph.stock.entities.User;
-import fr.cph.stock.web.servlet.CookieManagement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This servlet is called when the user want to login
@@ -57,7 +55,7 @@ public class AuthServlet extends HttpServlet {
 	@Override
 	public final void init() {
 		business = Business.getInstance();
-		lcookies = new ArrayList<String>();
+		lcookies = new ArrayList<>();
 		lcookies.add("quote");
 		lcookies.add("currency");
 		lcookies.add("parity");

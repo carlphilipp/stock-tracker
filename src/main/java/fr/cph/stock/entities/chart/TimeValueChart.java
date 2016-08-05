@@ -16,13 +16,13 @@
 
 package fr.cph.stock.entities.chart;
 
+import fr.cph.stock.util.Util;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import fr.cph.stock.util.Util;
 
 /**
  * This class represents an time chart
@@ -93,8 +93,8 @@ public class TimeValueChart extends AChart {
 	 * Generate colors
 	 */
 	private void generateColors() {
-		List<String> colorsListRes = new ArrayList<String>();
-		List<String> colorsList = new ArrayList<String>();
+		List<String> colorsListRes = new ArrayList<>();
+		List<String> colorsList = new ArrayList<>();
 		colorsList.add("#3e933d");
 		colorsList.add("#190525");
 		colorsList.add("#6a0efc");

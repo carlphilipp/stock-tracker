@@ -16,6 +16,11 @@
 
 package fr.cph.stock.csv;
 
+import au.com.bytecode.opencsv.CSVReader;
+import fr.cph.stock.entities.Account;
+import fr.cph.stock.entities.ShareValue;
+import fr.cph.stock.entities.User;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -23,11 +28,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-
-import au.com.bytecode.opencsv.CSVReader;
-import fr.cph.stock.entities.Account;
-import fr.cph.stock.entities.ShareValue;
-import fr.cph.stock.entities.User;
 
 /**
  * This class is loading user data from a CSV file to DB. Not very stable, shouln't be use btw.
@@ -70,7 +70,7 @@ public class Csv {
 	public final List<ShareValue> getShareValueList() throws IOException, ParseException {
 		CSVReader csvReader = new CSVReader(reader, ';');
 		List<String[]> content = csvReader.readAll();
-		List<ShareValue> shareValues = new ArrayList<ShareValue>();
+		List<ShareValue> shareValues = new ArrayList<>();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		String[] row = null;
 		int userId = user.getId();

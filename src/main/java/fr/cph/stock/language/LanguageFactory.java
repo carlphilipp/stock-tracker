@@ -16,6 +16,9 @@
 
 package fr.cph.stock.language;
 
+import fr.cph.stock.exception.LanguageException;
+import org.apache.ibatis.io.Resources;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystem;
@@ -24,10 +27,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.io.Resources;
-
-import fr.cph.stock.exception.LanguageException;
 
 /**
  * Build languages
@@ -73,7 +72,7 @@ public final class LanguageFactory {
 	 *             the language exception
 	 */
 	private static Map<String, Map<String, String>> getLanguageMap() throws LanguageException {
-		Map<String, Map<String, String>> m = new HashMap<String, Map<String, String>>();
+		Map<String, Map<String, String>> m = new HashMap<>();
 		File file = null;
 		try {
 			file = Resources.getResourceAsFile("fr" + system.getSeparator() + "cph" + system.getSeparator() + "stock"

@@ -16,38 +16,8 @@
 
 package fr.cph.stock.business;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.UUID;
-
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.dao.AccountDaoImpl;
-import fr.cph.stock.dao.CompanyDaoImpl;
-import fr.cph.stock.dao.CurrencyDaoImpl;
-import fr.cph.stock.dao.EquityDaoImpl;
-import fr.cph.stock.dao.FollowDaoImpl;
-import fr.cph.stock.dao.IndexDaoImpl;
-import fr.cph.stock.dao.PortfolioDaoImpl;
-import fr.cph.stock.dao.ShareValueDaoImpl;
-import fr.cph.stock.dao.UserDaoImpl;
-import fr.cph.stock.entities.Account;
-import fr.cph.stock.entities.Company;
-import fr.cph.stock.entities.CurrencyData;
-import fr.cph.stock.entities.Equity;
-import fr.cph.stock.entities.Follow;
-import fr.cph.stock.entities.Index;
-import fr.cph.stock.entities.Portfolio;
-import fr.cph.stock.entities.ShareValue;
-import fr.cph.stock.entities.User;
+import fr.cph.stock.dao.*;
+import fr.cph.stock.entities.*;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.EquityException;
@@ -60,6 +30,13 @@ import fr.cph.stock.security.Security;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
+import org.apache.log4j.Logger;
+
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.security.NoSuchAlgorithmException;
+import java.util.*;
 
 /**
  * Business class that access database and process data
@@ -200,7 +177,7 @@ public final class Business implements IBusiness {
 	public final List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {
 		LOG.debug("Updating: " + tickers);
 		List<Company> companies = yahoo.getCompaniesData(tickers);
-		List<Company> companiesResult = new ArrayList<Company>();
+		List<Company> companiesResult = new ArrayList<>();
 		for (Company companyYahoo : companies) {
 			Company companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
 			if (companyInDB == null) {
@@ -387,7 +364,7 @@ public final class Business implements IBusiness {
 
 	@Override
 	public final void updateAllCurrencies() throws YahooException {
-		List<Currency> currencyDone = new ArrayList<Currency>();
+		List<Currency> currencyDone = new ArrayList<>();
 		for (Currency currency : Currency.values()) {
 			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
 			Util.makeAPause(PAUSE);
@@ -630,7 +607,7 @@ public final class Business implements IBusiness {
 	// @Override
 	// public final void updateCompaniesRealTime() {
 	// List<Company> companies = daoCompany.selectAllCompany(true);
-	// List<String> yahooIdList = new ArrayList<String>();
+	// List<String> yahooIdList = new ArrayList<>();
 	// for (Company c : companies) {
 	// if (c.getRealTime()) {
 	// yahooIdList.add(c.getYahooId());
@@ -823,7 +800,7 @@ public final class Business implements IBusiness {
 	 */
 	protected final boolean updateAllCompanies() {
 		List<Company> companies = daoCompany.selectAllCompany(true);
-		List<String> yahooIdList = new ArrayList<String>();
+		List<String> yahooIdList = new ArrayList<>();
 		boolean canUpdate = true;
 		for (Company c : companies) {
 			if (c.getRealTime()) {
@@ -837,7 +814,7 @@ public final class Business implements IBusiness {
 				LOG.warn(e.getMessage());
 				StringBuilder body = new StringBuilder();
 				body.append(e.getMessage());
-				Mail.sendMail("[Error] " + Info.NAME, body.toString(), (String[]) Info.ADMINS.toArray(new String[Info.ADMINS.size()]), null);
+				Mail.sendMail("[Error] " + Info.NAME, body.toString(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]), null);
 			} catch (YahooException e) {
 				canUpdate = false;
 				LOG.warn("All companies update failed: " + e.getMessage());
@@ -882,7 +859,7 @@ public final class Business implements IBusiness {
 	 *             the yahoo exception
 	 */
 	protected final Company addOrUpdateCompany(final String ticker) throws YahooException {
-		List<String> tickers = new ArrayList<String>();
+		List<String> tickers = new ArrayList<>();
 		tickers.add(ticker);
 		Company companyYahoo = yahoo.getCompaniesData(tickers).get(0);
 		Company companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());

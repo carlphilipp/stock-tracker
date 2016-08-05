@@ -16,13 +16,12 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.entities.Follow;
+import org.apache.ibatis.session.SqlSession;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.session.SqlSession;
-
-import fr.cph.stock.entities.Follow;
 
 /**
  * This class implements IDao functions and add some more. It access to the Follow object in DB.
@@ -107,7 +106,7 @@ public class FollowDaoImpl extends AbstractDao<Follow> {
 	public final Follow selectOneFollow(final int userId, final int companyId) {
 		SqlSession session = getSqlSessionFactory();
 		Follow follow = null;
-		Map<String, Integer> map = new HashMap<String, Integer>();
+		Map<String, Integer> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("companyId", companyId);
 		try {

@@ -16,14 +16,13 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.entities.Index;
+import org.apache.ibatis.session.SqlSession;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.session.SqlSession;
-
-import fr.cph.stock.entities.Index;
 
 /**
  * This class implements IDao functions and add some more. It access to the Index in DB.
@@ -110,7 +109,7 @@ public class IndexDaoImpl extends AbstractDao<Index> {
 	public final List<Index> selectListFrom(final String yahooId, final Date from, final Date to) {
 		SqlSession session = getSqlSessionFactory();
 		List<Index> indexes = null;
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("yahooId", yahooId);
 		map.put("from", from);
 		map.put("to", to);

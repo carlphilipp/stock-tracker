@@ -16,13 +16,12 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.entities.Account;
+import org.apache.ibatis.session.SqlSession;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.session.SqlSession;
-
-import fr.cph.stock.entities.Account;
 
 /**
  * This class implements IDao functions and add some more. It access to the Account in DB.
@@ -108,7 +107,7 @@ public class AccountDaoImpl extends AbstractDao<Account> {
 	public final Account selectOneAccountWithName(final int userId, final String name) {
 		SqlSession session = getSqlSessionFactory();
 		Account account = null;
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		try {
 			map.put("userId", userId);
 			map.put("name", name);

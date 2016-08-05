@@ -16,6 +16,10 @@
 
 package fr.cph.stock.language;
 
+import fr.cph.stock.exception.LanguageException;
+import org.dom4j.DocumentException;
+import org.dom4j.Node;
+
 import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
@@ -23,11 +27,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.dom4j.DocumentException;
-import org.dom4j.Node;
-
-import fr.cph.stock.exception.LanguageException;
 
 /**
  * Extract from XML files and put in a map, all the translation needed.
@@ -92,7 +91,7 @@ public class Language {
 		} catch (IOException | DocumentException e) {
 			throw new LanguageException(e.getMessage(), e);
 		}
-		map = new HashMap<String, String>();
+		map = new HashMap<>();
 	}
 
 	/**
@@ -118,7 +117,7 @@ public class Language {
 			map.put(menuNode.getName().toUpperCase() + "_" + name.toUpperCase(), node.getStringValue());
 		}
 		Node node = xml.getNode(BASE + PORTFOLIO);
-		List<String> nodes = new ArrayList<String>();
+		List<String> nodes = new ArrayList<>();
 		Node node2;
 		nodes.add(BASE + PORTFOLIO + "/title");
 		nodes.add(BASE + PORTFOLIO + "/review/liquidity");
@@ -156,7 +155,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + CONSTANT);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + CONSTANT + "/added");
 		nodes.add(BASE + CONSTANT + "/updated");
 		nodes.add(BASE + CONSTANT + "/modified");
@@ -166,7 +165,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + PORTFOLIO_HIDDEN);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + PORTFOLIO_HIDDEN + "/refresh");
 		nodes.add(BASE + PORTFOLIO_HIDDEN + "/add");
 		nodes.add(BASE + PORTFOLIO_HIDDEN + "/updateCurrencies");
@@ -194,7 +193,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + HISTORY);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + HISTORY + "/title");
 		nodes.add(BASE + HISTORY + "/update");
 		nodes.add(BASE + HISTORY + "/date");
@@ -218,7 +217,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + HISTORY_HIDDEN);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + HISTORY_HIDDEN + "/refresh");
 		nodes.add(BASE + HISTORY_HIDDEN + "/account");
 		nodes.add(BASE + HISTORY_HIDDEN + "/movement");
@@ -233,7 +232,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + ACCOUNTS);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + ACCOUNTS + "/title");
 		nodes.add(BASE + ACCOUNTS + "/add");
 		nodes.add(BASE + ACCOUNTS + "/account");
@@ -249,7 +248,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + ACCOUNTS_HIDDEN);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + ACCOUNTS_HIDDEN + "/add");
 		nodes.add(BASE + ACCOUNTS_HIDDEN + "/accountName");
 		nodes.add(BASE + ACCOUNTS_HIDDEN + "/currency");
@@ -259,7 +258,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + LIST);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + LIST + "/title");
 		nodes.add(BASE + LIST + "/add");
 		nodes.add(BASE + LIST + "/date");
@@ -276,7 +275,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + LIST_HIDDEN);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + LIST_HIDDEN + "/refresh");
 		nodes.add(BASE + LIST_HIDDEN + "/confirm");
 		nodes.add(BASE + LIST_HIDDEN + "/add");
@@ -289,14 +288,14 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + CHARTS);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + CHARTS + "/title");
 		for (String n : nodes) {
 			node2 = xml.getNode(n);
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + CURRENCIES);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + CURRENCIES + "/title");
 		nodes.add(BASE + CURRENCIES + "/portfolioCurrency");
 		nodes.add(BASE + CURRENCIES + "/currency");
@@ -306,7 +305,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + CURRENCIES_HIDDEN);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + CURRENCIES_HIDDEN + "/refresh");
 		nodes.add(BASE + CURRENCIES_HIDDEN + "/confirm");
 		for (String n : nodes) {
@@ -314,7 +313,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + OPTIONS);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + OPTIONS + "/title");
 		nodes.add(BASE + OPTIONS + "/defautCurrency");
 		nodes.add(BASE + OPTIONS + "/format");
@@ -330,7 +329,7 @@ public class Language {
 			addToMap(map, node, node2);
 		}
 		node = xml.getNode(BASE + OPTIONS_HIDDEN);
-		nodes = new ArrayList<String>();
+		nodes = new ArrayList<>();
 		nodes.add(BASE + OPTIONS_HIDDEN + "/currency");
 		nodes.add(BASE + OPTIONS_HIDDEN + "/format");
 		nodes.add(BASE + OPTIONS_HIDDEN + "/timeZone");

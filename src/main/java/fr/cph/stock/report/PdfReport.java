@@ -1,23 +1,11 @@
 package fr.cph.stock.report;
 
-import java.awt.Image;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import fr.cph.stock.entities.Index;
+import fr.cph.stock.entities.chart.PieChart;
+import fr.cph.stock.entities.chart.TimeChart;
+import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.general.DefaultPieDataset;
@@ -25,9 +13,14 @@ import org.jfree.data.time.Millisecond;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
-import fr.cph.stock.entities.Index;
-import fr.cph.stock.entities.chart.PieChart;
-import fr.cph.stock.entities.chart.TimeChart;
+import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Class that takes care of pdf reports
@@ -51,7 +44,7 @@ public class PdfReport {
 	 */
 	public PdfReport(final String jrxmlPath) {
 		this.jrxml = jrxmlPath;
-		this.parameters = new HashMap<String, Object>();
+		this.parameters = new HashMap<>();
 	}
 
 	/**

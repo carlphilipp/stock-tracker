@@ -42,5 +42,4 @@ public abstract class AbstractDao<T> implements IDao<T> {
 	protected final SqlSession getSqlSessionFactory() {
 		return sqlSessionFactory.openSession();
 	}
-
 }

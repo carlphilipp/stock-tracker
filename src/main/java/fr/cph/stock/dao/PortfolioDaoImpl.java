@@ -16,17 +16,16 @@
 
 package fr.cph.stock.dao;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.ibatis.session.SqlSession;
-
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
+import org.apache.ibatis.session.SqlSession;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class implements IDao functions and add some more. It access to the Portfolio in DB.
@@ -124,7 +123,7 @@ public class PortfolioDaoImpl extends AbstractDao<Portfolio> {
 					List<ShareValue> shares = session.selectList("ShareValue.selectAllValue", userId);
 					portfolio.setShareValues(shares);
 				} else {
-					Map<String, Object> map = new HashMap<String, Object>();
+					Map<String, Object> map = new HashMap<>();
 					map.put("userId", userId);
 					map.put("from", from);
 					if (to == null) {

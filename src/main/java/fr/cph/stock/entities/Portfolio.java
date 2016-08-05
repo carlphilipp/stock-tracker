@@ -16,25 +16,20 @@
 
 package fr.cph.stock.entities;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TreeMap;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import fr.cph.stock.entities.chart.IChart;
 import fr.cph.stock.entities.chart.PieChart;
 import fr.cph.stock.entities.chart.TimeChart;
 import fr.cph.stock.entities.chart.TimeValueChart;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.MarketCapitalization;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This class represents a portofolio that belongs to a user
@@ -122,7 +117,7 @@ public class Portfolio {
 		yieldYear = new Double(0);
 		totalGain = new Double(0);
 		yieldYearPerc = new Double(0);
-		indexes = new HashMap<String, List<Index>>();
+		indexes = new HashMap<>();
 	}
 
 	/**
@@ -428,7 +423,7 @@ public class Portfolio {
 	 */
 	protected final Map<String, Double> getChartSectorData() {
 		if (chartSectorData == null) {
-			Map<String, Double> data = new HashMap<String, Double>();
+			Map<String, Double> data = new HashMap<>();
 			for (Equity e : getEquities()) {
 				if (e.getCompany().getFund()) {
 					if (data.containsKey("Fund")) {
@@ -459,7 +454,7 @@ public class Portfolio {
 					}
 				}
 			}
-			chartSectorData = new TreeMap<String, Double>();
+			chartSectorData = new TreeMap<>();
 			chartSectorData.putAll(data);
 		}
 		return chartSectorData;
@@ -471,7 +466,7 @@ public class Portfolio {
 	 * @return a map
 	 */
 	protected final Map<Date, Double> getChartShareValueData() {
-		Map<Date, Double> data = new HashMap<Date, Double>();
+		Map<Date, Double> data = new HashMap<>();
 		List<ShareValue> shareValuess = getShareValues();
 		int max = shareValuess.size();
 		double base = shareValuess.get(max - 1).getShareValue();
@@ -480,7 +475,7 @@ public class Portfolio {
 			Double value = temp.getShareValue() * PERCENT / base;
 			data.put(temp.getDate(), value);
 		}
-		chartShareValueData = new TreeMap<Date, Double>();
+		chartShareValueData = new TreeMap<>();
 		chartShareValueData.putAll(data);
 		return chartShareValueData;
 	}
@@ -490,8 +485,8 @@ public class Portfolio {
 	 */
 	protected final void getChartShareValueData2() {
 		if (chartShareValueData2 == null && chartShareValueData3 == null) {
-			Map<Date, Double> data = new HashMap<Date, Double>();
-			Map<Date, Double> data2 = new HashMap<Date, Double>();
+			Map<Date, Double> data = new HashMap<>();
+			Map<Date, Double> data2 = new HashMap<>();
 			List<ShareValue> shareValuess = getShareValues();
 			int max = shareValuess.size();
 			for (int i = max - 1; i != -1; i--) {
@@ -503,9 +498,9 @@ public class Portfolio {
 					data2.put(temp.getDate(), liqui);
 				}
 			}
-			chartShareValueData2 = new TreeMap<Date, Double>();
+			chartShareValueData2 = new TreeMap<>();
 			chartShareValueData2.putAll(data);
-			chartShareValueData3 = new TreeMap<Date, Double>();
+			chartShareValueData3 = new TreeMap<>();
 			chartShareValueData3.putAll(data2);
 		}
 	}
@@ -517,7 +512,7 @@ public class Portfolio {
 	 */
 	protected final Map<String, Double> getChartCapData() {
 		if (chartCapData == null) {
-			Map<String, Double> data = new HashMap<String, Double>();
+			Map<String, Double> data = new HashMap<>();
 			for (Equity e : getEquities()) {
 				if (!e.getCompany().getFund()) {
 					MarketCapitalization marketCap = e.getMarketCapitalizationType();
@@ -548,7 +543,7 @@ public class Portfolio {
 					}
 				}
 			}
-			chartCapData = new TreeMap<String, Double>();
+			chartCapData = new TreeMap<>();
 			chartCapData.putAll(data);
 		}
 		return chartCapData;
@@ -560,7 +555,7 @@ public class Portfolio {
 	 * @return a list of yahoo id
 	 */
 	public final List<String> getCompaniesYahooIdRealTime() {
-		List<String> res = new ArrayList<String>();
+		List<String> res = new ArrayList<>();
 		for (Equity e : getEquities()) {
 			if (e.getCompany().getRealTime()) {
 				res.add(e.getCompany().getYahooId());
@@ -741,7 +736,7 @@ public class Portfolio {
 	 */
 	public final String getSectorCompanies() {
 		StringBuilder res = new StringBuilder();
-		Map<String, List<Equity>> map = new HashMap<String, List<Equity>>();
+		Map<String, List<Equity>> map = new HashMap<>();
 		Company company = null;
 		List<Equity> companies = null;
 		for (Equity e : getEquities()) {
@@ -753,14 +748,14 @@ public class Portfolio {
 				company.setSector("Fund");
 			}
 			if (!map.containsKey(e.getCurrentSector())) {
-				companies = new ArrayList<Equity>();
+				companies = new ArrayList<>();
 			} else {
 				companies = map.get(e.getCurrentSector());
 			}
 			companies.add(e);
 			map.put(e.getCurrentSector(), companies);
 		}
-		TreeMap<String, List<Equity>> treeMap = new TreeMap<String, List<Equity>>();
+		TreeMap<String, List<Equity>> treeMap = new TreeMap<>();
 		treeMap.putAll(map);
 		res.append("var companies = [");
 		int i = 0;
@@ -790,21 +785,21 @@ public class Portfolio {
 	 */
 	public final String getCapCompanies() {
 		StringBuilder res = new StringBuilder();
-		Map<String, List<Equity>> map = new HashMap<String, List<Equity>>();
+		Map<String, List<Equity>> map = new HashMap<>();
 		List<Equity> companies = null;
 		for (Equity e : getEquities()) {
 			if (e.getMarketCapitalizationType().getValue() == null || e.getCompany().getFund()) {
 				e.setMarketCapitalizationType(MarketCapitalization.UNKNOWN);
 			}
 			if (!map.containsKey(e.getMarketCapitalizationType().getValue())) {
-				companies = new ArrayList<Equity>();
+				companies = new ArrayList<>();
 			} else {
 				companies = map.get(e.getMarketCapitalizationType().getValue());
 			}
 			companies.add(e);
 			map.put(e.getMarketCapitalizationType().getValue(), companies);
 		}
-		TreeMap<String, List<Equity>> treeMap = new TreeMap<String, List<Equity>>();
+		TreeMap<String, List<Equity>> treeMap = new TreeMap<>();
 		treeMap.putAll(map);
 		res.append("var companies = [");
 		int i = 0;
