@@ -16,19 +16,6 @@
 
 package fr.cph.stock.web.servlet;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Index;
@@ -38,6 +25,19 @@ import fr.cph.stock.exception.LanguageException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
 
 /**
  * This servlet is called to change display the charts
@@ -92,7 +92,7 @@ public class ChartsServlet extends HttpServlet {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute("language", language.getLanguage(lang));
+			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
 			request.setAttribute("appTitle", Info.NAME + " &bull;   Charts");
 			request.getRequestDispatcher("jsp/charts.jsp").forward(request, response);
 		} catch (Throwable t) {

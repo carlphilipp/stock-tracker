@@ -16,26 +16,6 @@
 
 package fr.cph.stock.web.servlet.performance;
 
-import java.awt.Image;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Index;
@@ -50,6 +30,25 @@ import fr.cph.stock.report.PdfReport;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Util;
 import fr.cph.stock.web.servlet.CookieManagement;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.*;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
 
 /**
  * This servlet is called when the user want to access to the performance page
@@ -172,7 +171,7 @@ public class PerformanceServlet extends HttpServlet {
 				}
 			} else {
 				String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-				request.setAttribute("language", language.getLanguage(lang));
+				request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
 				request.setAttribute("appTitle", Info.NAME + " &bull;   Performance");
 				request.getRequestDispatcher("jsp/performance.jsp").forward(request, response);
 			}

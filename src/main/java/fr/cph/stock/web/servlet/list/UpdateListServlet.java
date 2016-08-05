@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+
 /**
  * This servlet is called when the user want to update the list
  * 
@@ -93,7 +95,7 @@ public class UpdateListServlet extends HttpServlet {
 				request.setAttribute("updateStatus", "<span class='cQuoteUp'>Refresh done!</span>");
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute("language", language.getLanguage(lang));
+			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
 			request.setAttribute("appTitle", Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
 		} catch (Throwable t) {

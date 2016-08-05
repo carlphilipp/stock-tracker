@@ -16,6 +16,8 @@
 
 package fr.cph.stock.web.servlet;
 
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -23,7 +25,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import static fr.cph.stock.util.Constants.HOME;
+import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
 
 /**
  * This servlet is called to change the user language
@@ -35,21 +38,20 @@ import org.apache.log4j.Logger;
 @WebServlet(name = "ChangeLanguageServlet", urlPatterns = { "/language" })
 public class ChangeLanguageServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -1381535043505856447L;
-	/** Logger **/
+
 	private static final Logger LOG = Logger.getLogger(ChangeLanguageServlet.class);
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String language = request.getParameter("language");
+			final String language = request.getParameter(LANGUAGE_PARAM);
 			if (language.equals("English") || language.equals("Francais")) {
-				Cookie cookie = new Cookie("language", language.intern());
+				final Cookie cookie = new Cookie(LANGUAGE_PARAM, language.intern());
 				response.addCookie(cookie);
 			}
-			response.sendRedirect("home");
-		} catch (Throwable t) {
+			response.sendRedirect(HOME);
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -59,5 +61,4 @@ public class ChangeLanguageServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

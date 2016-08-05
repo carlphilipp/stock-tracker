@@ -16,17 +16,6 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import java.util.Arrays;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Portfolio;
@@ -36,6 +25,17 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+
+import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
 
 /**
  * This servlet is called when the user want to access to the history page
@@ -105,7 +105,7 @@ public class ShareValueServlet extends HttpServlet {
 				throw new ServletException("Error: " + e.getMessage(), e);
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute("language", language.getLanguage(lang));
+			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
 			request.setAttribute("appTitle", Info.NAME + " &bull; History");
 			request.getRequestDispatcher("jsp/sharevalue.jsp").forward(request, response);
 		} catch (Throwable t) {

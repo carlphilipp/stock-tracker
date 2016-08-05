@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+
 /**
  * This servlet is called when the user want to login
  * 
@@ -90,8 +92,8 @@ public class AuthServlet extends HttpServlet {
 								response.addCookie(cookie);
 							}
 						}
-						if (!CookieManagement.containsCookie(cookies, "language")) {
-							Cookie cookie = new Cookie("language", "English");
+						if (!CookieManagement.containsCookie(cookies, LANGUAGE_PARAM)) {
+							Cookie cookie = new Cookie(LANGUAGE_PARAM, "English");
 							cookie.setMaxAge(ONE_YEAR_COOKIE);
 							response.addCookie(cookie);
 						}
@@ -101,7 +103,7 @@ public class AuthServlet extends HttpServlet {
 							cookie.setMaxAge(ONE_YEAR_COOKIE);
 							response.addCookie(cookie);
 						}
-						Cookie cookie = new Cookie("language", "English");
+						Cookie cookie = new Cookie(LANGUAGE_PARAM, "English");
 						cookie.setMaxAge(ONE_YEAR_COOKIE);
 						response.addCookie(cookie);
 					}

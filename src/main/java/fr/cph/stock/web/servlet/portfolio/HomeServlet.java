@@ -16,23 +16,6 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-import org.quartz.SchedulerException;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.cron.Job;
@@ -45,6 +28,23 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
+import org.apache.log4j.Logger;
+import org.quartz.SchedulerException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
 
 /**
  * Home servlet
@@ -116,7 +116,7 @@ public class HomeServlet extends HttpServlet {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute("language", language.getLanguage(lang));
+			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
 			request.setAttribute("appTitle", Info.NAME + " &bull; Portfolio");
 			request.setAttribute("currencies", Currency.values());
 			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);

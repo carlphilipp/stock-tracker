@@ -16,18 +16,6 @@
 
 package fr.cph.stock.web.servlet.list;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Follow;
@@ -36,6 +24,18 @@ import fr.cph.stock.exception.LanguageException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
+
+import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
 
 /**
  * This servlet is called when the user want to access the list page
@@ -74,7 +74,7 @@ public class ListServlet extends HttpServlet {
 			List<Follow> follows = business.getListFollow(user.getId());
 			request.setAttribute("follows", follows);
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute("language", language.getLanguage(lang));
+			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
 			request.setAttribute("appTitle", Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
 		} catch (Throwable t) {
