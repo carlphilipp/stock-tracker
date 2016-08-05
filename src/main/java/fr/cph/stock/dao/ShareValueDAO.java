@@ -16,11 +16,10 @@
 
 package fr.cph.stock.dao;
 
-import java.util.List;
-
+import fr.cph.stock.entities.ShareValue;
 import org.apache.ibatis.session.SqlSession;
 
-import fr.cph.stock.entities.ShareValue;
+import java.util.List;
 
 /**
  * This class implements IDAO functions and add some more. It access to the ShareValue in DB.
@@ -32,7 +31,7 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 
 	@Override
 	public final void insert(final ShareValue shareValue) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("ShareValue.insertOneShareValue", shareValue);
 			session.commit();
@@ -48,7 +47,7 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 	 *            the share value
 	 */
 	public final void insertWithDate(final ShareValue shareValue) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("ShareValue.insertOneShareValueWithDate", shareValue);
 			session.commit();
@@ -59,19 +58,17 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 
 	@Override
 	public final ShareValue select(final int id) {
-		SqlSession session = getSqlSessionFactory();
-		ShareValue shareValue = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			shareValue = session.selectOne("ShareValue.selectOneShareValue", id);
+			return session.selectOne("ShareValue.selectOneShareValue", id);
 		} finally {
 			session.close();
 		}
-		return shareValue;
 	}
 
 	@Override
 	public final void update(final ShareValue shareValue) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("ShareValue.updateOneShareValue", shareValue);
 			session.commit();
@@ -82,7 +79,7 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 
 	@Override
 	public final void delete(final ShareValue shareValue) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("ShareValue.deleteOneShareValue", shareValue);
 			session.commit();
@@ -99,14 +96,12 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 	 * @return a share value
 	 */
 	public final ShareValue selectLastValue(final int userId) {
-		SqlSession session = getSqlSessionFactory();
-		ShareValue shareValue = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			shareValue = session.selectOne("ShareValue.selectLastValue", userId);
+			return session.selectOne("ShareValue.selectLastValue", userId);
 		} finally {
 			session.close();
 		}
-		return shareValue;
 	}
 
 	/**
@@ -117,14 +112,11 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 	 * @return a list of share value
 	 */
 	public final List<ShareValue> selectAllValue(final int userId) {
-		SqlSession session = getSqlSessionFactory();
-		List<ShareValue> shareValues = null;
+		SqlSession session = getSqlSessionFactory();;
 		try {
-			shareValues = session.selectList("ShareValue.selectAllValue", userId);
+			return session.selectList("ShareValue.selectAllValue", userId);
 		} finally {
 			session.close();
 		}
-		return shareValues;
 	}
-
 }

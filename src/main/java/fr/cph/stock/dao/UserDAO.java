@@ -16,11 +16,10 @@
 
 package fr.cph.stock.dao;
 
-import java.util.List;
-
+import fr.cph.stock.entities.User;
 import org.apache.ibatis.session.SqlSession;
 
-import fr.cph.stock.entities.User;
+import java.util.List;
 
 /**
  * This class implements IDAO functions and add some more. It access to the User in DB.
@@ -32,7 +31,7 @@ public class UserDAO extends AbstractDAO<User> {
 
 	@Override
 	public final void insert(final User user) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("UserDao.insertOneUser", user);
 			session.commit();
@@ -43,19 +42,17 @@ public class UserDAO extends AbstractDAO<User> {
 
 	@Override
 	public final User select(final int id) {
-		SqlSession session = getSqlSessionFactory();
-		User userResult = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			userResult = session.selectOne("UserDao.selectOneUser", id);
+			return session.selectOne("UserDao.selectOneUser", id);
 		} finally {
 			session.close();
 		}
-		return userResult;
 	}
 
 	@Override
 	public final void update(final User user) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("UserDao.updateOneUser", user);
 			session.commit();
@@ -71,7 +68,7 @@ public class UserDAO extends AbstractDAO<User> {
 	 *            the user
 	 */
 	public final void updateOneUserPassword(final User user) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("UserDao.updateOneUserPassword", user);
 			session.commit();
@@ -82,7 +79,7 @@ public class UserDAO extends AbstractDAO<User> {
 
 	@Override
 	public final void delete(final User user) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("UserDao.deleteOneUser", user);
 			session.commit();
@@ -99,14 +96,12 @@ public class UserDAO extends AbstractDAO<User> {
 	 * @return a user
 	 */
 	public final User selectWithLogin(final String login) {
-		SqlSession session = getSqlSessionFactory();
-		User userResult = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			userResult = session.selectOne("UserDao.selectOneUserWithLogin", login);
+			return session.selectOne("UserDao.selectOneUserWithLogin", login);
 		} finally {
 			session.close();
 		}
-		return userResult;
 	}
 
 	/**
@@ -117,14 +112,12 @@ public class UserDAO extends AbstractDAO<User> {
 	 * @return a user
 	 */
 	public final User selectWithEmail(final String email) {
-		SqlSession session = getSqlSessionFactory();
-		User userResult = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			userResult = session.selectOne("UserDao.selectOneUserWithEmail", email);
+			return session.selectOne("UserDao.selectOneUserWithEmail", email);
 		} finally {
 			session.close();
 		}
-		return userResult;
 	}
 
 	/**
@@ -133,13 +126,11 @@ public class UserDAO extends AbstractDAO<User> {
 	 * @return a list of user
 	 */
 	public final List<User> selectAllUsers() {
-		SqlSession session = getSqlSessionFactory();
-		List<User> userList = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			userList = session.selectList("UserDao.selectAllUsers");
+			return session.selectList("UserDao.selectAllUsers");
 		} finally {
 			session.close();
 		}
-		return userList;
 	}
 }

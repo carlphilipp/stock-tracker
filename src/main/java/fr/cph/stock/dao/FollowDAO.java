@@ -33,7 +33,7 @@ public class FollowDAO extends AbstractDAO<Follow> {
 
 	@Override
 	public final void insert(final Follow follow) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("FollowDao.insertOneFollow", follow);
 			session.commit();
@@ -44,19 +44,17 @@ public class FollowDAO extends AbstractDAO<Follow> {
 
 	@Override
 	public final Follow select(final int id) {
-		SqlSession session = getSqlSessionFactory();
-		Follow follow = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			follow = session.selectOne("FollowDao.selectOneFollow", id);
+			return session.selectOne("FollowDao.selectOneFollow", id);
 		} finally {
 			session.close();
 		}
-		return follow;
 	}
 
 	@Override
 	public final void update(final Follow follow) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("FollowDao.updateOneFollow", follow);
 			session.commit();
@@ -67,7 +65,7 @@ public class FollowDAO extends AbstractDAO<Follow> {
 
 	@Override
 	public final void delete(final Follow follow) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("FollowDao.deleteOneFollow", follow);
 			session.commit();
@@ -84,14 +82,12 @@ public class FollowDAO extends AbstractDAO<Follow> {
 	 * @return a list of follow
 	 */
 	public final List<Follow> selectListFollow(final int userId) {
-		SqlSession session = getSqlSessionFactory();
-		List<Follow> follow = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			follow = session.selectList("FollowDao.selectListFollow", userId);
+			return session.selectList("FollowDao.selectListFollow", userId);
 		} finally {
 			session.close();
 		}
-		return follow;
 	}
 
 	/**
@@ -104,16 +100,14 @@ public class FollowDAO extends AbstractDAO<Follow> {
 	 * @return a Follow object
 	 */
 	public final Follow selectOneFollow(final int userId, final int companyId) {
-		SqlSession session = getSqlSessionFactory();
-		Follow follow = null;
-		Map<String, Integer> map = new HashMap<>();
+		final SqlSession session = getSqlSessionFactory();
+		final Map<String, Integer> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("companyId", companyId);
 		try {
-			follow = session.selectOne("FollowDao.selectOneFollow", map);
+			return session.selectOne("FollowDao.selectOneFollow", map);
 		} finally {
 			session.close();
 		}
-		return follow;
 	}
 }

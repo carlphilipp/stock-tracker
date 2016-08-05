@@ -33,7 +33,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final void insert(final Account account) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("AccountDAO.insertOneAccount", account);
 			session.commit();
@@ -44,19 +44,17 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final Account select(final int id) {
-		SqlSession session = getSqlSessionFactory();
-		Account accountResult = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			accountResult = session.selectOne("AccountDAO.selectOneAccount", id);
+			return session.selectOne("AccountDAO.selectOneAccount", id);
 		} finally {
 			session.close();
 		}
-		return accountResult;
 	}
 
 	@Override
 	public final void update(final Account account) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("AccountDAO.updateOneAccount", account);
 			session.commit();
@@ -68,7 +66,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final void delete(final Account account) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("AccountDAO.deleteOneAccount", account);
 			session.commit();
@@ -85,14 +83,12 @@ public class AccountDAO extends AbstractDAO<Account> {
 	 * @return a list of account
 	 */
 	public final List<Account> selectAllAccountWithUserId(final int userId) {
-		SqlSession session = getSqlSessionFactory();
-		List<Account> accountResult = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			accountResult = session.selectList("AccountDAO.selectAllAccountWithUserId", userId);
+			return session.selectList("AccountDAO.selectAllAccountWithUserId", userId);
 		} finally {
 			session.close();
 		}
-		return accountResult;
 	}
 
 	/**
@@ -105,16 +101,14 @@ public class AccountDAO extends AbstractDAO<Account> {
 	 * @return an account
 	 */
 	public final Account selectOneAccountWithName(final int userId, final String name) {
-		SqlSession session = getSqlSessionFactory();
-		Account account = null;
-		Map<String, Object> map = new HashMap<>();
+		final SqlSession session = getSqlSessionFactory();
+		final Map<String, Object> map = new HashMap<>();
 		try {
 			map.put("userId", userId);
 			map.put("name", name);
-			account = session.selectOne("AccountDAO.selectOneAccountWithName", map);
+			return session.selectOne("AccountDAO.selectOneAccountWithName", map);
 		} finally {
 			session.close();
 		}
-		return account;
 	}
 }

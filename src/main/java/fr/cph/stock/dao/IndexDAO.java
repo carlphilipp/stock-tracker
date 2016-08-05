@@ -34,7 +34,7 @@ public class IndexDAO extends AbstractDAO<Index> {
 
 	@Override
 	public final void insert(final Index index) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("IndexDao.insertOneIndex", index);
 			session.commit();
@@ -45,14 +45,12 @@ public class IndexDAO extends AbstractDAO<Index> {
 
 	@Override
 	public final Index select(final int id) {
-		SqlSession session = getSqlSessionFactory();
-		Index index = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			index = session.selectOne("IndexDao.selectOneIndex", id);
+			return session.selectOne("IndexDao.selectOneIndex", id);
 		} finally {
 			session.close();
 		}
-		return index;
 	}
 
 	/**
@@ -63,19 +61,17 @@ public class IndexDAO extends AbstractDAO<Index> {
 	 * @return an index
 	 */
 	public final Index selectOneIndexWithIdAndIndex(final Index ind) {
-		SqlSession session = getSqlSessionFactory();
-		Index index = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			index = session.selectOne("IndexDao.selectOneIndexWithIdAndIndex", ind);
+			return session.selectOne("IndexDao.selectOneIndexWithIdAndIndex", ind);
 		} finally {
 			session.close();
 		}
-		return index;
 	}
 
 	@Override
 	public final void update(final Index index) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("IndexDao.updateOneIndex", index);
 			session.commit();
@@ -86,7 +82,7 @@ public class IndexDAO extends AbstractDAO<Index> {
 
 	@Override
 	public final void delete(final Index index) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("IndexDao.deleteOneIndex", index);
 			session.commit();
@@ -107,18 +103,16 @@ public class IndexDAO extends AbstractDAO<Index> {
 	 * @return a list of Index
 	 */
 	public final List<Index> selectListFrom(final String yahooId, final Date from, final Date to) {
-		SqlSession session = getSqlSessionFactory();
-		List<Index> indexes = null;
-		Map<String, Object> map = new HashMap<>();
+		final SqlSession session = getSqlSessionFactory();;
+		final Map<String, Object> map = new HashMap<>();
 		map.put("yahooId", yahooId);
 		map.put("from", from);
 		map.put("to", to);
 		try {
-			indexes = session.selectList("IndexDao.selectListIndexFromTo", map);
+			return session.selectList("IndexDao.selectListIndexFromTo", map);
 		} finally {
 			session.close();
 		}
-		return indexes;
 	}
 
 	/**
@@ -129,13 +123,11 @@ public class IndexDAO extends AbstractDAO<Index> {
 	 * @return and Index with last data
 	 */
 	public final Index selectLast(final String yahooId) {
-		SqlSession session = getSqlSessionFactory();
-		Index index = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			index = session.selectOne("IndexDao.selectLastIndex", yahooId);
+			return session.selectOne("IndexDao.selectLastIndex", yahooId);
 		} finally {
 			session.close();
 		}
-		return index;
 	}
 }

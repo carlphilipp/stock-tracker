@@ -37,7 +37,7 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
 	@Override
 	public final void insert(final Portfolio portfolio) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.insert("PortfolioDao.insertOnePortfolio", portfolio);
 			session.commit();
@@ -48,14 +48,12 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
 	@Override
 	public final Portfolio select(final int id) {
-		SqlSession session = getSqlSessionFactory();
-		Portfolio portfolioResult = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			portfolioResult = session.selectOne("PortfolioDao.selectOnePortfolio", id);
+			return session.selectOne("PortfolioDao.selectOnePortfolio", id);
 		} finally {
 			session.close();
 		}
-		return portfolioResult;
 	}
 
 	/**
@@ -66,19 +64,17 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 	 * @return a Portfolio
 	 */
 	public final Portfolio selectPortfolioWithId(final int userId) {
-		SqlSession session = getSqlSessionFactory();
-		Portfolio portfolioResult = null;
+		final SqlSession session = getSqlSessionFactory();
 		try {
-			portfolioResult = session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
+			return session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
 		} finally {
 			session.close();
 		}
-		return portfolioResult;
 	}
 
 	@Override
 	public final void update(final Portfolio portfolio) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.update("PortfolioDao.updateOnePortfolio", portfolio);
 			session.commit();
@@ -89,7 +85,7 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
 	@Override
 	public final void delete(final Portfolio portfolio) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		try {
 			session.delete("PortfolioDao.deleteOnePortfolio", portfolio);
 			session.commit();
@@ -110,28 +106,28 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 	 * @return a portfolio
 	 */
 	public final Portfolio selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {
-		SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory();
 		Portfolio portfolio = null;
 		try {
 			portfolio = session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
 			if (portfolio != null) {
-				List<Equity> equities = session.selectList("PortfolioDao.selectEquityFromPortfolio", portfolio.getId());
+				final List<Equity> equities = session.selectList("PortfolioDao.selectEquityFromPortfolio", portfolio.getId());
 				portfolio.setEquities(equities);
-				List<Account> accounts = session.selectList("AccountDAO.selectAllAccountWithUserId", userId);
+				final List<Account> accounts = session.selectList("AccountDAO.selectAllAccountWithUserId", userId);
 				portfolio.setAccounts(accounts);
 				if (from == null) {
-					List<ShareValue> shares = session.selectList("ShareValue.selectAllValue", userId);
+					final List<ShareValue> shares = session.selectList("ShareValue.selectAllValue", userId);
 					portfolio.setShareValues(shares);
 				} else {
-					Map<String, Object> map = new HashMap<>();
+					final Map<String, Object> map = new HashMap<>();
 					map.put("userId", userId);
 					map.put("from", from);
 					if (to == null) {
-						List<ShareValue> shares = session.selectList("ShareValue.selectShareValueFrom", map);
+						final List<ShareValue> shares = session.selectList("ShareValue.selectShareValueFrom", map);
 						portfolio.setShareValues(shares);
 					} else {
 						map.put("to", to);
-						List<ShareValue> shares = session.selectList("ShareValue.selectShareValueFromTo", map);
+						final List<ShareValue> shares = session.selectList("ShareValue.selectShareValueFromTo", map);
 						portfolio.setShareValues(shares);
 					}
 
