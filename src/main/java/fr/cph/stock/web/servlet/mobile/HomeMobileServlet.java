@@ -59,8 +59,8 @@ public class HomeMobileServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
 			Portfolio portfolio = null;
 			try {
 				portfolio = business.getUserPortfolio(user.getId(), null, null);
@@ -81,7 +81,7 @@ public class HomeMobileServlet extends HttpServlet {
 			response.setContentType("application/json");
 
 			if (portfolio != null) {
-				JSONObject json = new JSONObject();
+				final JSONObject json = new JSONObject();
 				json.put(PORTFOLIO, portfolio.getJSONObject());
 				json.put(USER, user.getJSONObject());
 				response.getWriter().write(json.toString());
@@ -89,7 +89,7 @@ public class HomeMobileServlet extends HttpServlet {
 				response.getWriter().write("{\"error\":empty\"}");
 			}
 
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

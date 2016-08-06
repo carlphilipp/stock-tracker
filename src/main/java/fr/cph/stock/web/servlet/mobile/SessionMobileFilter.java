@@ -42,15 +42,15 @@ public class SessionMobileFilter implements Filter {
 	@Override
 	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws ServletException {
 		try {
-			HttpServletRequest request = (HttpServletRequest) req;
-			HttpServletResponse response = (HttpServletResponse) res;
-			HttpSession session = request.getSession(false);
+			final HttpServletRequest request = (HttpServletRequest) req;
+			final HttpServletResponse response = (HttpServletResponse) res;
+			final HttpSession session = request.getSession(false);
 
 			if (session == null) {
 				response.setContentType("application/json");
 				response.getWriter().write("{\"error\":\"No active session\"}");
 			} else {
-				User user = (User) session.getAttribute(USER);
+				final User user = (User) session.getAttribute(USER);
 				if (user == null) {
 					response.setContentType("application/json");
 					response.getWriter().write("{\"error\":\"User session not found\"}");
@@ -58,7 +58,7 @@ public class SessionMobileFilter implements Filter {
 					chain.doFilter(req, res);
 				}
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

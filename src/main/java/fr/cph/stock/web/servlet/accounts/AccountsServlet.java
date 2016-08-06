@@ -39,9 +39,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to access the accounts page
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "AccountsServlet", urlPatterns = { "/accounts" })
 public class AccountsServlet extends HttpServlet {
@@ -103,7 +103,7 @@ public class AccountsServlet extends HttpServlet {
 					account.setId(Integer.parseInt(id));
 					business.deleteAccount(account);
 				} else {
-					request.setAttribute("error", "You are not allowed to delete this account!");
+					request.setAttribute(ERROR, "You are not allowed to delete this account!");
 				}
 			}
 			final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);

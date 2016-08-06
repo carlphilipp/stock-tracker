@@ -61,10 +61,10 @@ public class UpdateListServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			StringBuilder sb = new StringBuilder("");
-			User user = (User) session.getAttribute(USER);
-			List<Follow> follows = null;
+			final HttpSession session = request.getSession(false);
+			final StringBuilder sb = new StringBuilder();
+			final User user = (User) session.getAttribute(USER);
+			List<Follow> follows;
 			try {
 				follows = business.getListFollow(user.getId());
 				List<String> followsString = new ArrayList<>();
@@ -84,11 +84,11 @@ public class UpdateListServlet extends HttpServlet {
 			} else {
 				request.setAttribute("updateStatus", "<span class='cQuoteUp'>Refresh done!</span>");
 			}
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

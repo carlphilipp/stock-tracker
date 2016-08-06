@@ -54,16 +54,16 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
 			try {
-				Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 				business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 				response.sendRedirect(HOMEMOBILE);
 			} catch (YahooException e) {
 				response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error: " + t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

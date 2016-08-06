@@ -36,9 +36,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to update its share value, from mobile
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "UpdateShareValueMobileServlet", urlPatterns = { "/updatesharevaluemobile" })
 public class UpdateShareValueMobileServlet extends HttpServlet {
@@ -56,19 +56,19 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 			try {
-				int accountId = Integer.valueOf(request.getParameter(ACCOUNT_ID));
-				double movement = Double.valueOf(request.getParameter(LIQUIDITY));
-				double yield = Double.valueOf(request.getParameter(YIELD));
-				double buy = Double.valueOf(request.getParameter(BUY));
-				double sell = Double.valueOf(request.getParameter(SELL));
-				double taxe = Double.valueOf(request.getParameter(TAXE));
-				String commentary = request.getParameter(COMMENTARY);
+				final int accountId = Integer.valueOf(request.getParameter(ACCOUNT_ID));
+				final double movement = Double.valueOf(request.getParameter(LIQUIDITY));
+				final double yield = Double.valueOf(request.getParameter(YIELD));
+				final double buy = Double.valueOf(request.getParameter(BUY));
+				final double sell = Double.valueOf(request.getParameter(SELL));
+				final double taxe = Double.valueOf(request.getParameter(TAXE));
+				final String commentary = request.getParameter(COMMENTARY);
 				Account account = null;
-				for (Account acc : portfolio.getAccounts()) {
+				for (final Account acc : portfolio.getAccounts()) {
 					if (acc.getId() == accountId) {
 						account = acc;
 						break;
@@ -89,10 +89,10 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 				// business.updateOneCurrency(portfolio.getCurrency());
 				// business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 
-			} catch (NumberFormatException e) {
+			} catch (final NumberFormatException e) {
 				response.getWriter().write("{\"error\":" + e.getMessage() + "\"}");
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error: " + t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -102,5 +102,4 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

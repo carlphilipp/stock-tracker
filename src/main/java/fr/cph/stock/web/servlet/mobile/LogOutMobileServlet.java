@@ -45,7 +45,7 @@ public class LogOutMobileServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
+			final HttpSession session = request.getSession(false);
 			if (session != null) {
 				User user = (User) session.getAttribute(USER);
 				if (user != null) {
@@ -55,10 +55,10 @@ public class LogOutMobileServlet extends HttpServlet {
 			}
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json");
-			JSONObject json = new JSONObject();
+			final JSONObject json = new JSONObject();
 			json.put(SESSION, "null");
 			response.getWriter().write(json.toString());
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -68,5 +68,4 @@ public class LogOutMobileServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

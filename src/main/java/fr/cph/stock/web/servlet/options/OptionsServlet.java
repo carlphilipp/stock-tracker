@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,18 +35,19 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called whenever the user want to access or modify its options
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
-@WebServlet(name = "OptionsServlet", urlPatterns = { "/options" })
+@WebServlet(name = "OptionsServlet", urlPatterns = {"/options"})
 public class OptionsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -6025904929231678296L;
 	private static final Logger LOG = Logger.getLogger(OptionsServlet.class);
+	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
+
 	private IBusiness business;
 	private LanguageFactory language;
-	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 	private List<String> formatList;
 	private List<String> timeZoneList;
 
@@ -64,18 +65,18 @@ public class OptionsServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
-			String update = request.getParameter(UPDATE);
+			final User user = (User) session.getAttribute(USER);
+			final String update = request.getParameter(UPDATE);
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 			String quoteRes = null, currencyRes = null, parityRes = null, stopLossRes = null, objectiveRes = null, yield1Res = null, yield2Res = null;
 			if (update != null) {
-				String currency = request.getParameter(CURRENCY);
-				String format = request.getParameter(FORMAT);
-				String timeZone = request.getParameter(TIME_ZONE);
-				String datePattern = request.getParameter(DATE_PATTERN);
-				String autoUpdate = request.getParameter(AUTO_UPDATE);
+				final String currency = request.getParameter(CURRENCY);
+				final String format = request.getParameter(FORMAT);
+				final String timeZone = request.getParameter(TIME_ZONE);
+				final String datePattern = request.getParameter(DATE_PATTERN);
+				final String autoUpdate = request.getParameter(AUTO_UPDATE);
 				String updateSendMail = null;
-				Integer updateTime = null;
+				Integer updateTime;
 				if (autoUpdate == null) {
 					updateTime = null;
 				} else {
@@ -83,15 +84,15 @@ public class OptionsServlet extends HttpServlet {
 					updateSendMail = request.getParameter(AUTO_UPDATE_EMAIL);
 				}
 
-				String quote = request.getParameter(QUOTE);
-				String currency2 = request.getParameter(CURRENCY_2);
-				String parity = request.getParameter(PARITY);
-				String stopLoss = request.getParameter(STOP_LOSS);
-				String objective = request.getParameter(OBJECTIVE);
-				String yield1 = request.getParameter(YIELD_1);
-				String yield2 = request.getParameter(YIELD_2);
+				final String quote = request.getParameter(QUOTE);
+				final String currency2 = request.getParameter(CURRENCY_2);
+				final String parity = request.getParameter(PARITY);
+				final String stopLoss = request.getParameter(STOP_LOSS);
+				final String objective = request.getParameter(OBJECTIVE);
+				final String yield1 = request.getParameter(YIELD_1);
+				final String yield2 = request.getParameter(YIELD_2);
 
-				Currency cur = Currency.getEnum(currency);
+				final Currency cur = Currency.getEnum(currency);
 				if (cur != portfolio.getCurrency()) {
 					portfolio.setCurrency(cur);
 					business.updatePortfolio(portfolio);
@@ -137,32 +138,32 @@ public class OptionsServlet extends HttpServlet {
 				}
 				request.setAttribute(UPDATED, "Done!");
 			} else {
-				Cookie[] cookies = request.getCookies();
+				final Cookie[] cookies = request.getCookies();
 				for (Cookie cookie : cookies) {
 					switch (cookie.getName()) {
-					case QUOTE:
-						quoteRes = cookie.getValue();
-						break;
-					case CURRENCY:
-						currencyRes = cookie.getValue();
-						break;
-					case PARITY:
-						parityRes = cookie.getValue();
-						break;
-					case STOP_LOSS:
-						stopLossRes = cookie.getValue();
-						break;
-					case OBJECTIVE:
-						objectiveRes = cookie.getValue();
-						break;
-					case YIELD_1:
-						yield1Res = cookie.getValue();
-						break;
-					case YIELD_2:
-						yield2Res = cookie.getValue();
-						break;
-					default:
-						break;
+						case QUOTE:
+							quoteRes = cookie.getValue();
+							break;
+						case CURRENCY:
+							currencyRes = cookie.getValue();
+							break;
+						case PARITY:
+							parityRes = cookie.getValue();
+							break;
+						case STOP_LOSS:
+							stopLossRes = cookie.getValue();
+							break;
+						case OBJECTIVE:
+							objectiveRes = cookie.getValue();
+							break;
+						case YIELD_1:
+							yield1Res = cookie.getValue();
+							break;
+						case YIELD_2:
+							yield2Res = cookie.getValue();
+							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -179,11 +180,11 @@ public class OptionsServlet extends HttpServlet {
 			request.setAttribute(FORMAT, formatList);
 			request.setAttribute(TIME_ZONE, timeZoneList);
 
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Options");
 			request.getRequestDispatcher("jsp/options.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -196,7 +197,7 @@ public class OptionsServlet extends HttpServlet {
 
 	/**
 	 * Add cookie to response
-	 * 
+	 *
 	 * @param response
 	 *            the response
 	 * @param cookieName
@@ -207,14 +208,14 @@ public class OptionsServlet extends HttpServlet {
 	 */
 	private boolean addCookieToResponse(final HttpServletResponse response, final String cookieName, final String checked) {
 		boolean res = false;
-		String value;
+		final String value;
 		if (checked != null) {
 			value = CHECKED;
 			res = true;
 		} else {
 			value = "";
 		}
-		Cookie cookie = new Cookie(cookieName, value);
+		final Cookie cookie = new Cookie(cookieName, value);
 		cookie.setMaxAge(ONE_YEAR_COOKIE);
 		response.addCookie(cookie);
 		return res;

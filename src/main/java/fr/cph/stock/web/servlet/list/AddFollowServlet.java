@@ -41,58 +41,61 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called to add a company to follow
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "AddFollowServlet", urlPatterns = {"/addfollow"})
 public class AddFollowServlet extends HttpServlet {
 
-    private static final long serialVersionUID = -8367279160386302241L;
-    private static final Logger LOG = Logger.getLogger(AddFollowServlet.class);
-    private IBusiness business;
-    private LanguageFactory language;
+	private static final long serialVersionUID = -8367279160386302241L;
+	private static final Logger LOG = Logger.getLogger(AddFollowServlet.class);
+	private IBusiness business;
+	private LanguageFactory language;
 
-    @Override
-    public final void init() throws ServletException {
-        this.business = Business.getInstance();
-        this.language = LanguageFactory.getInstance();
-    }
+	@Override
+	public final void init() throws ServletException {
+		this.business = Business.getInstance();
+		this.language = LanguageFactory.getInstance();
+	}
 
-    @Override
-    protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
-        try {
-            final HttpSession session = request.getSession(false);
-            final User user = (User) session.getAttribute(USER);
-            if (request.getParameter(DELETE) != null) {
-                final String deleteFollowId = request.getParameter(DELETE_FOLLOW_ID);
-                business.deleteFollow(Integer.parseInt(deleteFollowId));
-                request.setAttribute(MESSAGE, "Deleted !");
-            } else {
-                try {
-                    final String ticker = request.getParameter(TICKER);
-                    final String low = request.getParameter(LOWER);
-                    final Double lower = !low.equals("") ? Double.valueOf(low) : null;
-                    final String high = request.getParameter(HIGHER);
-                    final Double higher = !high.equals("") ? Double.valueOf(high) : null;
-                    business.addFollow(user, ticker, lower, higher);
-                    request.setAttribute(MESSAGE, "Done !");
-                } catch (YahooException e) {
-                    request.setAttribute("error", "Error during the update: " + e.getMessage());
-                }
-            }
-            final List<Follow> follows = business.getListFollow(user.getId());
-            request.setAttribute(FOLLOWS, follows);
-            final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-            request.setAttribute(LANGUAGE, language.getLanguage(lang));
-            request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
-            request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
-        } catch (final Throwable t) {
-            LOG.error(t.getMessage(), t);
-            throw new ServletException("Error: " + t.getMessage(), t);
-        }
-    }
+	@Override
+	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
+		try {
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
+			if (request.getParameter(DELETE) != null) {
+				final String deleteFollowId = request.getParameter(DELETE_FOLLOW_ID);
+				business.deleteFollow(Integer.parseInt(deleteFollowId));
+				request.setAttribute(MESSAGE, "Deleted !");
+			} else {
+				try {
+					final String ticker = request.getParameter(TICKER);
+					final String low = request.getParameter(LOWER);
+					final Double lower = !low.equals("") ? Double.valueOf(low) : null;
+					final String high = request.getParameter(HIGHER);
+					final Double higher = !high.equals("") ? Double.valueOf(high) : null;
 
-    @Override
-    protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
-        doGet(request, response);
-    }
+					business.addFollow(user, ticker, lower, higher);
+
+					request.setAttribute(MESSAGE, "Done !");
+				} catch (final YahooException e) {
+					request.setAttribute(ERROR, "Error during the update: " + e.getMessage());
+				}
+			}
+
+			final List<Follow> follows = business.getListFollow(user.getId());
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+
+			request.setAttribute(FOLLOWS, follows);
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
+			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
+		} catch (final Throwable t) {
+			LOG.error(t.getMessage(), t);
+			throw new ServletException("Error: " + t.getMessage(), t);
+		}
+	}
+
+	@Override
+	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
+		doGet(request, response);
+	}
 }

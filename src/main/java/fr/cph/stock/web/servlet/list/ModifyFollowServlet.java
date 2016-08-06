@@ -38,9 +38,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to modify a company that is been followed
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "ModifyFollowServlet", urlPatterns = { "/modifyfollow" })
 public class ModifyFollowServlet extends HttpServlet {
@@ -59,23 +59,19 @@ public class ModifyFollowServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
-			String ticker = request.getParameter(TICKER);
-			String low = request.getParameter(LOWER);
-			Double lower = null, higher = null;
-			if (!low.equals("")) {
-				lower = Double.valueOf(low);
-			}
-			String high = request.getParameter(HIGHER);
-			if (!high.equals("")) {
-				higher = Double.valueOf(high);
-			}
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
+			final String ticker = request.getParameter(TICKER);
+			final String low = request.getParameter(LOWER);
+            final String high = request.getParameter(HIGHER);
+
+            final Double lower = !low.equals("") ? Double.valueOf(low) : null;
+            final Double higher = !high.equals("") ? Double.valueOf(high) : null;
 			business.updateFollow(user, ticker, lower, higher);
 			request.setAttribute(MESSAGE, "Done !");
-			List<Follow> follows = business.getListFollow(user.getId());
+            final List<Follow> follows = business.getListFollow(user.getId());
 			request.setAttribute(FOLLOWS, follows);
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+            final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);

@@ -52,9 +52,9 @@ public class AuthMobileServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			request.getSession().invalidate();
-			String login = request.getParameter(LOGIN);
-			String password = request.getParameter(PASSWORD);
-			User user = business.checkUser(login, password);
+			final String login = request.getParameter(LOGIN);
+			final String password = request.getParameter(PASSWORD);
+			final User user = business.checkUser(login, password);
 			if (user == null) {
 				response.setContentType("application/json");
 				response.getWriter().write("{\"error\":\"Login or password unknown\"}");
@@ -71,12 +71,10 @@ public class AuthMobileServlet extends HttpServlet {
 			LOG.error("Error: " + t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
-
 	}
 
 	@Override
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

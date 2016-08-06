@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,11 +38,11 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to access the list page
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
-@WebServlet(name = "ListServlet", urlPatterns = { "/list" })
+@WebServlet(name = "ListServlet", urlPatterns = {"/list"})
 public class ListServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -3168423969225038651L;
@@ -59,15 +59,17 @@ public class ListServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
-			List<Follow> follows = business.getListFollow(user.getId());
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+
+			final List<Follow> follows = business.getListFollow(user.getId());
+
 			request.setAttribute(FOLLOWS, follows);
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -77,5 +79,4 @@ public class ListServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }
