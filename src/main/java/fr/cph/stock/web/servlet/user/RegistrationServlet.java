@@ -39,16 +39,13 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "RegistrationServlet", urlPatterns = { "/register" })
 public class RegistrationServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 6262531123441177265L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(RegistrationServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

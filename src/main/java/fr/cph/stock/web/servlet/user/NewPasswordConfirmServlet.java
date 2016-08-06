@@ -40,17 +40,14 @@ import static fr.cph.stock.util.Constants.PASSWORD;
 @WebServlet(name = "NewPasswordConfirmServlet", urlPatterns = { "/newpasswordconf" })
 public class NewPasswordConfirmServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(NewPasswordConfirmServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	/** Init **/
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

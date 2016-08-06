@@ -12,7 +12,6 @@ import static fr.cph.stock.util.Constants.LOCATION;
 @WebServlet(name = "IndexServlet", urlPatterns = { "/index" })
 public class IndexServlet extends HttpServlet {
 
-	/** **/
 	private static final long serialVersionUID = 1L;
 
 	@Override

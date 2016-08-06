@@ -21,7 +21,6 @@ import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
-import fr.cph.stock.exception.LanguageException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -43,34 +42,22 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "OptionsServlet", urlPatterns = { "/options" })
 public class OptionsServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -6025904929231678296L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(OptionsServlet.class);
-	/** Business **/
 	private IBusiness business;
-	/** Language **/
 	private LanguageFactory language;
-	/** Cookie valididity time **/
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
-	/** Format list **/
 	private List<String> formatList;
-	/** Timezone List **/
 	private List<String> timeZoneList;
 
 	@Override
 	public final void init() throws ServletException {
-		business = Business.getInstance();
-		formatList = Arrays.asList(Locale.getISOLanguages());
+		this.business = Business.getInstance();
+		this.language = LanguageFactory.getInstance();
+		this.formatList = Arrays.asList(Locale.getISOLanguages());
 		Collections.sort(formatList);
-		timeZoneList = Arrays.asList(TimeZone.getAvailableIDs());
+		this.timeZoneList = Arrays.asList(TimeZone.getAvailableIDs());
 		Collections.sort(timeZoneList);
-		try {
-			language = LanguageFactory.getInstance();
-		} catch (LanguageException e) {
-			LOG.error(e.getMessage(), e);
-			throw new ServletException("Error: " + e.getMessage(), e);
-		}
 	}
 
 	@Override

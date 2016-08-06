@@ -44,18 +44,14 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "DeleteShareValueServlet", urlPatterns = { "/deletesharevalue" })
 public class DeleteShareValueServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 6742409927502374595L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(DeleteShareValueServlet.class);
-	/** Business **/
 	private IBusiness business;
-	/** Precision **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() throws ServletException {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

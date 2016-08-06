@@ -37,10 +37,7 @@ import static fr.cph.stock.util.Constants.USER;
 @WebServlet(name = "LogOutServlet", urlPatterns = { "/logout" })
 public class LogOutServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -6107097536653860984L;
-
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(LogOutServlet.class);
 
 	@Override

@@ -20,7 +20,6 @@ import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
-import fr.cph.stock.exception.LanguageException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
@@ -47,60 +46,46 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "AddFollowServlet", urlPatterns = {"/addfollow"})
 public class AddFollowServlet extends HttpServlet {
 
-    /** Serialization **/
     private static final long serialVersionUID = -8367279160386302241L;
-    /** Logger **/
     private static final Logger LOG = Logger.getLogger(AddFollowServlet.class);
-    /** Business **/
     private IBusiness business;
-    /** Language **/
     private LanguageFactory language;
 
     @Override
     public final void init() throws ServletException {
-        business = Business.getInstance();
-        try {
-            language = LanguageFactory.getInstance();
-        } catch (LanguageException e) {
-            LOG.error(e.getMessage(), e);
-            throw new ServletException("Error: " + e.getMessage(), e);
-        }
+        this.business = Business.getInstance();
+        this.language = LanguageFactory.getInstance();
     }
 
     @Override
     protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
         try {
-            HttpSession session = request.getSession(false);
-            User user = (User) session.getAttribute(USER);
+            final HttpSession session = request.getSession(false);
+            final User user = (User) session.getAttribute(USER);
             if (request.getParameter(DELETE) != null) {
-                String deleteFollowId = request.getParameter(DELETE_FOLLOW_ID);
+                final String deleteFollowId = request.getParameter(DELETE_FOLLOW_ID);
                 business.deleteFollow(Integer.parseInt(deleteFollowId));
                 request.setAttribute(MESSAGE, "Deleted !");
             } else {
                 try {
-                    String ticker = request.getParameter(TICKER);
-                    String low = request.getParameter(LOWER);
-                    Double lower = null, higher = null;
-                    if (!low.equals("")) {
-                        lower = Double.valueOf(low);
-                    }
-                    String high = request.getParameter(HIGHER);
-                    if (!high.equals("")) {
-                        higher = Double.valueOf(high);
-                    }
+                    final String ticker = request.getParameter(TICKER);
+                    final String low = request.getParameter(LOWER);
+                    final Double lower = !low.equals("") ? Double.valueOf(low) : null;
+                    final String high = request.getParameter(HIGHER);
+                    final Double higher = !high.equals("") ? Double.valueOf(high) : null;
                     business.addFollow(user, ticker, lower, higher);
                     request.setAttribute(MESSAGE, "Done !");
                 } catch (YahooException e) {
                     request.setAttribute("error", "Error during the update: " + e.getMessage());
                 }
             }
-            List<Follow> follows = business.getListFollow(user.getId());
+            final List<Follow> follows = business.getListFollow(user.getId());
             request.setAttribute(FOLLOWS, follows);
-            String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+            final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
             request.setAttribute(LANGUAGE, language.getLanguage(lang));
             request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
             request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             LOG.error(t.getMessage(), t);
             throw new ServletException("Error: " + t.getMessage(), t);
         }
@@ -110,5 +95,4 @@ public class AddFollowServlet extends HttpServlet {
     protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
         doGet(request, response);
     }
-
 }

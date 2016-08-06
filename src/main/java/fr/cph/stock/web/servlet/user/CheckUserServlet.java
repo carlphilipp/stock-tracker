@@ -39,16 +39,13 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "CheckUserServlet", urlPatterns = { "/check" })
 public class CheckUserServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(CheckUserServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

@@ -38,7 +38,6 @@ import static fr.cph.stock.util.Constants.*;
 public class ChangeLanguageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1381535043505856447L;
-
 	private static final Logger LOG = Logger.getLogger(ChangeLanguageServlet.class);
 
 	@Override

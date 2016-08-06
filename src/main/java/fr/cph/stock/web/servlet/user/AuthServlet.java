@@ -43,15 +43,10 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "AuthServlet", urlPatterns = { "/auth" })
 public class AuthServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(AuthServlet.class);
-	/** Business **/
 	private IBusiness business;
-	/** Cookie validity **/
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
-	/** Cookie list **/
 	private List<String> lcookies;
 
 	@Override

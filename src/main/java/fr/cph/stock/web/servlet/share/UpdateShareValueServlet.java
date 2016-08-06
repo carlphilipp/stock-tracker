@@ -45,18 +45,14 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "UpdateShareValueServlet", urlPatterns = { "/updatesharevalue" })
 public class UpdateShareValueServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 7284798829015895373L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(UpdateShareValueServlet.class);
-	/** Business **/
 	private IBusiness business;
-	/** Precision **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

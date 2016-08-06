@@ -41,18 +41,13 @@ import static fr.cph.stock.util.Constants.LOGIN;
 @WebServlet(name = "NewPasswordServlet", urlPatterns = { "/newpassword" })
 public class NewPasswordServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -4548932564405559822L;
-
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(NewPasswordServlet.class);
-	/** Business **/
 	private IBusiness business;
 
-	/** Init **/
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

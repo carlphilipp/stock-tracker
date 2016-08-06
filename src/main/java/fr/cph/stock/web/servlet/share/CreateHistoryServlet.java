@@ -46,16 +46,13 @@ import static fr.cph.stock.util.Constants.*;
 @MultipartConfig
 public class CreateHistoryServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -2999218921595727810L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(CreateHistoryServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

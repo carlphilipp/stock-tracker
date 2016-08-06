@@ -40,8 +40,7 @@ public class SessionMobileFilter implements Filter {
 	}
 
 	@Override
-	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
-			throws ServletException {
+	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws ServletException {
 		try {
 			HttpServletRequest request = (HttpServletRequest) req;
 			HttpServletResponse response = (HttpServletResponse) res;

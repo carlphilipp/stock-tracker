@@ -47,16 +47,13 @@ import static fr.cph.stock.util.Constants.USER;
 @WebServlet(name = "HomeMobileServlet", urlPatterns = { "/homemobile" })
 public class HomeMobileServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -8513475864090485886L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(HomeMobileServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	@Override
 	public final void init() throws ServletException {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

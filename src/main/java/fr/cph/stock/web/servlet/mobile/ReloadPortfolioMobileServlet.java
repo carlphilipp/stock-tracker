@@ -42,16 +42,13 @@ import static fr.cph.stock.util.Constants.USER;
 @WebServlet(name = "ReloadPortfolioMobileServlet", urlPatterns = { "/reloadportfoliomobile" })
 public class ReloadPortfolioMobileServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 5211078955305413271L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

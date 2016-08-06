@@ -42,17 +42,14 @@ import static fr.cph.stock.util.Constants.ERROR;
 @WebServlet(name = "LostServlet", urlPatterns = { "/lost" })
 public class LostServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -1724898618001479554L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(LostServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	/** Init **/
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

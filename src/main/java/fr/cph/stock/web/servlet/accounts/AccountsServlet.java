@@ -22,7 +22,6 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
-import fr.cph.stock.exception.LanguageException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -47,41 +46,32 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "AccountsServlet", urlPatterns = { "/accounts" })
 public class AccountsServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -5015939908893417514L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(AccountsServlet.class);
-	/** Business **/
 	private IBusiness business;
-	/** Language **/
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		business = Business.getInstance();
-		try {
-			language = LanguageFactory.getInstance();
-		} catch (LanguageException e) {
-			LOG.error(e.getMessage(), e);
-			throw new ServletException("Error: " + e.getMessage(), e);
-		}
+		this.business = Business.getInstance();
+		this.language = LanguageFactory.getInstance();
 	}
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
 
-			String add = request.getParameter(ADD);
-			String mod = request.getParameter(MOD);
-			String del = request.getParameter(DELETE);
+			final String add = request.getParameter(ADD);
+			final String mod = request.getParameter(MOD);
+			final String del = request.getParameter(DELETE);
 			if (add != null) {
-				String acc = request.getParameter(ACCOUNT);
-				String currency = request.getParameter(CURRENCY);
-				String liquidity = request.getParameter(LIQUIDITY);
+				final String acc = request.getParameter(ACCOUNT);
+				final String currency = request.getParameter(CURRENCY);
+				final String liquidity = request.getParameter(LIQUIDITY);
 
-				Account account = new Account();
+				final Account account = new Account();
 				account.setName(acc);
 				account.setCurrency(Currency.getEnum(currency));
 				account.setLiquidity(Double.valueOf(liquidity));
@@ -91,11 +81,11 @@ public class AccountsServlet extends HttpServlet {
 				request.setAttribute(MESSAGE, ADDED);
 			}
 			if (mod != null) {
-				String id = request.getParameter(ID);
-				String acc = request.getParameter(ACCOUNT);
-				String currency = request.getParameter(CURRENCY);
-				String liquidity = request.getParameter(LIQUIDITY);
-				Account account = new Account();
+				final String id = request.getParameter(ID);
+				final String acc = request.getParameter(ACCOUNT);
+				final String currency = request.getParameter(CURRENCY);
+				final String liquidity = request.getParameter(LIQUIDITY);
+				final Account account = new Account();
 				account.setName(acc);
 				account.setCurrency(Currency.getEnum(currency));
 				account.setLiquidity(Double.valueOf(liquidity));
@@ -103,29 +93,28 @@ public class AccountsServlet extends HttpServlet {
 				account.setId(Integer.parseInt(id));
 				business.updateAccount(account);
 				request.setAttribute(MESSAGE, MODIFIED_MESSAGE);
-
 			}
 			if (del != null) {
-				String id = request.getParameter(ID);
-				String delete = request.getParameter(DELETE_2);
+				final String id = request.getParameter(ID);
+				final String delete = request.getParameter(DELETE_2);
 				LOG.debug(delete);
 				if (delete.equals("true")) {
-					Account account = new Account();
+					final Account account = new Account();
 					account.setId(Integer.parseInt(id));
 					business.deleteAccount(account);
 				} else {
 					request.setAttribute("error", "You are not allowed to delete this account!");
 				}
 			}
-			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+			final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(PORTFOLIO, portfolio);
 			request.setAttribute(CURRENCIES, Currency.values());
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Accounts");
 			request.getRequestDispatcher("jsp/accounts.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -135,5 +124,4 @@ public class AccountsServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

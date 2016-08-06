@@ -43,18 +43,14 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "UpdateShareValueMobileServlet", urlPatterns = { "/updatesharevaluemobile" })
 public class UpdateShareValueMobileServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 2877166802472612746L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
-	/** Business **/
 	private IBusiness business;
-	/** Precision **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

@@ -20,7 +20,6 @@ import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
-import fr.cph.stock.exception.LanguageException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
@@ -48,24 +47,15 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "UpdateListServlet", urlPatterns = { "/updatelist" })
 public class UpdateListServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = 1L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(UpdateListServlet.class);
-	/** Business **/
 	private IBusiness business;
-	/** Language **/
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		business = Business.getInstance();
-		try {
-			language = LanguageFactory.getInstance();
-		} catch (LanguageException e) {
-			LOG.error(e.getMessage(), e);
-			throw new ServletException("Error: " + e.getMessage(), e);
-		}
+		this.business = Business.getInstance();
+		this.language = LanguageFactory.getInstance();
 	}
 
 	@Override

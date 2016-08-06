@@ -48,16 +48,13 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "AddEquityServlet", urlPatterns = { "/add" })
 public class AddEquityServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -4917456731220463031L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(AddEquityServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override

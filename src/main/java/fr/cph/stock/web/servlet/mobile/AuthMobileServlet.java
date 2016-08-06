@@ -40,14 +40,12 @@ public class AuthMobileServlet extends HttpServlet {
 
 	/** Serialization **/
 	private static final long serialVersionUID = -7713821485113054118L;
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(AuthMobileServlet.class);
-	/** Business **/
 	private IBusiness business;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		this.business = Business.getInstance();
 	}
 
 	@Override
