@@ -16,17 +16,6 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import java.util.Arrays;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Portfolio;
@@ -34,6 +23,17 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.web.servlet.CookieManagement;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to update the portfolio
@@ -63,8 +63,8 @@ public class UpdatePortfolioServlet extends HttpServlet {
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			LanguageFactory language = LanguageFactory.getInstance();
 			StringBuilder sb = new StringBuilder("");
-			User user = (User) session.getAttribute("user");
-			String updateCurrencies = request.getParameter("currencyUpdate");
+			User user = (User) session.getAttribute(USER);
+			String updateCurrencies = request.getParameter(CURRENCY_UPDATE);
 			String error = null;
 			try {
 				Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
@@ -77,11 +77,11 @@ public class UpdatePortfolioServlet extends HttpServlet {
 				sb.append(e1.getMessage() + " ");
 			}
 			if (!sb.toString().equals("")) {
-				request.setAttribute("updateStatus", "<span class='cQuoteDown'>Error !</span>");
+				request.setAttribute(UPDATE_STATUS, "<span class='cQuoteDown'>Error !</span>");
 			} else {
 				if (error != null && !error.equals("")) {
 					request.setAttribute(
-							"updateStatus",
+							UPDATE_STATUS,
 							"<span class='cQuoteOrange'>"
 									+ error
 									+ "The company does not exist anymore. Please delete it from your portfolio. The other companies has been updated.</span>");
@@ -89,7 +89,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 					request.setAttribute("updateStatus", "<span class='cQuoteUp'>" + language.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
 				}
 			}
-			request.getRequestDispatcher("home").forward(request, response);
+			request.getRequestDispatcher(HOME).forward(request, response);
 
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

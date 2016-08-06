@@ -16,17 +16,18 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.User;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-import fr.cph.stock.entities.User;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called by mobile to connect to the app
@@ -53,8 +54,8 @@ public class AuthMobileServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			request.getSession().invalidate();
-			String login = request.getParameter("login");
-			String password = request.getParameter("password");
+			String login = request.getParameter(LOGIN);
+			String password = request.getParameter(PASSWORD);
 			User user = business.checkUser(login, password);
 			if (user == null) {
 				response.setContentType("application/json");
@@ -64,8 +65,8 @@ public class AuthMobileServlet extends HttpServlet {
 					response.setContentType("application/json");
 					response.getWriter().write("{\"error\":\"User not allowed}\"");
 				} else {
-					request.getSession().setAttribute("user", user);
-					response.sendRedirect("homemobile");
+					request.getSession().setAttribute(USER, user);
+					response.sendRedirect(HOMEMOBILE);
 				}
 			}
 		} catch (Throwable t) {

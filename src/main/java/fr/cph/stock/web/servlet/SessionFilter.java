@@ -16,17 +16,14 @@
 
 package fr.cph.stock.web.servlet;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import fr.cph.stock.entities.User;
+
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fr.cph.stock.entities.User;
+import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This classes is called each time the user try to access a page that needs to be logged in (basicely, every single page) It
@@ -58,7 +55,7 @@ public class SessionFilter implements Filter {
 			if (session == null) {
 				response.sendRedirect("jsp/timeout.html");
 			} else {
-				User user = (User) session.getAttribute("user");
+				User user = (User) session.getAttribute(USER);
 				if (user == null) {
 					response.sendRedirect("jsp/timeout.html");
 				} else {

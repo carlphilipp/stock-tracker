@@ -48,7 +48,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to access to the performance page
@@ -82,14 +82,14 @@ public class PerformanceServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		HttpSession session = request.getSession(false);
-		User user = (User) session.getAttribute("user");
+		User user = (User) session.getAttribute(USER);
 		Portfolio portfolio = null;
 		try {
-			String createPdf = request.getParameter("pdf");
+			String createPdf = request.getParameter(PDF);
 			try {
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-				String fromString = request.getParameter("from");
-				String toString = request.getParameter("to");
+				String fromString = request.getParameter(FROM);
+				String toString = request.getParameter(TO);
 
 				Date fromDate = null;
 				Date toDate = null;
@@ -140,11 +140,11 @@ public class PerformanceServlet extends HttpServlet {
 							t = date;
 						}
 					}
-					request.setAttribute("_from", fro);
-					request.setAttribute("_to", t);
+					request.setAttribute(_FROM, fro);
+					request.setAttribute(_TO, t);
 				}
 
-				request.setAttribute("portfolio", portfolio);
+				request.setAttribute(PORTFOLIO, portfolio);
 			} catch (YahooException e) {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
@@ -153,12 +153,12 @@ public class PerformanceServlet extends HttpServlet {
 				Image capChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartCap(), "Cap Chart");
 				Image timeChart = PdfReport.createTimeChart((TimeChart) portfolio.getTimeChart(), "Share value");
 				PdfReport pdf = new PdfReport(Info.REPORT);
-				pdf.addParam("portfolio", portfolio);
-				pdf.addParam("equities", portfolio.getEquities());
-				pdf.addParam("user", user);
-				pdf.addParam("sectorPie", sectorChart);
-				pdf.addParam("capPie", capChart);
-				pdf.addParam("shareValuePie", timeChart);
+				pdf.addParam(PORTFOLIO, portfolio);
+				pdf.addParam(EQUITIES, portfolio.getEquities());
+				pdf.addParam(USER, user);
+				pdf.addParam(SECTOR_PIE, sectorChart);
+				pdf.addParam(CAP_PIE, capChart);
+				pdf.addParam(SHARE_VALUE_PIE, timeChart);
 				response.setContentType("application/pdf");
 				DateFormat df = new SimpleDateFormat("dd-MM-yy");
 				String formattedDate = df.format(new Date());
@@ -171,8 +171,8 @@ public class PerformanceServlet extends HttpServlet {
 				}
 			} else {
 				String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-				request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-				request.setAttribute("appTitle", Info.NAME + " &bull;   Performance");
+				request.setAttribute(LANGUAGE, language.getLanguage(lang));
+				request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Performance");
 				request.getRequestDispatcher("jsp/performance.jsp").forward(request, response);
 			}
 		} catch (Throwable t) {

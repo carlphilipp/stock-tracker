@@ -44,7 +44,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * Home servlet
@@ -92,10 +92,10 @@ public class HomeServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 			Portfolio portfolio;
 			try {
-				String day = request.getParameter("days");
+				String day = request.getParameter(DAYS);
 				if (day != null) {
 					int days = Integer.parseInt(day);
 					Calendar cal = Calendar.getInstance();
@@ -111,14 +111,14 @@ public class HomeServlet extends HttpServlet {
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
 				}
-				request.setAttribute("portfolio", portfolio);
+				request.setAttribute(PORTFOLIO, portfolio);
 			} catch (YahooException e) {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-			request.setAttribute("appTitle", Info.NAME + " &bull; Portfolio");
-			request.setAttribute("currencies", Currency.values());
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
+			request.setAttribute(CURRENCIES, Currency.values());
 			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

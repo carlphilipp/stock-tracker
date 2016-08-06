@@ -16,18 +16,6 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Account;
@@ -35,6 +23,18 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.MathContext;
+
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to update a share value
@@ -65,12 +65,12 @@ public class UpdateShareValueServlet extends HttpServlet {
 			HttpSession session = request.getSession(false);
 			StringBuilder message = new StringBuilder();
 
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 
 			String commUpdated = request.getParameter("commentaryUpdated");
 			if (commUpdated == null) {
 
-				Integer acc = Integer.parseInt(request.getParameter("account"));
+				Integer acc = Integer.parseInt(request.getParameter(ACCOUNT));
 				Double movement = Double.parseDouble(request.getParameter("movement"));
 				Double yield = Double.parseDouble(request.getParameter("yield"));
 				Double buy = Double.parseDouble(request.getParameter("buy"));
@@ -96,13 +96,13 @@ public class UpdateShareValueServlet extends HttpServlet {
 					LOG.error(e.getMessage(), e);
 				}
 			} else {
-				int shareId = Integer.valueOf(request.getParameter("shareId"));
+				int shareId = Integer.valueOf(request.getParameter(SHARE_ID));
 				ShareValue sv = business.selectOneShareValue(shareId);
 				sv.setCommentary(commUpdated);
 				business.updateCommentaryShareValue(sv);
 				message.append("Modified!");
 			}
-			request.setAttribute("message", message);
+			request.setAttribute(MESSAGE, message);
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

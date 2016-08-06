@@ -16,17 +16,13 @@
 
 package fr.cph.stock.cron;
 
+import org.apache.log4j.Logger;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+
 import java.util.TimeZone;
 
-import org.apache.log4j.Logger;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.impl.StdSchedulerFactory;
+import static fr.cph.stock.util.Constants.CURRENCY;
 
 /**
  * Job class that use Quartz API. It starts the different jobs needed in the application.
@@ -53,10 +49,10 @@ public class Job {
 	public final void run() throws SchedulerException {
 		Scheduler sched = new StdSchedulerFactory().getScheduler();
 
-		JobDetail jobCurrency = JobBuilder.newJob(CurrencyJob.class).withIdentity("jobCurrency", "currency").build();
+		JobDetail jobCurrency = JobBuilder.newJob(CurrencyJob.class).withIdentity("jobCurrency", CURRENCY).build();
 		Trigger triggerCurrency = TriggerBuilder
 				.newTrigger()
-				.withIdentity("triggerCurrency", "currency")
+				.withIdentity("triggerCurrency", CURRENCY)
 				.withSchedule(
 						//CronScheduleBuilder.cronSchedule("0 55 * ? * MON-FRI").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
 						CronScheduleBuilder.cronSchedule("0 55 * ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))

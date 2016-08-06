@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to access the currency page
@@ -69,24 +69,24 @@ public class CurrencyServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
-			String update = request.getParameter("update");
+			User user = (User) session.getAttribute(USER);
+			String update = request.getParameter(UPDATE);
 			if (update != null) {
 				Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 				try {
 					business.updateOneCurrency(portfolio.getCurrency());
-					request.setAttribute("message", "Done !");
+					request.setAttribute(MESSAGE, "Done !");
 				} catch (YahooException e) {
-					request.setAttribute("error", e.getMessage());
+					request.setAttribute(ERROR, e.getMessage());
 				}
 			}
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 			Object[][] tab = business.getAllCurrencyData(portfolio.getCurrency());
-			request.setAttribute("portfolio", portfolio);
-			request.setAttribute("tab", tab);
+			request.setAttribute(PORTFOLIO, portfolio);
+			request.setAttribute(TAB, tab);
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-			request.setAttribute("appTitle", Info.NAME + " &bull;   Currencies");
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Currencies");
 			request.getRequestDispatcher("jsp/currencies.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

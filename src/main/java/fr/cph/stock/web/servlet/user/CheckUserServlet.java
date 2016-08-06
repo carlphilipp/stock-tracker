@@ -16,18 +16,19 @@
 
 package fr.cph.stock.web.servlet.user;
 
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.User;
+import fr.cph.stock.security.Security;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-import fr.cph.stock.entities.User;
-import fr.cph.stock.security.Security;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user is registering
@@ -53,20 +54,20 @@ public class CheckUserServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String login = request.getParameter("login");
-			String check = request.getParameter("check");
+			String login = request.getParameter(LOGIN);
+			String check = request.getParameter(CHECK);
 			User user = business.getUser(login);
 			if (user != null) {
 				String serverCheck = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 				if (check.equals(serverCheck)) {
 					business.validateUser(login);
-					request.setAttribute("message", "It worked!<br>You can now <a href='index.jsp'>login</a>");
+					request.setAttribute(MESSAGE, "It worked!<br>You can now <a href='index.jsp'>login</a>");
 				} else {
-					request.setAttribute("message", "Sorry, it did not work");
+					request.setAttribute(MESSAGE, "Sorry, it did not work");
 				}
-				request.setAttribute("user", user);
+				request.setAttribute(USER, user);
 			} else {
-				request.setAttribute("message", "Sorry, it did not work");
+				request.setAttribute(MESSAGE, "Sorry, it did not work");
 			}
 			request.getRequestDispatcher("/jsp/check.jsp").forward(request, response);
 

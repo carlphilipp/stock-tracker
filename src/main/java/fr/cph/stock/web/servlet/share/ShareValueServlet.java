@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to access to the history page
@@ -72,8 +72,8 @@ public class ShareValueServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
-			String page = request.getParameter("page");
+			User user = (User) session.getAttribute(USER);
+			String page = request.getParameter(PAGE);
 			int pageNumber = 0;
 			if(page == null || page.equals("")){
 				pageNumber = 1;
@@ -94,19 +94,19 @@ public class ShareValueServlet extends HttpServlet {
 					if (pageNumber == nbPage) {
 						end = portfolio.getShareValues().size() - 1;
 					}
-					request.setAttribute("begin", begin);
-					request.setAttribute("end", end);
-					request.setAttribute("page", page);
-					request.setAttribute("nbPage", nbPage);
+					request.setAttribute(BEGIN, begin);
+					request.setAttribute(END, end);
+					request.setAttribute(PAGE, page);
+					request.setAttribute(NB_PAGE, nbPage);
 				}
-				request.setAttribute("portfolio", portfolio);
+				request.setAttribute(PORTFOLIO, portfolio);
 			} catch (YahooException e) {
 				LOG.error(e.getMessage(), e);
 				throw new ServletException("Error: " + e.getMessage(), e);
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-			request.setAttribute("appTitle", Info.NAME + " &bull; History");
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull; History");
 			request.getRequestDispatcher("jsp/sharevalue.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

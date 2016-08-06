@@ -35,7 +35,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 import java.util.List;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to access the list page
@@ -70,12 +70,12 @@ public class ListServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 			List<Follow> follows = business.getListFollow(user.getId());
-			request.setAttribute("follows", follows);
+			request.setAttribute(FOLLOWS, follows);
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-			request.setAttribute("appTitle", Info.NAME + " &bull; List");
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

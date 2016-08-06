@@ -19,6 +19,9 @@ package fr.cph.stock.entities;
 import net.sf.json.JSONObject;
 import fr.cph.stock.enumtype.Currency;
 
+import static fr.cph.stock.util.Constants.CURRENCY;
+import static fr.cph.stock.util.Constants.LIQUIDITY;
+
 /**
  * This class represents the account of the user
  * 
@@ -157,8 +160,8 @@ public class Account {
 		JSONObject json = new JSONObject();
 		json.accumulate("id", id);
 		json.accumulate("name", name);
-		json.accumulate("currency", currency.getCode());
-		json.accumulate("liquidity", liquidity);
+		json.accumulate(CURRENCY, currency.getCode());
+		json.accumulate(LIQUIDITY, liquidity);
 		return json;
 	}
 

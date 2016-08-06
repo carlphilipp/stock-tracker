@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to login
@@ -58,56 +58,56 @@ public class AuthServlet extends HttpServlet {
 	public final void init() {
 		business = Business.getInstance();
 		lcookies = new ArrayList<>();
-		lcookies.add("quote");
-		lcookies.add("currency");
-		lcookies.add("parity");
-		lcookies.add("stopLoss");
-		lcookies.add("objective");
-		lcookies.add("yield1");
-		lcookies.add("yield2");
-		lcookies.add("autoUpdate");
+		lcookies.add(QUOTE);
+		lcookies.add(CURRENCY);
+		lcookies.add(PARITY);
+		lcookies.add(STOP_LOSS);
+		lcookies.add(OBJECTIVE);
+		lcookies.add(YIELD_1);
+		lcookies.add(YIELD_2);
+		lcookies.add(AUTO_UPDATE);
 	}
 
 	@Override
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			request.getSession().invalidate();
-			String login = request.getParameter("login");
-			String password = request.getParameter("password");
+			String login = request.getParameter(LOGIN);
+			String password = request.getParameter(PASSWORD);
 			User user = business.checkUser(login, password);
 			if (user == null) {
 				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			} else {
 				if (!user.getAllow()) {
-					request.getSession().setAttribute("error", "Account not confirmed. Check your email!");
+					request.getSession().setAttribute(ERROR, "Account not confirmed. Check your email!");
 					request.getRequestDispatcher("index.jsp").forward(request, response);
 				} else {
-					request.getSession().setAttribute("user", user);
+					request.getSession().setAttribute(USER, user);
 					if (request.getCookies() != null) {
 						List<Cookie> cookies = Arrays.asList(request.getCookies());
 						for (String str : lcookies) {
 							if (!CookieManagement.containsCookie(cookies, str)) {
-								Cookie cookie = new Cookie(str, "checked");
+								Cookie cookie = new Cookie(str, CHECKED);
 								cookie.setMaxAge(ONE_YEAR_COOKIE);
 								response.addCookie(cookie);
 							}
 						}
-						if (!CookieManagement.containsCookie(cookies, LANGUAGE_PARAM)) {
-							Cookie cookie = new Cookie(LANGUAGE_PARAM, "English");
+						if (!CookieManagement.containsCookie(cookies, LANGUAGE)) {
+							Cookie cookie = new Cookie(LANGUAGE, ENGLISH);
 							cookie.setMaxAge(ONE_YEAR_COOKIE);
 							response.addCookie(cookie);
 						}
 					} else {
 						for (String str : lcookies) {
-							Cookie cookie = new Cookie(str, "checked");
+							Cookie cookie = new Cookie(str, CHECKED);
 							cookie.setMaxAge(ONE_YEAR_COOKIE);
 							response.addCookie(cookie);
 						}
-						Cookie cookie = new Cookie(LANGUAGE_PARAM, "English");
+						Cookie cookie = new Cookie(LANGUAGE, ENGLISH);
 						cookie.setMaxAge(ONE_YEAR_COOKIE);
 						response.addCookie(cookie);
 					}
-					response.sendRedirect("home");
+					response.sendRedirect(HOME);
 				}
 			}
 		} catch (Throwable t) {

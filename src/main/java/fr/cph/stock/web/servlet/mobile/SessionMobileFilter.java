@@ -16,17 +16,14 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import fr.cph.stock.entities.User;
+
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import fr.cph.stock.entities.User;
+import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This classes is called each time the user try to access a page from mobile that needs to be logged in (basicely, every single
@@ -54,7 +51,7 @@ public class SessionMobileFilter implements Filter {
 				response.setContentType("application/json");
 				response.getWriter().write("{\"error\":\"No active session\"}");
 			} else {
-				User user = (User) session.getAttribute("user");
+				User user = (User) session.getAttribute(USER);
 				if (user == null) {
 					response.setContentType("application/json");
 					response.getWriter().write("{\"error\":\"User session not found\"}");

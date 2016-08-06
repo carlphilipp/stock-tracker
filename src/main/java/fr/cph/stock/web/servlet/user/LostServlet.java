@@ -16,20 +16,22 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.Security;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static fr.cph.stock.util.Constants.EMAIL;
+import static fr.cph.stock.util.Constants.ERROR;
 
 /**
  * This servlet is called when the user has lost his password and want to get a new ont
@@ -56,7 +58,7 @@ public class LostServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String email = request.getParameter("email");
+			String email = request.getParameter(EMAIL);
 			if (!email.equals("")) {
 				User user = business.getUserWithEmail(email);
 				if (user != null) {
@@ -69,10 +71,10 @@ public class LostServlet extends HttpServlet {
 					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[] {email}, null);
 					request.setAttribute("ok", "Check your email!");
 				} else {
-					request.setAttribute("error", "User not found!");
+					request.setAttribute(ERROR, "User not found!");
 				}
 			} else {
-				request.setAttribute("error", "User not found!");
+				request.setAttribute(ERROR, "User not found!");
 			}
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} catch (Throwable t) {

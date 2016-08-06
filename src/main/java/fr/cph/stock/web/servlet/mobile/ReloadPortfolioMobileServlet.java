@@ -16,6 +16,13 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.Portfolio;
+import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.YahooException;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,13 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-import fr.cph.stock.entities.Portfolio;
-import fr.cph.stock.entities.User;
-import fr.cph.stock.exception.YahooException;
+import static fr.cph.stock.util.Constants.HOMEMOBILE;
+import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This servlet is called by mobile to reload the portfolio
@@ -56,11 +58,11 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 			try {
 				Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 				business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
-				response.sendRedirect("homemobile");
+				response.sendRedirect(HOMEMOBILE);
 			} catch (YahooException e) {
 				response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 			}

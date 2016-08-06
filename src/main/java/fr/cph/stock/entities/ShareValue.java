@@ -16,9 +16,11 @@
 
 package fr.cph.stock.entities;
 
+import net.sf.json.JSONObject;
+
 import java.util.Date;
 
-import net.sf.json.JSONObject;
+import static fr.cph.stock.util.Constants.ACCOUNT;
 
 /**
  * This class represents an share value
@@ -125,7 +127,7 @@ public class ShareValue {
 	public final JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.put("date", date);
-		json.put("account", account.getName());
+		json.put(ACCOUNT, account.getName());
 		json.put("commentary", commentary);
 		json.put("shareValue", shareValue);
 		json.put("portfolioValue", portfolioValue);

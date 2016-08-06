@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to update the list
@@ -73,7 +73,7 @@ public class UpdateListServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			StringBuilder sb = new StringBuilder("");
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 			List<Follow> follows = null;
 			try {
 				follows = business.getListFollow(user.getId());
@@ -88,15 +88,15 @@ public class UpdateListServlet extends HttpServlet {
 				sb.append(e1.getMessage() + " ");
 			}
 			follows = business.getListFollow(user.getId());
-			request.setAttribute("follows", follows);
+			request.setAttribute(FOLLOWS, follows);
 			if (!sb.toString().equals("")) {
 				request.setAttribute("updateStatus", "<span class='cQuoteDown'>" + sb.toString() + "</span>");
 			} else {
 				request.setAttribute("updateStatus", "<span class='cQuoteUp'>Refresh done!</span>");
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-			request.setAttribute("appTitle", Info.NAME + " &bull; List");
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

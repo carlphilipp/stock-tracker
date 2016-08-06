@@ -16,8 +16,12 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.Account;
+import fr.cph.stock.entities.Portfolio;
+import fr.cph.stock.entities.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,14 +29,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-import fr.cph.stock.entities.Account;
-import fr.cph.stock.entities.Portfolio;
-import fr.cph.stock.entities.User;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to update its share value, from mobile
@@ -61,16 +61,16 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 			try {
-				int accountId = Integer.valueOf(request.getParameter("accountId"));
-				double movement = Double.valueOf(request.getParameter("liquidity"));
-				double yield = Double.valueOf(request.getParameter("yield"));
-				double buy = Double.valueOf(request.getParameter("buy"));
-				double sell = Double.valueOf(request.getParameter("sell"));
-				double taxe = Double.valueOf(request.getParameter("taxe"));
-				String commentary = request.getParameter("commentary");
+				int accountId = Integer.valueOf(request.getParameter(ACCOUNT_ID));
+				double movement = Double.valueOf(request.getParameter(LIQUIDITY));
+				double yield = Double.valueOf(request.getParameter(YIELD));
+				double buy = Double.valueOf(request.getParameter(BUY));
+				double sell = Double.valueOf(request.getParameter(SELL));
+				double taxe = Double.valueOf(request.getParameter(TAXE));
+				String commentary = request.getParameter(COMMENTARY);
 				Account account = null;
 				for (Account acc : portfolio.getAccounts()) {
 					if (acc.getId() == accountId) {
@@ -87,7 +87,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 					business.updateLiquidity(account, newLiquidity);
 					portfolio = business.getUserPortfolio(user.getId(), null, null);
 					business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
-					response.sendRedirect("homemobile");
+					response.sendRedirect(HOMEMOBILE);
 				}
 
 				// business.updateOneCurrency(portfolio.getCurrency());

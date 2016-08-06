@@ -37,6 +37,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static fr.cph.stock.util.Constants.QUOTE;
+
 /**
  * This class connect to yahoo api and convert the jsonObjects to java bean of the app
  * 
@@ -292,7 +294,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 
 		JSONObject jsonn = null;
 		try {
-			jsonn = json.getJSONObject("query").getJSONObject("results").getJSONObject("quote");
+			jsonn = json.getJSONObject("query").getJSONObject("results").getJSONObject(QUOTE);
 		} catch (JSONException e) {
 			throw new YahooException(YahooException.ERROR, e);
 		}
@@ -317,9 +319,9 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		if (jQuery != null) {
 			JSONObject jsonResults = jQuery.optJSONObject("results");
 			if (jsonResults != null) {
-				quotes = jsonResults.optJSONArray("quote");
+				quotes = jsonResults.optJSONArray(QUOTE);
 				if (quotes == null) {
-					JSONObject quote = jsonResults.getJSONObject("quote");
+					JSONObject quote = jsonResults.getJSONObject(QUOTE);
 					if (quote == null) {
 						JSONObject error2 = json.getJSONObject("query").getJSONObject("diagnostics").optJSONObject("javascript");
 						if (error2 == null) {

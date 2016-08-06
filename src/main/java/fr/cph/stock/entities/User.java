@@ -16,11 +16,14 @@
 
 package fr.cph.stock.entities;
 
+import net.sf.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Locale;
 
-import net.sf.json.JSONObject;
+import static fr.cph.stock.util.Constants.LOGIN;
+import static fr.cph.stock.util.Constants.PASSWORD;
 
 /**
  * This class represents a user
@@ -346,8 +349,8 @@ public class User implements Serializable {
 	public final JSONObject getJSONObject() {
 		JSONObject json = new JSONObject();
 		json.put("id", getId());
-		json.put("login", getLogin());
-		json.put("password", getPassword());
+		json.put(LOGIN, getLogin());
+		json.put(PASSWORD, getPassword());
 		json.put("email", getEmail());
 		json.put("locale", getLocale());
 		json.put("timeZone", getTimeZone());

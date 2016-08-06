@@ -25,8 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static fr.cph.stock.util.Constants.HOME;
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to change the user language
@@ -45,9 +44,9 @@ public class ChangeLanguageServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			final String language = request.getParameter(LANGUAGE_PARAM);
-			if (language.equals("English") || language.equals("Francais")) {
-				final Cookie cookie = new Cookie(LANGUAGE_PARAM, language.intern());
+			final String language = request.getParameter(LANGUAGE);
+			if (language.equals(ENGLISH) || language.equals(FRANCAIS)) {
+				final Cookie cookie = new Cookie(LANGUAGE, language.intern());
 				response.addCookie(cookie);
 			}
 			response.sendRedirect(HOME);

@@ -16,20 +16,6 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import net.sf.json.JSONObject;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Index;
@@ -37,6 +23,20 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
+import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.List;
+
+import static fr.cph.stock.util.Constants.PORTFOLIO;
+import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This servlet is called by mobile to access the homepage
@@ -63,7 +63,7 @@ public class HomeMobileServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 			Portfolio portfolio = null;
 			try {
 				portfolio = business.getUserPortfolio(user.getId(), null, null);
@@ -85,8 +85,8 @@ public class HomeMobileServlet extends HttpServlet {
 
 			if (portfolio != null) {
 				JSONObject json = new JSONObject();
-				json.put("portfolio", portfolio.getJSONObject());
-				json.put("user", user.getJSONObject());
+				json.put(PORTFOLIO, portfolio.getJSONObject());
+				json.put(USER, user.getJSONObject());
 				response.getWriter().write(json.toString());
 			} else {
 				response.getWriter().write("{\"error\":empty\"}");

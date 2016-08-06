@@ -16,18 +16,19 @@
 
 package fr.cph.stock.web.servlet.user;
 
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.LoginException;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-import fr.cph.stock.entities.User;
-import fr.cph.stock.exception.LoginException;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to register
@@ -53,18 +54,18 @@ public class RegistrationServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String login = request.getParameter("login");
-			String password = request.getParameter("password");
-			String email = request.getParameter("email");
+			String login = request.getParameter(LOGIN);
+			String password = request.getParameter(PASSWORD);
+			String email = request.getParameter(EMAIL);
 			if (!isValidEmailAddress(email)) {
 				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			} else {
 				try {
 					business.createUser(login, password, email);
 					User user = business.getUser(login);
-					request.setAttribute("user", user);
+					request.setAttribute(USER, user);
 				} catch (LoginException e) {
-					request.setAttribute("error", e.getMessage());
+					request.setAttribute(ERROR, e.getMessage());
 				}
 				request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
 			}

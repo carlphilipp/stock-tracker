@@ -16,20 +16,20 @@
 
 package fr.cph.stock.dao;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.UUID;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.UUID;
+
+import static fr.cph.stock.util.Constants.PASSWORD;
+import static org.junit.Assert.assertEquals;
 
 public class EquityDaoImplTest {
 
@@ -46,7 +46,7 @@ public class EquityDaoImplTest {
 		daoPortfolio = new PortfolioDAO();
 		daoCompany = new CompanyDAO();
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
-		user = new User(uuid, "password");
+		user = new User(uuid, PASSWORD);
 		user.setEmail("carl@carl.com");
 		daoUser.insert(user);
 		user = daoUser.selectWithLogin(uuid);

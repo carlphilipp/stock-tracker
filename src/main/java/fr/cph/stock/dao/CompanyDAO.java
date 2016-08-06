@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static fr.cph.stock.util.Constants.MANUAL;
+
 /**
  * This class implements IDAO functions and add some more. It access to the Company in DB.
  * 
@@ -102,7 +104,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 		final Map<String, Boolean> options = new HashMap<>();
 		options.put("realTime", realTime);
 		// Remove manual companies
-		options.put("manual", false);
+		options.put(MANUAL, false);
 		try {
 			return session.selectList("CompanyDao.selectAllCompanyNotRealTime", options);
 		} finally {

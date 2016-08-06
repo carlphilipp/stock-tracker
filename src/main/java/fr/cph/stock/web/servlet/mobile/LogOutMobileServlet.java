@@ -16,6 +16,10 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
+import fr.cph.stock.entities.User;
+import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,11 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONObject;
-
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.entities.User;
+import static fr.cph.stock.util.Constants.SESSION;
+import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This servlet is called by mobiles to logout from the app
@@ -49,7 +50,7 @@ public class LogOutMobileServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			if (session != null) {
-				User user = (User) session.getAttribute("User");
+				User user = (User) session.getAttribute(USER);
 				if (user != null) {
 					user = null;
 				}
@@ -58,7 +59,7 @@ public class LogOutMobileServlet extends HttpServlet {
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json");
 			JSONObject json = new JSONObject();
-			json.put("session", "null");
+			json.put(SESSION, "null");
 			response.getWriter().write(json.toString());
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

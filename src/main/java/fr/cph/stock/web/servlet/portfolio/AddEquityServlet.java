@@ -16,18 +16,6 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import java.util.Arrays;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.entities.Company;
@@ -38,6 +26,18 @@ import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.web.servlet.CookieManagement;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to add an equity
@@ -66,17 +66,17 @@ public class AddEquityServlet extends HttpServlet {
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			LanguageFactory language = LanguageFactory.getInstance();
 			HttpSession session = request.getSession();
-			User user = (User) session.getAttribute("user");
-			String manual = request.getParameter("manual");
+			User user = (User) session.getAttribute(USER);
+			String manual = request.getParameter(MANUAL);
 			if (manual != null && manual.equals("true")) {
-				String manualName = request.getParameter("manualName");
-				String manualUnitCostPrice = request.getParameter("manualUnitCostPrice");
-				String manualQuantity = request.getParameter("manualQuantity");
-				String manualParityPersonal = request.getParameter("manualParityPersonal");
-				String manualCurrency = request.getParameter("manualCurrency");
-				String manualIndustry = request.getParameter("manualIndustry");
-				String manualSector = request.getParameter("manualSector");
-				String manualQuote = request.getParameter("manualQuote");
+				String manualName = request.getParameter(MANUAL_NAME);
+				String manualUnitCostPrice = request.getParameter(MANUAL_UNIT_COST_PRICE);
+				String manualQuantity = request.getParameter(MANUAL_QUANTITY);
+				String manualParityPersonal = request.getParameter(MANUAL_PARITY_PERSONAL);
+				String manualCurrency = request.getParameter(MANUAL_CURRENCY);
+				String manualIndustry = request.getParameter(MANUAL_INDUSTRY);
+				String manualSector = request.getParameter(MANUAL_SECTOR);
+				String manualQuote = request.getParameter(MANUAL_QUOTE);
 				
 
 				Double quantity = NumberUtils.createDouble(manualQuantity);
@@ -99,10 +99,10 @@ public class AddEquityServlet extends HttpServlet {
 					request.setAttribute("addError", e.getMessage());
 				}
 			} else {
-				String ticker = request.getParameter("ticker").toUpperCase();
-				String unitCostP = request.getParameter("unitCostPrice");
-				String quant = request.getParameter("quantity");
-				String parityPerso = request.getParameter("parityPersonal");
+				String ticker = request.getParameter(TICKER).toUpperCase();
+				String unitCostP = request.getParameter(UNIT_COST_PRICE);
+				String quant = request.getParameter(QUANTITY);
+				String parityPerso = request.getParameter(PARITY_PERSONAL);
 
 				Double quantity = NumberUtils.createDouble(quant);
 				Double unitCostPrice = NumberUtils.createDouble(unitCostP);
@@ -117,7 +117,7 @@ public class AddEquityServlet extends HttpServlet {
 				equity.setParityPersonal(parityPersonal);
 				try {
 					business.createEquity(user.getId(), ticker, equity);
-					request.setAttribute("added", language.getLanguage(lang).get("CONSTANT_ADDED") + " !");
+					request.setAttribute("added", language.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 				} catch (YahooException | EquityException e) {
 					request.setAttribute("addError", e.getMessage());
 				}

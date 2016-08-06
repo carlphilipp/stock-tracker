@@ -16,22 +16,6 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
-
-import org.apache.log4j.Logger;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.csv.Csv;
@@ -39,6 +23,18 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
+import org.apache.log4j.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * Creat history from CSV file
@@ -66,14 +62,14 @@ public class CreateHistoryServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
-			String liquidity = request.getParameter("liquidity");
-			String acc = request.getParameter("account");
+			User user = (User) session.getAttribute(USER);
+			String liquidity = request.getParameter(LIQUIDITY);
+			String acc = request.getParameter(ACCOUNT);
 
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 			Account account = portfolio.getAccount(acc);
 
-			Part p1 = request.getPart("file");
+			Part p1 = request.getPart(FILE);
 			InputStream is = p1.getInputStream();
 
 			BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));

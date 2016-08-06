@@ -16,18 +16,20 @@
 
 package fr.cph.stock.web.servlet.user;
 
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.User;
+import fr.cph.stock.security.Security;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-import fr.cph.stock.entities.User;
-import fr.cph.stock.security.Security;
+import static fr.cph.stock.util.Constants.LOGIN;
+import static fr.cph.stock.util.Constants.PASSWORD;
 
 /**
  * This servlet is called when new password asked
@@ -54,8 +56,8 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String login = request.getParameter("login");
-			String password = request.getParameter("password");
+			String login = request.getParameter(LOGIN);
+			String password = request.getParameter(PASSWORD);
 			User user = business.getUser(login);
 			String md5PasswordHashed = Security.encodeToSha256(password);
 			String saltHashed = Security.generateSalt();

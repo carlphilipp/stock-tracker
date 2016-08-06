@@ -19,7 +19,8 @@ package fr.cph.stock.web.servlet;
 import javax.servlet.http.Cookie;
 import java.util.List;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.ENGLISH;
+import static fr.cph.stock.util.Constants.LANGUAGE;
 
 /**
  * Cookie management
@@ -45,13 +46,13 @@ public final class CookieManagement {
 	public static String getCookieLanguage(final List<Cookie> cookies) {
 		String language = null;
 		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals(LANGUAGE_PARAM)) {
+			if (cookie.getName().equals(LANGUAGE)) {
 				language = cookie.getValue();
 				break;
 			}
 		}
 		if (language == null) {
-			language = "English";
+			language = ENGLISH;
 		}
 		return language;
 	}

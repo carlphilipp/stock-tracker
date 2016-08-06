@@ -16,8 +16,13 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import java.math.BigDecimal;
-import java.math.MathContext;
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.entities.Account;
+import fr.cph.stock.entities.Portfolio;
+import fr.cph.stock.entities.ShareValue;
+import fr.cph.stock.entities.User;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,15 +30,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-import fr.cph.stock.entities.Account;
-import fr.cph.stock.entities.Portfolio;
-import fr.cph.stock.entities.ShareValue;
-import fr.cph.stock.entities.User;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to delete a share value
@@ -63,15 +63,15 @@ public class DeleteShareValueServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			StringBuilder message = new StringBuilder();
-			User user = (User) session.getAttribute("user");
-			String shareIdd = request.getParameter("shareId");
+			User user = (User) session.getAttribute(USER);
+			String shareIdd = request.getParameter(USER);
 			int shareId = Integer.parseInt(shareIdd);
-			Double liquidityMovement = Double.parseDouble(request.getParameter("liquidityMovement"));
-			Double yield = Double.parseDouble(request.getParameter("yield"));
-			Double buy = Double.parseDouble(request.getParameter("buy"));
-			Double sell = Double.parseDouble(request.getParameter("sell"));
-			Double taxe = Double.parseDouble(request.getParameter("taxe"));
-			String acc = request.getParameter("account");
+			Double liquidityMovement = Double.parseDouble(request.getParameter(LIQUIDITY_MOVEMENT));
+			Double yield = Double.parseDouble(request.getParameter(YIELD));
+			Double buy = Double.parseDouble(request.getParameter(BUY));
+			Double sell = Double.parseDouble(request.getParameter(SELL));
+			Double taxe = Double.parseDouble(request.getParameter(TAXE));
+			String acc = request.getParameter(ACCOUNT);
 
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 			Account account = portfolio.getAccount(acc);
@@ -80,7 +80,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 			if (account == null) {
 				business.deleteShareValue(shareValue);
 				message.append("Account not found, probably deleted before. Line has still been deleted!");
-				request.setAttribute("warn", message);
+				request.setAttribute(WARN, message);
 			} else {
 				Double total = liquidityMovement + yield - buy + sell - taxe;
 				total = new BigDecimal(total, mathContext).doubleValue();
@@ -91,7 +91,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 				}
 				business.deleteShareValue(shareValue);
 				message.append("Done !");
-				request.setAttribute("message", message);
+				request.setAttribute(MESSAGE, message);
 			}
 
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);

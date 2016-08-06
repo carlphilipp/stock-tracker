@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to access the accounts page
@@ -71,15 +71,15 @@ public class AccountsServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 
-			String add = request.getParameter("add");
-			String mod = request.getParameter("mod");
-			String del = request.getParameter("delete");
+			String add = request.getParameter(ADD);
+			String mod = request.getParameter(MOD);
+			String del = request.getParameter(DELETE);
 			if (add != null) {
-				String acc = request.getParameter("account");
-				String currency = request.getParameter("currency");
-				String liquidity = request.getParameter("liquidity");
+				String acc = request.getParameter(ACCOUNT);
+				String currency = request.getParameter(CURRENCY);
+				String liquidity = request.getParameter(LIQUIDITY);
 
 				Account account = new Account();
 				account.setName(acc);
@@ -88,13 +88,13 @@ public class AccountsServlet extends HttpServlet {
 				account.setUserId(user.getId());
 				account.setDel(true);
 				business.addAccount(account);
-				request.setAttribute("message", "Added!");
+				request.setAttribute(MESSAGE, ADDED);
 			}
 			if (mod != null) {
-				String id = request.getParameter("id");
-				String acc = request.getParameter("account");
-				String currency = request.getParameter("currency");
-				String liquidity = request.getParameter("liquidity");
+				String id = request.getParameter(ID);
+				String acc = request.getParameter(ACCOUNT);
+				String currency = request.getParameter(CURRENCY);
+				String liquidity = request.getParameter(LIQUIDITY);
 				Account account = new Account();
 				account.setName(acc);
 				account.setCurrency(Currency.getEnum(currency));
@@ -102,12 +102,12 @@ public class AccountsServlet extends HttpServlet {
 				account.setUserId(user.getId());
 				account.setId(Integer.parseInt(id));
 				business.updateAccount(account);
-				request.setAttribute("message", "Modified!");
+				request.setAttribute(MESSAGE, MODIFIED_MESSAGE);
 
 			}
 			if (del != null) {
-				String id = request.getParameter("id");
-				String delete = request.getParameter("delete2");
+				String id = request.getParameter(ID);
+				String delete = request.getParameter(DELETE_2);
 				LOG.debug(delete);
 				if (delete.equals("true")) {
 					Account account = new Account();
@@ -120,10 +120,10 @@ public class AccountsServlet extends HttpServlet {
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-			request.setAttribute("portfolio", portfolio);
-			request.setAttribute("currencies", Currency.values());
-			request.setAttribute("appTitle", Info.NAME + " &bull;   Accounts");
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(PORTFOLIO, portfolio);
+			request.setAttribute(CURRENCIES, Currency.values());
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Accounts");
 			request.getRequestDispatcher("jsp/accounts.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

@@ -16,6 +16,9 @@
 
 package fr.cph.stock.web.servlet.user;
 
+import fr.cph.stock.entities.User;
+import org.apache.log4j.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,9 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
-
-import fr.cph.stock.entities.User;
+import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This servlet is called when the user want to logout
@@ -47,7 +48,7 @@ public class LogOutServlet extends HttpServlet {
 		try {
 			HttpSession session = request.getSession(false);
 			if (session != null) {
-				User user = (User) session.getAttribute("User");
+				User user = (User) session.getAttribute(USER);
 				if (user != null) {
 					user = null;
 				}

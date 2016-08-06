@@ -32,7 +32,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.util.*;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called whenever the user want to access or modify its options
@@ -77,32 +77,32 @@ public class OptionsServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
-			String update = request.getParameter("update");
+			User user = (User) session.getAttribute(USER);
+			String update = request.getParameter(UPDATE);
 			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 			String quoteRes = null, currencyRes = null, parityRes = null, stopLossRes = null, objectiveRes = null, yield1Res = null, yield2Res = null;
 			if (update != null) {
-				String currency = request.getParameter("currency");
-				String format = request.getParameter("format");
-				String timeZone = request.getParameter("timeZone");
-				String datePattern = request.getParameter("datePattern");
-				String autoUpdate = request.getParameter("autoUpdate");
+				String currency = request.getParameter(CURRENCY);
+				String format = request.getParameter(FORMAT);
+				String timeZone = request.getParameter(TIME_ZONE);
+				String datePattern = request.getParameter(DATE_PATTERN);
+				String autoUpdate = request.getParameter(AUTO_UPDATE);
 				String updateSendMail = null;
 				Integer updateTime = null;
 				if (autoUpdate == null) {
 					updateTime = null;
 				} else {
-					updateTime = Integer.valueOf(request.getParameter("updateTime"));
-					updateSendMail = request.getParameter("autoUpdateEmail");
+					updateTime = Integer.valueOf(request.getParameter(UPDATE_TIME));
+					updateSendMail = request.getParameter(AUTO_UPDATE_EMAIL);
 				}
 
-				String quote = request.getParameter("quote");
-				String currency2 = request.getParameter("currency2");
-				String parity = request.getParameter("parity");
-				String stopLoss = request.getParameter("stopLoss");
-				String objective = request.getParameter("objective");
-				String yield1 = request.getParameter("yield1");
-				String yield2 = request.getParameter("yield2");
+				String quote = request.getParameter(QUOTE);
+				String currency2 = request.getParameter(CURRENCY_2);
+				String parity = request.getParameter(PARITY);
+				String stopLoss = request.getParameter(STOP_LOSS);
+				String objective = request.getParameter(OBJECTIVE);
+				String yield1 = request.getParameter(YIELD_1);
+				String yield2 = request.getParameter(YIELD_2);
 
 				Currency cur = Currency.getEnum(currency);
 				if (cur != portfolio.getCurrency()) {
@@ -120,58 +120,58 @@ public class OptionsServlet extends HttpServlet {
 				}
 				business.updateUser(user);
 
-				boolean bool = addCookieToResponse(response, "quote", quote);
+				boolean bool = addCookieToResponse(response, QUOTE, quote);
 				if (bool) {
-					quoteRes = "checked";
+					quoteRes = CHECKED;
 				}
-				bool = addCookieToResponse(response, "currency", currency2);
+				bool = addCookieToResponse(response, CURRENCY, currency2);
 				if (bool) {
-					currencyRes = "checked";
+					currencyRes = CHECKED;
 				}
-				bool = addCookieToResponse(response, "parity", parity);
+				bool = addCookieToResponse(response, PARITY, parity);
 				if (bool) {
-					parityRes = "checked";
+					parityRes = CHECKED;
 				}
-				bool = addCookieToResponse(response, "stopLoss", stopLoss);
+				bool = addCookieToResponse(response, STOP_LOSS, stopLoss);
 				if (bool) {
-					stopLossRes = "checked";
+					stopLossRes = CHECKED;
 				}
-				bool = addCookieToResponse(response, "objective", objective);
+				bool = addCookieToResponse(response, OBJECTIVE, objective);
 				if (bool) {
-					objectiveRes = "checked";
+					objectiveRes = CHECKED;
 				}
-				bool = addCookieToResponse(response, "yield1", yield1);
+				bool = addCookieToResponse(response, YIELD_1, yield1);
 				if (bool) {
-					yield1Res = "checked";
+					yield1Res = CHECKED;
 				}
-				bool = addCookieToResponse(response, "yield2", yield2);
+				bool = addCookieToResponse(response, YIELD_2, yield2);
 				if (bool) {
-					yield2Res = "checked";
+					yield2Res = CHECKED;
 				}
-				request.setAttribute("updated", "Done!");
+				request.setAttribute(UPDATED, "Done!");
 			} else {
 				Cookie[] cookies = request.getCookies();
 				for (Cookie cookie : cookies) {
 					switch (cookie.getName()) {
-					case "quote":
+					case QUOTE:
 						quoteRes = cookie.getValue();
 						break;
-					case "currency":
+					case CURRENCY:
 						currencyRes = cookie.getValue();
 						break;
-					case "parity":
+					case PARITY:
 						parityRes = cookie.getValue();
 						break;
-					case "stopLoss":
+					case STOP_LOSS:
 						stopLossRes = cookie.getValue();
 						break;
-					case "objective":
+					case OBJECTIVE:
 						objectiveRes = cookie.getValue();
 						break;
-					case "yield1":
+					case YIELD_1:
 						yield1Res = cookie.getValue();
 						break;
-					case "yield2":
+					case YIELD_2:
 						yield2Res = cookie.getValue();
 						break;
 					default:
@@ -179,22 +179,22 @@ public class OptionsServlet extends HttpServlet {
 					}
 				}
 			}
-			request.setAttribute("quote", quoteRes);
-			request.setAttribute("currency", currencyRes);
-			request.setAttribute("parity", parityRes);
-			request.setAttribute("stopLoss", stopLossRes);
-			request.setAttribute("objective", objectiveRes);
-			request.setAttribute("yield1", yield1Res);
-			request.setAttribute("yield2", yield2Res);
+			request.setAttribute(QUOTE, quoteRes);
+			request.setAttribute(CURRENCY, currencyRes);
+			request.setAttribute(PARITY, parityRes);
+			request.setAttribute(STOP_LOSS, stopLossRes);
+			request.setAttribute(OBJECTIVE, objectiveRes);
+			request.setAttribute(YIELD_1, yield1Res);
+			request.setAttribute(YIELD_2, yield2Res);
 
-			request.setAttribute("portfolio", portfolio);
-			request.setAttribute("currencies", Currency.values());
-			request.setAttribute("format", formatList);
-			request.setAttribute("timeZone", timeZoneList);
+			request.setAttribute(PORTFOLIO, portfolio);
+			request.setAttribute(CURRENCIES, Currency.values());
+			request.setAttribute(FORMAT, formatList);
+			request.setAttribute(TIME_ZONE, timeZoneList);
 
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-			request.setAttribute("appTitle", Info.NAME + " &bull; Options");
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Options");
 			request.getRequestDispatcher("jsp/options.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);
@@ -222,7 +222,7 @@ public class OptionsServlet extends HttpServlet {
 		boolean res = false;
 		String value;
 		if (checked != null) {
-			value = "checked";
+			value = CHECKED;
 			res = true;
 		} else {
 			value = "";

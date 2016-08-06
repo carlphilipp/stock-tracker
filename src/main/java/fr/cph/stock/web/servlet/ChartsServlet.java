@@ -37,7 +37,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static fr.cph.stock.util.Constants.LANGUAGE_PARAM;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to change display the charts
@@ -72,7 +72,7 @@ public class ChartsServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute("user");
+			User user = (User) session.getAttribute(USER);
 			Portfolio portfolio;
 			try {
 				portfolio = business.getUserPortfolio(user.getId(), null, null);
@@ -85,15 +85,15 @@ public class ChartsServlet extends HttpServlet {
 				}
 				String mapSector = portfolio.getSectorCompanies();
 				String mapCap = portfolio.getCapCompanies();
-				request.setAttribute("portfolio", portfolio);
-				request.setAttribute("mapSector", mapSector);
-				request.setAttribute("mapCap", mapCap);
+				request.setAttribute(PORTFOLIO, portfolio);
+				request.setAttribute(MAP_SECTOR, mapSector);
+				request.setAttribute(MAP_CAP, mapCap);
 			} catch (YahooException e) {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE_PARAM, language.getLanguage(lang));
-			request.setAttribute("appTitle", Info.NAME + " &bull;   Charts");
+			request.setAttribute(LANGUAGE, language.getLanguage(lang));
+			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Charts");
 			request.getRequestDispatcher("jsp/charts.jsp").forward(request, response);
 		} catch (Throwable t) {
 			LOG.error(t.getMessage(), t);

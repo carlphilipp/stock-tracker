@@ -31,6 +31,9 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
+import static fr.cph.stock.util.Constants.CURRENCY;
+import static fr.cph.stock.util.Constants.LIQUIDITY;
+
 /**
  * This class represents a portofolio that belongs to a user
  * 
@@ -967,8 +970,8 @@ public class Portfolio {
 		JSONObject json = new JSONObject();
 		json.put("id", getId());
 		json.put("userId", getUserId());
-		json.put("currency", getCurrency().getJSONObject());
-		json.put("liquidity", getLiquidity());
+		json.put(CURRENCY, getCurrency().getJSONObject());
+		json.put(LIQUIDITY, getLiquidity());
 		json.put("lastUpdate", getLastCompanyUpdate());
 		json.put("totalValue", getTotalValue());
 		json.put("totalGain", getTotalGain());
