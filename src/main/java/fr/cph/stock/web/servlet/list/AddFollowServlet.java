@@ -62,29 +62,16 @@ public class AddFollowServlet extends HttpServlet {
 		try {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+
 			if (request.getParameter(DELETE) != null) {
-				final String deleteFollowId = request.getParameter(DELETE_FOLLOW_ID);
-				business.deleteFollow(Integer.parseInt(deleteFollowId));
-				request.setAttribute(MESSAGE, "Deleted !");
+				delete(request);
 			} else {
-				try {
-					final String ticker = request.getParameter(TICKER);
-					final String low = request.getParameter(LOWER);
-					final Double lower = !low.equals("") ? Double.valueOf(low) : null;
-					final String high = request.getParameter(HIGHER);
-					final Double higher = !high.equals("") ? Double.valueOf(high) : null;
-
-					business.addFollow(user, ticker, lower, higher);
-
-					request.setAttribute(MESSAGE, "Done !");
-				} catch (final YahooException e) {
-					request.setAttribute(ERROR, "Error during the update: " + e.getMessage());
-				}
+				add(request, user);
 			}
 
 			final List<Follow> follows = business.getListFollow(user.getId());
-			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-
+			
 			request.setAttribute(FOLLOWS, follows);
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
@@ -92,6 +79,28 @@ public class AddFollowServlet extends HttpServlet {
 		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
+		}
+	}
+
+	private void delete(final HttpServletRequest request) {
+		final String deleteFollowId = request.getParameter(DELETE_FOLLOW_ID);
+		business.deleteFollow(Integer.parseInt(deleteFollowId));
+		request.setAttribute(MESSAGE, "Deleted !");
+	}
+
+	private void add(final HttpServletRequest request, final User user) {
+		try {
+			final String ticker = request.getParameter(TICKER);
+			final String low = request.getParameter(LOWER);
+			final Double lower = !low.equals("") ? Double.valueOf(low) : null;
+			final String high = request.getParameter(HIGHER);
+			final Double higher = !high.equals("") ? Double.valueOf(high) : null;
+
+			business.addFollow(user, ticker, lower, higher);
+
+			request.setAttribute(MESSAGE, "Done !");
+		} catch (final YahooException e) {
+			request.setAttribute(ERROR, "Error during the update: " + e.getMessage());
 		}
 	}
 

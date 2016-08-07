@@ -77,7 +77,7 @@ public class AccountsServlet extends HttpServlet {
 				deleteAccount(request);
 			}
 			final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
-			
+
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(PORTFOLIO, portfolio);
 			request.setAttribute(CURRENCIES, Currency.values());
