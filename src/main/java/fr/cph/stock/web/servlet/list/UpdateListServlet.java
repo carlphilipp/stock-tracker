@@ -40,15 +40,16 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to update the list
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "UpdateListServlet", urlPatterns = { "/updatelist" })
 public class UpdateListServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(UpdateListServlet.class);
+
 	private IBusiness business;
 	private LanguageFactory language;
 
@@ -62,29 +63,31 @@ public class UpdateListServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			final HttpSession session = request.getSession(false);
-			final StringBuilder sb = new StringBuilder();
+			final StringBuilder error = new StringBuilder();
 			final User user = (User) session.getAttribute(USER);
-			List<Follow> follows;
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+
+			// TODO: Create method for that
 			try {
-				follows = business.getListFollow(user.getId());
-				List<String> followsString = new ArrayList<>();
-				for (Follow f : follows) {
-					if (f.getCompany().getRealTime() != null && f.getCompany().getRealTime()) {
-						followsString.add(f.getCompany().getYahooId());
+				final List<Follow> follows = business.getListFollow(user.getId());
+				final List<String> followsString = new ArrayList<>();
+				for (final Follow follow : follows) {
+					if (follow.getCompany().getRealTime() != null && follow.getCompany().getRealTime()) {
+						followsString.add(follow.getCompany().getYahooId());
 					}
 				}
 				business.addOrUpdateCompaniesLimitedRequest(followsString);
-			} catch (YahooException e1) {
-				sb.append(e1.getMessage() + " ");
+			} catch (final YahooException e1) {
+				error.append(e1.getMessage() + " ");
 			}
-			follows = business.getListFollow(user.getId());
+			
+			final List<Follow> follows = business.getListFollow(user.getId());
 			request.setAttribute(FOLLOWS, follows);
-			if (!sb.toString().equals("")) {
-				request.setAttribute("updateStatus", "<span class='cQuoteDown'>" + sb.toString() + "</span>");
+			if (!error.toString().equals("")) {
+				request.setAttribute(UPDATE_STATUS, "<span class='cQuoteDown'>" + error.toString() + "</span>");
 			} else {
-				request.setAttribute("updateStatus", "<span class='cQuoteUp'>Refresh done!</span>");
+				request.setAttribute(UPDATE_STATUS, "<span class='cQuoteUp'>Refresh done!</span>");
 			}
-			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);

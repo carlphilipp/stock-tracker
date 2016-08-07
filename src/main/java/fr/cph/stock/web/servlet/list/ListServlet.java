@@ -47,6 +47,7 @@ public class ListServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -3168423969225038651L;
 	private static final Logger LOG = Logger.getLogger(ListServlet.class);
+
 	private IBusiness business;
 	private LanguageFactory language;
 

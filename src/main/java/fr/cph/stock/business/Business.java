@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,69 +40,59 @@ import java.util.*;
 
 /**
  * Business class that access database and process data
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
 public final class Business implements IBusiness {
 
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(Business.class);
-	/** Max update company update at a time **/
-	private static final int MAX_UPDATE_COMPANY = 15;
-	/** Force pause between 2 requests to yahoo **/
-	private static final int PAUSE = 1000;
-	/** **/
-	private final int percent = 100;
-	/** Precision of calculation **/
+	private static final Object LOCK = new Object();
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
-	/** Singleton **/
+	private static final int MAX_UPDATE_COMPANY = 15;
+	private static final int PAUSE = 1000;
+	private static final int PERCENT = 100;
+
 	private static Business business;
-	/** Data Access Objects **/
 	private final IExternalDataAccess yahoo;
-	/** **/
 	private final CompanyDAO daoCompany;
-	/** **/
 	private final PortfolioDAO daoPortfolio;
-	/** **/
 	private final EquityDAO daoEquity;
-	/** **/
 	private final UserDAO daoUser;
-	/** **/
 	private final CurrencyDAO daoCurrency;
-	/** **/
 	private final ShareValueDAO daoShareValue;
-	/** **/
 	private final IndexDAO daoIndex;
-	/** **/
 	private final FollowDAO daoFollow;
-	/** **/
 	private final AccountDAO daoAccount;
 
 	/**
 	 * Class constructor
 	 */
 	private Business() {
-		yahoo = new YahooExternalDataAccess();
-		daoCompany = new CompanyDAO();
-		daoPortfolio = new PortfolioDAO();
-		daoEquity = new EquityDAO();
-		daoUser = new UserDAO();
-		daoCurrency = new CurrencyDAO();
-		daoShareValue = new ShareValueDAO();
-		daoIndex = new IndexDAO();
-		daoFollow = new FollowDAO();
-		daoAccount = new AccountDAO();
+		this.yahoo = new YahooExternalDataAccess();
+		this.daoCompany = new CompanyDAO();
+		this.daoPortfolio = new PortfolioDAO();
+		this.daoEquity = new EquityDAO();
+		this.daoUser = new UserDAO();
+		this.daoCurrency = new CurrencyDAO();
+		this.daoShareValue = new ShareValueDAO();
+		this.daoIndex = new IndexDAO();
+		this.daoFollow = new FollowDAO();
+		this.daoAccount = new AccountDAO();
 	}
 
 	/**
 	 * Static singleton getter
-	 * 
+	 *
 	 * @return a IBusiness instance
 	 */
-	public static final IBusiness getInstance() {
+	public static IBusiness getInstance() {
 		if (business == null) {
-			business = new Business();
+			synchronized (LOCK) {
+				if (business == null) {
+					business = new Business();
+				}
+			}
 		}
 		return business;
 	}
@@ -240,7 +230,7 @@ public final class Business implements IBusiness {
 
 	@Override
 	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException,
-			UnsupportedEncodingException, LoginException {
+		UnsupportedEncodingException, LoginException {
 		String md5PasswordHashed = Security.encodeToSha256(md5Password);
 		String saltHashed = Security.generateSalt();
 		String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
@@ -261,8 +251,8 @@ public final class Business implements IBusiness {
 		StringBuilder body = new StringBuilder();
 		String check = Security.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
 		body.append("Welcome to " + Info.NAME + ",\n\nPlease valid your account by clicking on that link:" + Info.ADDRESS + Info.FOLDER
-				+ "/check?&login=" + login + "&check=" + check + ".\n\nBest regards,\nThe " + Info.NAME + " team.");
-		Mail.sendMail("[Registration] " + Info.NAME, body.toString(), new String[] { email }, null);
+			+ "/check?&login=" + login + "&check=" + check + ".\n\nBest regards,\nThe " + Info.NAME + " team.");
+		Mail.sendMail("[Registration] " + Info.NAME, body.toString(), new String[]{email}, null);
 		createUserPortfolio(user.getLogin());
 		createUserDefautAccount(user);
 	}
@@ -402,7 +392,7 @@ public final class Business implements IBusiness {
 			}
 		} else {
 			throw new YahooException(
-					"The current table 'yahoo.finance.xchange' has been blocked. It exceeded the allotted quotas of either time or instructions");
+				"The current table 'yahoo.finance.xchange' has been blocked. It exceeded the allotted quotas of either time or instructions");
 		}
 	}
 
@@ -433,7 +423,7 @@ public final class Business implements IBusiness {
 
 	@Override
 	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield,
-			final Double buy, final Double sell, final Double taxe, final String commentary) {
+											  final Double buy, final Double sell, final Double taxe, final String commentary) {
 		ShareValue shareValue = new ShareValue();
 		shareValue.setUserId(portfolio.getUserId());
 		double montlyYield = new BigDecimal(portfolio.getYieldYear() / 12, MATHCONTEXT).doubleValue();
@@ -450,8 +440,8 @@ public final class Business implements IBusiness {
 		shareValue.setDetails(portfolio.getPortfolioReview());
 		ShareValue lastShareValue = daoShareValue.selectLastValue(portfolio.getUserId());
 		if (lastShareValue == null) {
-			shareValue.setShareQuantity(portfolio.getTotalValue() / percent);
-			shareValue.setShareValue(Double.valueOf(percent));
+			shareValue.setShareQuantity(portfolio.getTotalValue() / PERCENT);
+			shareValue.setShareValue(Double.valueOf(PERCENT));
 			daoShareValue.insert(shareValue);
 		} else {
 			double parity;
@@ -461,7 +451,7 @@ public final class Business implements IBusiness {
 				parity = portfolio.getCurrency().getParity(account.getCurrency());
 			}
 			Double quantity = lastShareValue.getShareQuantity() + (liquidityMovement * parity)
-					/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.getShareQuantity());
+				/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.getShareQuantity());
 			shareValue.setShareQuantity(new BigDecimal(quantity, MATHCONTEXT).doubleValue());
 
 			Double shareValue2 = portfolio.getTotalValue() / quantity;
@@ -481,7 +471,7 @@ public final class Business implements IBusiness {
 		for (int i = 0; i < indexes.size(); i++) {
 			Index currentIndex = indexes.get(i);
 			if (i == 0) {
-				currentIndex.setShareValue(Double.valueOf(percent));
+				currentIndex.setShareValue(Double.valueOf(PERCENT));
 				// To make it pretty in chart
 				currentIndex.setDate(from);
 			} else {
@@ -507,7 +497,7 @@ public final class Business implements IBusiness {
 		Calendar indexCal = Util.getDateInTimeZone(index.getDate(), timeZone);
 		LOG.debug("Check update for " + yahooId + " in timezone : " + timeZone.getDisplayName());
 		LOG.debug("CurrentHour: " + currentCal.get(Calendar.HOUR_OF_DAY) + "h" + currentCal.get(Calendar.MINUTE) + " / indexHour: "
-				+ indexCal.get(Calendar.HOUR_OF_DAY) + "h" + indexCal.get(Calendar.MINUTE));
+			+ indexCal.get(Calendar.HOUR_OF_DAY) + "h" + indexCal.get(Calendar.MINUTE));
 		if (!Util.isSameDay(currentCal, indexCal)) {
 			LOG.debug("Update index after checking! " + yahooId);
 			updateIndex(yahooId);
@@ -757,10 +747,10 @@ public final class Business implements IBusiness {
 						if (user.getUpdateSendMail()) {
 							StringBuilder body = new StringBuilder();
 							body.append("Dear "
-									+ user.getLogin()
-									+ ",\n\nThe update today did not work, probably because of Yahoo's API.\nSorry for the inconvenience. You still can try do it manually."
-									+ "\n\nBest regards,\nThe " + Info.NAME + " team.");
-							Mail.sendMail("[Auto-update fail] " + Info.NAME, body.toString(), new String[] { user.getEmail() }, null);
+								+ user.getLogin()
+								+ ",\n\nThe update today did not work, probably because of Yahoo's API.\nSorry for the inconvenience. You still can try do it manually."
+								+ "\n\nBest regards,\nThe " + Info.NAME + " team.");
+							Mail.sendMail("[Auto-update fail] " + Info.NAME, body.toString(), new String[]{user.getEmail()}, null);
 						}
 					}
 				}
@@ -770,7 +760,7 @@ public final class Business implements IBusiness {
 
 	@Override
 	public final Company createManualCompany(final String name, final String industry, final String sector, final Currency currency,
-			final double quote) {
+											 final double quote) {
 		Company company = new Company();
 		String uuid = UUID.randomUUID().toString();
 		company.setYahooId(uuid);
@@ -795,7 +785,7 @@ public final class Business implements IBusiness {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return a boolean
 	 */
 	protected final boolean updateAllCompanies() {
@@ -851,7 +841,7 @@ public final class Business implements IBusiness {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param ticker
 	 *            the ticker
 	 * @return a company
@@ -883,7 +873,7 @@ public final class Business implements IBusiness {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param login
 	 *            the login
 	 */
@@ -896,7 +886,7 @@ public final class Business implements IBusiness {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param u
 	 *            the user
 	 */

@@ -48,6 +48,7 @@ public class AccountsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -5015939908893417514L;
 	private static final Logger LOG = Logger.getLogger(AccountsServlet.class);
+
 	private IBusiness business;
 	private LanguageFactory language;
 

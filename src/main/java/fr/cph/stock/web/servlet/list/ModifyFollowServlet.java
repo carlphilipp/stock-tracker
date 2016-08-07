@@ -47,6 +47,7 @@ public class ModifyFollowServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1797882155581192455L;
 	private static final Logger LOG = Logger.getLogger(ModifyFollowServlet.class);
+
 	private IBusiness business;
 	private LanguageFactory language;
 
@@ -64,18 +65,19 @@ public class ModifyFollowServlet extends HttpServlet {
 			final String ticker = request.getParameter(TICKER);
 			final String low = request.getParameter(LOWER);
             final String high = request.getParameter(HIGHER);
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 
             final Double lower = !low.equals("") ? Double.valueOf(low) : null;
             final Double higher = !high.equals("") ? Double.valueOf(high) : null;
 			business.updateFollow(user, ticker, lower, higher);
-			request.setAttribute(MESSAGE, "Done !");
             final List<Follow> follows = business.getListFollow(user.getId());
+
 			request.setAttribute(FOLLOWS, follows);
-            final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			request.setAttribute(MESSAGE, "Done !");
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -85,5 +87,4 @@ public class ModifyFollowServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

@@ -47,6 +47,7 @@ public class AddFollowServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8367279160386302241L;
 	private static final Logger LOG = Logger.getLogger(AddFollowServlet.class);
+
 	private IBusiness business;
 	private LanguageFactory language;
 
