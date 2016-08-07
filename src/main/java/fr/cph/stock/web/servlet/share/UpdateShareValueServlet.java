@@ -38,9 +38,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to update a share value
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "UpdateShareValueServlet", urlPatterns = { "/updatesharevalue" })
 public class UpdateShareValueServlet extends HttpServlet {
@@ -58,21 +58,21 @@ public class UpdateShareValueServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			StringBuilder message = new StringBuilder();
+			final HttpSession session = request.getSession(false);
+			final StringBuilder message = new StringBuilder();
 
-			User user = (User) session.getAttribute(USER);
+			final User user = (User) session.getAttribute(USER);
 
-			String commUpdated = request.getParameter("commentaryUpdated");
+			final String commUpdated = request.getParameter("commentaryUpdated");
 			if (commUpdated == null) {
 
-				Integer acc = Integer.parseInt(request.getParameter(ACCOUNT));
-				Double movement = Double.parseDouble(request.getParameter("movement"));
-				Double yield = Double.parseDouble(request.getParameter("yield"));
-				Double buy = Double.parseDouble(request.getParameter("buy"));
-				Double sell = Double.parseDouble(request.getParameter("sell"));
-				Double taxe = Double.parseDouble(request.getParameter("taxe"));
-				String comm = request.getParameter("commentary");
+				final Integer acc = Integer.parseInt(request.getParameter(ACCOUNT));
+				final Double movement = Double.parseDouble(request.getParameter("movement"));
+				final Double yield = Double.parseDouble(request.getParameter("yield"));
+				final Double buy = Double.parseDouble(request.getParameter("buy"));
+				final Double sell = Double.parseDouble(request.getParameter("sell"));
+				final Double taxe = Double.parseDouble(request.getParameter("taxe"));
+				final String comm = request.getParameter("commentary");
 
 				String commentary = null;
 				if (!comm.equals("")) {
@@ -92,15 +92,15 @@ public class UpdateShareValueServlet extends HttpServlet {
 					LOG.error(e.getMessage(), e);
 				}
 			} else {
-				int shareId = Integer.valueOf(request.getParameter(SHARE_ID));
-				ShareValue sv = business.selectOneShareValue(shareId);
+				final int shareId = Integer.valueOf(request.getParameter(SHARE_ID));
+				final ShareValue sv = business.selectOneShareValue(shareId);
 				sv.setCommentary(commUpdated);
 				business.updateCommentaryShareValue(sv);
 				message.append("Modified!");
 			}
 			request.setAttribute(MESSAGE, message);
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

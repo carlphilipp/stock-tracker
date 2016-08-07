@@ -37,9 +37,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to delete a share value
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "DeleteShareValueServlet", urlPatterns = { "/deletesharevalue" })
 public class DeleteShareValueServlet extends HttpServlet {
@@ -57,21 +57,21 @@ public class DeleteShareValueServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			StringBuilder message = new StringBuilder();
-			User user = (User) session.getAttribute(USER);
-			String shareIdd = request.getParameter(USER);
-			int shareId = Integer.parseInt(shareIdd);
-			Double liquidityMovement = Double.parseDouble(request.getParameter(LIQUIDITY_MOVEMENT));
-			Double yield = Double.parseDouble(request.getParameter(YIELD));
-			Double buy = Double.parseDouble(request.getParameter(BUY));
-			Double sell = Double.parseDouble(request.getParameter(SELL));
-			Double taxe = Double.parseDouble(request.getParameter(TAXE));
-			String acc = request.getParameter(ACCOUNT);
+			final HttpSession session = request.getSession(false);
+			final StringBuilder message = new StringBuilder();
+			final User user = (User) session.getAttribute(USER);
+			final String shareIdd = request.getParameter(USER);
+			final int shareId = Integer.parseInt(shareIdd);
+			final Double liquidityMovement = Double.parseDouble(request.getParameter(LIQUIDITY_MOVEMENT));
+			final Double yield = Double.parseDouble(request.getParameter(YIELD));
+			final Double buy = Double.parseDouble(request.getParameter(BUY));
+			final Double sell = Double.parseDouble(request.getParameter(SELL));
+			final Double taxe = Double.parseDouble(request.getParameter(TAXE));
+			final String acc = request.getParameter(ACCOUNT);
 
-			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
-			Account account = portfolio.getAccount(acc);
-			ShareValue shareValue = new ShareValue();
+			final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+			final Account account = portfolio.getAccount(acc);
+			final ShareValue shareValue = new ShareValue();
 			shareValue.setId(shareId);
 			if (account == null) {
 				business.deleteShareValue(shareValue);
@@ -89,9 +89,8 @@ public class DeleteShareValueServlet extends HttpServlet {
 				message.append("Done !");
 				request.setAttribute(MESSAGE, message);
 			}
-
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,9 +42,8 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user want to update the list
  *
  * @author Carl-Philipp Harmant
- *
  */
-@WebServlet(name = "UpdateListServlet", urlPatterns = { "/updatelist" })
+@WebServlet(name = "UpdateListServlet", urlPatterns = {"/updatelist"})
 public class UpdateListServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -80,7 +79,7 @@ public class UpdateListServlet extends HttpServlet {
 			} catch (final YahooException e1) {
 				error.append(e1.getMessage() + " ");
 			}
-			
+
 			final List<Follow> follows = business.getListFollow(user.getId());
 			request.setAttribute(FOLLOWS, follows);
 			if (!error.toString().equals("")) {
@@ -101,5 +100,4 @@ public class UpdateListServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

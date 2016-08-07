@@ -31,7 +31,7 @@ import java.util.List;
 
 /**
  * This class is loading user data from a CSV file to DB. Not very stable, shouln't be use btw.
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -45,7 +45,7 @@ public class Csv {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param reader
 	 *            the reader
 	 * @param user
@@ -60,7 +60,7 @@ public class Csv {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return a list of share value
 	 * @throws IOException
 	 *             the io exception
@@ -105,13 +105,13 @@ public class Csv {
 
 	/**
 	 * Format
-	 * 
+	 *
 	 * @param text
 	 *            the text to format
 	 * @return a Double
 	 */
 	private Double format(final String text) {
-		Double d = new Double(0);
+		Double d = 0d;
 		if (text != null && !text.equals("")) {
 			String temp = text.replaceAll(" ", "");
 			temp = temp.replaceAll(",", ".");

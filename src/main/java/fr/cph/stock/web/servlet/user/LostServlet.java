@@ -35,9 +35,9 @@ import static fr.cph.stock.util.Constants.ERROR;
 
 /**
  * This servlet is called when the user has lost his password and want to get a new ont
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "LostServlet", urlPatterns = { "/lost" })
 public class LostServlet extends HttpServlet {
@@ -55,12 +55,12 @@ public class LostServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String email = request.getParameter(EMAIL);
+			final String email = request.getParameter(EMAIL);
 			if (!email.equals("")) {
-				User user = business.getUserWithEmail(email);
+				final User user = business.getUserWithEmail(email);
 				if (user != null) {
-					StringBuilder body = new StringBuilder();
-					String check = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+					final StringBuilder body = new StringBuilder();
+					final String check = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 					body.append("Dear " + user.getLogin()
 							+ ",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n"
 							+ "If it's you, click on this link:  " + Info.ADDRESS + Info.FOLDER + "/newpassword?&login="
@@ -74,7 +74,7 @@ public class LostServlet extends HttpServlet {
 				request.setAttribute(ERROR, "User not found!");
 			}
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

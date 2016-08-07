@@ -38,9 +38,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to access to the history page
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "ShareValueServlet", urlPatterns = { "/sharevalue" })
 public class ShareValueServlet extends HttpServlet {
@@ -60,16 +60,16 @@ public class ShareValueServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
-			String page = request.getParameter(PAGE);
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
+			final String page = request.getParameter(PAGE);
 			int pageNumber = 0;
 			if(page == null || page.equals("")){
 				pageNumber = 1;
 			}else{
 				pageNumber = Integer.parseInt(page);
 			}
-			Portfolio portfolio;
+			final Portfolio portfolio;
 			try {
 				portfolio = business.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
@@ -89,15 +89,15 @@ public class ShareValueServlet extends HttpServlet {
 					request.setAttribute(NB_PAGE, nbPage);
 				}
 				request.setAttribute(PORTFOLIO, portfolio);
-			} catch (YahooException e) {
+			} catch (final YahooException e) {
 				LOG.error(e.getMessage(), e);
 				throw new ServletException("Error: " + e.getMessage(), e);
 			}
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; History");
 			request.getRequestDispatcher("jsp/sharevalue.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

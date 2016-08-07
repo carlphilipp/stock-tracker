@@ -35,11 +35,11 @@ public class AboutServlet extends HttpServlet {
     @Override
     protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
         try {
-            String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
             request.setAttribute(LANGUAGE, language.getLanguage(lang));
             request.setAttribute(APP_TITLE, Info.NAME + " &bull;   About");
             request.getRequestDispatcher("jsp/about.jsp").forward(request, response);
-        } catch (Throwable t) {
+        } catch (final Throwable t) {
             LOG.error(t.getMessage(), t);
             throw new ServletException("Error: " + t.getMessage(), t);
         }

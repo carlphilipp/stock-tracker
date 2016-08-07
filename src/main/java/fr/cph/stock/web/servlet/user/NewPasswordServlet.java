@@ -34,9 +34,9 @@ import static fr.cph.stock.util.Constants.LOGIN;
 
 /**
  * This servlet is called when a new password is asked
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "NewPasswordServlet", urlPatterns = { "/newpassword" })
 public class NewPasswordServlet extends HttpServlet {
@@ -53,11 +53,11 @@ public class NewPasswordServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String login = request.getParameter(LOGIN);
-			String check = request.getParameter(CHECK);
-			User user = business.getUser(login);
+			final String login = request.getParameter(LOGIN);
+			final String check = request.getParameter(CHECK);
+			final User user = business.getUser(login);
 			if (user != null) {
-				String checkServer = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+				final String checkServer = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 				if (check.equals(checkServer)) {
 					request.setAttribute(LOGIN, user.getLogin());
 				} else {

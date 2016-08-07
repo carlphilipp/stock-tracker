@@ -33,9 +33,9 @@ import static fr.cph.stock.util.Constants.PASSWORD;
 
 /**
  * This servlet is called when new password asked
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "NewPasswordConfirmServlet", urlPatterns = { "/newpasswordconf" })
 public class NewPasswordConfirmServlet extends HttpServlet {
@@ -53,12 +53,12 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String login = request.getParameter(LOGIN);
-			String password = request.getParameter(PASSWORD);
-			User user = business.getUser(login);
-			String md5PasswordHashed = Security.encodeToSha256(password);
-			String saltHashed = Security.generateSalt();
-			String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
+			final String login = request.getParameter(LOGIN);
+			final String password = request.getParameter(PASSWORD);
+			final User user = business.getUser(login);
+			final String md5PasswordHashed = Security.encodeToSha256(password);
+			final String saltHashed = Security.generateSalt();
+			final String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
 			user.setPassword(saltHashed + cryptedPasswordSalt);
 			business.updateOneUserPassword(user);
 			request.setAttribute("ok", "Password changed!");
@@ -73,5 +73,4 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

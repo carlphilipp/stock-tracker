@@ -37,9 +37,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to access the currency page
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "CurrencyServlet", urlPatterns = { "/currencies" })
 public class CurrencyServlet extends HttpServlet {
@@ -58,11 +58,11 @@ public class CurrencyServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
-			String update = request.getParameter(UPDATE);
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
+			final String update = request.getParameter(UPDATE);
 			if (update != null) {
-				Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 				try {
 					business.updateOneCurrency(portfolio.getCurrency());
 					request.setAttribute(MESSAGE, "Done !");
@@ -70,11 +70,11 @@ public class CurrencyServlet extends HttpServlet {
 					request.setAttribute(ERROR, e.getMessage());
 				}
 			}
-			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
-			Object[][] tab = business.getAllCurrencyData(portfolio.getCurrency());
+			final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+			final Object[][] tab = business.getAllCurrencyData(portfolio.getCurrency());
 			request.setAttribute(PORTFOLIO, portfolio);
 			request.setAttribute(TAB, tab);
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Currencies");
 			request.getRequestDispatcher("jsp/currencies.jsp").forward(request, response);

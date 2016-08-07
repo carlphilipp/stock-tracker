@@ -27,14 +27,16 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to register
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "RegistrationServlet", urlPatterns = { "/register" })
 public class RegistrationServlet extends HttpServlet {
@@ -51,22 +53,22 @@ public class RegistrationServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String login = request.getParameter(LOGIN);
-			String password = request.getParameter(PASSWORD);
-			String email = request.getParameter(EMAIL);
+			final String login = request.getParameter(LOGIN);
+			final String password = request.getParameter(PASSWORD);
+			final String email = request.getParameter(EMAIL);
 			if (!isValidEmailAddress(email)) {
 				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			} else {
 				try {
 					business.createUser(login, password, email);
-					User user = business.getUser(login);
+					final User user = business.getUser(login);
 					request.setAttribute(USER, user);
 				} catch (LoginException e) {
 					request.setAttribute(ERROR, e.getMessage());
 				}
 				request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -79,9 +81,9 @@ public class RegistrationServlet extends HttpServlet {
 	}
 
 	private boolean isValidEmailAddress(final String email) {
-		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
-		java.util.regex.Matcher m = p.matcher(email);
+		final String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+		Pattern p = Pattern.compile(ePattern);
+		Matcher m = p.matcher(email);
 		return m.matches();
 	}
 }

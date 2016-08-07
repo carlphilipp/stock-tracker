@@ -30,9 +30,9 @@ import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This servlet is called when the user want to logout
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "LogOutServlet", urlPatterns = { "/logout" })
 public class LogOutServlet extends HttpServlet {
@@ -43,7 +43,7 @@ public class LogOutServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
+			final HttpSession session = request.getSession(false);
 			if (session != null) {
 				User user = (User) session.getAttribute(USER);
 				if (user != null) {

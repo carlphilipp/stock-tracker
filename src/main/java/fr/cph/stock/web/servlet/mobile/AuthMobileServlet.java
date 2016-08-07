@@ -31,14 +31,13 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called by mobile to connect to the app
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "AuthMobileServlet", urlPatterns = { "/authmobile" })
 public class AuthMobileServlet extends HttpServlet {
 
-	/** Serialization **/
 	private static final long serialVersionUID = -7713821485113054118L;
 	private static final Logger LOG = Logger.getLogger(AuthMobileServlet.class);
 	private IBusiness business;
@@ -67,7 +66,7 @@ public class AuthMobileServlet extends HttpServlet {
 					response.sendRedirect(HOMEMOBILE);
 				}
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error: " + t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

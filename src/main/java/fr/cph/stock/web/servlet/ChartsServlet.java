@@ -40,9 +40,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called to change display the charts
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "ChartsServlet", urlPatterns = { "/charts" })
 public class ChartsServlet extends HttpServlet {
@@ -61,9 +61,9 @@ public class ChartsServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
-			Portfolio portfolio;
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
+			final Portfolio portfolio;
 			try {
 				portfolio = business.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
@@ -73,19 +73,19 @@ public class ChartsServlet extends HttpServlet {
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
 				}
-				String mapSector = portfolio.getSectorCompanies();
-				String mapCap = portfolio.getCapCompanies();
+				final String mapSector = portfolio.getSectorCompanies();
+				final String mapCap = portfolio.getCapCompanies();
 				request.setAttribute(PORTFOLIO, portfolio);
 				request.setAttribute(MAP_SECTOR, mapSector);
 				request.setAttribute(MAP_CAP, mapCap);
 			} catch (YahooException e) {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Charts");
 			request.getRequestDispatcher("jsp/charts.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

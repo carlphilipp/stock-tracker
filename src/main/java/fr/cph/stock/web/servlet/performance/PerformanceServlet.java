@@ -51,9 +51,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to access to the performance page
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "PerformanceServlet", urlPatterns = { "/performance" })
 public class PerformanceServlet extends HttpServlet {
@@ -71,15 +71,15 @@ public class PerformanceServlet extends HttpServlet {
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
-		HttpSession session = request.getSession(false);
-		User user = (User) session.getAttribute(USER);
+		final HttpSession session = request.getSession(false);
+		final User user = (User) session.getAttribute(USER);
 		Portfolio portfolio = null;
 		try {
-			String createPdf = request.getParameter(PDF);
+			final String createPdf = request.getParameter(PDF);
 			try {
-				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-				String fromString = request.getParameter(FROM);
-				String toString = request.getParameter(TO);
+				final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+				final String fromString = request.getParameter(FROM);
+				final String toString = request.getParameter(TO);
 
 				Date fromDate = null;
 				Date toDate = null;
@@ -97,8 +97,8 @@ public class PerformanceServlet extends HttpServlet {
 					// Put 17:00PM to the first sharevalue, to make it nice in graphic
 					portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).setDate(from);
 
-					List<Index> indexes = business.getIndexes(Info.YAHOOID_CAC40, from, toDate);
-					List<Index> indexes2 = business.getIndexes(Info.YAHOOID_SP500, from, toDate);
+					final List<Index> indexes = business.getIndexes(Info.YAHOOID_CAC40, from, toDate);
+					final List<Index> indexes2 = business.getIndexes(Info.YAHOOID_SP500, from, toDate);
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
 					portfolio.compute();
@@ -135,14 +135,14 @@ public class PerformanceServlet extends HttpServlet {
 				}
 
 				request.setAttribute(PORTFOLIO, portfolio);
-			} catch (YahooException e) {
+			} catch (final YahooException e) {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 			if (createPdf != null && createPdf.equals("pdf")) {
-				Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");
-				Image capChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartCap(), "Cap Chart");
-				Image timeChart = PdfReport.createTimeChart((TimeChart) portfolio.getTimeChart(), "Share value");
-				PdfReport pdf = new PdfReport(Info.REPORT);
+				final Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");
+				final Image capChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartCap(), "Cap Chart");
+				final Image timeChart = PdfReport.createTimeChart((TimeChart) portfolio.getTimeChart(), "Share value");
+				final PdfReport pdf = new PdfReport(Info.REPORT);
 				pdf.addParam(PORTFOLIO, portfolio);
 				pdf.addParam(EQUITIES, portfolio.getEquities());
 				pdf.addParam(USER, user);
@@ -150,22 +150,21 @@ public class PerformanceServlet extends HttpServlet {
 				pdf.addParam(CAP_PIE, capChart);
 				pdf.addParam(SHARE_VALUE_PIE, timeChart);
 				response.setContentType("application/pdf");
-				DateFormat df = new SimpleDateFormat("dd-MM-yy");
-				String formattedDate = df.format(new Date());
+				final DateFormat df = new SimpleDateFormat("dd-MM-yy");
+				final String formattedDate = df.format(new Date());
 				response.addHeader("Content-Disposition", "attachment; filename=" + user.getLogin() + formattedDate + ".pdf");
-				OutputStream responseOutputStream = response.getOutputStream();
-				try {
+				try(final OutputStream responseOutputStream = response.getOutputStream()) {
 					JasperExportManager.exportReportToPdfStream(pdf.getReport(), responseOutputStream);
-				} catch (JRException e) {
+				} catch (final JRException e) {
 					throw new ServletException("Error: " + e.getMessage(), e);
 				}
 			} else {
-				String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+				final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 				request.setAttribute(LANGUAGE, language.getLanguage(lang));
 				request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Performance");
 				request.getRequestDispatcher("jsp/performance.jsp").forward(request, response);
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
@@ -175,5 +174,4 @@ public class PerformanceServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

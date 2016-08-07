@@ -40,9 +40,9 @@ import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This servlet is called by mobile to access the homepage
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "HomeMobileServlet", urlPatterns = { "/homemobile" })
 public class HomeMobileServlet extends HttpServlet {
@@ -73,7 +73,7 @@ public class HomeMobileServlet extends HttpServlet {
 				}
 				// to force calculate some data .... :'(
 				portfolio.getCurrentShareValuesTaxes();
-			} catch (YahooException e) {
+			} catch (final YahooException e) {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 
@@ -99,5 +99,4 @@ public class HomeMobileServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

@@ -45,7 +45,7 @@ public final class CookieManagement {
      */
     public static String getCookieLanguage(final List<Cookie> cookies) {
         String language = null;
-        for (Cookie cookie : cookies) {
+        for (final Cookie cookie : cookies) {
             if (cookie.getName().equals(LANGUAGE)) {
                 language = cookie.getValue();
                 break;

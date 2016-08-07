@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -43,7 +43,7 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "ModifyEquityServlet", urlPatterns = { "/modifyequity" })
+@WebServlet(name = "ModifyEquityServlet", urlPatterns = {"/modifyequity"})
 public class ModifyEquityServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 886732846315131952L;
@@ -61,81 +61,81 @@ public class ModifyEquityServlet extends HttpServlet {
 			if (request.getCharacterEncoding() == null) {
 				request.setCharacterEncoding("UTF-8");
 			}
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			LanguageFactory language = LanguageFactory.getInstance();
-			HttpSession session = request.getSession();
-			User user = (User) session.getAttribute(USER);
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final LanguageFactory language = LanguageFactory.getInstance();
+			final HttpSession session = request.getSession();
+			final User user = (User) session.getAttribute(USER);
 			Double quantity = null, unitCostPrice = null, stopLoss = null, objective = null, yieldPersonal = null, parityPersonal = null;
 			String namePersonal = null, sectorPersonal = null, industryPersonal = null, marketCapPersonal = null;
 			try {
 				if (request.getParameter(DELETE) != null) {
 					if (request.getParameter(MANUAL) != null) {
-						String id = request.getParameter(ID);
-						String companyId = request.getParameter(COMPANY_ID);
-						Equity e = new Equity();
+						final String id = request.getParameter(ID);
+						final String companyId = request.getParameter(COMPANY_ID);
+						final Equity e = new Equity();
 						e.setid(Integer.parseInt(id));
 						business.deleteEquity(e);
-						Company company = new Company();
+						final Company company = new Company();
 						company.setId(Integer.parseInt(companyId));
 						business.deleteCompany(company);
 						request.setAttribute(MODIFIED, language.getLanguage(lang).get(CONSTANT_DELETED) + " !");
 					} else {
-						String id = request.getParameter(ID);
-						Equity e = new Equity();
+						final String id = request.getParameter(ID);
+						final Equity e = new Equity();
 						e.setid(Integer.parseInt(id));
 						business.deleteEquity(e);
 						request.setAttribute(MODIFIED, language.getLanguage(lang).get(CONSTANT_DELETED) + " !");
 					}
 				} else {
-					String ticker = request.getParameter(TICKER);
-					String namePerso = request.getParameter(NAME_PERSONAL);
+					final String ticker = request.getParameter(TICKER);
+					final String namePerso = request.getParameter(NAME_PERSONAL);
 					if (!namePerso.equals("")) {
 						namePersonal = namePerso;
 					}
-					String sectorPerso = request.getParameter(SECTOR_PERSONAL);
+					final String sectorPerso = request.getParameter(SECTOR_PERSONAL);
 					if (!sectorPerso.equals("")) {
 						sectorPersonal = sectorPerso;
 					}
-					String industryPerso = request.getParameter(INDUSTRY_PERSONAL);
+					final String industryPerso = request.getParameter(INDUSTRY_PERSONAL);
 					if (!industryPerso.equals("")) {
 						industryPersonal = industryPerso;
 					}
-					String marketCapPerso = request.getParameter(MARKET_CAP_PERSONAL);
+					final String marketCapPerso = request.getParameter(MARKET_CAP_PERSONAL);
 					if (!marketCapPerso.equals("")) {
 						marketCapPersonal = marketCapPerso;
 					}
-					String quant = request.getParameter(QUANTITY);
+					final String quant = request.getParameter(QUANTITY);
 					if (!quant.equals("")) {
 						quantity = NumberUtils.createDouble(quant);
 					} else {
 						quantity = 0.0;
 					}
-					String unitCostP = request.getParameter(UNIT_COST_PRICE);
+					final String unitCostP = request.getParameter(UNIT_COST_PRICE);
 					if (!unitCostP.equals("")) {
 						unitCostPrice = NumberUtils.createDouble(unitCostP);
 					} else {
 						unitCostPrice = 0.0;
 					}
-					String stopLo = request.getParameter(STOP_LOSS);
+					final String stopLo = request.getParameter(STOP_LOSS);
 					if (!stopLo.equals("")) {
 						stopLoss = NumberUtils.createDouble(stopLo);
 					}
-					String objc = request.getParameter(OBJECTIVE);
+					final String objc = request.getParameter(OBJECTIVE);
 					if (!objc.equals("")) {
 						objective = NumberUtils.createDouble(objc);
 					}
-					String yieldPerso = request.getParameter(YIELD_PERSONAL);
+					final String yieldPerso = request.getParameter(YIELD_PERSONAL);
 					if (!yieldPerso.equals("")) {
 						yieldPersonal = NumberUtils.createDouble(yieldPerso);
 					}
-					String parityPerso = request.getParameter(MODIFY_PARITY_PERSONAL);
+					final String parityPerso = request.getParameter(MODIFY_PARITY_PERSONAL);
 					if (!parityPerso.equals("")) {
 						parityPersonal = NumberUtils.createDouble(parityPerso);
 					}
 					if (quantity == 0) {
 						request.setAttribute(MODIFY_ERROR, "Error: quantity can not be 0");
 					} else {
-						Equity equity = new Equity();
+						final Equity equity = new Equity();
 						equity.setNamePersonal(namePersonal);
 						equity.setSectorPersonal(sectorPersonal);
 						equity.setIndustryPersonal(industryPersonal);
@@ -149,27 +149,24 @@ public class ModifyEquityServlet extends HttpServlet {
 						business.updateEquity(user.getId(), ticker, equity);
 						request.setAttribute(MODIFIED, language.getLanguage(lang).get(CONSTANT_MODIFIED) + " !");
 					}
-					if(request.getParameter(MANUAL) != null){
-						String companyId = request.getParameter(COMPANY_ID);
-						String quote = request.getParameter(QUOTE);
-						Double quoteRes = null;
-						Integer companyIdRes = null;
-						if(quote != null && !quote.equals("") && companyId != null && !companyId.equals("")){
+					if (request.getParameter(MANUAL) != null) {
+						final String companyId = request.getParameter(COMPANY_ID);
+						final String quote = request.getParameter(QUOTE);
+						final Double quoteRes;
+						final Integer companyIdRes;
+						if (quote != null && !quote.equals("") && companyId != null && !companyId.equals("")) {
 							quoteRes = Double.parseDouble(quote);
 							companyIdRes = Integer.parseInt(companyId);
 							business.updateCompanyManual(companyIdRes, quoteRes);
 						}
 					}
 				}
-			} catch (YahooException e) {
-				LOG.warn(e.getMessage(), e);
-				request.setAttribute("modifyError", "Error: " + e.getMessage());
-			} catch (NumberFormatException e) {
+			} catch (final NumberFormatException | YahooException e) {
 				LOG.warn(e.getMessage(), e);
 				request.setAttribute("modifyError", "Error: " + e.getMessage());
 			}
 			request.getRequestDispatcher("home").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

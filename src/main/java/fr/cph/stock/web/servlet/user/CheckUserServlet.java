@@ -32,9 +32,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user is registering
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "CheckUserServlet", urlPatterns = { "/check" })
 public class CheckUserServlet extends HttpServlet {
@@ -51,11 +51,11 @@ public class CheckUserServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			String login = request.getParameter(LOGIN);
-			String check = request.getParameter(CHECK);
-			User user = business.getUser(login);
+			final String login = request.getParameter(LOGIN);
+			final String check = request.getParameter(CHECK);
+			final User user = business.getUser(login);
 			if (user != null) {
-				String serverCheck = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+				final String serverCheck = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 				if (check.equals(serverCheck)) {
 					business.validateUser(login);
 					request.setAttribute(MESSAGE, "It worked!<br>You can now <a href='index.jsp'>login</a>");
@@ -67,8 +67,7 @@ public class CheckUserServlet extends HttpServlet {
 				request.setAttribute(MESSAGE, "Sorry, it did not work");
 			}
 			request.getRequestDispatcher("/jsp/check.jsp").forward(request, response);
-
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

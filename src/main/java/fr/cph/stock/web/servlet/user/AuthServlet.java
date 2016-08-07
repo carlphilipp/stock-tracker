@@ -36,9 +36,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to login
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "AuthServlet", urlPatterns = { "/auth" })
 public class AuthServlet extends HttpServlet {
@@ -67,9 +67,9 @@ public class AuthServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			request.getSession().invalidate();
-			String login = request.getParameter(LOGIN);
-			String password = request.getParameter(PASSWORD);
-			User user = business.checkUser(login, password);
+			final String login = request.getParameter(LOGIN);
+			final String password = request.getParameter(PASSWORD);
+			final User user = business.checkUser(login, password);
 			if (user == null) {
 				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			} else {
@@ -79,8 +79,8 @@ public class AuthServlet extends HttpServlet {
 				} else {
 					request.getSession().setAttribute(USER, user);
 					if (request.getCookies() != null) {
-						List<Cookie> cookies = Arrays.asList(request.getCookies());
-						for (String str : lcookies) {
+						final List<Cookie> cookies = Arrays.asList(request.getCookies());
+						for (final String str : lcookies) {
 							if (!CookieManagement.containsCookie(cookies, str)) {
 								Cookie cookie = new Cookie(str, CHECKED);
 								cookie.setMaxAge(ONE_YEAR_COOKIE);
@@ -88,24 +88,24 @@ public class AuthServlet extends HttpServlet {
 							}
 						}
 						if (!CookieManagement.containsCookie(cookies, LANGUAGE)) {
-							Cookie cookie = new Cookie(LANGUAGE, ENGLISH);
+							final Cookie cookie = new Cookie(LANGUAGE, ENGLISH);
 							cookie.setMaxAge(ONE_YEAR_COOKIE);
 							response.addCookie(cookie);
 						}
 					} else {
-						for (String str : lcookies) {
-							Cookie cookie = new Cookie(str, CHECKED);
+						for (final String str : lcookies) {
+							final Cookie cookie = new Cookie(str, CHECKED);
 							cookie.setMaxAge(ONE_YEAR_COOKIE);
 							response.addCookie(cookie);
 						}
-						Cookie cookie = new Cookie(LANGUAGE, ENGLISH);
+						final Cookie cookie = new Cookie(LANGUAGE, ENGLISH);
 						cookie.setMaxAge(ONE_YEAR_COOKIE);
 						response.addCookie(cookie);
 					}
 					response.sendRedirect(HOME);
 				}
 			}
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error: " + t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

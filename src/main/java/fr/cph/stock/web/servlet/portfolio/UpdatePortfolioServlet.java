@@ -37,9 +37,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * This servlet is called when the user want to update the portfolio
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "UpdatePortfolioServlet", urlPatterns = { "/updateportfolio" })
 public class UpdatePortfolioServlet extends HttpServlet {
@@ -56,15 +56,15 @@ public class UpdatePortfolioServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			LanguageFactory language = LanguageFactory.getInstance();
-			StringBuilder sb = new StringBuilder("");
-			User user = (User) session.getAttribute(USER);
-			String updateCurrencies = request.getParameter(CURRENCY_UPDATE);
+			final HttpSession session = request.getSession(false);
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final LanguageFactory language = LanguageFactory.getInstance();
+			final StringBuilder sb = new StringBuilder("");
+			final User user = (User) session.getAttribute(USER);
+			final String updateCurrencies = request.getParameter(CURRENCY_UPDATE);
 			String error = null;
 			try {
-				Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 				if (updateCurrencies != null) {
 					business.updateOneCurrency(portfolio.getCurrency());
 				}
@@ -87,8 +87,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 				}
 			}
 			request.getRequestDispatcher(HOME).forward(request, response);
-
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
