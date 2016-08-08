@@ -61,6 +61,7 @@ public class OptionsServlet extends HttpServlet {
 		Collections.sort(timeZoneList);
 	}
 
+	// TODO refactor
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {

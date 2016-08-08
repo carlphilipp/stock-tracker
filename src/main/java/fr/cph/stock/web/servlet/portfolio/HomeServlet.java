@@ -47,9 +47,9 @@ import static fr.cph.stock.util.Constants.*;
 
 /**
  * Home servlet
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "HomeServlet", urlPatterns = { "/home" }, loadOnStartup = 1)
 public class HomeServlet extends HttpServlet {
@@ -63,13 +63,13 @@ public class HomeServlet extends HttpServlet {
 	@Override
 	public final void init() throws ServletException {
 		try {
-			InetAddress inetAddress = InetAddress.getLocalHost();
-			String hostName = inetAddress.getHostName();
+			final InetAddress inetAddress = InetAddress.getLocalHost();
+			final String hostName = inetAddress.getHostName();
 			if (!hostName.equals("carl-Laptop")) {
 				job = new Job();
 				job.run();
 			}
-		} catch (UnknownHostException | SchedulerException e) {
+		} catch (final UnknownHostException | SchedulerException e) {
 			LOG.error(e.getMessage(), e);
 		}
 
@@ -80,36 +80,36 @@ public class HomeServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			HttpSession session = request.getSession(false);
-			User user = (User) session.getAttribute(USER);
-			Portfolio portfolio;
+			final HttpSession session = request.getSession(false);
+			final User user = (User) session.getAttribute(USER);
+			final String day = request.getParameter(DAYS);
 			try {
-				String day = request.getParameter(DAYS);
+				final Portfolio portfolio;
 				if (day != null) {
-					int days = Integer.parseInt(day);
-					Calendar cal = Calendar.getInstance();
+					final int days = Integer.parseInt(day);
+					final Calendar cal = Calendar.getInstance();
 					cal.add(Calendar.DATE, -days);
 					portfolio = business.getUserPortfolio(user.getId(), cal.getTime(), null);
 				} else {
 					portfolio = business.getUserPortfolio(user.getId(), null, null);
 				}
 				if (portfolio.getShareValues().size() != 0) {
-					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					List<Index> indexes = business.getIndexes(Info.YAHOOID_CAC40, from, null);
-					List<Index> indexes2 = business.getIndexes(Info.YAHOOID_SP500, from, null);
-					portfolio.addIndexes(indexes);
-					portfolio.addIndexes(indexes2);
+					final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
+					final List<Index> indexesCAC40 = business.getIndexes(Info.YAHOOID_CAC40, from, null);
+					final List<Index> indexesSP500 = business.getIndexes(Info.YAHOOID_SP500, from, null);
+					portfolio.addIndexes(indexesCAC40);
+					portfolio.addIndexes(indexesSP500);
 				}
 				request.setAttribute(PORTFOLIO, portfolio);
-			} catch (YahooException e) {
+			} catch (final YahooException e) {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
-			String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
 			request.setAttribute(CURRENCIES, Currency.values());
 			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

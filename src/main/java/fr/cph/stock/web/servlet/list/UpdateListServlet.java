@@ -66,19 +66,7 @@ public class UpdateListServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 
-			// TODO: Create method for that
-			try {
-				final List<Follow> follows = business.getListFollow(user.getId());
-				final List<String> followsString = new ArrayList<>();
-				for (final Follow follow : follows) {
-					if (follow.getCompany().getRealTime() != null && follow.getCompany().getRealTime()) {
-						followsString.add(follow.getCompany().getYahooId());
-					}
-				}
-				business.addOrUpdateCompaniesLimitedRequest(followsString);
-			} catch (final YahooException e1) {
-				error.append(e1.getMessage() + " ");
-			}
+			update(user.getId(), error);
 
 			final List<Follow> follows = business.getListFollow(user.getId());
 			request.setAttribute(FOLLOWS, follows);
@@ -99,5 +87,20 @@ public class UpdateListServlet extends HttpServlet {
 	@Override
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
+	}
+
+	private void update(final int userId, final StringBuilder error) {
+		try {
+			final List<Follow> follows = business.getListFollow(userId);
+			final List<String> followsString = new ArrayList<>();
+			for (final Follow follow : follows) {
+				if (follow.getCompany().getRealTime() != null && follow.getCompany().getRealTime()) {
+					followsString.add(follow.getCompany().getYahooId());
+				}
+			}
+			business.addOrUpdateCompaniesLimitedRequest(followsString);
+		} catch (final YahooException e1) {
+			error.append(e1.getMessage()).append(" ");
+		}
 	}
 }

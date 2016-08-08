@@ -35,9 +35,9 @@ import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This servlet is called by mobile to reload the portfolio
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 @WebServlet(name = "ReloadPortfolioMobileServlet", urlPatterns = { "/reloadportfoliomobile" })
 public class ReloadPortfolioMobileServlet extends HttpServlet {
@@ -73,5 +73,4 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

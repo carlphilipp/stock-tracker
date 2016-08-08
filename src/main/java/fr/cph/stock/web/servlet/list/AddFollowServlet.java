@@ -71,7 +71,7 @@ public class AddFollowServlet extends HttpServlet {
 			}
 
 			final List<Follow> follows = business.getListFollow(user.getId());
-			
+
 			request.setAttribute(FOLLOWS, follows);
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");

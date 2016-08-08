@@ -36,9 +36,9 @@ import static fr.cph.stock.util.Constants.LIQUIDITY;
 
 /**
  * This class represents a portofolio that belongs to a user
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class Portfolio {
 	/** Precision of calculation **/
@@ -125,7 +125,7 @@ public class Portfolio {
 
 	/**
 	 * Get currency
-	 * 
+	 *
 	 * @return the currency
 	 */
 	public final Currency getCurrency() {
@@ -134,7 +134,7 @@ public class Portfolio {
 
 	/**
 	 * Set the currency
-	 * 
+	 *
 	 * @param currency
 	 *            the currency
 	 */
@@ -144,7 +144,7 @@ public class Portfolio {
 
 	/**
 	 * Get equities
-	 * 
+	 *
 	 * @return the equities
 	 */
 	public final List<Equity> getEquities() {
@@ -153,7 +153,7 @@ public class Portfolio {
 
 	/**
 	 * Set equities
-	 * 
+	 *
 	 * @param equities
 	 *            the equities
 	 */
@@ -163,7 +163,7 @@ public class Portfolio {
 
 	/**
 	 * Get id
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -172,7 +172,7 @@ public class Portfolio {
 
 	/**
 	 * Set id
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 */
@@ -182,7 +182,7 @@ public class Portfolio {
 
 	/**
 	 * Get user id
-	 * 
+	 *
 	 * @return the user id
 	 */
 	public final int getUserId() {
@@ -191,7 +191,7 @@ public class Portfolio {
 
 	/**
 	 * Set user id
-	 * 
+	 *
 	 * @param userId
 	 *            the user id
 	 */
@@ -206,7 +206,7 @@ public class Portfolio {
 
 	/**
 	 * Get liquidity
-	 * 
+	 *
 	 * @return the liquidity
 	 */
 	public final Double getLiquidity() {
@@ -215,7 +215,7 @@ public class Portfolio {
 
 	/**
 	 * Set liquidity
-	 * 
+	 *
 	 * @param liquidity
 	 *            the liquidity
 	 */
@@ -225,7 +225,7 @@ public class Portfolio {
 
 	/**
 	 * Get total quantity
-	 * 
+	 *
 	 * @return the total quantity
 	 */
 	public final Double getTotalQuantity() {
@@ -233,7 +233,7 @@ public class Portfolio {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the average unit cost price
 	 */
 	public final Double getAverageUnitCostPrice() {
@@ -242,7 +242,7 @@ public class Portfolio {
 
 	/**
 	 * Get average quote price
-	 * 
+	 *
 	 * @return the average quote price
 	 */
 	public final Double getAverageQuotePrice() {
@@ -251,7 +251,7 @@ public class Portfolio {
 
 	/**
 	 * Get total value
-	 * 
+	 *
 	 * @return the total value
 	 */
 	public final Double getTotalValue() {
@@ -260,7 +260,7 @@ public class Portfolio {
 
 	/**
 	 * Get total plus minus value
-	 * 
+	 *
 	 * @return the total plus minus value
 	 */
 	public final Double getTotalPlusMinusValue() {
@@ -269,7 +269,7 @@ public class Portfolio {
 
 	/**
 	 * Get total plus minus value in absolute
-	 * 
+	 *
 	 * @return the total plus minus value in absolute
 	 */
 	public final Double getTotalPlusMinusValueAbsolute() {
@@ -278,7 +278,7 @@ public class Portfolio {
 
 	/**
 	 * Get yield year
-	 * 
+	 *
 	 * @return the yield year
 	 */
 	public final Double getYieldYear() {
@@ -287,7 +287,7 @@ public class Portfolio {
 
 	/**
 	 * Get total gain
-	 * 
+	 *
 	 * @return the total gain
 	 */
 	public final Double getTotalGain() {
@@ -296,7 +296,7 @@ public class Portfolio {
 
 	/**
 	 * Get a map containing all the data indexes
-	 * 
+	 *
 	 * @return a map with (Index name) => List of Index
 	 */
 	public final Map<String, List<Index>> getIndexes() {
@@ -305,7 +305,7 @@ public class Portfolio {
 
 	/**
 	 * Set a map containing all the data indexes
-	 * 
+	 *
 	 * @param indexes
 	 *            a map with (Index name) => List of Index
 	 */
@@ -315,7 +315,7 @@ public class Portfolio {
 
 	/**
 	 * Get Yield per year in percentage
-	 * 
+	 *
 	 * @return a double
 	 */
 	public final Double getYieldYearPerc() {
@@ -324,7 +324,7 @@ public class Portfolio {
 
 	/**
 	 * Get a list of share value
-	 * 
+	 *
 	 * @return a list of share value
 	 */
 	public final List<ShareValue> getShareValues() {
@@ -333,7 +333,7 @@ public class Portfolio {
 
 	/**
 	 * Set the share value
-	 * 
+	 *
 	 * @param shareValues
 	 *            a list of share value
 	 */
@@ -343,7 +343,7 @@ public class Portfolio {
 
 	/**
 	 * Get last company update date
-	 * 
+	 *
 	 * @return a date
 	 */
 	public final Date getLastCompanyUpdate() {
@@ -356,7 +356,7 @@ public class Portfolio {
 
 	/**
 	 * Set last company ypdate date
-	 * 
+	 *
 	 * @param lastCompanyUpdate
 	 *            the date
 	 */
@@ -370,12 +370,12 @@ public class Portfolio {
 	 * This function generates all calculated field
 	 */
 	public final void compute() {
-		Double totalUnitCostPrice = new Double(0);
-		Double totalAverageQuotePrice = new Double(0);
-		Double totalOriginalValue = new Double(0);
-		totalVariation = new Double(0);
+		Double totalUnitCostPrice = 0d;
+		Double totalAverageQuotePrice = 0d;
+		Double totalOriginalValue = 0d;
+		totalVariation = 0d;
 		double totalValueStart = 0;
-		totalGainToday = new Double(0);
+		totalGainToday = 0d;
 		Date lastUpdate = null;
 		if (equities != null) {
 			for (Equity equity : equities) {
@@ -414,14 +414,14 @@ public class Portfolio {
 	public final Double getTotalGainToday() {
 		return totalGainToday;
 	}
-	
+
 	public final Double getTotalGainTodayAbsolute() {
 		return Math.abs(totalGainToday);
 	}
 
 	/**
 	 * Get chart sector data
-	 * 
+	 *
 	 * @return a map
 	 */
 	protected final Map<String, Double> getChartSectorData() {
@@ -465,7 +465,7 @@ public class Portfolio {
 
 	/**
 	 * Get chart share value data
-	 * 
+	 *
 	 * @return a map
 	 */
 	protected final Map<Date, Double> getChartShareValueData() {
@@ -510,7 +510,7 @@ public class Portfolio {
 
 	/**
 	 * Get chart capitalization data
-	 * 
+	 *
 	 * @return a map
 	 */
 	protected final Map<String, Double> getChartCapData() {
@@ -554,7 +554,7 @@ public class Portfolio {
 
 	/**
 	 * Get a list of yahoo id representing equities that do not have real time data
-	 * 
+	 *
 	 * @return a list of yahoo id
 	 */
 	public final List<String> getCompaniesYahooIdRealTime() {
@@ -569,7 +569,7 @@ public class Portfolio {
 
 	/**
 	 * Add indexes
-	 * 
+	 *
 	 * @param indexes
 	 *            a list of indexes
 	 */
@@ -582,7 +582,7 @@ public class Portfolio {
 
 	/**
 	 * Get portfolio review. An horrible function.
-	 * 
+	 *
 	 * @return a string
 	 */
 	public final String getPortfolioReview() {
@@ -605,7 +605,7 @@ public class Portfolio {
 
 	/**
 	 * Get pie chart sector
-	 * 
+	 *
 	 * @return the chart
 	 */
 	public final IChart getPieChartSector() {
@@ -619,7 +619,7 @@ public class Portfolio {
 
 	/**
 	 * Get pie chart capitalization
-	 * 
+	 *
 	 * @return the chart
 	 */
 	public final IChart getPieChartCap() {
@@ -633,7 +633,7 @@ public class Portfolio {
 
 	/**
 	 * Get time value chart
-	 * 
+	 *
 	 * @return the chart
 	 */
 	public final IChart getTimeValueChart() {
@@ -648,7 +648,7 @@ public class Portfolio {
 
 	/**
 	 * Get time chart
-	 * 
+	 *
 	 * @return the chart
 	 */
 	public final IChart getTimeChart() {
@@ -663,7 +663,7 @@ public class Portfolio {
 
 	/**
 	 * Get List of accounts
-	 * 
+	 *
 	 * @return the list of accounts
 	 */
 	public final List<Account> getAccounts() {
@@ -672,7 +672,7 @@ public class Portfolio {
 
 	/**
 	 * Set list of accounts
-	 * 
+	 *
 	 * @param accounts
 	 *            the list of accounts
 	 */
@@ -682,7 +682,7 @@ public class Portfolio {
 
 	/**
 	 * Get one account with its name
-	 * 
+	 *
 	 * @param name
 	 *            the account name
 	 * @return the account
@@ -700,7 +700,7 @@ public class Portfolio {
 
 	/**
 	 * Get one account with its id
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 * @return the account
@@ -718,7 +718,7 @@ public class Portfolio {
 
 	/**
 	 * Get the first account created
-	 * 
+	 *
 	 * @return the account
 	 */
 	public final Account getFirstAccount() {
@@ -734,7 +734,7 @@ public class Portfolio {
 
 	/**
 	 * Get a string containing the list of sector
-	 * 
+	 *
 	 * @return a string
 	 */
 	public final String getSectorCompanies() {
@@ -783,7 +783,7 @@ public class Portfolio {
 
 	/**
 	 * Get a string containing the list of capitalization
-	 * 
+	 *
 	 * @return a string
 	 */
 	public final String getCapCompanies() {
@@ -889,7 +889,7 @@ public class Portfolio {
 
 	/**
 	 * Get max share value
-	 * 
+	 *
 	 * @return a double
 	 */
 	public final Double getMaxShareValue() {
@@ -899,7 +899,7 @@ public class Portfolio {
 
 	/**
 	 * Get max share value date
-	 * 
+	 *
 	 * @return a double
 	 */
 	public final Date getMaxShareValueDate() {
@@ -913,7 +913,7 @@ public class Portfolio {
 
 	/**
 	 * Get current share value yield
-	 * 
+	 *
 	 * @return a double
 	 */
 	public final Double getCurrentShareValuesYield() {
@@ -923,7 +923,7 @@ public class Portfolio {
 
 	/**
 	 * Get current share value taxes
-	 * 
+	 *
 	 * @return a double
 	 */
 	public final Double getCurrentShareValuesTaxes() {
@@ -933,7 +933,7 @@ public class Portfolio {
 
 	/**
 	 * Get current share values volume
-	 * 
+	 *
 	 * @return a double
 	 */
 	public final Double getCurrentShareValuesVolume() {
@@ -943,7 +943,7 @@ public class Portfolio {
 
 	/**
 	 * Get current share values gain
-	 * 
+	 *
 	 * @return a double
 	 */
 	public final Double getCurrenShareValuesGain() {
@@ -953,7 +953,7 @@ public class Portfolio {
 
 	/**
 	 * Get current share values gain in Percentage
-	 * 
+	 *
 	 * @return a double
 	 */
 	public final Double getCurrenShareValuesGainPorcentage() {
@@ -963,7 +963,7 @@ public class Portfolio {
 
 	/**
 	 * Get a view of the object in json
-	 * 
+	 *
 	 * @return a JSONObject
 	 */
 	public final JSONObject getJSONObject() {
@@ -1028,7 +1028,7 @@ public class Portfolio {
 
 	/**
 	 * Get total variation
-	 * 
+	 *
 	 * @return the total variation
 	 */
 	public final Double getTotalVariation() {

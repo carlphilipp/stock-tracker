@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,6 +31,7 @@ import fr.cph.stock.util.Util;
 import fr.cph.stock.web.servlet.CookieManagement;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -55,7 +56,7 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "PerformanceServlet", urlPatterns = { "/performance" })
+@WebServlet(name = "PerformanceServlet", urlPatterns = {"/performance"})
 public class PerformanceServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2435465891228710040L;
@@ -78,17 +79,12 @@ public class PerformanceServlet extends HttpServlet {
 			final String createPdf = request.getParameter(PDF);
 			try {
 				final SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-				final String fromString = request.getParameter(FROM);
-				final String toString = request.getParameter(TO);
+				final String fromParameter = request.getParameter(FROM);
+				final String toParameter = request.getParameter(TO);
 
-				Date fromDate = null;
-				Date toDate = null;
-				if (fromString != null && !fromString.equals("")) {
-					fromDate = formatter.parse(fromString);
-				}
-				if (toString != null && !toString.equals("")) {
-					toDate = formatter.parse(toString);
-				}
+				final Date fromDate = StringUtils.isNotEmpty(fromParameter) ? formatter.parse(fromParameter) : null;
+				final Date toDate = StringUtils.isNotEmpty(toParameter) ? formatter.parse(toParameter) : null;
+
 				portfolio = business.getUserPortfolio(user.getId(), fromDate, toDate);
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
@@ -97,35 +93,35 @@ public class PerformanceServlet extends HttpServlet {
 					// Put 17:00PM to the first sharevalue, to make it nice in graphic
 					portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).setDate(from);
 
-					final List<Index> indexes = business.getIndexes(Info.YAHOOID_CAC40, from, toDate);
-					final List<Index> indexes2 = business.getIndexes(Info.YAHOOID_SP500, from, toDate);
-					portfolio.addIndexes(indexes);
-					portfolio.addIndexes(indexes2);
+					final List<Index> indexesCAC40 = business.getIndexes(Info.YAHOOID_CAC40, from, toDate);
+					final List<Index> indexesSP500 = business.getIndexes(Info.YAHOOID_SP500, from, toDate);
+					portfolio.addIndexes(indexesCAC40);
+					portfolio.addIndexes(indexesSP500);
 					portfolio.compute();
 
 					Date fro = from;
-					if (indexes.size() > 0) {
-						Date derp = indexes.get(0).getDate();
-						if (derp.before(fro)) {
-							fro = derp;
+					if (indexesCAC40.size() > 0) {
+						final Date date = indexesCAC40.get(0).getDate();
+						if (date.before(fro)) {
+							fro = date;
 						}
 					}
-					if (indexes2.size() > 0) {
-						Date date2 = indexes2.get(0).getDate();
+					if (indexesSP500.size() > 0) {
+						final Date date2 = indexesSP500.get(0).getDate();
 						if (date2.before(fro)) {
 							fro = date2;
 						}
 					}
 
 					Date t = portfolio.getShareValues().get(0).getDate();
-					if (indexes.size() > 1) {
-						Date date3 = indexes.get(indexes.size() - 1).getDate();
+					if (indexesCAC40.size() > 1) {
+						final Date date3 = indexesCAC40.get(indexesCAC40.size() - 1).getDate();
 						if (date3.after(t)) {
 							t = date3;
 						}
 					}
-					if (indexes2.size() > 1) {
-						Date date = indexes2.get(indexes2.size() - 1).getDate();
+					if (indexesSP500.size() > 1) {
+						final Date date = indexesSP500.get(indexesSP500.size() - 1).getDate();
 						if (date.after(t)) {
 							t = date;
 						}
@@ -153,7 +149,7 @@ public class PerformanceServlet extends HttpServlet {
 				final DateFormat df = new SimpleDateFormat("dd-MM-yy");
 				final String formattedDate = df.format(new Date());
 				response.addHeader("Content-Disposition", "attachment; filename=" + user.getLogin() + formattedDate + ".pdf");
-				try(final OutputStream responseOutputStream = response.getOutputStream()) {
+				try (final OutputStream responseOutputStream = response.getOutputStream()) {
 					JasperExportManager.exportReportToPdfStream(pdf.getReport(), responseOutputStream);
 				} catch (final JRException e) {
 					throw new ServletException("Error: " + e.getMessage(), e);
