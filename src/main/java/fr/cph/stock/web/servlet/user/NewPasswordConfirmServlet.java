@@ -63,7 +63,7 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 			business.updateOneUserPassword(user);
 			request.setAttribute("ok", "Password changed!");
 			request.getRequestDispatcher("index.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

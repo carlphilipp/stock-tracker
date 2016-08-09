@@ -78,7 +78,7 @@ public class ChartsServlet extends HttpServlet {
 				request.setAttribute(PORTFOLIO, portfolio);
 				request.setAttribute(MAP_SECTOR, mapSector);
 				request.setAttribute(MAP_CAP, mapCap);
-			} catch (YahooException e) {
+			} catch (final YahooException e) {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));

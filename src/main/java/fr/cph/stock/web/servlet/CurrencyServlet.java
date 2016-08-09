@@ -66,7 +66,7 @@ public class CurrencyServlet extends HttpServlet {
 				try {
 					business.updateOneCurrency(portfolio.getCurrency());
 					request.setAttribute(MESSAGE, "Done !");
-				} catch (YahooException e) {
+				} catch (final YahooException e) {
 					request.setAttribute(ERROR, e.getMessage());
 				}
 			}
@@ -78,7 +78,7 @@ public class CurrencyServlet extends HttpServlet {
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Currencies");
 			request.getRequestDispatcher("jsp/currencies.jsp").forward(request, response);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}

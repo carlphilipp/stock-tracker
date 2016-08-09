@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -39,7 +39,7 @@ import static fr.cph.stock.util.Constants.ERROR;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "LostServlet", urlPatterns = { "/lost" })
+@WebServlet(name = "LostServlet", urlPatterns = {"/lost"})
 public class LostServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1724898618001479554L;
@@ -61,11 +61,8 @@ public class LostServlet extends HttpServlet {
 				if (user != null) {
 					final StringBuilder body = new StringBuilder();
 					final String check = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
-					body.append("Dear " + user.getLogin()
-							+ ",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n"
-							+ "If it's you, click on this link:  " + Info.ADDRESS + Info.FOLDER + "/newpassword?&login="
-							+ user.getLogin() + "&check=" + check + ".\n\nBest regards,\nThe " + Info.NAME + " team.");
-					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[] {email}, null);
+					body.append("Dear ").append(user.getLogin()).append(",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n").append("If it's you, click on this link:  ").append(Info.ADDRESS).append(Info.FOLDER).append("/newpassword?&login=").append(user.getLogin()).append("&check=").append(check).append(".\n\nBest regards,\nThe ").append(Info.NAME).append(" team.");
+					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[]{email}, null);
 					request.setAttribute("ok", "Check your email!");
 				} else {
 					request.setAttribute(ERROR, "User not found!");
