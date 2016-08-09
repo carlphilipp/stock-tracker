@@ -37,9 +37,9 @@ import java.util.Map;
 public final class LanguageFactory {
 
     /** The factory **/
-    private static LanguageFactory languageFactory;
-    /** The result languageMap **/
-    private static Map<String, Map<String, String>> languageMap;
+    private static LanguageFactory LANGUAGE_FACTORY;
+    /** The result LANGUAGE_MAP **/
+    private static Map<String, Map<String, String>> LANGUAGE_MAP;
     /** The file system **/
     private static FileSystem system = FileSystems.getDefault();
 
@@ -57,17 +57,17 @@ public final class LanguageFactory {
      *             the language exception
      */
     public static LanguageFactory getInstance() {
-        if (languageFactory == null) {
-            languageFactory = new LanguageFactory();
-            languageMap = getLanguageMap();
+        if (LANGUAGE_FACTORY == null) {
+            LANGUAGE_FACTORY = new LanguageFactory();
+            LANGUAGE_MAP = getLanguageMap();
         }
-        return languageFactory;
+        return LANGUAGE_FACTORY;
     }
 
     /**
-     * Get the language languageMap
+     * Get the language LANGUAGE_MAP
      *
-     * @return the language languageMap
+     * @return the language LANGUAGE_MAP
      * @throws LanguageException
      *             the language exception
      */
@@ -100,10 +100,9 @@ public final class LanguageFactory {
      *
      * @param language
      *            the language
-     * @return a languageMap
+     * @return a LANGUAGE_MAP
      */
     public Map<String, String> getLanguage(final String language) {
-        return languageMap.get(language);
+        return LANGUAGE_MAP.get(language);
     }
-
 }

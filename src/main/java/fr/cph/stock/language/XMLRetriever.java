@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,10 +16,6 @@
 
 package fr.cph.stock.language;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
 import org.apache.ibatis.io.Resources;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -28,11 +24,15 @@ import org.dom4j.io.SAXReader;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
 /**
  * This class will read XMLs
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class XMLRetriever {
 
@@ -41,7 +41,7 @@ public class XMLRetriever {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param path
 	 *            the path of the xml file
 	 * @throws IOException
@@ -50,13 +50,14 @@ public class XMLRetriever {
 	 *             the document exception
 	 */
 	public XMLRetriever(final String path) throws IOException, DocumentException {
-		InputStream inputStream = Resources.getResourceAsStream(path);
-		document = parse(inputStream);
+		try (final InputStream inputStream = Resources.getResourceAsStream(path)) {
+			document = parse(inputStream);
+		}
 	}
 
 	/**
 	 * Parser of the input stream
-	 * 
+	 *
 	 * @param inputStream
 	 *            the stream
 	 * @return a Document
@@ -64,14 +65,14 @@ public class XMLRetriever {
 	 *             the document exception
 	 */
 	protected final Document parse(final InputStream inputStream) throws DocumentException {
-		SAXReader reader = new SAXReader(true);
+		final SAXReader reader = new SAXReader(true);
 		reader.setEntityResolver(getEntityResolver());
-		Document doc = reader.read(inputStream);
+		final Document doc = reader.read(inputStream);
 		return doc;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node
 	 *            the node
 	 * @return a node
@@ -82,7 +83,7 @@ public class XMLRetriever {
 
 	/**
 	 * Get list node
-	 * 
+	 *
 	 * @param node
 	 *            the node
 	 * @return a list of node
@@ -92,12 +93,11 @@ public class XMLRetriever {
 	}
 
 	private EntityResolver getEntityResolver() {
-		EntityResolver resolver = new EntityResolver() {
-			public InputSource resolveEntity(String publicId, String systemId) {
-				InputStream in = getClass().getResourceAsStream("Language.dtd");
+		return new EntityResolver() {
+			public InputSource resolveEntity(final String publicId, final String systemId) {
+				final InputStream in = getClass().getResourceAsStream("Language.dtd");
 				return new InputSource(in);
 			}
 		};
-		return resolver;
 	}
 }

@@ -24,23 +24,18 @@ import java.util.Map.Entry;
 
 /**
  * Class that takes care of pdf reports
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
  */
 public class PdfReport {
 
-	/** **/
 	private String jrxml;
-
-	/** **/
 	private Map<String, Object> parameters;
 
 	/**
 	 * Constructor
-	 * 
-	 * @param jrxmlPath
-	 *            the jrxml file to load
+	 *
+	 * @param jrxmlPath the jrxml file to load
 	 */
 	public PdfReport(final String jrxmlPath) {
 		this.jrxml = jrxmlPath;
@@ -49,11 +44,9 @@ public class PdfReport {
 
 	/**
 	 * Add param
-	 * 
-	 * @param param
-	 *            the param
-	 * @param object
-	 *            the object
+	 *
+	 * @param param  the param
+	 * @param object the object
 	 */
 	public final void addParam(final String param, final Object object) {
 		this.parameters.put(param, object);
@@ -61,77 +54,70 @@ public class PdfReport {
 
 	/**
 	 * Get report
-	 * 
+	 *
 	 * @return a jasper print
-	 * @throws FileNotFoundException
-	 *             the file not found exception
-	 * @throws JRException
-	 *             the jreException
+	 * @throws FileNotFoundException the file not found exception
+	 * @throws JRException           the jreException
 	 */
 	public final JasperPrint getReport() throws FileNotFoundException, JRException {
-		InputStream inputStream = PdfReport.class.getClassLoader().getResourceAsStream(jrxml);
-		JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
-		JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
-		return jasperPrint;
+		final InputStream inputStream = PdfReport.class.getClassLoader().getResourceAsStream(jrxml);
+		final JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+		final JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+		return JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
 	}
 
 	/**
 	 * Create pie chart
-	 * 
-	 * @param pieChart
-	 *            the pie chart
-	 * @param title
-	 *            the title
+	 *
+	 * @param pieChart the pie chart
+	 * @param title    the title
 	 * @return an image
 	 */
 	public static Image createPieChart(final PieChart pieChart, final String title) {
-		Map<String, Double> map = pieChart.getEquities();
-		DefaultPieDataset data = new DefaultPieDataset();
-		for (Entry<String, Double> e : map.entrySet()) {
+		final Map<String, Double> map = pieChart.getEquities();
+		final DefaultPieDataset data = new DefaultPieDataset();
+		for (final Entry<String, Double> e : map.entrySet()) {
 			data.setValue(e.getKey(), e.getValue());
 		}
-		JFreeChart chart = ChartFactory.createPieChart(title, data, true, true, true);
+		final JFreeChart chart = ChartFactory.createPieChart(title, data, true, true, true);
 		return chart.createBufferedImage(500, 500);
 	}
 
 	/**
 	 * Create a time chart
-	 * 
-	 * @param pieChart
-	 *            the pie chart
-	 * @param title
-	 *            the title
+	 *
+	 * @param pieChart the pie chart
+	 * @param title    the title
 	 * @return an image
 	 */
 	public static Image createTimeChart(final TimeChart pieChart, final String title) {
-		Map<Date, Double> mapShareValueChart = pieChart.getShareValue();
-		Map<String, List<Index>> mapIndexChart = pieChart.getIndexes();
+		final Map<Date, Double> mapShareValueChart = pieChart.getShareValue();
+		final Map<String, List<Index>> mapIndexChart = pieChart.getIndexes();
 
-		TimeSeries series = new TimeSeries("Share value");
-		for (Entry<Date, Double> e : mapShareValueChart.entrySet()) {
+		final TimeSeries series = new TimeSeries("Share value");
+		for (final Entry<Date, Double> e : mapShareValueChart.entrySet()) {
 			series.add(new Millisecond(e.getKey()), e.getValue());
 		}
-		TimeSeries series2 = new TimeSeries("CAC40");
-		for (Index e : mapIndexChart.get("^FCHI")) {
+		final TimeSeries series2 = new TimeSeries("CAC40");
+		for (final Index e : mapIndexChart.get("^FCHI")) {
 			series2.add(new Millisecond(e.getDate()), e.getShareValue());
 		}
-		TimeSeries series3 = new TimeSeries("S&P 500");
-		for (Index e : mapIndexChart.get("^GSPC")) {
+		final TimeSeries series3 = new TimeSeries("S&P 500");
+		for (final Index e : mapIndexChart.get("^GSPC")) {
 			series3.add(new Millisecond(e.getDate()), e.getShareValue());
 		}
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		final TimeSeriesCollection dataset = new TimeSeriesCollection();
 		dataset.addSeries(series);
 		dataset.addSeries(series2);
 		dataset.addSeries(series3);
 		JFreeChart chart = ChartFactory.createTimeSeriesChart(title, // Title
-				"Time", // x-axis Label
-				"Performance", // y-axis Label
-				dataset, // Dataset
-				true, // Show Legend
-				true, // Use tooltips
-				true // Configure chart to generate URLs?
-				);
+			"Time", // x-axis Label
+			"Performance", // y-axis Label
+			dataset, // Dataset
+			true, // Show Legend
+			true, // Use tooltips
+			true // Configure chart to generate URLs?
+		);
 		return chart.createBufferedImage(1110, 600);
 	}
 }
