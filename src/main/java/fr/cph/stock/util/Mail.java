@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,7 @@
 
 package fr.cph.stock.util;
 
+import com.sun.net.ssl.internal.ssl.Provider;
 import org.apache.log4j.Logger;
 
 import javax.activation.DataHandler;
@@ -31,79 +32,76 @@ import java.util.Properties;
 
 /**
  * This class is used to send emails
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
  */
 public final class Mail {
 
-	/** The logger **/
+	/**
+	 * The logger
+	 **/
 	private static final Logger LOG = Logger.getLogger(Mail.class);
-	/** Smtp host **/
-	private static String smptHostName;
-	/** Smtp port **/
+	/**
+	 * Smtp host
+	 **/
+	private static String smtpHostName;
+	/**
+	 * Smtp port
+	 **/
 	private static String smtpPort;
 	/** **/
 	private static String emailFromUserName;
-	/** Email of the sender **/
+	/**
+	 * Email of the sender
+	 **/
 	private static String emailFrom;
-	/** Password of the sender **/
+	/**
+	 * Password of the sender
+	 **/
 	private static String passwordFrom;
-	/** SSL factory **/
+	/**
+	 * SSL factory
+	 **/
 	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
 	/**
 	 * Constructor
-	 * 
-	 * @param emailSubjectTxt
-	 *            the subject
-	 * @param emailMsgTxt
-	 *            the content
-	 * @param sendTo
-	 *            the targets
-	 * @param attachFile
-	 *            the files to attach
-	 * @throws MessagingException
-	 *             the messaging exception
-	 * @throws IOException
-	 *             the io exception
+	 *
+	 * @param emailSubjectTxt the subject
+	 * @param emailMsgTxt     the content
+	 * @param sendTo          the targets
+	 * @param attachFile      the files to attach
+	 * @throws MessagingException the messaging exception
+	 * @throws IOException        the io exception
 	 */
-	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) throws MessagingException,
-			IOException {
-		final Properties prop = Util.getProperties("app.properties");
-		smptHostName = prop.getProperty("email.smtp_host_name");
+	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) throws MessagingException, IOException {
+		final Properties prop = Util.getProperties();
+		smtpHostName = prop.getProperty("email.smtp_host_name");
 		smtpPort = prop.getProperty("email.smtp_port");
 		emailFromUserName = prop.getProperty("email.from.username");
 		emailFrom = prop.getProperty("email.from");
 		passwordFrom = prop.getProperty("email.password");
-		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+		Security.addProvider(new Provider());
 		sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt, emailFrom, attachFile);
 	}
 
 	/**
 	 * Send the SSL message
-	 * 
-	 * @param recipients
-	 *            tab of recipients
-	 * @param subject
-	 *            the subject
-	 * @param message
-	 *            the content
-	 * @param from
-	 *            the sender
-	 * @param attachFile
-	 *            the attach files
-	 * @throws MessagingException
-	 *             the messaging exception
-	 * @throws IOException
-	 *             the io exception
+	 *
+	 * @param recipients tab of recipients
+	 * @param subject    the subject
+	 * @param message    the content
+	 * @param from       the sender
+	 * @param attachFile the attach files
+	 * @throws MessagingException the messaging exception
+	 * @throws IOException        the io exception
 	 */
 	private void sendSSLMessage(final String[] recipients, final String subject, final String message, final String from, final String attachFile)
-			throws MessagingException, IOException {
+		throws MessagingException, IOException {
 		final boolean debug = false;
 
 		final Properties props = new Properties();
-		props.put("mail.smtp.host", smptHostName);
+		props.put("mail.smtp.host", smtpHostName);
 		props.put("mail.smtp.auth", "true");
 		//props.put("mail.debug", "true");
 		props.put("mail.smtp.port", smtpPort);
@@ -112,9 +110,9 @@ public final class Mail {
 		props.put("mail.smtp.socketFactory.fallback", "false");
 		props.put("mail.smtp.ssl.enable", true);
 
-		final Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+		final Session session = Session.getDefaultInstance(props, new Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				// First argument msut be the email in case of querying Gmail
+				// First argument must be the email in case of querying Gmail
 				// Must be only the username if querying Yahoo.
 				return new PasswordAuthentication(emailFromUserName, passwordFrom);
 			}
@@ -137,9 +135,9 @@ public final class Mail {
 		msg.setContent(message, "text/plain");
 		msg.setSentDate(new Date());
 		if (attachFile != null) {
-			File file = new File(attachFile);
-			FileDataSource fds = new FileDataSource(file);
-			DataHandler dh = new DataHandler(fds);
+			final File file = new File(attachFile);
+			final FileDataSource fds = new FileDataSource(file);
+			final DataHandler dh = new DataHandler(fds);
 			msg.setDataHandler(dh);
 			msg.setFileName(attachFile);
 		}
@@ -148,20 +146,16 @@ public final class Mail {
 
 	/**
 	 * Static access to send a mail
-	 * 
-	 * @param emailSubjectTxt
-	 *            the email subject
-	 * @param emailMsgTxt
-	 *            the email content
-	 * @param sendTo
-	 *            the recipients
-	 * @param attachFile
-	 *            the attach files
+	 *
+	 * @param emailSubjectTxt the email subject
+	 * @param emailMsgTxt     the email content
+	 * @param sendTo          the recipients
+	 * @param attachFile      the attach files
 	 */
 	public static void sendMail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) {
 		try {
 			new Mail(emailSubjectTxt, emailMsgTxt, sendTo, attachFile);
-		} catch (MessagingException | IOException e1) {
+		} catch (final MessagingException | IOException e1) {
 			LOG.error("Error while trying to send an email : " + e1.getMessage(), e1);
 		}
 	}

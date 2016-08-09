@@ -46,13 +46,11 @@ public class DropBox {
 
     @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(DropBox.class);
+	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
     private DropboxAPI<WebAuthSession> dropBoxAPI;
 
-    /**
-     * Constructor
-     */
     public DropBox() {
-        final Properties prop = Util.getProperties("app.properties");
+        final Properties prop = Util.getProperties();
         final String appKey = prop.getProperty("app_key");
         final String appSecret = prop.getProperty("app_secret");
         final String tokenKey = prop.getProperty("token_key");
@@ -71,15 +69,15 @@ public class DropBox {
      */
     public final void deleteOldFileIfNeeded(final File file) throws ParseException, DropboxException {
         final String date = file.getName().substring(0, file.getName().indexOf("-stock"));
-        final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        final Date d = sdf.parse(date);
+
+        final Date d = SIMPLE_DATE_FORMAT.parse(date);
         final Calendar cal = Calendar.getInstance();
         cal.setTime(d);
         cal.add(Calendar.DAY_OF_MONTH, -7);
-        final List<Entry> listEntry = dropBoxAPI.search("/", sdf.format(cal.getTime()) + "-stock.tar.gz", 1, false);
+        final List<Entry> listEntry = dropBoxAPI.search("/", SIMPLE_DATE_FORMAT.format(cal.getTime()) + "-stock.tar.gz", 1, false);
         if (listEntry.size() != 0) {
             // This write a "Invalid cookie header" in the console. Not sure why.
-            dropBoxAPI.delete(sdf.format(cal.getTime()) + "-stock.tar.gz");
+            dropBoxAPI.delete(SIMPLE_DATE_FORMAT.format(cal.getTime()) + "-stock.tar.gz");
         }
     }
 

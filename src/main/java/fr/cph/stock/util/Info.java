@@ -23,9 +23,9 @@ import java.util.Properties;
 
 /**
  * This class get the general info from a property file
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class Info {
 	/**
@@ -36,7 +36,7 @@ public class Info {
 
 	/** Access in a static way to the property file **/
 	static {
-		final Properties prop = Util.getProperties("app.properties");
+		final Properties prop = Util.getProperties();
 		NAME = prop.getProperty("name");
 		ADDRESS = prop.getProperty("address");
 		FOLDER = prop.getProperty("folder");

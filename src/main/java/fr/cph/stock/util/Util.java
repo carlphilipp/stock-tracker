@@ -13,9 +13,8 @@ import java.util.*;
 
 /**
  * This class is access only in a static way
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
  */
 public final class Util {
 	/**
@@ -24,14 +23,15 @@ public final class Util {
 	private Util() {
 	}
 
-	/** Logger **/
+	/**
+	 * Logger
+	 **/
 	private static final Logger LOG = Logger.getLogger(Util.class);
 
 	/**
 	 * Get the timezone difference with Paris
-	 * 
-	 * @param timezone
-	 *            the timezone
+	 *
+	 * @param timezone the timezone
 	 * @return an hour
 	 */
 	public static int timeZoneDiff(final TimeZone timezone) {
@@ -54,11 +54,9 @@ public final class Util {
 
 	/**
 	 * Get date in timezone
-	 * 
-	 * @param date
-	 *            the date
-	 * @param timeZone
-	 *            the timezone
+	 *
+	 * @param date     the date
+	 * @param timeZone the timezone
 	 * @return a Calendar
 	 */
 	public static Calendar getDateInTimeZone(final Date date, final TimeZone timeZone) {
@@ -69,9 +67,8 @@ public final class Util {
 
 	/**
 	 * Get current calendar in time zone
-	 * 
-	 * @param timeZone
-	 *            the timezone
+	 *
+	 * @param timeZone the timezone
 	 * @return the calendar
 	 */
 	public static Calendar getCurrentCalendarInTimeZone(final TimeZone timeZone) {
@@ -80,18 +77,16 @@ public final class Util {
 
 	/**
 	 * Test if 2 calendar are in the same day
-	 * 
-	 * @param calendar1
-	 *            the 1st calendar
-	 * @param calendar2
-	 *            the 2nd calendar
+	 *
+	 * @param calendar1 the 1st calendar
+	 * @param calendar2 the 2nd calendar
 	 * @return a boolean
 	 */
 	public static boolean isSameDay(final Calendar calendar1, final Calendar calendar2) {
 		boolean res = false;
 		if (calendar1.getTimeZone() == calendar2.getTimeZone()
-				&& calendar1.get(Calendar.DAY_OF_YEAR) == calendar2.get(Calendar.DAY_OF_YEAR)
-				&& calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)) {
+			&& calendar1.get(Calendar.DAY_OF_YEAR) == calendar2.get(Calendar.DAY_OF_YEAR)
+			&& calendar1.get(Calendar.YEAR) == calendar2.get(Calendar.YEAR)) {
 			res = true;
 		}
 		return res;
@@ -99,9 +94,8 @@ public final class Util {
 
 	/**
 	 * Get current date in specified format
-	 * 
-	 * @param format
-	 *            the format to use
+	 *
+	 * @param format the format to use
 	 * @return the formatted date
 	 */
 	public static String getCurrentDateInFormat(final String format) {
@@ -111,12 +105,10 @@ public final class Util {
 	}
 
 	/**
-	 * No idea what it is doing
-	 * 
-	 * @param hour1
-	 *            the 1st hour
-	 * @param hour2
-	 *            the second hour
+	 * Not sure what it is doing
+	 *
+	 * @param hour1 the 1st hour
+	 * @param hour2 the second hour
 	 * @return an int
 	 */
 	public static int getRealHour(final int hour1, final int hour2) {
@@ -137,13 +129,10 @@ public final class Util {
 
 	/**
 	 * Get random colors
-	 * 
-	 * @param size
-	 *            the size
-	 * @param colors
-	 *            the list of color
-	 * @param res
-	 *            the res
+	 *
+	 * @param size   the size
+	 * @param colors the list of color
+	 * @param res    the res
 	 * @return a list of string
 	 */
 	public static List<String> getRandomColors(final int size, final List<String> colors, List<String> res) {
@@ -160,75 +149,44 @@ public final class Util {
 
 	/**
 	 * Create tar.gz file
-	 * 
-	 * @param input
-	 *            the input path
-	 * @param output
-	 *            the output path
-	 * @throws IOException
-	 *             the exception
+	 *
+	 * @param input  the input path
+	 * @param output the output path
+	 * @throws IOException the exception
 	 */
 	public static void createTarGz(final String input, final String output) throws IOException {
-		FileOutputStream fOut = null;
-		BufferedOutputStream bOut = null;
-		GzipCompressorOutputStream gzOut = null;
-		TarArchiveOutputStream tOut = null;
-		try {
-			fOut = new FileOutputStream(new File(output));
-			bOut = new BufferedOutputStream(fOut);
-			gzOut = new GzipCompressorOutputStream(bOut);
-			tOut = new TarArchiveOutputStream(gzOut);
-
-			File f = new File(input);
-			TarArchiveEntry tarEntry = new TarArchiveEntry(f, input);
+		try (final FileOutputStream fOut = new FileOutputStream(new File(output));
+			 final BufferedOutputStream bOut = new BufferedOutputStream(fOut);
+			 final GzipCompressorOutputStream gzOut = new GzipCompressorOutputStream(bOut);
+			 final TarArchiveOutputStream tOut = new TarArchiveOutputStream(gzOut)) {
+			final File f = new File(input);
+			final TarArchiveEntry tarEntry = new TarArchiveEntry(f, input);
 			tOut.putArchiveEntry(tarEntry);
 			IOUtils.copy(new FileInputStream(f), tOut);
 			tOut.closeArchiveEntry();
 		} catch (final IOException e) {
 			throw new IOException(e);
-		} finally {
-			try {
-				if (tOut != null) {
-					tOut.finish();
-				}
-				if (tOut != null) {
-					tOut.close();
-				}
-				if (gzOut != null) {
-					gzOut.close();
-				}
-				if (bOut != null) {
-					bOut.close();
-				}
-				if (tOut != null) {
-					fOut.close();
-				}
-			} catch (IOException e) {
-				throw new IOException(e);
-			}
 		}
 	}
 
 	/**
 	 * Make a pause
-	 * 
-	 * @param timeInMs
-	 *            the time to wait in ms
+	 *
+	 * @param timeInMs the time to wait in ms
 	 */
 	public static void makeAPause(final int timeInMs) {
 		try {
 			Thread.currentThread();
 			Thread.sleep(timeInMs);
-		} catch (InterruptedException e) {
-			LOG.warn(e.getMessage());
+		} catch (final InterruptedException e) {
+			LOG.warn(e.getMessage(), e);
 		}
 	}
 
 	/**
 	 * Reset hours, minutes, seconds and milliseconds
-	 * 
-	 * @param date
-	 *            the date
+	 *
+	 * @param date the date
 	 * @return the date with reseted field
 	 */
 	public static Date resetHourMinSecMill(final Date date) {
@@ -244,15 +202,14 @@ public final class Util {
 
 	/**
 	 * Get properties from a property file
-	 * 
-	 * @param path
-	 *            the path of the property file
+	 *
+	 * @param path the path of the property file
 	 * @return a properties file
 	 */
-	public static Properties getProperties(final String path) {
+	public static Properties getProperties() {
 		final Properties prop = new Properties();
 		try {
-			prop.load(Util.class.getClassLoader().getResourceAsStream(path));
+			prop.load(Util.class.getClassLoader().getResourceAsStream("app.properties"));
 		} catch (final IOException e) {
 			LOG.error(e.getMessage(), e);
 		}
