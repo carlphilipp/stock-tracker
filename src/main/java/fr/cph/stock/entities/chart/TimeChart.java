@@ -28,11 +28,11 @@ import java.util.Map.Entry;
 
 /**
  * This class represents an time chart
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
-public class TimeChart extends AChart {
+public class currnecycurrnecyTimeChart extends AChart {
 
 	/** Starting date of the chart **/
 	private Date date;
@@ -43,7 +43,7 @@ public class TimeChart extends AChart {
 
 	/**
 	 * Constructor that constructs a time chart
-	 * 
+	 *
 	 * @param shareValue
 	 *            the share values
 	 * @param indexes
@@ -59,7 +59,7 @@ public class TimeChart extends AChart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.cph.stock.entities.chart.IChart#generate()
 	 */
 	@Override
@@ -132,7 +132,7 @@ public class TimeChart extends AChart {
 
 	/**
 	 * Getter
-	 * 
+	 *
 	 * @return the date
 	 */
 	public final Date getDate() {
@@ -145,7 +145,7 @@ public class TimeChart extends AChart {
 
 	/**
 	 * Getter
-	 * 
+	 *
 	 * @return the share values
 	 */
 	public final Map<Date, Double> getShareValue() {
@@ -154,7 +154,7 @@ public class TimeChart extends AChart {
 
 	/**
 	 * Getter
-	 * 
+	 *
 	 * @return the map of indexes
 	 */
 	public final Map<String, List<Index>> getIndexes() {

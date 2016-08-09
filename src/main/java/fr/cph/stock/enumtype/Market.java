@@ -18,12 +18,12 @@ package fr.cph.stock.enumtype;
 
 /**
  * Enum that represents the market place
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public enum Market {
-	
+
 	VAN("VAN"),
 	/** **/
 	PNK("PNK"),
@@ -33,7 +33,7 @@ public enum Market {
 	NMS("NMS"),
 	/** **/
 	PARIS("Paris"),
-	
+
 	PAR("PAR"),
 	/** **/
 	NASDAQNM("NasdaqNM"),
@@ -68,7 +68,7 @@ public enum Market {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param market
 	 *            the market type
 	 */
@@ -78,7 +78,7 @@ public enum Market {
 
 	/**
 	 * Get market
-	 * 
+	 *
 	 * @return the market
 	 */
 	public String getMarket() {
@@ -87,16 +87,16 @@ public enum Market {
 
 	/**
 	 * Get market
-	 * 
+	 *
 	 * @param mark
 	 *            the market
 	 * @return the market
 	 */
 	public static Market getMarket(final String mark) {
-		Market market = null;
+		Market market;
 		try {
 			market = valueOf(mark);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			if (mark.equals("OTHER OTC")) {
 				market = Market.OTC;
 			} else {
@@ -108,7 +108,7 @@ public enum Market {
 
 	/**
 	 * Get market from suffix
-	 * 
+	 *
 	 * @param suffix
 	 *            the suffix
 	 * @return the market
@@ -130,7 +130,7 @@ public enum Market {
 
 	/**
 	 * Get currency from the given market
-	 * 
+	 *
 	 * @param m
 	 *            the market
 	 * @return the currency

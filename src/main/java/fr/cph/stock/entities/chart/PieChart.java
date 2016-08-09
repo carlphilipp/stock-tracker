@@ -21,9 +21,9 @@ import java.util.Map.Entry;
 
 /**
  * This class represents an pie chart
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class PieChart extends AChart {
 
@@ -32,7 +32,7 @@ public class PieChart extends AChart {
 
 	/**
 	 * Constructor that will construct a chart with the given equities
-	 * 
+	 *
 	 * @param equities
 	 *            the equities
 	 */
@@ -42,7 +42,7 @@ public class PieChart extends AChart {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fr.cph.stock.entities.chart.IChart#generate()
 	 */
 	@Override
@@ -60,10 +60,10 @@ public class PieChart extends AChart {
 				drawTemp.append(",");
 				titleTemp.append(",");
 			}
-			drawTemp.append("{ data : d" + i);
-			drawTemp.append(", label : '" + key + "'}");
-			titleTemp.append("'" + key + "'");
-			dataTemp.append("var d" + i + " = [[0," + value + "]];");
+			drawTemp.append("{ data : d").append(i);
+			drawTemp.append(", label : '").append(key).append("'}");
+			titleTemp.append("'").append(key).append("'");
+			dataTemp.append("var d").append(i).append(" = [[0,").append(value).append("]];");
 			i++;
 		}
 		setData(dataTemp.toString());
@@ -75,7 +75,7 @@ public class PieChart extends AChart {
 
 	/**
 	 * get equities
-	 * 
+	 *
 	 * @return the equities
 	 */
 	public final Map<String, Double> getEquities() {

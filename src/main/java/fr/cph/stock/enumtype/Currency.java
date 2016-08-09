@@ -16,23 +16,24 @@
 
 package fr.cph.stock.enumtype;
 
-import java.util.List;
-
-import net.sf.json.JSONObject;
 import fr.cph.stock.entities.CurrencyData;
+import net.sf.json.JSONObject;
+
+import java.util.List;
 
 /**
  * Enum that represents the currencies
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public enum Currency {
 	AUD("Australia Dollar", "$", "AUD"),
 	CAD("Canada Dollar", "$", "CAD"),
 	// CHF("Switzerland Franc", "CHF", "CHF"),
 	/** **/
-	EUR("Euro", "�", "EUR"), GBP("United Kingdom Pound", "�", "GBP"),
+	EUR("Euro", "€", "EUR"),
+	GBP("United Kingdom Pound", "£", "GBP"),
 	// HKD("Hong Kong Dollar", "$", "HKD"),
 	// SGD("Singapore Dollar", "$", "SGD"),
 	/** **/
@@ -41,7 +42,7 @@ public enum Currency {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param n
 	 *            the name
 	 * @param sy
@@ -57,7 +58,7 @@ public enum Currency {
 
 	/**
 	 * Get the name
-	 * 
+	 *
 	 * @return the name
 	 */
 	public final String getName() {
@@ -66,7 +67,7 @@ public enum Currency {
 
 	/**
 	 * Get Symbol
-	 * 
+	 *
 	 * @return the symbol
 	 */
 	public final String getSymbol() {
@@ -75,7 +76,7 @@ public enum Currency {
 
 	/**
 	 * Get the code
-	 * 
+	 *
 	 * @return the code
 	 */
 	public final String getCode() {
@@ -84,7 +85,7 @@ public enum Currency {
 
 	/**
 	 * Get a list of currency data
-	 * 
+	 *
 	 * @return the list of currency data
 	 */
 	public final List<CurrencyData> getCurrencyData() {
@@ -93,7 +94,7 @@ public enum Currency {
 
 	/**
 	 * Set currency data list
-	 * 
+	 *
 	 * @param currencyD
 	 *            the currency data list
 	 */
@@ -103,13 +104,13 @@ public enum Currency {
 
 	/**
 	 * Get parity
-	 * 
+	 *
 	 * @param currency
 	 *            the currency
 	 * @return the parity
 	 */
 	public final Double getParity(final Currency currency) {
-		Double res = new Double(0);
+		Double res = 0d;
 		for (CurrencyData currencyD : getCurrencyData()) {
 			if (currencyD.getCurrency1() == currency) {
 				res = currencyD.getValue();
@@ -121,7 +122,7 @@ public enum Currency {
 
 	/**
 	 * Get enum from str
-	 * 
+	 *
 	 * @param value
 	 *            the str value
 	 * @return the currency
@@ -140,7 +141,7 @@ public enum Currency {
 
 	/**
 	 * Get jsonobject
-	 * 
+	 *
 	 * @return the JSONObject
 	 */
 	public final JSONObject getJSONObject() {

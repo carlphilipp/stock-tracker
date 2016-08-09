@@ -18,33 +18,21 @@ package fr.cph.stock.enumtype;
 
 /**
  * Enum that represents the months
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public enum Month {
-	/** **/
-	JANUARY, 
-	/** **/
-	FEBRUARY, 
-	/** **/
-	MARCH, 
-	/** **/
-	APRIL, 
-	/** **/
+	JANUARY,
+	FEBRUARY,
+	MARCH,
+	APRIL,
 	MAY,
-	/** **/
-	JUNE, 
-	/** **/
-	JULY, 
-	/** **/
-	AUGUST, 
-	/** **/
-	SEPTEMBER, 
-	/** **/
-	OCTOBER, 
-	/** **/
-	NOVEMBER, 
-	/** **/
+	JUNE,
+	JULY,
+	AUGUST,
+	SEPTEMBER,
+	OCTOBER,
+	NOVEMBER,
 	DECEMBER
 }

@@ -24,9 +24,9 @@ import static fr.cph.stock.util.Constants.LIQUIDITY;
 
 /**
  * This class represents the account of the user
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class Account {
 
@@ -36,7 +36,7 @@ public class Account {
 	private int userId;
 	/** name of the account **/
 	private String name;
-	/** currnecy of the account **/
+	/** currency of the account **/
 	private Currency currency;
 	/** liquidity of the account **/
 	private Double liquidity;
@@ -46,7 +46,7 @@ public class Account {
 	private Double parity;
 
 	/**
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -153,7 +153,7 @@ public class Account {
 
 	/**
 	 * Get a JSONObject of the current object
-	 * 
+	 *
 	 * @return a json object
 	 */
 	public final JSONObject getJSONObject() {
