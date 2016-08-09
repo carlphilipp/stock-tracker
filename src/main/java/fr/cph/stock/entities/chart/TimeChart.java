@@ -32,7 +32,7 @@ import java.util.Map.Entry;
  * @author Carl-Philipp Harmant
  *
  */
-public class currnecycurrnecyTimeChart extends AChart {
+public class TimeChart extends AChart {
 
 	/** Starting date of the chart **/
 	private Date date;
