@@ -24,6 +24,7 @@ public class Constants {
     public static final String COMPANY_ID = "companyId";
     public static final String CAP_PIE = "capPie";
     public static final String COMMENTARY = "commentary";
+	public static final String COMMENTARY_UPDATED = "commentaryUpdated";
 
     public static final String DATE_PATTERN = "datePattern";
     public static final String DAYS = "days";
@@ -76,6 +77,7 @@ public class Constants {
     public static final String MODIFY_ERROR = "modifyError";
     public static final String MOD = "mod";
     public static final String MODIFIED_MESSAGE = "Modified!";
+	public static final String MOVEMENT = "movement";
 
     public static final String NB_PAGE = "nbPage";
     public static final String NAME_PERSONAL = "namePersonal";

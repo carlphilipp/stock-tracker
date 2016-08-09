@@ -59,7 +59,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 			final HttpSession session = request.getSession(false);
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			final LanguageFactory language = LanguageFactory.getInstance();
-			final StringBuilder sb = new StringBuilder("");
+			final StringBuilder sb = new StringBuilder();
 			final User user = (User) session.getAttribute(USER);
 			final String updateCurrencies = request.getParameter(CURRENCY_UPDATE);
 			String error = null;

@@ -23,6 +23,7 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -73,7 +74,7 @@ public class CreateHistoryServlet extends HttpServlet {
 				for (final ShareValue sv : shareValues) {
 					business.addShareValue(sv);
 				}
-				if (!liquidity.equals("")) {
+				if (StringUtils.isNotEmpty(liquidity)) {
 					business.updateLiquidity(account, Double.parseDouble(liquidity));
 				}
 				request.getRequestDispatcher("sharevalue?page=1").forward(request, response);

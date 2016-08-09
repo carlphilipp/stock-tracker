@@ -70,7 +70,7 @@ public class AddEquityServlet extends HttpServlet {
 			} else {
 				add(request, user.getId());
 			}
-			request.setAttribute("added", language.getLanguage(lang).get("CONSTANT_ADDED") + " !");
+			request.setAttribute("added", language.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 			request.getRequestDispatcher(HOME).forward(request, response);
 		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);

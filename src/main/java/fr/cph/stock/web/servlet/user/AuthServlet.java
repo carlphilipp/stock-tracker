@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,9 +38,8 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user want to login
  *
  * @author Carl-Philipp Harmant
- *
  */
-@WebServlet(name = "AuthServlet", urlPatterns = { "/auth" })
+@WebServlet(name = "AuthServlet", urlPatterns = {"/auth"})
 public class AuthServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -80,27 +79,19 @@ public class AuthServlet extends HttpServlet {
 					request.getSession().setAttribute(USER, user);
 					if (request.getCookies() != null) {
 						final List<Cookie> cookies = Arrays.asList(request.getCookies());
-						for (final String str : lcookies) {
-							if (!CookieManagement.containsCookie(cookies, str)) {
-								Cookie cookie = new Cookie(str, CHECKED);
-								cookie.setMaxAge(ONE_YEAR_COOKIE);
-								response.addCookie(cookie);
+						for (final String cookieName : lcookies) {
+							if (!CookieManagement.containsCookie(cookies, cookieName)) {
+								addCookieToResponse(response, cookieName, CHECKED);
 							}
 						}
 						if (!CookieManagement.containsCookie(cookies, LANGUAGE)) {
-							final Cookie cookie = new Cookie(LANGUAGE, ENGLISH);
-							cookie.setMaxAge(ONE_YEAR_COOKIE);
-							response.addCookie(cookie);
+							addCookieToResponse(response, LANGUAGE, ENGLISH);
 						}
 					} else {
-						for (final String str : lcookies) {
-							final Cookie cookie = new Cookie(str, CHECKED);
-							cookie.setMaxAge(ONE_YEAR_COOKIE);
-							response.addCookie(cookie);
+						for (final String cookieName : lcookies) {
+							addCookieToResponse(response, cookieName, CHECKED);
 						}
-						final Cookie cookie = new Cookie(LANGUAGE, ENGLISH);
-						cookie.setMaxAge(ONE_YEAR_COOKIE);
-						response.addCookie(cookie);
+						addCookieToResponse(response, LANGUAGE, ENGLISH);
 					}
 					response.sendRedirect(HOME);
 				}
@@ -109,5 +100,11 @@ public class AuthServlet extends HttpServlet {
 			LOG.error("Error: " + t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
+	}
+
+	private void addCookieToResponse(final HttpServletResponse response, final String name, final String value) {
+		final Cookie cookie = new Cookie(name, value);
+		cookie.setMaxAge(ONE_YEAR_COOKIE);
+		response.addCookie(cookie);
 	}
 }

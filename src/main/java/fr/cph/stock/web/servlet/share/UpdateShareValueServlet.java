@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -42,7 +43,7 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "UpdateShareValueServlet", urlPatterns = { "/updatesharevalue" })
+@WebServlet(name = "UpdateShareValueServlet", urlPatterns = {"/updatesharevalue"})
 public class UpdateShareValueServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 7284798829015895373L;
@@ -60,35 +61,28 @@ public class UpdateShareValueServlet extends HttpServlet {
 		try {
 			final HttpSession session = request.getSession(false);
 			final StringBuilder message = new StringBuilder();
-
 			final User user = (User) session.getAttribute(USER);
+			final String commUpdated = request.getParameter(COMMENTARY_UPDATED);
 
-			final String commUpdated = request.getParameter("commentaryUpdated");
 			if (commUpdated == null) {
-
 				final Integer acc = Integer.parseInt(request.getParameter(ACCOUNT));
-				final Double movement = Double.parseDouble(request.getParameter("movement"));
-				final Double yield = Double.parseDouble(request.getParameter("yield"));
-				final Double buy = Double.parseDouble(request.getParameter("buy"));
-				final Double sell = Double.parseDouble(request.getParameter("sell"));
-				final Double taxe = Double.parseDouble(request.getParameter("taxe"));
-				final String comm = request.getParameter("commentary");
-
-				String commentary = null;
-				if (!comm.equals("")) {
-					commentary = comm;
-				}
-
+				final Double movement = Double.parseDouble(request.getParameter(MOVEMENT));
+				final Double yield = Double.parseDouble(request.getParameter(YIELD));
+				final Double buy = Double.parseDouble(request.getParameter(BUY));
+				final Double sell = Double.parseDouble(request.getParameter(SELL));
+				final Double taxe = Double.parseDouble(request.getParameter(TAXE));
+				final String commParam = request.getParameter(COMMENTARY);
+				final String commentary = StringUtils.isNotEmpty(commParam) ? commParam : null;
 				try {
 					Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 					Account account = portfolio.getAccount(acc);
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
 					newLiquidity = new BigDecimal(newLiquidity, mathContext).doubleValue();
 					business.updateLiquidity(account, newLiquidity);
-					message.append("'" + account.getName() + "' liquidity new value: " + newLiquidity);
+					message.append("'").append(account.getName()).append("' liquidity new value: ").append(newLiquidity);
 					portfolio = business.getUserPortfolio(user.getId(), null, null);
 					business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
-				} catch (YahooException e) {
+				} catch (final YahooException e) {
 					LOG.error(e.getMessage(), e);
 				}
 			} else {

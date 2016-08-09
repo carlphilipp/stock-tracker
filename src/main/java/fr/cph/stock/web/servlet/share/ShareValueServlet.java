@@ -24,6 +24,7 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -63,15 +64,9 @@ public class ShareValueServlet extends HttpServlet {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
 			final String page = request.getParameter(PAGE);
-			int pageNumber = 0;
-			if(page == null || page.equals("")){
-				pageNumber = 1;
-			}else{
-				pageNumber = Integer.parseInt(page);
-			}
-			final Portfolio portfolio;
+			final int pageNumber = StringUtils.isEmpty(page) ? 1 : Integer.parseInt(page);
 			try {
-				portfolio = business.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
 					int begin = pageNumber * ITEM_MAX - ITEM_MAX;
 					int end = pageNumber * ITEM_MAX - 1;
