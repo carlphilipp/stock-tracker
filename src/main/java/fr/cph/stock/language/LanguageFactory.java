@@ -69,12 +69,15 @@ public final class LanguageFactory {
 	 * @throws LanguageException the language exception
 	 */
 	private static Map<String, Map<String, String>> getLanguageMap() {
-		Map<String, Map<String, String>> languageMap = new HashMap<>();
-		Language english = new Language("language/English.xml");
-		Language francais = new Language("language/Francais.xml");
-		languageMap.put("English", english.getLanguage());
-		languageMap.put("Francais", francais.getLanguage());
+		final Map<String, Map<String, String>> languageMap = new HashMap<>();
+		createLanguage("English", languageMap);
+		createLanguage("Francais", languageMap);
 		return languageMap;
+	}
+
+	private static void createLanguage(final String languageName, final Map<String, Map<String, String>> languageMap) {
+		final Language language = new Language("language/" + languageName + ".xml");
+		languageMap.put(languageName, language.getLanguage());
 	}
 
 	/**

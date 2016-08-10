@@ -104,8 +104,6 @@ public class HomeServlet extends HttpServlet {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			LOG.error("Cookies: " + Arrays.asList(request.getCookies()));
-			LOG.error("lang: " + lang);
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
 			request.setAttribute(CURRENCIES, Currency.values());
