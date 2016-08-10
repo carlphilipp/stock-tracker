@@ -18,8 +18,6 @@ package fr.cph.stock.language;
 
 import fr.cph.stock.exception.LanguageException;
 
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +28,7 @@ import java.util.Map;
  */
 public final class LanguageFactory {
 
+	private static final Object LOCK = new Object();
 	/**
 	 * The factory
 	 **/
@@ -38,10 +37,6 @@ public final class LanguageFactory {
 	 * The result LANGUAGE_MAP
 	 **/
 	private static Map<String, Map<String, String>> LANGUAGE_MAP;
-	/**
-	 * The file system
-	 **/
-	private static FileSystem system = FileSystems.getDefault();
 
 	/**
 	 * Constructor to lock the construction of the object
@@ -57,8 +52,12 @@ public final class LanguageFactory {
 	 */
 	public static LanguageFactory getInstance() {
 		if (LANGUAGE_FACTORY == null) {
-			LANGUAGE_FACTORY = new LanguageFactory();
-			LANGUAGE_MAP = getLanguageMap();
+			synchronized (LOCK) {
+				if (LANGUAGE_FACTORY == null) {
+					LANGUAGE_FACTORY = new LanguageFactory();
+					LANGUAGE_MAP = getLanguageMap();
+				}
+			}
 		}
 		return LANGUAGE_FACTORY;
 	}
