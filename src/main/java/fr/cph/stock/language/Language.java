@@ -17,6 +17,7 @@
 package fr.cph.stock.language;
 
 import fr.cph.stock.exception.LanguageException;
+import org.apache.log4j.Logger;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 
@@ -30,11 +31,13 @@ import java.util.Map;
 
 /**
  * Extract from XML files and put in a map, all the translation needed.
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class Language {
+
+	private static final Logger LOG = Logger.getLogger(Language.class);
 
 	/** Path of the XML file **/
 	private String path;
@@ -60,7 +63,7 @@ public class Language {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param p
 	 *            the path of the xml file
 	 * @throws LanguageException the language exception
@@ -70,6 +73,7 @@ public class Language {
 		try {
 			this.xml = new XMLRetriever(path);
 		} catch (final IOException | DocumentException e) {
+			LOG.error(e.getMessage(), e);
 			throw new LanguageException(e.getMessage(), e);
 		}
 		this.map = new HashMap<>();
@@ -77,7 +81,7 @@ public class Language {
 
 	/**
 	 * Get the language name (from the xml name file)
-	 * 
+	 *
 	 * @return the language name
 	 */
 	public final String getLanguageName() {
@@ -86,7 +90,7 @@ public class Language {
 
 	/**
 	 * Get the language map
-	 * 
+	 *
 	 * @return a map
 	 */
 	public final Map<String, String> getLanguage() {
@@ -331,7 +335,7 @@ public class Language {
 
 	/**
 	 * Add the informations to the result map
-	 * 
+	 *
 	 * @param m
 	 *            the result map
 	 * @param base

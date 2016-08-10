@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--  
+<!--
   Copyright 2013 Carl-Philipp Harmant
- 
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
       http://www.apache.org/licenses/LICENSE-2.0
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
- 
-<!DOCTYPE project> 
+
+<!DOCTYPE project>
 <project name="Stock" default="deploy" basedir="../">
 
 	<property file="ant/build.properties" />
-	
+
 	<path id="class.path">
 		<fileset dir="${lib.dir}">
 			<include name="**/*.jar" />
@@ -31,7 +31,7 @@
 		<pathelement location="${hamcrest.jar}" />
 		<pathelement location="${classes.dir}" />
 	</path>
-	
+
 	<path id="pmd.classpath">
 		<pathelement location="${classes.dir}" />
 		<fileset dir="${pmd.home.dir}/lib">
@@ -45,12 +45,12 @@
 		</fileset>
 	</path>
 
-	
+
 	<!--  taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath" /-->
 
 	<!-- To make work Cobertura -->
 	<!-- taskdef classpathref="class.path" resource="tasks.properties" / -->
- 
+
 	<target name="init">
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${instrumented.dir}" />
@@ -70,11 +70,11 @@
 			<classpath refid="class.path" />
 		</javac>
 		<javac includeantruntime="true" srcdir="${test.dir}" destdir="${classes.dir}" debug="yes">
-			<classpath refid="class.path" />	
+			<classpath refid="class.path" />
 			<exclude name="**/AllTests**"/>
 		</javac>
 	</target>
-	
+
 	<target name="moveXML">
 		<copy todir="${classes.dir}/fr/cph/stock/dao/mybatis" >
 			<fileset dir="${src.dir}/fr/cph/stock/dao/mybatis" >
@@ -82,7 +82,7 @@
 			</fileset>
 		</copy>
 	</target>
-	
+
 	<target name="moveProp">
 		<copy todir="${classes.dir}" >
 			<fileset dir="${src.dir}" >
@@ -109,9 +109,9 @@
 	<target name="test" depends="compile,moveXML,instrument">
 		<junit fork="yes" dir="${basedir}" failureProperty="test.failed" printsummary="yes">
 			<jvmarg value="-XX:-UseSplitVerifier"/>
-			
+
 			<formatter type="plain" usefile="false" />
-			
+
 			<classpath location="${instrumented.dir}" />
 			<classpath location="${classes.dir}" />
 
@@ -132,54 +132,54 @@
 			</fileset>
 		</cobertura-report>
 	</target>
-	
+
 	<target name="warify" depends="clean,compile">
 		<war destfile="${app.name}.war">
 			<fileset dir="WebContent">
 				<exclude name="**/*.jar" />
 				<exclude name="**/*.sql" />
 			</fileset>
-			
+
 			<zipfileset dir="src" includes="**/*.properties" excludes="**/*.template" prefix="WEB-INF/classes"/>
 			<zipfileset dir="src" includes="**/*.jrxml" prefix="WEB-INF/classes"/>
 			<zipfileset dir="src/fr/cph/stock/language/xml" includes="**/*.xml" prefix="WEB-INF/classes/fr/cph/stock/language/xml"/>
 			<zipfileset dir="src/fr/cph/stock/language" includes="**/*.dtd" prefix="WEB-INF/classes/fr/cph/stock/language"/>
 			<zipfileset dir="src/fr/cph/stock/dao/mybatis" includes="**/*.xml" prefix="WEB-INF/classes/fr/cph/stock/dao/mybatis"/>
-			
-			<lib dir="WebContent/WEB-INF/lib">
+
+			<lib dir="../src/main/webapp/WEB-INF/lib">
 				<exclude name="cobertura.jar"/>
 				<exclude name="commons-compress-1.4.1-sources.jar"/>
 				<exclude name="json-lib-2.4-jdk15-sources.jar"/>
 				<exclude name="mybatis-3.1.1-javadoc.jar"/>
 				<exclude name="mybatis-3.1.1-sources.jar"/>
 	  		</lib>
-	  		
+
 			<classes dir="${classes.dir}">
 				<exclude name="**/*Test.class"/>
 			</classes>
 		</war>
 	</target>
-	
+
 	<target name="deploy" depends="warify">
 		<input message="SSH password:" addproperty="ssh.password">
 		</input>
-		
+
 		<sshexec host="${ssh.ip}" username="${ssh.login}" password="${ssh.password}" trust="yes"
 				  command="${tomcat.bin.dir}/shutdown.sh" />
 		<sshexec host="${ssh.ip}" username="${ssh.login}" password="${ssh.password}" trust="yes"
 		  command="rm -f ${tomcat.webapps.dir}/${app.name}.war;rm -f -R ${tomcat.webapps.dir}/${app.name}" />
-		
+
 		<scp remoteTodir="${ssh.login}@${ssh.ip}:${tomcat.webapps.dir}"
 			password="${ssh.password}"
 		  	trust="yes"
 		  	sftp="true">
 			<fileset file="${app.name}.war" />
 		</scp>
-		
+
 		<sshexec host="${ssh.ip}" username="${ssh.login}" password="${ssh.password}" trust="yes"
 				  command="${tomcat.bin.dir}/startup.sh" />
 	</target>
-	
+
 	<target name="report.findbugs" depends="compile" description="Run code analysis over code to check for problems.">
         <!-- Fail this target if FindBugs is not installed. -->
         <available file="${findbugs.home.dir}/lib/findbugs.jar" property="findbugs.available" />
@@ -194,7 +194,7 @@
             </auxClasspath>
         </findbugs>
     </target>
-	
+
 	<target name="report.checkstyle" description="Generate a report of code convention violations.">
 		<taskdef resource="checkstyletask.properties" classpath="${checkstyle.home.dir}/checkstyle-5.6-all.jar" />
 	    <!-- run verification of installation-->
@@ -219,11 +219,11 @@
 				<include name="**/*.java" />
 			</fileset>
 		</pmd>
-		<xslt in="${reports.dir}/pmd/pmd_report.xml" 
-			style="${pmd.home.dir}/etc/xslt/pmd-report-per-class.xslt" 
+		<xslt in="${reports.dir}/pmd/pmd_report.xml"
+			style="${pmd.home.dir}/etc/xslt/pmd-report-per-class.xslt"
 			out="${reports.dir}/pmd/pmd_report.html"  />
 	</target>
-	
+
 	<target name="reports" depends="clean,compile,test,report.checkstyle,report.findbugs,report.pmd,report.cobertura" />
 
 </project>

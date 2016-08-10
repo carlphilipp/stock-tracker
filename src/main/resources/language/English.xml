@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE root SYSTEM "Language.dtd">
+<root>
+	<constant>
+		<added>Added</added>
+		<updated>Updated</updated>
+		<modified>Modified</modified>
+		<deleted>Deleted</deleted>
+	</constant>
+	<menu>
+		<title name="portfolio">Portfolio</title>
+		<title name="history">History</title>
+		<title name="accounts">Accounts</title>
+		<title name="list">List</title>
+		<title name="charts">Charts</title>
+		<title name="currencies">Currencies</title>
+		<title name="options">Options</title>
+		<title name="about">About</title>
+		<title name="logout">Logout</title>
+	</menu>
+	<portfolio>
+		<title>Portfolio</title>
+		<review>
+			<liquidity>Liquidity</liquidity>
+			<yieldYear>Yield/Year</yieldYear>
+			<shareValue>Share value</shareValue>
+		</review>
+		<add>Add</add>
+		<equities>
+			<company>Company</company>
+			<quantity>Quantity</quantity>
+			<unitCostPrice>Unit Cost Price</unitCostPrice>
+			<quote>Quote</quote>
+			<currency>Currency</currency>
+			<parities>Parities</parities>
+			<value>Value</value>
+			<percentTotal>% of Total</percentTotal>
+			<yieldTtm>Yield TTM&lt;br&gt;Per Year</yieldTtm>
+			<yieldPerUnitCostPrice>Yield Per Unit&lt;br&gt;Cost Price Per&lt;br&gt;Year</yieldPerUnitCostPrice>
+			<valueGained>Value Gained</valueGained>
+			<stopLoss>Stop Loss</stopLoss>
+			<objective>Objective</objective>
+			<info>info</info>
+			<modify>modify</modify>
+		</equities>
+		<chartTitle>History chart</chartTitle>
+		<chartTitleValue>Value chart</chartTitleValue>
+		<chart>
+			<all>All</all>
+			<fiveYears>5y</fiveYears>
+			<twoYears>2y</twoYears>
+			<oneYear>1y</oneYear>
+			<sixMonths>6m</sixMonths>
+			<threeMonths>3m</threeMonths>
+			<oneMonth>1m</oneMonth>
+			<oneWeek>1w</oneWeek>
+		</chart>
+	</portfolio>
+	<portfolio_hidden>
+		<refresh>Refresh ?</refresh>
+		<updateCurrencies>Update currencies</updateCurrencies>
+		<add>Add a company</add>
+		<yahooId>Yahoo ticker</yahooId>
+		<quantity>Quantity</quantity>
+		<unitCostPrice>Unit Cost Price</unitCostPrice>
+		<modifyEquity>Modify Equity</modifyEquity>
+		<customizeName>Customize Name</customizeName>
+		<customizeSector>Cutomize sector</customizeSector>
+		<customizeIndustry>Customize industry</customizeIndustry>
+		<customizeMarketCap>Customize market capitalization</customizeMarketCap>
+		<defautParity>Defaut parity</defautParity>
+		<personalParity>Personal parity</personalParity>
+		<yahooYield>Yahoo yield</yahooYield>
+		<personalYield>Personal yield</personalYield>
+		<stopLoss>Stop loss</stopLoss>
+		<objective>Objective</objective>
+		<modify>Modify</modify>
+		<or>or</or>
+		<delete>delete</delete>
+		<deleteConfirm>Are you sure you want to delete this company from your portfolio?</deleteConfirm>
+	</portfolio_hidden>
+	<history>
+		<title>Portfolio history</title>
+		<update>Update</update>
+		<date>Date</date>
+		<account>Account</account>
+		<liquidityMovement>Liquidity movement</liquidityMovement>
+		<dividends>Dividends received</dividends>
+		<buy>Buy</buy>
+		<sell>Sell</sell>
+		<taxe>Taxe</taxe>
+		<portfolioValue>Portofolio value</portfolioValue>
+		<shareQuantity>Share&lt;br&gt;quantity</shareQuantity>
+		<shareValue>Share&lt;br&gt;value</shareValue>
+		<monthlyYield>Monthly yield</monthlyYield>
+		<commentary>Commentary</commentary>
+		<option>Option</option>
+		<details>details</details>
+		<all>All</all>
+		<delete>del</delete>
+	</history>
+	<history_hidden>
+		<refresh>Refresh share value history</refresh>
+		<account>Account</account>
+		<movement>Movement</movement>
+		<yield>Yield</yield>
+		<buy>Buy</buy>
+		<sell>Sell</sell>
+		<taxe>Taxe</taxe>
+		<commentary>Commentary</commentary>
+		<update>Update</update>
+	</history_hidden>
+	<accounts>
+		<title>Accounts</title>
+		<add>Add</add>
+		<account>Account</account>
+		<currency>Currency</currency>
+		<liquidity>Liquidity</liquidity>
+		<parity>Current Parity</parity>
+		<value>Value in</value>
+		<option>Option</option>
+		<modify>Modify</modify>
+		<total>Total</total>
+	</accounts>
+	<accounts_hidden>
+		<add>Add an account</add>
+		<accountName>Account Name</accountName>
+		<currency>Currency</currency>
+		<liquidity>Liquidity</liquidity>
+	</accounts_hidden>
+	<list>
+		<title>My list</title>
+		<add>Add</add>
+		<date>Date</date>
+		<company>Company</company>
+		<quote>Quote</quote>
+		<lowMaxYear>Low year&#160;&#160;&#160;&#160; - &#160;&#160;&#160;&#160;Quote&#160;&#160;&#160;&#160; - &#160;&#160;&#160;&#160;High year</lowMaxYear>
+		<yield>Yield TTM Per Year</yield>
+		<lowerLimit>Lower limit</lowerLimit>
+		<higherLimit>Higher limit</higherLimit>
+		<info>info</info>
+		<modify>modify</modify>
+	</list>
+	<list_hidden>
+		<refresh>Refresh ?</refresh>
+		<confirm>Confirm</confirm>
+		<add>Add a company to the list</add>
+		<yahooId>Yahoo ticker</yahooId>
+		<lowerLimit>Lower limit</lowerLimit>
+		<higherLimit>Higher limit</higherLimit>
+		<modify>Modify a company</modify>
+	</list_hidden>
+	<charts>
+		<title>Charts</title>
+	</charts>
+	<currencies>
+		<title>Currencies</title>
+		<portfolioCurrency>Current portfolio currency</portfolioCurrency>
+		<currency>Currency</currency>
+		<lastUpdate>Last Update</lastUpdate>
+	</currencies>
+	<currencies_hidden>
+		<refresh>Refresh ?</refresh>
+		<confirm>Confirm</confirm>
+	</currencies_hidden>
+	<options>
+		<title>Options</title>
+		<defautCurrency>Defaut currency</defautCurrency>
+		<format>Number format language</format>
+		<timeZone>Time zone</timeZone>
+		<datePattern>Date Pattern</datePattern>
+		<portfolioColumn>Portfolio column shown</portfolioColumn>
+		<loadHistory>Load history</loadHistory>
+		<liquidity>Liquidity</liquidity>
+		<account>Account</account>
+		<load>Load</load>
+	</options>
+	<options_hidden>
+		<title>Modify options</title>
+		<currency>Currency</currency>
+		<format>Number format language</format>
+		<timeZone>TimeZone</timeZone>
+		<datePattern>Date pattern</datePattern>
+		<columns>Columns to display in portfolio</columns>
+		<quote>Quote</quote>
+		<parities>Parities</parities>
+		<yieldTTM>Yield TTM/yeaar</yieldTTM>
+		<yieldPerUnitCostPrice>Yield per unit cost price/year</yieldPerUnitCostPrice>
+		<stopLoss>Stop loss</stopLoss>
+		<objective>Objective</objective>
+	</options_hidden>
+	<about />
+	<logout />
+</root>

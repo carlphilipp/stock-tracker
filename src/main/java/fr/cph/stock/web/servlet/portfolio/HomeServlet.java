@@ -54,11 +54,10 @@ import static fr.cph.stock.util.Constants.*;
 @WebServlet(name = "HomeServlet", urlPatterns = { "/home" }, loadOnStartup = 1)
 public class HomeServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 122322259823208331L;/** Logger **/
+	private static final long serialVersionUID = 122322259823208331L;
 	private static final Logger LOG = Logger.getLogger(HomeServlet.class);
 	private IBusiness business;
 	private LanguageFactory language;
-	private Job job;
 
 	@Override
 	public final void init() throws ServletException {
@@ -66,7 +65,7 @@ public class HomeServlet extends HttpServlet {
 			final InetAddress inetAddress = InetAddress.getLocalHost();
 			final String hostName = inetAddress.getHostName();
 			if (!hostName.equals("carl-Laptop")) {
-				job = new Job();
+				final Job job = new Job();
 				job.run();
 			}
 		} catch (final UnknownHostException | SchedulerException e) {
@@ -105,6 +104,8 @@ public class HomeServlet extends HttpServlet {
 				LOG.error("Error: " + e.getMessage(), e);
 			}
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+			LOG.error("Cookies: " + Arrays.asList(request.getCookies()));
+			LOG.error("lang: " + lang);
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
 			request.setAttribute(CURRENCIES, Currency.values());

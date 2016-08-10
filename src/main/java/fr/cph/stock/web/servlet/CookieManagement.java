@@ -51,7 +51,7 @@ public final class CookieManagement {
                 break;
             }
         }
-        language = language == null ? ENGLISH : null;
+        language = language == null ? ENGLISH : language;
         return language;
     }
 

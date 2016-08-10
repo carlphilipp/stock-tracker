@@ -72,7 +72,7 @@ public class Csv {
 		List<String[]> content = csvReader.readAll();
 		List<ShareValue> shareValues = new ArrayList<>();
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		String[] row = null;
+		String[] row;
 		int userId = user.getId();
 		for (Object o : content) {
 			row = (String[]) o;

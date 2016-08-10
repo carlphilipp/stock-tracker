@@ -16,7 +16,6 @@
 
 package fr.cph.stock.language;
 
-import org.apache.ibatis.io.Resources;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
@@ -26,55 +25,49 @@ import org.xml.sax.InputSource;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
 
 /**
  * This class will read XMLs
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class XMLRetriever {
 
-	/** The current document xml **/
+	/**
+	 * The current document xml
+	 **/
 	private Document document;
 
 	/**
 	 * Constructor
 	 *
-	 * @param path
-	 *            the path of the xml file
-	 * @throws IOException
-	 *             the io exception
-	 * @throws DocumentException
-	 *             the document exception
+	 * @param path the path of the xml file
+	 * @throws IOException       the io exception
+	 * @throws DocumentException the document exception
 	 */
 	public XMLRetriever(final String path) throws IOException, DocumentException {
-		try (final InputStream inputStream = Resources.getResourceAsStream(path)) {
-			document = parse(inputStream);
-		}
+		final URL inputStream = Thread.currentThread().getContextClassLoader().getResource(path);
+		document = parse(inputStream);
 	}
 
 	/**
 	 * Parser of the input stream
 	 *
-	 * @param inputStream
-	 *            the stream
+	 * @param inputStream the stream
 	 * @return a Document
-	 * @throws DocumentException
-	 *             the document exception
+	 * @throws DocumentException the document exception
 	 */
-	protected final Document parse(final InputStream inputStream) throws DocumentException {
+
+	protected final Document parse(final URL inputStream) throws DocumentException {
 		final SAXReader reader = new SAXReader(true);
 		reader.setEntityResolver(getEntityResolver());
-		final Document doc = reader.read(inputStream);
-		return doc;
+		return reader.read(inputStream);
 	}
 
 	/**
-	 *
-	 * @param node
-	 *            the node
+	 * @param node the node
 	 * @return a node
 	 */
 	public final Node getNode(final String node) {
@@ -84,8 +77,7 @@ public class XMLRetriever {
 	/**
 	 * Get list node
 	 *
-	 * @param node
-	 *            the node
+	 * @param node the node
 	 * @return a list of node
 	 */
 	public final List<? extends Node> getListNode(final String node) {
@@ -94,8 +86,8 @@ public class XMLRetriever {
 
 	private EntityResolver getEntityResolver() {
 		return new EntityResolver() {
-			public InputSource resolveEntity(final String publicId, final String systemId) {
-				final InputStream in = getClass().getResourceAsStream("Language.dtd");
+			public InputSource resolveEntity(final String publicId, final String systemId) throws IOException {
+				final InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("language/Language.dtd");
 				return new InputSource(in);
 			}
 		};

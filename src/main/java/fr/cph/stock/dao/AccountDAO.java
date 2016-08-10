@@ -25,9 +25,9 @@ import java.util.Map;
 
 /**
  * This class implements IDAO functions and add some more. It access to the Account in DB.
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class AccountDAO extends AbstractDAO<Account> {
 
@@ -35,7 +35,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	public final void insert(final Account account) {
 		final SqlSession session = getSqlSessionFactory();
 		try {
-			session.insert("AccountDAO.insertOneAccount", account);
+			session.insert("AccountDao.insertOneAccount", account);
 			session.commit();
 		} finally {
 			session.close();
@@ -46,7 +46,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	public final Account select(final int id) {
 		final SqlSession session = getSqlSessionFactory();
 		try {
-			return session.selectOne("AccountDAO.selectOneAccount", id);
+			return session.selectOne("AccountDao.selectOneAccount", id);
 		} finally {
 			session.close();
 		}
@@ -56,7 +56,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	public final void update(final Account account) {
 		final SqlSession session = getSqlSessionFactory();
 		try {
-			session.update("AccountDAO.updateOneAccount", account);
+			session.update("AccountDao.updateOneAccount", account);
 			session.commit();
 		} finally {
 			session.close();
@@ -68,7 +68,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	public final void delete(final Account account) {
 		final SqlSession session = getSqlSessionFactory();
 		try {
-			session.delete("AccountDAO.deleteOneAccount", account);
+			session.delete("AccountDao.deleteOneAccount", account);
 			session.commit();
 		} finally {
 			session.close();
@@ -77,7 +77,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	/**
 	 * Get all account for the user
-	 * 
+	 *
 	 * @param userId
 	 *            the user id
 	 * @return a list of account
@@ -85,7 +85,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	public final List<Account> selectAllAccountWithUserId(final int userId) {
 		final SqlSession session = getSqlSessionFactory();
 		try {
-			return session.selectList("AccountDAO.selectAllAccountWithUserId", userId);
+			return session.selectList("AccountDao.selectAllAccountWithUserId", userId);
 		} finally {
 			session.close();
 		}
@@ -93,7 +93,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	/**
 	 * Get an account
-	 * 
+	 *
 	 * @param userId
 	 *            the user id
 	 * @param name
@@ -106,7 +106,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 		try {
 			map.put("userId", userId);
 			map.put("name", name);
-			return session.selectOne("AccountDAO.selectOneAccountWithName", map);
+			return session.selectOne("AccountDao.selectOneAccountWithName", map);
 		} finally {
 			session.close();
 		}

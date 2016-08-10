@@ -29,9 +29,9 @@ import java.util.Map;
 
 /**
  * This class implements IDAO functions and add some more. It access to the Portfolio in DB.
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
@@ -58,7 +58,7 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
 	/**
 	 * Get portfolio with user id
-	 * 
+	 *
 	 * @param userId
 	 *            the user id
 	 * @return a Portfolio
@@ -96,7 +96,7 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
 	/**
 	 * Get portfolio, loaded with its equities
-	 * 
+	 *
 	 * @param userId
 	 *            the user id
 	 * @param from
@@ -113,7 +113,7 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 			if (portfolio != null) {
 				final List<Equity> equities = session.selectList("PortfolioDao.selectEquityFromPortfolio", portfolio.getId());
 				portfolio.setEquities(equities);
-				final List<Account> accounts = session.selectList("AccountDAO.selectAllAccountWithUserId", userId);
+				final List<Account> accounts = session.selectList("AccountDao.selectAllAccountWithUserId", userId);
 				portfolio.setAccounts(accounts);
 				if (from == null) {
 					final List<ShareValue> shares = session.selectList("ShareValue.selectAllValue", userId);
