@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class CompanyBusinessImpl implements CompanyBusiness {
 
@@ -46,12 +47,11 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 		daoCompany = new CompanyDAO();
 	}
 
-	// Company
 	@Override
 	public final List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {
 		LOG.debug("Updating: " + tickers);
-		List<Company> companies = yahoo.getCompaniesData(tickers);
-		List<Company> companiesResult = new ArrayList<>();
+		final List<Company> companies = yahoo.getCompaniesData(tickers);
+		final List<Company> companiesResult = new ArrayList<>();
 		for (Company companyYahoo : companies) {
 			Company companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
 			if (companyInDB == null) {
@@ -91,7 +91,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 					daoCompany.update(company);
 				}
 			}
-		} catch (YahooException e) {
+		} catch (final YahooException e) {
 			LOG.warn("Company update not real time error: " + e.getMessage());
 		}
 	}
@@ -160,13 +160,11 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 
 	public boolean updateAllCompanies() {
 		final List<Company> companies = daoCompany.selectAllCompany(true);
-		final List<String> yahooIdList = new ArrayList<>();
+		final List<String> yahooIdList = companies.stream()
+			.filter(Company::getRealTime)
+			.map(Company::getYahooId)
+			.collect(Collectors.toList());
 		boolean canUpdate = true;
-		for (final Company c : companies) {
-			if (c.getRealTime()) {
-				yahooIdList.add(c.getYahooId());
-			}
-		}
 		if (yahooIdList.size() <= MAX_UPDATE_COMPANY) {
 			try {
 				addOrUpdateCompanies(yahooIdList);
@@ -234,11 +232,10 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	@Override
 	public final void cleanDB() {
 		final List<Integer> companies = daoCompany.selectAllUnusedCompanyIds();
-		Company company;
-		for (final Integer id : companies) {
-			company = new Company();
+		companies.forEach(id -> {
+			final Company company = new Company();
 			company.setId(id);
 			daoCompany.delete(company);
-		}
+		});
 	}
 }
