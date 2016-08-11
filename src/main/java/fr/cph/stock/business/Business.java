@@ -94,6 +94,7 @@ public final class Business implements IBusiness {
 		return BUSINESS;
 	}
 
+	// Equity
 	@Override
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {
 		final Company company = addOrUpdateCompany(ticker);
@@ -122,19 +123,16 @@ public final class Business implements IBusiness {
 
 	@Override
 	public final void updateEquity(final int userId, final String ticker, final Equity equity) throws UnsupportedEncodingException, YahooException {
-		Company company = daoCompany.selectWithYahooId(ticker);
-		Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
-
-		boolean isAlreadyThere = false;
-		for (Equity e : portfolio.getEquities()) {
-			if (e.getCompanyId() == company.getId()) {
-				isAlreadyThere = true;
-				equity.setid(e.getId());
-			}
-		}
+		final Company company = daoCompany.selectWithYahooId(ticker);
+		final Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
+		
+		final Optional<Equity> found = portfolio.getEquities().stream()
+			.filter(e -> e.getCompanyId() == company.getId())
+			.findAny();
 		equity.setCompanyId(company.getId());
 		equity.setPortfolioId(portfolio.getId());
-		if (isAlreadyThere) {
+		if (found.isPresent()) {
+			equity.setid(found.get().getId());
 			daoEquity.update(equity);
 		} else {
 			daoEquity.insert(equity);
@@ -146,6 +144,7 @@ public final class Business implements IBusiness {
 		daoEquity.delete(equity);
 	}
 
+	// Company
 	@Override
 	public final List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {
 		LOG.debug("Updating: " + tickers);
@@ -177,365 +176,6 @@ public final class Business implements IBusiness {
 	}
 
 	@Override
-	public final void addFollow(final User user, final String ticker, final Double lower, final Double higher) throws YahooException {
-		Company company = addOrUpdateCompany(ticker);
-		Follow foll = daoFollow.selectOneFollow(user.getId(), company.getId());
-		if (foll == null) {
-			Follow follow = new Follow();
-			follow.setCompany(company);
-			follow.setCompanyId(company.getId());
-			follow.setUserId(user.getId());
-			follow.setLowerLimit(lower);
-			follow.setHigherLimit(higher);
-			daoFollow.insert(follow);
-		} else {
-			foll.setLowerLimit(lower);
-			foll.setHigherLimit(higher);
-			daoFollow.update(foll);
-		}
-	}
-
-	@Override
-	public final void updateFollow(final User user, final String ticker, final Double lower, final Double higher) {
-		Company company = daoCompany.selectWithYahooId(ticker);
-		Follow foll = daoFollow.selectOneFollow(user.getId(), company.getId());
-		foll.setLowerLimit(lower);
-		foll.setHigherLimit(higher);
-		daoFollow.update(foll);
-	}
-
-	@Override
-	public final void deleteFollow(final int id) {
-		Follow follow = new Follow();
-		follow.setId(id);
-		daoFollow.delete(follow);
-	}
-
-	@Override
-	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException,
-		UnsupportedEncodingException, LoginException {
-		String md5PasswordHashed = Security.encodeToSha256(md5Password);
-		String saltHashed = Security.generateSalt();
-		String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
-		User userInDbWithLogin = getUser(login);
-		User userInDbWithEmail = getUserWithEmail(email);
-		if (userInDbWithLogin != null) {
-			throw new LoginException("Sorry, '" + login + "' is not available!");
-		}
-		if (userInDbWithEmail != null) {
-			throw new LoginException("Sorry, '" + email + "' is not available!");
-		}
-		User user = new User();
-		user.setLogin(login);
-		user.setPassword(saltHashed + cryptedPasswordSalt);
-		user.setEmail(email);
-		user.setAllow(false);
-		daoUser.insert(user);
-		StringBuilder body = new StringBuilder();
-		String check = Security.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
-		body.append("Welcome to ")
-			.append(Info.NAME)
-			.append(",\n\nPlease valid your account by clicking on that link:")
-			.append(Info.ADDRESS)
-			.append(Info.FOLDER)
-			.append("/check?&login=")
-			.append(login)
-			.append("&check=")
-			.append(check)
-			.append(".\n\nBest regards,\nThe ")
-			.append(Info.NAME)
-			.append(" team.");
-		Mail.sendMail("[Registration] " + Info.NAME, body.toString(), new String[]{email}, null);
-		createUserPortfolio(user.getLogin());
-		createUserDefaultAccount(user);
-	}
-
-	@Override
-	public final User getUser(final String login) {
-		return daoUser.selectWithLogin(login);
-	}
-
-	@Override
-	public final User getUserWithEmail(final String email) {
-		return daoUser.selectWithEmail(email);
-	}
-
-	@Override
-	public final void deleteUser(final String login) {
-		User user = new User();
-		user.setLogin(login);
-		daoUser.delete(user);
-	}
-
-	@Override
-	public final User checkUser(final String login, final String md5Password) throws LoginException {
-		User user = daoUser.selectWithLogin(login);
-		final int sixtyFour = 64;
-		if (user != null) {
-			String md5PasswordHashed;
-			try {
-				md5PasswordHashed = Security.encodeToSha256(md5Password);
-				String saltHashed = user.getPassword().substring(0, sixtyFour);
-				String cryptedPasswordSalt = user.getPassword().substring(sixtyFour, user.getPassword().length());
-				String cryptedPasswordSaltToTest = Security.encodeToSha256(md5PasswordHashed + saltHashed);
-				if (!cryptedPasswordSalt.equals(cryptedPasswordSaltToTest)) {
-					user = null;
-				} else {
-					user.setPassword(null);
-				}
-			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-				throw new LoginException(e.getMessage(), e);
-			}
-		}
-		return user;
-	}
-
-	@Override
-	public final Portfolio getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
-		Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, from, to);
-		Collections.sort(portfolio.getEquities());
-		Currency currency = loadCurrencyData(portfolio.getCurrency());
-		portfolio.setCurrency(currency);
-		for (Equity e : portfolio.getEquities()) {
-			if (e.getCompany().getCurrency() == portfolio.getCurrency()) {
-				e.setParity(1.0);
-			} else {
-				e.setParity(portfolio.getCurrency().getParity(e.getCompany().getCurrency()));
-			}
-		}
-		double liquidity = 0.0;
-		for (Account acc : portfolio.getAccounts()) {
-			if (acc.getCurrency() == portfolio.getCurrency()) {
-				liquidity += acc.getLiquidity();
-				acc.setParity(1.0);
-			} else {
-				liquidity += acc.getLiquidity() * portfolio.getCurrency().getParity(acc.getCurrency());
-				acc.setParity(portfolio.getCurrency().getParity(acc.getCurrency()));
-			}
-		}
-		liquidity = new BigDecimal(liquidity, MATHCONTEXT).doubleValue();
-		portfolio.setLiquidity(liquidity);
-		portfolio.compute();
-		return portfolio;
-	}
-
-	@Override
-	public final void updateLiquidity(final Account account, final double liquidity) {
-		account.setLiquidity(liquidity);
-		daoAccount.update(account);
-	}
-
-	@Override
-	public final Currency loadCurrencyData(final Currency currency) throws YahooException {
-		List<CurrencyData> currencyDataList = daoCurrency.selectListCurrency(currency.getCode());
-		if (currencyDataList.size() == 0) {
-			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
-			for (CurrencyData currencyData : currenciesData) {
-				CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
-				if (c == null) {
-					daoCurrency.insert(currencyData);
-				} else {
-					currencyData.setId(c.getId());
-					daoCurrency.update(currencyData);
-				}
-			}
-			currencyDataList = daoCurrency.selectListCurrency(currency.getCode());
-		}
-		currency.setCurrencyData(currencyDataList);
-		return currency;
-	}
-
-	@Override
-	public final void updateAllCurrencies() throws YahooException {
-		List<Currency> currencyDone = new ArrayList<>();
-		for (Currency currency : Currency.values()) {
-			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
-			Util.makeAPause(PAUSE);
-			if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
-				for (CurrencyData currencyData : currenciesData) {
-					if (!(currencyDone.contains(currencyData.getCurrency1()) || currencyDone.contains(currencyData.getCurrency2()))) {
-						CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
-						if (c == null) {
-							daoCurrency.insert(currencyData);
-						} else {
-							currencyData.setId(c.getId());
-							daoCurrency.update(currencyData);
-						}
-					}
-				}
-				currencyDone.add(currency);
-			} else {
-				LOG.warn("Impossible to update this currency: " + currency.getCode());
-			}
-		}
-	}
-
-	@Override
-	public final void updateOneCurrency(final Currency currency) throws YahooException {
-		List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
-		if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
-			for (CurrencyData currencyData : currenciesData) {
-				CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
-				if (c == null) {
-					daoCurrency.insert(currencyData);
-				} else {
-					currencyData.setId(c.getId());
-					daoCurrency.update(currencyData);
-				}
-			}
-		} else {
-			throw new YahooException(
-				"The current table 'yahoo.finance.xchange' has been blocked. It exceeded the allotted quotas of either time or instructions");
-		}
-	}
-
-	@Override
-	public final Object[][] getAllCurrencyData(final Currency currency) {
-		final List<CurrencyData> currencies = daoCurrency.selectListAllCurrency();
-		final Currency[] currencyTab = Currency.values();
-		final Object[][] res = new Object[currencyTab.length - 1][6];
-		int i = 0;
-		for (final Currency c : currencyTab) {
-			if (c != currency) {
-				res[i][0] = c.toString();
-				res[i][1] = c.getName();
-				for (final CurrencyData currencyData : currencies) {
-					if (c == currencyData.getCurrency1() && currency == currencyData.getCurrency2()) {
-						res[i][3] = currencyData.getValue().toString();
-						res[i][4] = currencyData.getLastUpdate();
-					}
-					if (currency == currencyData.getCurrency1() && c == currencyData.getCurrency2()) {
-						res[i][2] = currencyData.getValue().toString();
-					}
-				}
-				i++;
-			}
-		}
-		return res;
-	}
-
-	@Override
-	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield,
-											  final Double buy, final Double sell, final Double taxe, final String commentary) {
-		final ShareValue shareValue = new ShareValue();
-		shareValue.setUserId(portfolio.getUserId());
-		final double monthlyYield = new BigDecimal(portfolio.getYieldYear() / 12, MATHCONTEXT).doubleValue();
-		shareValue.setMonthlyYield(monthlyYield);
-		shareValue.setPortfolioValue(new BigDecimal(portfolio.getTotalValue(), MATHCONTEXT).doubleValue());
-		shareValue.setLiquidityMovement(liquidityMovement);
-		shareValue.setYield(yield);
-		shareValue.setBuy(buy);
-		shareValue.setSell(sell);
-		shareValue.setTaxe(taxe);
-		shareValue.setAccount(account);
-		// shareValue.setAccountName(account.getName());
-		shareValue.setCommentary(commentary);
-		shareValue.setDetails(portfolio.getPortfolioReview());
-		ShareValue lastShareValue = daoShareValue.selectLastValue(portfolio.getUserId());
-		if (lastShareValue == null) {
-			shareValue.setShareQuantity(portfolio.getTotalValue() / PERCENT);
-			shareValue.setShareValue((double) PERCENT);
-			daoShareValue.insert(shareValue);
-		} else {
-			double parity;
-			if (portfolio.getCurrency() == account.getCurrency()) {
-				parity = 1;
-			} else {
-				parity = portfolio.getCurrency().getParity(account.getCurrency());
-			}
-			final Double quantity = lastShareValue.getShareQuantity() + (liquidityMovement * parity)
-				/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.getShareQuantity());
-			shareValue.setShareQuantity(new BigDecimal(quantity, MATHCONTEXT).doubleValue());
-
-			final Double shareValue2 = portfolio.getTotalValue() / quantity;
-			shareValue.setShareValue(new BigDecimal(shareValue2, MATHCONTEXT).doubleValue());
-			daoShareValue.insert(shareValue);
-		}
-	}
-
-	// @Override
-	// public final List<ShareValue> getShareValue(final User user) {
-	// return daoShareValue.selectAllValue(user.getId());
-	// }
-
-	@Override
-	public final List<Index> getIndexes(final String yahooId, final Date from, final Date to) {
-		final List<Index> indexes = daoIndex.selectListFrom(yahooId, from, to);
-		for (int i = 0; i < indexes.size(); i++) {
-			final Index currentIndex = indexes.get(i);
-			if (i == 0) {
-				currentIndex.setShareValue((double) PERCENT);
-				// To make it pretty in chart
-				currentIndex.setDate(from);
-			} else {
-				final Index lastIndex = indexes.get(i - 1);
-				double shareValue = currentIndex.getValue() * lastIndex.getShareValue() / lastIndex.getValue();
-				shareValue = new BigDecimal(shareValue, MATHCONTEXT).doubleValue();
-				currentIndex.setShareValue(shareValue);
-			}
-		}
-		return indexes;
-	}
-
-	@Override
-	public final void updateIndex(final String yahooId) throws YahooException {
-		final Index index = yahoo.getIndexData(yahooId);
-		daoIndex.insert(index);
-	}
-
-	@Override
-	public final void checkUpdateIndex(final String yahooId, final TimeZone timeZone) throws YahooException {
-		final Index index = daoIndex.selectLast(yahooId);
-		final Calendar currentCal = Util.getCurrentCalendarInTimeZone(timeZone);
-		final Calendar indexCal = Util.getDateInTimeZone(index.getDate(), timeZone);
-		LOG.debug("Check update for " + yahooId + " in timezone : " + timeZone.getDisplayName());
-		LOG.debug("CurrentHour: " + currentCal.get(Calendar.HOUR_OF_DAY) + "h" + currentCal.get(Calendar.MINUTE) + " / indexHour: "
-			+ indexCal.get(Calendar.HOUR_OF_DAY) + "h" + indexCal.get(Calendar.MINUTE));
-		if (!Util.isSameDay(currentCal, indexCal)) {
-			LOG.debug("Update index after checking! " + yahooId);
-			updateIndex(yahooId);
-		}
-	}
-
-	// @Override
-	// public final boolean updateIndex(final String yahooId, final Date from, final Date to, final boolean force)
-	// throws YahooException {
-	// List<Index> indexes;
-	// if (force) {
-	// indexes = yahoo.getIndexDataHistory(yahooId, from, to);
-	// } else {
-	// Index index = daoIndex.selectLast(yahooId);
-	//
-	// if (index == null) {
-	// indexes = yahoo.getIndexDataHistory(yahooId, from, to);
-	// } else {
-	// Date lastUpdate = index.getDate();
-	// Calendar cal = Calendar.getInstance();
-	// cal.setTime(lastUpdate);
-	// cal.add(Calendar.DATE, 1);
-	// cal.add(Calendar.HOUR_OF_DAY, 20);
-	// cal.add(Calendar.SECOND, 0);
-	// cal.add(Calendar.MILLISECOND, 0);
-	// indexes = yahoo.getIndexDataHistory(yahooId, cal.getTime(), to);
-	// }
-	// }
-	// if (!force) {
-	// for (Index indexTemp : indexes) {
-	// daoIndex.insert(indexTemp);
-	// }
-	// } else {
-	// for (Index indexTemp : indexes) {
-	// Index ind = daoIndex.selectOneIndexWithIdAndIndex(indexTemp);
-	// if (ind == null) {
-	// daoIndex.insert(indexTemp);
-	// }
-	// }
-	// }
-	// boolean res = indexes.size() == 0 ? false : true;
-	// return res;
-	// }
-
-	@Override
 	public final void updateCompaniesNotRealTime() {
 		final List<Company> companies = daoCompany.selectAllCompany(false);
 		final Calendar cal = Calendar.getInstance();
@@ -552,6 +192,11 @@ public final class Business implements IBusiness {
 		} catch (YahooException e) {
 			LOG.warn("Company update not real time error: " + e.getMessage());
 		}
+	}
+
+	@Override
+	public final void deleteCompany(final Company company) {
+		daoCompany.delete(company);
 	}
 
 	@Override
@@ -585,169 +230,6 @@ public final class Business implements IBusiness {
 			}
 		}
 		return sb.toString();
-	}
-
-	// @Override
-	// public final void updateCompaniesRealTime() {
-	// List<Company> companies = daoCompany.selectAllCompany(true);
-	// List<String> yahooIdList = new ArrayList<>();
-	// for (Company c : companies) {
-	// if (c.getRealTime()) {
-	// yahooIdList.add(c.getYahooId());
-	// }
-	// }
-	// if (yahooIdList.size() <= MAX_UPDATE_COMPANY) {
-	// try {
-	// addOrUpdateCompanies(yahooIdList);
-	// } catch (YahooException e) {
-	// LOG.warn(e.getMessage());
-	// }
-	// } else {
-	// int from = 0;
-	// int to = MAX_UPDATE_COMPANY;
-	// boolean isOk = true;
-	// while (isOk) {
-	// if (to > yahooIdList.size()) {
-	// to = yahooIdList.size();
-	// }
-	// try {
-	// addOrUpdateCompanies(yahooIdList.subList(from, to));
-	// } catch (YahooException e) {
-	// LOG.error("Company update real time error: " + e.getMessage());
-	// }
-	// if (to == yahooIdList.size()) {
-	// isOk = false;
-	// }
-	// from = to;
-	// to = to + MAX_UPDATE_COMPANY;
-	// }
-	// }
-	// }
-
-	@Override
-	public final List<Follow> getListFollow(final int userId) {
-		return daoFollow.selectListFollow(userId);
-	}
-
-	@Override
-	public final void deleteShareValue(final ShareValue sv) {
-		daoShareValue.delete(sv);
-	}
-
-	@Override
-	public final void addShareValue(final ShareValue share) {
-		daoShareValue.insertWithDate(share);
-	}
-
-	@Override
-	public final void updatePortfolio(final Portfolio portfolio) {
-		daoPortfolio.update(portfolio);
-	}
-
-	@Override
-	public final void updateUser(final User user) {
-		daoUser.update(user);
-	}
-
-	@Override
-	public final void updateOneUserPassword(final User user) {
-		daoUser.updateOneUserPassword(user);
-	}
-
-	// @Override
-	// public final Account selectOneAccountWithName(final int userId, final String name) {
-	// return daoAccount.selectOneAccountWithName(userId, name);
-	// }
-
-	@Override
-	public final void addAccount(final Account account) {
-		daoAccount.insert(account);
-	}
-
-	@Override
-	public final void updateAccount(final Account account) {
-		daoAccount.update(account);
-	}
-
-	@Override
-	public final void deleteAccount(final Account account) {
-		daoAccount.delete(account);
-	}
-
-	@Override
-	public final ShareValue selectOneShareValue(final int id) {
-		return daoShareValue.select(id);
-	}
-
-	@Override
-	public final void updateCommentaryShareValue(final ShareValue shareValue) {
-		daoShareValue.update(shareValue);
-	}
-
-	@Override
-	public final void validateUser(final String login) {
-		final User user = daoUser.selectWithLogin(login);
-		user.setAllow(true);
-		daoUser.update(user);
-	}
-
-	@Override
-	public final void deleteCompany(final Company company) {
-		daoCompany.delete(company);
-	}
-
-	@Override
-	public final void cleanDB() {
-		final List<Integer> companies = daoCompany.selectAllUnusedCompanyIds();
-		Company company;
-		for (final Integer id : companies) {
-			company = new Company();
-			company.setId(id);
-			daoCompany.delete(company);
-		}
-	}
-
-	@Override
-	public final void autoUpdateUserShareValue(final Calendar calendar) throws YahooException {
-		boolean tryToUpdate = false, canUpdate = false;
-		final List<User> users = daoUser.selectAllUsers();
-		Portfolio portfolio;
-		Account account;
-		for (final User user : users) {
-			if (user.getUpdateHourTime() != null) {
-				final int hourDiff = Util.timeZoneDiff(TimeZone.getTimeZone(user.getTimeZone()));
-				final int hour = Util.getRealHour(user.getUpdateHourTime(), hourDiff);
-
-				/*
-				 * if (user.getLogin().equals("carl") || user.getLogin().equals("carlphilipp")) { LOG.info("========================");
-				 * LOG.info("User : " + user.getLogin()); LOG.info("Current paris hour: " + calendar.get(Calendar.HOUR_OF_DAY));
-				 * LOG.info("User current time zone: " + user.getTimeZone()); LOG.info("Hour diff: " + hourDiff); LOG.info("User wants to update at "
-				 * + user.getUpdateHourTime()); LOG.info("Hour retained for user: " + hour); }
-				 */
-
-				final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-				if (hour == currentHour) {
-					if (!tryToUpdate) {
-						canUpdate = updateAllCompanies();
-						tryToUpdate = true;
-					}
-					if (canUpdate) {
-						LOG.info("Update user portfolio: " + user.getLogin());
-						portfolio = getUserPortfolio(user.getId(), null, null);
-						account = portfolio.getFirstAccount();
-						updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");
-					} else {
-						if (user.getUpdateSendMail()) {
-							final String body = ("Dear "
-								+ user.getLogin()
-								+ ",\n\nThe update today did not work, probably because of Yahoo's API.\nSorry for the inconvenience. You still can try do it manually."
-								+ "\n\nBest regards,\nThe " + Info.NAME + " team.");
-							Mail.sendMail("[Auto-update fail] " + Info.NAME, body, new String[]{user.getEmail()}, null);
-						}
-					}
-				}
-			}
-		}
 	}
 
 	@Override
@@ -854,10 +336,131 @@ public final class Business implements IBusiness {
 		return companyInDB;
 	}
 
+	@Override
+	public final void cleanDB() {
+		final List<Integer> companies = daoCompany.selectAllUnusedCompanyIds();
+		Company company;
+		for (final Integer id : companies) {
+			company = new Company();
+			company.setId(id);
+			daoCompany.delete(company);
+		}
+	}
+
+	// Follow
+	@Override
+	public final void addFollow(final User user, final String ticker, final Double lower, final Double higher) throws YahooException {
+		Company company = addOrUpdateCompany(ticker);
+		Follow foll = daoFollow.selectOneFollow(user.getId(), company.getId());
+		if (foll == null) {
+			Follow follow = new Follow();
+			follow.setCompany(company);
+			follow.setCompanyId(company.getId());
+			follow.setUserId(user.getId());
+			follow.setLowerLimit(lower);
+			follow.setHigherLimit(higher);
+			daoFollow.insert(follow);
+		} else {
+			foll.setLowerLimit(lower);
+			foll.setHigherLimit(higher);
+			daoFollow.update(foll);
+		}
+	}
+
+	@Override
+	public final void updateFollow(final User user, final String ticker, final Double lower, final Double higher) {
+		Company company = daoCompany.selectWithYahooId(ticker);
+		Follow foll = daoFollow.selectOneFollow(user.getId(), company.getId());
+		foll.setLowerLimit(lower);
+		foll.setHigherLimit(higher);
+		daoFollow.update(foll);
+	}
+
+	@Override
+	public final void deleteFollow(final int id) {
+		Follow follow = new Follow();
+		follow.setId(id);
+		daoFollow.delete(follow);
+	}
+
+	@Override
+	public final List<Follow> getListFollow(final int userId) {
+		return daoFollow.selectListFollow(userId);
+	}
+
+	// User
+	@Override
+	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException,
+		UnsupportedEncodingException, LoginException {
+		String md5PasswordHashed = Security.encodeToSha256(md5Password);
+		String saltHashed = Security.generateSalt();
+		String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
+		User userInDbWithLogin = getUser(login);
+		User userInDbWithEmail = getUserWithEmail(email);
+		if (userInDbWithLogin != null) {
+			throw new LoginException("Sorry, '" + login + "' is not available!");
+		}
+		if (userInDbWithEmail != null) {
+			throw new LoginException("Sorry, '" + email + "' is not available!");
+		}
+		User user = new User();
+		user.setLogin(login);
+		user.setPassword(saltHashed + cryptedPasswordSalt);
+		user.setEmail(email);
+		user.setAllow(false);
+		daoUser.insert(user);
+		StringBuilder body = new StringBuilder();
+		String check = Security.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
+		body.append("Welcome to ")
+			.append(Info.NAME)
+			.append(",\n\nPlease valid your account by clicking on that link:")
+			.append(Info.ADDRESS)
+			.append(Info.FOLDER)
+			.append("/check?&login=")
+			.append(login)
+			.append("&check=")
+			.append(check)
+			.append(".\n\nBest regards,\nThe ")
+			.append(Info.NAME)
+			.append(" team.");
+		Mail.sendMail("[Registration] " + Info.NAME, body.toString(), new String[]{email}, null);
+		createUserPortfolio(user.getLogin());
+		createUserDefaultAccount(user);
+	}
+
+	@Override
+	public final User getUser(final String login) {
+		return daoUser.selectWithLogin(login);
+	}
+
+	@Override
+	public final User getUserWithEmail(final String email) {
+		return daoUser.selectWithEmail(email);
+	}
+
+	@Override
+	public final void deleteUser(final String login) {
+		User user = new User();
+		user.setLogin(login);
+		daoUser.delete(user);
+	}
+
+	@Override
+	public final void validateUser(final String login) {
+		final User user = daoUser.selectWithLogin(login);
+		user.setAllow(true);
+		daoUser.update(user);
+	}
+
+	@Override
+	public final void updateUser(final User user) {
+		daoUser.update(user);
+	}
+
 	/**
 	 * @param login the login
 	 */
-	private final void createUserPortfolio(final String login) {
+	private void createUserPortfolio(final String login) {
 		final User user = daoUser.selectWithLogin(login);
 		final Portfolio portfolio = new Portfolio();
 		portfolio.setCurrency(Currency.EUR);
@@ -868,7 +471,7 @@ public final class Business implements IBusiness {
 	/**
 	 * @param u the user
 	 */
-	private final void createUserDefaultAccount(final User u) {
+	private void createUserDefaultAccount(final User u) {
 		final User user = daoUser.selectWithLogin(u.getLogin());
 		final Account account = new Account();
 		account.setCurrency(Currency.EUR);
@@ -877,5 +480,322 @@ public final class Business implements IBusiness {
 		account.setUserId(user.getId());
 		account.setDel(false);
 		daoAccount.insert(account);
+	}
+
+	@Override
+	public final User checkUser(final String login, final String md5Password) throws LoginException {
+		User user = daoUser.selectWithLogin(login);
+		final int sixtyFour = 64;
+		if (user != null) {
+			String md5PasswordHashed;
+			try {
+				md5PasswordHashed = Security.encodeToSha256(md5Password);
+				String saltHashed = user.getPassword().substring(0, sixtyFour);
+				String cryptedPasswordSalt = user.getPassword().substring(sixtyFour, user.getPassword().length());
+				String cryptedPasswordSaltToTest = Security.encodeToSha256(md5PasswordHashed + saltHashed);
+				if (!cryptedPasswordSalt.equals(cryptedPasswordSaltToTest)) {
+					user = null;
+				} else {
+					user.setPassword(null);
+				}
+			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+				throw new LoginException(e.getMessage(), e);
+			}
+		}
+		return user;
+	}
+
+	@Override
+	public final void updateOneUserPassword(final User user) {
+		daoUser.updateOneUserPassword(user);
+	}
+
+	@Override
+	public final Portfolio getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
+		Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, from, to);
+		Collections.sort(portfolio.getEquities());
+		Currency currency = loadCurrencyData(portfolio.getCurrency());
+		portfolio.setCurrency(currency);
+		for (Equity e : portfolio.getEquities()) {
+			if (e.getCompany().getCurrency() == portfolio.getCurrency()) {
+				e.setParity(1.0);
+			} else {
+				e.setParity(portfolio.getCurrency().getParity(e.getCompany().getCurrency()));
+			}
+		}
+		double liquidity = 0.0;
+		for (Account acc : portfolio.getAccounts()) {
+			if (acc.getCurrency() == portfolio.getCurrency()) {
+				liquidity += acc.getLiquidity();
+				acc.setParity(1.0);
+			} else {
+				liquidity += acc.getLiquidity() * portfolio.getCurrency().getParity(acc.getCurrency());
+				acc.setParity(portfolio.getCurrency().getParity(acc.getCurrency()));
+			}
+		}
+		liquidity = new BigDecimal(liquidity, MATHCONTEXT).doubleValue();
+		portfolio.setLiquidity(liquidity);
+		portfolio.compute();
+		return portfolio;
+	}
+
+	@Override
+	public final void updatePortfolio(final Portfolio portfolio) {
+		daoPortfolio.update(portfolio);
+	}
+
+	@Override
+	public final void updateLiquidity(final Account account, final double liquidity) {
+		account.setLiquidity(liquidity);
+		daoAccount.update(account);
+	}
+
+	// Currency
+	@Override
+	public final Currency loadCurrencyData(final Currency currency) throws YahooException {
+		List<CurrencyData> currencyDataList = daoCurrency.selectListCurrency(currency.getCode());
+		if (currencyDataList.size() == 0) {
+			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+			for (CurrencyData currencyData : currenciesData) {
+				CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
+				if (c == null) {
+					daoCurrency.insert(currencyData);
+				} else {
+					currencyData.setId(c.getId());
+					daoCurrency.update(currencyData);
+				}
+			}
+			currencyDataList = daoCurrency.selectListCurrency(currency.getCode());
+		}
+		currency.setCurrencyData(currencyDataList);
+		return currency;
+	}
+
+	@Override
+	public final void updateAllCurrencies() throws YahooException {
+		List<Currency> currencyDone = new ArrayList<>();
+		for (Currency currency : Currency.values()) {
+			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+			Util.makeAPause(PAUSE);
+			if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
+				for (CurrencyData currencyData : currenciesData) {
+					if (!(currencyDone.contains(currencyData.getCurrency1()) || currencyDone.contains(currencyData.getCurrency2()))) {
+						CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
+						if (c == null) {
+							daoCurrency.insert(currencyData);
+						} else {
+							currencyData.setId(c.getId());
+							daoCurrency.update(currencyData);
+						}
+					}
+				}
+				currencyDone.add(currency);
+			} else {
+				LOG.warn("Impossible to update this currency: " + currency.getCode());
+			}
+		}
+	}
+
+	@Override
+	public final void updateOneCurrency(final Currency currency) throws YahooException {
+		List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+		if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
+			for (CurrencyData currencyData : currenciesData) {
+				CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
+				if (c == null) {
+					daoCurrency.insert(currencyData);
+				} else {
+					currencyData.setId(c.getId());
+					daoCurrency.update(currencyData);
+				}
+			}
+		} else {
+			throw new YahooException(
+				"The current table 'yahoo.finance.xchange' has been blocked. It exceeded the allotted quotas of either time or instructions");
+		}
+	}
+
+	@Override
+	public final Object[][] getAllCurrencyData(final Currency currency) {
+		final List<CurrencyData> currencies = daoCurrency.selectListAllCurrency();
+		final Currency[] currencyTab = Currency.values();
+		final Object[][] res = new Object[currencyTab.length - 1][6];
+		int i = 0;
+		for (final Currency c : currencyTab) {
+			if (c != currency) {
+				res[i][0] = c.toString();
+				res[i][1] = c.getName();
+				for (final CurrencyData currencyData : currencies) {
+					if (c == currencyData.getCurrency1() && currency == currencyData.getCurrency2()) {
+						res[i][3] = currencyData.getValue().toString();
+						res[i][4] = currencyData.getLastUpdate();
+					}
+					if (currency == currencyData.getCurrency1() && c == currencyData.getCurrency2()) {
+						res[i][2] = currencyData.getValue().toString();
+					}
+				}
+				i++;
+			}
+		}
+		return res;
+	}
+
+	// Share value
+	@Override
+	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield,
+											  final Double buy, final Double sell, final Double taxe, final String commentary) {
+		final ShareValue shareValue = new ShareValue();
+		shareValue.setUserId(portfolio.getUserId());
+		final double monthlyYield = new BigDecimal(portfolio.getYieldYear() / 12, MATHCONTEXT).doubleValue();
+		shareValue.setMonthlyYield(monthlyYield);
+		shareValue.setPortfolioValue(new BigDecimal(portfolio.getTotalValue(), MATHCONTEXT).doubleValue());
+		shareValue.setLiquidityMovement(liquidityMovement);
+		shareValue.setYield(yield);
+		shareValue.setBuy(buy);
+		shareValue.setSell(sell);
+		shareValue.setTaxe(taxe);
+		shareValue.setAccount(account);
+		// shareValue.setAccountName(account.getName());
+		shareValue.setCommentary(commentary);
+		shareValue.setDetails(portfolio.getPortfolioReview());
+		ShareValue lastShareValue = daoShareValue.selectLastValue(portfolio.getUserId());
+		if (lastShareValue == null) {
+			shareValue.setShareQuantity(portfolio.getTotalValue() / PERCENT);
+			shareValue.setShareValue((double) PERCENT);
+			daoShareValue.insert(shareValue);
+		} else {
+			double parity;
+			if (portfolio.getCurrency() == account.getCurrency()) {
+				parity = 1;
+			} else {
+				parity = portfolio.getCurrency().getParity(account.getCurrency());
+			}
+			final Double quantity = lastShareValue.getShareQuantity() + (liquidityMovement * parity)
+				/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.getShareQuantity());
+			shareValue.setShareQuantity(new BigDecimal(quantity, MATHCONTEXT).doubleValue());
+
+			final Double shareValue2 = portfolio.getTotalValue() / quantity;
+			shareValue.setShareValue(new BigDecimal(shareValue2, MATHCONTEXT).doubleValue());
+			daoShareValue.insert(shareValue);
+		}
+	}
+
+	@Override
+	public final void deleteShareValue(final ShareValue sv) {
+		daoShareValue.delete(sv);
+	}
+
+	@Override
+	public final void addShareValue(final ShareValue share) {
+		daoShareValue.insertWithDate(share);
+	}
+
+	@Override
+	public final void autoUpdateUserShareValue(final Calendar calendar) throws YahooException {
+		boolean tryToUpdate = false, canUpdate = false;
+		final List<User> users = daoUser.selectAllUsers();
+		Portfolio portfolio;
+		Account account;
+		for (final User user : users) {
+			if (user.getUpdateHourTime() != null) {
+				final int hourDiff = Util.timeZoneDiff(TimeZone.getTimeZone(user.getTimeZone()));
+				final int hour = Util.getRealHour(user.getUpdateHourTime(), hourDiff);
+
+				/*
+				 * if (user.getLogin().equals("carl") || user.getLogin().equals("carlphilipp")) { LOG.info("========================");
+				 * LOG.info("User : " + user.getLogin()); LOG.info("Current paris hour: " + calendar.get(Calendar.HOUR_OF_DAY));
+				 * LOG.info("User current time zone: " + user.getTimeZone()); LOG.info("Hour diff: " + hourDiff); LOG.info("User wants to update at "
+				 * + user.getUpdateHourTime()); LOG.info("Hour retained for user: " + hour); }
+				 */
+
+				final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+				if (hour == currentHour) {
+					if (!tryToUpdate) {
+						canUpdate = updateAllCompanies();
+						tryToUpdate = true;
+					}
+					if (canUpdate) {
+						LOG.info("Update user portfolio: " + user.getLogin());
+						portfolio = getUserPortfolio(user.getId(), null, null);
+						account = portfolio.getFirstAccount();
+						updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");
+					} else {
+						if (user.getUpdateSendMail()) {
+							final String body = ("Dear "
+								+ user.getLogin()
+								+ ",\n\nThe update today did not work, probably because of Yahoo's API.\nSorry for the inconvenience. You still can try do it manually."
+								+ "\n\nBest regards,\nThe " + Info.NAME + " team.");
+							Mail.sendMail("[Auto-update fail] " + Info.NAME, body, new String[]{user.getEmail()}, null);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public final ShareValue selectOneShareValue(final int id) {
+		return daoShareValue.select(id);
+	}
+
+	@Override
+	public final void updateCommentaryShareValue(final ShareValue shareValue) {
+		daoShareValue.update(shareValue);
+	}
+
+	// Indexes
+	@Override
+	public final List<Index> getIndexes(final String yahooId, final Date from, final Date to) {
+		final List<Index> indexes = daoIndex.selectListFrom(yahooId, from, to);
+		for (int i = 0; i < indexes.size(); i++) {
+			final Index currentIndex = indexes.get(i);
+			if (i == 0) {
+				currentIndex.setShareValue((double) PERCENT);
+				// To make it pretty in chart
+				currentIndex.setDate(from);
+			} else {
+				final Index lastIndex = indexes.get(i - 1);
+				double shareValue = currentIndex.getValue() * lastIndex.getShareValue() / lastIndex.getValue();
+				shareValue = new BigDecimal(shareValue, MATHCONTEXT).doubleValue();
+				currentIndex.setShareValue(shareValue);
+			}
+		}
+		return indexes;
+	}
+
+	@Override
+	public final void updateIndex(final String yahooId) throws YahooException {
+		final Index index = yahoo.getIndexData(yahooId);
+		daoIndex.insert(index);
+	}
+
+	@Override
+	public final void checkUpdateIndex(final String yahooId, final TimeZone timeZone) throws YahooException {
+		final Index index = daoIndex.selectLast(yahooId);
+		final Calendar currentCal = Util.getCurrentCalendarInTimeZone(timeZone);
+		final Calendar indexCal = Util.getDateInTimeZone(index.getDate(), timeZone);
+		LOG.debug("Check update for " + yahooId + " in timezone : " + timeZone.getDisplayName());
+		LOG.debug("CurrentHour: " + currentCal.get(Calendar.HOUR_OF_DAY) + "h" + currentCal.get(Calendar.MINUTE) + " / indexHour: "
+			+ indexCal.get(Calendar.HOUR_OF_DAY) + "h" + indexCal.get(Calendar.MINUTE));
+		if (!Util.isSameDay(currentCal, indexCal)) {
+			LOG.debug("Update index after checking! " + yahooId);
+			updateIndex(yahooId);
+		}
+	}
+
+	// Account
+	@Override
+	public final void addAccount(final Account account) {
+		daoAccount.insert(account);
+	}
+
+	@Override
+	public final void updateAccount(final Account account) {
+		daoAccount.update(account);
+	}
+
+	@Override
+	public final void deleteAccount(final Account account) {
+		daoAccount.delete(account);
 	}
 }
