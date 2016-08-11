@@ -92,8 +92,6 @@ public final class BusinessImpl implements fr.cph.stock.business.Business {
 		return BUSINESS;
 	}
 
-	// Equity
-
 	// Company
 	@Override
 	public final List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {

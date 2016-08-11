@@ -18,7 +18,6 @@ package fr.cph.stock.business;
 
 import fr.cph.stock.entities.*;
 import fr.cph.stock.enumtype.Currency;
-import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
 
@@ -53,8 +52,7 @@ public interface Business {
 	 * @throws LoginException
 	 *             the LoginException
 	 */
-	void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException,
-			UnsupportedEncodingException, LoginException;
+	void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException;
 
 	/**
 	 * Get user

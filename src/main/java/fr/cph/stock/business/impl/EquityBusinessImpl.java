@@ -10,14 +10,12 @@ import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.YahooException;
-import org.apache.log4j.Logger;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 public class EquityBusinessImpl implements EquityBusiness {
-
-	private static final Logger LOG = Logger.getLogger(BusinessImpl.class);
+	
 	private static final Object LOCK = new Object();
 	private static EquityBusiness BUSINESS;
 
