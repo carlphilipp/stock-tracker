@@ -1,6 +1,7 @@
 package fr.cph.stock.business.impl;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
 import fr.cph.stock.dao.CompanyDAO;
 import fr.cph.stock.dao.EquityDAO;
@@ -15,11 +16,12 @@ import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 public class EquityBusinessImpl implements EquityBusiness {
-	
+
 	private static final Object LOCK = new Object();
 	private static EquityBusiness BUSINESS;
 
 	private final Business business;
+	private final CompanyBusiness companyBusiness;
 	private final EquityDAO daoEquity;
 	private final PortfolioDAO daoPortfolio;
 	private final CompanyDAO daoCompany;
@@ -37,6 +39,8 @@ public class EquityBusinessImpl implements EquityBusiness {
 
 	private EquityBusinessImpl() {
 		business = BusinessImpl.getInstance();
+		companyBusiness = CompanyBusinessImpl.getInstance();
+
 		daoEquity = new EquityDAO();
 		daoPortfolio = new PortfolioDAO();
 		daoCompany = new CompanyDAO();
@@ -44,7 +48,7 @@ public class EquityBusinessImpl implements EquityBusiness {
 
 	@Override
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {
-		final Company company = business.addOrUpdateCompany(ticker);
+		final Company company = companyBusiness.addOrUpdateCompany(ticker);
 		final Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
 		createEquity(portfolio, company, equity);
 	}

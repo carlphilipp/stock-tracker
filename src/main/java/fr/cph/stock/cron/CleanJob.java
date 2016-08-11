@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,8 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.CompanyBusiness;
+import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -30,20 +30,18 @@ import org.quartz.JobExecutionContext;
  */
 public class CleanJob implements Job {
 
-	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(CleanJob.class);
-	/** **/
-	private Business business;
+	private CompanyBusiness companyBusiness;
 
 	/** Constructor  **/
 	public CleanJob() {
-		business = BusinessImpl.getInstance();
+		companyBusiness = CompanyBusinessImpl.getInstance();
 	}
 
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
-			business.cleanDB();
+			companyBusiness.cleanDB();
 		} catch (Throwable t) {
 			LOG.error("Error while executing CleanJob: " + t.getMessage(), t);
 		}

@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.list;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -50,12 +52,14 @@ public class UpdateListServlet extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(UpdateListServlet.class);
 
 	private Business business;
+	private CompanyBusiness companyBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.getInstance();
-		this.language = LanguageFactory.getInstance();
+		business = BusinessImpl.getInstance();
+		companyBusiness = CompanyBusinessImpl.getInstance();
+		language = LanguageFactory.getInstance();
 	}
 
 	@Override
@@ -98,7 +102,7 @@ public class UpdateListServlet extends HttpServlet {
 					followsString.add(follow.getCompany().getYahooId());
 				}
 			}
-			business.addOrUpdateCompaniesLimitedRequest(followsString);
+			companyBusiness.addOrUpdateCompaniesLimitedRequest(followsString);
 		} catch (final YahooException e1) {
 			error.append(e1.getMessage()).append(" ");
 		}

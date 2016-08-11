@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -45,10 +47,12 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 	private static final long serialVersionUID = 5211078955305413271L;
 	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
 	private Business business;
+	private CompanyBusiness companyBusiness;
 
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.getInstance();
+		business = BusinessImpl.getInstance();
+		companyBusiness = CompanyBusinessImpl.getInstance();
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			try {
 				final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
-				business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
+				companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 				response.sendRedirect(HOMEMOBILE);
 			} catch (YahooException e) {
 				response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");

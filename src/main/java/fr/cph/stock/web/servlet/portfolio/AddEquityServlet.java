@@ -17,8 +17,10 @@
 package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
@@ -53,6 +55,7 @@ public class AddEquityServlet extends HttpServlet {
 	private static final long serialVersionUID = -4917456731220463031L;
 	private static final Logger LOG = Logger.getLogger(AddEquityServlet.class);
 	private Business business;
+	private CompanyBusiness companyBusiness;
 	private EquityBusiness equityBusiness;
 	private LanguageFactory languageFactory;
 
@@ -60,6 +63,7 @@ public class AddEquityServlet extends HttpServlet {
 	public final void init() {
 		business = BusinessImpl.getInstance();
 		equityBusiness = EquityBusinessImpl.getInstance();
+		companyBusiness = CompanyBusinessImpl.getInstance();
 		languageFactory = LanguageFactory.getInstance();
 	}
 
@@ -104,7 +108,7 @@ public class AddEquityServlet extends HttpServlet {
 			parityPersonal = NumberUtils.createDouble(manualParityPersonal);
 		}
 		final Double quote = NumberUtils.createDouble(manualQuote);
-		final Company company = business.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), quote);
+		final Company company = companyBusiness.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), quote);
 
 		final Equity equity = new Equity();
 		equity.setQuantity(quantity);

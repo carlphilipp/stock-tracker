@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -41,16 +43,18 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "UpdatePortfolioServlet", urlPatterns = { "/updateportfolio" })
+@WebServlet(name = "UpdatePortfolioServlet", urlPatterns = {"/updateportfolio"})
 public class UpdatePortfolioServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5252788304524725462L;
 	private static final Logger LOG = Logger.getLogger(UpdatePortfolioServlet.class);
 	private Business business;
+	private CompanyBusiness companyBusiness;
 
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.getInstance();
+		business = BusinessImpl.getInstance();
+		companyBusiness = CompanyBusinessImpl.getInstance();
 	}
 
 	@Override
@@ -68,20 +72,20 @@ public class UpdatePortfolioServlet extends HttpServlet {
 				if (updateCurrencies != null) {
 					business.updateOneCurrency(portfolio.getCurrency());
 				}
-				error = business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
+				error = companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 			} catch (YahooException e1) {
 				LOG.error(e1.getMessage(), e1);
-				sb.append(e1.getMessage() + " ");
+				sb.append(e1.getMessage()).append(" ");
 			}
 			if (!sb.toString().equals("")) {
 				request.setAttribute(UPDATE_STATUS, "<span class='cQuoteDown'>Error !</span>");
 			} else {
 				if (error != null && !error.equals("")) {
 					request.setAttribute(
-							UPDATE_STATUS,
-							"<span class='cQuoteOrange'>"
-									+ error
-									+ "The company does not exist anymore. Please delete it from your portfolio. The other companies has been updated.</span>");
+						UPDATE_STATUS,
+						"<span class='cQuoteOrange'>"
+							+ error
+							+ "The company does not exist anymore. Please delete it from your portfolio. The other companies has been updated.</span>");
 				} else {
 					request.setAttribute("updateStatus", "<span class='cQuoteUp'>" + language.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
 				}

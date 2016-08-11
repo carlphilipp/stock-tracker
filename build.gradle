@@ -5,7 +5,7 @@ apply plugin: 'war'
 repositories {
 	mavenCentral()
 	flatDir {
-		dirs 'WebContent/WEB-INF/lib'
+		dirs 'src/main/webapp/WEB-INF/lib'
 	}
 }
 

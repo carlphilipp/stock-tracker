@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -189,32 +189,6 @@ public interface Business {
 	Object[][] getAllCurrencyData(final Currency currency);
 
 	/**
-	 * Add or update companies
-	 *
-	 * @param tickers
-	 *            a list of yahoo tickers
-	 * @return a list of company
-	 * @throws YahooException
-	 *             the yahoo exception
-	 */
-	List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException;
-
-	/**
-	 * Update company that do not have any real time data. (usually funds)
-	 */
-	void updateCompaniesNotRealTime();
-
-	/**
-	 *
-	 * @param companiesYahooIdRealTime
-	 *            a list of company id
-	 * @return a string
-	 * @throws YahooException
-	 *             the yahoo exception
-	 */
-	String addOrUpdateCompaniesLimitedRequest(final List<String> companiesYahooIdRealTime) throws YahooException;
-
-	/**
 	 * Add a share value
 	 *
 	 * @param share
@@ -384,30 +358,5 @@ public interface Business {
 	 *            the commentary
 	 */
 	void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement,
-			final Double yield, final Double buy, final Double sell, final Double taxe, final String commentary);
-
-	Company addOrUpdateCompany(String ticker) throws YahooException;
-
-	/**
-	 * Delete companies that are not used anymore
-	 */
-	void cleanDB();
-
-	/**
-	 * @param name
-	 * @param industry
-	 * @param sector
-	 * @param currency
-	 * @param quote
-	 * @return
-	 */
-	Company createManualCompany(String name, String industry, String sector, Currency currency, double quote);
-
-	/**
-	 * @param company
-	 */
-	void deleteCompany(final Company company);
-
-	void updateCompanyManual(Integer companyIdRes, Double quoteRes);
-
+								 final Double yield, final Double buy, final Double sell, final Double taxe, final String commentary);
 }

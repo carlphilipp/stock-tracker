@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
@@ -51,14 +51,14 @@ public class ModifyEquityServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 886732846315131952L;
 	private static final Logger LOG = Logger.getLogger(ModifyEquityServlet.class);
-	private Business business;
+	private CompanyBusiness companyBusiness;
 	private EquityBusiness equityBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() {
-		business = BusinessImpl.getInstance();
 		equityBusiness = EquityBusinessImpl.getInstance();
+		companyBusiness = CompanyBusinessImpl.getInstance();
 		language = LanguageFactory.getInstance();
 	}
 
@@ -103,7 +103,7 @@ public class ModifyEquityServlet extends HttpServlet {
 			equityBusiness.deleteEquity(equity);
 			final Company company = new Company();
 			company.setId(Integer.parseInt(companyId));
-			business.deleteCompany(company);
+			companyBusiness.deleteCompany(company);
 		} else {
 			final String id = request.getParameter(ID);
 			equity.setid(Integer.parseInt(id));
@@ -169,7 +169,7 @@ public class ModifyEquityServlet extends HttpServlet {
 		if (quote != null && !quote.equals("") && companyId != null && !companyId.equals("")) {
 			quoteRes = Double.parseDouble(quote);
 			companyIdRes = Integer.parseInt(companyId);
-			business.updateCompanyManual(companyIdRes, quoteRes);
+			companyBusiness.updateCompanyManual(companyIdRes, quoteRes);
 		}
 	}
 }
