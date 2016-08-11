@@ -98,34 +98,24 @@ public final class Business implements IBusiness {
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {
 		final Company company = addOrUpdateCompany(ticker);
 		final Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
-
-		final Optional<Equity> found = portfolio.getEquities().stream()
-			.filter(e -> e.getCompanyId() == company.getId())
-			.findAny();
-		if (found.isPresent()) {
-			throw new EquityException(ticker + EquityException.ENTITY_ALREADY_RECORDED);
-		} else {
-			equity.setCompanyId(company.getId());
-			equity.setPortfolioId(portfolio.getId());
-			daoEquity.insert(equity);
-		}
+		createEquity(portfolio, company, equity);
 	}
 
 	@Override
 	public final void createManualEquity(final int userId, final Company company, final Equity equity) throws EquityException {
-		Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
-		boolean isAlreadyThere = false;
-		for (Equity e : portfolio.getEquities()) {
-			if (e.getCompanyId() == company.getId()) {
-				isAlreadyThere = true;
-				equity.setid(e.getId());
-			}
-		}
-		equity.setCompanyId(company.getId());
-		equity.setPortfolioId(portfolio.getId());
-		if (isAlreadyThere) {
+		final Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
+		createEquity(portfolio, company, equity);
+	}
+
+	private void createEquity(final Portfolio portfolio, final Company company, final Equity equity) throws EquityException {
+		final Optional<Equity> found = portfolio.getEquities().stream()
+			.filter(e -> e.getCompanyId() == company.getId())
+			.findAny();
+		if (found.isPresent()) {
 			throw new EquityException(company.getName() + EquityException.ENTITY_ALREADY_RECORDED);
 		} else {
+			equity.setCompanyId(company.getId());
+			equity.setPortfolioId(portfolio.getId());
 			daoEquity.insert(equity);
 		}
 	}
