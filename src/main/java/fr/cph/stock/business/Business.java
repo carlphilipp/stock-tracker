@@ -96,21 +96,17 @@ public final class Business implements IBusiness {
 
 	@Override
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {
-		Company company = addOrUpdateCompany(ticker);
-		Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
+		final Company company = addOrUpdateCompany(ticker);
+		final Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
 
-		boolean isAlreadyThere = false;
-		for (Equity e : portfolio.getEquities()) {
-			if (e.getCompanyId() == company.getId()) {
-				isAlreadyThere = true;
-				equity.setid(e.getId());
-			}
-		}
-		equity.setCompanyId(company.getId());
-		equity.setPortfolioId(portfolio.getId());
-		if (isAlreadyThere) {
+		final Optional<Equity> found = portfolio.getEquities().stream()
+			.filter(e -> e.getCompanyId() == company.getId())
+			.findAny();
+		if (found.isPresent()) {
 			throw new EquityException(ticker + EquityException.ENTITY_ALREADY_RECORDED);
 		} else {
+			equity.setCompanyId(company.getId());
+			equity.setPortfolioId(portfolio.getId());
 			daoEquity.insert(equity);
 		}
 	}

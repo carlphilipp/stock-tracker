@@ -18,14 +18,12 @@ package fr.cph.stock.external;
 
 import fr.cph.stock.exception.YahooException;
 import net.sf.json.JSONObject;
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 
@@ -82,11 +80,7 @@ public class Yahoo {
 	protected final String connectUrl(final String address) throws YahooException {
 		LOG.debug("URL " + address);
 		String toReturn;
-		InputStreamReader in = null;
-		try {
-			final URL url = new URL(address);
-			final URLConnection uc = url.openConnection();
-			in = new InputStreamReader(uc.getInputStream(), Charset.forName("UTF8"));
+		try (InputStreamReader in = new InputStreamReader((new URL(address).openConnection()).getInputStream(), Charset.forName("UTF8"))){
 			int c = in.read();
 			final StringBuilder build = new StringBuilder();
 			while (c != -1) {
@@ -96,8 +90,6 @@ public class Yahoo {
 			toReturn = build.toString();
 		} catch (final IOException e) {
 			throw new YahooException("Error: " + YahooException.CONNECT_ERROR, e);
-		} finally {
-			IOUtils.closeQuietly(in);
 		}
 		return toReturn;
 	}

@@ -10,7 +10,7 @@
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
+ * See the License for the specific languageFactory governing permissions and
  * limitations under the License.
  */
 
@@ -51,26 +51,26 @@ public class AddEquityServlet extends HttpServlet {
 	private static final long serialVersionUID = -4917456731220463031L;
 	private static final Logger LOG = Logger.getLogger(AddEquityServlet.class);
 	private IBusiness business;
+	private LanguageFactory languageFactory;
 
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
+		business = Business.getInstance();
+		languageFactory = LanguageFactory.getInstance();
 	}
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			final LanguageFactory language = LanguageFactory.getInstance();
 			final HttpSession session = request.getSession();
 			final User user = (User) session.getAttribute(USER);
 			final String manual = request.getParameter(MANUAL);
 			if (manual != null && manual.equals("true")) {
-				addManual(request, user.getId());
+				addManual(request, user.getId(), lang);
 			} else {
-				add(request, user.getId());
+				add(request, user.getId(), lang);
 			}
-			request.setAttribute("added", language.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 			request.getRequestDispatcher(HOME).forward(request, response);
 		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);
@@ -83,7 +83,7 @@ public class AddEquityServlet extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private void addManual(final HttpServletRequest request, final int id) {
+	private void addManual(final HttpServletRequest request, final int id, final String lang) {
 		final String manualName = request.getParameter(MANUAL_NAME);
 		final String manualUnitCostPrice = request.getParameter(MANUAL_UNIT_COST_PRICE);
 		final String manualQuantity = request.getParameter(MANUAL_QUANTITY);
@@ -108,12 +108,13 @@ public class AddEquityServlet extends HttpServlet {
 		equity.setParityPersonal(parityPersonal);
 		try {
 			business.createManualEquity(id, company, equity);
+			request.setAttribute("added", languageFactory.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 		} catch (final EquityException e) {
 			request.setAttribute("addError", e.getMessage());
 		}
 	}
 
-	private void add(final HttpServletRequest request, final int id) throws UnsupportedEncodingException {
+	private void add(final HttpServletRequest request, final int id, final String lang) throws UnsupportedEncodingException {
 		final String ticker = request.getParameter(TICKER).toUpperCase();
 		final String unitCostP = request.getParameter(UNIT_COST_PRICE);
 		final String quant = request.getParameter(QUANTITY);
@@ -132,6 +133,7 @@ public class AddEquityServlet extends HttpServlet {
 		equity.setParityPersonal(parityPersonal);
 		try {
 			business.createEquity(id, ticker, equity);
+			request.setAttribute("added", languageFactory.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 		} catch (final YahooException | EquityException e) {
 			request.setAttribute("addError", e.getMessage());
 		}
