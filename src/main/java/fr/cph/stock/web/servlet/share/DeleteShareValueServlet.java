@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.share;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
@@ -46,12 +46,12 @@ public class DeleteShareValueServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6742409927502374595L;
 	private static final Logger LOG = Logger.getLogger(DeleteShareValueServlet.class);
-	private IBusiness business;
+	private Business business;
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 	}
 
 	@Override

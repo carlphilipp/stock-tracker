@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
@@ -56,7 +56,7 @@ public class HomeServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 122322259823208331L;
 	private static final Logger LOG = Logger.getLogger(HomeServlet.class);
-	private IBusiness business;
+	private Business business;
 	private LanguageFactory language;
 
 	@Override
@@ -72,7 +72,7 @@ public class HomeServlet extends HttpServlet {
 			LOG.error(e.getMessage(), e);
 		}
 
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 		this.language = LanguageFactory.getInstance();
 	}
 

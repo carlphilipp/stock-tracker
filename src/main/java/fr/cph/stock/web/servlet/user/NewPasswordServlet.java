@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.user;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.Security;
 import org.apache.log4j.Logger;
@@ -43,11 +43,11 @@ public class NewPasswordServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4548932564405559822L;
 	private static final Logger LOG = Logger.getLogger(NewPasswordServlet.class);
-	private IBusiness business;
+	private Business business;
 
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 	}
 
 	@Override

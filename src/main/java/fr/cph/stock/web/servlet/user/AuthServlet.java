@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.user;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.web.servlet.CookieManagement;
 import org.apache.log4j.Logger;
@@ -44,13 +44,13 @@ public class AuthServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(AuthServlet.class);
-	private IBusiness business;
+	private Business business;
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 	private List<String> lcookies;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
 		lcookies = new ArrayList<>();
 		lcookies.add(QUOTE);
 		lcookies.add(CURRENCY);

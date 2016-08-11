@@ -16,16 +16,16 @@
 
 package fr.cph.stock.cron;
 
+import fr.cph.stock.business.impl.BusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
 
 /**
  * Job that update companies that don't have any real time data.
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -34,11 +34,11 @@ public class CompanyNotRealTimeJob implements Job {
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(CompanyNotRealTimeJob.class);
 	/** **/
-	private IBusiness business;
+	private Business business;
 
 	/** Constructor **/
 	public CompanyNotRealTimeJob() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
 	}
 
 	@Override

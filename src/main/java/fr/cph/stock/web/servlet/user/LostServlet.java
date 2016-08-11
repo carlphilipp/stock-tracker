@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.user;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.Security;
 import fr.cph.stock.util.Info;
@@ -44,12 +44,12 @@ public class LostServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1724898618001479554L;
 	private static final Logger LOG = Logger.getLogger(LostServlet.class);
-	private IBusiness business;
+	private Business business;
 
 	/** Init **/
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 	}
 
 	@Override

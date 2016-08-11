@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -44,11 +44,11 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5211078955305413271L;
 	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
-	private IBusiness business;
+	private Business business;
 
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 	}
 
 	@Override

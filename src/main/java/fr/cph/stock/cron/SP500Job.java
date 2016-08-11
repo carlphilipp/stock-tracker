@@ -16,18 +16,18 @@
 
 package fr.cph.stock.cron;
 
+import fr.cph.stock.business.impl.BusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 
 /**
  * Job that try to update DB with today's s&p500 value
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -36,13 +36,13 @@ public class SP500Job implements Job {
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(SP500Job.class);
 	/** **/
-	private IBusiness business;
+	private Business business;
 
 	/**
 	 * Constructor
 	 */
 	public SP500Job() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
 	}
 
 	@Override

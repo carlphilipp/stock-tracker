@@ -19,17 +19,17 @@ package fr.cph.stock.cron;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.impl.BusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 
 /**
  * Job that update user's share value
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -38,11 +38,11 @@ public class UserJob implements Job {
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(UserJob.class);
 	/** **/
-	private IBusiness business;
+	private Business business;
 
 	/** Constructor **/
 	public UserJob() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
 	}
 
 	@Override

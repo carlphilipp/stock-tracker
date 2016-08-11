@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.list;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -48,12 +48,12 @@ public class AddFollowServlet extends HttpServlet {
 	private static final long serialVersionUID = -8367279160386302241L;
 	private static final Logger LOG = Logger.getLogger(AddFollowServlet.class);
 
-	private IBusiness business;
+	private Business business;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 		this.language = LanguageFactory.getInstance();
 	}
 

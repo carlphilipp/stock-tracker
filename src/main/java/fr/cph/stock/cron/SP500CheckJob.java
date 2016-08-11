@@ -18,18 +18,18 @@ package fr.cph.stock.cron;
 
 import java.util.TimeZone;
 
+import fr.cph.stock.business.impl.BusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 
 /**
  * Job that check if s&p500 today's value has been added to DB. If it's not the case, it will update it if possible
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -38,13 +38,13 @@ public class SP500CheckJob implements Job {
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(SP500CheckJob.class);
 	/** **/
-	private IBusiness business;
+	private Business business;
 
 	/**
 	 * Constructor
 	 */
 	public SP500CheckJob() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
 	}
 
 	@Override

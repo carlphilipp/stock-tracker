@@ -16,18 +16,18 @@
 
 package fr.cph.stock.cron;
 
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.impl.BusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 
 /**
  * Job that try to update DB with today's cac40 value
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -35,14 +35,14 @@ public class Cac40Job implements Job {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(Cac40Job.class);
-	/** Business **/
-	private IBusiness business;
+	/** BusinessImpl **/
+	private Business business;
 
 	/**
 	 * Constructor
 	 */
 	public Cac40Job() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
 	}
 
 	@Override

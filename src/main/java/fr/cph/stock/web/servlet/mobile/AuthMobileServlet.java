@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.User;
 import org.apache.log4j.Logger;
 
@@ -40,11 +40,11 @@ public class AuthMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7713821485113054118L;
 	private static final Logger LOG = Logger.getLogger(AuthMobileServlet.class);
-	private IBusiness business;
+	private Business business;
 
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 	}
 
 	@Override

@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.accounts;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -48,12 +48,12 @@ public class AccountsServlet extends HttpServlet {
 	private static final long serialVersionUID = -5015939908893417514L;
 	private static final Logger LOG = Logger.getLogger(AccountsServlet.class);
 
-	private IBusiness business;
+	private Business business;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 		this.language = LanguageFactory.getInstance();
 	}
 

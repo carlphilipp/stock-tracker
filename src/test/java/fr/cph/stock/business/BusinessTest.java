@@ -16,29 +16,28 @@
 
 package fr.cph.stock.business;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
-
+import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.dao.EquityDAO;
-import fr.cph.stock.dao.UserDAO;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-
 import fr.cph.stock.dao.PortfolioDAO;
+import fr.cph.stock.dao.UserDAO;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
+
+import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
 public class BusinessTest {
@@ -74,7 +73,7 @@ public class BusinessTest {
 
 	@Test
 	public void testAddOrUpdateEquity() throws UnsupportedEncodingException, YahooException {
-		IBusiness business = Business.getInstance();
+		EquityBusiness business = EquityBusinessImpl.getInstance();
 		Equity equity = new Equity();
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);
@@ -88,7 +87,7 @@ public class BusinessTest {
 
 	@Test
 	public void testDeleteEquity() throws UnsupportedEncodingException, YahooException {
-		IBusiness business = Business.getInstance();
+		EquityBusiness business = EquityBusinessImpl.getInstance();
 		Equity equity = new Equity();
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);
@@ -101,7 +100,7 @@ public class BusinessTest {
 
 	@Test
 	public void testCreateDeleteUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		IBusiness business = Business.getInstance();
+		Business business = BusinessImpl.getInstance();
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@testderpderp.com";
@@ -127,7 +126,7 @@ public class BusinessTest {
 
 	@Test
 	public void testCheckUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		IBusiness business = Business.getInstance();
+		Business business = BusinessImpl.getInstance();
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@test.com";

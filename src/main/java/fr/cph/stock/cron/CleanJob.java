@@ -16,16 +16,15 @@
 
 package fr.cph.stock.cron;
 
+import fr.cph.stock.business.Business;
+import fr.cph.stock.business.impl.BusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
-
 /**
  * Job that clean companies unused in DB
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -34,11 +33,11 @@ public class CleanJob implements Job {
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(CleanJob.class);
 	/** **/
-	private IBusiness business;
+	private Business business;
 
 	/** Constructor  **/
 	public CleanJob() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
 	}
 
 	@Override

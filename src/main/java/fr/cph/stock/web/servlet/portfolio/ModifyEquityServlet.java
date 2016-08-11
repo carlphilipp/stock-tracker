@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.EquityBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.User;
@@ -49,13 +51,15 @@ public class ModifyEquityServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 886732846315131952L;
 	private static final Logger LOG = Logger.getLogger(ModifyEquityServlet.class);
-	private IBusiness business;
+	private Business business;
+	private EquityBusiness equityBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
-		this.language = LanguageFactory.getInstance();
+		business = BusinessImpl.getInstance();
+		equityBusiness = EquityBusinessImpl.getInstance();
+		language = LanguageFactory.getInstance();
 	}
 
 	@Override
@@ -96,14 +100,14 @@ public class ModifyEquityServlet extends HttpServlet {
 			final String id = request.getParameter(ID);
 			final String companyId = request.getParameter(COMPANY_ID);
 			equity.setid(Integer.parseInt(id));
-			business.deleteEquity(equity);
+			equityBusiness.deleteEquity(equity);
 			final Company company = new Company();
 			company.setId(Integer.parseInt(companyId));
 			business.deleteCompany(company);
 		} else {
 			final String id = request.getParameter(ID);
 			equity.setid(Integer.parseInt(id));
-			business.deleteEquity(equity);
+			equityBusiness.deleteEquity(equity);
 		}
 	}
 
@@ -154,7 +158,7 @@ public class ModifyEquityServlet extends HttpServlet {
 		equity.setObjectivLocal(objective);
 		equity.setYieldPersonal(yieldPersonal);
 		equity.setParityPersonal(parityPersonal);
-		business.updateEquity(userId, ticker, equity);
+		equityBusiness.updateEquity(userId, ticker, equity);
 	}
 
 	private void updateManuel(final HttpServletRequest request) {

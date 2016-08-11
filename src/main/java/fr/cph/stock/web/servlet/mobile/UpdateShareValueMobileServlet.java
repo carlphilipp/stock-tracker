@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -45,12 +45,12 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2877166802472612746L;
 	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
-	private IBusiness business;
+	private Business business;
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 	}
 
 	@Override

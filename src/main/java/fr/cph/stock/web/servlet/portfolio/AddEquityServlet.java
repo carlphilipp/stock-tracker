@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.EquityBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.User;
@@ -50,12 +52,14 @@ public class AddEquityServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4917456731220463031L;
 	private static final Logger LOG = Logger.getLogger(AddEquityServlet.class);
-	private IBusiness business;
+	private Business business;
+	private EquityBusiness equityBusiness;
 	private LanguageFactory languageFactory;
 
 	@Override
 	public final void init() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
+		equityBusiness = EquityBusinessImpl.getInstance();
 		languageFactory = LanguageFactory.getInstance();
 	}
 
@@ -107,7 +111,7 @@ public class AddEquityServlet extends HttpServlet {
 		equity.setUnitCostPrice(unitCostPrice);
 		equity.setParityPersonal(parityPersonal);
 		try {
-			business.createManualEquity(id, company, equity);
+			equityBusiness.createManualEquity(id, company, equity);
 			request.setAttribute("added", languageFactory.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 		} catch (final EquityException e) {
 			request.setAttribute("addError", e.getMessage());
@@ -132,7 +136,7 @@ public class AddEquityServlet extends HttpServlet {
 		equity.setUnitCostPrice(unitCostPrice);
 		equity.setParityPersonal(parityPersonal);
 		try {
-			business.createEquity(id, ticker, equity);
+			equityBusiness.createEquity(id, ticker, equity);
 			request.setAttribute("added", languageFactory.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 		} catch (final YahooException | EquityException e) {
 			request.setAttribute("addError", e.getMessage());

@@ -17,8 +17,8 @@
 package fr.cph.stock.exception;
 
 /**
- * Business class that access database and process data
- * 
+ * BusinessImpl class that access database and process data
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -35,7 +35,7 @@ public class YahooException extends Exception {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param message
 	 *            the error message
 	 */
@@ -45,7 +45,7 @@ public class YahooException extends Exception {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param message
 	 *            the error message
 	 * @param e

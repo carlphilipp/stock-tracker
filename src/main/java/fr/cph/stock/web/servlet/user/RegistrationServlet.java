@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.user;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.LoginException;
 import org.apache.log4j.Logger;
@@ -43,11 +43,11 @@ public class RegistrationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6262531123441177265L;
 	private static final Logger LOG = Logger.getLogger(RegistrationServlet.class);
-	private IBusiness business;
+	private Business business;
 
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 	}
 
 	@Override

@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.options;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
@@ -46,14 +46,14 @@ public class OptionsServlet extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(OptionsServlet.class);
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 
-	private IBusiness business;
+	private Business business;
 	private LanguageFactory language;
 	private List<String> formatList;
 	private List<String> timeZoneList;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 		this.language = LanguageFactory.getInstance();
 		this.formatList = Arrays.asList(Locale.getISOLanguages());
 		Collections.sort(formatList);

@@ -18,18 +18,18 @@ package fr.cph.stock.cron;
 
 import java.util.TimeZone;
 
+import fr.cph.stock.business.impl.BusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 
 /**
  * Job that check if cac40 today's value has been added to DB. If it's not the case, it will update it if possible
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -37,14 +37,14 @@ public class Cac40CheckJob implements Job {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(Cac40CheckJob.class);
-	/** Business **/
-	private IBusiness business;
+	/** BusinessImpl **/
+	private Business business;
 
 	/**
 	 * Constructor
 	 */
 	public Cac40CheckJob() {
-		business = Business.getInstance();
+		business = BusinessImpl.getInstance();
 	}
 
 	@Override

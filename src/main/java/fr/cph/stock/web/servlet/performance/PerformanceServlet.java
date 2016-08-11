@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.performance;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -61,12 +61,12 @@ public class PerformanceServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2435465891228710040L;
 	private static final Logger LOG = Logger.getLogger(PerformanceServlet.class);
-	private IBusiness business;
+	private Business business;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 		this.language = LanguageFactory.getInstance();
 	}
 

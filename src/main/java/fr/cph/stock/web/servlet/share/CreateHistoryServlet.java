@@ -17,7 +17,7 @@
 package fr.cph.stock.web.servlet.share;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.IBusiness;
+import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.csv.Csv;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
@@ -48,11 +48,11 @@ public class CreateHistoryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -2999218921595727810L;
 	private static final Logger LOG = Logger.getLogger(CreateHistoryServlet.class);
-	private IBusiness business;
+	private Business business;
 
 	@Override
 	public final void init() {
-		this.business = Business.getInstance();
+		this.business = BusinessImpl.getInstance();
 	}
 
 	@Override
