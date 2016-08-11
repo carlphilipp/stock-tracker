@@ -16,7 +16,6 @@ dependencies {
 	compile(
 		[name: 'dropbox-java-sdk-1.5.3'],
 		[name: 'json-lib-2.4-jdk15'],
-		//[name: 'dom4j-2.0.0-ALPHA-2'],
 		[group: 'org.dom4j', name: 'dom4j', version: '2.0.0'],
 		[group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'],
 		[group: 'org.jfree', name: 'jfreechart', version: '1.0.19'],
