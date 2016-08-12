@@ -18,23 +18,20 @@ package fr.cph.stock.business.impl;
 
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.CompanyBusiness;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.dao.*;
 import fr.cph.stock.entities.*;
 import fr.cph.stock.enumtype.Currency;
-import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.IExternalDataAccess;
 import fr.cph.stock.external.YahooExternalDataAccess;
-import fr.cph.stock.security.Security;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import org.apache.log4j.Logger;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 /**
@@ -53,190 +50,26 @@ public enum BusinessImpl implements Business {
 	private static final int PAUSE = 1000;
 
 	private final IExternalDataAccess yahoo;
-	private final CompanyDAO daoCompany;
 	private final PortfolioDAO daoPortfolio;
 	private final UserDAO daoUser;
 	private final CurrencyDAO daoCurrency;
 	private final ShareValueDAO daoShareValue;
 	private final IndexDAO daoIndex;
-	private final FollowDAO daoFollow;
 	private final AccountDAO daoAccount;
 
 	private final CompanyBusiness companyBusiness;
+	private final UserBusiness userBusiness;
 
 	BusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
-		daoCompany = new CompanyDAO();
 		daoPortfolio = new PortfolioDAO();
 		daoUser = new UserDAO();
 		daoCurrency = new CurrencyDAO();
 		daoShareValue = new ShareValueDAO();
 		daoIndex = new IndexDAO();
-		daoFollow = new FollowDAO();
 		daoAccount = new AccountDAO();
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
-	}
-
-	// User
-	@Override
-	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException,
-		UnsupportedEncodingException, LoginException {
-		String md5PasswordHashed = Security.encodeToSha256(md5Password);
-		String saltHashed = Security.generateSalt();
-		String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
-		User userInDbWithLogin = getUser(login);
-		User userInDbWithEmail = getUserWithEmail(email);
-		if (userInDbWithLogin != null) {
-			throw new LoginException("Sorry, '" + login + "' is not available!");
-		}
-		if (userInDbWithEmail != null) {
-			throw new LoginException("Sorry, '" + email + "' is not available!");
-		}
-		User user = new User();
-		user.setLogin(login);
-		user.setPassword(saltHashed + cryptedPasswordSalt);
-		user.setEmail(email);
-		user.setAllow(false);
-		daoUser.insert(user);
-		StringBuilder body = new StringBuilder();
-		String check = Security.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
-		body.append("Welcome to ")
-			.append(Info.NAME)
-			.append(",\n\nPlease valid your account by clicking on that link:")
-			.append(Info.ADDRESS)
-			.append(Info.FOLDER)
-			.append("/check?&login=")
-			.append(login)
-			.append("&check=")
-			.append(check)
-			.append(".\n\nBest regards,\nThe ")
-			.append(Info.NAME)
-			.append(" team.");
-		Mail.sendMail("[Registration] " + Info.NAME, body.toString(), new String[]{email}, null);
-		createUserPortfolio(user.getLogin());
-		createUserDefaultAccount(user);
-	}
-
-	@Override
-	public final User getUser(final String login) {
-		return daoUser.selectWithLogin(login);
-	}
-
-	@Override
-	public final User getUserWithEmail(final String email) {
-		return daoUser.selectWithEmail(email);
-	}
-
-	@Override
-	public final void deleteUser(final String login) {
-		User user = new User();
-		user.setLogin(login);
-		daoUser.delete(user);
-	}
-
-	@Override
-	public final void validateUser(final String login) {
-		final User user = daoUser.selectWithLogin(login);
-		user.setAllow(true);
-		daoUser.update(user);
-	}
-
-	@Override
-	public final void updateUser(final User user) {
-		daoUser.update(user);
-	}
-
-	/**
-	 * @param login the login
-	 */
-	private void createUserPortfolio(final String login) {
-		final User user = daoUser.selectWithLogin(login);
-		final Portfolio portfolio = new Portfolio();
-		portfolio.setCurrency(Currency.EUR);
-		portfolio.setUserId(user.getId());
-		daoPortfolio.insert(portfolio);
-	}
-
-	/**
-	 * @param u the user
-	 */
-	private void createUserDefaultAccount(final User u) {
-		final User user = daoUser.selectWithLogin(u.getLogin());
-		final Account account = new Account();
-		account.setCurrency(Currency.EUR);
-		account.setLiquidity(0.0);
-		account.setName("Default");
-		account.setUserId(user.getId());
-		account.setDel(false);
-		daoAccount.insert(account);
-	}
-
-	@Override
-	public final User checkUser(final String login, final String md5Password) throws LoginException {
-		User user = daoUser.selectWithLogin(login);
-		final int sixtyFour = 64;
-		if (user != null) {
-			String md5PasswordHashed;
-			try {
-				md5PasswordHashed = Security.encodeToSha256(md5Password);
-				String saltHashed = user.getPassword().substring(0, sixtyFour);
-				String cryptedPasswordSalt = user.getPassword().substring(sixtyFour, user.getPassword().length());
-				String cryptedPasswordSaltToTest = Security.encodeToSha256(md5PasswordHashed + saltHashed);
-				if (!cryptedPasswordSalt.equals(cryptedPasswordSaltToTest)) {
-					user = null;
-				} else {
-					user.setPassword(null);
-				}
-			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-				throw new LoginException(e.getMessage(), e);
-			}
-		}
-		return user;
-	}
-
-	@Override
-	public final void updateOneUserPassword(final User user) {
-		daoUser.updateOneUserPassword(user);
-	}
-
-	@Override
-	public final Portfolio getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
-		Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, from, to);
-		Collections.sort(portfolio.getEquities());
-		Currency currency = loadCurrencyData(portfolio.getCurrency());
-		portfolio.setCurrency(currency);
-		for (Equity e : portfolio.getEquities()) {
-			if (e.getCompany().getCurrency() == portfolio.getCurrency()) {
-				e.setParity(1.0);
-			} else {
-				e.setParity(portfolio.getCurrency().getParity(e.getCompany().getCurrency()));
-			}
-		}
-		double liquidity = 0.0;
-		for (Account acc : portfolio.getAccounts()) {
-			if (acc.getCurrency() == portfolio.getCurrency()) {
-				liquidity += acc.getLiquidity();
-				acc.setParity(1.0);
-			} else {
-				liquidity += acc.getLiquidity() * portfolio.getCurrency().getParity(acc.getCurrency());
-				acc.setParity(portfolio.getCurrency().getParity(acc.getCurrency()));
-			}
-		}
-		liquidity = new BigDecimal(liquidity, MATHCONTEXT).doubleValue();
-		portfolio.setLiquidity(liquidity);
-		portfolio.compute();
-		return portfolio;
-	}
-
-	@Override
-	public final void updatePortfolio(final Portfolio portfolio) {
-		daoPortfolio.update(portfolio);
-	}
-
-	@Override
-	public final void updateLiquidity(final Account account, final double liquidity) {
-		account.setLiquidity(liquidity);
-		daoAccount.update(account);
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	// Currency
@@ -405,7 +238,7 @@ public enum BusinessImpl implements Business {
 					}
 					if (canUpdate) {
 						LOG.info("Update user portfolio: " + user.getLogin());
-						portfolio = getUserPortfolio(user.getId(), null, null);
+						portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 						account = portfolio.getFirstAccount();
 						updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");
 					} else {

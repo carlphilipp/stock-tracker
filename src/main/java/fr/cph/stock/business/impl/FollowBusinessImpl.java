@@ -1,5 +1,6 @@
 package fr.cph.stock.business.impl;
 
+import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.FollowBusiness;
 import fr.cph.stock.dao.CompanyDAO;
 import fr.cph.stock.dao.FollowDAO;
@@ -14,7 +15,7 @@ public enum FollowBusinessImpl implements FollowBusiness {
 
 	INSTANCE;
 
-	private CompanyBusinessImpl companyBusiness;
+	private CompanyBusiness companyBusiness;
 	private FollowDAO followDAO;
 	private CompanyDAO companyDAO;
 
@@ -26,10 +27,10 @@ public enum FollowBusinessImpl implements FollowBusiness {
 
 	@Override
 	public final void addFollow(final User user, final String ticker, final Double lower, final Double higher) throws YahooException {
-		Company company = companyBusiness.addOrUpdateCompany(ticker);
-		Follow foll = followDAO.selectOneFollow(user.getId(), company.getId());
+		final Company company = companyBusiness.addOrUpdateCompany(ticker);
+		final Follow foll = followDAO.selectOneFollow(user.getId(), company.getId());
 		if (foll == null) {
-			Follow follow = new Follow();
+			final Follow follow = new Follow();
 			follow.setCompany(company);
 			follow.setCompanyId(company.getId());
 			follow.setUserId(user.getId());
@@ -45,8 +46,8 @@ public enum FollowBusinessImpl implements FollowBusiness {
 
 	@Override
 	public final void updateFollow(final User user, final String ticker, final Double lower, final Double higher) {
-		Company company = companyDAO.selectWithYahooId(ticker);
-		Follow foll = followDAO.selectOneFollow(user.getId(), company.getId());
+		final Company company = companyDAO.selectWithYahooId(ticker);
+		final Follow foll = followDAO.selectOneFollow(user.getId(), company.getId());
 		foll.setLowerLimit(lower);
 		foll.setHigherLimit(higher);
 		followDAO.update(foll);
@@ -54,7 +55,7 @@ public enum FollowBusinessImpl implements FollowBusiness {
 
 	@Override
 	public final void deleteFollow(final int id) {
-		Follow follow = new Follow();
+		final Follow follow = new Follow();
 		follow.setId(id);
 		followDAO.delete(follow);
 	}

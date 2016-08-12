@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -41,21 +41,20 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user want to access to the history page
  *
  * @author Carl-Philipp Harmant
- *
  */
-@WebServlet(name = "ShareValueServlet", urlPatterns = { "/sharevalue" })
+@WebServlet(name = "ShareValueServlet", urlPatterns = {"/sharevalue"})
 public class ShareValueServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(ShareValueServlet.class);
-	private Business business;
+	private UserBusiness userBusiness;
 	private LanguageFactory language;
 	private static final int ITEM_MAX = 20;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.INSTANCE;
-		this.language = LanguageFactory.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
 	}
 
 	@Override
@@ -66,7 +65,7 @@ public class ShareValueServlet extends HttpServlet {
 			final String page = request.getParameter(PAGE);
 			final int pageNumber = StringUtils.isEmpty(page) ? 1 : Integer.parseInt(page);
 			try {
-				final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
 					int begin = pageNumber * ITEM_MAX - ITEM_MAX;
 					int end = pageNumber * ITEM_MAX - 1;

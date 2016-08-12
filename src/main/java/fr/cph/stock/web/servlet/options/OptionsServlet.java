@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.options;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
@@ -37,7 +37,6 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called whenever the user want to access or modify its options
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "OptionsServlet", urlPatterns = {"/options"})
 public class OptionsServlet extends HttpServlet {
@@ -46,18 +45,18 @@ public class OptionsServlet extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(OptionsServlet.class);
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 
-	private Business business;
+	private UserBusiness userBusiness;
 	private LanguageFactory language;
 	private List<String> formatList;
 	private List<String> timeZoneList;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.INSTANCE;
-		this.language = LanguageFactory.INSTANCE;
-		this.formatList = Arrays.asList(Locale.getISOLanguages());
+		userBusiness = UserBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
+		formatList = Arrays.asList(Locale.getISOLanguages());
 		Collections.sort(formatList);
-		this.timeZoneList = Arrays.asList(TimeZone.getAvailableIDs());
+		timeZoneList = Arrays.asList(TimeZone.getAvailableIDs());
 		Collections.sort(timeZoneList);
 	}
 
@@ -68,7 +67,7 @@ public class OptionsServlet extends HttpServlet {
 			HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
 			final String update = request.getParameter(UPDATE);
-			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 			String quoteRes = null, currencyRes = null, parityRes = null, stopLossRes = null, objectiveRes = null, yield1Res = null, yield2Res = null;
 			if (update != null) {
 				final String currency = request.getParameter(CURRENCY);
@@ -96,7 +95,7 @@ public class OptionsServlet extends HttpServlet {
 				final Currency cur = Currency.getEnum(currency);
 				if (cur != portfolio.getCurrency()) {
 					portfolio.setCurrency(cur);
-					business.updatePortfolio(portfolio);
+					userBusiness.updatePortfolio(portfolio);
 				}
 				user.setLocale(format);
 				user.setTimeZone(timeZone);
@@ -107,7 +106,7 @@ public class OptionsServlet extends HttpServlet {
 				} else {
 					user.setUpdateSendMail(false);
 				}
-				business.updateUser(user);
+				userBusiness.updateUser(user);
 
 				boolean bool = addCookieToResponse(response, QUOTE, quote);
 				if (bool) {
@@ -199,12 +198,9 @@ public class OptionsServlet extends HttpServlet {
 	/**
 	 * Add cookie to response
 	 *
-	 * @param response
-	 *            the response
-	 * @param cookieName
-	 *            the cookie name
-	 * @param checked
-	 *            if checked
+	 * @param response   the response
+	 * @param cookieName the cookie name
+	 * @param checked    if checked
 	 * @return true or false
 	 */
 	private boolean addCookieToResponse(final HttpServletResponse response, final String cookieName, final String checked) {

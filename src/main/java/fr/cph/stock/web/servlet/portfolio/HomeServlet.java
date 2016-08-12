@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
@@ -51,12 +53,13 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "HomeServlet", urlPatterns = { "/home" }, loadOnStartup = 1)
+@WebServlet(name = "HomeServlet", urlPatterns = {"/home"}, loadOnStartup = 1)
 public class HomeServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 122322259823208331L;
 	private static final Logger LOG = Logger.getLogger(HomeServlet.class);
 	private Business business;
+	private UserBusiness userBusiness;
 	private LanguageFactory language;
 
 	@Override
@@ -71,9 +74,9 @@ public class HomeServlet extends HttpServlet {
 		} catch (final UnknownHostException | SchedulerException e) {
 			LOG.error(e.getMessage(), e);
 		}
-
-		this.business = BusinessImpl.INSTANCE;
-		this.language = LanguageFactory.INSTANCE;
+		business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
 	}
 
 	@Override
@@ -88,9 +91,9 @@ public class HomeServlet extends HttpServlet {
 					final int days = Integer.parseInt(day);
 					final Calendar cal = Calendar.getInstance();
 					cal.add(Calendar.DATE, -days);
-					portfolio = business.getUserPortfolio(user.getId(), cal.getTime(), null);
+					portfolio = userBusiness.getUserPortfolio(user.getId(), cal.getTime(), null);
 				} else {
-					portfolio = business.getUserPortfolio(user.getId(), null, null);
+					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 				}
 				if (portfolio.getShareValues().size() != 0) {
 					final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();

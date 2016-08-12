@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.Security;
 import fr.cph.stock.util.Info;
@@ -37,19 +37,20 @@ import static fr.cph.stock.util.Constants.ERROR;
  * This servlet is called when the user has lost his password and want to get a new ont
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "LostServlet", urlPatterns = {"/lost"})
 public class LostServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1724898618001479554L;
 	private static final Logger LOG = Logger.getLogger(LostServlet.class);
-	private Business business;
+	private UserBusiness userBusiness;
 
-	/** Init **/
+	/**
+	 * Init
+	 **/
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class LostServlet extends HttpServlet {
 		try {
 			final String email = request.getParameter(EMAIL);
 			if (!email.equals("")) {
-				final User user = business.getUserWithEmail(email);
+				final User user = userBusiness.getUserWithEmail(email);
 				if (user != null) {
 					final StringBuilder body = new StringBuilder();
 					final String check = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());

@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.accounts;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -49,12 +51,14 @@ public class AccountsServlet extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(AccountsServlet.class);
 
 	private Business business;
+	private UserBusiness userBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.INSTANCE;
-		this.language = LanguageFactory.INSTANCE;
+		business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
 	}
 
 	@Override
@@ -76,7 +80,7 @@ public class AccountsServlet extends HttpServlet {
 			if (del != null) {
 				deleteAccount(request);
 			}
-			final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(PORTFOLIO, portfolio);

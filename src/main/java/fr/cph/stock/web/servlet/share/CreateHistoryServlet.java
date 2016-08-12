@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.share;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.csv.Csv;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
@@ -49,10 +51,12 @@ public class CreateHistoryServlet extends HttpServlet {
 	private static final long serialVersionUID = -2999218921595727810L;
 	private static final Logger LOG = Logger.getLogger(CreateHistoryServlet.class);
 	private Business business;
+	private UserBusiness userBusiness;
 
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.INSTANCE;
+		business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -63,7 +67,7 @@ public class CreateHistoryServlet extends HttpServlet {
 			final String liquidity = request.getParameter(LIQUIDITY);
 			final String acc = request.getParameter(ACCOUNT);
 
-			final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 			final Account account = portfolio.getAccount(acc);
 
 			final Part p1 = request.getPart(FILE);
@@ -75,7 +79,7 @@ public class CreateHistoryServlet extends HttpServlet {
 					business.addShareValue(sv);
 				}
 				if (StringUtils.isNotEmpty(liquidity)) {
-					business.updateLiquidity(account, Double.parseDouble(liquidity));
+					userBusiness.updateLiquidity(account, Double.parseDouble(liquidity));
 				}
 				request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 			}

@@ -16,13 +16,13 @@
 
 package fr.cph.stock.business;
 
-import fr.cph.stock.entities.*;
+import fr.cph.stock.entities.Account;
+import fr.cph.stock.entities.Index;
+import fr.cph.stock.entities.Portfolio;
+import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.enumtype.Currency;
-import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -37,153 +37,33 @@ import java.util.TimeZone;
 public interface Business {
 
 	/**
-	 * Create a user
-	 *
-	 * @param login
-	 *            the login
-	 * @param md5Password
-	 *            the md5 password
-	 * @param email
-	 *            the email
-	 * @throws NoSuchAlgorithmException
-	 *             the NoSuchAlgorithmException
-	 * @throws UnsupportedEncodingException
-	 *             the UnsupportedEncodingException
-	 * @throws LoginException
-	 *             the LoginException
-	 */
-	void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException;
-
-	/**
-	 * Get user
-	 *
-	 * @param login
-	 *            the login
-	 * @return a user
-	 */
-	User getUser(final String login);
-
-	/**
-	 * Delete user
-	 *
-	 * @param login
-	 *            the login to delete
-	 */
-	void deleteUser(final String login);
-
-	/**
-	 * Check if user credentials are correct
-	 *
-	 * @param login
-	 *            the login
-	 * @param md5Password
-	 *            the md5 password
-	 * @return a user
-	 * @throws LoginException
-	 *             the LoginException
-	 */
-	User checkUser(final String login, final String md5Password) throws LoginException;
-
-	/**
-	 * Update a user
-	 *
-	 * @param user
-	 *            the user
-	 */
-	void updateUser(final User user);
-
-	/**
-	 * Allow a user to login
-	 *
-	 * @param login
-	 *            the login
-	 */
-	void validateUser(final String login);
-
-	/**
-	 * Get user with email
-	 *
-	 * @param email
-	 *            the email
-	 * @return a user
-	 */
-	User getUserWithEmail(final String email);
-
-	/**
-	 * Update a user password
-	 *
-	 * @param user
-	 *            a user
-	 */
-	void updateOneUserPassword(final User user);
-
-	/**
-	 * Get a portfolio
-	 *
-	 * @param userId
-	 *            the user id
-	 * @param from
-	 *            the from date
-	 * @param to
-	 *            the to date
-	 * @return a Portfolio
-	 * @throws YahooException
-	 *             the yahoo exception
-	 */
-	Portfolio getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException;
-
-	/**
-	 * Update a portfolio
-	 *
-	 * @param portfolio
-	 *            the portfolio to update
-	 */
-	void updatePortfolio(final Portfolio portfolio);
-
-	/**
-	 * Update liquidity in the account
-	 *
-	 * @param account
-	 *            the account
-	 * @param liquidity
-	 *            the liquidity
-	 */
-	void updateLiquidity(final Account account, final double liquidity);
-
-	/**
 	 * Load a currency with its data
 	 *
-	 * @param currency
-	 *            the currency
+	 * @param currency the currency
 	 * @return a currency
-	 * @throws YahooException
-	 *             the yahoo exception
+	 * @throws YahooException the yahoo exception
 	 */
 	Currency loadCurrencyData(final Currency currency) throws YahooException;
 
 	/**
 	 * Update all current currencies
 	 *
-	 * @throws YahooException
-	 *             the yahoo exception
+	 * @throws YahooException the yahoo exception
 	 */
 	void updateAllCurrencies() throws YahooException;
 
 	/**
 	 * Update one currency
 	 *
-	 * @param currency
-	 *            the currency
-	 * @throws YahooException
-	 *             the yahoo exception
+	 * @param currency the currency
+	 * @throws YahooException the yahoo exception
 	 */
 	void updateOneCurrency(final Currency currency) throws YahooException;
 
 	/**
 	 * Get all currency data
 	 *
-	 * @param currency
-	 *            the currency
+	 * @param currency the currency
 	 * @return a 2 dim array of object
 	 */
 	Object[][] getAllCurrencyData(final Currency currency);
@@ -191,16 +71,14 @@ public interface Business {
 	/**
 	 * Add a share value
 	 *
-	 * @param share
-	 *            a sharevalue
+	 * @param share a sharevalue
 	 */
 	void addShareValue(final ShareValue share);
 
 	/**
 	 * Get a share value
 	 *
-	 * @param id
-	 *            the id of the sharevalue to get
+	 * @param id the id of the sharevalue to get
 	 * @return a share value
 	 */
 	ShareValue selectOneShareValue(final int id);
@@ -208,20 +86,16 @@ public interface Business {
 	/**
 	 * Delete a share value
 	 *
-	 * @param sv
-	 *            the share value
+	 * @param sv the share value
 	 */
 	void deleteShareValue(final ShareValue sv);
 
 	/**
 	 * Get index information
 	 *
-	 * @param yahooId
-	 *            the yahoo id
-	 * @param from
-	 *            the from date
-	 * @param to
-	 *            the to date
+	 * @param yahooId the yahoo id
+	 * @param from    the from date
+	 * @param to      the to date
 	 * @return a list of index
 	 */
 	List<Index> getIndexes(final String yahooId, final Date from, final Date to);
@@ -229,86 +103,67 @@ public interface Business {
 	/**
 	 * Update an index
 	 *
-	 * @param yahooId
-	 *            the yahoo id
-	 * @throws YahooException
-	 *             the yahoo exception
+	 * @param yahooId the yahoo id
+	 * @throws YahooException the yahoo exception
 	 */
 	void updateIndex(final String yahooId) throws YahooException;
 
 	/**
 	 * Don't remember what it does
 	 *
-	 * @param yahooId
-	 *            the yahoo id
-	 * @param timeZone
-	 *            the timezone
-	 * @throws YahooException
-	 *             the yahoo exception
+	 * @param yahooId  the yahoo id
+	 * @param timeZone the timezone
+	 * @throws YahooException the yahoo exception
 	 */
 	void checkUpdateIndex(final String yahooId, final TimeZone timeZone) throws YahooException;
 
 	/**
 	 * Add an account
 	 *
-	 * @param account
-	 *            the account to add
+	 * @param account the account to add
 	 */
 	void addAccount(final Account account);
 
 	/**
 	 * Update an account
 	 *
-	 * @param account
-	 *            the account to update
+	 * @param account the account to update
 	 */
 	void updateAccount(final Account account);
 
 	/**
 	 * Delete account
 	 *
-	 * @param account
-	 *            the account to delete
+	 * @param account the account to delete
 	 */
 	void deleteAccount(final Account account);
 
 	/**
 	 * Update commentare in share value
 	 *
-	 * @param sv
-	 *            the share value
+	 * @param sv the share value
 	 */
 	void updateCommentaryShareValue(final ShareValue sv);
 
 	/**
 	 * Auto update all companies data and if there is no error, auto update the share value of selected user
 	 *
-	 * @param date
-	 *            the date
-	 * @throws YahooException
-	 *             the yahoo exception
+	 * @param date the date
+	 * @throws YahooException the yahoo exception
 	 */
 	void autoUpdateUserShareValue(final Calendar date) throws YahooException;
 
 	/**
 	 * Update current share value
 	 *
-	 * @param portfolio
-	 *            the portfolio
-	 * @param account
-	 *            the account
-	 * @param liquidityMovement
-	 *            the liquidity movement
-	 * @param yield
-	 *            the yield
-	 * @param buy
-	 *            the amount buy
-	 * @param sell
-	 *            the amount sell
-	 * @param taxe
-	 *            the taxe
-	 * @param commentary
-	 *            the commentary
+	 * @param portfolio         the portfolio
+	 * @param account           the account
+	 * @param liquidityMovement the liquidity movement
+	 * @param yield             the yield
+	 * @param buy               the amount buy
+	 * @param sell              the amount sell
+	 * @param taxe              the taxe
+	 * @param commentary        the commentary
 	 */
 	void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement,
 								 final Double yield, final Double buy, final Double sell, final Double taxe, final String commentary);

@@ -16,8 +16,8 @@
 
 package fr.cph.stock.business;
 
-import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.business.impl.EquityBusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.dao.EquityDAO;
 import fr.cph.stock.dao.PortfolioDAO;
 import fr.cph.stock.dao.UserDAO;
@@ -100,12 +100,12 @@ public class BusinessTest {
 
 	@Test
 	public void testCreateDeleteUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		Business business = BusinessImpl.INSTANCE;
+		UserBusiness userBusiness = UserBusinessImpl.INSTANCE;
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@testderpderp.com";
-		business.createUser(login, md5Password, email);
-		User user = business.getUser(login);
+		userBusiness.createUser(login, md5Password, email);
+		User user = userBusiness.getUser(login);
 		assertNotNull(user);
 		assertEquals(login, user.getLogin());
 		assertEquals(128, user.getPassword().length());
@@ -119,19 +119,19 @@ public class BusinessTest {
 		Portfolio port = new Portfolio();
 		port.setId(portfolio.getId());
 		portfolioDao.delete(port);
-		business.deleteUser(login);
-		user = business.getUser(login);
+		userBusiness.deleteUser(login);
+		user = userBusiness.getUser(login);
 		assertNull(user);
 	}
 
 	@Test
 	public void testCheckUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		Business business = BusinessImpl.INSTANCE;
+		UserBusiness userBusiness = UserBusinessImpl.INSTANCE;
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@test.com";
-		business.createUser(login, md5Password, email);
-		User user = business.checkUser(login, md5Password);
+		userBusiness.createUser(login, md5Password, email);
+		User user = userBusiness.checkUser(login, md5Password);
 		assertNotNull(user);
 
 		// Clean
@@ -139,8 +139,8 @@ public class BusinessTest {
 		Portfolio port = new Portfolio();
 		port.setId(portfolio.getId());
 		portfolioDao.delete(port);
-		business.deleteUser(login);
-		user = business.getUser(login);
+		userBusiness.deleteUser(login);
+		user = userBusiness.getUser(login);
 		assertNull(user);
 	}
 

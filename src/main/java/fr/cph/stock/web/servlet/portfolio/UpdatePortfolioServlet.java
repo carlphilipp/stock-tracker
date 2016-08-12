@@ -18,8 +18,10 @@ package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.CompanyBusiness;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.business.impl.CompanyBusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -41,7 +43,6 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user want to update the portfolio
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "UpdatePortfolioServlet", urlPatterns = {"/updateportfolio"})
 public class UpdatePortfolioServlet extends HttpServlet {
@@ -49,12 +50,14 @@ public class UpdatePortfolioServlet extends HttpServlet {
 	private static final long serialVersionUID = 5252788304524725462L;
 	private static final Logger LOG = Logger.getLogger(UpdatePortfolioServlet.class);
 	private Business business;
+	private UserBusiness userBusiness;
 	private CompanyBusiness companyBusiness;
 
 	@Override
 	public final void init() {
 		business = BusinessImpl.INSTANCE;
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -68,7 +71,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 			final String updateCurrencies = request.getParameter(CURRENCY_UPDATE);
 			String error = null;
 			try {
-				final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 				if (updateCurrencies != null) {
 					business.updateOneCurrency(portfolio.getCurrency());
 				}

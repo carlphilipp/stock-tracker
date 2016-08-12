@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
 import org.apache.log4j.Logger;
 
@@ -35,16 +35,16 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "AuthMobileServlet", urlPatterns = { "/authmobile" })
+@WebServlet(name = "AuthMobileServlet", urlPatterns = {"/authmobile"})
 public class AuthMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7713821485113054118L;
 	private static final Logger LOG = Logger.getLogger(AuthMobileServlet.class);
-	private Business business;
+	private UserBusiness userBusiness;
 
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class AuthMobileServlet extends HttpServlet {
 			request.getSession().invalidate();
 			final String login = request.getParameter(LOGIN);
 			final String password = request.getParameter(PASSWORD);
-			final User user = business.checkUser(login, password);
+			final User user = userBusiness.checkUser(login, password);
 			if (user == null) {
 				response.setContentType("application/json");
 				response.getWriter().write("{\"error\":\"Login or password unknown\"}");

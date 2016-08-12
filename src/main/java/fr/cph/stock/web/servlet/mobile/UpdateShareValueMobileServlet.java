@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -40,17 +42,19 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "UpdateShareValueMobileServlet", urlPatterns = { "/updatesharevaluemobile" })
+@WebServlet(name = "UpdateShareValueMobileServlet", urlPatterns = {"/updatesharevaluemobile"})
 public class UpdateShareValueMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2877166802472612746L;
 	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
 	private Business business;
+	private UserBusiness userBusiness;
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.INSTANCE;
+		business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 		try {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
-			Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 			try {
 				final int accountId = Integer.valueOf(request.getParameter(ACCOUNT_ID));
 				final double movement = Double.valueOf(request.getParameter(LIQUIDITY));
@@ -80,8 +84,8 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 				} else {
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
 					newLiquidity = new BigDecimal(newLiquidity, mathContext).doubleValue();
-					business.updateLiquidity(account, newLiquidity);
-					portfolio = business.getUserPortfolio(user.getId(), null, null);
+					userBusiness.updateLiquidity(account, newLiquidity);
+					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 					business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 					response.sendRedirect(HOMEMOBILE);
 				}

@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -44,18 +46,20 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "ChartsServlet", urlPatterns = { "/charts" })
+@WebServlet(name = "ChartsServlet", urlPatterns = {"/charts"})
 public class ChartsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -2726055360179985134L;
 	private static final Logger LOG = Logger.getLogger(ChartsServlet.class);
 	private Business business;
+	private UserBusiness userBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.INSTANCE;
-		this.language = LanguageFactory.INSTANCE;
+		business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
 	}
 
 	@Override
@@ -65,7 +69,7 @@ public class ChartsServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			final Portfolio portfolio;
 			try {
-				portfolio = business.getUserPortfolio(user.getId(), null, null);
+				portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
 					List<Index> indexes = business.getIndexes(Info.YAHOOID_CAC40, from, null);
@@ -95,5 +99,4 @@ public class ChartsServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }

@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.share;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
@@ -41,17 +43,19 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "DeleteShareValueServlet", urlPatterns = { "/deletesharevalue" })
+@WebServlet(name = "DeleteShareValueServlet", urlPatterns = {"/deletesharevalue"})
 public class DeleteShareValueServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6742409927502374595L;
 	private static final Logger LOG = Logger.getLogger(DeleteShareValueServlet.class);
 	private Business business;
+	private UserBusiness userBusiness;
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.INSTANCE;
+		business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -69,7 +73,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 			final Double taxe = Double.parseDouble(request.getParameter(TAXE));
 			final String acc = request.getParameter(ACCOUNT);
 
-			final Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 			final Account account = portfolio.getAccount(acc);
 			final ShareValue shareValue = new ShareValue();
 			shareValue.setId(shareId);
@@ -82,7 +86,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 				total = new BigDecimal(total, mathContext).doubleValue();
 				if (total != 0.0) {
 					double newLiquidity = account.getLiquidity() - total;
-					business.updateLiquidity(account, new BigDecimal(newLiquidity, mathContext).doubleValue());
+					userBusiness.updateLiquidity(account, new BigDecimal(newLiquidity, mathContext).doubleValue());
 					message.append("Liquidity new value: " + (new BigDecimal(newLiquidity, mathContext)).doubleValue() + "<br>");
 				}
 				business.deleteShareValue(shareValue);

@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.performance;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -54,7 +56,6 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user want to access to the performance page
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "PerformanceServlet", urlPatterns = {"/performance"})
 public class PerformanceServlet extends HttpServlet {
@@ -62,12 +63,14 @@ public class PerformanceServlet extends HttpServlet {
 	private static final long serialVersionUID = 2435465891228710040L;
 	private static final Logger LOG = Logger.getLogger(PerformanceServlet.class);
 	private Business business;
+	private UserBusiness userBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.INSTANCE;
-		this.language = LanguageFactory.INSTANCE;
+		business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
 	}
 
 	@Override
@@ -85,7 +88,7 @@ public class PerformanceServlet extends HttpServlet {
 				final Date fromDate = StringUtils.isNotEmpty(fromParameter) ? formatter.parse(fromParameter) : null;
 				final Date toDate = StringUtils.isNotEmpty(toParameter) ? formatter.parse(toParameter) : null;
 
-				portfolio = business.getUserPortfolio(user.getId(), fromDate, toDate);
+				portfolio = userBusiness.getUserPortfolio(user.getId(), fromDate, toDate);
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
 					// Reset time to 17:00PM to get also the cac40 into the day selected (or it would not select it

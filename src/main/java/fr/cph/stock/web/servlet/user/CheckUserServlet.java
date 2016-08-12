@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.Security;
 import org.apache.log4j.Logger;
@@ -36,16 +36,16 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  *
  */
-@WebServlet(name = "CheckUserServlet", urlPatterns = { "/check" })
+@WebServlet(name = "CheckUserServlet", urlPatterns = {"/check"})
 public class CheckUserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(CheckUserServlet.class);
-	private Business business;
+	private UserBusiness userBusiness;
 
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -53,11 +53,11 @@ public class CheckUserServlet extends HttpServlet {
 		try {
 			final String login = request.getParameter(LOGIN);
 			final String check = request.getParameter(CHECK);
-			final User user = business.getUser(login);
+			final User user = userBusiness.getUser(login);
 			if (user != null) {
 				final String serverCheck = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 				if (check.equals(serverCheck)) {
-					business.validateUser(login);
+					userBusiness.validateUser(login);
 					request.setAttribute(MESSAGE, "It worked!<br>You can now <a href='index.jsp'>login</a>");
 				} else {
 					request.setAttribute(MESSAGE, "Sorry, it did not work");

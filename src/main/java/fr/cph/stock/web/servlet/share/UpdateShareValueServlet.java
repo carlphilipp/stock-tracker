@@ -17,7 +17,9 @@
 package fr.cph.stock.web.servlet.share;
 
 import fr.cph.stock.business.Business;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
@@ -41,19 +43,20 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user want to update a share value
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "UpdateShareValueServlet", urlPatterns = {"/updatesharevalue"})
 public class UpdateShareValueServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 7284798829015895373L;
 	private static final Logger LOG = Logger.getLogger(UpdateShareValueServlet.class);
-	private Business business;
 	private final MathContext mathContext = MathContext.DECIMAL32;
+	private Business business;
+	private UserBusiness userBusiness;
 
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.INSTANCE;
+		business = BusinessImpl.INSTANCE;
+		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -65,28 +68,28 @@ public class UpdateShareValueServlet extends HttpServlet {
 			final String commUpdated = request.getParameter(COMMENTARY_UPDATED);
 
 			if (commUpdated == null) {
-				final Integer acc = Integer.parseInt(request.getParameter(ACCOUNT));
-				final Double movement = Double.parseDouble(request.getParameter(MOVEMENT));
-				final Double yield = Double.parseDouble(request.getParameter(YIELD));
-				final Double buy = Double.parseDouble(request.getParameter(BUY));
-				final Double sell = Double.parseDouble(request.getParameter(SELL));
-				final Double taxe = Double.parseDouble(request.getParameter(TAXE));
+				final Integer acc = Integer.valueOf(request.getParameter(ACCOUNT));
+				final Double movement = Double.valueOf(request.getParameter(MOVEMENT));
+				final Double yield = Double.valueOf(request.getParameter(YIELD));
+				final Double buy = Double.valueOf(request.getParameter(BUY));
+				final Double sell = Double.valueOf(request.getParameter(SELL));
+				final Double taxe = Double.valueOf(request.getParameter(TAXE));
 				final String commParam = request.getParameter(COMMENTARY);
 				final String commentary = StringUtils.isNotEmpty(commParam) ? commParam : null;
 				try {
-					Portfolio portfolio = business.getUserPortfolio(user.getId(), null, null);
+					Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 					Account account = portfolio.getAccount(acc);
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
 					newLiquidity = new BigDecimal(newLiquidity, mathContext).doubleValue();
-					business.updateLiquidity(account, newLiquidity);
+					userBusiness.updateLiquidity(account, newLiquidity);
 					message.append("'").append(account.getName()).append("' liquidity new value: ").append(newLiquidity);
-					portfolio = business.getUserPortfolio(user.getId(), null, null);
+					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 					business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 				} catch (final YahooException e) {
 					LOG.error(e.getMessage(), e);
 				}
 			} else {
-				final int shareId = Integer.valueOf(request.getParameter(SHARE_ID));
+				final int shareId = Integer.parseInt(request.getParameter(SHARE_ID));
 				final ShareValue sv = business.selectOneShareValue(shareId);
 				sv.setCommentary(commUpdated);
 				business.updateCommentaryShareValue(sv);
