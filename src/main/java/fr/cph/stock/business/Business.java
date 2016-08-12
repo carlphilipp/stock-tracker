@@ -249,53 +249,6 @@ public interface Business {
 	void checkUpdateIndex(final String yahooId, final TimeZone timeZone) throws YahooException;
 
 	/**
-	 * Get a list of followed companies
-	 *
-	 * @param userId
-	 *            the user id
-	 * @return a list of follow
-	 */
-	List<Follow> getListFollow(final int userId);
-
-	/**
-	 * Add a company to follow
-	 *
-	 * @param user
-	 *            the user
-	 * @param ticker
-	 *            the yahoo ticker
-	 * @param lower
-	 *            the lower
-	 * @param higher
-	 *            the higher
-	 * @throws YahooException
-	 *             the yahoo exception
-	 */
-	void addFollow(final User user, final String ticker, final Double lower, final Double higher) throws YahooException;
-
-	/**
-	 * Update a company to follow
-	 *
-	 * @param user
-	 *            the user
-	 * @param ticker
-	 *            the ticker
-	 * @param lower
-	 *            the loweer
-	 * @param higher
-	 *            the higher
-	 */
-	void updateFollow(final User user, final String ticker, final Double lower, final Double higher);
-
-	/**
-	 * Delete a company that the user follow
-	 *
-	 * @param id
-	 *            the follow id
-	 */
-	void deleteFollow(final int id);
-
-	/**
 	 * Add an account
 	 *
 	 * @param account

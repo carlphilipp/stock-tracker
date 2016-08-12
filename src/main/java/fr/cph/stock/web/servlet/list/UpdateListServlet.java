@@ -16,10 +16,9 @@
 
 package fr.cph.stock.web.servlet.list;
 
-import fr.cph.stock.business.Business;
 import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.business.impl.CompanyBusinessImpl;
+import fr.cph.stock.business.impl.FollowBusinessImpl;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -51,13 +50,13 @@ public class UpdateListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(UpdateListServlet.class);
 
-	private Business business;
+	private FollowBusinessImpl followBusiness;
 	private CompanyBusiness companyBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		business = BusinessImpl.INSTANCE;
+		followBusiness = FollowBusinessImpl.INSTANCE;
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
 		language = LanguageFactory.INSTANCE;
 	}
@@ -72,7 +71,7 @@ public class UpdateListServlet extends HttpServlet {
 
 			update(user.getId(), error);
 
-			final List<Follow> follows = business.getListFollow(user.getId());
+			final List<Follow> follows = followBusiness.getListFollow(user.getId());
 			request.setAttribute(FOLLOWS, follows);
 			if (!error.toString().equals("")) {
 				request.setAttribute(UPDATE_STATUS, "<span class='cQuoteDown'>" + error.toString() + "</span>");
@@ -95,7 +94,7 @@ public class UpdateListServlet extends HttpServlet {
 
 	private void update(final int userId, final StringBuilder error) {
 		try {
-			final List<Follow> follows = business.getListFollow(userId);
+			final List<Follow> follows = followBusiness.getListFollow(userId);
 			final List<String> followsString = new ArrayList<>();
 			for (final Follow follow : follows) {
 				if (follow.getCompany().getRealTime() != null && follow.getCompany().getRealTime()) {

@@ -16,8 +16,7 @@
 
 package fr.cph.stock.web.servlet.list;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.FollowBusinessImpl;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -48,13 +47,13 @@ public class AddFollowServlet extends HttpServlet {
 	private static final long serialVersionUID = -8367279160386302241L;
 	private static final Logger LOG = Logger.getLogger(AddFollowServlet.class);
 
-	private Business business;
+	private FollowBusinessImpl followBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.INSTANCE;
-		this.language = LanguageFactory.INSTANCE;
+		followBusiness = FollowBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
 	}
 
 	@Override
@@ -70,7 +69,7 @@ public class AddFollowServlet extends HttpServlet {
 				add(request, user);
 			}
 
-			final List<Follow> follows = business.getListFollow(user.getId());
+			final List<Follow> follows = followBusiness.getListFollow(user.getId());
 
 			request.setAttribute(FOLLOWS, follows);
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
@@ -84,7 +83,7 @@ public class AddFollowServlet extends HttpServlet {
 
 	private void delete(final HttpServletRequest request) {
 		final String deleteFollowId = request.getParameter(DELETE_FOLLOW_ID);
-		business.deleteFollow(Integer.parseInt(deleteFollowId));
+		followBusiness.deleteFollow(Integer.parseInt(deleteFollowId));
 		request.setAttribute(MESSAGE, "Deleted !");
 	}
 
@@ -96,7 +95,7 @@ public class AddFollowServlet extends HttpServlet {
 			final String high = request.getParameter(HIGHER);
 			final Double higher = !high.equals("") ? Double.valueOf(high) : null;
 
-			business.addFollow(user, ticker, lower, higher);
+			followBusiness.addFollow(user, ticker, lower, higher);
 
 			request.setAttribute(MESSAGE, "Done !");
 		} catch (final YahooException e) {

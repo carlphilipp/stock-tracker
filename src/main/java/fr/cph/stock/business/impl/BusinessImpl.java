@@ -77,47 +77,6 @@ public enum BusinessImpl implements Business {
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
 	}
 
-	// Follow
-	@Override
-	public final void addFollow(final User user, final String ticker, final Double lower, final Double higher) throws YahooException {
-		Company company = companyBusiness.addOrUpdateCompany(ticker);
-		Follow foll = daoFollow.selectOneFollow(user.getId(), company.getId());
-		if (foll == null) {
-			Follow follow = new Follow();
-			follow.setCompany(company);
-			follow.setCompanyId(company.getId());
-			follow.setUserId(user.getId());
-			follow.setLowerLimit(lower);
-			follow.setHigherLimit(higher);
-			daoFollow.insert(follow);
-		} else {
-			foll.setLowerLimit(lower);
-			foll.setHigherLimit(higher);
-			daoFollow.update(foll);
-		}
-	}
-
-	@Override
-	public final void updateFollow(final User user, final String ticker, final Double lower, final Double higher) {
-		Company company = daoCompany.selectWithYahooId(ticker);
-		Follow foll = daoFollow.selectOneFollow(user.getId(), company.getId());
-		foll.setLowerLimit(lower);
-		foll.setHigherLimit(higher);
-		daoFollow.update(foll);
-	}
-
-	@Override
-	public final void deleteFollow(final int id) {
-		Follow follow = new Follow();
-		follow.setId(id);
-		daoFollow.delete(follow);
-	}
-
-	@Override
-	public final List<Follow> getListFollow(final int userId) {
-		return daoFollow.selectListFollow(userId);
-	}
-
 	// User
 	@Override
 	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException,

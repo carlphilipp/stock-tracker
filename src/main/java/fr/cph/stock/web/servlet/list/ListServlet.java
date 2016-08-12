@@ -16,8 +16,7 @@
 
 package fr.cph.stock.web.servlet.list;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.FollowBusinessImpl;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.language.LanguageFactory;
@@ -40,7 +39,6 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user want to access the list page
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "ListServlet", urlPatterns = {"/list"})
 public class ListServlet extends HttpServlet {
@@ -48,13 +46,13 @@ public class ListServlet extends HttpServlet {
 	private static final long serialVersionUID = -3168423969225038651L;
 	private static final Logger LOG = Logger.getLogger(ListServlet.class);
 
-	private Business business;
+	private FollowBusinessImpl followBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.INSTANCE;
-		this.language = LanguageFactory.INSTANCE;
+		language = LanguageFactory.INSTANCE;
+		followBusiness = FollowBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -64,7 +62,7 @@ public class ListServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 
-			final List<Follow> follows = business.getListFollow(user.getId());
+			final List<Follow> follows = followBusiness.getListFollow(user.getId());
 
 			request.setAttribute(FOLLOWS, follows);
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
