@@ -36,7 +36,6 @@ public class UserJob implements Job {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(UserJob.class);
-	/** **/
 	private Business business;
 
 	/** Constructor **/

@@ -43,7 +43,6 @@ import static fr.cph.stock.util.Constants.LIQUIDITY;
 public class Portfolio {
 	/** Precision of calculation **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
-	/** **/
 	private static final int PERCENT = 100;
 	/** Id **/
 	private int id;
@@ -428,7 +427,7 @@ public class Portfolio {
 		if (chartSectorData == null) {
 			Map<String, Double> data = new HashMap<>();
 			for (Equity e : getEquities()) {
-				if (e.getCompany().getFund()) {
+				if (e.getCompany().getFound()) {
 					if (data.containsKey("Fund")) {
 						Double d = data.get("Fund");
 						d += e.getValue();
@@ -517,7 +516,7 @@ public class Portfolio {
 		if (chartCapData == null) {
 			Map<String, Double> data = new HashMap<>();
 			for (Equity e : getEquities()) {
-				if (!e.getCompany().getFund()) {
+				if (!e.getCompany().getFound()) {
 					MarketCapitalization marketCap = e.getMarketCapitalizationType();
 					if (marketCap == null) {
 						if (data.containsKey("Unknown")) {
@@ -747,7 +746,7 @@ public class Portfolio {
 			if (e.getCurrentSector() == null) {
 				company.setSector("Unknown");
 			}
-			if (company.getFund()) {
+			if (company.getFound()) {
 				company.setSector("Fund");
 			}
 			if (!map.containsKey(e.getCurrentSector())) {
@@ -791,7 +790,7 @@ public class Portfolio {
 		Map<String, List<Equity>> map = new HashMap<>();
 		List<Equity> companies = null;
 		for (Equity e : getEquities()) {
-			if (e.getMarketCapitalizationType().getValue() == null || e.getCompany().getFund()) {
+			if (e.getMarketCapitalizationType().getValue() == null || e.getCompany().getFound()) {
 				e.setMarketCapitalizationType(MarketCapitalization.UNKNOWN);
 			}
 			if (!map.containsKey(e.getMarketCapitalizationType().getValue())) {

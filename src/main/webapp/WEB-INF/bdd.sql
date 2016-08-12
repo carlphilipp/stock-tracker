@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS `company` (
   `yield` double DEFAULT NULL,
   `marketCapitalization` varchar(50) DEFAULT NULL,
   `realTime` tinyint(1) NOT NULL,
-  `fund` tinyint(1) NOT NULL,
+  `found` tinyint(1) NOT NULL,
   `lastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `yahooId` (`yahooId`)
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `equity` (
   `yieldPersonal` double DEFAULT NULL,
   `parityPersonal` double DEFAULT NULL,
   `stopLossLocal` double DEFAULT NULL,
-  `objectivLocal` double DEFAULT NULL,
+  `objectiveLocal` double DEFAULT NULL,
   `yieldFrequency` varchar(50) DEFAULT NULL,
   `yieldMonth` varchar(50) DEFAULT NULL,
   `lastUpdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

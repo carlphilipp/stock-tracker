@@ -112,7 +112,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 					}
 					companies.add(company);
 				} else {
-					throw new YahooUnknownTickerException(jsonCompany.optString(SYMBOL) + YahooUnknownTickerException.TOCKEN_UNKNOWN);
+					throw new YahooUnknownTickerException(jsonCompany.optString(SYMBOL) + YahooUnknownTickerException.TOKEN_UNKNOWN);
 				}
 			} else {
 				company.setName(WordUtils.capitalizeFully(jsonCompany.optString(NAME)));
@@ -155,7 +155,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 					company.setYearHigh(yearHigh);
 				}
 				company.setRealTime(true);
-				company.setFund(false);
+				company.setFound(false);
 				companies.add(company);
 			}
 		}
@@ -178,7 +178,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			sector = jsonCompanyInfo.optString(CATEGORY);
 			final String fundFamily = jsonCompanyInfo.optString(FUND_FAMILY);
 			if (fundFamily != null) {
-				company.setFund(true);
+				company.setFound(true);
 			}
 			industry = fundFamily;
 			final String marketCap = jsonCompanyInfo.optString(NET_ASSETS);

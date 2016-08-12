@@ -25,45 +25,25 @@ package fr.cph.stock.enumtype;
 public enum Market {
 
 	VAN("VAN"),
-	/** **/
 	PNK("PNK"),
-	/** **/
 	NYQ("NYQ"),
-	/** **/
 	NMS("NMS"),
-	/** **/
 	PARIS("Paris"),
-
 	PAR("PAR"),
-	/** **/
 	NASDAQNM("NasdaqNM"),
-	/** **/
 	NASDAQSC("NASDAQSC"),
-	/** **/
 	NYSE("Nyse"),
-	/** **/
 	AMSTERDAM("Amsterdam"),
-	/** **/
 	XETRA("Xetra"),
-	/** **/
 	NGM("NGM"),
-	/** **/
 	NCM("NCM"),
-	/** **/
 	LONDON("London"),
-	/** **/
 	MILAN("Milan"),
-	/** **/
 	PCX("PCX"),
-	/** **/
 	AMEX("AMEX"),
-	/** **/
 	FRANKFURT("Frankfurt"),
-	/** **/
 	OTC("Other OTC"),
-	/** **/
 	CDNX("CDNX"),
-	/** **/
 	UNKNOWN("unknown");
 
 	/**

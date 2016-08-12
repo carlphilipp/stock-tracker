@@ -36,7 +36,6 @@ public class SP500CheckJob implements Job {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(SP500CheckJob.class);
-	/** **/
 	private Business business;
 
 	/**

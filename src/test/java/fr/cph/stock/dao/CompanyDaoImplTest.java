@@ -32,9 +32,9 @@ public class CompanyDaoImplTest {
 	@Test
 	public void testCRUDCompany(){
 		CompanyDAO dao = new CompanyDAO();
-		
+
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
-		
+
 		String yahooId = uuid;
 		String name = "Total SA";
 		Market market = Market.PARIS;
@@ -53,9 +53,9 @@ public class CompanyDaoImplTest {
 		company.setYahooId(yahooId);
 		company.setYield(yield);
 		company.setRealTime(true);
-		company.setFund(false);
+		company.setFound(false);
 		dao.insert(company);
-		
+
 		company = dao.selectWithYahooId(yahooId);
 		assertEquals(yahooId, company.getYahooId());
 		assertEquals(name, company.getName());
@@ -66,14 +66,14 @@ public class CompanyDaoImplTest {
 		assertEquals(quote, company.getQuote(), 0.00001);
 		assertEquals(yield, company.getYield(), 0.00001);
 		assertEquals(true, company.getRealTime());
-		assertEquals(false, company.getFund());
-		
+		assertEquals(false, company.getFound());
+
 		company.setCurrency(Currency.USD);
 		dao.update(company);
-		
+
 		company = dao.selectWithYahooId(yahooId);
 		assertEquals(Currency.USD, company.getCurrency());
-		
+
 		dao.delete(company);
 		company = dao.selectWithYahooId(yahooId);
 		assertNull(company);

@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,68 +16,47 @@
 
 package fr.cph.stock.entities;
 
-import java.sql.Timestamp;
-
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 
+import java.sql.Timestamp;
+
 /**
  * This class represents a company
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class Company {
 
-	/** Id **/
 	private int id;
-	/** Yahoo id, example, total would be "FP.PA" **/
 	private String yahooId;
-	/** Name of the company **/
 	private String name;
-	/** Market of the company **/
 	private Market market;
-	/** Currency **/
 	private Currency currency;
-	/** Sector **/
 	private String sector;
-	/** Industry **/
 	private String industry;
-	/** Current quote **/
 	private double quote;
-	/** Yield **/
 	private double yield;
-	/** Market capitalization **/
 	private String marketCapitalization;
-	/** Quote yesterday **/
 	private Double yesterdayClose;
-	/** change in percent since yesterday **/
 	private String changeInPercent;
-	/** Year lowest **/
 	private Double yearLow;
-	/** Year High **/
 	private Double yearHigh;
-	/** Min gap **/
 	private Double minGap;
-	/** Max gap **/
 	private Double maxGap;
-	/** Is this comapny under read time data **/
+	/** Is this company under read time data **/
 	private Boolean realTime;
-	/** Is it a found **/
-	private Boolean fund;
-	/** Last update **/
+	private Boolean found;
 	private Timestamp lastUpdate;
-	/** **/
 	private Double change;
-	/** **/
 	private Double gapYearLow;
-	/** **/
 	private Double gapYearHigh;
 	/** Manually used by user **/
 	private Boolean manual;
 
 	/**
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -388,18 +367,18 @@ public class Company {
 	}
 
 	/**
-	 * @return the fund
+	 * @return the found
 	 */
-	public final Boolean getFund() {
-		return fund;
+	public final Boolean getFound() {
+		return found;
 	}
 
 	/**
-	 * @param fund
-	 *            the fund
+	 * @param found
+	 *            the found
 	 */
-	public final void setFund(final Boolean fund) {
-		this.fund = fund;
+	public final void setFound(final Boolean found) {
+		this.found = found;
 	}
 
 	/**
@@ -430,11 +409,11 @@ public class Company {
 	@Override
 	public final String toString() {
 		return "Company [id=" + id + ", yahooId=" + yahooId + ", name=" + name + ", market=" + market + ", currency=" + currency
-				+ ", sector=" + sector + ", industry=" + industry + ", quote=" + quote + ", yield=" + yield
-				+ ", marketCapitalization=" + marketCapitalization + ", yesterdayClose=" + yesterdayClose + ", changeInPercent="
-				+ changeInPercent + ", yearLow=" + yearLow + ", yearHigh=" + yearHigh + ", minGap=" + minGap + ", maxGap="
-				+ maxGap + ", realTime=" + realTime + ", fund=" + fund + ", lastUpdate=" + lastUpdate + ", change=" + change
-				+ ", gapYearLow=" + gapYearLow + ", gapYearHigh=" + gapYearHigh + "]";
+			+ ", sector=" + sector + ", industry=" + industry + ", quote=" + quote + ", yield=" + yield
+			+ ", marketCapitalization=" + marketCapitalization + ", yesterdayClose=" + yesterdayClose + ", changeInPercent="
+			+ changeInPercent + ", yearLow=" + yearLow + ", yearHigh=" + yearHigh + ", minGap=" + minGap + ", maxGap="
+			+ maxGap + ", realTime=" + realTime + ", found=" + found + ", lastUpdate=" + lastUpdate + ", change=" + change
+			+ ", gapYearLow=" + gapYearLow + ", gapYearHigh=" + gapYearHigh + "]";
 	}
 
 	public Boolean getManual() {

@@ -40,7 +40,7 @@ public class PortfolioDaoImplTest {
 	private CompanyDAO daoCompany;
 	private EquityDAO daoEquity;
 	private Equity equity;
-	
+
 	@Before
 	public void setUp(){
 		daoUser = new UserDAO();
@@ -50,52 +50,52 @@ public class PortfolioDaoImplTest {
 		daoUser.insert(user);
 		user = daoUser.selectWithLogin(uuid);
 	}
-	
+
 	@After
 	public void after(){
 		daoUser.delete(user);
 	}
-	
+
 	@Test
 	public void testCRUDPortfolio(){
 		PortfolioDAO dao = new PortfolioDAO();
-		
+
 		int userId = user.getId();
 
 		Portfolio portfolio = new Portfolio();
 		portfolio.setUserId(userId);
 		portfolio.setCurrency(Currency.EUR);
 		dao.insert(portfolio);
-		
+
 		Portfolio port  = dao.selectPortfolioFromUserIdWithEquities(userId, null, null);
 		assertEquals(userId, port.getUserId());
 		assertEquals(Currency.EUR, port.getCurrency());
-		
+
 		port.setCurrency(Currency.USD);
 		dao.update(port);
-		
+
 		port = dao.selectPortfolioFromUserIdWithEquities(userId, null, null);
 		assertEquals(userId, port.getUserId());
 		assertEquals(Currency.USD, port.getCurrency());
-		
+
 		dao.delete(port);
 		portfolio = dao.select(port.getId());
 		assertNull(portfolio);
 	}
-	
+
 	@Test
 	public void testselectPortfolioFromUser(){
 		PortfolioDAO dao = new PortfolioDAO();
-		
+
 		daoEquity  = new EquityDAO();
-		
+
 		daoCompany = new CompanyDAO();
 		portfolio = new Portfolio();
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());
 		dao.insert(portfolio);
 		portfolio = dao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
-		
+
 		company = new Company();
 		company.setCurrency(Currency.USD);
 		company.setIndustry("Dunno");
@@ -106,22 +106,22 @@ public class PortfolioDaoImplTest {
 		company.setYahooId("NK.ECA");
 		company.setYield(5.0);
 		company.setRealTime(true);
-		company.setFund(false);
+		company.setFound(false);
 		daoCompany.insert(company);
 		company = daoCompany.selectWithYahooId("NK.ECA");
-		
+
 		daoEquity = new EquityDAO();
 		equity =  new Equity();
 		equity.setPortfolioId(portfolio.getId());
 		equity.setCompany(company);
 		equity.setCompanyId(company.getId());
-		
+
 		equity.setQuantity(17.0);
 		equity.setUnitCostPrice(4.5);
 		equity.setParity(1.0);
-		
+
 		daoEquity.insert(equity);
-		
+
 		portfolio = dao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		assertEquals(1, portfolio.getEquities().size());
 		equity = portfolio.getEquities().get(0);
@@ -131,6 +131,6 @@ public class PortfolioDaoImplTest {
 		dao.delete(portfolio);
 		daoEquity.delete(equity);
 	}
-	
-	
+
+
 }

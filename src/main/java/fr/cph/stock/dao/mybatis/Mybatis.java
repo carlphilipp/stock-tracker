@@ -16,15 +16,15 @@
 
 package fr.cph.stock.dao.mybatis;
 
-import java.io.InputStream;
-
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import java.io.InputStream;
+
 /**
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 
 public final class Mybatis {
@@ -33,7 +33,6 @@ public final class Mybatis {
 	private Mybatis() {
 	}
 
-	/** **/
 	private static final SqlSessionFactory SQL_SESSION_FACTORY;
 
 	static {
@@ -48,7 +47,7 @@ public final class Mybatis {
 
 	/**
 	 * Get a session factory
-	 * 
+	 *
 	 * @return a sql session factory
 	 */
 	public static SqlSessionFactory getSqlMapInstance() {

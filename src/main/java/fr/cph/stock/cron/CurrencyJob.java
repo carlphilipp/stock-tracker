@@ -34,7 +34,6 @@ public class CurrencyJob implements Job {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(CurrencyJob.class);
-	/** **/
 	private Business business;
 
 	/** Constructor **/

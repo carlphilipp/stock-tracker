@@ -31,12 +31,10 @@ public enum Currency {
 	AUD("Australia Dollar", "$", "AUD"),
 	CAD("Canada Dollar", "$", "CAD"),
 	// CHF("Switzerland Franc", "CHF", "CHF"),
-	/** **/
 	EUR("Euro", "€", "EUR"),
 	GBP("United Kingdom Pound", "£", "GBP"),
 	// HKD("Hong Kong Dollar", "$", "HKD"),
 	// SGD("Singapore Dollar", "$", "SGD"),
-	/** **/
 	USD("United States Dollar", "$", "USD");
 	// ZAR("South Africa Rand", "R", "ZAR");
 

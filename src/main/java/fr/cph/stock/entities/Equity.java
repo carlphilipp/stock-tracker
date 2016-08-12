@@ -16,26 +16,25 @@
 
 package fr.cph.stock.entities;
 
+import fr.cph.stock.enumtype.Frequency;
+import fr.cph.stock.enumtype.MarketCapitalization;
+import fr.cph.stock.enumtype.Month;
+import net.sf.json.JSONObject;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.Date;
 
-import net.sf.json.JSONObject;
-import fr.cph.stock.enumtype.Frequency;
-import fr.cph.stock.enumtype.MarketCapitalization;
-import fr.cph.stock.enumtype.Month;
-
 /**
  * This class represents an equity
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class Equity implements Comparable<Equity> {
 
 	/** Precision for calculation **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
-	/** **/
 	private static final int PERCENT = 100;
 	/** Company **/
 	private Company company;
@@ -66,7 +65,7 @@ public class Equity implements Comparable<Equity> {
 	/** Stop loss **/
 	private Double stopLossLocal;
 	/** Objective **/
-	private Double objectivLocal;
+	private Double objectiveLocal;
 	/** Yield Frequency **/
 	private Frequency yieldFrequency;
 	/** Yield month **/
@@ -100,19 +99,19 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Calculation of gap objective
-	 * 
+	 *
 	 * @return the cap
 	 */
 	public final Double getGapObjectivLocal() {
-		if (gapObjectivLocal == null && getObjectivLocal() != null) {
-			gapObjectivLocal = (getObjectivLocal() / company.getQuote() - 1) * PERCENT;
+		if (gapObjectivLocal == null && getObjectiveLocal() != null) {
+			gapObjectivLocal = (getObjectiveLocal() / company.getQuote() - 1) * PERCENT;
 		}
 		return gapObjectivLocal;
 	}
 
 	/**
 	 * Get current value
-	 * 
+	 *
 	 * @return the value
 	 */
 	public final Double getValue() {
@@ -125,7 +124,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get plus minus value / unit cost price
-	 * 
+	 *
 	 * @return the plus minus value
 	 */
 	public final Double getPlusMinusUnitCostPriceValue() {
@@ -137,7 +136,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get yield by year
-	 * 
+	 *
 	 * @return a yield
 	 */
 	public final Double getYieldYear() {
@@ -149,7 +148,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get plus minus value
-	 * 
+	 *
 	 * @return the plus minus value
 	 */
 	public final Double getPlusMinusValue() {
@@ -165,7 +164,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get Yield unit cost price
-	 * 
+	 *
 	 * @return the yield
 	 */
 	public final Double getYieldUnitCostPrice() {
@@ -177,7 +176,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get gap stop loss
-	 * 
+	 *
 	 * @return the gap
 	 */
 	public final Double getGapStopLossLocal() {
@@ -189,19 +188,19 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get gap objective
-	 * 
+	 *
 	 * @return the gap
 	 */
 	public final Double getGapObjectiv() {
 		if (gapObjectivLocal == null) {
-			gapObjectivLocal = (getObjectivLocal() / company.getQuote() - 1) * PERCENT;
+			gapObjectivLocal = (getObjectiveLocal() / company.getQuote() - 1) * PERCENT;
 		}
 		return gapObjectivLocal;
 	}
 
 	/**
 	 * Set objective
-	 * 
+	 *
 	 * @param gapObjectivLocal
 	 *            the gap objective
 	 */
@@ -211,7 +210,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get Market capitalization
-	 * 
+	 *
 	 * @return the market cap in decimal
 	 */
 	public final BigDecimal getMarketCapitalizationLocal() {
@@ -228,7 +227,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get market capitalization type
-	 * 
+	 *
 	 * @return the market capitalization
 	 */
 	public final MarketCapitalization getMarketCapitalizationType() {
@@ -257,7 +256,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get Market capitalization
-	 * 
+	 *
 	 * @return the market cap in decimal
 	 */
 	public final BigDecimal getMarketCapitalizationInBigDecimal() {
@@ -303,7 +302,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get company
-	 * 
+	 *
 	 * @return the company
 	 */
 	public final Company getCompany() {
@@ -312,7 +311,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set company
-	 * 
+	 *
 	 * @param company
 	 *            the company
 	 */
@@ -322,7 +321,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get quantity
-	 * 
+	 *
 	 * @return the quantity
 	 */
 	public final Double getQuantity() {
@@ -331,7 +330,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set quantity
-	 * 
+	 *
 	 * @param quantity
 	 *            the quantity
 	 */
@@ -341,7 +340,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get unit cost price
-	 * 
+	 *
 	 * @return the unit cost price
 	 */
 	public final Double getUnitCostPrice() {
@@ -350,7 +349,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set unit cost price
-	 * 
+	 *
 	 * @param unitCostPrice
 	 *            the unit cost price
 	 */
@@ -360,7 +359,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get parity
-	 * 
+	 *
 	 * @return the parity
 	 */
 	public final double getParity() {
@@ -369,7 +368,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set parity
-	 * 
+	 *
 	 * @param parity
 	 *            the parity
 	 */
@@ -379,7 +378,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get yield personal
-	 * 
+	 *
 	 * @return the yield personal
 	 */
 	public final Double getYieldPersonal() {
@@ -388,7 +387,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set yield personal
-	 * 
+	 *
 	 * @param yieldPersonal
 	 *            the yield personal
 	 */
@@ -398,7 +397,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get stop loss
-	 * 
+	 *
 	 * @return the stop loss
 	 */
 	public final Double getStopLossLocal() {
@@ -407,7 +406,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set stop loss
-	 * 
+	 *
 	 * @param stopLossLocal
 	 *            the stop loss
 	 */
@@ -417,26 +416,26 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get objective
-	 * 
+	 *
 	 * @return the objective
 	 */
-	public final Double getObjectivLocal() {
-		return objectivLocal;
+	public final Double getObjectiveLocal() {
+		return objectiveLocal;
 	}
 
 	/**
 	 * Set objective
-	 * 
-	 * @param objectivLocal
+	 *
+	 * @param objectiveLocal
 	 *            the objective
 	 */
-	public final void setObjectivLocal(final Double objectivLocal) {
-		this.objectivLocal = objectivLocal;
+	public final void setObjectiveLocal(final Double objectiveLocal) {
+		this.objectiveLocal = objectiveLocal;
 	}
 
 	/**
 	 * Get yield frequency
-	 * 
+	 *
 	 * @return the frequency
 	 */
 	public final Frequency getYieldFrequency() {
@@ -445,7 +444,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set yield frequency
-	 * 
+	 *
 	 * @param yieldFrequency
 	 *            the frequency
 	 */
@@ -455,7 +454,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get the yield month
-	 * 
+	 *
 	 * @return the month
 	 */
 	public final Month getYieldMonth() {
@@ -464,7 +463,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set yield per month
-	 * 
+	 *
 	 * @param yieldMonth
 	 *            the yield per month
 	 */
@@ -474,7 +473,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set id
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 */
@@ -484,7 +483,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get id
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -493,7 +492,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get company id
-	 * 
+	 *
 	 * @return the company id
 	 */
 	public final int getCompanyId() {
@@ -502,7 +501,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set company id
-	 * 
+	 *
 	 * @param companyId
 	 *            the id
 	 */
@@ -512,7 +511,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get pertofolio id
-	 * 
+	 *
 	 * @return the portfolio id
 	 */
 	public final int getPortfolioId() {
@@ -521,7 +520,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set portfolio id
-	 * 
+	 *
 	 * @param portfolioId
 	 *            the id
 	 */
@@ -531,7 +530,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get sector personal
-	 * 
+	 *
 	 * @return the personal sector
 	 */
 	public final String getSectorPersonal() {
@@ -540,7 +539,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get current sector
-	 * 
+	 *
 	 * @return the current sector
 	 */
 	public final String getCurrentSector() {
@@ -555,7 +554,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set personal sector
-	 * 
+	 *
 	 * @param sectorPersonal
 	 *            the personal sector
 	 */
@@ -565,7 +564,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get personal industry
-	 * 
+	 *
 	 * @return the industry
 	 */
 	public final String getIndustryPersonal() {
@@ -574,7 +573,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get current industry
-	 * 
+	 *
 	 * @return the current industry
 	 */
 	public final String getCurrentIndustry() {
@@ -589,7 +588,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set personal industry
-	 * 
+	 *
 	 * @param industryPersonal
 	 *            the industry
 	 */
@@ -599,7 +598,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get market cap personal
-	 * 
+	 *
 	 * @return the market cap
 	 */
 	public final String getMarketCapPersonal() {
@@ -608,7 +607,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get current market capitalization
-	 * 
+	 *
 	 * @return the current market cap
 	 */
 	public final String getCurrentMarketCap() {
@@ -623,7 +622,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set market capitalization personal
-	 * 
+	 *
 	 * @param marketCapPersonal
 	 *            the market cap personnal
 	 */
@@ -633,7 +632,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set market capitalization
-	 * 
+	 *
 	 * @param marketCapitalizationType
 	 *            the market cpitalization type
 	 */
@@ -643,7 +642,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get original value
-	 * 
+	 *
 	 * @return the original value
 	 */
 	public final Double getOriginalValue() {
@@ -655,7 +654,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set original value
-	 * 
+	 *
 	 * @param originalValue
 	 *            the original value
 	 */
@@ -665,7 +664,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get current pru yield
-	 * 
+	 *
 	 * @return the yield
 	 */
 	public final Double getCurrentPruYield() {
@@ -689,7 +688,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get current yield
-	 * 
+	 *
 	 * @return the current yield
 	 */
 	public final Double getCurrentYield() {
@@ -709,7 +708,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get personal parity
-	 * 
+	 *
 	 * @return the parity
 	 */
 	public final Double getParityPersonal() {
@@ -722,7 +721,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set personal parity
-	 * 
+	 *
 	 * @param parityPersonal
 	 *            the parity
 	 */
@@ -732,7 +731,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get current parity. If personal parity is null, will return company today parity
-	 * 
+	 *
 	 * @return the current parity
 	 */
 	public final Double getCurrentParity() {
@@ -747,7 +746,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get last update
-	 * 
+	 *
 	 * @return the date
 	 */
 	public final Date getLastUpdate() {
@@ -756,7 +755,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set last update
-	 * 
+	 *
 	 * @param lastUpdate
 	 *            a date
 	 */
@@ -766,7 +765,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get personal name
-	 * 
+	 *
 	 * @return the personal name
 	 */
 	public final String getNamePersonal() {
@@ -775,7 +774,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Set personal name
-	 * 
+	 *
 	 * @param namePersonal
 	 *            the name
 	 */
@@ -785,7 +784,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get current name. Return company name if personnal name is null
-	 * 
+	 *
 	 * @return the current name
 	 */
 	public final String getCurrentName() {
@@ -800,7 +799,7 @@ public class Equity implements Comparable<Equity> {
 
 	/**
 	 * Get a jsonObject of the equity
-	 * 
+	 *
 	 * @return a JSONObject
 	 */
 	public final JSONObject getJSONObject() {
@@ -820,7 +819,7 @@ public class Equity implements Comparable<Equity> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -834,7 +833,7 @@ public class Equity implements Comparable<Equity> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override

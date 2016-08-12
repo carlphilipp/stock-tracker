@@ -37,31 +37,12 @@ import java.util.Properties;
  */
 public final class Mail {
 
-	/**
-	 * The logger
-	 **/
 	private static final Logger LOG = Logger.getLogger(Mail.class);
-	/**
-	 * Smtp host
-	 **/
 	private static String smtpHostName;
-	/**
-	 * Smtp port
-	 **/
 	private static String smtpPort;
-	/** **/
 	private static String emailFromUserName;
-	/**
-	 * Email of the sender
-	 **/
 	private static String emailFrom;
-	/**
-	 * Password of the sender
-	 **/
 	private static String passwordFrom;
-	/**
-	 * SSL factory
-	 **/
 	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
 	/**

@@ -155,7 +155,7 @@ public class ModifyEquityServlet extends HttpServlet {
 		equity.setQuantity(quantity);
 		equity.setUnitCostPrice(unitCostPrice);
 		equity.setStopLossLocal(stopLoss);
-		equity.setObjectivLocal(objective);
+		equity.setObjectiveLocal(objective);
 		equity.setYieldPersonal(yieldPersonal);
 		equity.setParityPersonal(parityPersonal);
 		equityBusiness.updateEquity(userId, ticker, equity);

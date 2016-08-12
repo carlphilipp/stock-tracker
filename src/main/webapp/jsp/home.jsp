@@ -1,19 +1,19 @@
-<!--  
+<!--
   Copyright 2013 Carl-Philipp Harmant
- 
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
       http://www.apache.org/licenses/LICENSE-2.0
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
- 
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -30,12 +30,12 @@
 <script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript">
-$(document).ready(function() { 
-    // call the tablesorter plugin 
-    $("table").tablesorter({ 
-        // define a custom text extraction function 
+$(document).ready(function() {
+    // call the tablesorter plugin
+    $("table").tablesorter({
+        // define a custom text extraction function
         sortList: [[0,0]],
-        textExtraction: function(node) { 	
+        textExtraction: function(node) {
 		var size = node.childNodes.length;
 		if(size == 5){
 			var percent = node.childNodes[3].innerHTML;
@@ -58,9 +58,9 @@ $(document).ready(function() {
 				}
 			}
 	    	}
-        } 
-    }); 
-});  
+        }
+    });
+});
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link type="text/css" rel="stylesheet" href="./style.css" />
@@ -335,7 +335,7 @@ $(document).ready(function() {
 				<br>
 				${language['PORTFOLIO_LIQUIDITY']}: <span class="liquidity bold"><fmt:formatNumber type="currency" value="${portfolio.liquidity }" maxFractionDigits="2" currencySymbol="${portfolio.currency.symbol }"/></span>
 				| ${language['PORTFOLIO_YIELDYEAR']}: <span class="yield bold">
-					<fmt:formatNumber type="currency" maxFractionDigits="0" value="${portfolio.yieldYear}" currencySymbol="${portfolio.currency.symbol }"/> 
+					<fmt:formatNumber type="currency" maxFractionDigits="0" value="${portfolio.yieldYear}" currencySymbol="${portfolio.currency.symbol }"/>
 					(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.yieldYearPerc}" />%)
 				</span>
 				<br>
@@ -351,16 +351,16 @@ $(document).ready(function() {
 				| Today:
 					<c:choose>
 						<c:when test="${portfolio.totalGainToday < 0}">
-							<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif" alt="Down"> 
+							<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif" alt="Down">
 							<span class="cQuoteDown shareValue"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="0" value="${portfolio.totalGainTodayAbsolute }" /> </span>
 						</c:when>
 						<c:otherwise>
-							<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up"> 
+							<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up">
 							<span class="cQuoteUp shareValue"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="0" value="${portfolio.totalGainToday }" /> </span>
 						</c:otherwise>
 					</c:choose>
 					<c:choose>
-						<c:when test="${portfolio.totalVariation < 0}">	
+						<c:when test="${portfolio.totalVariation < 0}">
 							<span class="cQuoteDown shareValue">(<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.totalVariation }" />%)</span>
 						</c:when>
 						<c:otherwise>
@@ -436,17 +436,17 @@ $(document).ready(function() {
 								<c:if test="${equity.company.manual == false }">
 								   (${equity.company.yahooId})
 								</c:if>
-								[<a href="javascript:poufpouf('${equity.company.yahooId}')">${language['PORTFOLIO_INFO']}</a>] 
+								[<a href="javascript:poufpouf('${equity.company.yahooId}')">${language['PORTFOLIO_INFO']}</a>]
 								<c:choose>
 								  <c:when test="${equity.company.manual == false }">
-								    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateTicker('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+								    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateTicker('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectiveLocal}');return false">${language['PORTFOLIO_MODIFY']}</a>]
                   </c:when>
                   <c:otherwise>
-                    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateManual('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}','${equity.company.id}', '${equity.company.quote}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+                    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateManual('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectiveLocal}','${equity.company.id}', '${equity.company.quote}');return false">${language['PORTFOLIO_MODIFY']}</a>]
                   </c:otherwise>
 								</c:choose>
-									<span id="${equity.company.yahooId}" class="companyInfo" style="display: none;"> 
-											<br> - 
+									<span id="${equity.company.yahooId}" class="companyInfo" style="display: none;">
+											<br> -
 												<c:choose>
 												<c:when test="${!empty equity.currentSector}">
 													${equity.currentSector}
@@ -459,14 +459,14 @@ $(document).ready(function() {
 													</c:when>
 													<c:otherwise>Unknown industry</c:otherwise>
 												</c:choose>
-											<br> - 
+											<br> -
 												<c:choose>
 													<c:when test="${!empty equity.currentMarketCap}">
 														${equity.currentMarketCap} ${equity.company.currency.symbol} (${equity.marketCapitalizationType.value})
 													</c:when>
 													<c:otherwise>Unknown market cap</c:otherwise>
 												</c:choose>
-											<br> - <fmt:formatDate value="${equity.company.lastUpdate}" pattern="${user.datePattern }"/>	
+											<br> - <fmt:formatDate value="${equity.company.lastUpdate}" pattern="${user.datePattern }"/>
 									</span>
 							</td>
 							<td class="tdRight"><fmt:formatNumber type="number" value="${equity.quantity}" maxFractionDigits="0" /></td>
@@ -513,24 +513,24 @@ $(document).ready(function() {
                   </c:otherwise>
                  </c:choose>
 							 </c:otherwise>
-							</c:choose>							
+							</c:choose>
 							</td>
 							<td class="tdRight">
 								<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.value / (portfolio.totalValue-portfolio.liquidity) * 100}" />%
 							</td>
 								<c:if test="${cookie.yield1.value == 'checked' }">
 							<td class="tdRight"><c:if test="${equity.currentYield != 0}">
-									<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.currentYield}" />% 
+									<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.currentYield}" />%
 									<c:if test="${!empty equity.yieldPersonal}">
 										*
 									</c:if>
-									
+
 								</c:if></td>
 								</c:if>
 							<c:if test="${cookie.yield2.value == 'checked' }">
 							<td class="tdRight"><c:if test="${equity.yieldUnitCostPrice != 0}">
 									<fmt:formatNumber type="number" maxFractionDigits="0" value="${equity.yieldYear}" /><br>
-									<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.yieldUnitCostPrice}" />% 
+									<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.yieldUnitCostPrice}" />%
 								</c:if></td>
 								</c:if>
 							<td class="tdRight">
@@ -563,7 +563,7 @@ $(document).ready(function() {
 								</c:if>
 							<c:if test="${cookie.objective.value == 'checked' }">
 							<td class="tdRight"><c:if test="${!empty equity.gapObjectivLocal}">
-									<fmt:formatNumber type="number" minFractionDigits="3" value="${equity.objectivLocal}" />
+									<fmt:formatNumber type="number" minFractionDigits="3" value="${equity.objectiveLocal}" />
 									<br>
 									<c:choose>
 										<c:when test="${equity.gapObjectivLocal < 0 }">
@@ -589,16 +589,16 @@ $(document).ready(function() {
 						<h2 style="margin-top: 5px;">
 							${language['PORTFOLIO_CHARTTITLE']}
 						</h2>
-						
+
 						<span id="graphTop">[ <a href="home#shareValue">${language['PORTFOLIO_ALL']}</a> - <a href="home?days=1825#shareValue">${language['PORTFOLIO_FIVEYEARS']}</a> - <a href="home?days=730#shareValue">${language['PORTFOLIO_TWOYEARS']}</a> - <a href="home?days=365#shareValue">${language['PORTFOLIO_ONEYEAR']}</a> - <a href="home?days=183#shareValue">${language['PORTFOLIO_SIXMONTHS']}</a> - <a href="home?days=90#shareValue">${language['PORTFOLIO_THREEMONTHS']}</a> - <a href="home?days=30#shareValue">${language['PORTFOLIO_ONEMONTH']}</a> - <a href="home?days=7#shareValue">${language['PORTFOLIO_ONEWEEK']}</a> ]</span>
 						<div id="graphicShareValue" class="shadow"></div>
-						
+
 						<br><br>
-						
+
 						<h2 style="margin-top: 5px;">
 							${language['PORTFOLIO_CHARTTITLEVALUE']}
 						</h2>
-						
+
 						<span id="graphTop2">[ <a href="home#shareValue">${language['PORTFOLIO_ALL']}</a> - <a href="home?days=1825#shareValue">${language['PORTFOLIO_FIVEYEARS']}</a> - <a href="home?days=730#shareValue">${language['PORTFOLIO_TWOYEARS']}</a> - <a href="home?days=365#shareValue">${language['PORTFOLIO_ONEYEAR']}</a> - <a href="home?days=183#shareValue">${language['PORTFOLIO_SIXMONTHS']}</a> - <a href="home?days=90#shareValue">${language['PORTFOLIO_THREEMONTHS']}</a> - <a href="home?days=30#shareValue">${language['PORTFOLIO_ONEMONTH']}</a> - <a href="home?days=7#shareValue">${language['PORTFOLIO_ONEWEEK']}</a> ]</span>
 						<div id="graphicShareValue2" class="shadow"></div>
 					</c:if>

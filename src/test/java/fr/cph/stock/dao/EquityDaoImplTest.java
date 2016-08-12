@@ -67,7 +67,7 @@ public class EquityDaoImplTest {
 		company.setYahooId("NK.ECA");
 		company.setYield(5.0);
 		company.setRealTime(true);
-		company.setFund(false);
+		company.setFound(false);
 		daoCompany.insert(company);
 		company = daoCompany.selectWithYahooId("NK.ECA");
 	}
