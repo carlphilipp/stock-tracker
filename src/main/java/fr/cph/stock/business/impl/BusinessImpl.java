@@ -43,14 +43,14 @@ import java.util.*;
  * @author Carl-Philipp Harmant
  * @version 1
  */
-public final class BusinessImpl implements fr.cph.stock.business.Business {
+public enum BusinessImpl implements Business {
+
+	INSTANCE;
 
 	private static final Logger LOG = Logger.getLogger(BusinessImpl.class);
-	private static final Object LOCK = new Object();
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
 	private static final int PAUSE = 1000;
-	private static BusinessImpl BUSINESS;
 
 	private final IExternalDataAccess yahoo;
 	private final CompanyDAO daoCompany;
@@ -64,7 +64,7 @@ public final class BusinessImpl implements fr.cph.stock.business.Business {
 
 	private final CompanyBusiness companyBusiness;
 
-	private BusinessImpl() {
+	BusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
 		daoCompany = new CompanyDAO();
 		daoPortfolio = new PortfolioDAO();
@@ -74,25 +74,8 @@ public final class BusinessImpl implements fr.cph.stock.business.Business {
 		daoIndex = new IndexDAO();
 		daoFollow = new FollowDAO();
 		daoAccount = new AccountDAO();
-		companyBusiness = CompanyBusinessImpl.getInstance();
+		companyBusiness = CompanyBusinessImpl.INSTANCE;
 	}
-
-	/**
-	 * Static singleton getter
-	 *
-	 * @return a BusinessImpl instance
-	 */
-	public static Business getInstance() {
-		if (BUSINESS == null) {
-			synchronized (LOCK) {
-				if (BUSINESS == null) {
-					BUSINESS = new BusinessImpl();
-				}
-			}
-		}
-		return BUSINESS;
-	}
-
 
 	// Follow
 	@Override

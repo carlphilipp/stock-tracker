@@ -16,16 +16,15 @@
 
 package fr.cph.stock.cron;
 
-import java.util.Calendar;
-import java.util.TimeZone;
-
 import fr.cph.stock.business.Business;
 import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.exception.YahooException;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
-import fr.cph.stock.exception.YahooException;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 /**
  * Job that update user's share value
@@ -42,7 +41,7 @@ public class UserJob implements Job {
 
 	/** Constructor **/
 	public UserJob() {
-		business = BusinessImpl.getInstance();
+		business = BusinessImpl.INSTANCE;
 	}
 
 	@Override

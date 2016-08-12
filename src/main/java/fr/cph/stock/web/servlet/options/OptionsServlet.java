@@ -53,8 +53,8 @@ public class OptionsServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.getInstance();
-		this.language = LanguageFactory.getInstance();
+		this.business = BusinessImpl.INSTANCE;
+		this.language = LanguageFactory.INSTANCE;
 		this.formatList = Arrays.asList(Locale.getISOLanguages());
 		Collections.sort(formatList);
 		this.timeZoneList = Arrays.asList(TimeZone.getAvailableIDs());

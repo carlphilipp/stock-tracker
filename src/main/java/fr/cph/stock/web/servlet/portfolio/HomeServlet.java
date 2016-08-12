@@ -72,8 +72,8 @@ public class HomeServlet extends HttpServlet {
 			LOG.error(e.getMessage(), e);
 		}
 
-		this.business = BusinessImpl.getInstance();
-		this.language = LanguageFactory.getInstance();
+		this.business = BusinessImpl.INSTANCE;
+		this.language = LanguageFactory.INSTANCE;
 	}
 
 	@Override

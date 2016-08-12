@@ -49,7 +49,7 @@ public class LostServlet extends HttpServlet {
 	/** Init **/
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.getInstance();
+		this.business = BusinessImpl.INSTANCE;
 	}
 
 	@Override

@@ -20,29 +20,18 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class CompanyBusinessImpl implements CompanyBusiness {
+public enum CompanyBusinessImpl implements CompanyBusiness {
+
+	INSTANCE;
 
 	private static final Logger LOG = Logger.getLogger(CompanyBusinessImpl.class);
-	private static final Object LOCK = new Object();
-	private static CompanyBusinessImpl BUSINESS;
 	private static final int MAX_UPDATE_COMPANY = 15;
 	private static final int PAUSE = 1000;
 
 	private final CompanyDAO daoCompany;
 	private final IExternalDataAccess yahoo;
 
-	public static CompanyBusiness getInstance() {
-		if (BUSINESS == null) {
-			synchronized (LOCK) {
-				if (BUSINESS == null) {
-					BUSINESS = new CompanyBusinessImpl();
-				}
-			}
-		}
-		return BUSINESS;
-	}
-
-	private CompanyBusinessImpl() {
+	CompanyBusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
 		daoCompany = new CompanyDAO();
 	}

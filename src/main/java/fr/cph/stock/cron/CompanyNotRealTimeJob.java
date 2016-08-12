@@ -37,7 +37,7 @@ public class CompanyNotRealTimeJob implements Job {
 	 * Constructor
 	 **/
 	public CompanyNotRealTimeJob() {
-		business = CompanyBusinessImpl.getInstance();
+		business = CompanyBusinessImpl.INSTANCE;
 	}
 
 	@Override

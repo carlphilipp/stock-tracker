@@ -50,7 +50,7 @@ public class AuthServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		business = BusinessImpl.getInstance();
+		business = BusinessImpl.INSTANCE;
 		lcookies = new ArrayList<>();
 		lcookies.add(QUOTE);
 		lcookies.add(CURRENCY);

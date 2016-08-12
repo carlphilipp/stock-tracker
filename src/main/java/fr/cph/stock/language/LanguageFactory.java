@@ -26,41 +26,14 @@ import java.util.Map;
  *
  * @author Carl-Philipp Harmant
  */
-public final class LanguageFactory {
+public enum LanguageFactory {
 
-	private static final Object LOCK = new Object();
-	/**
-	 * The factory
-	 **/
-	private static LanguageFactory LANGUAGE_FACTORY;
+	INSTANCE;
+
 	/**
 	 * The result LANGUAGE_MAP
 	 **/
 	private static Map<String, Map<String, String>> LANGUAGE_MAP;
-
-	/**
-	 * Constructor to lock the construction of the object
-	 */
-	private LanguageFactory() {
-	}
-
-	/**
-	 * Access to the factory from outside
-	 *
-	 * @return a LanguageFactory
-	 * @throws LanguageException the language exception
-	 */
-	public static LanguageFactory getInstance() {
-		if (LANGUAGE_FACTORY == null) {
-			synchronized (LOCK) {
-				if (LANGUAGE_FACTORY == null) {
-					LANGUAGE_FACTORY = new LanguageFactory();
-					LANGUAGE_MAP = getLanguageMap();
-				}
-			}
-		}
-		return LANGUAGE_FACTORY;
-	}
 
 	/**
 	 * Get the language LANGUAGE_MAP

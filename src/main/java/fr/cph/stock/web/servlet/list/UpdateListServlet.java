@@ -57,9 +57,9 @@ public class UpdateListServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		business = BusinessImpl.getInstance();
-		companyBusiness = CompanyBusinessImpl.getInstance();
-		language = LanguageFactory.getInstance();
+		business = BusinessImpl.INSTANCE;
+		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
 	}
 
 	@Override

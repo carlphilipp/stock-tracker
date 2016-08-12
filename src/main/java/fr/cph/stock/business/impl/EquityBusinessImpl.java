@@ -1,6 +1,5 @@
 package fr.cph.stock.business.impl;
 
-import fr.cph.stock.business.Business;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
 import fr.cph.stock.dao.CompanyDAO;
@@ -15,32 +14,17 @@ import fr.cph.stock.exception.YahooException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
-public class EquityBusinessImpl implements EquityBusiness {
+public enum EquityBusinessImpl implements EquityBusiness {
 
-	private static final Object LOCK = new Object();
-	private static EquityBusiness BUSINESS;
+	INSTANCE;
 
-	private final Business business;
 	private final CompanyBusiness companyBusiness;
 	private final EquityDAO daoEquity;
 	private final PortfolioDAO daoPortfolio;
 	private final CompanyDAO daoCompany;
 
-	public static EquityBusiness getInstance() {
-		if (BUSINESS == null) {
-			synchronized (LOCK) {
-				if (BUSINESS == null) {
-					BUSINESS = new EquityBusinessImpl();
-				}
-			}
-		}
-		return BUSINESS;
-	}
-
-	private EquityBusinessImpl() {
-		business = BusinessImpl.getInstance();
-		companyBusiness = CompanyBusinessImpl.getInstance();
-
+	EquityBusinessImpl() {
+		companyBusiness = CompanyBusinessImpl.INSTANCE;
 		daoEquity = new EquityDAO();
 		daoPortfolio = new PortfolioDAO();
 		daoCompany = new CompanyDAO();

@@ -16,10 +16,8 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import fr.cph.stock.business.Business;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
 import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.entities.Company;
@@ -54,17 +52,15 @@ public class AddEquityServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4917456731220463031L;
 	private static final Logger LOG = Logger.getLogger(AddEquityServlet.class);
-	private Business business;
 	private CompanyBusiness companyBusiness;
 	private EquityBusiness equityBusiness;
 	private LanguageFactory languageFactory;
 
 	@Override
 	public final void init() {
-		business = BusinessImpl.getInstance();
-		equityBusiness = EquityBusinessImpl.getInstance();
-		companyBusiness = CompanyBusinessImpl.getInstance();
-		languageFactory = LanguageFactory.getInstance();
+		equityBusiness = EquityBusinessImpl.INSTANCE;
+		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		languageFactory = LanguageFactory.INSTANCE;
 	}
 
 	@Override

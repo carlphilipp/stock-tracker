@@ -44,7 +44,7 @@ public class AuthMobileServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		this.business = BusinessImpl.getInstance();
+		this.business = BusinessImpl.INSTANCE;
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class AboutServlet extends HttpServlet {
 
     @Override
     public final void init() throws ServletException {
-        this.language = LanguageFactory.getInstance();
+        this.language = LanguageFactory.INSTANCE;
     }
 
     @Override

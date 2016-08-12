@@ -54,8 +54,8 @@ public class ChartsServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.getInstance();
-		this.language = LanguageFactory.getInstance();
+		this.business = BusinessImpl.INSTANCE;
+		this.language = LanguageFactory.INSTANCE;
 	}
 
 	@Override

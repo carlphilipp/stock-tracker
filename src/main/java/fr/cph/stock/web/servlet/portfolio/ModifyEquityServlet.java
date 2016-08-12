@@ -57,9 +57,9 @@ public class ModifyEquityServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		equityBusiness = EquityBusinessImpl.getInstance();
-		companyBusiness = CompanyBusinessImpl.getInstance();
-		language = LanguageFactory.getInstance();
+		equityBusiness = EquityBusinessImpl.INSTANCE;
+		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		language = LanguageFactory.INSTANCE;
 	}
 
 	@Override

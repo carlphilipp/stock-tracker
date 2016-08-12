@@ -51,7 +51,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		this.business = BusinessImpl.getInstance();
+		this.business = BusinessImpl.INSTANCE;
 	}
 
 	@Override

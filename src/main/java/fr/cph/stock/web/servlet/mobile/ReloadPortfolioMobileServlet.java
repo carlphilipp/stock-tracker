@@ -51,8 +51,8 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		business = BusinessImpl.getInstance();
-		companyBusiness = CompanyBusinessImpl.getInstance();
+		business = BusinessImpl.INSTANCE;
+		companyBusiness = CompanyBusinessImpl.INSTANCE;
 	}
 
 	@Override

@@ -53,8 +53,8 @@ public class UpdatePortfolioServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		business = BusinessImpl.getInstance();
-		companyBusiness = CompanyBusinessImpl.getInstance();
+		business = BusinessImpl.INSTANCE;
+		companyBusiness = CompanyBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 		try {
 			final HttpSession session = request.getSession(false);
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			final LanguageFactory language = LanguageFactory.getInstance();
+			final LanguageFactory language = LanguageFactory.INSTANCE;
 			final StringBuilder sb = new StringBuilder();
 			final User user = (User) session.getAttribute(USER);
 			final String updateCurrencies = request.getParameter(CURRENCY_UPDATE);

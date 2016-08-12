@@ -42,7 +42,7 @@ public class Cac40Job implements Job {
 	 * Constructor
 	 */
 	public Cac40Job() {
-		business = BusinessImpl.getInstance();
+		business = BusinessImpl.INSTANCE;
 	}
 
 	@Override
