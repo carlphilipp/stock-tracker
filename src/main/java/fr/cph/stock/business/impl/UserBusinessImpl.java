@@ -34,7 +34,6 @@ public enum UserBusinessImpl implements UserBusiness {
 	private final PortfolioDAO portfolioDAO;
 	private final AccountDAO accountDAO;
 
-
 	UserBusinessImpl() {
 		business = BusinessImpl.INSTANCE;
 		userDAO = new UserDAO();
@@ -43,27 +42,26 @@ public enum UserBusinessImpl implements UserBusiness {
 	}
 
 	@Override
-	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException,
-		UnsupportedEncodingException, LoginException {
-		String md5PasswordHashed = Security.encodeToSha256(md5Password);
-		String saltHashed = Security.generateSalt();
-		String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
-		User userInDbWithLogin = getUser(login);
-		User userInDbWithEmail = getUserWithEmail(email);
+	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
+		final String md5PasswordHashed = Security.encodeToSha256(md5Password);
+		final String saltHashed = Security.generateSalt();
+		final String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
+		final User userInDbWithLogin = getUser(login);
+		final User userInDbWithEmail = getUserWithEmail(email);
 		if (userInDbWithLogin != null) {
 			throw new LoginException("Sorry, '" + login + "' is not available!");
 		}
 		if (userInDbWithEmail != null) {
 			throw new LoginException("Sorry, '" + email + "' is not available!");
 		}
-		User user = new User();
+		final User user = new User();
 		user.setLogin(login);
 		user.setPassword(saltHashed + cryptedPasswordSalt);
 		user.setEmail(email);
 		user.setAllow(false);
 		userDAO.insert(user);
-		StringBuilder body = new StringBuilder();
-		String check = Security.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
+		final StringBuilder body = new StringBuilder();
+		final String check = Security.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
 		body.append("Welcome to ")
 			.append(Info.NAME)
 			.append(",\n\nPlease valid your account by clicking on that link:")
@@ -93,7 +91,7 @@ public enum UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public final void deleteUser(final String login) {
-		User user = new User();
+		final User user = new User();
 		user.setLogin(login);
 		userDAO.delete(user);
 	}
@@ -143,15 +141,15 @@ public enum UserBusinessImpl implements UserBusiness {
 			String md5PasswordHashed;
 			try {
 				md5PasswordHashed = Security.encodeToSha256(md5Password);
-				String saltHashed = user.getPassword().substring(0, sixtyFour);
-				String cryptedPasswordSalt = user.getPassword().substring(sixtyFour, user.getPassword().length());
-				String cryptedPasswordSaltToTest = Security.encodeToSha256(md5PasswordHashed + saltHashed);
+				final String saltHashed = user.getPassword().substring(0, sixtyFour);
+				final String cryptedPasswordSalt = user.getPassword().substring(sixtyFour, user.getPassword().length());
+				final String cryptedPasswordSaltToTest = Security.encodeToSha256(md5PasswordHashed + saltHashed);
 				if (!cryptedPasswordSalt.equals(cryptedPasswordSaltToTest)) {
 					user = null;
 				} else {
 					user.setPassword(null);
 				}
-			} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+			} catch (final NoSuchAlgorithmException | UnsupportedEncodingException e) {
 				throw new LoginException(e.getMessage(), e);
 			}
 		}
@@ -165,11 +163,11 @@ public enum UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public final Portfolio getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
-		Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, from, to);
+		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, from, to);
 		Collections.sort(portfolio.getEquities());
-		Currency currency = business.loadCurrencyData(portfolio.getCurrency());
+		final Currency currency = business.loadCurrencyData(portfolio.getCurrency());
 		portfolio.setCurrency(currency);
-		for (Equity e : portfolio.getEquities()) {
+		for (final Equity e : portfolio.getEquities()) {
 			if (e.getCompany().getCurrency() == portfolio.getCurrency()) {
 				e.setParity(1.0);
 			} else {
@@ -177,7 +175,7 @@ public enum UserBusinessImpl implements UserBusiness {
 			}
 		}
 		double liquidity = 0.0;
-		for (Account acc : portfolio.getAccounts()) {
+		for (final Account acc : portfolio.getAccounts()) {
 			if (acc.getCurrency() == portfolio.getCurrency()) {
 				liquidity += acc.getLiquidity();
 				acc.setParity(1.0);

@@ -50,7 +50,6 @@ public enum BusinessImpl implements Business {
 	private static final int PAUSE = 1000;
 
 	private final IExternalDataAccess yahoo;
-	private final PortfolioDAO daoPortfolio;
 	private final UserDAO daoUser;
 	private final CurrencyDAO daoCurrency;
 	private final ShareValueDAO daoShareValue;
@@ -62,7 +61,6 @@ public enum BusinessImpl implements Business {
 
 	BusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
-		daoPortfolio = new PortfolioDAO();
 		daoUser = new UserDAO();
 		daoCurrency = new CurrencyDAO();
 		daoShareValue = new ShareValueDAO();
