@@ -19,27 +19,27 @@ public enum EquityBusinessImpl implements EquityBusiness {
 	INSTANCE;
 
 	private final CompanyBusiness companyBusiness;
-	private final EquityDAO daoEquity;
-	private final PortfolioDAO daoPortfolio;
-	private final CompanyDAO daoCompany;
+	private final EquityDAO equityDAO;
+	private final PortfolioDAO portfolioDAO;
+	private final CompanyDAO companyDAO;
 
 	EquityBusinessImpl() {
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
-		daoEquity = new EquityDAO();
-		daoPortfolio = new PortfolioDAO();
-		daoCompany = new CompanyDAO();
+		equityDAO = new EquityDAO();
+		portfolioDAO = new PortfolioDAO();
+		companyDAO = new CompanyDAO();
 	}
 
 	@Override
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {
 		final Company company = companyBusiness.addOrUpdateCompany(ticker);
-		final Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
+		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, null, null);
 		createEquity(portfolio, company, equity);
 	}
 
 	@Override
 	public final void createManualEquity(final int userId, final Company company, final Equity equity) throws EquityException {
-		final Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
+		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, null, null);
 		createEquity(portfolio, company, equity);
 	}
 
@@ -52,14 +52,14 @@ public enum EquityBusinessImpl implements EquityBusiness {
 		} else {
 			equity.setCompanyId(company.getId());
 			equity.setPortfolioId(portfolio.getId());
-			daoEquity.insert(equity);
+			equityDAO.insert(equity);
 		}
 	}
 
 	@Override
 	public final void updateEquity(final int userId, final String ticker, final Equity equity) throws UnsupportedEncodingException, YahooException {
-		final Company company = daoCompany.selectWithYahooId(ticker);
-		final Portfolio portfolio = daoPortfolio.selectPortfolioFromUserIdWithEquities(userId, null, null);
+		final Company company = companyDAO.selectWithYahooId(ticker);
+		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, null, null);
 
 		final Optional<Equity> found = portfolio.getEquities().stream()
 			.filter(e -> e.getCompanyId() == company.getId())
@@ -68,14 +68,14 @@ public enum EquityBusinessImpl implements EquityBusiness {
 		equity.setPortfolioId(portfolio.getId());
 		if (found.isPresent()) {
 			equity.setid(found.get().getId());
-			daoEquity.update(equity);
+			equityDAO.update(equity);
 		} else {
-			daoEquity.insert(equity);
+			equityDAO.insert(equity);
 		}
 	}
 
 	@Override
 	public final void deleteEquity(final Equity equity) {
-		daoEquity.delete(equity);
+		equityDAO.delete(equity);
 	}
 }

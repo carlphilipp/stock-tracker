@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.CurrencyBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -41,22 +41,21 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called to access the currency page
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "CurrencyServlet", urlPatterns = {"/currencies"})
 public class CurrencyServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 8821408830626147089L;
 	private static final Logger LOG = Logger.getLogger(CurrencyServlet.class);
-	private Business business;
 	private UserBusiness userBusiness;
+	private CurrencyBusiness currencyBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		business = BusinessImpl.INSTANCE;
 		language = LanguageFactory.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
+		currencyBusiness = CurrencyBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -68,14 +67,14 @@ public class CurrencyServlet extends HttpServlet {
 			if (update != null) {
 				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 				try {
-					business.updateOneCurrency(portfolio.getCurrency());
+					currencyBusiness.updateOneCurrency(portfolio.getCurrency());
 					request.setAttribute(MESSAGE, "Done !");
 				} catch (final YahooException e) {
 					request.setAttribute(ERROR, e.getMessage());
 				}
 			}
 			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
-			final Object[][] tab = business.getAllCurrencyData(portfolio.getCurrency());
+			final Object[][] tab = currencyBusiness.getAllCurrencyData(portfolio.getCurrency());
 			request.setAttribute(PORTFOLIO, portfolio);
 			request.setAttribute(TAB, tab);
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));

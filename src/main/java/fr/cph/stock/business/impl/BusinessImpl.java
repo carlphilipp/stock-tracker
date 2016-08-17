@@ -21,7 +21,6 @@ import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.dao.*;
 import fr.cph.stock.entities.*;
-import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.IExternalDataAccess;
 import fr.cph.stock.external.YahooExternalDataAccess;
@@ -32,7 +31,10 @@ import org.apache.log4j.Logger;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 /**
  * BusinessImpl class that access database and process data
@@ -47,11 +49,9 @@ public enum BusinessImpl implements Business {
 	private static final Logger LOG = Logger.getLogger(BusinessImpl.class);
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
-	private static final int PAUSE = 1000;
 
 	private final IExternalDataAccess yahoo;
 	private final UserDAO daoUser;
-	private final CurrencyDAO daoCurrency;
 	private final ShareValueDAO daoShareValue;
 	private final IndexDAO daoIndex;
 	private final AccountDAO daoAccount;
@@ -62,102 +62,11 @@ public enum BusinessImpl implements Business {
 	BusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
 		daoUser = new UserDAO();
-		daoCurrency = new CurrencyDAO();
 		daoShareValue = new ShareValueDAO();
 		daoIndex = new IndexDAO();
 		daoAccount = new AccountDAO();
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
-	}
-
-	// Currency
-	@Override
-	public final Currency loadCurrencyData(final Currency currency) throws YahooException {
-		List<CurrencyData> currencyDataList = daoCurrency.selectListCurrency(currency.getCode());
-		if (currencyDataList.size() == 0) {
-			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
-			for (CurrencyData currencyData : currenciesData) {
-				CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
-				if (c == null) {
-					daoCurrency.insert(currencyData);
-				} else {
-					currencyData.setId(c.getId());
-					daoCurrency.update(currencyData);
-				}
-			}
-			currencyDataList = daoCurrency.selectListCurrency(currency.getCode());
-		}
-		currency.setCurrencyData(currencyDataList);
-		return currency;
-	}
-
-	@Override
-	public final void updateAllCurrencies() throws YahooException {
-		List<Currency> currencyDone = new ArrayList<>();
-		for (Currency currency : Currency.values()) {
-			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
-			Util.makeAPause(PAUSE);
-			if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
-				for (CurrencyData currencyData : currenciesData) {
-					if (!(currencyDone.contains(currencyData.getCurrency1()) || currencyDone.contains(currencyData.getCurrency2()))) {
-						CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
-						if (c == null) {
-							daoCurrency.insert(currencyData);
-						} else {
-							currencyData.setId(c.getId());
-							daoCurrency.update(currencyData);
-						}
-					}
-				}
-				currencyDone.add(currency);
-			} else {
-				LOG.warn("Impossible to update this currency: " + currency.getCode());
-			}
-		}
-	}
-
-	@Override
-	public final void updateOneCurrency(final Currency currency) throws YahooException {
-		List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
-		if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
-			for (CurrencyData currencyData : currenciesData) {
-				CurrencyData c = daoCurrency.selectOneCurrencyDataWithParam(currencyData);
-				if (c == null) {
-					daoCurrency.insert(currencyData);
-				} else {
-					currencyData.setId(c.getId());
-					daoCurrency.update(currencyData);
-				}
-			}
-		} else {
-			throw new YahooException(
-				"The current table 'yahoo.finance.xchange' has been blocked. It exceeded the allotted quotas of either time or instructions");
-		}
-	}
-
-	@Override
-	public final Object[][] getAllCurrencyData(final Currency currency) {
-		final List<CurrencyData> currencies = daoCurrency.selectListAllCurrency();
-		final Currency[] currencyTab = Currency.values();
-		final Object[][] res = new Object[currencyTab.length - 1][6];
-		int i = 0;
-		for (final Currency c : currencyTab) {
-			if (c != currency) {
-				res[i][0] = c.toString();
-				res[i][1] = c.getName();
-				for (final CurrencyData currencyData : currencies) {
-					if (c == currencyData.getCurrency1() && currency == currencyData.getCurrency2()) {
-						res[i][3] = currencyData.getValue().toString();
-						res[i][4] = currencyData.getLastUpdate();
-					}
-					if (currency == currencyData.getCurrency1() && c == currencyData.getCurrency2()) {
-						res[i][2] = currencyData.getValue().toString();
-					}
-				}
-				i++;
-			}
-		}
-		return res;
 	}
 
 	// Share value

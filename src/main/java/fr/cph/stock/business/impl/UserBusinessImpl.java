@@ -1,6 +1,6 @@
 package fr.cph.stock.business.impl;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.dao.AccountDAO;
 import fr.cph.stock.dao.PortfolioDAO;
@@ -29,13 +29,13 @@ public enum UserBusinessImpl implements UserBusiness {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 
-	private final Business business;
+	private final CurrencyBusiness currencyBusiness;
 	private final UserDAO userDAO;
 	private final PortfolioDAO portfolioDAO;
 	private final AccountDAO accountDAO;
 
 	UserBusinessImpl() {
-		business = BusinessImpl.INSTANCE;
+		currencyBusiness =  CurrencyBusinessImpl.INSTANCE;
 		userDAO = new UserDAO();
 		portfolioDAO = new PortfolioDAO();
 		accountDAO = new AccountDAO();
@@ -165,7 +165,7 @@ public enum UserBusinessImpl implements UserBusiness {
 	public final Portfolio getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
 		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, from, to);
 		Collections.sort(portfolio.getEquities());
-		final Currency currency = business.loadCurrencyData(portfolio.getCurrency());
+		final Currency currency = currencyBusiness.loadCurrencyData(portfolio.getCurrency());
 		portfolio.setCurrency(currency);
 		for (final Equity e : portfolio.getEquities()) {
 			if (e.getCompany().getCurrency() == portfolio.getCurrency()) {
