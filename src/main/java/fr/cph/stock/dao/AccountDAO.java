@@ -30,7 +30,9 @@ import java.util.Map;
  * @author Carl-Philipp Harmant
  *
  */
-public class AccountDAO implements DAO<Account> {
+public enum AccountDAO implements DAO<Account> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

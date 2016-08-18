@@ -31,27 +31,23 @@ import java.util.Map;
  * @author Carl-Philipp Harmant
  *
  */
-public class IndexDAO implements DAO<Index> {
+public enum IndexDAO implements DAO<Index> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Index index) {
-		final SqlSession session = sessionManager.getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert("IndexDao.insertOneIndex", index);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final Index select(final int id) {
-		final SqlSession session = sessionManager.getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("IndexDao.selectOneIndex", id);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -63,11 +59,8 @@ public class IndexDAO implements DAO<Index> {
 	 * @return an index
 	 */
 	public final Index selectOneIndexWithIdAndIndex(final Index ind) {
-		final SqlSession session = sessionManager.getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("IndexDao.selectOneIndexWithIdAndIndex", ind);
-		} finally {
-			session.close();
 		}
 	}
 

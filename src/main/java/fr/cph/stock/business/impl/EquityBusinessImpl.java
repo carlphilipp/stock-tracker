@@ -25,9 +25,9 @@ public enum EquityBusinessImpl implements EquityBusiness {
 
 	EquityBusinessImpl() {
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
-		equityDAO = new EquityDAO();
-		portfolioDAO = new PortfolioDAO();
-		companyDAO = new CompanyDAO();
+		equityDAO = EquityDAO.INSTANCE;
+		portfolioDAO = PortfolioDAO.INSTANCE;
+		companyDAO = CompanyDAO.INSTANCE;
 	}
 
 	@Override

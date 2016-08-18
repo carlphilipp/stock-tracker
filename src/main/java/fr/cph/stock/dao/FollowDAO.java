@@ -30,7 +30,9 @@ import java.util.Map;
  * @author Carl-Philipp Harmant
  *
  */
-public class FollowDAO implements DAO<Follow> {
+public enum FollowDAO implements DAO<Follow> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

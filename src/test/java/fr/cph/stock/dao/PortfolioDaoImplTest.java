@@ -43,7 +43,7 @@ public class PortfolioDaoImplTest {
 
 	@Before
 	public void setUp(){
-		daoUser = new UserDAO();
+		daoUser = UserDAO.INSTANCE;
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
 		user = new User(uuid, PASSWORD);
 		user.setEmail("carl@carl.com");
@@ -58,7 +58,7 @@ public class PortfolioDaoImplTest {
 
 	@Test
 	public void testCRUDPortfolio(){
-		PortfolioDAO dao = new PortfolioDAO();
+		PortfolioDAO dao = PortfolioDAO.INSTANCE;
 
 		int userId = user.getId();
 
@@ -85,11 +85,11 @@ public class PortfolioDaoImplTest {
 
 	@Test
 	public void testselectPortfolioFromUser(){
-		PortfolioDAO dao = new PortfolioDAO();
+		PortfolioDAO dao = PortfolioDAO.INSTANCE;
 
-		daoEquity  = new EquityDAO();
+		daoEquity  = EquityDAO.INSTANCE;
 
-		daoCompany = new CompanyDAO();
+		daoCompany = CompanyDAO.INSTANCE;
 		portfolio = new Portfolio();
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());
@@ -110,7 +110,7 @@ public class PortfolioDaoImplTest {
 		daoCompany.insert(company);
 		company = daoCompany.selectWithYahooId("NK.ECA");
 
-		daoEquity = new EquityDAO();
+		daoEquity = EquityDAO.INSTANCE;
 		equity =  new Equity();
 		equity.setPortfolioId(portfolio.getId());
 		equity.setCompany(company);

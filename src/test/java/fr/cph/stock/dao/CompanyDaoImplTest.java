@@ -16,22 +16,21 @@
 
 package fr.cph.stock.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
-import java.util.UUID;
-
-import org.junit.Test;
-
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
+import org.junit.Test;
+
+import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class CompanyDaoImplTest {
 
 	@Test
 	public void testCRUDCompany(){
-		CompanyDAO dao = new CompanyDAO();
+		CompanyDAO dao = CompanyDAO.INSTANCE;
 
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
 

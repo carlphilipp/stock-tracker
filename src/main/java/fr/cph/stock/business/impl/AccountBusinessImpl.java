@@ -33,7 +33,7 @@ public enum AccountBusinessImpl implements AccountBusiness {
 	private final AccountDAO accountDAO;
 
 	AccountBusinessImpl() {
-		accountDAO = new AccountDAO();
+		accountDAO = AccountDAO.INSTANCE;
 	}
 
 	// Account

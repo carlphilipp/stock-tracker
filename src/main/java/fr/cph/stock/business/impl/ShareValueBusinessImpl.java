@@ -36,8 +36,8 @@ public enum ShareValueBusinessImpl implements ShareValueBusiness {
 	private final UserBusiness userBusiness;
 
 	ShareValueBusinessImpl() {
-		shareValueDAO = new ShareValueDAO();
-		userDAO = new UserDAO();
+		shareValueDAO = ShareValueDAO.INSTANCE;
+		userDAO = UserDAO.INSTANCE;
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
 	}

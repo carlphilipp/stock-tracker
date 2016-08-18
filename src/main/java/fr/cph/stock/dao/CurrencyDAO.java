@@ -28,7 +28,9 @@ import java.util.List;
  * @author Carl-Philipp Harmant
  *
  */
-public class CurrencyDAO implements DAO<CurrencyData> {
+public enum CurrencyDAO implements DAO<CurrencyData> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

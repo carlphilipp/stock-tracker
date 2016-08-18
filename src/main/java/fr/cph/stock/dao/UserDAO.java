@@ -27,7 +27,9 @@ import java.util.List;
  *
  * @author Carl-Philipp Harmant
  */
-public class UserDAO implements DAO<User> {
+public enum UserDAO implements DAO<User> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

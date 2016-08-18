@@ -42,9 +42,9 @@ public class EquityDaoImplTest {
 
 	@Before
 	public void setUp() {
-		daoUser = new UserDAO();
-		daoPortfolio = new PortfolioDAO();
-		daoCompany = new CompanyDAO();
+		daoUser = UserDAO.INSTANCE;
+		daoPortfolio = PortfolioDAO.INSTANCE;
+		daoCompany = CompanyDAO.INSTANCE;
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
 		user = new User(uuid, PASSWORD);
 		user.setEmail("carl@carl.com");
@@ -81,7 +81,7 @@ public class EquityDaoImplTest {
 
 	@Test
 	public void testCRUDEquity() {
-		DAO<Equity> dao = new EquityDAO();
+		DAO<Equity> dao = EquityDAO.INSTANCE;
 		Equity equity = new Equity();
 		equity.setPortfolioId(portfolio.getId());
 		equity.setCompany(company);
@@ -93,7 +93,7 @@ public class EquityDaoImplTest {
 
 		// insert
 		dao.insert(equity);
-		PortfolioDAO portDao = new PortfolioDAO();
+		PortfolioDAO portDao = PortfolioDAO.INSTANCE;
 		Portfolio portfolio = portDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		assertEquals(1, portfolio.getEquities().size());
 		equity = portfolio.getEquities().get(0);

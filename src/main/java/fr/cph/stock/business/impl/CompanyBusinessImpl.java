@@ -33,7 +33,7 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 
 	CompanyBusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
-		companyDAO = new CompanyDAO();
+		companyDAO = CompanyDAO.INSTANCE;
 	}
 
 	@Override

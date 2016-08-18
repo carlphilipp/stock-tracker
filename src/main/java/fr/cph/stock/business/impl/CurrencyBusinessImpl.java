@@ -25,7 +25,7 @@ public enum CurrencyBusinessImpl implements CurrencyBusiness {
 
 	CurrencyBusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
-		currencyDAO = new CurrencyDAO();
+		currencyDAO = CurrencyDAO.INSTANCE;
 	}
 
 	@Override

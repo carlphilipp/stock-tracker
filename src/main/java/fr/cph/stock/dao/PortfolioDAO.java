@@ -34,7 +34,9 @@ import java.util.Map;
  * @author Carl-Philipp Harmant
  *
  */
-public class PortfolioDAO implements DAO<Portfolio> {
+public enum PortfolioDAO implements DAO<Portfolio> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

@@ -50,7 +50,7 @@ public class AccountBusinessTest {
 	@Before
 	public void setUp() {
 		user = new User();
-		userDao = new UserDAO();
+		userDao = UserDAO.INSTANCE;
 		user.setLogin("lolzcarlz");
 		user.setPassword("passwordd");
 		user.setEmail("poke@poke.com");
@@ -58,7 +58,7 @@ public class AccountBusinessTest {
 		user = userDao.selectWithLogin("lolzcarlz");
 
 		portfolio = new Portfolio();
-		portfolioDao = new PortfolioDAO();
+		portfolioDao = PortfolioDAO.INSTANCE;
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());
 		portfolioDao.insert(portfolio);
@@ -78,7 +78,7 @@ public class AccountBusinessTest {
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);
 		business.updateEquity(user.getId(), "FP.PA", equity);
-		EquityDAO daoEquity = new EquityDAO();
+		EquityDAO daoEquity = EquityDAO.INSTANCE;
 		Portfolio port = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		Equity eq = port.getEquities().get(0);
 		assertNotNull(eq);

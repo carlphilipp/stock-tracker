@@ -26,7 +26,9 @@ import org.apache.ibatis.session.SqlSession;
  * @author Carl-Philipp Harmant
  *
  */
-public class EquityDAO implements DAO<Equity> {
+public enum EquityDAO implements DAO<Equity> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

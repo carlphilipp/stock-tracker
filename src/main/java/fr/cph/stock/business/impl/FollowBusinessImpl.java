@@ -21,8 +21,8 @@ public enum FollowBusinessImpl implements FollowBusiness {
 
 	FollowBusinessImpl() {
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
-		followDAO = new FollowDAO();
-		companyDAO = new CompanyDAO();
+		followDAO = FollowDAO.INSTANCE;
+		companyDAO = CompanyDAO.INSTANCE;
 	}
 
 	@Override

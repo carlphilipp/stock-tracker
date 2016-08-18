@@ -36,9 +36,9 @@ public enum UserBusinessImpl implements UserBusiness {
 
 	UserBusinessImpl() {
 		currencyBusiness =  CurrencyBusinessImpl.INSTANCE;
-		userDAO = new UserDAO();
-		portfolioDAO = new PortfolioDAO();
-		accountDAO = new AccountDAO();
+		userDAO = UserDAO.INSTANCE;
+		portfolioDAO = PortfolioDAO.INSTANCE;
+		accountDAO = AccountDAO.INSTANCE;
 	}
 
 	@Override

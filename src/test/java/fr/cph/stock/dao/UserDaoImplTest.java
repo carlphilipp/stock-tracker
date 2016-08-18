@@ -16,39 +16,38 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.entities.User;
+import org.junit.Test;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import org.junit.Test;
-
-import fr.cph.stock.entities.User;
-
 public class UserDaoImplTest {
-	
+
 	@Test
 	public void testCRUDUser(){
-		UserDAO dao = new UserDAO();
-		
+		UserDAO dao = UserDAO.INSTANCE;
+
 		String login = "carlzacdscdcsssscs";
 		String password = "password";
 		String email = "carl@gmail.com";
 		User user = new User(login,password);
 		user.setEmail(email);
 		dao.insert(user);
-		
+
 		user = dao.selectWithLogin(login);
 		assertEquals(login, user.getLogin());
 		assertEquals(password, user.getPassword());
 		assertEquals(email, user.getEmail());
-	
+
 		user.setEmail("caca@gmail.com");
 		dao.update(user);
-		
+
 		user = dao.selectWithLogin(login);
 		assertEquals(login, user.getLogin());
 		assertEquals(password, user.getPassword());
 		assertEquals("caca@gmail.com", user.getEmail());
-		
+
 		dao.delete(user);
 		user = dao.selectWithLogin(login);
 		assertNull(user);

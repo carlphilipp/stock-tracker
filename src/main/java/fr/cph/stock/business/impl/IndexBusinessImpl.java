@@ -28,7 +28,7 @@ public enum IndexBusinessImpl implements IndexBusiness {
 	private final IExternalDataAccess yahoo;
 
 	IndexBusinessImpl() {
-		indexDAO = new IndexDAO();
+		indexDAO = IndexDAO.INSTANCE;
 		yahoo = new YahooExternalDataAccess();
 	}
 

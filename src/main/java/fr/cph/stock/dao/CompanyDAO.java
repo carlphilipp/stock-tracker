@@ -32,7 +32,9 @@ import static fr.cph.stock.util.Constants.MANUAL;
  * @author Carl-Philipp Harmant
  *
  */
-public class CompanyDAO implements DAO<Company> {
+public enum CompanyDAO implements DAO<Company> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

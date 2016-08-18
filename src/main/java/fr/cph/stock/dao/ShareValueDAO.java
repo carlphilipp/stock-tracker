@@ -28,7 +28,9 @@ import java.util.List;
  * @author Carl-Philipp Harmant
  *
  */
-public class ShareValueDAO implements DAO<ShareValue> {
+public enum ShareValueDAO implements DAO<ShareValue> {
+
+	INSTANCE;
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
