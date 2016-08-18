@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Index;
@@ -51,15 +51,14 @@ import static fr.cph.stock.util.Constants.*;
  * Home servlet
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "HomeServlet", urlPatterns = {"/home"}, loadOnStartup = 1)
 public class HomeServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 122322259823208331L;
 	private static final Logger LOG = Logger.getLogger(HomeServlet.class);
-	private Business business;
 	private UserBusiness userBusiness;
+	private IndexBusiness indexBusiness;
 	private LanguageFactory language;
 
 	@Override
@@ -74,8 +73,8 @@ public class HomeServlet extends HttpServlet {
 		} catch (final UnknownHostException | SchedulerException e) {
 			LOG.error(e.getMessage(), e);
 		}
-		business = BusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
+		indexBusiness = IndexBusinessImpl.INSTANCE;
 		language = LanguageFactory.INSTANCE;
 	}
 
@@ -97,8 +96,8 @@ public class HomeServlet extends HttpServlet {
 				}
 				if (portfolio.getShareValues().size() != 0) {
 					final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					final List<Index> indexesCAC40 = business.getIndexes(Info.YAHOOID_CAC40, from, null);
-					final List<Index> indexesSP500 = business.getIndexes(Info.YAHOOID_SP500, from, null);
+					final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOOID_CAC40, from, null);
+					final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOOID_SP500, from, null);
 					portfolio.addIndexes(indexesCAC40);
 					portfolio.addIndexes(indexesSP500);
 				}

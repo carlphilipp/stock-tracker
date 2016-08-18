@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
@@ -51,12 +51,12 @@ public class HomeMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8513475864090485886L;
 	private static final Logger LOG = Logger.getLogger(HomeMobileServlet.class);
-	private Business business;
+	private IndexBusiness indexBusiness;
 	private UserBusiness userBusiness;
 
 	@Override
 	public final void init() throws ServletException {
-		business = BusinessImpl.INSTANCE;
+		indexBusiness = IndexBusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 
@@ -70,8 +70,8 @@ public class HomeMobileServlet extends HttpServlet {
 				portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					List<Index> indexes = business.getIndexes(Info.YAHOOID_CAC40, from, null);
-					List<Index> indexes2 = business.getIndexes(Info.YAHOOID_SP500, from, null);
+					List<Index> indexes = indexBusiness.getIndexes(Info.YAHOOID_CAC40, from, null);
+					List<Index> indexes2 = indexBusiness.getIndexes(Info.YAHOOID_SP500, from, null);
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
 				}

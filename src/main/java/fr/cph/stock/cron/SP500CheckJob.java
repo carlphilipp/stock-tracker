@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,8 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.IndexBusiness;
+import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 import org.apache.log4j.Logger;
@@ -36,13 +36,13 @@ public class SP500CheckJob implements Job {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(SP500CheckJob.class);
-	private Business business;
+	private IndexBusiness indexBusiness;
 
 	/**
 	 * Constructor
 	 */
 	public SP500CheckJob() {
-		business = BusinessImpl.INSTANCE;
+		indexBusiness = IndexBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -50,8 +50,8 @@ public class SP500CheckJob implements Job {
 		try {
 			LOG.debug("SP500 Check job running");
 			TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
-			business.checkUpdateIndex(Info.YAHOOID_SP500, timeZone);
-		} catch (YahooException e) {
+			indexBusiness.checkUpdateIndex(Info.YAHOOID_SP500, timeZone);
+		} catch (final YahooException e) {
 			LOG.warn("Error while executing SP500CheckJob: " + e.getMessage());
 		} catch (Throwable t) {
 			LOG.error("Error while executing SP500CheckJob: " + t.getMessage(), t);

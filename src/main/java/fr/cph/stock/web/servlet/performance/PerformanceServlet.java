@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet.performance;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
@@ -62,13 +62,13 @@ public class PerformanceServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2435465891228710040L;
 	private static final Logger LOG = Logger.getLogger(PerformanceServlet.class);
-	private Business business;
 	private UserBusiness userBusiness;
+	private IndexBusiness indexBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		business = BusinessImpl.INSTANCE;
+		indexBusiness = IndexBusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
 		language = LanguageFactory.INSTANCE;
 	}
@@ -96,8 +96,8 @@ public class PerformanceServlet extends HttpServlet {
 					// Put 17:00PM to the first sharevalue, to make it nice in graphic
 					portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).setDate(from);
 
-					final List<Index> indexesCAC40 = business.getIndexes(Info.YAHOOID_CAC40, from, toDate);
-					final List<Index> indexesSP500 = business.getIndexes(Info.YAHOOID_SP500, from, toDate);
+					final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOOID_CAC40, from, toDate);
+					final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOOID_SP500, from, toDate);
 					portfolio.addIndexes(indexesCAC40);
 					portfolio.addIndexes(indexesSP500);
 					portfolio.compute();
