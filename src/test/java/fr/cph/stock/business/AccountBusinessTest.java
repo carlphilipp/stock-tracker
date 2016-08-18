@@ -40,7 +40,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class BusinessTest {
+public class AccountBusinessTest {
 
 	private User user;
 	private UserDAO userDao;

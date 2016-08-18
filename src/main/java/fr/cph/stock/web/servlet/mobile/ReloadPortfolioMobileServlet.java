@@ -16,10 +16,10 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.AccountBusiness;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.AccountBusinessImpl;
 import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
@@ -48,13 +48,13 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5211078955305413271L;
 	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
-	private Business business;
+	private AccountBusiness business;
 	private CompanyBusiness companyBusiness;
 	private UserBusiness userBusiness;
 
 	@Override
 	public final void init() {
-		business = BusinessImpl.INSTANCE;
+		business = AccountBusinessImpl.INSTANCE;
 		companyBusiness = CompanyBusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
 	}

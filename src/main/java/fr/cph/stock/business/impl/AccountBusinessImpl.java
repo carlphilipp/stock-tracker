@@ -16,38 +16,39 @@
 
 package fr.cph.stock.business.impl;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.AccountBusiness;
 import fr.cph.stock.dao.AccountDAO;
 import fr.cph.stock.entities.Account;
 
 /**
- * BusinessImpl class that access database and process data
+ * AccountBusinessImpl class that access database and process data
  *
  * @author Carl-Philipp Harmant
  * @version 1
  */
-public enum BusinessImpl implements Business {
+public enum AccountBusinessImpl implements AccountBusiness {
 
 	INSTANCE;
-	private final AccountDAO daoAccount;
 
-	BusinessImpl() {
-		daoAccount = new AccountDAO();
+	private final AccountDAO accountDAO;
+
+	AccountBusinessImpl() {
+		accountDAO = new AccountDAO();
 	}
 
 	// Account
 	@Override
 	public final void addAccount(final Account account) {
-		daoAccount.insert(account);
+		accountDAO.insert(account);
 	}
 
 	@Override
 	public final void updateAccount(final Account account) {
-		daoAccount.update(account);
+		accountDAO.update(account);
 	}
 
 	@Override
 	public final void deleteAccount(final Account account) {
-		daoAccount.delete(account);
+		accountDAO.delete(account);
 	}
 }

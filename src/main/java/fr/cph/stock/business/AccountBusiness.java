@@ -24,7 +24,7 @@ import fr.cph.stock.entities.Account;
  * @author Carl-Philipp Harmant
  * @version 1
  */
-public interface Business {
+public interface AccountBusiness {
 
 	/**
 	 * Add an account

@@ -24,17 +24,17 @@ public enum IndexBusinessImpl implements IndexBusiness {
 	private static final int PERCENT = 100;
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 
-	private final IndexDAO daoIndex;
+	private final IndexDAO indexDAO;
 	private final IExternalDataAccess yahoo;
 
 	IndexBusinessImpl() {
-		daoIndex = new IndexDAO();
+		indexDAO = new IndexDAO();
 		yahoo = new YahooExternalDataAccess();
 	}
 
 	@Override
 	public final List<Index> getIndexes(final String yahooId, final Date from, final Date to) {
-		final List<Index> indexes = daoIndex.selectListFrom(yahooId, from, to);
+		final List<Index> indexes = indexDAO.selectListFrom(yahooId, from, to);
 		for (int i = 0; i < indexes.size(); i++) {
 			final Index currentIndex = indexes.get(i);
 			if (i == 0) {
@@ -54,12 +54,12 @@ public enum IndexBusinessImpl implements IndexBusiness {
 	@Override
 	public final void updateIndex(final String yahooId) throws YahooException {
 		final Index index = yahoo.getIndexData(yahooId);
-		daoIndex.insert(index);
+		indexDAO.insert(index);
 	}
 
 	@Override
 	public final void checkUpdateIndex(final String yahooId, final TimeZone timeZone) throws YahooException {
-		final Index index = daoIndex.selectLast(yahooId);
+		final Index index = indexDAO.selectLast(yahooId);
 		final Calendar currentCal = Util.getCurrentCalendarInTimeZone(timeZone);
 		final Calendar indexCal = Util.getDateInTimeZone(index.getDate(), timeZone);
 		LOG.debug("Check update for " + yahooId + " in timezone : " + timeZone.getDisplayName());

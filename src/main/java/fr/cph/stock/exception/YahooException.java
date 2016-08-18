@@ -17,7 +17,7 @@
 package fr.cph.stock.exception;
 
 /**
- * BusinessImpl class that access database and process data
+ * AccountBusinessImpl class that access database and process data
  *
  * @author Carl-Philipp Harmant
  * @version 1

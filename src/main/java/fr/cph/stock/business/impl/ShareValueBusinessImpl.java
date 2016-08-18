@@ -25,7 +25,7 @@ public enum ShareValueBusinessImpl implements ShareValueBusiness {
 
 	INSTANCE;
 
-	private static final Logger LOG = Logger.getLogger(BusinessImpl.class);
+	private static final Logger LOG = Logger.getLogger(AccountBusinessImpl.class);
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
 

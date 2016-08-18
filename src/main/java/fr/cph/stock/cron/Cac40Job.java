@@ -34,7 +34,7 @@ public class Cac40Job implements Job {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(Cac40Job.class);
-	/** BusinessImpl **/
+	/** AccountBusinessImpl **/
 	private IndexBusiness indexBusiness;
 
 	/**

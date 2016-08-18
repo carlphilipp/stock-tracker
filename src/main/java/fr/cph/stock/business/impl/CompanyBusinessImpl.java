@@ -28,12 +28,12 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 	private static final int MAX_UPDATE_COMPANY = 15;
 	private static final int PAUSE = 1000;
 
-	private final CompanyDAO daoCompany;
+	private final CompanyDAO companyDAO;
 	private final IExternalDataAccess yahoo;
 
 	CompanyBusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
-		daoCompany = new CompanyDAO();
+		companyDAO = new CompanyDAO();
 	}
 
 	@Override
@@ -42,11 +42,11 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 		final List<Company> companies = yahoo.getCompaniesData(tickers);
 		final List<Company> companiesResult = new ArrayList<>();
 		for (Company companyYahoo : companies) {
-			Company companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
+			Company companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
 			if (companyInDB == null) {
 				companyYahoo = yahoo.getCompanyInfo(companyYahoo);
-				daoCompany.insert(companyYahoo);
-				companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
+				companyDAO.insert(companyYahoo);
+				companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
 			} else {
 				companyInDB.setQuote(companyYahoo.getQuote());
 				companyInDB.setYield(companyYahoo.getYield());
@@ -59,7 +59,7 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 				companyInDB.setYearLow(companyYahoo.getYearLow());
 				companyInDB.setYesterdayClose(companyYahoo.getYesterdayClose());
 				companyInDB.setChangeInPercent(companyYahoo.getChangeInPercent());
-				daoCompany.update(companyInDB);
+				companyDAO.update(companyInDB);
 			}
 			companiesResult.add(companyInDB);
 		}
@@ -68,7 +68,7 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 
 	@Override
 	public final void updateCompaniesNotRealTime() {
-		final List<Company> companies = daoCompany.selectAllCompany(false);
+		final List<Company> companies = companyDAO.selectAllCompany(false);
 		final Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -7);
 		try {
@@ -77,7 +77,7 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 				if (data.size() != 0) {
 					final Company temp = data.get(0);
 					company.setQuote(temp.getQuote());
-					daoCompany.update(company);
+					companyDAO.update(company);
 				}
 			}
 		} catch (final YahooException e) {
@@ -87,7 +87,7 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 
 	@Override
 	public final void deleteCompany(final Company company) {
-		daoCompany.delete(company);
+		companyDAO.delete(company);
 	}
 
 	@Override
@@ -136,19 +136,19 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 		company.setManual(true);
 		company.setRealTime(false);
 		company.setFound(false);
-		daoCompany.insert(company);
-		return daoCompany.selectWithYahooId(uuid);
+		companyDAO.insert(company);
+		return companyDAO.selectWithYahooId(uuid);
 	}
 
 	@Override
 	public void updateCompanyManual(final Integer companyId, final Double newQuote) {
-		final Company company = daoCompany.select(companyId);
+		final Company company = companyDAO.select(companyId);
 		company.setQuote(newQuote);
-		daoCompany.update(company);
+		companyDAO.update(company);
 	}
 
 	public boolean updateAllCompanies() {
-		final List<Company> companies = daoCompany.selectAllCompany(true);
+		final List<Company> companies = companyDAO.selectAllCompany(true);
 		final List<String> yahooIdList = companies.stream()
 			.filter(Company::getRealTime)
 			.map(Company::getYahooId)
@@ -198,11 +198,11 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 		final List<String> tickers = new ArrayList<>();
 		tickers.add(ticker);
 		Company companyYahoo = yahoo.getCompaniesData(tickers).get(0);
-		Company companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
+		Company companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
 		if (companyInDB == null) {
 			companyYahoo = yahoo.getCompanyInfo(companyYahoo);
-			daoCompany.insert(companyYahoo);
-			companyInDB = daoCompany.selectWithYahooId(companyYahoo.getYahooId());
+			companyDAO.insert(companyYahoo);
+			companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
 		} else {
 			companyInDB.setQuote(companyYahoo.getQuote());
 			companyInDB.setYield(companyYahoo.getYield());
@@ -213,18 +213,18 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 			companyInDB.setYearHigh(companyYahoo.getYearHigh());
 			companyInDB.setYearLow(companyYahoo.getYearLow());
 			companyInDB.setYesterdayClose(companyYahoo.getYesterdayClose());
-			daoCompany.update(companyInDB);
+			companyDAO.update(companyInDB);
 		}
 		return companyInDB;
 	}
 
 	@Override
 	public final void cleanDB() {
-		final List<Integer> companies = daoCompany.selectAllUnusedCompanyIds();
+		final List<Integer> companies = companyDAO.selectAllUnusedCompanyIds();
 		companies.forEach(id -> {
 			final Company company = new Company();
 			company.setId(id);
-			daoCompany.delete(company);
+			companyDAO.delete(company);
 		});
 	}
 }
