@@ -19,7 +19,7 @@ package fr.cph.stock.web.servlet.user;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
-import fr.cph.stock.security.Security;
+import fr.cph.stock.security.SecurityService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -34,7 +34,6 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user is registering
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "CheckUserServlet", urlPatterns = {"/check"})
 public class CheckUserServlet extends HttpServlet {
@@ -42,10 +41,12 @@ public class CheckUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(CheckUserServlet.class);
 	private UserBusiness userBusiness;
+	private SecurityService securityService;
 
 	@Override
 	public final void init() {
 		userBusiness = UserBusinessImpl.INSTANCE;
+		securityService = SecurityService.INSTANCE;
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class CheckUserServlet extends HttpServlet {
 			final String check = request.getParameter(CHECK);
 			final User user = userBusiness.getUser(login);
 			if (user != null) {
-				final String serverCheck = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+				final String serverCheck = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 				if (check.equals(serverCheck)) {
 					userBusiness.validateUser(login);
 					request.setAttribute(MESSAGE, "It worked!<br>You can now <a href='index.jsp'>login</a>");

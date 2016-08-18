@@ -19,7 +19,7 @@ package fr.cph.stock.web.servlet.user;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
-import fr.cph.stock.security.Security;
+import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import org.apache.log4j.Logger;
@@ -44,6 +44,7 @@ public class LostServlet extends HttpServlet {
 	private static final long serialVersionUID = -1724898618001479554L;
 	private static final Logger LOG = Logger.getLogger(LostServlet.class);
 	private UserBusiness userBusiness;
+	private SecurityService securityService;
 
 	/**
 	 * Init
@@ -51,6 +52,7 @@ public class LostServlet extends HttpServlet {
 	@Override
 	public final void init() {
 		userBusiness = UserBusinessImpl.INSTANCE;
+		securityService = SecurityService.INSTANCE;
 	}
 
 	@Override
@@ -61,7 +63,7 @@ public class LostServlet extends HttpServlet {
 				final User user = userBusiness.getUserWithEmail(email);
 				if (user != null) {
 					final StringBuilder body = new StringBuilder();
-					final String check = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+					final String check = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 					body.append("Dear ").append(user.getLogin()).append(",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n").append("If it's you, click on this link:  ").append(Info.ADDRESS).append(Info.FOLDER).append("/newpassword?&login=").append(user.getLogin()).append("&check=").append(check).append(".\n\nBest regards,\nThe ").append(Info.NAME).append(" team.");
 					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[]{email}, null);
 					request.setAttribute("ok", "Check your email!");

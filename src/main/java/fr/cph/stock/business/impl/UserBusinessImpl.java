@@ -12,7 +12,7 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.security.Security;
+import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 
@@ -33,19 +33,21 @@ public enum UserBusinessImpl implements UserBusiness {
 	private final UserDAO userDAO;
 	private final PortfolioDAO portfolioDAO;
 	private final AccountDAO accountDAO;
+	private SecurityService securityService;
 
 	UserBusinessImpl() {
 		currencyBusiness =  CurrencyBusinessImpl.INSTANCE;
 		userDAO = UserDAO.INSTANCE;
 		portfolioDAO = PortfolioDAO.INSTANCE;
 		accountDAO = AccountDAO.INSTANCE;
+		securityService = SecurityService.INSTANCE;
 	}
 
 	@Override
 	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		final String md5PasswordHashed = Security.encodeToSha256(md5Password);
-		final String saltHashed = Security.generateSalt();
-		final String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
+		final String md5PasswordHashed = securityService.encodeToSha256(md5Password);
+		final String saltHashed = securityService.generateSalt();
+		final String cryptedPasswordSalt = securityService.encodeToSha256(md5PasswordHashed + saltHashed);
 		final User userInDbWithLogin = getUser(login);
 		final User userInDbWithEmail = getUserWithEmail(email);
 		if (userInDbWithLogin != null) {
@@ -61,7 +63,7 @@ public enum UserBusinessImpl implements UserBusiness {
 		user.setAllow(false);
 		userDAO.insert(user);
 		final StringBuilder body = new StringBuilder();
-		final String check = Security.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
+		final String check = securityService.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
 		body.append("Welcome to ")
 			.append(Info.NAME)
 			.append(",\n\nPlease valid your account by clicking on that link:")
@@ -140,10 +142,10 @@ public enum UserBusinessImpl implements UserBusiness {
 		if (user != null) {
 			String md5PasswordHashed;
 			try {
-				md5PasswordHashed = Security.encodeToSha256(md5Password);
+				md5PasswordHashed = securityService.encodeToSha256(md5Password);
 				final String saltHashed = user.getPassword().substring(0, sixtyFour);
 				final String cryptedPasswordSalt = user.getPassword().substring(sixtyFour, user.getPassword().length());
-				final String cryptedPasswordSaltToTest = Security.encodeToSha256(md5PasswordHashed + saltHashed);
+				final String cryptedPasswordSaltToTest = securityService.encodeToSha256(md5PasswordHashed + saltHashed);
 				if (!cryptedPasswordSalt.equals(cryptedPasswordSaltToTest)) {
 					user = null;
 				} else {

@@ -25,21 +25,17 @@ import java.security.SecureRandom;
 
 /**
  * Class that takes care of encoding password and generate salt
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
-public final class Security {
+public enum SecurityService {
 
-	/**
-	 * Constructor
-	 */
-	private Security() {
-	}
+	INSTANCE;
 
 	/**
 	 * Encode to sha256 the user password
-	 * 
+	 *
 	 * @param str
 	 *            the password to encode
 	 * @return an encoded string
@@ -48,7 +44,7 @@ public final class Security {
 	 * @throws UnsupportedEncodingException
 	 *             the UnsupportedEncodingException
 	 */
-	public static String encodeToSha256(final String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public String encodeToSha256(final String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		final MessageDigest digest = MessageDigest.getInstance("SHA-256");
 		final byte[] hash = digest.digest(str.getBytes("UTF-8"));
 		return Hex.encodeHexString(hash);
@@ -56,15 +52,15 @@ public final class Security {
 
 	/**
 	 * Generate a salt, a random key, en encrypt it
-	 * 
+	 *
 	 * @return a key encrypted
 	 * @throws NoSuchAlgorithmException
 	 *             the NoSuchAlgorithmException
 	 * @throws UnsupportedEncodingException
 	 *             the UnsupportedEncodingException
 	 */
-	public static String generateSalt() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+	public String generateSalt() throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		final SecureRandom random = new SecureRandom();
-		return Security.encodeToSha256(random.toString());
+		return encodeToSha256(random.toString());
 	}
 }

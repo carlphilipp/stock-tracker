@@ -19,7 +19,7 @@ package fr.cph.stock.web.servlet.user;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
-import fr.cph.stock.security.Security;
+import fr.cph.stock.security.SecurityService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -42,6 +42,7 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(NewPasswordConfirmServlet.class);
 	private UserBusiness userBusiness;
+	private SecurityService securityService;
 
 	/**
 	 * Init
@@ -49,6 +50,7 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 	@Override
 	public final void init() {
 		userBusiness = UserBusinessImpl.INSTANCE;
+		securityService = SecurityService.INSTANCE;
 	}
 
 	@Override
@@ -57,9 +59,9 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 			final String login = request.getParameter(LOGIN);
 			final String password = request.getParameter(PASSWORD);
 			final User user = userBusiness.getUser(login);
-			final String md5PasswordHashed = Security.encodeToSha256(password);
-			final String saltHashed = Security.generateSalt();
-			final String cryptedPasswordSalt = Security.encodeToSha256(md5PasswordHashed + saltHashed);
+			final String md5PasswordHashed = securityService.encodeToSha256(password);
+			final String saltHashed = securityService.generateSalt();
+			final String cryptedPasswordSalt = securityService.encodeToSha256(md5PasswordHashed + saltHashed);
 			user.setPassword(saltHashed + cryptedPasswordSalt);
 			userBusiness.updateOneUserPassword(user);
 			request.setAttribute("ok", "Password changed!");

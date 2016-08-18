@@ -19,7 +19,7 @@ package fr.cph.stock.web.servlet.user;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
-import fr.cph.stock.security.Security;
+import fr.cph.stock.security.SecurityService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -34,7 +34,6 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when a new password is asked
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "NewPasswordServlet", urlPatterns = {"/newpassword"})
 public class NewPasswordServlet extends HttpServlet {
@@ -42,10 +41,12 @@ public class NewPasswordServlet extends HttpServlet {
 	private static final long serialVersionUID = -4548932564405559822L;
 	private static final Logger LOG = Logger.getLogger(NewPasswordServlet.class);
 	private UserBusiness userBusiness;
+	private SecurityService securityService;
 
 	@Override
 	public final void init() {
 		userBusiness = UserBusinessImpl.INSTANCE;
+		securityService = SecurityService.INSTANCE;
 	}
 
 	@Override
@@ -55,7 +56,7 @@ public class NewPasswordServlet extends HttpServlet {
 			final String check = request.getParameter(CHECK);
 			final User user = userBusiness.getUser(login);
 			if (user != null) {
-				final String checkServer = Security.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+				final String checkServer = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 				if (check.equals(checkServer)) {
 					request.setAttribute(LOGIN, user.getLogin());
 				} else {
@@ -75,5 +76,4 @@ public class NewPasswordServlet extends HttpServlet {
 	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		doGet(request, response);
 	}
-
 }
