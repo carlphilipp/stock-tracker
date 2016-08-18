@@ -11,8 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
- 
-# The source code for the examples can be found in this directory
+
+# The source code for the examples can be fund in this directory
 src.dir=src
 test.dir=test
 lib.dir=WebContent/WEB-INF/lib

@@ -19,9 +19,9 @@
 <mapper namespace="EquityDao">
 	<insert id="insertOneEquity" parameterType="Equity">
 		insert into equity (id, portfolioId, companyId, namePersonal, quantity, unitCostPrice, yieldPersonal, parityPersonal,
-		stopLossLocal, objectiveLocal, yieldFrequency, yieldMonth, lastUpdate)
+		stopLossLocal, objectivLocal, yieldFrequency, yieldMonth, lastUpdate)
 		values (0, #{portfolioId}, #{companyId}, #{namePersonal}, #{quantity},
-		#{unitCostPrice}, #{yieldPersonal}, #{parityPersonal}, #{stopLossLocal}, #{objectiveLocal}, #{yieldFrequency}, #{yieldMonth}, NOW())
+		#{unitCostPrice}, #{yieldPersonal}, #{parityPersonal}, #{stopLossLocal}, #{objectivLocal}, #{yieldFrequency}, #{yieldMonth}, NOW())
 	</insert>
 	<select id="selectOneEquity" parameterType="String" resultType="Equity">
 		select * from equity where id = #{id}
@@ -37,7 +37,7 @@
 			yieldPersonal = #{yieldPersonal },
 			parityPersonal = #{parityPersonal},
 			stopLossLocal = #{stopLossLocal },
-			objectiveLocal = #{objectiveLocal },
+			objectivLocal = #{objectivLocal },
 			yieldFrequency = #{yieldFrequency},
 			yieldMonth = #{yieldMonth },
 			lastUpdate = NOW()

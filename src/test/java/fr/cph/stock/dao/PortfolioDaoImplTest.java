@@ -106,7 +106,7 @@ public class PortfolioDaoImplTest {
 		company.setYahooId("NK.ECA");
 		company.setYield(5.0);
 		company.setRealTime(true);
-		company.setFound(false);
+		company.setFund(false);
 		daoCompany.insert(company);
 		company = daoCompany.selectWithYahooId("NK.ECA");
 

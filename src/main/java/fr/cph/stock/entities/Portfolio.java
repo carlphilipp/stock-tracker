@@ -427,7 +427,7 @@ public class Portfolio {
 		if (chartSectorData == null) {
 			Map<String, Double> data = new HashMap<>();
 			for (Equity e : getEquities()) {
-				if (e.getCompany().getFound()) {
+				if (e.getCompany().getFund()) {
 					if (data.containsKey("Fund")) {
 						Double d = data.get("Fund");
 						d += e.getValue();
@@ -516,7 +516,7 @@ public class Portfolio {
 		if (chartCapData == null) {
 			Map<String, Double> data = new HashMap<>();
 			for (Equity e : getEquities()) {
-				if (!e.getCompany().getFound()) {
+				if (!e.getCompany().getFund()) {
 					MarketCapitalization marketCap = e.getMarketCapitalizationType();
 					if (marketCap == null) {
 						if (data.containsKey("Unknown")) {
@@ -746,7 +746,7 @@ public class Portfolio {
 			if (e.getCurrentSector() == null) {
 				company.setSector("Unknown");
 			}
-			if (company.getFound()) {
+			if (company.getFund()) {
 				company.setSector("Fund");
 			}
 			if (!map.containsKey(e.getCurrentSector())) {
@@ -790,7 +790,7 @@ public class Portfolio {
 		Map<String, List<Equity>> map = new HashMap<>();
 		List<Equity> companies = null;
 		for (Equity e : getEquities()) {
-			if (e.getMarketCapitalizationType().getValue() == null || e.getCompany().getFound()) {
+			if (e.getMarketCapitalizationType().getValue() == null || e.getCompany().getFund()) {
 				e.setMarketCapitalizationType(MarketCapitalization.UNKNOWN);
 			}
 			if (!map.containsKey(e.getMarketCapitalizationType().getValue())) {

@@ -135,7 +135,7 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 		company.setSector(sector);
 		company.setManual(true);
 		company.setRealTime(false);
-		company.setFound(false);
+		company.setFund(false);
 		companyDAO.insert(company);
 		return companyDAO.selectWithYahooId(uuid);
 	}

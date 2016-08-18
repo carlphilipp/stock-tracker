@@ -65,7 +65,7 @@ public class Equity implements Comparable<Equity> {
 	/** Stop loss **/
 	private Double stopLossLocal;
 	/** Objective **/
-	private Double objectiveLocal;
+	private Double objectivLocal;
 	/** Yield Frequency **/
 	private Frequency yieldFrequency;
 	/** Yield month **/
@@ -103,8 +103,8 @@ public class Equity implements Comparable<Equity> {
 	 * @return the cap
 	 */
 	public final Double getGapObjectivLocal() {
-		if (gapObjectivLocal == null && getObjectiveLocal() != null) {
-			gapObjectivLocal = (getObjectiveLocal() / company.getQuote() - 1) * PERCENT;
+		if (gapObjectivLocal == null && getObjectivLocal() != null) {
+			gapObjectivLocal = (getObjectivLocal() / company.getQuote() - 1) * PERCENT;
 		}
 		return gapObjectivLocal;
 	}
@@ -193,7 +193,7 @@ public class Equity implements Comparable<Equity> {
 	 */
 	public final Double getGapObjectiv() {
 		if (gapObjectivLocal == null) {
-			gapObjectivLocal = (getObjectiveLocal() / company.getQuote() - 1) * PERCENT;
+			gapObjectivLocal = (getObjectivLocal() / company.getQuote() - 1) * PERCENT;
 		}
 		return gapObjectivLocal;
 	}
@@ -419,18 +419,18 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the objective
 	 */
-	public final Double getObjectiveLocal() {
-		return objectiveLocal;
+	public final Double getObjectivLocal() {
+		return objectivLocal;
 	}
 
 	/**
 	 * Set objective
 	 *
-	 * @param objectiveLocal
+	 * @param objectivLocal
 	 *            the objective
 	 */
-	public final void setObjectiveLocal(final Double objectiveLocal) {
-		this.objectiveLocal = objectiveLocal;
+	public final void setObjectivLocal(final Double objectivLocal) {
+		this.objectivLocal = objectivLocal;
 	}
 
 	/**

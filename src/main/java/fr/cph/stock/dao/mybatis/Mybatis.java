@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,21 +27,21 @@ import java.io.InputStream;
  *
  */
 
-public final class Mybatis {
+public enum Mybatis {
 
-	/** Constructor **/
-	private Mybatis() {
+	INSTANCE;
+
+	Mybatis() {
 	}
 
 	private static final SqlSessionFactory SQL_SESSION_FACTORY;
 
 	static {
-		try {
-			String resource = "mybatis/mybatis-config.xml";
-			InputStream inputStream = Resources.getResourceAsStream(resource);
+		final String resource = "mybatis/mybatis-config.xml";
+		try (final InputStream inputStream = Resources.getResourceAsStream(resource)) {
 			SQL_SESSION_FACTORY = new SqlSessionFactoryBuilder().build(inputStream);
-		} catch (Exception e) {
-			throw new RuntimeException("Erreur durant l'initialisation de MyBatis. Cause: " + e);
+		} catch (final Exception e) {
+			throw new RuntimeException("Error while iBatis init: " + e.getMessage(), e);
 		}
 	}
 
@@ -50,7 +50,7 @@ public final class Mybatis {
 	 *
 	 * @return a sql session factory
 	 */
-	public static SqlSessionFactory getSqlMapInstance() {
+	public SqlSessionFactory getSqlMapInstance() {
 		return SQL_SESSION_FACTORY;
 	}
 }

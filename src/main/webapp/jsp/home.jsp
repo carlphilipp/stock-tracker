@@ -439,10 +439,10 @@ $(document).ready(function() {
 								[<a href="javascript:poufpouf('${equity.company.yahooId}')">${language['PORTFOLIO_INFO']}</a>]
 								<c:choose>
 								  <c:when test="${equity.company.manual == false }">
-								    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateTicker('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectiveLocal}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+								    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateTicker('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}');return false">${language['PORTFOLIO_MODIFY']}</a>]
                   </c:when>
                   <c:otherwise>
-                    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateManual('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectiveLocal}','${equity.company.id}', '${equity.company.quote}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+                    [<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateManual('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}','${equity.company.id}', '${equity.company.quote}');return false">${language['PORTFOLIO_MODIFY']}</a>]
                   </c:otherwise>
 								</c:choose>
 									<span id="${equity.company.yahooId}" class="companyInfo" style="display: none;">
@@ -563,7 +563,7 @@ $(document).ready(function() {
 								</c:if>
 							<c:if test="${cookie.objective.value == 'checked' }">
 							<td class="tdRight"><c:if test="${!empty equity.gapObjectivLocal}">
-									<fmt:formatNumber type="number" minFractionDigits="3" value="${equity.objectiveLocal}" />
+									<fmt:formatNumber type="number" minFractionDigits="3" value="${equity.objectivLocal}" />
 									<br>
 									<c:choose>
 										<c:when test="${equity.gapObjectivLocal < 0 }">

@@ -16,8 +16,6 @@
 
 package fr.cph.stock.language;
 
-import fr.cph.stock.exception.LanguageException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,22 +33,15 @@ public enum LanguageFactory {
 	 **/
 	private static Map<String, Map<String, String>> LANGUAGE_MAP;
 
-	/**
-	 * Get the language LANGUAGE_MAP
-	 *
-	 * @return the language LANGUAGE_MAP
-	 * @throws LanguageException the language exception
-	 */
-	private static Map<String, Map<String, String>> getLanguageMap() {
-		final Map<String, Map<String, String>> languageMap = new HashMap<>();
-		createLanguage("English", languageMap);
-		createLanguage("Francais", languageMap);
-		return languageMap;
+	static {
+		LANGUAGE_MAP = new HashMap<>();
+		createLanguage("English");
+		createLanguage("Francais");
 	}
 
-	private static void createLanguage(final String languageName, final Map<String, Map<String, String>> languageMap) {
+	private static void createLanguage(final String languageName) {
 		final Language language = new Language("language/" + languageName + ".xml");
-		languageMap.put(languageName, language.getLanguage());
+		LANGUAGE_MAP.put(languageName, language.getLanguage());
 	}
 
 	/**

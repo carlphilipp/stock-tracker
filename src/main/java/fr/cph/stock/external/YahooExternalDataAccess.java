@@ -155,7 +155,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 					company.setYearHigh(yearHigh);
 				}
 				company.setRealTime(true);
-				company.setFound(false);
+				company.setFund(false);
 				companies.add(company);
 			}
 		}
@@ -178,7 +178,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			sector = jsonCompanyInfo.optString(CATEGORY);
 			final String fundFamily = jsonCompanyInfo.optString(FUND_FAMILY);
 			if (fundFamily != null) {
-				company.setFound(true);
+				company.setFund(true);
 			}
 			industry = fundFamily;
 			final String marketCap = jsonCompanyInfo.optString(NET_ASSETS);

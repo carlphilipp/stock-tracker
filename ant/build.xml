@@ -183,7 +183,7 @@
 	<target name="report.findbugs" depends="compile" description="Run code analysis over code to check for problems.">
         <!-- Fail this target if FindBugs is not installed. -->
         <available file="${findbugs.home.dir}/lib/findbugs.jar" property="findbugs.available" />
-        <fail unless="findbugs.available" message="Error: FINDBUGS_HOME not set or findbugs.jar not found." />
+        <fail unless="findbugs.available" message="Error: FINDBUGS_HOME not set or findbugs.jar not fund." />
         <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${findbugs.home.dir}/lib/findbugs-ant.jar" />
         <!-- Run FindBugs. -->
         <mkdir dir="${reports.dir}/findbugs" />
@@ -199,7 +199,7 @@
 		<taskdef resource="checkstyletask.properties" classpath="${checkstyle.home.dir}/checkstyle-5.6-all.jar" />
 	    <!-- run verification of installation-->
 	    <available file="${checkstyle.home.dir}/checkstyle-5.6.jar" property="checkstyle.available" />
-	    <fail unless="checkstyle.available" message="Error: CHECKSTYLE_HOME not set or checkstyle-5.6.jar not found." />
+	    <fail unless="checkstyle.available" message="Error: CHECKSTYLE_HOME not set or checkstyle-5.6.jar not fund." />
 	    <mkdir dir="${reports.dir}/checkstyle" />
 	    <!-- run analysis-->
 	    <checkstyle config="checkstyle/sun_checks.xml" classpathref="class.path" failureProperty="checkstyle.failure" failOnViolation="false" >

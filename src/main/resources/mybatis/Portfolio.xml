@@ -30,7 +30,7 @@
 		<result property="yieldPersonal" column="yieldPersonal" />
 		<result property="parityPersonal" column="parityPersonal" />
 		<result property="stopLossLocal" column="stopLossLocal" />
-		<result property="objectiveLocal" column="objectiveLocal" />
+		<result property="objectivLocal" column="objectivLocal" />
 		<result property="yieldFrequency" column="yieldFrequency" />
 		<result property="yieldMonth" column="yieldMonth" />
 		<result property="lastUpdate" column="equityLastUpdate" />
@@ -50,7 +50,7 @@
 		<result property="realTime" column="realTime" />
 		<result property="yesterdayClose" column="yesterdayClose" />
 		<result property="changeInPercent" column="changeInPercent" />
-		<result property="found" column="found" />
+		<result property="fund" column="fund" />
 		<result property="manual" column="manual" />
 		<result property="marketCapitalization" column="marketCapitalization" />
 		<result property="lastUpdate" column="companyLastUpdate" />
@@ -78,8 +78,8 @@
 		equity.id as equityId,
 		companyId, namePersonal,
 		sectorPersonal,industryPersonal, marketCapPersonal, yesterdayClose, changeInPercent,
-		quantity,unitCostPrice, parityPersonal, yieldPersonal, stopLossLocal, objectiveLocal, yieldFrequency, yieldMonth,
-		company.id as companyId, yahooId, name, market, currency, sector, industry, quote, yield, marketCapitalization, realTime, found, manual,
+		quantity,unitCostPrice, parityPersonal, yieldPersonal, stopLossLocal, objectivLocal, yieldFrequency, yieldMonth,
+		company.id as companyId, yahooId, name, market, currency, sector, industry, quote, yield, marketCapitalization, realTime, fund, manual,
 		equity.lastUpdate as equityLastUpdate,
 		company.lastUpdate as companyLastUpdate
 		from equity

@@ -47,7 +47,7 @@ public class Company {
 	private Double maxGap;
 	/** Is this company under read time data **/
 	private Boolean realTime;
-	private Boolean found;
+	private Boolean fund;
 	private Timestamp lastUpdate;
 	private Double change;
 	private Double gapYearLow;
@@ -367,18 +367,18 @@ public class Company {
 	}
 
 	/**
-	 * @return the found
+	 * @return the fund
 	 */
-	public final Boolean getFound() {
-		return found;
+	public final Boolean getFund() {
+		return fund;
 	}
 
 	/**
-	 * @param found
-	 *            the found
+	 * @param fund
+	 *            the fund
 	 */
-	public final void setFound(final Boolean found) {
-		this.found = found;
+	public final void setFund(final Boolean fund) {
+		this.fund = fund;
 	}
 
 	/**
@@ -412,7 +412,7 @@ public class Company {
 			+ ", sector=" + sector + ", industry=" + industry + ", quote=" + quote + ", yield=" + yield
 			+ ", marketCapitalization=" + marketCapitalization + ", yesterdayClose=" + yesterdayClose + ", changeInPercent="
 			+ changeInPercent + ", yearLow=" + yearLow + ", yearHigh=" + yearHigh + ", minGap=" + minGap + ", maxGap="
-			+ maxGap + ", realTime=" + realTime + ", found=" + found + ", lastUpdate=" + lastUpdate + ", change=" + change
+			+ maxGap + ", realTime=" + realTime + ", fund=" + fund + ", lastUpdate=" + lastUpdate + ", change=" + change
 			+ ", gapYearLow=" + gapYearLow + ", gapYearHigh=" + gapYearHigh + "]";
 	}
 

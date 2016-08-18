@@ -23,20 +23,20 @@ import fr.cph.stock.dao.mybatis.Mybatis;
 
 /**
  * Abstract class that load DB objects
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  * @param <T>
  *            the type of object the current class will process
  */
 public abstract class AbstractDAO<T> implements IDAO<T> {
 
 	/** Sql session **/
-	private SqlSessionFactory sqlSessionFactory = Mybatis.getSqlMapInstance();
+	private SqlSessionFactory sqlSessionFactory = Mybatis.INSTANCE.getSqlMapInstance();
 
 	/**
 	 * Open session to DB
-	 * 
+	 *
 	 * @return a session to access to the DB
 	 */
 	protected final SqlSession getSqlSessionFactory() {

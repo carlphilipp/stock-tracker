@@ -53,7 +53,7 @@ public class CompanyDaoImplTest {
 		company.setYahooId(yahooId);
 		company.setYield(yield);
 		company.setRealTime(true);
-		company.setFound(false);
+		company.setFund(false);
 		dao.insert(company);
 
 		company = dao.selectWithYahooId(yahooId);
@@ -66,7 +66,7 @@ public class CompanyDaoImplTest {
 		assertEquals(quote, company.getQuote(), 0.00001);
 		assertEquals(yield, company.getYield(), 0.00001);
 		assertEquals(true, company.getRealTime());
-		assertEquals(false, company.getFound());
+		assertEquals(false, company.getFund());
 
 		company.setCurrency(Currency.USD);
 		dao.update(company);
