@@ -42,12 +42,6 @@ dependencies {
 
 war {
 	archiveName = 'stock-tracker.war'
-/*	from('WebContent') {
-		include 'style.css'
-		into('<targetDir>')
-	}*/
-}
-
-task wrapper(type: Wrapper) {
-	gradleVersion = '2.14.1'
+	rootSpec.exclude('app.properties.template')
+	rootSpec.exclude('log4j.properties.template')
 }
