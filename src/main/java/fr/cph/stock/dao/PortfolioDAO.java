@@ -16,6 +16,7 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
@@ -28,23 +29,25 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements IDAO functions and add some more. It access to the Portfolio in DB.
+ * This class implements DAO functions and add some more. It access to the Portfolio in DB.
  *
  * @author Carl-Philipp Harmant
  *
  */
-public class PortfolioDAO extends AbstractDAO<Portfolio> {
+public class PortfolioDAO implements DAO<Portfolio> {
+
+	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Portfolio portfolio) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert("PortfolioDao.insertOnePortfolio", portfolio);
 		}
 	}
 
 	@Override
 	public final Portfolio select(final int id) {
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("PortfolioDao.selectOnePortfolio", id);
 		}
 	}
@@ -57,21 +60,21 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 	 * @return a Portfolio
 	 */
 	public final Portfolio selectPortfolioWithId(final int userId) {
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
 		}
 	}
 
 	@Override
 	public final void update(final Portfolio portfolio) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update("PortfolioDao.updateOnePortfolio", portfolio);
 		}
 	}
 
 	@Override
 	public final void delete(final Portfolio portfolio) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete("PortfolioDao.deleteOnePortfolio", portfolio);
 		}
 	}
@@ -88,8 +91,8 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 	 * @return a portfolio
 	 */
 	public final Portfolio selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {
-		Portfolio portfolio = null;
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		Portfolio portfolio;
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			portfolio = session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
 			if (portfolio != null) {
 				final List<Equity> equities = session.selectList("PortfolioDao.selectEquityFromPortfolio", portfolio.getId());

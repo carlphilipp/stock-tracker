@@ -16,6 +16,7 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import org.apache.ibatis.session.SqlSession;
 
@@ -24,30 +25,32 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements IDAO functions and add some more. It access to the Account in DB.
+ * This class implements DAO functions and add some more. It access to the Account in DB.
  *
  * @author Carl-Philipp Harmant
  *
  */
-public class AccountDAO extends AbstractDAO<Account> {
+public class AccountDAO implements DAO<Account> {
+
+	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Account account) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert("AccountDao.insertOneAccount", account);
 		}
 	}
 
 	@Override
 	public final Account select(final int id) {
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("AccountDao.selectOneAccount", id);
 		}
 	}
 
 	@Override
 	public final void update(final Account account) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update("AccountDao.updateOneAccount", account);
 		}
 
@@ -55,7 +58,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final void delete(final Account account) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete("AccountDao.deleteOneAccount", account);
 		}
 	}
@@ -68,7 +71,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	 * @return a list of account
 	 */
 	public final List<Account> selectAllAccountWithUserId(final int userId) {
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectList("AccountDao.selectAllAccountWithUserId", userId);
 		}
 	}
@@ -84,7 +87,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	 */
 	public final Account selectOneAccountWithName(final int userId, final String name) {
 		final Map<String, Object> map = new HashMap<>();
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			map.put("userId", userId);
 			map.put("name", name);
 			return session.selectOne("AccountDao.selectOneAccountWithName", map);

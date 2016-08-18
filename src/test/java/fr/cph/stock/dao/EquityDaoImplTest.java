@@ -81,7 +81,7 @@ public class EquityDaoImplTest {
 
 	@Test
 	public void testCRUDEquity() {
-		IDAO<Equity> dao = new EquityDAO();
+		DAO<Equity> dao = new EquityDAO();
 		Equity equity = new Equity();
 		equity.setPortfolioId(portfolio.getId());
 		equity.setCompany(company);

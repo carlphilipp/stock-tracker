@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao;
+package fr.cph.stock.dao.mybatis;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -29,7 +29,9 @@ import fr.cph.stock.dao.mybatis.Mybatis;
  * @param <T>
  *            the type of object the current class will process
  */
-public abstract class AbstractDAO<T> implements IDAO<T> {
+public enum SessionManager {
+
+	INSTANCE;
 
 	/** Sql session **/
 	private SqlSessionFactory sqlSessionFactory = Mybatis.INSTANCE.getSqlMapInstance();
@@ -39,7 +41,7 @@ public abstract class AbstractDAO<T> implements IDAO<T> {
 	 *
 	 * @return a session to access to the DB
 	 */
-	protected final SqlSession getSqlSessionFactory(final boolean autoCommit) {
+	public final SqlSession getSqlSessionFactory(final boolean autoCommit) {
 		return sqlSessionFactory.openSession(autoCommit);
 	}
 }

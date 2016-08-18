@@ -16,6 +16,7 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Index;
 import org.apache.ibatis.session.SqlSession;
 
@@ -25,16 +26,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements IDAO functions and add some more. It access to the Index in DB.
+ * This class implements DAO functions and add some more. It access to the Index in DB.
  *
  * @author Carl-Philipp Harmant
  *
  */
-public class IndexDAO extends AbstractDAO<Index> {
+public class IndexDAO implements DAO<Index> {
+
+	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Index index) {
-		final SqlSession session = getSqlSessionFactory(true);
+		final SqlSession session = sessionManager.getSqlSessionFactory(true);
 		try {
 			session.insert("IndexDao.insertOneIndex", index);
 		} finally {
@@ -44,7 +47,7 @@ public class IndexDAO extends AbstractDAO<Index> {
 
 	@Override
 	public final Index select(final int id) {
-		final SqlSession session = getSqlSessionFactory(false);
+		final SqlSession session = sessionManager.getSqlSessionFactory(false);
 		try {
 			return session.selectOne("IndexDao.selectOneIndex", id);
 		} finally {
@@ -60,7 +63,7 @@ public class IndexDAO extends AbstractDAO<Index> {
 	 * @return an index
 	 */
 	public final Index selectOneIndexWithIdAndIndex(final Index ind) {
-		final SqlSession session = getSqlSessionFactory(false);
+		final SqlSession session = sessionManager.getSqlSessionFactory(false);
 		try {
 			return session.selectOne("IndexDao.selectOneIndexWithIdAndIndex", ind);
 		} finally {
@@ -70,14 +73,14 @@ public class IndexDAO extends AbstractDAO<Index> {
 
 	@Override
 	public final void update(final Index index) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update("IndexDao.updateOneIndex", index);
 		}
 	}
 
 	@Override
 	public final void delete(final Index index) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete("IndexDao.deleteOneIndex", index);
 		}
 	}
@@ -98,7 +101,7 @@ public class IndexDAO extends AbstractDAO<Index> {
 		map.put("yahooId", yahooId);
 		map.put("from", from);
 		map.put("to", to);
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectList("IndexDao.selectListIndexFromTo", map);
 		}
 	}
@@ -111,7 +114,7 @@ public class IndexDAO extends AbstractDAO<Index> {
 	 * @return and Index with last data
 	 */
 	public final Index selectLast(final String yahooId) {
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("IndexDao.selectLastIndex", yahooId);
 		}
 	}

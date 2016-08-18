@@ -18,17 +18,17 @@ package fr.cph.stock.dao;
 
 /**
  * Interface that defines basics operation to DB.
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  * @param <T>
  *            the type of object the current class will process
  */
-public interface IDAO<T> {
+public interface DAO<T> {
 
 	/**
 	 * Insert an object into DB
-	 * 
+	 *
 	 * @param obj
 	 *            the object to insert
 	 */
@@ -36,7 +36,7 @@ public interface IDAO<T> {
 
 	/**
 	 * Get an object from DB
-	 * 
+	 *
 	 * @param id
 	 *            the id of the object to get
 	 * @return the object
@@ -45,7 +45,7 @@ public interface IDAO<T> {
 
 	/**
 	 * Update an object in DB
-	 * 
+	 *
 	 * @param obj
 	 *            the object to update
 	 */
@@ -53,7 +53,7 @@ public interface IDAO<T> {
 
 	/**
 	 * Delete an object in DB
-	 * 
+	 *
 	 * @param obj
 	 *            the object to delete
 	 */

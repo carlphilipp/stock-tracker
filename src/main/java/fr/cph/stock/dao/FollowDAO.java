@@ -16,6 +16,7 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Follow;
 import org.apache.ibatis.session.SqlSession;
 
@@ -24,37 +25,39 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class implements IDAO functions and add some more. It access to the Follow object in DB.
+ * This class implements DAO functions and add some more. It access to the Follow object in DB.
  *
  * @author Carl-Philipp Harmant
  *
  */
-public class FollowDAO extends AbstractDAO<Follow> {
+public class FollowDAO implements DAO<Follow> {
+
+	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Follow follow) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert("FollowDao.insertOneFollow", follow);
 		}
 	}
 
 	@Override
 	public final Follow select(final int id) {
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("FollowDao.selectOneFollow", id);
 		}
 	}
 
 	@Override
 	public final void update(final Follow follow) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update("FollowDao.updateOneFollow", follow);
 		}
 	}
 
 	@Override
 	public final void delete(final Follow follow) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete("FollowDao.deleteOneFollow", follow);
 		}
 	}
@@ -67,7 +70,7 @@ public class FollowDAO extends AbstractDAO<Follow> {
 	 * @return a list of follow
 	 */
 	public final List<Follow> selectListFollow(final int userId) {
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectList("FollowDao.selectListFollow", userId);
 		}
 	}
@@ -85,7 +88,7 @@ public class FollowDAO extends AbstractDAO<Follow> {
 		final Map<String, Integer> map = new HashMap<>();
 		map.put("userId", userId);
 		map.put("companyId", companyId);
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("FollowDao.selectOneFollow", map);
 		}
 	}

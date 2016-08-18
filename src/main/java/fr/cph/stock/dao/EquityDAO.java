@@ -16,20 +16,23 @@
 
 package fr.cph.stock.dao;
 
+import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Equity;
 import org.apache.ibatis.session.SqlSession;
 
 /**
- * This class implements IDAO functions and add some more. It access to the Equity in DB.
+ * This class implements DAO functions and add some more. It access to the Equity in DB.
  *
  * @author Carl-Philipp Harmant
  *
  */
-public class EquityDAO extends AbstractDAO<Equity> {
+public class EquityDAO implements DAO<Equity> {
+
+	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Equity equity) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert("EquityDao.insertOneEquity", equity);
 		}
 
@@ -37,21 +40,21 @@ public class EquityDAO extends AbstractDAO<Equity> {
 
 	@Override
 	public final Equity select(final int id) {
-		try (final SqlSession session = getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne("EquityDao.selectOneEquity", id);
 		}
 	}
 
 	@Override
 	public final void update(final Equity equity) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update("EquityDao.updateOneEquity", equity);
 		}
 	}
 
 	@Override
 	public final void delete(final Equity equity) {
-		try (final SqlSession session = getSqlSessionFactory(true)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete("EquityDao.deleteOneEquity", equity);
 		}
 	}
