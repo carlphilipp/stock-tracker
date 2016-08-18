@@ -39,7 +39,7 @@ public abstract class AbstractDAO<T> implements IDAO<T> {
 	 *
 	 * @return a session to access to the DB
 	 */
-	protected final SqlSession getSqlSessionFactory() {
-		return sqlSessionFactory.openSession();
+	protected final SqlSession getSqlSessionFactory(final boolean autoCommit) {
+		return sqlSessionFactory.openSession(autoCommit);
 	}
 }

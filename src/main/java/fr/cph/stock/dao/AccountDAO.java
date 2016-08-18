@@ -33,10 +33,9 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final void insert(final Account account) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(true);
 		try {
 			session.insert("AccountDao.insertOneAccount", account);
-			session.commit();
 		} finally {
 			session.close();
 		}
@@ -44,7 +43,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final Account select(final int id) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(false);
 		try {
 			return session.selectOne("AccountDao.selectOneAccount", id);
 		} finally {
@@ -54,10 +53,9 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final void update(final Account account) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(true);
 		try {
 			session.update("AccountDao.updateOneAccount", account);
-			session.commit();
 		} finally {
 			session.close();
 		}
@@ -66,10 +64,9 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final void delete(final Account account) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(true);
 		try {
 			session.delete("AccountDao.deleteOneAccount", account);
-			session.commit();
 		} finally {
 			session.close();
 		}
@@ -83,7 +80,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	 * @return a list of account
 	 */
 	public final List<Account> selectAllAccountWithUserId(final int userId) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(false);
 		try {
 			return session.selectList("AccountDao.selectAllAccountWithUserId", userId);
 		} finally {
@@ -101,7 +98,7 @@ public class AccountDAO extends AbstractDAO<Account> {
 	 * @return an account
 	 */
 	public final Account selectOneAccountWithName(final int userId, final String name) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(false);
 		final Map<String, Object> map = new HashMap<>();
 		try {
 			map.put("userId", userId);

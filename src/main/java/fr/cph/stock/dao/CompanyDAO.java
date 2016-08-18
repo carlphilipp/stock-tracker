@@ -27,18 +27,17 @@ import static fr.cph.stock.util.Constants.MANUAL;
 
 /**
  * This class implements IDAO functions and add some more. It access to the Company in DB.
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class CompanyDAO extends AbstractDAO<Company> {
 
 	@Override
 	public final void insert(final Company company) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(true);
 		try {
 			session.insert("CompanyDao.insertOneCompany", company);
-			session.commit();
 		} finally {
 			session.close();
 		}
@@ -46,7 +45,7 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
 	@Override
 	public final Company select(final int id) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(false);
 		try {
 			return session.selectOne("CompanyDao.selectOneCompany", id);
 		} finally {
@@ -56,10 +55,9 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
 	@Override
 	public final void update(final Company company) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(true);
 		try {
 			session.update("CompanyDao.updateOneCompany", company);
-			session.commit();
 		} finally {
 			session.close();
 		}
@@ -67,10 +65,9 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
 	@Override
 	public final void delete(final Company company) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(true);
 		try {
 			session.delete("CompanyDao.deleteOneCompany", company);
-			session.commit();
 		} finally {
 			session.close();
 		}
@@ -78,13 +75,13 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
 	/**
 	 * Get a company
-	 * 
+	 *
 	 * @param yahooId
 	 *            the yahoo id
 	 * @return a company
 	 */
 	public final Company selectWithYahooId(final String yahooId) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(false);
 		try {
 			return session.selectOne("CompanyDao.selectOneCompanyWithYahooId", yahooId);
 		} finally {
@@ -94,13 +91,13 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
 	/**
 	 * Get all the companies in DB
-	 * 
+	 *
 	 * @param realTime
 	 *            a boolean that represents a real time data information. If
 	 * @return a list of company
 	 */
 	public final List<Company> selectAllCompany(final boolean realTime) {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(false);
 		final Map<String, Boolean> options = new HashMap<>();
 		options.put("realTime", realTime);
 		// Remove manual companies
@@ -114,11 +111,11 @@ public class CompanyDAO extends AbstractDAO<Company> {
 
 	/**
 	 * Get a list of unsed company
-	 * 
+	 *
 	 * @return a list of integer representing company ids.
 	 */
 	public final List<Integer> selectAllUnusedCompanyIds() {
-		final SqlSession session = getSqlSessionFactory();
+		final SqlSession session = getSqlSessionFactory(false);
 		try {
 			return session.selectList("CompanyDao.selectAllUnusedCompanyIds");
 		} finally {
