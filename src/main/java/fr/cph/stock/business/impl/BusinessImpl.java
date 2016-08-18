@@ -17,15 +17,13 @@
 package fr.cph.stock.business.impl;
 
 import fr.cph.stock.business.Business;
-import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.dao.*;
-import fr.cph.stock.entities.*;
+import fr.cph.stock.dao.AccountDAO;
+import fr.cph.stock.dao.IndexDAO;
+import fr.cph.stock.entities.Account;
+import fr.cph.stock.entities.Index;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.IExternalDataAccess;
 import fr.cph.stock.external.YahooExternalDataAccess;
-import fr.cph.stock.util.Info;
-import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import org.apache.log4j.Logger;
 
@@ -51,125 +49,13 @@ public enum BusinessImpl implements Business {
 	private static final int PERCENT = 100;
 
 	private final IExternalDataAccess yahoo;
-	private final UserDAO daoUser;
-	private final ShareValueDAO daoShareValue;
 	private final IndexDAO daoIndex;
 	private final AccountDAO daoAccount;
 
-	private final CompanyBusiness companyBusiness;
-	private final UserBusiness userBusiness;
-
 	BusinessImpl() {
 		yahoo = new YahooExternalDataAccess();
-		daoUser = new UserDAO();
-		daoShareValue = new ShareValueDAO();
 		daoIndex = new IndexDAO();
 		daoAccount = new AccountDAO();
-		companyBusiness = CompanyBusinessImpl.INSTANCE;
-		userBusiness = UserBusinessImpl.INSTANCE;
-	}
-
-	// Share value
-	@Override
-	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield,
-											  final Double buy, final Double sell, final Double taxe, final String commentary) {
-		final ShareValue shareValue = new ShareValue();
-		shareValue.setUserId(portfolio.getUserId());
-		final double monthlyYield = new BigDecimal(portfolio.getYieldYear() / 12, MATHCONTEXT).doubleValue();
-		shareValue.setMonthlyYield(monthlyYield);
-		shareValue.setPortfolioValue(new BigDecimal(portfolio.getTotalValue(), MATHCONTEXT).doubleValue());
-		shareValue.setLiquidityMovement(liquidityMovement);
-		shareValue.setYield(yield);
-		shareValue.setBuy(buy);
-		shareValue.setSell(sell);
-		shareValue.setTaxe(taxe);
-		shareValue.setAccount(account);
-		// shareValue.setAccountName(account.getName());
-		shareValue.setCommentary(commentary);
-		shareValue.setDetails(portfolio.getPortfolioReview());
-		ShareValue lastShareValue = daoShareValue.selectLastValue(portfolio.getUserId());
-		if (lastShareValue == null) {
-			shareValue.setShareQuantity(portfolio.getTotalValue() / PERCENT);
-			shareValue.setShareValue((double) PERCENT);
-			daoShareValue.insert(shareValue);
-		} else {
-			double parity;
-			if (portfolio.getCurrency() == account.getCurrency()) {
-				parity = 1;
-			} else {
-				parity = portfolio.getCurrency().getParity(account.getCurrency());
-			}
-			final Double quantity = lastShareValue.getShareQuantity() + (liquidityMovement * parity)
-				/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.getShareQuantity());
-			shareValue.setShareQuantity(new BigDecimal(quantity, MATHCONTEXT).doubleValue());
-
-			final Double shareValue2 = portfolio.getTotalValue() / quantity;
-			shareValue.setShareValue(new BigDecimal(shareValue2, MATHCONTEXT).doubleValue());
-			daoShareValue.insert(shareValue);
-		}
-	}
-
-	@Override
-	public final void deleteShareValue(final ShareValue sv) {
-		daoShareValue.delete(sv);
-	}
-
-	@Override
-	public final void addShareValue(final ShareValue share) {
-		daoShareValue.insertWithDate(share);
-	}
-
-	@Override
-	public final void autoUpdateUserShareValue(final Calendar calendar) throws YahooException {
-		boolean tryToUpdate = false, canUpdate = false;
-		final List<User> users = daoUser.selectAllUsers();
-		Portfolio portfolio;
-		Account account;
-		for (final User user : users) {
-			if (user.getUpdateHourTime() != null) {
-				final int hourDiff = Util.timeZoneDiff(TimeZone.getTimeZone(user.getTimeZone()));
-				final int hour = Util.getRealHour(user.getUpdateHourTime(), hourDiff);
-
-				/*
-				 * if (user.getLogin().equals("carl") || user.getLogin().equals("carlphilipp")) { LOG.info("========================");
-				 * LOG.info("User : " + user.getLogin()); LOG.info("Current paris hour: " + calendar.get(Calendar.HOUR_OF_DAY));
-				 * LOG.info("User current time zone: " + user.getTimeZone()); LOG.info("Hour diff: " + hourDiff); LOG.info("User wants to update at "
-				 * + user.getUpdateHourTime()); LOG.info("Hour retained for user: " + hour); }
-				 */
-
-				final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-				if (hour == currentHour) {
-					if (!tryToUpdate) {
-						canUpdate = companyBusiness.updateAllCompanies();
-						tryToUpdate = true;
-					}
-					if (canUpdate) {
-						LOG.info("Update user portfolio: " + user.getLogin());
-						portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
-						account = portfolio.getFirstAccount();
-						updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");
-					} else {
-						if (user.getUpdateSendMail()) {
-							final String body = ("Dear "
-								+ user.getLogin()
-								+ ",\n\nThe update today did not work, probably because of Yahoo's API.\nSorry for the inconvenience. You still can try do it manually."
-								+ "\n\nBest regards,\nThe " + Info.NAME + " team.");
-							Mail.sendMail("[Auto-update fail] " + Info.NAME, body, new String[]{user.getEmail()}, null);
-						}
-					}
-				}
-			}
-		}
-	}
-
-	@Override
-	public final ShareValue selectOneShareValue(final int id) {
-		return daoShareValue.select(id);
-	}
-
-	@Override
-	public final void updateCommentaryShareValue(final ShareValue shareValue) {
-		daoShareValue.update(shareValue);
 	}
 
 	// Indexes

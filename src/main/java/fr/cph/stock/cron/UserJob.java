@@ -16,8 +16,8 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.business.Business;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.ShareValueBusiness;
+import fr.cph.stock.business.impl.ShareValueBusinessImpl;
 import fr.cph.stock.exception.YahooException;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
@@ -36,11 +36,11 @@ public class UserJob implements Job {
 
 	/** Logger **/
 	private static final Logger LOG = Logger.getLogger(UserJob.class);
-	private Business business;
+	private ShareValueBusiness shareValueBusiness;
 
 	/** Constructor **/
 	public UserJob() {
-		business = BusinessImpl.INSTANCE;
+		shareValueBusiness = ShareValueBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class UserJob implements Job {
 			LOG.info("User job");
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
-			business.autoUpdateUserShareValue(cal);
+			shareValueBusiness.autoUpdateUserShareValue(cal);
 		} catch (YahooException e) {
 			LOG.error("Error while executing UserJob: " + e.getMessage());
 		} catch (Throwable t) {

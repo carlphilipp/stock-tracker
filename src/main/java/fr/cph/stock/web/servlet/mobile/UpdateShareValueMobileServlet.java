@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.ShareValueBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
@@ -40,21 +40,20 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called to update its share value, from mobile
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "UpdateShareValueMobileServlet", urlPatterns = {"/updatesharevaluemobile"})
 public class UpdateShareValueMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2877166802472612746L;
 	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
-	private Business business;
 	private UserBusiness userBusiness;
+	private ShareValueBusiness shareValueBusiness;
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() {
-		business = BusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
+		shareValueBusiness = ShareValueBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -86,7 +85,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 					newLiquidity = new BigDecimal(newLiquidity, mathContext).doubleValue();
 					userBusiness.updateLiquidity(account, newLiquidity);
 					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
-					business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
+					shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 					response.sendRedirect(HOMEMOBILE);
 				}
 

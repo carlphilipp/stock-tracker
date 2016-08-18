@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.ShareValueBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
@@ -41,21 +41,20 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called when the user want to delete a share value
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "DeleteShareValueServlet", urlPatterns = {"/deletesharevalue"})
 public class DeleteShareValueServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6742409927502374595L;
 	private static final Logger LOG = Logger.getLogger(DeleteShareValueServlet.class);
-	private Business business;
 	private UserBusiness userBusiness;
+	private ShareValueBusiness shareValueBusiness;
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
 	public final void init() throws ServletException {
-		business = BusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
+		shareValueBusiness = ShareValueBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -78,7 +77,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 			final ShareValue shareValue = new ShareValue();
 			shareValue.setId(shareId);
 			if (account == null) {
-				business.deleteShareValue(shareValue);
+				shareValueBusiness.deleteShareValue(shareValue);
 				message.append("Account not found, probably deleted before. Line has still been deleted!");
 				request.setAttribute(WARN, message);
 			} else {
@@ -87,9 +86,9 @@ public class DeleteShareValueServlet extends HttpServlet {
 				if (total != 0.0) {
 					double newLiquidity = account.getLiquidity() - total;
 					userBusiness.updateLiquidity(account, new BigDecimal(newLiquidity, mathContext).doubleValue());
-					message.append("Liquidity new value: " + (new BigDecimal(newLiquidity, mathContext)).doubleValue() + "<br>");
+					message.append("Liquidity new value: ").append((new BigDecimal(newLiquidity, mathContext)).doubleValue()).append("<br>");
 				}
-				business.deleteShareValue(shareValue);
+				shareValueBusiness.deleteShareValue(shareValue);
 				message.append("Done !");
 				request.setAttribute(MESSAGE, message);
 			}

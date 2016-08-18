@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import fr.cph.stock.business.Business;
+import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.BusinessImpl;
+import fr.cph.stock.business.impl.ShareValueBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
@@ -50,13 +50,13 @@ public class UpdateShareValueServlet extends HttpServlet {
 	private static final long serialVersionUID = 7284798829015895373L;
 	private static final Logger LOG = Logger.getLogger(UpdateShareValueServlet.class);
 	private final MathContext mathContext = MathContext.DECIMAL32;
-	private Business business;
+	private ShareValueBusiness shareValueBusiness;
 	private UserBusiness userBusiness;
 
 	@Override
 	public final void init() {
-		business = BusinessImpl.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
+		shareValueBusiness = ShareValueBusinessImpl.INSTANCE;
 	}
 
 	@Override
@@ -84,15 +84,15 @@ public class UpdateShareValueServlet extends HttpServlet {
 					userBusiness.updateLiquidity(account, newLiquidity);
 					message.append("'").append(account.getName()).append("' liquidity new value: ").append(newLiquidity);
 					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
-					business.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
+					shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 				} catch (final YahooException e) {
 					LOG.error(e.getMessage(), e);
 				}
 			} else {
 				final int shareId = Integer.parseInt(request.getParameter(SHARE_ID));
-				final ShareValue sv = business.selectOneShareValue(shareId);
+				final ShareValue sv = shareValueBusiness.selectOneShareValue(shareId);
 				sv.setCommentary(commUpdated);
-				business.updateCommentaryShareValue(sv);
+				shareValueBusiness.updateCommentaryShareValue(sv);
 				message.append("Modified!");
 			}
 			request.setAttribute(MESSAGE, message);
