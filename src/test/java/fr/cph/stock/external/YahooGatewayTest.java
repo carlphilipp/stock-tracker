@@ -23,7 +23,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-public class YahooTest {
+public class YahooGatewayTest {
 
 	@Test
 	public void testUpdateCurrency() throws YahooException {

@@ -41,7 +41,7 @@ import java.util.List;
 import static fr.cph.stock.util.Constants.QUOTE;
 
 /**
- * This class connect to yahoo api and convert the jsonObjects to java bean of the app
+ * This class connect to yahooGateway api and convert the jsonObjects to java bean of the app
  *
  * @author Carl-Philipp Harmant
  */
@@ -82,14 +82,19 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	private static final String YEAR_LOW = "YearLow";
 	private static final String YEAR_HIGH = "YearHigh";
 
+	private YahooGateway yahooGateway;
+
+	public YahooExternalDataAccess(){
+		yahooGateway = YahooGateway.INSTANCE;
+	}
+
 	// TODO sounds like we need GSON or Jackson here.
 	@Override
 	public final List<Company> getCompaniesData(final List<String> yahooIds) throws YahooException {
 		final List<Company> companies = new ArrayList<>();
 
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
-		final Yahoo yahoo = new Yahoo(requestQuotes);
-		final JSONObject json = yahoo.getJSONObject();
+		final JSONObject json = yahooGateway.getJSONObject(requestQuotes);
 		final JSONArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
 			final JSONObject jsonCompany = jsonResults.getJSONObject(j);
@@ -165,8 +170,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	@Override
 	public final Company getCompanyInfo(final Company company) throws YahooException {
 		final String requestStocks = "select * from yahoo.finance.stocks where symbol='" + company.getYahooId() + "'";
-		final Yahoo yahoo = new Yahoo(requestStocks);
-		JSONObject jsonCompanyInfo = yahoo.getJSONObject();
+		JSONObject jsonCompanyInfo = yahooGateway.getJSONObject(requestStocks);
 		try {
 			jsonCompanyInfo = jsonCompanyInfo.getJSONObject(QUERY).getJSONObject(RESULTS).getJSONObject(STOCK);
 		} catch (JSONException e) {
@@ -204,8 +208,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				final StringBuilder sb = new StringBuilder();
 				sb.append("\"").append(currency.getCode()).append(c.getCode()).append("\",\"").append(c.getCode()).append(currency.getCode()).append("\"");
 				final String request = "select * from yahoo.finance.xchange where pair in (" + sb + ")";
-				final Yahoo yahoo = new Yahoo(request);
-				final JSONObject json = yahoo.getJSONObject();
+				final JSONObject json = yahooGateway.getJSONObject(request);
 				JSONObject jsonn = json.optJSONObject(QUERY);
 				if (jsonn != null) {
 					final JSONObject jsonnn = jsonn.optJSONObject(RESULTS);
@@ -256,8 +259,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			: SIMPLE_DATE_FORMAT.format(to);
 		final List<Index> indexes = new ArrayList<>();
 		final String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
-		final Yahoo yahoo = new Yahoo(request);
-		final JSONObject json = yahoo.getJSONObject();
+		final JSONObject json = yahooGateway.getJSONObject(request);
 		final JSONArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
 			final JSONObject jsonIndex = jsonResults.getJSONObject(j);
@@ -288,8 +290,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			: SIMPLE_DATE_FORMAT.format(to);
 		final List<Company> companies = new ArrayList<>();
 		final String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
-		final Yahoo yahoo = new Yahoo(request);
-		final JSONObject json = yahoo.getJSONObject();
+		final JSONObject json = yahooGateway.getJSONObject(request);
 		final JSONArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
 			final JSONObject jsonIndex = jsonResults.getJSONObject(j);
@@ -309,9 +310,8 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	@Override
 	public final Index getIndexData(final String yahooId) throws YahooException {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in ('" + yahooId + "')";
-		final Yahoo yahoo = new Yahoo(requestQuotes);
 		final Index index = new Index();
-		final JSONObject json = yahoo.getJSONObject();
+		final JSONObject json = yahooGateway.getJSONObject(requestQuotes);
 
 		JSONObject jsonn;
 		try {
@@ -330,9 +330,9 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	 *
 	 * @param json the jsonObject
 	 * @return a jsonArray
-	 * @throws YahooException the yahoo exception
+	 * @throws YahooException the yahooGateway exception
 	 */
-	protected final JSONArray getJSONArrayFromJSONObject(final JSONObject json) throws YahooException {
+	private JSONArray getJSONArrayFromJSONObject(final JSONObject json) throws YahooException {
 		final JSONObject jQuery = json.optJSONObject(QUERY);
 		JSONArray quotes;
 		if (jQuery != null) {
@@ -375,7 +375,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	 * @param list a list
 	 * @return a String json friendly
 	 */
-	protected final String getFormattedList(final List<String> list) {
+	private String getFormattedList(final List<String> list) {
 		final StringBuilder sb = new StringBuilder();
 		int i = 0;
 		for (final String str : list) {
@@ -391,10 +391,10 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	/**
 	 * Guess the market from the id
 	 *
-	 * @param yahooId the yahoo id
+	 * @param yahooId the yahooGateway id
 	 * @return a Market
 	 */
-	public final Market guessMarket(final String yahooId) {
+	private Market guessMarket(final String yahooId) {
 		final String suffix = yahooId.substring(yahooId.indexOf('.') + 1, yahooId.length());
 		return Market.getMarketFromSuffix(suffix);
 	}

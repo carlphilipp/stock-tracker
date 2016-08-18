@@ -27,11 +27,11 @@ import fr.cph.stock.dao.PortfolioDaoImplTest;
 import fr.cph.stock.dao.UserDaoImplTest;
 import fr.cph.stock.entities.CompanyTest;
 import fr.cph.stock.entities.UserTest;
-import fr.cph.stock.external.YahooTest;
+import fr.cph.stock.external.YahooGatewayTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ CompanyDaoImplTest.class, UserDaoImplTest.class, PortfolioDaoImplTest.class, EquityDaoImplTest.class,
-		CompanyTest.class, UserTest.class, YahooTest.class, AccountBusinessTest.class })
+		CompanyTest.class, UserTest.class, YahooGatewayTest.class, AccountBusinessTest.class })
 public class AllTests {
 
 }
