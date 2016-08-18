@@ -33,42 +33,30 @@ public class AccountDAO extends AbstractDAO<Account> {
 
 	@Override
 	public final void insert(final Account account) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.insert("AccountDao.insertOneAccount", account);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final Account select(final int id) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("AccountDao.selectOneAccount", id);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void update(final Account account) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.update("AccountDao.updateOneAccount", account);
-		} finally {
-			session.close();
 		}
 
 	}
 
 	@Override
 	public final void delete(final Account account) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.delete("AccountDao.deleteOneAccount", account);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -80,11 +68,8 @@ public class AccountDAO extends AbstractDAO<Account> {
 	 * @return a list of account
 	 */
 	public final List<Account> selectAllAccountWithUserId(final int userId) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectList("AccountDao.selectAllAccountWithUserId", userId);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -98,14 +83,11 @@ public class AccountDAO extends AbstractDAO<Account> {
 	 * @return an account
 	 */
 	public final Account selectOneAccountWithName(final int userId, final String name) {
-		final SqlSession session = getSqlSessionFactory(false);
 		final Map<String, Object> map = new HashMap<>();
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			map.put("userId", userId);
 			map.put("name", name);
 			return session.selectOne("AccountDao.selectOneAccountWithName", map);
-		} finally {
-			session.close();
 		}
 	}
 }

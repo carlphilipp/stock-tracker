@@ -25,94 +25,69 @@ import java.util.List;
  * This class implements IDAO functions and add some more. It access to the User in DB.
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class UserDAO extends AbstractDAO<User> {
 
 	@Override
 	public final void insert(final User user) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.insert("UserDao.insertOneUser", user);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final User select(final int id) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("UserDao.selectOneUser", id);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void update(final User user) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.update("UserDao.updateOneUser", user);
-		} finally {
-			session.close();
 		}
 	}
 
 	/**
 	 * Update one user password
 	 *
-	 * @param user
-	 *            the user
+	 * @param user the user
 	 */
 	public final void updateOneUserPassword(final User user) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.update("UserDao.updateOneUserPassword", user);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void delete(final User user) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.delete("UserDao.deleteOneUser", user);
-		} finally {
-			session.close();
 		}
 	}
 
 	/**
 	 * Get a user with its login
 	 *
-	 * @param login
-	 *            the login
+	 * @param login the login
 	 * @return a user
 	 */
 	public final User selectWithLogin(final String login) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("UserDao.selectOneUserWithLogin", login);
-		} finally {
-			session.close();
 		}
 	}
 
 	/**
 	 * Get a user with its email
 	 *
-	 * @param email
-	 *            the email
+	 * @param email the email
 	 * @return a user
 	 */
 	public final User selectWithEmail(final String email) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("UserDao.selectOneUserWithEmail", email);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -122,11 +97,8 @@ public class UserDAO extends AbstractDAO<User> {
 	 * @return a list of user
 	 */
 	public final List<User> selectAllUsers() {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectList("UserDao.selectAllUsers");
-		} finally {
-			session.close();
 		}
 	}
 }

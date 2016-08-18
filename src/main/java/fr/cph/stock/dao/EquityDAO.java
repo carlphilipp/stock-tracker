@@ -29,42 +29,30 @@ public class EquityDAO extends AbstractDAO<Equity> {
 
 	@Override
 	public final void insert(final Equity equity) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.insert("EquityDao.insertOneEquity", equity);
-		} finally {
-			session.close();
 		}
 
 	}
 
 	@Override
 	public final Equity select(final int id) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("EquityDao.selectOneEquity", id);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void update(final Equity equity) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.update("EquityDao.updateOneEquity", equity);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void delete(final Equity equity) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.delete("EquityDao.deleteOneEquity", equity);
-		} finally {
-			session.close();
 		}
 	}
 }

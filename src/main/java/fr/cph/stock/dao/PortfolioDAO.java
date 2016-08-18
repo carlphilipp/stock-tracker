@@ -37,21 +37,15 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
 	@Override
 	public final void insert(final Portfolio portfolio) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.insert("PortfolioDao.insertOnePortfolio", portfolio);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final Portfolio select(final int id) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("PortfolioDao.selectOnePortfolio", id);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -63,31 +57,22 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 	 * @return a Portfolio
 	 */
 	public final Portfolio selectPortfolioWithId(final int userId) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void update(final Portfolio portfolio) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.update("PortfolioDao.updateOnePortfolio", portfolio);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void delete(final Portfolio portfolio) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.delete("PortfolioDao.deleteOnePortfolio", portfolio);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -103,9 +88,8 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 	 * @return a portfolio
 	 */
 	public final Portfolio selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {
-		final SqlSession session = getSqlSessionFactory(false);
 		Portfolio portfolio = null;
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			portfolio = session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
 			if (portfolio != null) {
 				final List<Equity> equities = session.selectList("PortfolioDao.selectEquityFromPortfolio", portfolio.getId());
@@ -130,8 +114,6 @@ public class PortfolioDAO extends AbstractDAO<Portfolio> {
 
 				}
 			}
-		} finally {
-			session.close();
 		}
 		return portfolio;
 	}

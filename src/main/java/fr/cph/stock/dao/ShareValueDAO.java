@@ -31,11 +31,8 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 
 	@Override
 	public final void insert(final ShareValue shareValue) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.insert("ShareValue.insertOneShareValue", shareValue);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -46,41 +43,29 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 	 *            the share value
 	 */
 	public final void insertWithDate(final ShareValue shareValue) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.insert("ShareValue.insertOneShareValueWithDate", shareValue);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final ShareValue select(final int id) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("ShareValue.selectOneShareValue", id);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void update(final ShareValue shareValue) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.update("ShareValue.updateOneShareValue", shareValue);
-		} finally {
-			session.close();
 		}
 	}
 
 	@Override
 	public final void delete(final ShareValue shareValue) {
-		final SqlSession session = getSqlSessionFactory(true);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(true)) {
 			session.delete("ShareValue.deleteOneShareValue", shareValue);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -92,11 +77,8 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 	 * @return a share value
 	 */
 	public final ShareValue selectLastValue(final int userId) {
-		final SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectOne("ShareValue.selectLastValue", userId);
-		} finally {
-			session.close();
 		}
 	}
 
@@ -108,11 +90,8 @@ public class ShareValueDAO extends AbstractDAO<ShareValue> {
 	 * @return a list of share value
 	 */
 	public final List<ShareValue> selectAllValue(final int userId) {
-		SqlSession session = getSqlSessionFactory(false);
-		try {
+		try (final SqlSession session = getSqlSessionFactory(false)) {
 			return session.selectList("ShareValue.selectAllValue", userId);
-		} finally {
-			session.close();
 		}
 	}
 }
