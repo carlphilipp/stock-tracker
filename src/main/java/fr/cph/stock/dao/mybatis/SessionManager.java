@@ -41,7 +41,7 @@ public enum SessionManager {
 	 *
 	 * @return a session to access to the DB
 	 */
-	public final SqlSession getSqlSessionFactory(final boolean autoCommit) {
+	public SqlSession getSqlSessionFactory(final boolean autoCommit) {
 		return sqlSessionFactory.openSession(autoCommit);
 	}
 }

@@ -27,7 +27,7 @@ import java.io.InputStream;
  *
  */
 
-public enum Mybatis {
+enum Mybatis {
 
 	INSTANCE;
 
@@ -41,7 +41,7 @@ public enum Mybatis {
 		try (final InputStream inputStream = Resources.getResourceAsStream(resource)) {
 			SQL_SESSION_FACTORY = new SqlSessionFactoryBuilder().build(inputStream);
 		} catch (final Exception e) {
-			throw new RuntimeException("Error while iBatis init: " + e.getMessage(), e);
+			throw new RuntimeException("Error while myBatis init: " + e.getMessage(), e);
 		}
 	}
 
