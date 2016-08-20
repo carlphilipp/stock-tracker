@@ -31,8 +31,12 @@ dependencies {
 		[group: 'commons-io', name: 'commons-io', version: '2.5'],
 		[group: 'commons-lang', name: 'commons-lang', version: '2.3'],
 
+		// JSTL
+		[group: 'javax.servlet', name: 'jstl', version: '1.2'],
+
 		// Logging
 		[group: 'log4j', name: 'log4j', version: '1.2.17'],
+		[group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'],
 
 		// Reports
 		[group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.1.0'],
