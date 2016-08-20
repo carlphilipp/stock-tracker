@@ -682,7 +682,7 @@ public class Equity implements Comparable<Equity> {
 				res = getCompany().getYield() / getUnitCostPrice() * PERCENT;
 			}
 		}
-		res = new BigDecimal(res, mathContext).doubleValue();
+		res = new BigDecimal(Double.toString(res), mathContext).doubleValue();
 		return res;
 	}
 
@@ -701,7 +701,7 @@ public class Equity implements Comparable<Equity> {
 		if (res.isInfinite() || res.isNaN()) {
 			res = 0.0;
 		} else {
-			res = new BigDecimal(res, mathContext).doubleValue();
+			res = new BigDecimal(Double.toString(res), mathContext).doubleValue();
 		}
 		return res;
 	}

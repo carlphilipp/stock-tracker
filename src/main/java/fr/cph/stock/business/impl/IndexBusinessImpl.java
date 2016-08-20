@@ -44,7 +44,7 @@ public enum IndexBusinessImpl implements IndexBusiness {
 			} else {
 				final Index lastIndex = indexes.get(i - 1);
 				double shareValue = currentIndex.getValue() * lastIndex.getShareValue() / lastIndex.getValue();
-				shareValue = new BigDecimal(shareValue, MATHCONTEXT).doubleValue();
+				shareValue = new BigDecimal(Double.toString(shareValue), MATHCONTEXT).doubleValue();
 				currentIndex.setShareValue(shareValue);
 			}
 		}

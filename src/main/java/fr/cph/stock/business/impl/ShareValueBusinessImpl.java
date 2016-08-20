@@ -69,10 +69,10 @@ public enum ShareValueBusinessImpl implements ShareValueBusiness {
 				: portfolio.getCurrency().getParity(account.getCurrency());
 			final Double quantity = lastShareValue.getShareQuantity() + (liquidityMovement * parity)
 				/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.getShareQuantity());
-			shareValue.setShareQuantity(new BigDecimal(quantity, MATHCONTEXT).doubleValue());
+			shareValue.setShareQuantity(new BigDecimal(Double.toString(quantity), MATHCONTEXT).doubleValue());
 
 			final Double shareValue2 = portfolio.getTotalValue() / quantity;
-			shareValue.setShareValue(new BigDecimal(shareValue2, MATHCONTEXT).doubleValue());
+			shareValue.setShareValue(new BigDecimal(Double.toString(shareValue2), MATHCONTEXT).doubleValue());
 			shareValueDAO.insert(shareValue);
 		}
 	}

@@ -186,7 +186,7 @@ public enum UserBusinessImpl implements UserBusiness {
 				acc.setParity(portfolio.getCurrency().getParity(acc.getCurrency()));
 			}
 		}
-		liquidity = new BigDecimal(liquidity, MATHCONTEXT).doubleValue();
+		liquidity = new BigDecimal(Double.toString(liquidity), MATHCONTEXT).doubleValue();
 		portfolio.setLiquidity(liquidity);
 		portfolio.compute();
 		return portfolio;

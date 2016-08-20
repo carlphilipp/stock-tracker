@@ -82,7 +82,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 					response.getWriter().write("{\"error\":\"Account not found\"}");
 				} else {
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
-					newLiquidity = new BigDecimal(newLiquidity, mathContext).doubleValue();
+					newLiquidity = new BigDecimal(Double.toString(newLiquidity), mathContext).doubleValue();
 					userBusiness.updateLiquidity(account, newLiquidity);
 					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 					shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);

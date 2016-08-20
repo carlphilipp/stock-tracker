@@ -82,11 +82,11 @@ public class DeleteShareValueServlet extends HttpServlet {
 				request.setAttribute(WARN, message);
 			} else {
 				Double total = liquidityMovement + yield - buy + sell - taxe;
-				total = new BigDecimal(total, mathContext).doubleValue();
+				total = new BigDecimal(Double.toString(total), mathContext).doubleValue();
 				if (total != 0.0) {
 					double newLiquidity = account.getLiquidity() - total;
-					userBusiness.updateLiquidity(account, new BigDecimal(newLiquidity, mathContext).doubleValue());
-					message.append("Liquidity new value: ").append((new BigDecimal(newLiquidity, mathContext)).doubleValue()).append("<br>");
+					userBusiness.updateLiquidity(account, new BigDecimal(Double.toString(newLiquidity), mathContext).doubleValue());
+					message.append("Liquidity new value: ").append((new BigDecimal(Double.toString(newLiquidity), mathContext)).doubleValue()).append("<br>");
 				}
 				shareValueBusiness.deleteShareValue(shareValue);
 				message.append("Done !");

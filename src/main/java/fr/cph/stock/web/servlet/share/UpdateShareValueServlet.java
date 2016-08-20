@@ -80,7 +80,7 @@ public class UpdateShareValueServlet extends HttpServlet {
 					Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 					Account account = portfolio.getAccount(acc);
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
-					newLiquidity = new BigDecimal(newLiquidity, mathContext).doubleValue();
+					newLiquidity = new BigDecimal(Double.toString(newLiquidity), mathContext).doubleValue();
 					userBusiness.updateLiquidity(account, newLiquidity);
 					message.append("'").append(account.getName()).append("' liquidity new value: ").append(newLiquidity);
 					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
