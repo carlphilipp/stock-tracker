@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,8 @@ import static fr.cph.stock.util.Constants.PASSWORD;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class PortfolioDaoImplTest {
+public final class PortfolioDaoImplTest {
+
 	private User user;
 	private Portfolio portfolio;
 	private Company company;
@@ -42,7 +43,7 @@ public class PortfolioDaoImplTest {
 	private Equity equity;
 
 	@Before
-	public void setUp(){
+	public void setUp() {
 		daoUser = UserDAO.INSTANCE;
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
 		user = new User(uuid, PASSWORD);
@@ -52,22 +53,22 @@ public class PortfolioDaoImplTest {
 	}
 
 	@After
-	public void after(){
+	public void after() {
 		daoUser.delete(user);
 	}
 
 	@Test
-	public void testCRUDPortfolio(){
+	public void testCRUDPortfolio() {
 		PortfolioDAO dao = PortfolioDAO.INSTANCE;
 
 		int userId = user.getId();
 
-		Portfolio portfolio = new Portfolio();
-		portfolio.setUserId(userId);
-		portfolio.setCurrency(Currency.EUR);
-		dao.insert(portfolio);
+		Portfolio portfolioLocal = new Portfolio();
+		portfolioLocal.setUserId(userId);
+		portfolioLocal.setCurrency(Currency.EUR);
+		dao.insert(portfolioLocal);
 
-		Portfolio port  = dao.selectPortfolioFromUserIdWithEquities(userId, null, null);
+		Portfolio port = dao.selectPortfolioFromUserIdWithEquities(userId, null, null);
 		assertEquals(userId, port.getUserId());
 		assertEquals(Currency.EUR, port.getCurrency());
 
@@ -79,15 +80,15 @@ public class PortfolioDaoImplTest {
 		assertEquals(Currency.USD, port.getCurrency());
 
 		dao.delete(port);
-		portfolio = dao.select(port.getId());
-		assertNull(portfolio);
+		portfolioLocal = dao.select(port.getId());
+		assertNull(portfolioLocal);
 	}
 
 	@Test
-	public void testselectPortfolioFromUser(){
+	public void testselectPortfolioFromUser() {
 		PortfolioDAO dao = PortfolioDAO.INSTANCE;
 
-		daoEquity  = EquityDAO.INSTANCE;
+		daoEquity = EquityDAO.INSTANCE;
 
 		daoCompany = CompanyDAO.INSTANCE;
 		portfolio = new Portfolio();
@@ -111,7 +112,7 @@ public class PortfolioDaoImplTest {
 		company = daoCompany.selectWithYahooId("NK.ECA");
 
 		daoEquity = EquityDAO.INSTANCE;
-		equity =  new Equity();
+		equity = new Equity();
 		equity.setPortfolioId(portfolio.getId());
 		equity.setCompany(company);
 		equity.setCompanyId(company.getId());

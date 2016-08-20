@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -40,7 +40,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 
 @RunWith(JUnit4.class)
-public class AccountBusinessTest {
+public final class AccountBusinessTest {
 
 	private User user;
 	private UserDAO userDao;
@@ -105,23 +105,23 @@ public class AccountBusinessTest {
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@testderpderp.com";
 		userBusiness.createUser(login, md5Password, email);
-		User user = userBusiness.getUser(login);
-		assertNotNull(user);
-		assertEquals(login, user.getLogin());
-		assertEquals(128, user.getPassword().length());
-		assertEquals(email, user.getEmail());
-		Portfolio portfolio = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
-		assertNotNull(portfolio);
-		assertEquals(portfolio.getCurrency(), Currency.EUR);
-		assertEquals(0, portfolio.getEquities().size());
+		User userLocal = userBusiness.getUser(login);
+		assertNotNull(userLocal);
+		assertEquals(login, userLocal.getLogin());
+		assertEquals(128, userLocal.getPassword().length());
+		assertEquals(email, userLocal.getEmail());
+		Portfolio portfolioLocal = portfolioDao.selectPortfolioFromUserIdWithEquities(userLocal.getId(), null, null);
+		assertNotNull(portfolioLocal);
+		assertEquals(portfolioLocal.getCurrency(), Currency.EUR);
+		assertEquals(0, portfolioLocal.getEquities().size());
 
 		// Clean
 		Portfolio port = new Portfolio();
-		port.setId(portfolio.getId());
+		port.setId(portfolioLocal.getId());
 		portfolioDao.delete(port);
 		userBusiness.deleteUser(login);
-		user = userBusiness.getUser(login);
-		assertNull(user);
+		userLocal = userBusiness.getUser(login);
+		assertNull(userLocal);
 	}
 
 	@Test
@@ -131,17 +131,17 @@ public class AccountBusinessTest {
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@test.com";
 		userBusiness.createUser(login, md5Password, email);
-		User user = userBusiness.checkUser(login, md5Password);
-		assertNotNull(user);
+		User userLocal = userBusiness.checkUser(login, md5Password);
+		assertNotNull(userLocal);
 
 		// Clean
-		Portfolio portfolio = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
+		Portfolio portfolioLocal = portfolioDao.selectPortfolioFromUserIdWithEquities(userLocal.getId(), null, null);
 		Portfolio port = new Portfolio();
-		port.setId(portfolio.getId());
+		port.setId(portfolioLocal.getId());
 		portfolioDao.delete(port);
 		userBusiness.deleteUser(login);
-		user = userBusiness.getUser(login);
-		assertNull(user);
+		userLocal = userBusiness.getUser(login);
+		assertNull(userLocal);
 	}
 
 }

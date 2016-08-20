@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -31,7 +31,7 @@ import java.util.UUID;
 import static fr.cph.stock.util.Constants.PASSWORD;
 import static org.junit.Assert.assertEquals;
 
-public class EquityDaoImplTest {
+public final class EquityDaoImplTest {
 
 	private User user;
 	private Portfolio portfolio;
@@ -94,18 +94,18 @@ public class EquityDaoImplTest {
 		// insert
 		dao.insert(equity);
 		PortfolioDAO portDao = PortfolioDAO.INSTANCE;
-		Portfolio portfolio = portDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
-		assertEquals(1, portfolio.getEquities().size());
-		equity = portfolio.getEquities().get(0);
+		Portfolio portfolioLocal = portDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
+		assertEquals(1, portfolioLocal.getEquities().size());
+		equity = portfolioLocal.getEquities().get(0);
 		assertEquals(17.0, equity.getQuantity(), 0.00001);
 		assertEquals(4.5, equity.getUnitCostPrice(), 0.00001);
 		equity.setQuantity(20.0);
 
 		// update
 		dao.update(equity);
-		portfolio = portDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
-		assertEquals(1, portfolio.getEquities().size());
-		equity = portfolio.getEquities().get(0);
+		portfolioLocal = portDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
+		assertEquals(1, portfolioLocal.getEquities().size());
+		equity = portfolioLocal.getEquities().get(0);
 		assertEquals(20.0, equity.getQuantity(), 0.00001);
 
 		// delete

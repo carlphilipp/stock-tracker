@@ -93,18 +93,17 @@ public class TimeValueChart extends AChart {
 	 * Generate colors
 	 */
 	private void generateColors() {
-		List<String> colorsListRes = new ArrayList<>();
-		List<String> colorsList = new ArrayList<>();
+		final List<String> colorsList = new ArrayList<>();
 		colorsList.add("#3e933d");
 		colorsList.add("#190525");
 		colorsList.add("#6a0efc");
 		colorsList.add("#FF0000");
 		colorsList.add("#FFCC00");
-		colorsListRes = Util.getRandomColors(2, colorsList, colorsListRes);
+		final List<String> colorsListRes = Util.getRandomColors(2, colorsList);
 		StringBuilder sb = new StringBuilder();
 		int i = 0;
 		for (String s : colorsListRes) {
-			sb.append("'" + s + "'");
+			sb.append("'").append(s).append("'");
 			if (i != colorsList.size()) {
 				sb.append(",");
 			}

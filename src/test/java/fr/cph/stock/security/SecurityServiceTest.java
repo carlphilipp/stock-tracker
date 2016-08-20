@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 
 import static org.junit.Assert.assertEquals;
 
-public class SecurityServiceTest {
+public final class SecurityServiceTest {
 
 	@Test
 	public void testEncodeToSha256() throws UnsupportedEncodingException, NoSuchAlgorithmException {

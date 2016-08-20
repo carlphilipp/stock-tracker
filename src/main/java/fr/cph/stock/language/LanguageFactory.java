@@ -29,28 +29,28 @@ public enum LanguageFactory {
 	INSTANCE;
 
 	/**
-	 * The result LANGUAGE_MAP
+	 * The result languageMap
 	 **/
-	private static Map<String, Map<String, String>> LANGUAGE_MAP;
+	private static Map<String, Map<String, String>> languageMap;
 
 	static {
-		LANGUAGE_MAP = new HashMap<>();
+		languageMap = new HashMap<>();
 		createLanguage("English");
 		createLanguage("Francais");
 	}
 
 	private static void createLanguage(final String languageName) {
 		final Language language = new Language("language/" + languageName + ".xml");
-		LANGUAGE_MAP.put(languageName, language.getLanguage());
+		languageMap.put(languageName, language.getLanguage());
 	}
 
 	/**
 	 * Get the current language needed
 	 *
 	 * @param language the language
-	 * @return a LANGUAGE_MAP
+	 * @return a languageMap
 	 */
 	public Map<String, String> getLanguage(final String language) {
-		return LANGUAGE_MAP.get(language);
+		return languageMap.get(language);
 	}
 }

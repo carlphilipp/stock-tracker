@@ -20,7 +20,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class UserTest {
+public final class UserTest {
 
 	@Test
 	public void testUser() {
@@ -32,5 +32,4 @@ public class UserTest {
 		user.setEmail(email);
 		assertEquals(email, user.getEmail());
 	}
-
 }

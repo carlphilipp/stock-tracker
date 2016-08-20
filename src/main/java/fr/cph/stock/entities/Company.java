@@ -396,11 +396,11 @@ public class Company {
 			+ ", gapYearLow=" + gapYearLow + ", gapYearHigh=" + gapYearHigh + "]";
 	}
 
-	public Boolean getManual() {
+	public final Boolean getManual() {
 		return manual;
 	}
 
-	public void setManual(Boolean manual) {
+	public final void setManual(final Boolean manual) {
 		this.manual = manual;
 	}
 }

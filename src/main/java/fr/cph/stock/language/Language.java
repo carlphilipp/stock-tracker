@@ -68,7 +68,7 @@ public class Language {
 	 *            the path of the xml file
 	 * @throws LanguageException the language exception
 	 */
-	protected Language(final String path) throws LanguageException {
+	protected Language(final String path) {
 		this.path = path;
 		try {
 			this.xml = new XMLRetriever(path);

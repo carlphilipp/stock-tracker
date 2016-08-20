@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'pmd'
+apply plugin: 'checkstyle'
 
 repositories {
 	mavenCentral()
@@ -45,4 +46,8 @@ war {
 	archiveName = 'stock-tracker.war'
 	rootSpec.exclude('app.properties.template')
 	rootSpec.exclude('log4j.properties.template')
+}
+
+checkstyle {
+	configFile = new File('checkstyle/sun_checks.xml')
 }

@@ -38,11 +38,11 @@ import java.util.Properties;
 public final class Mail {
 
 	private static final Logger LOG = Logger.getLogger(Mail.class);
-	private static String SMTP_HOST_NAME;
-	private static String SMTP_PORT;
-	private static String EMAIL_FROM_USERNAME;
-	private static String EMAIL_FROM;
-	private static String PASSWORD_FROM;
+	private static String smtpHostName;
+	private static String smtpPort;
+	private static String emailFromUsername;
+	private static String emailFrom;
+	private static String passwordFrom;
 	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
 	/**
@@ -57,11 +57,11 @@ public final class Mail {
 	 */
 	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) throws MessagingException, IOException {
 		final Properties prop = Util.getProperties();
-		SMTP_HOST_NAME = prop.getProperty("email.smtp_host_name");
-		SMTP_PORT = prop.getProperty("email.smtp_port");
-		EMAIL_FROM_USERNAME = prop.getProperty("email.from.username");
-		EMAIL_FROM = prop.getProperty("email.from");
-		PASSWORD_FROM = prop.getProperty("email.password");
+		smtpHostName = prop.getProperty("email.smtp_host_name");
+		smtpPort = prop.getProperty("email.smtp_port");
+		emailFromUsername = prop.getProperty("email.from.username");
+		emailFrom = prop.getProperty("email.from");
+		passwordFrom = prop.getProperty("email.password");
 		Security.addProvider(new Provider());
 		sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt, attachFile);
 	}
@@ -82,11 +82,11 @@ public final class Mail {
 		final boolean debug = false;
 
 		final Properties props = new Properties();
-		props.put("mail.smtp.host", SMTP_HOST_NAME);
+		props.put("mail.smtp.host", smtpHostName);
 		props.put("mail.smtp.auth", "true");
 		//props.put("mail.debug", "true");
-		props.put("mail.smtp.port", SMTP_PORT);
-		props.put("mail.smtp.socketFactory.port", SMTP_PORT);
+		props.put("mail.smtp.port", smtpPort);
+		props.put("mail.smtp.socketFactory.port", smtpPort);
 		props.put("mail.smtp.socketFactory.class", SSL_FACTORY);
 		props.put("mail.smtp.socketFactory.fallback", "false");
 		props.put("mail.smtp.ssl.enable", true);
@@ -95,14 +95,14 @@ public final class Mail {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				// First argument must be the email in case of querying Gmail
 				// Must be only the username if querying Yahoo.
-				return new PasswordAuthentication(EMAIL_FROM_USERNAME, PASSWORD_FROM);
+				return new PasswordAuthentication(emailFromUsername, passwordFrom);
 			}
 		});
 
 		session.setDebug(debug);
 
 		final Message msg = new MimeMessage(session);
-		final InternetAddress addressFrom = new InternetAddress(EMAIL_FROM);
+		final InternetAddress addressFrom = new InternetAddress(emailFrom);
 		msg.setFrom(addressFrom);
 
 		final InternetAddress[] addressTo = new InternetAddress[recipients.length];

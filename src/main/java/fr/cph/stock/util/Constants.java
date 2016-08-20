@@ -44,7 +44,7 @@ public enum Constants {
 	public static final String FRANCAIS = "Francais";
 	public static final String FILE = "file";
 	public static final String FROM = "from";
-	public static final String _FROM = "_from";
+	public static final String FROM_UNDERSCORE = "_from";
 	public static final String FOLLOWS = "follows";
 
 	public static final String HOME = "home";
@@ -110,7 +110,7 @@ public enum Constants {
 
 	public static final String TICKER = "ticker";
 	public static final String TO = "to";
-	public static final String _TO = "_to";
+	public static final String TO_UNDERSCORE = "_to";
 
 	public static final String USER = "user";
 	public static final String UPDATE = "update";

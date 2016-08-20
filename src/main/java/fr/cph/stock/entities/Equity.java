@@ -837,8 +837,7 @@ public class Equity implements Comparable<Equity> {
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public int compareTo(final Equity equity) {
+	public final int compareTo(final Equity equity) {
 		return this.getCurrentName().compareTo(equity.getCurrentName());
 	}
-
 }

@@ -129,8 +129,8 @@ public class PerformanceServlet extends HttpServlet {
 							t = date;
 						}
 					}
-					request.setAttribute(_FROM, fro);
-					request.setAttribute(_TO, t);
+					request.setAttribute(FROM_UNDERSCORE, fro);
+					request.setAttribute(TO_UNDERSCORE, t);
 				}
 
 				request.setAttribute(PORTFOLIO, portfolio);

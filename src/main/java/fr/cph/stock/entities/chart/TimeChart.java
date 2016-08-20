@@ -30,26 +30,28 @@ import java.util.Map.Entry;
  * This class represents an time chart
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class TimeChart extends AChart {
 
-	/** Starting date of the chart **/
+	/**
+	 * Starting date of the chart
+	 **/
 	private Date date;
-	/** Share value info **/
+	/**
+	 * Share value info
+	 **/
 	private Map<Date, Double> shareValue;
-	/** Indexes **/
+	/**
+	 * Indexes
+	 **/
 	private Map<String, List<Index>> indexes;
 
 	/**
 	 * Constructor that constructs a time chart
 	 *
-	 * @param shareValue
-	 *            the share values
-	 * @param indexes
-	 *            the indexes
-	 * @param date
-	 *            the starting date
+	 * @param shareValue the share values
+	 * @param indexes    the indexes
+	 * @param date       the starting date
 	 */
 	public TimeChart(final Map<Date, Double> shareValue, final Map<String, List<Index>> indexes, final Date date) {
 		this.shareValue = shareValue;
@@ -111,18 +113,17 @@ public class TimeChart extends AChart {
 	 * Generate colors
 	 */
 	private void generateColors() {
-		List<String> colorsListRes = new ArrayList<>();
-		List<String> colorsList = new ArrayList<>();
+		final List<String> colorsList = new ArrayList<>();
 		colorsList.add("#3e933d");
 		colorsList.add("#190525");
 		colorsList.add("#6a0efc");
 		colorsList.add("#FF0000");
 		colorsList.add("#FFCC00");
-		colorsListRes = Util.getRandomColors(3, colorsList, colorsListRes);
+		final List<String> colorsListRes = Util.getRandomColors(3, colorsList);
 		StringBuilder sb = new StringBuilder();
 		int i = 0;
 		for (String s : colorsListRes) {
-			sb.append("'" + s + "'");
+			sb.append("'").append(s).append("'");
 			if (i != colorsList.size()) {
 				sb.append(",");
 			}

@@ -64,7 +64,19 @@ public class LostServlet extends HttpServlet {
 				if (user != null) {
 					final StringBuilder body = new StringBuilder();
 					final String check = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
-					body.append("Dear ").append(user.getLogin()).append(",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n").append("If it's you, click on this link:  ").append(Info.ADDRESS).append(Info.FOLDER).append("/newpassword?&login=").append(user.getLogin()).append("&check=").append(check).append(".\n\nBest regards,\nThe ").append(Info.NAME).append(" team.");
+					body.append("Dear ")
+						.append(user.getLogin())
+						.append(",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n")
+						.append("If it's you, click on this link:  ")
+						.append(Info.ADDRESS)
+						.append(Info.FOLDER)
+						.append("/newpassword?&login=")
+						.append(user.getLogin())
+						.append("&check=")
+						.append(check)
+						.append(".\n\nBest regards,\nThe ")
+						.append(Info.NAME)
+						.append(" team.");
 					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[]{email}, null);
 					request.setAttribute("ok", "Check your email!");
 				} else {

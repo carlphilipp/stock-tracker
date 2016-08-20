@@ -24,6 +24,8 @@ public enum Util {
 	 **/
 	private static final Logger LOG = Logger.getLogger(Util.class);
 
+	private static final Random RANDOM = new Random();
+
 	/**
 	 * Get the timezone difference with Paris
 	 *
@@ -124,23 +126,19 @@ public enum Util {
 	}
 
 	/**
-	 * Get random colors
+	 * Get RANDOM colors
 	 *
 	 * @param size   the size
 	 * @param colors the list of color
-	 * @param res    the res
 	 * @return a list of string
 	 */
-	public static List<String> getRandomColors(final int size, final List<String> colors, List<String> res) {
-		if (res.size() != size) {
-			final Random random = new Random();
-			final String color = colors.get(random.nextInt(colors.size()));
-			if (!res.contains(color)) {
-				res.add(color);
-			}
-			res = getRandomColors(size, colors, res);
+	public static List<String> getRandomColors(final int size, final List<String> colors) {
+		final Set<String> res = new HashSet<>();
+		while (res.size() != size) {
+			final String color = colors.get(RANDOM.nextInt(colors.size()));
+			res.add(color);
 		}
-		return res;
+		return new ArrayList<>(res);
 	}
 
 	/**
@@ -199,7 +197,6 @@ public enum Util {
 	/**
 	 * Get properties from a property file
 	 *
-	 * @param path the path of the property file
 	 * @return a properties file
 	 */
 	public static Properties getProperties() {
