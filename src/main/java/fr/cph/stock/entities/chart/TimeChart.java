@@ -84,9 +84,9 @@ public class TimeChart extends AChart {
 			List<Index> indexesTemp = e.getValue();
 			dataTemp.append("\nd" + j + " = [");
 			String indexName = null;
-			if (indexesTemp.get(0).getYahooId().equals(Info.YAHOOID_CAC40)) {
+			if (indexesTemp.get(0).getYahooId().equals(Info.YAHOO_ID_CAC40)) {
 				indexName = "CAC 40";
-			} else if (indexesTemp.get(0).getYahooId().equals(Info.YAHOOID_SP500)) {
+			} else if (indexesTemp.get(0).getYahooId().equals(Info.YAHOO_ID_SP500)) {
 				indexName = "S&P 500";
 			}
 			drawTemp.append("{data: d" + j + ", label: '" + indexName + "'}");

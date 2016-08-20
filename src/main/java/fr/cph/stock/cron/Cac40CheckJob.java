@@ -51,10 +51,10 @@ public class Cac40CheckJob implements Job {
 		try {
 			LOG.debug("Cac40 Check job running");
 			final TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-			indexBusiness.checkUpdateIndex(Info.YAHOOID_CAC40, timeZone);
-		} catch (YahooException e) {
+			indexBusiness.checkUpdateIndex(Info.YAHOO_ID_CAC40, timeZone);
+		} catch (final YahooException e) {
 			LOG.warn("Error while executing Cac40CheckJob: " + e.getMessage());
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing Cac40CheckJob: " + t.getMessage(), t);
 		}
 	}

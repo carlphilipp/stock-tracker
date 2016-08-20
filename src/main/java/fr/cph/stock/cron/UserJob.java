@@ -50,9 +50,9 @@ public class UserJob implements Job {
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
 			shareValueBusiness.autoUpdateUserShareValue(cal);
-		} catch (YahooException e) {
+		} catch (final YahooException e) {
 			LOG.error("Error while executing UserJob: " + e.getMessage());
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing UserJob: " + t.getMessage(), t);
 		}
 	}

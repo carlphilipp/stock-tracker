@@ -32,16 +32,8 @@ public enum CurrencyBusinessImpl implements CurrencyBusiness {
 	public final Currency loadCurrencyData(final Currency currency) throws YahooException {
 		List<CurrencyData> currencyDataList = currencyDAO.selectListCurrency(currency.getCode());
 		if (currencyDataList.size() == 0) {
-			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
-			for (final CurrencyData currencyData : currenciesData) {
-				CurrencyData c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
-				if (c == null) {
-					currencyDAO.insert(currencyData);
-				} else {
-					currencyData.setId(c.getId());
-					currencyDAO.update(currencyData);
-				}
-			}
+			final List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+			updateOrInsertCurrency(currenciesData);
 			currencyDataList = currencyDAO.selectListCurrency(currency.getCode());
 		}
 		currency.setCurrencyData(currencyDataList);
@@ -77,18 +69,9 @@ public enum CurrencyBusinessImpl implements CurrencyBusiness {
 	public final void updateOneCurrency(final Currency currency) throws YahooException {
 		List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
 		if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
-			for (final CurrencyData currencyData : currenciesData) {
-				CurrencyData c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
-				if (c == null) {
-					currencyDAO.insert(currencyData);
-				} else {
-					currencyData.setId(c.getId());
-					currencyDAO.update(currencyData);
-				}
-			}
+			updateOrInsertCurrency(currenciesData);
 		} else {
-			throw new YahooException(
-				"The current table 'yahoo.finance.xchange' has been blocked. It exceeded the allotted quotas of either time or instructions");
+			throw new YahooException("The current table 'yahoo.finance.xchange' has been blocked. It exceeded the allotted quotas of either time or instructions");
 		}
 	}
 
@@ -115,5 +98,17 @@ public enum CurrencyBusinessImpl implements CurrencyBusiness {
 			}
 		}
 		return res;
+	}
+
+	private void updateOrInsertCurrency(final List<CurrencyData> currenciesData) {
+		for (final CurrencyData currencyData : currenciesData) {
+			final CurrencyData c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
+			if (c == null) {
+				currencyDAO.insert(currencyData);
+			} else {
+				currencyData.setId(c.getId());
+				currencyDAO.update(currencyData);
+			}
+		}
 	}
 }

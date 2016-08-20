@@ -42,7 +42,7 @@ public class CleanJob implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			companyBusiness.cleanDB();
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing CleanJob: " + t.getMessage(), t);
 		}
 	}

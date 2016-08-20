@@ -44,7 +44,7 @@ public class CompanyNotRealTimeJob implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			business.updateCompaniesNotRealTime();
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing CompanyNotRealTimeJob: " + t.getMessage(), t);
 		}
 	}

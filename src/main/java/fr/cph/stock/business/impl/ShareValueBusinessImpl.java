@@ -64,12 +64,9 @@ public enum ShareValueBusinessImpl implements ShareValueBusiness {
 			shareValue.setShareValue((double) PERCENT);
 			shareValueDAO.insert(shareValue);
 		} else {
-			double parity;
-			if (portfolio.getCurrency() == account.getCurrency()) {
-				parity = 1;
-			} else {
-				parity = portfolio.getCurrency().getParity(account.getCurrency());
-			}
+			double parity = portfolio.getCurrency() == account.getCurrency()
+				? 1
+				: portfolio.getCurrency().getParity(account.getCurrency());
 			final Double quantity = lastShareValue.getShareQuantity() + (liquidityMovement * parity)
 				/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.getShareQuantity());
 			shareValue.setShareQuantity(new BigDecimal(quantity, MATHCONTEXT).doubleValue());

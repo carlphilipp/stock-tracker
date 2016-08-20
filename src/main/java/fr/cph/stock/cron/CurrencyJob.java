@@ -44,9 +44,9 @@ public class CurrencyJob implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			currencyBusiness.updateAllCurrencies();
-		} catch (YahooException e) {
+		} catch (final YahooException e) {
 			LOG.warn("Error while executing CurrencyJob: " + e.getMessage());
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing CurrencyJob: " + t.getMessage(), t);
 		}
 	}

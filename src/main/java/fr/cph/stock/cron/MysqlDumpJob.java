@@ -16,23 +16,18 @@
 
 package fr.cph.stock.cron;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
+import fr.cph.stock.dropbox.DropBox;
+import fr.cph.stock.util.MySQLDumper;
+import fr.cph.stock.util.Util;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
-import com.dropbox.client2.exception.DropboxException;
-
-import fr.cph.stock.dropbox.DropBox;
-import fr.cph.stock.util.MySQLDumper;
-import fr.cph.stock.util.Util;
+import java.io.File;
 
 /**
  * Job that save DB to dropbox
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -46,25 +41,20 @@ public class MysqlDumpJob implements Job {
 		File tarGzFile = null;
 		File sqlFile = null;
 		try {
-			MySQLDumper mysql = new MySQLDumper(Util.getCurrentDateInFormat("dd-MM-yyyy"));
+			final MySQLDumper mysql = new MySQLDumper(Util.getCurrentDateInFormat("dd-MM-yyyy"));
 			mysql.export();
 
-			String sqlPath = mysql.getCurrentSqlNameFile();
+			final String sqlPath = mysql.getCurrentSqlNameFile();
 			sqlFile = new File(sqlPath);
-			String tarGzPath = mysql.getCurrentTarGzNameFile();
+			final String tarGzPath = mysql.getCurrentTarGzNameFile();
 			tarGzFile = new File(tarGzPath);
 
 			Util.createTarGz(sqlPath, tarGzPath);
 
-			DropBox dropBox = new DropBox();
+			final DropBox dropBox = new DropBox();
 			dropBox.deleteOldFileIfNeeded(tarGzFile);
 			dropBox.uploadFile(tarGzFile);
-
-		} catch (FileNotFoundException fe) {
-			LOG.error("Error while executing MysqlDumpJob: " + fe.getMessage(), fe);
-		} catch (DropboxException | IOException e) {
-			LOG.error("Error while executing MysqlDumpJob: " + e.getMessage(), e);
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing MysqlDumpJob: " + t.getMessage(), t);
 		} finally {
 			if (tarGzFile != null && tarGzFile.exists()) {

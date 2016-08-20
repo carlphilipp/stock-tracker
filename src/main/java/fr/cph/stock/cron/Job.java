@@ -26,7 +26,7 @@ import static fr.cph.stock.util.Constants.CURRENCY;
 
 /**
  * Job class that use Quartz API. It starts the different jobs needed in the application.
- * 
+ *
  * @author Carl-Philipp Harmant
  * @version 1
  */
@@ -42,15 +42,15 @@ public class Job {
 
 	/**
 	 * Run
-	 * 
+	 *
 	 * @throws SchedulerException
 	 *             the exception
 	 */
 	public final void run() throws SchedulerException {
-		Scheduler sched = new StdSchedulerFactory().getScheduler();
+		final Scheduler sched = new StdSchedulerFactory().getScheduler();
 
-		JobDetail jobCurrency = JobBuilder.newJob(CurrencyJob.class).withIdentity("jobCurrency", CURRENCY).build();
-		Trigger triggerCurrency = TriggerBuilder
+		final JobDetail jobCurrency = JobBuilder.newJob(CurrencyJob.class).withIdentity("jobCurrency", CURRENCY).build();
+		final Trigger triggerCurrency = TriggerBuilder
 				.newTrigger()
 				.withIdentity("triggerCurrency", CURRENCY)
 				.withSchedule(
@@ -59,8 +59,8 @@ public class Job {
 				.build();
 		sched.scheduleJob(jobCurrency, triggerCurrency);
 
-		JobDetail jobCac40 = JobBuilder.newJob(Cac40Job.class).withIdentity("jobCac40", "index").build();
-		Trigger triggerCac40 = TriggerBuilder
+		final JobDetail jobCac40 = JobBuilder.newJob(Cac40Job.class).withIdentity("jobCac40", "index").build();
+		final Trigger triggerCac40 = TriggerBuilder
 				.newTrigger()
 				.withIdentity("triggerCac40", "index")
 				.withSchedule(
@@ -69,8 +69,8 @@ public class Job {
 				.build();
 		sched.scheduleJob(jobCac40, triggerCac40);
 
-		JobDetail jobCac40Check = JobBuilder.newJob(Cac40CheckJob.class).withIdentity("jobCac40Check", "index").build();
-		Trigger triggerCac40Check = TriggerBuilder
+		final JobDetail jobCac40Check = JobBuilder.newJob(Cac40CheckJob.class).withIdentity("jobCac40Check", "index").build();
+		final Trigger triggerCac40Check = TriggerBuilder
 				.newTrigger()
 				.withIdentity("triggerCac40Check", "index")
 				.withSchedule(
@@ -80,8 +80,8 @@ public class Job {
 								TimeZone.getTimeZone("Europe/Paris"))).build();
 		sched.scheduleJob(jobCac40Check, triggerCac40Check);
 
-		JobDetail jobSP500 = JobBuilder.newJob(SP500Job.class).withIdentity("jobSP500", "index").build();
-		Trigger triggerSP500 = TriggerBuilder
+		final JobDetail jobSP500 = JobBuilder.newJob(SP500Job.class).withIdentity("jobSP500", "index").build();
+		final Trigger triggerSP500 = TriggerBuilder
 				.newTrigger()
 				.withIdentity("triggerSP500", "index")
 				.withSchedule(
@@ -91,8 +91,8 @@ public class Job {
 								TimeZone.getTimeZone("America/New_York"))).build();
 		sched.scheduleJob(jobSP500, triggerSP500);
 
-		JobDetail jobSP500Check = JobBuilder.newJob(SP500CheckJob.class).withIdentity("jobSP500Check", "index").build();
-		Trigger triggerSP500Check = TriggerBuilder
+		final JobDetail jobSP500Check = JobBuilder.newJob(SP500CheckJob.class).withIdentity("jobSP500Check", "index").build();
+		final Trigger triggerSP500Check = TriggerBuilder
 				.newTrigger()
 				.withIdentity("triggerSP500Check", "index")
 				.withSchedule(
@@ -102,17 +102,17 @@ public class Job {
 									TimeZone.getTimeZone("America/New_York"))).build();
 		sched.scheduleJob(jobSP500Check, triggerSP500Check);
 
-		JobDetail jobCompanyNotRealTime = JobBuilder.newJob(CompanyNotRealTimeJob.class)
+		final JobDetail jobCompanyNotRealTime = JobBuilder.newJob(CompanyNotRealTimeJob.class)
 				.withIdentity("jobCompanyNotRealTime", "company").build();
-		Trigger triggerCompanyNotRealTime = TriggerBuilder
+		final Trigger triggerCompanyNotRealTime = TriggerBuilder
 				.newTrigger()
 				.withIdentity("triggerCompanyNotRealTime", "company")
 				.withSchedule(CronScheduleBuilder.cronSchedule("0 30 1-6 ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
 				.build();
 		sched.scheduleJob(jobCompanyNotRealTime, triggerCompanyNotRealTime);
 
-		JobDetail jobClean = JobBuilder.newJob(CleanJob.class).withIdentity("jobClean", "company").build();
-		Trigger triggerClean = TriggerBuilder
+		final JobDetail jobClean = JobBuilder.newJob(CleanJob.class).withIdentity("jobClean", "company").build();
+		final Trigger triggerClean = TriggerBuilder
 				.newTrigger()
 				.withIdentity("triggerClean", "company")
 				.withSchedule(
@@ -121,8 +121,8 @@ public class Job {
 				.build();
 		sched.scheduleJob(jobClean, triggerClean);
 
-		JobDetail jobUser = JobBuilder.newJob(UserJob.class).withIdentity("jobUser", "user").build();
-		Trigger triggerUser = TriggerBuilder
+		final JobDetail jobUser = JobBuilder.newJob(UserJob.class).withIdentity("jobUser", "user").build();
+		final Trigger triggerUser = TriggerBuilder
 				.newTrigger()
 				.withIdentity("triggerUser", "user")
 				.withSchedule(
@@ -131,15 +131,15 @@ public class Job {
 				.build();
 		sched.scheduleJob(jobUser, triggerUser);
 
-		JobDetail jobMysql = JobBuilder.newJob(MysqlDumpJob.class).withIdentity("jobMysql", "system").build();
-		Trigger triggerMysql = TriggerBuilder.newTrigger().withIdentity("triggerMysql", "system")
+		final JobDetail jobMysql = JobBuilder.newJob(MysqlDumpJob.class).withIdentity("jobMysql", "system").build();
+		final Trigger triggerMysql = TriggerBuilder.newTrigger().withIdentity("triggerMysql", "system")
 				// .withSchedule(CronScheduleBuilder.cronSchedule("0 24 14 ? * *")
 				.withSchedule(CronScheduleBuilder.cronSchedule("0 30 5 ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
 				.build();
 		sched.scheduleJob(jobMysql, triggerMysql);
 
 		sched.start();
-		
+
 /*		Seconds
 		Minutes
 		Hours

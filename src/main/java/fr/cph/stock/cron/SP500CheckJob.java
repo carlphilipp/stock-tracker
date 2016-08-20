@@ -49,11 +49,11 @@ public class SP500CheckJob implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			LOG.debug("SP500 Check job running");
-			TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
-			indexBusiness.checkUpdateIndex(Info.YAHOOID_SP500, timeZone);
+			final TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
+			indexBusiness.checkUpdateIndex(Info.YAHOO_ID_SP500, timeZone);
 		} catch (final YahooException e) {
 			LOG.warn("Error while executing SP500CheckJob: " + e.getMessage());
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing SP500CheckJob: " + t.getMessage(), t);
 		}
 	}

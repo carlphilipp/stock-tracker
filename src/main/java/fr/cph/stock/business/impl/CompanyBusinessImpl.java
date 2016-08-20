@@ -14,10 +14,7 @@ import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public enum CompanyBusinessImpl implements CompanyBusiness {
@@ -195,8 +192,7 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 
 	@Override
 	public Company addOrUpdateCompany(final String ticker) throws YahooException {
-		final List<String> tickers = new ArrayList<>();
-		tickers.add(ticker);
+		final List<String> tickers = Collections.singletonList(ticker);
 		Company companyYahoo = yahoo.getCompaniesData(tickers).get(0);
 		Company companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
 		if (companyInDB == null) {

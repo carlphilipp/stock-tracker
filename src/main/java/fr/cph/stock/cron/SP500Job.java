@@ -47,10 +47,10 @@ public class SP500Job implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			LOG.info("S&P500 Job");
-			indexBusiness.updateIndex(Info.YAHOOID_SP500);
-		} catch (YahooException e) {
+			indexBusiness.updateIndex(Info.YAHOO_ID_SP500);
+		} catch (final YahooException e) {
 			LOG.warn("Error while executing SP500Job: " + e.getMessage());
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing SP500Job: " + t.getMessage(), t);
 		}
 	}

@@ -70,8 +70,8 @@ public class HomeMobileServlet extends HttpServlet {
 				portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					List<Index> indexes = indexBusiness.getIndexes(Info.YAHOOID_CAC40, from, null);
-					List<Index> indexes2 = indexBusiness.getIndexes(Info.YAHOOID_SP500, from, null);
+					List<Index> indexes = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);
+					List<Index> indexes2 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, null);
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
 				}

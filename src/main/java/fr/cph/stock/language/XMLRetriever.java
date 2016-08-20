@@ -85,11 +85,9 @@ public class XMLRetriever {
 	}
 
 	private EntityResolver getEntityResolver() {
-		return new EntityResolver() {
-			public InputSource resolveEntity(final String publicId, final String systemId) throws IOException {
-				final InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("language/Language.dtd");
-				return new InputSource(in);
-			}
-		};
+		return (publicId, systemId) -> {
+            final InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("language/Language.dtd");
+            return new InputSource(in);
+        };
 	}
 }

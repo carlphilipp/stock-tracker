@@ -96,8 +96,8 @@ public class HomeServlet extends HttpServlet {
 				}
 				if (portfolio.getShareValues().size() != 0) {
 					final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOOID_CAC40, from, null);
-					final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOOID_SP500, from, null);
+					final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);
+					final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, null);
 					portfolio.addIndexes(indexesCAC40);
 					portfolio.addIndexes(indexesSP500);
 				}

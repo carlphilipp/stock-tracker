@@ -95,17 +95,13 @@ public class PdfReport {
 		final Map<String, List<Index>> mapIndexChart = pieChart.getIndexes();
 
 		final TimeSeries series = new TimeSeries("Share value");
-		for (final Entry<Date, Double> e : mapShareValueChart.entrySet()) {
-			series.add(new Millisecond(e.getKey()), e.getValue());
-		}
 		final TimeSeries series2 = new TimeSeries("CAC40");
-		for (final Index e : mapIndexChart.get("^FCHI")) {
-			series2.add(new Millisecond(e.getDate()), e.getShareValue());
-		}
 		final TimeSeries series3 = new TimeSeries("S&P 500");
-		for (final Index e : mapIndexChart.get("^GSPC")) {
-			series3.add(new Millisecond(e.getDate()), e.getShareValue());
-		}
+
+		mapShareValueChart.entrySet().forEach(entry -> series.add(new Millisecond(entry.getKey()), entry.getValue()));
+		mapIndexChart.get("^FCHI").forEach(entry -> series2.add(new Millisecond(entry.getDate()), entry.getShareValue()));
+		mapIndexChart.get("^GSPC").forEach(entry -> series3.add(new Millisecond(entry.getDate()), entry.getShareValue()));
+
 		final TimeSeriesCollection dataset = new TimeSeriesCollection();
 		dataset.addSeries(series);
 		dataset.addSeries(series2);

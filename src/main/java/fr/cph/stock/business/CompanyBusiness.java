@@ -7,20 +7,20 @@ import fr.cph.stock.exception.YahooException;
 import java.util.List;
 
 public interface CompanyBusiness {
-	// Company
-	List<Company> addOrUpdateCompanies(List<String> tickers) throws YahooException;
+
+	List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException;
 
 	void updateCompaniesNotRealTime();
 
-	void deleteCompany(Company company);
+	void deleteCompany(final Company company);
 
-	String addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException;
+	String addOrUpdateCompaniesLimitedRequest(final List<String> companiesYahooIdRealTime) throws YahooException;
 
-	Company createManualCompany(String name, String industry, String sector, Currency currency, double quote);
+	Company createManualCompany(final String name, final String industry, final String sector, final Currency currency, final double quote);
 
-	void updateCompanyManual(Integer companyId, Double newQuote);
+	void updateCompanyManual(final Integer companyId, final Double newQuote);
 
-	Company addOrUpdateCompany(String ticker) throws YahooException;
+	Company addOrUpdateCompany(final String ticker) throws YahooException;
 
 	void cleanDB();
 

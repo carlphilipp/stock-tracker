@@ -16,12 +16,8 @@ import java.util.*;
  *
  * @author Carl-Philipp Harmant
  */
-public final class Util {
-	/**
-	 * Constructor
-	 */
-	private Util() {
-	}
+public enum Util {
+	;
 
 	/**
 	 * Logger

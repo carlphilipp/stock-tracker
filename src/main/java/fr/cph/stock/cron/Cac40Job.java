@@ -48,10 +48,10 @@ public class Cac40Job implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			LOG.info("CAC40 Job");
-			indexBusiness.updateIndex(Info.YAHOOID_CAC40);
-		} catch (YahooException e) {
+			indexBusiness.updateIndex(Info.YAHOO_ID_CAC40);
+		} catch (final YahooException e) {
 			LOG.warn("Error while executing Cac40Job: " + e.getMessage());
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			LOG.error("Error while executing Cac40Job: " + t.getMessage(), t);
 		}
 	}

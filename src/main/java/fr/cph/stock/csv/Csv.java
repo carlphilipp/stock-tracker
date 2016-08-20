@@ -68,15 +68,15 @@ public class Csv {
 	 *             the parse exception
 	 */
 	public final List<ShareValue> getShareValueList() throws IOException, ParseException {
-		CSVReader csvReader = new CSVReader(reader, ';');
-		List<String[]> content = csvReader.readAll();
-		List<ShareValue> shareValues = new ArrayList<>();
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		final CSVReader csvReader = new CSVReader(reader, ';');
+		final List<String[]> content = csvReader.readAll();
+		final List<ShareValue> shareValues = new ArrayList<>();
+		final DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		String[] row;
-		int userId = user.getId();
-		for (Object o : content) {
+		final int userId = user.getId();
+		for (final Object o : content) {
 			row = (String[]) o;
-			ShareValue sv = new ShareValue();
+			final ShareValue sv = new ShareValue();
 			sv.setUserId(userId);
 			sv.setBuy(0.0);
 			sv.setDate(formatter.parse(row[0]));
@@ -94,7 +94,7 @@ public class Csv {
 			sv.setShareValue(format(row[4]));
 			sv.setYield(0.0);
 			sv.setTaxe(0.0);
-			Account acc = new Account();
+			final Account acc = new Account();
 			acc.setName(account);
 			sv.setAccount(acc);
 			shareValues.add(sv);
