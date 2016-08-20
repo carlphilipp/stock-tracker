@@ -69,7 +69,7 @@
 	<delete id="deleteOnePortfolio" parameterType="Portfolio">
 		delete from portfolio where id = #{id}
 	</delete>
-	<select id="selectPortfolioWithId" parameterType="String" resultType="Portfolio">
+	<select id="selectPortfolioWithId" parameterType="int" resultType="Portfolio">
 		select * from portfolio where userId = #{userId}
 	</select>
 

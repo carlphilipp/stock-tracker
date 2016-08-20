@@ -18,23 +18,29 @@ dependencies {
 	compile(
 		[name: 'dropbox-java-sdk-1.5.3'],
 		[name: 'json-lib-2.4-jdk15'],
-		[group: 'org.dom4j', name: 'dom4j', version: '2.0.0'],
 		[group: 'org.jfree', name: 'jfreechart', version: '1.0.19'],
 		[group: 'org.mybatis', name: 'mybatis', version: '3.4.1'],
 		[group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.3'],
-		[group: 'mysql', name: 'mysql-connector-java', version: '6.0.3'],
-		[group: 'log4j', name: 'log4j', version: '1.2.17'],
-		[group: 'commons-lang', name: 'commons-lang', version: '2.3'],
+		[group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'],
 		[group: 'javax.mail', name: 'javax.mail-api', version: '1.5.6'],
 		[group: 'net.sf.opencsv', name: 'opencsv', version: '2.3'],
+
+		// Commons
 		[group: 'commons-codec', name: 'commons-codec', version: '1.10'],
 		[group: 'org.apache.commons', name: 'commons-compress', version: '1.12'],
 		[group: 'commons-io', name: 'commons-io', version: '2.5'],
-		[group: 'org.mybatis', name: 'mybatis', version: '3.4.1'],
+		[group: 'commons-lang', name: 'commons-lang', version: '2.3'],
+
+		// Logging
+		[group: 'log4j', name: 'log4j', version: '1.2.17'],
 
 		// Reports
 		[group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.1.0'],
-		[group: 'com.lowagie', name: 'itext', version: '4.2.2'],
+		[group: 'com.lowagie', name: 'itext', version: '2.1.7'],
+		[group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.7'],
+
+		// XML
+		[group: 'org.dom4j', name: 'dom4j', version: '2.0.0'],
 	)
 
 	compileOnly(
