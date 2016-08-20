@@ -20,7 +20,7 @@ dependencies {
 		[name: 'json-lib-2.4-jdk15'],
 		[group: 'org.dom4j', name: 'dom4j', version: '2.0.0'],
 		[group: 'org.jfree', name: 'jfreechart', version: '1.0.19'],
-		[group: 'org.mybatis', name: 'mybatis', version: '3.1.1'],
+		[group: 'org.mybatis', name: 'mybatis', version: '3.4.1'],
 		[group: 'javax.activation', name: 'activation', version: '1.1.1'],
 		[group: 'org.quartz-scheduler', name: 'quartz', version: '2.1.6'],
 		[group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'],
