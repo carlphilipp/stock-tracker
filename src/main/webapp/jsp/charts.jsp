@@ -88,7 +88,7 @@ limitations under the License.
 			</c:if>
 		</div>
 	</div>
-	<div id="footer2">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2013</div>
+	<div id="footer2">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2016</div>
 </div>
 </body>
 <script type="text/javascript">
