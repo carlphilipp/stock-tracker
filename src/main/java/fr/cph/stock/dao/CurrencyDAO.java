@@ -32,34 +32,41 @@ public enum CurrencyDAO implements DAO<CurrencyData> {
 
 	INSTANCE;
 
+	private static final String INSERT = "CurrencyData.insertOneCurrencyData";
+	private static final String SELECT = "CurrencyData.selectOneCurrencyData";
+	private static final String UPDATE = "CurrencyData.updateOneCurrencyData";
+	private static final String DELETE = "CurrencyData.deleteOneCurrencyData";
+	private static final String SELECT_WITH_PARAM = "CurrencyData.selectOneCurrencyDataWithParam";
+	private static final String SELECT_LIST = "CurrencyData.selectListCurrencyData";
+	private static final String SELECT_LIST_ALL = "CurrencyData.selectListAllCurrencyData";
+
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final CurrencyData currencyData) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("CurrencyData.insertOneCurrencyData", currencyData);
+			session.insert(INSERT, currencyData);
 		}
-
 	}
 
 	@Override
 	public final CurrencyData select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("CurrencyData.selectOneCurrencyData", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
 	@Override
 	public final void update(final CurrencyData currencyData) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			session.update("CurrencyData.updateOneCurrencyData", currencyData);
+			session.update(UPDATE, currencyData);
 		}
 	}
 
 	@Override
 	public final void delete(final CurrencyData currencyData) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("CurrencyData.deleteOneCurrencyData", currencyData);
+			session.delete(DELETE, currencyData);
 		}
 	}
 
@@ -72,7 +79,7 @@ public enum CurrencyDAO implements DAO<CurrencyData> {
 	 */
 	public final CurrencyData selectOneCurrencyDataWithParam(final CurrencyData currencyD) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("CurrencyData.selectOneCurrencyDataWithParam", currencyD);
+			return session.selectOne(SELECT_WITH_PARAM, currencyD);
 		}
 	}
 
@@ -85,7 +92,7 @@ public enum CurrencyDAO implements DAO<CurrencyData> {
 	 */
 	public final List<CurrencyData> selectListCurrency(final String currency) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("CurrencyData.selectListCurrencyData", currency);
+			return session.selectList(SELECT_LIST, currency);
 		}
 	}
 
@@ -96,7 +103,7 @@ public enum CurrencyDAO implements DAO<CurrencyData> {
 	 */
 	public final List<CurrencyData> selectListAllCurrency() {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("CurrencyData.selectListAllCurrencyData");
+			return session.selectList(SELECT_LIST_ALL);
 		}
 	}
 }

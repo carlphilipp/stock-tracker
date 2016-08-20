@@ -34,34 +34,40 @@ public enum AccountDAO implements DAO<Account> {
 
 	INSTANCE;
 
+	private static final String INSERT = "AccountDao.insertOneAccount";
+	private static final String SELECT = "AccountDao.selectOneAccount";
+	private static final String UPDATE = "AccountDao.updateOneAccount";
+	private static final String DELETE = "AccountDao.deleteOneAccount";
+	private static final String SELECT_WITH_USER_ID = "AccountDao.selectAllAccountWithUserId";
+	private static final String SELECT_WITH_NAME = "AccountDao.selectOneAccountWithName";
+
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Account account) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("AccountDao.insertOneAccount", account);
+			session.insert(INSERT, account);
 		}
 	}
 
 	@Override
 	public final Account select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("AccountDao.selectOneAccount", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
 	@Override
 	public final void update(final Account account) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("AccountDao.updateOneAccount", account);
+			session.update(UPDATE, account);
 		}
-
 	}
 
 	@Override
 	public final void delete(final Account account) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("AccountDao.deleteOneAccount", account);
+			session.delete(DELETE, account);
 		}
 	}
 
@@ -74,7 +80,7 @@ public enum AccountDAO implements DAO<Account> {
 	 */
 	public final List<Account> selectAllAccountWithUserId(final int userId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("AccountDao.selectAllAccountWithUserId", userId);
+			return session.selectList(SELECT_WITH_USER_ID, userId);
 		}
 	}
 
@@ -92,7 +98,7 @@ public enum AccountDAO implements DAO<Account> {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			map.put("userId", userId);
 			map.put("name", name);
-			return session.selectOne("AccountDao.selectOneAccountWithName", map);
+			return session.selectOne(SELECT_WITH_NAME, map);
 		}
 	}
 }

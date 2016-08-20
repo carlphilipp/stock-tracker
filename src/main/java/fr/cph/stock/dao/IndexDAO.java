@@ -35,19 +35,27 @@ public enum IndexDAO implements DAO<Index> {
 
 	INSTANCE;
 
+	private static final String INSERT = "IndexDao.insertOneIndex";
+	private static final String SELECT = "IndexDao.selectOneIndex";
+	private static final String UPDATE = "IndexDao.updateOneIndex";
+	private static final String DELETE = "IndexDao.deleteOneIndex";
+	private static final String SELECT_WITH_ID = "IndexDao.selectOneIndexWithIdAndIndex";
+	private static final String SELECT_FROM_TO = "IndexDao.selectListIndexFromTo";
+	private static final String SELECT_LAST = "IndexDao.selectLastIndex";
+
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Index index) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("IndexDao.insertOneIndex", index);
+			session.insert(INSERT, index);
 		}
 	}
 
 	@Override
 	public final Index select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("IndexDao.selectOneIndex", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
@@ -60,21 +68,21 @@ public enum IndexDAO implements DAO<Index> {
 	 */
 	public final Index selectOneIndexWithIdAndIndex(final Index ind) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("IndexDao.selectOneIndexWithIdAndIndex", ind);
+			return session.selectOne(SELECT_WITH_ID, ind);
 		}
 	}
 
 	@Override
 	public final void update(final Index index) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("IndexDao.updateOneIndex", index);
+			session.update(UPDATE, index);
 		}
 	}
 
 	@Override
 	public final void delete(final Index index) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("IndexDao.deleteOneIndex", index);
+			session.delete(DELETE, index);
 		}
 	}
 
@@ -95,7 +103,7 @@ public enum IndexDAO implements DAO<Index> {
 		map.put("from", from);
 		map.put("to", to);
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("IndexDao.selectListIndexFromTo", map);
+			return session.selectList(SELECT_FROM_TO, map);
 		}
 	}
 
@@ -108,7 +116,7 @@ public enum IndexDAO implements DAO<Index> {
 	 */
 	public final Index selectLast(final String yahooId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("IndexDao.selectLastIndex", yahooId);
+			return session.selectOne(SELECT_LAST, yahooId);
 		}
 	}
 }

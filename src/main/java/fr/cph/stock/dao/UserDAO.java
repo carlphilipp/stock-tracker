@@ -31,26 +31,35 @@ public enum UserDAO implements DAO<User> {
 
 	INSTANCE;
 
+	private static final String INSERT = "UserDao.insertOneUser";
+	private static final String SELECT = "UserDao.selectOneUser";
+	private static final String UPDATE = "UserDao.updateOneUser";
+	private static final String DELETE = "UserDao.deleteOneUser";
+	private static final String UPDATE_PASSWORD = "UserDao.updateOneUserPassword";
+	private static final String SELECT_WITH_LOGIN = "UserDao.selectOneUserWithLogin";
+	private static final String SELECT_WITH_EMAIL = "UserDao.selectOneUserWithEmail";
+	private static final String SELECT_ALL_USER = "UserDao.selectAllUsers";
+
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final User user) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("UserDao.insertOneUser", user);
+			session.insert(INSERT, user);
 		}
 	}
 
 	@Override
 	public final User select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("UserDao.selectOneUser", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
 	@Override
 	public final void update(final User user) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("UserDao.updateOneUser", user);
+			session.update(UPDATE, user);
 		}
 	}
 
@@ -61,14 +70,14 @@ public enum UserDAO implements DAO<User> {
 	 */
 	public final void updateOneUserPassword(final User user) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("UserDao.updateOneUserPassword", user);
+			session.update(UPDATE_PASSWORD, user);
 		}
 	}
 
 	@Override
 	public final void delete(final User user) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("UserDao.deleteOneUser", user);
+			session.delete(DELETE, user);
 		}
 	}
 
@@ -80,7 +89,7 @@ public enum UserDAO implements DAO<User> {
 	 */
 	public final User selectWithLogin(final String login) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("UserDao.selectOneUserWithLogin", login);
+			return session.selectOne(SELECT_WITH_LOGIN, login);
 		}
 	}
 
@@ -92,7 +101,7 @@ public enum UserDAO implements DAO<User> {
 	 */
 	public final User selectWithEmail(final String email) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("UserDao.selectOneUserWithEmail", email);
+			return session.selectOne(SELECT_WITH_EMAIL, email);
 		}
 	}
 
@@ -103,7 +112,7 @@ public enum UserDAO implements DAO<User> {
 	 */
 	public final List<User> selectAllUsers() {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("UserDao.selectAllUsers");
+			return session.selectList(SELECT_ALL_USER);
 		}
 	}
 }

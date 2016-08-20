@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,33 +34,39 @@ public enum FollowDAO implements DAO<Follow> {
 
 	INSTANCE;
 
+	private static final String INSERT = "FollowDao.insertOneFollow";
+	private static final String SELECT = "FollowDao.selectOneFollow";
+	private static final String UPDATE = "FollowDao.updateOneFollow";
+	private static final String DELETE = "FollowDao.deleteOneFollow";
+	private static final String SELECT_LIST = "FollowDao.selectListFollow";
+
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Follow follow) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("FollowDao.insertOneFollow", follow);
+			session.insert(INSERT, follow);
 		}
 	}
 
 	@Override
 	public final Follow select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("FollowDao.selectOneFollow", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
 	@Override
 	public final void update(final Follow follow) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("FollowDao.updateOneFollow", follow);
+			session.update(UPDATE, follow);
 		}
 	}
 
 	@Override
 	public final void delete(final Follow follow) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("FollowDao.deleteOneFollow", follow);
+			session.delete(DELETE, follow);
 		}
 	}
 
@@ -73,7 +79,7 @@ public enum FollowDAO implements DAO<Follow> {
 	 */
 	public final List<Follow> selectListFollow(final int userId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("FollowDao.selectListFollow", userId);
+			return session.selectList(SELECT_LIST, userId);
 		}
 	}
 
@@ -91,7 +97,7 @@ public enum FollowDAO implements DAO<Follow> {
 		map.put("userId", userId);
 		map.put("companyId", companyId);
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("FollowDao.selectOneFollow", map);
+			return session.selectOne(SELECT, map);
 		}
 	}
 }

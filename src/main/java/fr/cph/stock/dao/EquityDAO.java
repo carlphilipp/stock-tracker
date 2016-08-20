@@ -30,34 +30,38 @@ public enum EquityDAO implements DAO<Equity> {
 
 	INSTANCE;
 
+	private static final String INSERT = "EquityDao.insertOneEquity";
+	private static final String SELECT = "EquityDao.selectOneEquity";
+	private static final String UPDATE = "EquityDao.updateOneEquity";
+	private static final String DELETE = "EquityDao.deleteOneEquity";
+
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Equity equity) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("EquityDao.insertOneEquity", equity);
+			session.insert(INSERT, equity);
 		}
-
 	}
 
 	@Override
 	public final Equity select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("EquityDao.selectOneEquity", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
 	@Override
 	public final void update(final Equity equity) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("EquityDao.updateOneEquity", equity);
+			session.update(UPDATE, equity);
 		}
 	}
 
 	@Override
 	public final void delete(final Equity equity) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("EquityDao.deleteOneEquity", equity);
+			session.delete(DELETE, equity);
 		}
 	}
 }

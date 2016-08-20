@@ -38,19 +38,30 @@ public enum PortfolioDAO implements DAO<Portfolio> {
 
 	INSTANCE;
 
+	private static final String INSERT = "PortfolioDao.insertOnePortfolio";
+	private static final String SELECT = "PortfolioDao.selectOnePortfolio";
+	private static final String UPDATE = "PortfolioDao.updateOnePortfolio";
+	private static final String DELETE = "PortfolioDao.deleteOnePortfolio";
+	private static final String SELECT_WITH_ID = "PortfolioDao.selectPortfolioWithId";
+	private static final String SELECT_EQUITY = "PortfolioDao.selectEquityFromPortfolio";
+	private static final String ACCOUNT_SELECT = "AccountDao.selectAllAccountWithUserId";
+	private static final String SHARE_VALUE_SELECT = "ShareValue.selectAllValue";
+	private static final String SHARE_VALUE_SELECT_FROM = "ShareValue.selectShareValueFrom";
+	private static final String SHARE_VALUE_SELECT_TO = "ShareValue.selectShareValueFromTo";
+
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Portfolio portfolio) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("PortfolioDao.insertOnePortfolio", portfolio);
+			session.insert(INSERT, portfolio);
 		}
 	}
 
 	@Override
 	public final Portfolio select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("PortfolioDao.selectOnePortfolio", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
@@ -63,21 +74,21 @@ public enum PortfolioDAO implements DAO<Portfolio> {
 	 */
 	public final Portfolio selectPortfolioWithId(final int userId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
+			return session.selectOne(SELECT_WITH_ID, userId);
 		}
 	}
 
 	@Override
 	public final void update(final Portfolio portfolio) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("PortfolioDao.updateOnePortfolio", portfolio);
+			session.update(UPDATE, portfolio);
 		}
 	}
 
 	@Override
 	public final void delete(final Portfolio portfolio) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("PortfolioDao.deleteOnePortfolio", portfolio);
+			session.delete(DELETE, portfolio);
 		}
 	}
 
@@ -95,25 +106,25 @@ public enum PortfolioDAO implements DAO<Portfolio> {
 	public final Portfolio selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {
 		Portfolio portfolio;
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			portfolio = session.selectOne("PortfolioDao.selectPortfolioWithId", userId);
+			portfolio = session.selectOne(SELECT_WITH_ID, userId);
 			if (portfolio != null) {
-				final List<Equity> equities = session.selectList("PortfolioDao.selectEquityFromPortfolio", portfolio.getId());
+				final List<Equity> equities = session.selectList(SELECT_EQUITY, portfolio.getId());
 				portfolio.setEquities(equities);
-				final List<Account> accounts = session.selectList("AccountDao.selectAllAccountWithUserId", userId);
+				final List<Account> accounts = session.selectList(ACCOUNT_SELECT, userId);
 				portfolio.setAccounts(accounts);
 				if (from == null) {
-					final List<ShareValue> shares = session.selectList("ShareValue.selectAllValue", userId);
+					final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT, userId);
 					portfolio.setShareValues(shares);
 				} else {
 					final Map<String, Object> map = new HashMap<>();
 					map.put("userId", userId);
 					map.put("from", from);
 					if (to == null) {
-						final List<ShareValue> shares = session.selectList("ShareValue.selectShareValueFrom", map);
+						final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT_FROM, map);
 						portfolio.setShareValues(shares);
 					} else {
 						map.put("to", to);
-						final List<ShareValue> shares = session.selectList("ShareValue.selectShareValueFromTo", map);
+						final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT_TO, map);
 						portfolio.setShareValues(shares);
 					}
 

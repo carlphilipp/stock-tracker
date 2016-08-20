@@ -26,77 +26,81 @@ import java.util.List;
  * This class implements DAO functions and add some more. It access to the ShareValue in DB.
  *
  * @author Carl-Philipp Harmant
- *
  */
 public enum ShareValueDAO implements DAO<ShareValue> {
 
 	INSTANCE;
+
+	private static final String INSERT = "ShareValue.insertOneShareValue";
+	private static final String SELECT = "ShareValue.selectOneShareValue";
+	private static final String UPDATE = "ShareValue.updateOneShareValue";
+	private static final String DELETE = "ShareValue.deleteOneShareValue";
+	private static final String INSERT_WITH_DATE = "ShareValue.insertOneShareValueWithDate";
+	private static final String SELECT_LAST_VALUE = "ShareValue.selectLastValue";
+	private static final String SELECT_ALL_VALUE = "ShareValue.selectAllValue";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final ShareValue shareValue) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("ShareValue.insertOneShareValue", shareValue);
+			session.insert(INSERT, shareValue);
 		}
 	}
 
 	/**
 	 * Insert a share value with a date
 	 *
-	 * @param shareValue
-	 *            the share value
+	 * @param shareValue the share value
 	 */
 	public final void insertWithDate(final ShareValue shareValue) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("ShareValue.insertOneShareValueWithDate", shareValue);
+			session.insert(INSERT_WITH_DATE, shareValue);
 		}
 	}
 
 	@Override
 	public final ShareValue select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("ShareValue.selectOneShareValue", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
 	@Override
 	public final void update(final ShareValue shareValue) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("ShareValue.updateOneShareValue", shareValue);
+			session.update(UPDATE, shareValue);
 		}
 	}
 
 	@Override
 	public final void delete(final ShareValue shareValue) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("ShareValue.deleteOneShareValue", shareValue);
+			session.delete(DELETE, shareValue);
 		}
 	}
 
 	/**
 	 * Get the last share value of a user
 	 *
-	 * @param userId
-	 *            the user id
+	 * @param userId the user id
 	 * @return a share value
 	 */
 	public final ShareValue selectLastValue(final int userId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("ShareValue.selectLastValue", userId);
+			return session.selectOne(SELECT_LAST_VALUE, userId);
 		}
 	}
 
 	/**
 	 * Get all ShareValue of a user
 	 *
-	 * @param userId
-	 *            a user id
+	 * @param userId a user id
 	 * @return a list of share value
 	 */
 	public final List<ShareValue> selectAllValue(final int userId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("ShareValue.selectAllValue", userId);
+			return session.selectList(SELECT_ALL_VALUE, userId);
 		}
 	}
 }

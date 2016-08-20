@@ -1,12 +1,12 @@
 /**
  * Copyright 2013 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,33 +36,41 @@ public enum CompanyDAO implements DAO<Company> {
 
 	INSTANCE;
 
+	private static final String INSERT = "CompanyDao.insertOneCompany";
+	private static final String SELECT = "CompanyDao.selectOneCompany";
+	private static final String UPDATE = "CompanyDao.updateOneCompany";
+	private static final String DELETE = "CompanyDao.deleteOneCompany";
+	private static final String SELECT_WITH_ID = "CompanyDao.selectOneCompanyWithYahooId";
+	private static final String SELECT_NOT_REAL_TIME = "CompanyDao.selectAllCompanyNotRealTime";
+	private static final String SELECT_UNUSED = "CompanyDao.selectAllUnusedCompanyIds";
+
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Company company) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert("CompanyDao.insertOneCompany", company);
+			session.insert(INSERT, company);
 		}
 	}
 
 	@Override
 	public final Company select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("CompanyDao.selectOneCompany", id);
+			return session.selectOne(SELECT, id);
 		}
 	}
 
 	@Override
 	public final void update(final Company company) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update("CompanyDao.updateOneCompany", company);
+			session.update(UPDATE, company);
 		}
 	}
 
 	@Override
 	public final void delete(final Company company) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete("CompanyDao.deleteOneCompany", company);
+			session.delete(DELETE, company);
 		}
 	}
 
@@ -75,7 +83,7 @@ public enum CompanyDAO implements DAO<Company> {
 	 */
 	public final Company selectWithYahooId(final String yahooId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne("CompanyDao.selectOneCompanyWithYahooId", yahooId);
+			return session.selectOne(SELECT_WITH_ID, yahooId);
 		}
 	}
 
@@ -92,7 +100,7 @@ public enum CompanyDAO implements DAO<Company> {
 		// Remove manual companies
 		options.put(MANUAL, false);
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("CompanyDao.selectAllCompanyNotRealTime", options);
+			return session.selectList(SELECT_NOT_REAL_TIME, options);
 		}
 	}
 
@@ -103,7 +111,7 @@ public enum CompanyDAO implements DAO<Company> {
 	 */
 	public final List<Integer> selectAllUnusedCompanyIds() {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList("CompanyDao.selectAllUnusedCompanyIds");
+			return session.selectList(SELECT_UNUSED);
 		}
 	}
 }
