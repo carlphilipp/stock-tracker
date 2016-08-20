@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--  
-  Copyright 2013 Carl-Philipp Harmant
- 
+<!--
+  Copyright 2016 Carl-Philipp Harmant
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
       http://www.apache.org/licenses/LICENSE-2.0
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
- 
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+		 version="3.0">
 	<display-name>Stock</display-name>
 	<welcome-file-list>
-	  <welcome-file>index</welcome-file>
+		<welcome-file>index</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	<error-page>
@@ -51,14 +53,14 @@
 	</error-page>
 	<context-param>
 		<param-name>quartz:config-file</param-name>
-        <param-value>quartz.properties</param-value>
+		<param-value>quartz.properties</param-value>
 	</context-param>
 	<context-param>
 		<param-name>quartz:shutdown-on-unload</param-name>
 		<param-value>true</param-value>
 	</context-param>
 	<context-param>
-	<param-name>quartz:wait-on-shutdown</param-name>
+		<param-name>quartz:wait-on-shutdown</param-name>
 		<param-value>true</param-value>
 	</context-param>
 	<context-param>
@@ -68,12 +70,12 @@
 	<session-config>
 		<session-timeout>720</session-timeout>
 	</session-config>
-    
+
 	<filter>
 		<filter-name>SessionFilter</filter-name>
 		<filter-class>
-        	fr.cph.stock.web.servlet.SessionFilter
-        </filter-class>
+			fr.cph.stock.web.servlet.SessionFilter
+		</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>SessionFilter</filter-name>
@@ -100,11 +102,11 @@
 	<filter>
 		<filter-name>SessionMobileFilter</filter-name>
 		<filter-class>
-        	fr.cph.stock.web.servlet.mobile.SessionMobileFilter
-        </filter-class>
-	</filter> 
+			fr.cph.stock.web.servlet.mobile.SessionMobileFilter
+		</filter-class>
+	</filter>
 	<filter-mapping>
-	    <filter-name>SessionMobileFilter</filter-name>
+		<filter-name>SessionMobileFilter</filter-name>
 		<servlet-name>HomeMobileServlet</servlet-name>
 		<servlet-name>UpdateShareValueMobileServlet</servlet-name>
 		<servlet-name>ReloadPortfolioMobileServlet</servlet-name>

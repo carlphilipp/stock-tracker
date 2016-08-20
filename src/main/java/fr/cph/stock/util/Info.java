@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import java.util.Properties;
  * This class get the general info from a property file
  *
  * @author Carl-Philipp Harmant
- *
  */
 public enum Info {
 	;
@@ -41,19 +40,33 @@ public enum Info {
 		REPORT = prop.getProperty("report.ireport");
 	}
 
-	/** Name of the webapp **/
+	/**
+	 * Name of the webapp
+	 **/
 	public static final String NAME;
-	/** Current address of the webapp **/
+	/**
+	 * Current address of the webapp
+	 **/
 	public static final String ADDRESS;
-	/** Current folder after the address **/
+	/**
+	 * Current folder after the address
+	 **/
 	public static final String FOLDER;
-	/** Yahoo id of cac40 **/
+	/**
+	 * Yahoo id of cac40
+	 **/
 	public static final String YAHOO_ID_CAC40;
-	/** Yahoo id of s&p500 **/
+	/**
+	 * Yahoo id of s&p500
+	 **/
 	public static final String YAHOO_ID_SP500;
-	/** Admins **/
+	/**
+	 * Admins
+	 **/
 	public static final List<String> ADMINS;
-	/** Jrxml repport **/
+	/**
+	 * Jrxml repport
+	 **/
 	public static final String REPORT;
 
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import static fr.cph.stock.util.Constants.MANUAL;
  * This class implements DAO functions and add some more. It access to the Company in DB.
  *
  * @author Carl-Philipp Harmant
- *
  */
 public enum CompanyDAO implements DAO<Company> {
 
@@ -77,8 +76,7 @@ public enum CompanyDAO implements DAO<Company> {
 	/**
 	 * Get a company
 	 *
-	 * @param yahooId
-	 *            the yahoo id
+	 * @param yahooId the yahoo id
 	 * @return a company
 	 */
 	public final Company selectWithYahooId(final String yahooId) {
@@ -90,8 +88,7 @@ public enum CompanyDAO implements DAO<Company> {
 	/**
 	 * Get all the companies in DB
 	 *
-	 * @param realTime
-	 *            a boolean that represents a real time data information. If
+	 * @param realTime a boolean that represents a real time data information. If
 	 * @return a list of company
 	 */
 	public final List<Company> selectAllCompany(final boolean realTime) {

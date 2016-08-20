@@ -1,12 +1,12 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
- *
+ * Copyright 2016 Carl-Philipp Harmant
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,9 +24,9 @@ import static fr.cph.stock.util.Constants.ACCOUNT;
 
 /**
  * This class represents an share value
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class ShareValue {
 
@@ -63,7 +63,7 @@ public class ShareValue {
 
 	/**
 	 * Get the account
-	 * 
+	 *
 	 * @return the account
 	 */
 	public final Account getAccount() {
@@ -72,7 +72,7 @@ public class ShareValue {
 
 	/**
 	 * Get the amount bought
-	 * 
+	 *
 	 * @return the amount buy
 	 */
 	public final Double getBuy() {
@@ -81,7 +81,7 @@ public class ShareValue {
 
 	/**
 	 * Get commentary
-	 * 
+	 *
 	 * @return the commentary
 	 */
 	public final String getCommentary() {
@@ -90,7 +90,7 @@ public class ShareValue {
 
 	/**
 	 * Get date
-	 * 
+	 *
 	 * @return the date
 	 */
 	public final Date getDate() {
@@ -103,7 +103,7 @@ public class ShareValue {
 
 	/**
 	 * Get details
-	 * 
+	 *
 	 * @return the details
 	 */
 	public final String getDetails() {
@@ -112,7 +112,7 @@ public class ShareValue {
 
 	/**
 	 * Get id
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -121,7 +121,7 @@ public class ShareValue {
 
 	/**
 	 * Get the jsonObject view of this class
-	 * 
+	 *
 	 * @return the jsonObject
 	 */
 	public final JSONObject getJSONObject() {
@@ -138,7 +138,7 @@ public class ShareValue {
 
 	/**
 	 * Get liquidites
-	 * 
+	 *
 	 * @return the liquidites
 	 */
 	public final Double getLiquidities() {
@@ -155,7 +155,7 @@ public class ShareValue {
 
 	/**
 	 * Get liquidity movement
-	 * 
+	 *
 	 * @return the liquidity movement
 	 */
 	public final Double getLiquidityMovement() {
@@ -164,7 +164,7 @@ public class ShareValue {
 
 	/**
 	 * Get monthly yield
-	 * 
+	 *
 	 * @return the monthly yield value
 	 */
 	public final Double getMonthlyYield() {
@@ -173,7 +173,7 @@ public class ShareValue {
 
 	/**
 	 * Get portfolio value
-	 * 
+	 *
 	 * @return the portfolio value
 	 */
 	public final Double getPortfolioValue() {
@@ -182,7 +182,7 @@ public class ShareValue {
 
 	/**
 	 * Get the amount sold
-	 * 
+	 *
 	 * @return the amount sold
 	 */
 	public final Double getSell() {
@@ -191,7 +191,7 @@ public class ShareValue {
 
 	/**
 	 * Get share quantity
-	 * 
+	 *
 	 * @return the share quantity
 	 */
 	public final Double getShareQuantity() {
@@ -200,7 +200,7 @@ public class ShareValue {
 
 	/**
 	 * Get share value
-	 * 
+	 *
 	 * @return the share value
 	 */
 	public final Double getShareValue() {
@@ -209,7 +209,7 @@ public class ShareValue {
 
 	/**
 	 * Get the amount of taxe
-	 * 
+	 *
 	 * @return the amount of taxe
 	 */
 	public final Double getTaxe() {
@@ -218,7 +218,7 @@ public class ShareValue {
 
 	/**
 	 * Get user id
-	 * 
+	 *
 	 * @return the user id
 	 */
 	public final int getUserId() {
@@ -227,7 +227,7 @@ public class ShareValue {
 
 	/**
 	 * Get the received yield
-	 * 
+	 *
 	 * @return the received yield
 	 */
 	public final Double getYield() {
@@ -236,7 +236,7 @@ public class ShareValue {
 
 	/**
 	 * Set account
-	 * 
+	 *
 	 * @param account
 	 *            the account
 	 */
@@ -246,7 +246,7 @@ public class ShareValue {
 
 	/**
 	 * Set the amount bought
-	 * 
+	 *
 	 * @param buy
 	 *            the amount bought
 	 */
@@ -256,7 +256,7 @@ public class ShareValue {
 
 	/**
 	 * Set commentary
-	 * 
+	 *
 	 * @param commentary
 	 *            the commentary
 	 */
@@ -266,7 +266,7 @@ public class ShareValue {
 
 	/**
 	 * The date
-	 * 
+	 *
 	 * @param date
 	 *            the date
 	 */
@@ -276,7 +276,7 @@ public class ShareValue {
 
 	/**
 	 * The details
-	 * 
+	 *
 	 * @param details
 	 *            the details
 	 */
@@ -286,7 +286,7 @@ public class ShareValue {
 
 	/**
 	 * Set the id
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 */
@@ -296,7 +296,7 @@ public class ShareValue {
 
 	/**
 	 * Set the liquidity movement
-	 * 
+	 *
 	 * @param liquidityMovement
 	 *            the liquidity movement
 	 */
@@ -306,7 +306,7 @@ public class ShareValue {
 
 	/**
 	 * Set the monthly yield
-	 * 
+	 *
 	 * @param monthlyYield
 	 *            the monthly yield
 	 */
@@ -316,7 +316,7 @@ public class ShareValue {
 
 	/**
 	 * Set the portfolio value
-	 * 
+	 *
 	 * @param portfolioValue
 	 *            the portfolio value
 	 */
@@ -326,7 +326,7 @@ public class ShareValue {
 
 	/**
 	 * Set the amount sold
-	 * 
+	 *
 	 * @param sell
 	 *            the amount sold
 	 */
@@ -336,7 +336,7 @@ public class ShareValue {
 
 	/**
 	 * Set the share quantity
-	 * 
+	 *
 	 * @param shareQuantity
 	 *            the share quantity
 	 */
@@ -346,7 +346,7 @@ public class ShareValue {
 
 	/**
 	 * Set the share value
-	 * 
+	 *
 	 * @param shareValue
 	 *            the share value
 	 */
@@ -356,7 +356,7 @@ public class ShareValue {
 
 	/**
 	 * Set the amount of taxes
-	 * 
+	 *
 	 * @param taxe
 	 *            the amount of taxes
 	 */
@@ -366,7 +366,7 @@ public class ShareValue {
 
 	/**
 	 * Set the user id
-	 * 
+	 *
 	 * @param userId
 	 *            the user id
 	 */
@@ -376,7 +376,7 @@ public class ShareValue {
 
 	/**
 	 * Set the yield received
-	 * 
+	 *
 	 * @param yield
 	 *            the yield received
 	 */

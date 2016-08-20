@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called by mobile to connect to the app
  *
  * @author Carl-Philipp Harmant
- *
  */
 @WebServlet(name = "AuthMobileServlet", urlPatterns = {"/authmobile"})
 public class AuthMobileServlet extends HttpServlet {

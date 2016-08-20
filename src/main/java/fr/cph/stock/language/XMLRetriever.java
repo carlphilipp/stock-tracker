@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,8 +86,8 @@ public class XMLRetriever {
 
 	private EntityResolver getEntityResolver() {
 		return (publicId, systemId) -> {
-            final InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("language/Language.dtd");
-            return new InputSource(in);
-        };
+			final InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream("language/Language.dtd");
+			return new InputSource(in);
+		};
 	}
 }

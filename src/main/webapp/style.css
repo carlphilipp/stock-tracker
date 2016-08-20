@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 @charset "UTF-8";
 
 #container {
@@ -38,7 +38,7 @@ body {
 	margin-right: 0px;
 	margin-bottom: 0px;
 	font: 11px/1.6em "Lucida Grande", LucidaGrande, Lucida, Helvetica, Arial,
-		sans-serif;
+	sans-serif;
 }
 
 a {
@@ -66,12 +66,13 @@ h2 {
 	margin-top: 50px;
 	font-weight: normal;
 }
+
 h3 {
 	display: inline;
 }
 
 input {
-	font-family: sans-serif;                
+	font-family: sans-serif;
 }
 
 .tdRight {
@@ -97,6 +98,7 @@ input {
 .cQuoteDown {
 	color: rgb(160, 0, 0);
 }
+
 .cQuoteOrange {
 	color: #FF4000;
 }
@@ -120,11 +122,12 @@ h1 {
 	position: relative;
 	margin-top: 0px;
 	width: 1100px;
-	//border-bottom: thin solid #000000;
+/ / border-bottom: thin solid #000000;
 	margin-bottom: 20px;
 	float: left;
 }
-.menu{
+
+.menu {
 	height: 30px;
 	border-bottom: thin solid #000000;
 }
@@ -147,7 +150,7 @@ h1 {
 	margin: 0px;
 }
 
-.language{
+.language {
 	position: relative;
 	float: right;
 }
@@ -173,7 +176,7 @@ h1 {
 
 #tableAccounts {
 	position: relative;
-	//width: 100%;
+/ / width: 100 %;
 	text-align: left;
 	cell-spacing: 20px;
 	border-collapse: collapse;
@@ -196,41 +199,43 @@ h1 {
 	border: none;
 }
 
-#tableEquityTotal{
+#tableEquityTotal {
 	position: relative;
 	text-align: left;
 	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
-	float:right;
+	float: right;
 	top: -8px;
 
 }
-#tableEquityTotal td{
+
+#tableEquityTotal td {
 	padding-right: 15px;
 	padding-left: 15px;
 }
 
-#tableHistoryTotal{
+#tableHistoryTotal {
 	position: relative;
 	text-align: left;
 	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
-	float:right;
+	float: right;
 	top: -8px;
 }
 
-#tableHistoryTotal td{
+#tableHistoryTotal td {
 	padding-right: 15px;
 	padding-left: 15px;
 }
 
-.floatLeft{
-	 float:left;
+.floatLeft {
+	float: left;
 }
-.clear{
-	clear:both;
+
+.clear {
+	clear: both;
 }
 
 #shareValueTable {
@@ -241,7 +246,8 @@ h1 {
 	border: none;
 
 }
-.shareValueTableDetails{
+
+.shareValueTableDetails {
 	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
@@ -292,7 +298,7 @@ h1 {
 	border-bottom: thin solid #000000;
 }
 
-#error{
+#error {
 	position: fixed;
 	top: 25%;
 	left: 50%;
@@ -330,8 +336,8 @@ table a:visited {
 }
 
 .equities_container p {
-	//margin-left: 597px;
-	
+/ / margin-left: 597 px;
+
 }
 
 .share_container {
@@ -343,7 +349,7 @@ table a:visited {
 }
 
 .shadow {
-	
+
 }
 
 .equities_container .shadow {
@@ -351,8 +357,8 @@ table a:visited {
 }
 
 #sector {
-/* 	position: absolute;
-	left: 36px; */
+	/* 	position: absolute;
+        left: 36px; */
 	float: left;
 }
 
@@ -360,42 +366,48 @@ table a:visited {
 	position: relative;
 }
 
-
-#graphicSectorLegend{
+#graphicSectorLegend {
 	margin-left: auto;
-  	margin-right: auto;
-  	width: 200px;
+	margin-right: auto;
+	width: 200px;
 }
+
 #graphicSectorLegendContainer {
 	width: 500px;
 	margin-top: 50px;
 	float: right;
 }
-#graphicCapLegendContainer{
+
+#graphicCapLegendContainer {
 	width: 500px;
 	margin-top: 100px;
 	float: right;
 }
-#graphicCapLegend{
+
+#graphicCapLegend {
 	margin-left: auto;
-  	margin-right: auto;
-  	width: 200px;
+	margin-right: auto;
+	width: 200px;
 }
+
 #cap {
 	float: left;
 	margin-top: 50px;
 }
 
-#graphQuote{
+#graphQuote {
 	width: 250px;
 	border-collapse: collapse;
 }
+
 td.empty {
 	background-color: #CACACA;
 }
+
 td.full {
 	background-color: #666;
 }
+
 td.graph {
 	width: 5px;
 	height: 15px;
@@ -418,78 +430,90 @@ table.tablesorter thead tr .header {
 	background-position: 104% 90%;
 	cursor: pointer;
 }
+
 table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
 	background-color: #F4F9F8;
 }
+
 table.tablesorter thead tr .headerSortUp {
 	background-image: url(image/asc.gif);
 }
+
 table.tablesorter thead tr .headerSortDown {
 	background-image: url(image/desc.gif);
 }
-.totalValue{
+
+.totalValue {
 	/* margin: 20px 20px 20px 20px; // (top, right, bottom, left) */
-	//font-weight: bold;
-	//font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
-	//font-size: 25px;
+/ / font-weight: bold;
+/ / font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
+/ / font-size: 25 px;
 	font: bold 30px arial;
-	//display: inline;
+/ / display: inline;
 	color: #2E2E2E;
 }
 
-.totalGain{
+.totalGain {
 	font-weight: bold;
 	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
 	font-size: 20px;
 	display: inline;
 	color: #2E2E2E;
 }
-.liquidity{
+
+.liquidity {
 	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
 	font-size: 15px;
 	color: #2E2E2E;
 }
-.yield{
+
+.yield {
 	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
 	font-size: 15px;
 	color: #2E2E2E;
 }
-.shareValue{
+
+.shareValue {
 	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
 	font-size: 15px;
 	font-weight: bold;
 }
-#graphTop{
+
+#graphTop {
 	margin-left: 27px;
 }
-#graphTop2{
+
+#graphTop2 {
 	margin-left: 25px;
 }
-
 
 /*  .flotr-labels {
 font-size:small;
 }
  */
 .flotr-labels .flotr-grid-label {
-	padding:15px;
+	padding: 15px;
 }
 
-.center{
+.center {
 	text-align: center;
 }
 
 #loading {
-	background:url('./image/loadingUSD.gif') no-repeat center;
-	height: 128px; width: 128px;
-	position: fixed; left: 50%; top: 40%; z-index: 1000;
+	background: url('./image/loadingUSD.gif') no-repeat center;
+	height: 128px;
+	width: 128px;
+	position: fixed;
+	left: 50%;
+	top: 40%;
+	z-index: 1000;
 	margin: -25px 0 0 -25px;
 }
 
-#manualForm, #manualForm2{
-	display: none; 
+#manualForm, #manualForm2 {
+	display: none;
 }
 
-#notManualForm, #notManualForm2{
-  display: block; 
+#notManualForm, #notManualForm2 {
+	display: block;
 }

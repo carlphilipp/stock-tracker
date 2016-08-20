@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import java.sql.Timestamp;
  * This class represents a company
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class Company {
 
@@ -45,18 +44,21 @@ public class Company {
 	private Double yearHigh;
 	private Double minGap;
 	private Double maxGap;
-	/** Is this company under read time data **/
+	/**
+	 * Is this company under read time data
+	 **/
 	private Boolean realTime;
 	private Boolean fund;
 	private Timestamp lastUpdate;
 	private Double change;
 	private Double gapYearLow;
 	private Double gapYearHigh;
-	/** Manually used by user **/
+	/**
+	 * Manually used by user
+	 **/
 	private Boolean manual;
 
 	/**
-	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -64,8 +66,7 @@ public class Company {
 	}
 
 	/**
-	 * @param id
-	 *            the id
+	 * @param id the id
 	 */
 	public final void setId(final int id) {
 		this.id = id;
@@ -79,8 +80,7 @@ public class Company {
 	}
 
 	/**
-	 * @param yahooId
-	 *            the yahoo id
+	 * @param yahooId the yahoo id
 	 */
 	public final void setYahooId(final String yahooId) {
 		this.yahooId = yahooId;
@@ -94,8 +94,7 @@ public class Company {
 	}
 
 	/**
-	 * @param name
-	 *            the name
+	 * @param name the name
 	 */
 	public final void setName(final String name) {
 		this.name = name;
@@ -109,8 +108,7 @@ public class Company {
 	}
 
 	/**
-	 * @param market
-	 *            the market
+	 * @param market the market
 	 */
 	public final void setMarket(final Market market) {
 		this.market = market;
@@ -124,8 +122,7 @@ public class Company {
 	}
 
 	/**
-	 * @param currency
-	 *            the currency
+	 * @param currency the currency
 	 */
 	public final void setCurrency(final Currency currency) {
 		this.currency = currency;
@@ -139,8 +136,7 @@ public class Company {
 	}
 
 	/**
-	 * @param industry
-	 *            the industry
+	 * @param industry the industry
 	 */
 	public final void setIndustry(final String industry) {
 		this.industry = industry;
@@ -154,8 +150,7 @@ public class Company {
 	}
 
 	/**
-	 * @param sector
-	 *            the sector
+	 * @param sector the sector
 	 */
 	public final void setSector(final String sector) {
 		this.sector = sector;
@@ -169,8 +164,7 @@ public class Company {
 	}
 
 	/**
-	 * @param quote
-	 *            the quote
+	 * @param quote the quote
 	 */
 	public final void setQuote(final double quote) {
 		this.quote = quote;
@@ -184,8 +178,7 @@ public class Company {
 	}
 
 	/**
-	 * @param yield
-	 *            the yield
+	 * @param yield the yield
 	 */
 	public final void setYield(final double yield) {
 		this.yield = yield;
@@ -199,8 +192,7 @@ public class Company {
 	}
 
 	/**
-	 * @param yesterdayClose
-	 *            the yesterday close
+	 * @param yesterdayClose the yesterday close
 	 */
 	public final void setYesterdayClose(final Double yesterdayClose) {
 		this.yesterdayClose = yesterdayClose;
@@ -214,8 +206,7 @@ public class Company {
 	}
 
 	/**
-	 * @param marketCapitalization
-	 *            the market capitalization
+	 * @param marketCapitalization the market capitalization
 	 */
 	public final void setMarketCapitalization(final String marketCapitalization) {
 		this.marketCapitalization = marketCapitalization;
@@ -233,8 +224,7 @@ public class Company {
 	}
 
 	/**
-	 * @param lastUpdate
-	 *            the last update
+	 * @param lastUpdate the last update
 	 */
 	public final void setLastUpdate(final Timestamp lastUpdate) {
 		this.lastUpdate = (Timestamp) lastUpdate.clone();
@@ -248,8 +238,7 @@ public class Company {
 	}
 
 	/**
-	 * @param yearLow
-	 *            the year low
+	 * @param yearLow the year low
 	 */
 	public final void setYearLow(final Double yearLow) {
 		this.yearLow = yearLow;
@@ -263,8 +252,7 @@ public class Company {
 	}
 
 	/**
-	 * @param minGap
-	 *            the min gap
+	 * @param minGap the min gap
 	 */
 	public final void setMinGap(final Double minGap) {
 		this.minGap = minGap;
@@ -278,8 +266,7 @@ public class Company {
 	}
 
 	/**
-	 * @param maxGap
-	 *            the max gap
+	 * @param maxGap the max gap
 	 */
 	public final void setMaxGap(final Double maxGap) {
 		this.maxGap = maxGap;
@@ -293,8 +280,7 @@ public class Company {
 	}
 
 	/**
-	 * @param yearHigh
-	 *            the year high
+	 * @param yearHigh the year high
 	 */
 	public final void setYearHigh(final Double yearHigh) {
 		this.yearHigh = yearHigh;
@@ -308,8 +294,7 @@ public class Company {
 	}
 
 	/**
-	 * @param change
-	 *            the change
+	 * @param change the change
 	 */
 	public final void setChange(final double change) {
 		this.change = change;
@@ -326,8 +311,7 @@ public class Company {
 	}
 
 	/**
-	 * @param gapYearLow
-	 *            the gap year low
+	 * @param gapYearLow the gap year low
 	 */
 	public final void setGapYearLow(final Double gapYearLow) {
 		this.gapYearLow = gapYearLow;
@@ -344,8 +328,7 @@ public class Company {
 	}
 
 	/**
-	 * @param gapYearHigh
-	 *            the gap year high
+	 * @param gapYearHigh the gap year high
 	 */
 	public final void setGapYearHigh(final Double gapYearHigh) {
 		this.gapYearHigh = gapYearHigh;
@@ -359,8 +342,7 @@ public class Company {
 	}
 
 	/**
-	 * @param realTime
-	 *            if realtime
+	 * @param realTime if realtime
 	 */
 	public final void setRealTime(final Boolean realTime) {
 		this.realTime = realTime;
@@ -374,8 +356,7 @@ public class Company {
 	}
 
 	/**
-	 * @param fund
-	 *            the fund
+	 * @param fund the fund
 	 */
 	public final void setFund(final Boolean fund) {
 		this.fund = fund;
@@ -389,8 +370,7 @@ public class Company {
 	}
 
 	/**
-	 * @param changeInPercent
-	 *            the change in percent
+	 * @param changeInPercent the change in percent
 	 */
 	public final void setChangeInPercent(final String changeInPercent) {
 		if (changeInPercent != null) {

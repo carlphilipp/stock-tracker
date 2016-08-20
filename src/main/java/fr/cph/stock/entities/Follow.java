@@ -1,12 +1,12 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
- *
+ * Copyright 2016 Carl-Philipp Harmant
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,9 +18,9 @@ package fr.cph.stock.entities;
 
 /**
  * This class represents a company that is followed by the user
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class Follow {
 
@@ -45,7 +45,7 @@ public class Follow {
 
 	/**
 	 * Get the company the is followed
-	 * 
+	 *
 	 * @return the company
 	 */
 	public final Company getCompany() {
@@ -54,7 +54,7 @@ public class Follow {
 
 	/**
 	 * Set company
-	 * 
+	 *
 	 * @param company
 	 *            the company
 	 */
@@ -64,7 +64,7 @@ public class Follow {
 
 	/**
 	 * Get Id
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -73,7 +73,7 @@ public class Follow {
 
 	/**
 	 * Set id
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 */
@@ -83,7 +83,7 @@ public class Follow {
 
 	/**
 	 * Get company id
-	 * 
+	 *
 	 * @return the company id
 	 */
 	public final int getCompanyId() {
@@ -92,7 +92,7 @@ public class Follow {
 
 	/**
 	 * Set company id
-	 * 
+	 *
 	 * @param companyId
 	 *            the company id
 	 */
@@ -102,7 +102,7 @@ public class Follow {
 
 	/**
 	 * Get user id
-	 * 
+	 *
 	 * @return the user id
 	 */
 	public final int getUserId() {
@@ -111,7 +111,7 @@ public class Follow {
 
 	/**
 	 * Set user id
-	 * 
+	 *
 	 * @param userId
 	 *            the user id
 	 */
@@ -121,7 +121,7 @@ public class Follow {
 
 	/**
 	 * Get lower limit
-	 * 
+	 *
 	 * @return the lower limit
 	 */
 	public final Double getLowerLimit() {
@@ -130,7 +130,7 @@ public class Follow {
 
 	/**
 	 * Set Lower limit
-	 * 
+	 *
 	 * @param lowerLimit
 	 *            the lower limit
 	 */
@@ -140,7 +140,7 @@ public class Follow {
 
 	/**
 	 * Get higher limit
-	 * 
+	 *
 	 * @return the higher limit
 	 */
 	public final Double getHigherLimit() {
@@ -149,7 +149,7 @@ public class Follow {
 
 	/**
 	 * Set higher limit
-	 * 
+	 *
 	 * @param higherLimit
 	 *            the higher limit
 	 */
@@ -159,7 +159,7 @@ public class Follow {
 
 	/**
 	 * Get gap lower limit
-	 * 
+	 *
 	 * @return the gap lower limit
 	 */
 	public final Double getGapLowerLimit() {
@@ -171,7 +171,7 @@ public class Follow {
 
 	/**
 	 * Set Gap lower limit
-	 * 
+	 *
 	 * @param gapLowerLimit
 	 *            the gap lower limit
 	 */
@@ -181,7 +181,7 @@ public class Follow {
 
 	/**
 	 * The gap higher limit
-	 * 
+	 *
 	 * @return the gap higher limit
 	 */
 	public final Double getGapHigherLimit() {
@@ -193,7 +193,7 @@ public class Follow {
 
 	/**
 	 * Set gap higher limit
-	 * 
+	 *
 	 * @param gapHigherLimit
 	 *            the gap higher limit
 	 */
@@ -203,12 +203,12 @@ public class Follow {
 
 	/**
 	 * To String
-	 * 
+	 *
 	 * @return a string
 	 */
 	@Override
 	public final String toString() {
 		return "id: " + id + " - companyId " + companyId + " - userId " + userId + " - lowerLimit " + lowerLimit
-				+ " - higherLimit " + higherLimit;
+			+ " - higherLimit " + higherLimit;
 	}
 }

@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--  
-  Copyright 2013 Carl-Philipp Harmant
- 
+<!--
+  Copyright 2016 Carl-Philipp Harmant
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
       http://www.apache.org/licenses/LICENSE-2.0
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
- 
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ShareValue">
-    <resultMap type="ShareValue" id="ShareValueResult">
-		<result property="id" column="id" />
-		<result property="userId" column="userId" />
-		<result property="date" column="date" />
-		<result property="liquidityMovement" column="liquidityMovement" />
-		<result property="yield" column="yield" />
-		<result property="buy" column="buy" />
-		<result property="sell" column="sell" />
-		<result property="taxe" column="taxe" />
-		<result property="portfolioValue" column="portfolioValue" />
-		<result property="shareQuantity" column="shareQuantity" />
-		<result property="shareValue" column="shareValue" />
-		<result property="monthlyYield" column="monthlyYield" />
-		<result property="commentary" column="commentary" />
-		<result property="details" column="details" />
-		<association property="account" resultMap="AccountResult" />
+	<resultMap type="ShareValue" id="ShareValueResult">
+		<result property="id" column="id"/>
+		<result property="userId" column="userId"/>
+		<result property="date" column="date"/>
+		<result property="liquidityMovement" column="liquidityMovement"/>
+		<result property="yield" column="yield"/>
+		<result property="buy" column="buy"/>
+		<result property="sell" column="sell"/>
+		<result property="taxe" column="taxe"/>
+		<result property="portfolioValue" column="portfolioValue"/>
+		<result property="shareQuantity" column="shareQuantity"/>
+		<result property="shareValue" column="shareValue"/>
+		<result property="monthlyYield" column="monthlyYield"/>
+		<result property="commentary" column="commentary"/>
+		<result property="details" column="details"/>
+		<association property="account" resultMap="AccountResult"/>
 	</resultMap>
-	
+
 	<resultMap type="Account" id="AccountResult">
-		<result property="id" column="accountId" />
-		<result property="userId" column="userId" />
-		<result property="name" column="name" />
-		<result property="currency" column="currency" />
-		<result property="liquidity" column="liquidity" />
-		<result property="del" column="del" />
+		<result property="id" column="accountId"/>
+		<result property="userId" column="userId"/>
+		<result property="name" column="name"/>
+		<result property="currency" column="currency"/>
+		<result property="liquidity" column="liquidity"/>
+		<result property="del" column="del"/>
 	</resultMap>
-	
+
 	<insert id="insertOneShareValue" parameterType="ShareValue">
 		insert into sharevalue (date, userId, accountId, liquidityMovement, yield, buy, sell, taxe,
 		portfolioValue, shareQuantity, shareValue,
@@ -72,7 +72,7 @@
 		delete from sharevalue where id = #{id}
 	</delete>
 	<select id="selectLastValue" parameterType="int" resultMap="ShareValueResult">
-		select 
+		select
 		sharevalue.id AS id,
 		sharevalue.userId AS userId,
 		sharevalue.date AS date,
@@ -94,7 +94,7 @@
 		account.del AS del
 		from sharevalue
 		JOIN account ON sharevalue.accountId = account.id
-		where sharevalue.userId = #{userId} 
+		where sharevalue.userId = #{userId}
 		order by date DESC limit 0,1
 	</select>
 	<select id="selectAllValue" parameterType="int" resultMap="ShareValueResult">
@@ -124,7 +124,7 @@
 		order by date DESC
 	</select>
 	<select id="selectShareValueFrom" parameterType="Map" resultMap="ShareValueResult">
-		select 
+		select
 		sharevalue.id AS id,
 		sharevalue.userId AS userId,
 		sharevalue.date AS date,

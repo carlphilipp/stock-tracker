@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,33 +33,33 @@ import static fr.cph.stock.util.Constants.USER;
  */
 public class SessionFilter implements Filter {
 
-    @Override
-    public final void init(final FilterConfig config) throws ServletException {
-    }
+	@Override
+	public final void init(final FilterConfig config) throws ServletException {
+	}
 
-    @Override
-    public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws ServletException {
-        try {
-            final HttpServletRequest request = (HttpServletRequest) req;
-            final HttpServletResponse response = (HttpServletResponse) res;
-            final HttpSession session = request.getSession(false);
+	@Override
+	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws ServletException {
+		try {
+			final HttpServletRequest request = (HttpServletRequest) req;
+			final HttpServletResponse response = (HttpServletResponse) res;
+			final HttpSession session = request.getSession(false);
 
-            if (session == null) {
-                response.sendRedirect("jsp/timeout.html");
-            } else {
-                final User user = (User) session.getAttribute(USER);
-                if (user == null) {
-                    response.sendRedirect("jsp/timeout.html");
-                } else {
-                    chain.doFilter(req, res);
-                }
-            }
-        } catch (final Throwable t) {
-            throw new ServletException("Error: " + t.getMessage(), t);
-        }
-    }
+			if (session == null) {
+				response.sendRedirect("jsp/timeout.html");
+			} else {
+				final User user = (User) session.getAttribute(USER);
+				if (user == null) {
+					response.sendRedirect("jsp/timeout.html");
+				} else {
+					chain.doFilter(req, res);
+				}
+			}
+		} catch (final Throwable t) {
+			throw new ServletException("Error: " + t.getMessage(), t);
+		}
+	}
 
-    @Override
-    public final void destroy() {
-    }
+	@Override
+	public final void destroy() {
+	}
 }

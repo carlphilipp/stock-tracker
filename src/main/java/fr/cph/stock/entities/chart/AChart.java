@@ -1,12 +1,12 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
- *
+ * Copyright 2016 Carl-Philipp Harmant
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,9 +18,9 @@ package fr.cph.stock.entities.chart;
 
 /**
  * This class represents an abstract chart
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public abstract class AChart implements IChart {
 
@@ -35,7 +35,7 @@ public abstract class AChart implements IChart {
 
 	/**
 	 * Get colors
-	 * 
+	 *
 	 * @return the colors
 	 */
 	public final String getColors() {
@@ -44,7 +44,7 @@ public abstract class AChart implements IChart {
 
 	/**
 	 * Set colors
-	 * 
+	 *
 	 * @param colors
 	 *            the colors
 	 */
@@ -54,7 +54,7 @@ public abstract class AChart implements IChart {
 
 	/**
 	 * Get draw
-	 * 
+	 *
 	 * @return the draw
 	 */
 	public final String getDraw() {
@@ -63,7 +63,7 @@ public abstract class AChart implements IChart {
 
 	/**
 	 * Set draw
-	 * 
+	 *
 	 * @param draw
 	 *            the draw
 	 */
@@ -73,7 +73,7 @@ public abstract class AChart implements IChart {
 
 	/**
 	 * Get title
-	 * 
+	 *
 	 * @return the title
 	 */
 	public final String getTitle() {
@@ -82,7 +82,7 @@ public abstract class AChart implements IChart {
 
 	/**
 	 * Set title
-	 * 
+	 *
 	 * @param title
 	 *            the title
 	 */
@@ -92,7 +92,7 @@ public abstract class AChart implements IChart {
 
 	/**
 	 * Get data
-	 * 
+	 *
 	 * @return the data
 	 */
 	public final String getData() {
@@ -101,7 +101,7 @@ public abstract class AChart implements IChart {
 
 	/**
 	 * Set data
-	 * 
+	 *
 	 * @param data
 	 *            the data
 	 */

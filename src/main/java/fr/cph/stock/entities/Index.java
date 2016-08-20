@@ -1,12 +1,12 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
- *
+ * Copyright 2016 Carl-Philipp Harmant
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,9 +20,9 @@ import java.util.Date;
 
 /**
  * This class represents an Index, like cac40 or s&p500
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class Index {
 
@@ -39,7 +39,7 @@ public class Index {
 
 	/**
 	 * Get the id
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -48,7 +48,7 @@ public class Index {
 
 	/**
 	 * Set the id
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 */
@@ -58,7 +58,7 @@ public class Index {
 
 	/**
 	 * Get the yahoo id
-	 * 
+	 *
 	 * @return the yahoo id
 	 */
 	public final String getYahooId() {
@@ -67,7 +67,7 @@ public class Index {
 
 	/**
 	 * Set the yahoo id
-	 * 
+	 *
 	 * @param yahooId
 	 *            the yahoo id
 	 */
@@ -77,7 +77,7 @@ public class Index {
 
 	/**
 	 * Get the value
-	 * 
+	 *
 	 * @return the value
 	 */
 	public final Double getValue() {
@@ -86,7 +86,7 @@ public class Index {
 
 	/**
 	 * Set the value
-	 * 
+	 *
 	 * @param value
 	 *            the value
 	 */
@@ -96,7 +96,7 @@ public class Index {
 
 	/**
 	 * Get the date
-	 * 
+	 *
 	 * @return the date
 	 */
 	public final Date getDate() {
@@ -109,7 +109,7 @@ public class Index {
 
 	/**
 	 * Set the date
-	 * 
+	 *
 	 * @param date
 	 *            the date
 	 */
@@ -119,7 +119,7 @@ public class Index {
 
 	/**
 	 * Get the share value
-	 * 
+	 *
 	 * @return the share value
 	 */
 	public final Double getShareValue() {
@@ -128,7 +128,7 @@ public class Index {
 
 	/**
 	 * Set the share value
-	 * 
+	 *
 	 * @param shareValue
 	 *            the share value
 	 */

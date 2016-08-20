@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,54 +26,50 @@ import static fr.cph.stock.util.Constants.LANGUAGE;
  * Cookie management
  *
  * @author Carl-Philipp Harmant
- *
  */
 public final class CookieManagement {
 
-    /**
-     * Constructor
-     */
-    private CookieManagement() {
-    }
+	/**
+	 * Constructor
+	 */
+	private CookieManagement() {
+	}
 
-    /**
-     * Get the name of the language stored in cookies
-     *
-     * @param cookies
-     *            a list of cookie
-     * @return the name of the language
-     */
-    public static String getCookieLanguage(final List<Cookie> cookies) {
-        String language = null;
-        for (final Cookie cookie : cookies) {
-            if (cookie.getName().equals(LANGUAGE)) {
-                language = cookie.getValue();
-                break;
-            }
-        }
-        language = language == null ? ENGLISH : language;
-        return language;
-    }
+	/**
+	 * Get the name of the language stored in cookies
+	 *
+	 * @param cookies a list of cookie
+	 * @return the name of the language
+	 */
+	public static String getCookieLanguage(final List<Cookie> cookies) {
+		String language = null;
+		for (final Cookie cookie : cookies) {
+			if (cookie.getName().equals(LANGUAGE)) {
+				language = cookie.getValue();
+				break;
+			}
+		}
+		language = language == null ? ENGLISH : language;
+		return language;
+	}
 
-    /**
-     * Check if a cookie is already present
-     *
-     * @param cookies
-     *            a list of cookie
-     * @param cookieName
-     *            a cookie name
-     * @return true or false
-     */
-    public static boolean containsCookie(final List<Cookie> cookies, final String cookieName) {
-        boolean res = false;
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals(cookieName)) {
-                    res = true;
-                    break;
-                }
-            }
-        }
-        return res;
-    }
+	/**
+	 * Check if a cookie is already present
+	 *
+	 * @param cookies    a list of cookie
+	 * @param cookieName a cookie name
+	 * @return true or false
+	 */
+	public static boolean containsCookie(final List<Cookie> cookies, final String cookieName) {
+		boolean res = false;
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals(cookieName)) {
+					res = true;
+					break;
+				}
+			}
+		}
+		return res;
+	}
 }

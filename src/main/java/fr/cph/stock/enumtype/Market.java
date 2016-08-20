@@ -1,12 +1,12 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
- *
+ * Copyright 2016 Carl-Philipp Harmant
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -96,14 +96,14 @@ public enum Market {
 	public static Market getMarketFromSuffix(final String suffix) {
 		Market market;
 		switch (suffix) {
-		case "PA":
-			market = Market.PARIS;
-			break;
-		case "AM":
-			market = Market.AMSTERDAM;
-			break;
-		default:
-			market = null;
+			case "PA":
+				market = Market.PARIS;
+				break;
+			case "AM":
+				market = Market.AMSTERDAM;
+				break;
+			default:
+				market = null;
 		}
 		return market;
 	}
@@ -118,38 +118,38 @@ public enum Market {
 	public static Currency getCurrency(final Market m) {
 		Currency currency = null;
 		switch (m) {
-		case PARIS:
-		case PAR:
-		case AMSTERDAM:
-		case XETRA:
-		case MILAN:
-		case FRANKFURT:
-			currency = Currency.EUR;
-			break;
-		case NASDAQNM:
-		case NASDAQSC:
-		case NYSE:
-		case NGM:
-		case PCX:
-		case NCM:
-		case NYQ:
-		case NMS:
-		case PNK:
-		case OTC:
-			currency = Currency.USD;
-			break;
-		case LONDON:
-			currency = Currency.GBP;
-			break;
-		case VAN:
-		case CDNX:
-			currency = Currency.CAD;
-			break;
-		case UNKNOWN:
-			currency = null;
-			break;
-		default:
-			break;
+			case PARIS:
+			case PAR:
+			case AMSTERDAM:
+			case XETRA:
+			case MILAN:
+			case FRANKFURT:
+				currency = Currency.EUR;
+				break;
+			case NASDAQNM:
+			case NASDAQSC:
+			case NYSE:
+			case NGM:
+			case PCX:
+			case NCM:
+			case NYQ:
+			case NMS:
+			case PNK:
+			case OTC:
+				currency = Currency.USD;
+				break;
+			case LONDON:
+				currency = Currency.GBP;
+				break;
+			case VAN:
+			case CDNX:
+				currency = Currency.CAD;
+				break;
+			case UNKNOWN:
+				currency = null;
+				break;
+			default:
+				break;
 		}
 		return currency;
 	}

@@ -1,12 +1,12 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
- *
+ * Copyright 2016 Carl-Philipp Harmant
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -360,7 +360,7 @@ public class Portfolio {
 	 *            the date
 	 */
 	public final void setLastCompanyUpdate(final Date lastCompanyUpdate) {
-		if(lastCompanyUpdate != null){
+		if (lastCompanyUpdate != null) {
 			this.lastCompanyUpdate = (Date) lastCompanyUpdate.clone();
 		}
 	}
@@ -589,7 +589,7 @@ public class Portfolio {
 		sb.append("<table class=\"shareValueTableDetails\">");
 		for (Equity equity : getEquities()) {
 			sb.append("<tr><td width=200px><b>" + equity.getCurrentName() + "</b></td><td width=180px>" + equity.getQuantity() + " * "
-					+ equity.getCompany().getQuote());
+				+ equity.getCompany().getQuote());
 			if (equity.getCompany().getCurrency() != getCurrency()) {
 				sb.append(" * " + getCurrency().getParity(equity.getCompany().getCurrency()));
 			}
@@ -597,7 +597,7 @@ public class Portfolio {
 		}
 		sb.append("<tr><td colspan=3><b>Liquidity:</b> " + getLiquidity() + " (" + getCurrency().getCode() + ")</td></tr>");
 		sb.append("<tr><td colspan=3><b>Total:</b> " + new BigDecimal(getTotalValue(), mathContext).doubleValue() + " (" + getCurrency().getCode()
-				+ ")</td></tr>");
+			+ ")</td></tr>");
 		sb.append("</table>");
 		return sb.toString();
 	}
@@ -827,8 +827,8 @@ public class Portfolio {
 	private void generateShareValueInfo() {
 		List<ShareValue> shareValuess = getShareValues();
 		if (shareValuess.size() != 0 && maxShareValue == null && maxShareValueDate == null && currentShareValuesYield == null
-				&& currentShareValuesTaxes == null && currentShareValuesVolume == null && currentShareValuesGain == null
-				&& currentShareValuesGainPorcentage == null) {
+			&& currentShareValuesTaxes == null && currentShareValuesVolume == null && currentShareValuesGain == null
+			&& currentShareValuesGainPorcentage == null) {
 			ShareValue lastShareValue = shareValuess.get(0);
 			ShareValue firstShareValue = shareValuess.get(shareValuess.size() - 1);
 			double liquidityMov = 0;

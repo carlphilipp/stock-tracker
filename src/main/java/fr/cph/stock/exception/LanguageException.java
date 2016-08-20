@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,23 +20,22 @@ package fr.cph.stock.exception;
  * This class represents an exception from Languages
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class LanguageException extends RuntimeException {
 
-    /** Serialization **/
-    private static final long serialVersionUID = 1L;
+	/**
+	 * Serialization
+	 **/
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Constructor
-     *
-     * @param str
-     *            the error message
-     * @param e
-     *            the exception
-     */
-    public LanguageException(final String str, final Exception e) {
-        super(str, e);
-    }
+	/**
+	 * Constructor
+	 *
+	 * @param str the error message
+	 * @param e   the exception
+	 */
+	public LanguageException(final String str, final Exception e) {
+		super(str, e);
+	}
 
 }

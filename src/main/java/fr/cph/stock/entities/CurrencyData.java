@@ -1,12 +1,12 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
- *
+ * Copyright 2016 Carl-Philipp Harmant
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,15 +16,15 @@
 
 package fr.cph.stock.entities;
 
-import java.util.Date;
-
 import fr.cph.stock.enumtype.Currency;
+
+import java.util.Date;
 
 /**
  * This class represents currency data. It will get 2 currencies and get the value of the first currency depending on the second
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class CurrencyData {
 
@@ -41,7 +41,7 @@ public class CurrencyData {
 
 	/**
 	 * Getter
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -50,7 +50,7 @@ public class CurrencyData {
 
 	/**
 	 * Setter
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 */
@@ -60,7 +60,7 @@ public class CurrencyData {
 
 	/**
 	 * Getter
-	 * 
+	 *
 	 * @return the value
 	 */
 	public final Double getValue() {
@@ -69,7 +69,7 @@ public class CurrencyData {
 
 	/**
 	 * Setter
-	 * 
+	 *
 	 * @param value
 	 *            the value
 	 */
@@ -79,7 +79,7 @@ public class CurrencyData {
 
 	/**
 	 * Getter
-	 * 
+	 *
 	 * @return the last update
 	 */
 	public final Date getLastUpdate() {
@@ -92,7 +92,7 @@ public class CurrencyData {
 
 	/**
 	 * Setter
-	 * 
+	 *
 	 * @param lastUpdate
 	 *            the last update
 	 */
@@ -102,7 +102,7 @@ public class CurrencyData {
 
 	/**
 	 * Getter
-	 * 
+	 *
 	 * @return the first currency
 	 */
 	public final Currency getCurrency1() {
@@ -111,7 +111,7 @@ public class CurrencyData {
 
 	/**
 	 * Setter
-	 * 
+	 *
 	 * @param currency1
 	 *            the first currency
 	 */
@@ -121,7 +121,7 @@ public class CurrencyData {
 
 	/**
 	 * Getter
-	 * 
+	 *
 	 * @return the second currency
 	 */
 	public final Currency getCurrency2() {
@@ -130,7 +130,7 @@ public class CurrencyData {
 
 	/**
 	 * Setter
-	 * 
+	 *
 	 * @param currency2
 	 *            the 2nd currency
 	 */
@@ -140,7 +140,7 @@ public class CurrencyData {
 
 	/**
 	 * To String
-	 * 
+	 *
 	 * @return a string
 	 */
 	@Override

@@ -1,12 +1,12 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
- *
+ * Copyright 2016 Carl-Philipp Harmant
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,14 +27,14 @@ import static fr.cph.stock.util.Constants.PASSWORD;
 
 /**
  * This class represents a user
- * 
+ *
  * @author Carl-Philipp Harmant
- * 
+ *
  */
 public class User implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -7736017495914032958L;
 
@@ -71,7 +71,7 @@ public class User implements Serializable {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param login
 	 *            the login
 	 * @param password
@@ -84,7 +84,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get the id
-	 * 
+	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -93,7 +93,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set the id
-	 * 
+	 *
 	 * @param id
 	 *            the id
 	 */
@@ -103,7 +103,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get the login
-	 * 
+	 *
 	 * @return the login
 	 */
 	public final String getLogin() {
@@ -112,7 +112,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set the login
-	 * 
+	 *
 	 * @param login
 	 *            the login
 	 */
@@ -122,7 +122,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get the password
-	 * 
+	 *
 	 * @return the password
 	 */
 	public final String getPassword() {
@@ -131,7 +131,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set password
-	 * 
+	 *
 	 * @param password
 	 *            the password
 	 */
@@ -141,7 +141,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get email
-	 * 
+	 *
 	 * @return the email
 	 */
 	public final String getEmail() {
@@ -150,7 +150,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set email
-	 * 
+	 *
 	 * @param email
 	 *            the email
 	 */
@@ -160,7 +160,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get locale
-	 * 
+	 *
 	 * @return the locale
 	 */
 	public final String getLocale() {
@@ -169,7 +169,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set locale
-	 * 
+	 *
 	 * @param locale
 	 *            the locale
 	 */
@@ -179,7 +179,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set locale with a string
-	 * 
+	 *
 	 * @param locale
 	 *            the locale
 	 */
@@ -189,7 +189,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get last updapte
-	 * 
+	 *
 	 * @return the last update
 	 */
 	public final Date getLastUpdate() {
@@ -202,7 +202,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set last update
-	 * 
+	 *
 	 * @param lastUpdate
 	 *            the last update
 	 */
@@ -212,7 +212,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get timezone
-	 * 
+	 *
 	 * @return the timezone
 	 */
 	public final String getTimeZone() {
@@ -221,7 +221,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set timezone
-	 * 
+	 *
 	 * @param timeZone
 	 *            the timezone
 	 */
@@ -231,7 +231,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get date pattern
-	 * 
+	 *
 	 * @return the date pattern
 	 */
 	public final String getDatePattern() {
@@ -240,7 +240,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set date pattern
-	 * 
+	 *
 	 * @param datePattern
 	 *            the date pattern
 	 */
@@ -251,7 +251,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get date pattern without hour and min
-	 * 
+	 *
 	 * @return the date pattern
 	 */
 	public final String getDatePatternWithoutHourMin() {
@@ -260,7 +260,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set date pattern without hour min
-	 * 
+	 *
 	 * @param datePatternWithoutHourMin
 	 *            the date pattern
 	 */
@@ -270,7 +270,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get allow
-	 * 
+	 *
 	 * @return if the user is allowed or not to enter the website
 	 */
 	public final Boolean getAllow() {
@@ -279,7 +279,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set allow
-	 * 
+	 *
 	 * @param allow
 	 *            the boolean that will tell if the user is allowed to enter the website
 	 */
@@ -289,7 +289,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get update hour time
-	 * 
+	 *
 	 * @return the hour time
 	 */
 	public final Integer getUpdateHourTime() {
@@ -298,7 +298,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set update hour time
-	 * 
+	 *
 	 * @param updateHourTime
 	 *            the hour time
 	 */
@@ -308,7 +308,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get if an email must be send when update did not work
-	 * 
+	 *
 	 * @return true or false
 	 */
 	public final Boolean getUpdateSendMail() {
@@ -317,7 +317,7 @@ public class User implements Serializable {
 
 	/**
 	 * Set if an email must be send when update did not work
-	 * 
+	 *
 	 * @param updateSendMail
 	 *            true or false
 	 */
@@ -343,7 +343,7 @@ public class User implements Serializable {
 
 	/**
 	 * Get JSONObject view of the current user
-	 * 
+	 *
 	 * @return a JSONObject
 	 */
 	public final JSONObject getJSONObject() {

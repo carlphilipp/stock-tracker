@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  Copyright 2013 Carl-Philipp Harmant
+  Copyright 2016 Carl-Philipp Harmant
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,41 +19,41 @@
 <mapper namespace="PortfolioDao">
 
 	<resultMap type="Equity" id="EquitiesResult">
-		<result property="id" column="equityId" />
-		<result property="companyId" column="companyId" />
-		<result property="namePersonal" column="namePersonal" />
-		<result property="sectorPersonal" column="sectorPersonal" />
-		<result property="industryPersonal" column="industryPersonal" />
-		<result property="marketCapPersonal" column="marketCapPersonal" />
-		<result property="quantity" column="quantity" />
-		<result property="unitCostPrice" column="unitCostPrice" />
-		<result property="yieldPersonal" column="yieldPersonal" />
-		<result property="parityPersonal" column="parityPersonal" />
-		<result property="stopLossLocal" column="stopLossLocal" />
-		<result property="objectivLocal" column="objectivLocal" />
-		<result property="yieldFrequency" column="yieldFrequency" />
-		<result property="yieldMonth" column="yieldMonth" />
-		<result property="lastUpdate" column="equityLastUpdate" />
- 		<association property="company" resultMap="CompanyResult" />
+		<result property="id" column="equityId"/>
+		<result property="companyId" column="companyId"/>
+		<result property="namePersonal" column="namePersonal"/>
+		<result property="sectorPersonal" column="sectorPersonal"/>
+		<result property="industryPersonal" column="industryPersonal"/>
+		<result property="marketCapPersonal" column="marketCapPersonal"/>
+		<result property="quantity" column="quantity"/>
+		<result property="unitCostPrice" column="unitCostPrice"/>
+		<result property="yieldPersonal" column="yieldPersonal"/>
+		<result property="parityPersonal" column="parityPersonal"/>
+		<result property="stopLossLocal" column="stopLossLocal"/>
+		<result property="objectivLocal" column="objectivLocal"/>
+		<result property="yieldFrequency" column="yieldFrequency"/>
+		<result property="yieldMonth" column="yieldMonth"/>
+		<result property="lastUpdate" column="equityLastUpdate"/>
+		<association property="company" resultMap="CompanyResult"/>
 	</resultMap>
 
 	<resultMap type="Company" id="CompanyResult">
-		<result property="id" column="companyId" />
-		<result property="yahooId" column="yahooId" />
-		<result property="name" column="name" />
-		<result property="market" column="market" />
-		<result property="currency" column="currency" />
-		<result property="sector" column="sector" />
-		<result property="industry" column="industry" />
-		<result property="quote" column="quote" />
-		<result property="yield" column="yield" />
-		<result property="realTime" column="realTime" />
-		<result property="yesterdayClose" column="yesterdayClose" />
-		<result property="changeInPercent" column="changeInPercent" />
-		<result property="fund" column="fund" />
-		<result property="manual" column="manual" />
-		<result property="marketCapitalization" column="marketCapitalization" />
-		<result property="lastUpdate" column="companyLastUpdate" />
+		<result property="id" column="companyId"/>
+		<result property="yahooId" column="yahooId"/>
+		<result property="name" column="name"/>
+		<result property="market" column="market"/>
+		<result property="currency" column="currency"/>
+		<result property="sector" column="sector"/>
+		<result property="industry" column="industry"/>
+		<result property="quote" column="quote"/>
+		<result property="yield" column="yield"/>
+		<result property="realTime" column="realTime"/>
+		<result property="yesterdayClose" column="yesterdayClose"/>
+		<result property="changeInPercent" column="changeInPercent"/>
+		<result property="fund" column="fund"/>
+		<result property="manual" column="manual"/>
+		<result property="marketCapitalization" column="marketCapitalization"/>
+		<result property="lastUpdate" column="companyLastUpdate"/>
 	</resultMap>
 
 	<insert id="insertOnePortfolio" parameterType="Portfolio">

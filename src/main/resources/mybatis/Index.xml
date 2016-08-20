@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--  
-  Copyright 2013 Carl-Philipp Harmant
- 
+<!--
+  Copyright 2016 Carl-Philipp Harmant
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
       http://www.apache.org/licenses/LICENSE-2.0
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
  -->
- 
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="IndexDao">
 	<insert id="insertOneIndex" parameterType="Index">
@@ -34,12 +34,12 @@
 		delete from `index` where id = #{id}
 	</delete>
 	<select id="selectListIndexFromTo" parameterType="hashmap" resultType="Index">
-		select * from `index` WHERE yahooId = #{yahooId} 
-			and date >= #{from} 
-			<if test="to != null">
-     			and date &lt;= #{to}
-   			</if>  
-			order by date
+		select * from `index` WHERE yahooId = #{yahooId}
+		and date >= #{from}
+		<if test="to != null">
+			and date &lt;= #{to}
+		</if>
+		order by date
 	</select>
 	<select id="selectLastIndex" parameterType="int" resultType="Index">
 		select * from `index` WHERE yahooId = #{yahooId} order by date DESC LIMIT 0,1

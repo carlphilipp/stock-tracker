@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 Carl-Philipp Harmant
+ * Copyright 2016 Carl-Philipp Harmant
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,20 +24,27 @@ package fr.cph.stock.exception;
  */
 public class YahooException extends Exception {
 
-	/** Serialization **/
+	/**
+	 * Serialization
+	 **/
 	private static final long serialVersionUID = 1870609472239446880L;
-	/** Error message **/
+	/**
+	 * Error message
+	 **/
 	public static final String ERROR = "Yahoo result null. Table is probably locked.";
-	/** Error message **/
+	/**
+	 * Error message
+	 **/
 	private static final String CONNECT_ERROR = "Can't connect to yahoo website";
-	/** Error message **/
+	/**
+	 * Error message
+	 **/
 	private static final String ENCODE_ERROR = "Url encoding did not work";
 
 	/**
 	 * Constructor
 	 *
-	 * @param message
-	 *            the error message
+	 * @param message the error message
 	 */
 	public YahooException(final String message) {
 		super(message);
@@ -46,10 +53,8 @@ public class YahooException extends Exception {
 	/**
 	 * Constructor
 	 *
-	 * @param message
-	 *            the error message
-	 * @param e
-	 *            the exception
+	 * @param message the error message
+	 * @param e       the exception
 	 */
 	public YahooException(final String message, final Exception e) {
 		super(message, e);
