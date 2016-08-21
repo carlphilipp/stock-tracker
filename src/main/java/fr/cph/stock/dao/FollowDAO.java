@@ -16,6 +16,7 @@
 
 package fr.cph.stock.dao;
 
+import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Follow;
 import org.apache.ibatis.session.SqlSession;
@@ -30,9 +31,8 @@ import java.util.Map;
  * @author Carl-Philipp Harmant
  *
  */
-public enum FollowDAO implements DAO<Follow> {
-
-	INSTANCE;
+@Singleton
+public class FollowDAO implements DAO<Follow> {
 
 	private static final String INSERT = "FollowDao.insertOneFollow";
 	private static final String SELECT = "FollowDao.selectOneFollow";

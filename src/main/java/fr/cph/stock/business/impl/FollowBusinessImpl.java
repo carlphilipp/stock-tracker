@@ -1,9 +1,12 @@
 package fr.cph.stock.business.impl;
 
-import fr.cph.stock.guice.GuiceInjector;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.FollowBusiness;
 import fr.cph.stock.dao.CompanyDAO;
+import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.FollowDAO;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Follow;
@@ -12,18 +15,18 @@ import fr.cph.stock.exception.YahooException;
 
 import java.util.List;
 
-public enum FollowBusinessImpl implements FollowBusiness {
-
-	INSTANCE;
+@Singleton
+public class FollowBusinessImpl implements FollowBusiness {
 
 	private CompanyBusiness companyBusiness;
 	private FollowDAO followDAO;
 	private CompanyDAO companyDAO;
 
-	FollowBusinessImpl() {
-		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
-		followDAO = FollowDAO.INSTANCE;
-		companyDAO = new CompanyDAO();
+	@Inject
+	public FollowBusinessImpl(final CompanyBusiness companyBusiness, @Named("Follow") final DAO followDAO, @Named("Company") final DAO companyDAO) {
+		this.companyBusiness = companyBusiness;
+		this.followDAO = (FollowDAO) followDAO;
+		this.companyDAO = (CompanyDAO) companyDAO;
 	}
 
 	@Override

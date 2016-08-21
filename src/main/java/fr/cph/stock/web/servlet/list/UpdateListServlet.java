@@ -16,12 +16,12 @@
 
 package fr.cph.stock.web.servlet.list;
 
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.impl.FollowBusinessImpl;
+import fr.cph.stock.business.FollowBusiness;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -50,13 +50,13 @@ public class UpdateListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(UpdateListServlet.class);
 
-	private FollowBusinessImpl followBusiness;
+	private FollowBusiness followBusiness;
 	private CompanyBusiness companyBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		followBusiness = FollowBusinessImpl.INSTANCE;
+		followBusiness = GuiceInjector.INSTANCE.getFollowBusiness();
 		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		language = LanguageFactory.INSTANCE;
 	}

@@ -16,9 +16,10 @@
 
 package fr.cph.stock.web.servlet.list;
 
-import fr.cph.stock.business.impl.FollowBusinessImpl;
+import fr.cph.stock.business.FollowBusiness;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -46,12 +47,12 @@ public class ModifyFollowServlet extends HttpServlet {
 	private static final long serialVersionUID = 1797882155581192455L;
 	private static final Logger LOG = Logger.getLogger(ModifyFollowServlet.class);
 
-	private FollowBusinessImpl followBusiness;
+	private FollowBusiness followBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
-		followBusiness = fr.cph.stock.business.impl.FollowBusinessImpl.INSTANCE;
+		followBusiness = GuiceInjector.INSTANCE.getFollowBusiness();
 		language = LanguageFactory.INSTANCE;
 	}
 

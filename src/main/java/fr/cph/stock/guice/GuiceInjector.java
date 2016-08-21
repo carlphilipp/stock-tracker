@@ -2,10 +2,7 @@ package fr.cph.stock.guice;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import fr.cph.stock.business.AccountBusiness;
-import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.CurrencyBusiness;
-import fr.cph.stock.business.EquityBusiness;
+import fr.cph.stock.business.*;
 
 public enum GuiceInjector {
 
@@ -31,5 +28,9 @@ public enum GuiceInjector {
 
 	public EquityBusiness getEquityBusiness() {
 		return injector.getInstance(EquityBusiness.class);
+	}
+
+	public FollowBusiness getFollowBusiness() {
+		return injector.getInstance(FollowBusiness.class);
 	}
 }

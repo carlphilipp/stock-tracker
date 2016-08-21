@@ -16,9 +16,10 @@
 
 package fr.cph.stock.web.servlet.list;
 
-import fr.cph.stock.business.impl.FollowBusinessImpl;
+import fr.cph.stock.business.FollowBusiness;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -46,13 +47,13 @@ public class ListServlet extends HttpServlet {
 	private static final long serialVersionUID = -3168423969225038651L;
 	private static final Logger LOG = Logger.getLogger(ListServlet.class);
 
-	private FollowBusinessImpl followBusiness;
+	private FollowBusiness followBusiness;
 	private LanguageFactory language;
 
 	@Override
 	public final void init() throws ServletException {
 		language = LanguageFactory.INSTANCE;
-		followBusiness = FollowBusinessImpl.INSTANCE;
+		followBusiness = GuiceInjector.INSTANCE.getFollowBusiness();
 	}
 
 	@Override
