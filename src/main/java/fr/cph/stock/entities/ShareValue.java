@@ -16,7 +16,7 @@
 
 package fr.cph.stock.entities;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import java.util.Date;
 
@@ -124,15 +124,15 @@ public class ShareValue {
 	 *
 	 * @return the jsonObject
 	 */
-	public final JSONObject getJSONObject() {
-		JSONObject json = new JSONObject();
-		json.put("date", date);
-		json.put(ACCOUNT, account.getName());
-		json.put("commentary", commentary);
-		json.put("shareValue", shareValue);
-		json.put("portfolioValue", portfolioValue);
-		json.put("shareQuantity", shareQuantity);
-		json.put("monthlyYield", monthlyYield);
+	public final JsonObject getJSONObject() {
+		final JsonObject json = new JsonObject();
+		json.addProperty("date", date.toString());
+		json.addProperty(ACCOUNT, account.getName());
+		json.addProperty("commentary", commentary);
+		json.addProperty("shareValue", shareValue);
+		json.addProperty("portfolioValue", portfolioValue);
+		json.addProperty("shareQuantity", shareQuantity);
+		json.addProperty("monthlyYield", monthlyYield);
 		return json;
 	}
 

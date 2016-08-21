@@ -16,14 +16,14 @@
 
 package fr.cph.stock.entities;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import fr.cph.stock.entities.chart.IChart;
 import fr.cph.stock.entities.chart.PieChart;
 import fr.cph.stock.entities.chart.TimeChart;
 import fr.cph.stock.entities.chart.TimeValueChart;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.MarketCapitalization;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -38,73 +38,134 @@ import static fr.cph.stock.util.Constants.LIQUIDITY;
  * This class represents a portofolio that belongs to a user
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class Portfolio {
-	/** Precision of calculation **/
+	/**
+	 * Precision of calculation
+	 **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
-	/** Id **/
+	/**
+	 * Id
+	 **/
 	private int id;
-	/** User Id that get this portfolio **/
+	/**
+	 * User Id that get this portfolio
+	 **/
 	private int userId;
-	/** Currency **/
+	/**
+	 * Currency
+	 **/
 	private Currency currency;
-	/** Liquidity **/
+	/**
+	 * Liquidity
+	 **/
 	private Double liquidity;
-	/** List of equities **/
+	/**
+	 * List of equities
+	 **/
 	private List<Equity> equities;
-	/** List of share value **/
+	/**
+	 * List of share value
+	 **/
 	private List<ShareValue> shareValues;
-	/** List of accounts **/
+	/**
+	 * List of accounts
+	 **/
 	private List<Account> accounts;
-	/** Map representing the indexes **/
+	/**
+	 * Map representing the indexes
+	 **/
 	private Map<String, List<Index>> indexes;
 
 	// Calculated
-	/** Total quantity **/
+	/**
+	 * Total quantity
+	 **/
 	private Double totalQuantity;
-	/** Average unit cost price **/
+	/**
+	 * Average unit cost price
+	 **/
 	private Double averageUnitCostPrice;
-	/** Average quote price **/
+	/**
+	 * Average quote price
+	 **/
 	private Double averageQuotePrice;
-	/** Total value **/
+	/**
+	 * Total value
+	 **/
 	private Double totalValue;
-	/** Total plus minus value **/
+	/**
+	 * Total plus minus value
+	 **/
 	private Double totalPlusMinusValue;
-	/** Yield per year **/
+	/**
+	 * Yield per year
+	 **/
 	private Double yieldYear;
-	/** Yield per year in percentage **/
+	/**
+	 * Yield per year in percentage
+	 **/
 	private Double yieldYearPerc;
-	/** Total gain **/
+	/**
+	 * Total gain
+	 **/
 	private Double totalGain;
-	/** Last company update **/
+	/**
+	 * Last company update
+	 **/
 	private Date lastCompanyUpdate;
-	/** Best performance of the share value **/
+	/**
+	 * Best performance of the share value
+	 **/
 	private Double maxShareValue;
-	/** Date of the best performance **/
+	/**
+	 * Date of the best performance
+	 **/
 	private Date maxShareValueDate;
-	/** Current share value gain **/
+	/**
+	 * Current share value gain
+	 **/
 	private Double currentShareValuesGain;
-	/** Current share value gain in percentage **/
+	/**
+	 * Current share value gain in percentage
+	 **/
 	private Double currentShareValuesGainPorcentage;
-	/** Current share value yield **/
+	/**
+	 * Current share value yield
+	 **/
 	private Double currentShareValuesYield;
-	/** Current share value taxes **/
+	/**
+	 * Current share value taxes
+	 **/
 	private Double currentShareValuesTaxes;
-	/** Current share value taxes **/
+	/**
+	 * Current share value taxes
+	 **/
 	private Double currentShareValuesVolume;
-	/** Total variation percentage **/
+	/**
+	 * Total variation percentage
+	 **/
 	private Double totalVariation;
-	/** Total gain today **/
+	/**
+	 * Total gain today
+	 **/
 	private Double totalGainToday;
-	/** Map that represents data of sector chart **/
+	/**
+	 * Map that represents data of sector chart
+	 **/
 	private Map<String, Double> chartSectorData;
-	/** Map that represents data of capitalization chart **/
+	/**
+	 * Map that represents data of capitalization chart
+	 **/
 	private Map<String, Double> chartCapData;
-	/** Maps that represents data of share value (user + cac40 + s&p500 **/
+	/**
+	 * Maps that represents data of share value (user + cac40 + s&p500
+	 **/
 	private Map<Date, Double> chartShareValueData, chartShareValueData2, chartShareValueData3;
-	/** Chart objects **/
+	/**
+	 * Chart objects
+	 **/
 	private IChart timechart, timeValueChart, piechartsector, piechartcap;
 
 	/**
@@ -134,8 +195,7 @@ public class Portfolio {
 	/**
 	 * Set the currency
 	 *
-	 * @param currency
-	 *            the currency
+	 * @param currency the currency
 	 */
 	public final void setCurrency(final Currency currency) {
 		this.currency = currency;
@@ -153,8 +213,7 @@ public class Portfolio {
 	/**
 	 * Set equities
 	 *
-	 * @param equities
-	 *            the equities
+	 * @param equities the equities
 	 */
 	public final void setEquities(final List<Equity> equities) {
 		this.equities = equities;
@@ -172,8 +231,7 @@ public class Portfolio {
 	/**
 	 * Set id
 	 *
-	 * @param id
-	 *            the id
+	 * @param id the id
 	 */
 	public final void setId(final int id) {
 		this.id = id;
@@ -191,8 +249,7 @@ public class Portfolio {
 	/**
 	 * Set user id
 	 *
-	 * @param userId
-	 *            the user id
+	 * @param userId the user id
 	 */
 	public final void setUserId(final int userId) {
 		this.userId = userId;
@@ -215,8 +272,7 @@ public class Portfolio {
 	/**
 	 * Set liquidity
 	 *
-	 * @param liquidity
-	 *            the liquidity
+	 * @param liquidity the liquidity
 	 */
 	public final void setLiquidity(final Double liquidity) {
 		this.liquidity = liquidity;
@@ -232,7 +288,6 @@ public class Portfolio {
 	}
 
 	/**
-	 *
 	 * @return the average unit cost price
 	 */
 	public final Double getAverageUnitCostPrice() {
@@ -305,8 +360,7 @@ public class Portfolio {
 	/**
 	 * Set a map containing all the data indexes
 	 *
-	 * @param indexes
-	 *            a map with (Index name) => List of Index
+	 * @param indexes a map with (Index name) => List of Index
 	 */
 	public final void setIndexes(final Map<String, List<Index>> indexes) {
 		this.indexes = indexes;
@@ -333,8 +387,7 @@ public class Portfolio {
 	/**
 	 * Set the share value
 	 *
-	 * @param shareValues
-	 *            a list of share value
+	 * @param shareValues a list of share value
 	 */
 	public final void setShareValues(final List<ShareValue> shareValues) {
 		this.shareValues = shareValues;
@@ -356,8 +409,7 @@ public class Portfolio {
 	/**
 	 * Set last company ypdate date
 	 *
-	 * @param lastCompanyUpdate
-	 *            the date
+	 * @param lastCompanyUpdate the date
 	 */
 	public final void setLastCompanyUpdate(final Date lastCompanyUpdate) {
 		if (lastCompanyUpdate != null) {
@@ -569,8 +621,7 @@ public class Portfolio {
 	/**
 	 * Add indexes
 	 *
-	 * @param indexes
-	 *            a list of indexes
+	 * @param indexes a list of indexes
 	 */
 	public final void addIndexes(final List<Index> indexes) {
 		if (indexes.size() > 0) {
@@ -672,8 +723,7 @@ public class Portfolio {
 	/**
 	 * Set list of accounts
 	 *
-	 * @param accounts
-	 *            the list of accounts
+	 * @param accounts the list of accounts
 	 */
 	public final void setAccounts(final List<Account> accounts) {
 		this.accounts = accounts;
@@ -682,8 +732,7 @@ public class Portfolio {
 	/**
 	 * Get one account with its name
 	 *
-	 * @param name
-	 *            the account name
+	 * @param name the account name
 	 * @return the account
 	 */
 	public final Account getAccount(final String name) {
@@ -700,8 +749,7 @@ public class Portfolio {
 	/**
 	 * Get one account with its id
 	 *
-	 * @param id
-	 *            the id
+	 * @param id the id
 	 * @return the account
 	 */
 	public final Account getAccount(final int id) {
@@ -965,62 +1013,62 @@ public class Portfolio {
 	 *
 	 * @return a JSONObject
 	 */
-	public final JSONObject getJSONObject() {
-		JSONObject json = new JSONObject();
-		json.put("id", getId());
-		json.put("userId", getUserId());
-		json.put(CURRENCY, getCurrency().getJSONObject());
-		json.put(LIQUIDITY, getLiquidity());
-		json.put("lastUpdate", getLastCompanyUpdate());
-		json.put("totalValue", getTotalValue());
-		json.put("totalGain", getTotalGain());
-		json.put("totalPlusMinusValue", getTotalPlusMinusValue());
-		json.put("yieldYear", getYieldYear());
-		json.put("yieldYearPerc", getYieldYearPerc());
-		JSONArray equitiess = new JSONArray();
+	public final JsonObject getJSONObject() {
+		JsonObject json = new JsonObject();
+		json.addProperty("id", getId());
+		json.addProperty("userId", getUserId());
+		json.add(CURRENCY, getCurrency().getJSONObject());
+		json.addProperty(LIQUIDITY, getLiquidity());
+		json.addProperty("lastUpdate", getLastCompanyUpdate().toString());
+		json.addProperty("totalValue", getTotalValue());
+		json.addProperty("totalGain", getTotalGain());
+		json.addProperty("totalPlusMinusValue", getTotalPlusMinusValue());
+		json.addProperty("yieldYear", getYieldYear());
+		json.addProperty("yieldYearPerc", getYieldYearPerc());
+		JsonArray equitiess = new JsonArray();
 		for (Equity e : getEquities()) {
 			equitiess.add(e.getJSONObject());
 		}
-		json.put("equities", equitiess);
-		JSONArray shareValuess = new JSONArray();
+		json.add("equities", equitiess);
+		JsonArray shareValuess = new JsonArray();
 		int i = 0;
 		while (i < this.shareValues.size()) {
 			shareValuess.add(this.shareValues.get(i).getJSONObject());
 			i++;
 		}
-		json.put("shareValues", shareValuess);
-		JSONArray accs = new JSONArray();
+		json.add("shareValues", shareValuess);
+		JsonArray accs = new JsonArray();
 		for (Account acc : this.accounts) {
 			accs.add(acc.getJSONObject());
 		}
-		json.put("accounts", accs);
-		JSONObject jsonPerf = new JSONObject();
-		jsonPerf.accumulate("gain", currentShareValuesGain);
-		jsonPerf.accumulate("performance", currentShareValuesGainPorcentage);
-		jsonPerf.accumulate("yield", currentShareValuesYield);
-		jsonPerf.accumulate("taxes", currentShareValuesTaxes);
-		json.put("performance", jsonPerf);
+		json.add("accounts", accs);
+		JsonObject jsonPerf = new JsonObject();
+		jsonPerf.addProperty("gain", currentShareValuesGain);
+		jsonPerf.addProperty("performance", currentShareValuesGainPorcentage);
+		jsonPerf.addProperty("yield", currentShareValuesYield);
+		jsonPerf.addProperty("taxes", currentShareValuesTaxes);
+		json.add("performance", jsonPerf);
 
-		json.put("chartShareValueColors", ((TimeChart) getTimeChart()).getColors());
-		json.put("chartShareValueData", ((TimeChart) getTimeChart()).getData());
+		json.addProperty("chartShareValueColors", ((TimeChart) getTimeChart()).getColors());
+		json.addProperty("chartShareValueData", ((TimeChart) getTimeChart()).getData());
 		Date date = ((TimeChart) getTimeChart()).getDate();
 		String formatDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date);
-		json.put("chartShareValueDate", formatDate);
-		json.put("chartShareValueDraw", ((TimeChart) getTimeChart()).getDraw());
+		json.addProperty("chartShareValueDate", formatDate);
+		json.addProperty("chartShareValueDraw", ((TimeChart) getTimeChart()).getDraw());
 
 		PieChart pieChart = (PieChart) getPieChartSector();
-		json.put("chartSectorData", pieChart.getData());
-		json.put("chartSectorTitle", pieChart.getTitle());
-		json.put("chartSectorDraw", pieChart.getDraw());
-		json.put("chartSectorCompanies", getSectorCompanies());
+		json.addProperty("chartSectorData", pieChart.getData());
+		json.addProperty("chartSectorTitle", pieChart.getTitle());
+		json.addProperty("chartSectorDraw", pieChart.getDraw());
+		json.addProperty("chartSectorCompanies", getSectorCompanies());
 
 		pieChart = (PieChart) getPieChartCap();
-		json.put("chartCapData", pieChart.getData());
-		json.put("chartCapTitle", pieChart.getTitle());
-		json.put("chartCapDraw", pieChart.getDraw());
-		json.put("chartCapCompanies", getCapCompanies());
+		json.addProperty("chartCapData", pieChart.getData());
+		json.addProperty("chartCapTitle", pieChart.getTitle());
+		json.addProperty("chartCapDraw", pieChart.getDraw());
+		json.addProperty("chartCapCompanies", getCapCompanies());
 
-		json.put("totalVariation", totalVariation);
+		json.addProperty("totalVariation", totalVariation);
 
 		return json;
 	}
@@ -1033,5 +1081,4 @@ public class Portfolio {
 	public final Double getTotalVariation() {
 		return totalVariation;
 	}
-
 }

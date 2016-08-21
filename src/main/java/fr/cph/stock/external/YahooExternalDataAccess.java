@@ -16,6 +16,9 @@
 
 package fr.cph.stock.external;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.entities.Index;
@@ -23,9 +26,6 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.log4j.Logger;
@@ -94,14 +94,14 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		final List<Company> companies = new ArrayList<>();
 
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
-		final JSONObject json = yahooGateway.getJSONObject(requestQuotes);
-		final JSONArray jsonResults = getJSONArrayFromJSONObject(json);
+		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
+		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
-			final JSONObject jsonCompany = jsonResults.getJSONObject(j);
+			final JsonObject jsonCompany = (JsonObject) jsonResults.get(j);
 			Company company = new Company();
-			company.setYahooId(jsonCompany.optString(SYMBOL));
+			company.setYahooId(jsonCompany.get(SYMBOL).getAsString());
 			company.setManual(false);
-			if (jsonCompany.optString(STOCK_EXCHANGE).equals(NULL)) {
+			if (jsonCompany.get(STOCK_EXCHANGE).getAsString().equals(NULL)) {
 				company = getCompanyInfo(company);
 				if (company.getSector() != null && company.getIndustry() != null && company.getMarketCapitalization() != null) {
 					company.setRealTime(false);
@@ -117,45 +117,45 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 					}
 					companies.add(company);
 				} else {
-					throw new YahooUnknownTickerException(jsonCompany.optString(SYMBOL) + YahooUnknownTickerException.TOKEN_UNKNOWN);
+					throw new YahooUnknownTickerException(jsonCompany.get(SYMBOL).getAsString() + YahooUnknownTickerException.TOKEN_UNKNOWN);
 				}
 			} else {
-				company.setName(WordUtils.capitalizeFully(jsonCompany.optString(NAME)));
-				final String stockExchange = jsonCompany.optString(STOCK_EXCHANGE).toUpperCase();
+				company.setName(WordUtils.capitalizeFully(jsonCompany.get(NAME).getAsString()));
+				final String stockExchange = jsonCompany.get(STOCK_EXCHANGE).getAsString().toUpperCase();
 				company.setMarket(Market.getMarket(stockExchange));
 
 				if (company.getMarket().equals(Market.UNKNOWN)) {
-					final String currency = jsonCompany.optString(CURRENCY);
+					final String currency = jsonCompany.get(CURRENCY).getAsString();
 					if (StringUtils.isNotEmpty(currency) && !currency.equals(NULL)) {
 						company.setCurrency(Currency.getEnum(currency));
 					}
 				} else {
 					company.setCurrency(Market.getCurrency(company.getMarket()));
 				}
-
-				if (!jsonCompany.optString(DIVIDEND_YIELD).equals(NULL)) {
-					company.setYield(Double.valueOf(jsonCompany.optString(DIVIDEND_YIELD)));
+				JsonElement jsonElement = jsonCompany.get(DIVIDEND_YIELD);
+				if (!jsonElement.isJsonNull()) {
+					company.setYield(jsonElement.getAsDouble());
 				}
-				final String lastTrade = jsonCompany.optString(LAST_TRADE_PRICE_ONLY);
+				final String lastTrade = jsonCompany.get(LAST_TRADE_PRICE_ONLY).getAsString();
 				if (StringUtils.isNotEmpty(lastTrade) && !lastTrade.equals(NULL)) {
 					company.setQuote(Double.valueOf(lastTrade));
 				}
-				final String marketCap = jsonCompany.optString(MARKET_CAPITALIZATION);
-				if (StringUtils.isNotEmpty(marketCap) && !marketCap.equals(NULL)) {
-					company.setMarketCapitalization(marketCap);
+				final JsonElement marketCap = jsonCompany.get(MARKET_CAPITALIZATION);
+				if (!marketCap.isJsonNull()) {
+					company.setMarketCapitalization(marketCap.getAsString());
 				}
-				final Double previousClose = jsonCompany.optDouble(PREVIOUS_CLOSE);
+				final Double previousClose = jsonCompany.get(PREVIOUS_CLOSE).getAsDouble();
 				if (!previousClose.isNaN()) {
 					company.setYesterdayClose(previousClose);
 				} else {
 					company.setYesterdayClose(0.0);
 				}
-				company.setChangeInPercent(jsonCompany.optString(CHANGE_IN_PERCENT));
-				final Double yearLow = jsonCompany.optDouble(YEAR_LOW);
+				company.setChangeInPercent(jsonCompany.get(CHANGE_IN_PERCENT).getAsString());
+				final Double yearLow = jsonCompany.get(YEAR_LOW).getAsDouble();
 				if (!yearLow.isNaN()) {
 					company.setYearLow(yearLow);
 				}
-				final Double yearHigh = jsonCompany.optDouble(YEAR_HIGH);
+				final Double yearHigh = jsonCompany.get(YEAR_HIGH).getAsDouble();
 				if (!yearHigh.isNaN()) {
 					company.setYearHigh(yearHigh);
 				}
@@ -170,24 +170,26 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	@Override
 	public final Company getCompanyInfo(final Company company) throws YahooException {
 		final String requestStocks = "select * from yahoo.finance.stocks where symbol='" + company.getYahooId() + "'";
-		JSONObject jsonCompanyInfo = yahooGateway.getJSONObject(requestStocks);
+		JsonObject jsonCompanyInfo = yahooGateway.getJSONObject(requestStocks);
 		try {
-			jsonCompanyInfo = jsonCompanyInfo.getJSONObject(QUERY).getJSONObject(RESULTS).getJSONObject(STOCK);
-		} catch (JSONException e) {
+			jsonCompanyInfo = jsonCompanyInfo.getAsJsonObject(QUERY).getAsJsonObject(RESULTS).getAsJsonObject(STOCK);
+		} catch (final Exception e) {
 			throw new YahooException("Error while getting info from json : " + company.getYahooId() + " " + jsonCompanyInfo, e);
 		}
-		String sector = jsonCompanyInfo.optString(SECTOR);
-		String industry = jsonCompanyInfo.optString(INDUSTRY);
-		if (StringUtils.isEmpty(sector) && StringUtils.isEmpty(industry)) {
-			sector = jsonCompanyInfo.optString(CATEGORY);
-			final String fundFamily = jsonCompanyInfo.optString(FUND_FAMILY);
+		String sector = null;
+		String industry = null;
+		JsonElement sectorJsonElement = jsonCompanyInfo.get(SECTOR);
+		JsonElement industryJsonElement = jsonCompanyInfo.get(INDUSTRY);
+		if (sectorJsonElement.isJsonNull() && industryJsonElement.isJsonNull()) {
+			sector = jsonCompanyInfo.get(CATEGORY).getAsString();
+			final String fundFamily = jsonCompanyInfo.get(FUND_FAMILY).getAsString();
 			if (fundFamily != null) {
 				company.setFund(true);
 			}
 			industry = fundFamily;
-			final String marketCap = jsonCompanyInfo.optString(NET_ASSETS);
+			final String marketCap = jsonCompanyInfo.get(NET_ASSETS).getAsString();
 			if (StringUtils.isNotEmpty(marketCap) && !marketCap.equals(NULL)) {
-				company.setMarketCapitalization(jsonCompanyInfo.optString(NET_ASSETS));
+				company.setMarketCapitalization(jsonCompanyInfo.get(NET_ASSETS).getAsString());
 			}
 		}
 		if (StringUtils.isNotEmpty(industry)) {
@@ -208,40 +210,39 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				final StringBuilder sb = new StringBuilder();
 				sb.append("\"").append(currency.getCode()).append(c.getCode()).append("\",\"").append(c.getCode()).append(currency.getCode()).append("\"");
 				final String request = "select * from yahoo.finance.xchange where pair in (" + sb + ")";
-				final JSONObject json = yahooGateway.getJSONObject(request);
-				JSONObject jsonn = json.optJSONObject(QUERY);
+				final JsonObject json = yahooGateway.getJSONObject(request);
+				JsonObject jsonn = json.get(QUERY).getAsJsonObject();
 				if (jsonn != null) {
-					final JSONObject jsonnn = jsonn.optJSONObject(RESULTS);
+					final JsonObject jsonnn = jsonn.getAsJsonObject(RESULTS);
 					if (jsonnn != null) {
-						final JSONArray jsonArray = jsonnn.optJSONArray(RATE_LOWERCASE);
+						final JsonArray jsonArray = jsonnn.getAsJsonArray(RATE_LOWERCASE);
 						if (jsonArray != null) {
 							// 1st part
-							final JSONObject response1 = jsonArray.getJSONObject(0);
+							final JsonObject response1 = (JsonObject) jsonArray.get(0);
 							CurrencyData currencyData = new CurrencyData();
 							currencyData.setCurrency1(currency);
 							currencyData.setCurrency2(c);
-							currencyData.setValue(response1.getDouble(RATE_UPPERCASE));
+							currencyData.setValue(response1.get(RATE_UPPERCASE).getAsDouble());
 							currenciesData.add(currencyData);
 
 							// 2nd part
-							final JSONObject response2 = jsonArray.getJSONObject(1);
+							final JsonObject response2 = (JsonObject) jsonArray.get(1);
 							CurrencyData currencyData2 = new CurrencyData();
 							currencyData2.setCurrency1(c);
 							currencyData2.setCurrency2(currency);
-							currencyData2.setValue(response2.getDouble(RATE_UPPERCASE));
+							currencyData2.setValue(response2.get(RATE_UPPERCASE).getAsDouble());
 							currenciesData.add(currencyData2);
 						}
 					}
 				} else {
-					jsonn = json.optJSONObject(ERROR);
+					jsonn = json.getAsJsonObject(ERROR);
 					if (jsonn == null) {
 						LOG.error("query null: " + json);
 					} else {
-						final String description = jsonn.getString(DESCRIPTION);
-						if (description == null) {
+						if (jsonn.get(DESCRIPTION).isJsonNull()) {
 							LOG.warn("error description null: " + jsonn);
 						} else {
-							LOG.warn("error description: " + description);
+							LOG.warn("error description: " + jsonn.get(DESCRIPTION).getAsString());
 						}
 					}
 				}
@@ -259,16 +260,16 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			: SIMPLE_DATE_FORMAT.format(to);
 		final List<Index> indexes = new ArrayList<>();
 		final String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
-		final JSONObject json = yahooGateway.getJSONObject(request);
-		final JSONArray jsonResults = getJSONArrayFromJSONObject(json);
+		final JsonObject json = yahooGateway.getJSONObject(request);
+		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
-			final JSONObject jsonIndex = jsonResults.getJSONObject(j);
+			final JsonObject jsonIndex = (JsonObject) jsonResults.get(j);
 			final Index index = new Index();
-			index.setValue(jsonIndex.getDouble(CLOSE));
+			index.setValue(jsonIndex.get(CLOSE).getAsDouble());
 
 			Date date;
 			try {
-				date = SIMPLE_DATE_FORMAT.parse(jsonIndex.optString(DATE));
+				date = SIMPLE_DATE_FORMAT.parse(jsonIndex.get(DATE).getAsString());
 			} catch (final ParseException e) {
 				throw new YahooException(e.getMessage(), e);
 			}
@@ -290,17 +291,17 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			: SIMPLE_DATE_FORMAT.format(to);
 		final List<Company> companies = new ArrayList<>();
 		final String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
-		final JSONObject json = yahooGateway.getJSONObject(request);
-		final JSONArray jsonResults = getJSONArrayFromJSONObject(json);
+		final JsonObject json = yahooGateway.getJSONObject(request);
+		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
-			final JSONObject jsonIndex = jsonResults.getJSONObject(j);
+			final JsonObject jsonIndex = (JsonObject) jsonResults.get(j);
 			final Company company = new Company();
 			try {
-				final double close = jsonIndex.getDouble(CLOSE);
+				final double close = jsonIndex.get(CLOSE).getAsDouble();
 				company.setQuote(close);
 				company.setYahooId(yahooId);
 				companies.add(company);
-			} catch (final JSONException e) {
+			} catch (final Exception e) {
 				LOG.warn("Error while trying to get double (Close) from json object: " + jsonIndex);
 			}
 		}
@@ -311,16 +312,16 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	public final Index getIndexData(final String yahooId) throws YahooException {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in ('" + yahooId + "')";
 		final Index index = new Index();
-		final JSONObject json = yahooGateway.getJSONObject(requestQuotes);
+		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
 
-		JSONObject jsonn;
+		JsonObject jsonn;
 		try {
-			jsonn = json.getJSONObject(QUERY).getJSONObject(RESULTS).getJSONObject(QUOTE);
-		} catch (final JSONException e) {
+			jsonn = json.getAsJsonObject(QUERY).getAsJsonObject(RESULTS).getAsJsonObject(QUOTE);
+		} catch (final Exception e) {
 			throw new YahooException(YahooException.ERROR, e);
 		}
 		index.setYahooId(yahooId);
-		index.setValue(Double.valueOf(jsonn.optString(LAST_TRADE_PRICE_ONLY)));
+		index.setValue(jsonn.get(LAST_TRADE_PRICE_ONLY).getAsDouble());
 
 		return index;
 	}
@@ -332,35 +333,35 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	 * @return a jsonArray
 	 * @throws YahooException the yahooGateway exception
 	 */
-	private JSONArray getJSONArrayFromJSONObject(final JSONObject json) throws YahooException {
-		final JSONObject jQuery = json.optJSONObject(QUERY);
-		JSONArray quotes;
+	private JsonArray getJSONArrayFromJSONObject(final JsonObject json) throws YahooException {
+		final JsonObject jQuery = json.getAsJsonObject(QUERY);
+		JsonArray quotes;
 		if (jQuery != null) {
-			final JSONObject jsonResults = jQuery.optJSONObject(RESULTS);
+			final JsonObject jsonResults = jQuery.getAsJsonObject(RESULTS);
 			if (jsonResults != null) {
-				quotes = jsonResults.optJSONArray(QUOTE);
+				quotes = jsonResults.getAsJsonArray(QUOTE);
 				if (quotes == null) {
-					final JSONObject quote = jsonResults.getJSONObject(QUOTE);
+					final JsonObject quote = jsonResults.getAsJsonObject(QUOTE);
 					if (quote == null) {
-						final JSONObject error2 = json.getJSONObject(QUERY).getJSONObject(DIAGNOSTICS).optJSONObject(JAVASCRIPT);
+						final JsonObject error2 = json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS).getAsJsonObject(JAVASCRIPT);
 						if (error2 == null) {
 							throw new YahooException("Can't get the error message");
 						} else {
-							throw new YahooException(error2.optString("content"));
+							throw new YahooException(error2.getAsJsonObject("content").getAsString());
 						}
 
 					} else {
-						quotes = new JSONArray();
+						quotes = new JsonArray();
 						quotes.add(quote);
 					}
 				}
 			} else {
-				final JSONObject error = json.optJSONObject(QUERY).optJSONObject(DIAGNOSTICS).optJSONObject(JAVASCRIPT);
+				final JsonObject error = json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS).getAsJsonObject(JAVASCRIPT);
 				if (error == null) {
-					LOG.debug("JSONObject found: " + json.optJSONObject(QUERY).optJSONObject(DIAGNOSTICS));
+					LOG.debug("JSONObject found: " + json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS));
 					throw new YahooException("The current table 'yahoo.finance.quotes' has probably been blocked.");
 				} else {
-					throw new YahooException(error.optString("content"));
+					throw new YahooException(error.getAsJsonObject("content").getAsString());
 				}
 			}
 		} else {

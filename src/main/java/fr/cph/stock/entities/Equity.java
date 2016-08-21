@@ -16,10 +16,10 @@
 
 package fr.cph.stock.entities;
 
+import com.google.gson.JsonObject;
 import fr.cph.stock.enumtype.Frequency;
 import fr.cph.stock.enumtype.MarketCapitalization;
 import fr.cph.stock.enumtype.Month;
-import net.sf.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -802,18 +802,18 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return a JSONObject
 	 */
-	public final JSONObject getJSONObject() {
-		JSONObject json = new JSONObject();
-		json.put("name", getCurrentName());
-		json.put("unitCostPrice", getUnitCostPrice());
-		json.put("value", getValue());
-		json.put("plusMinusValue", getPlusMinusValue());
-		json.put("quantity", getQuantity());
-		json.put("yieldYear", getCurrentYield());
-		json.put("yieldUnitCostPrice", getYieldUnitCostPrice());
-		json.put("quote", getCompany().getQuote());
-		json.put("plusMinusUnitCostPriceValue", getPlusMinusUnitCostPriceValue());
-		json.put("variation", getCompany().getChange());
+	public final JsonObject getJSONObject() {
+		final JsonObject json = new JsonObject();
+		json.addProperty("name", getCurrentName());
+		json.addProperty("unitCostPrice", getUnitCostPrice());
+		json.addProperty("value", getValue());
+		json.addProperty("plusMinusValue", getPlusMinusValue());
+		json.addProperty("quantity", getQuantity());
+		json.addProperty("yieldYear", getCurrentYield());
+		json.addProperty("yieldUnitCostPrice", getYieldUnitCostPrice());
+		json.addProperty("quote", getCompany().getQuote());
+		json.addProperty("plusMinusUnitCostPriceValue", getPlusMinusUnitCostPriceValue());
+		json.addProperty("variation", getCompany().getChange());
 		return json;
 	}
 

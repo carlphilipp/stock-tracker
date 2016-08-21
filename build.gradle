@@ -11,18 +11,14 @@ repositories {
 	}
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+def javaVersion = JavaVersion.VERSION_1_8
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 dependencies {
 	compile(
-		[name: 'dropbox-java-sdk-1.5.3'],
-		[name: 'json-lib-2.4-jdk15'],
-		[group: 'org.jfree', name: 'jfreechart', version: '1.0.19'],
-		[group: 'org.mybatis', name: 'mybatis', version: '3.4.1'],
-		[group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.3'],
-		[group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'],
-		[group: 'javax.mail', name: 'javax.mail-api', version: '1.5.6'],
+
+		// CSV
 		[group: 'net.sf.opencsv', name: 'opencsv', version: '2.3'],
 
 		// Commons
@@ -31,6 +27,12 @@ dependencies {
 		[group: 'commons-io', name: 'commons-io', version: '2.5'],
 		[group: 'commons-lang', name: 'commons-lang', version: '2.3'],
 
+		// Dropbox
+		[name: 'dropbox-java-sdk-1.5.3'],
+
+		// JSON
+		[group: 'com.google.code.gson', name: 'gson', version: '2.7'],
+
 		// JSTL
 		[group: 'javax.servlet', name: 'jstl', version: '1.2'],
 
@@ -38,10 +40,21 @@ dependencies {
 		[group: 'log4j', name: 'log4j', version: '1.2.17'],
 		[group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'],
 
+		// ORM
+		[group: 'org.mybatis', name: 'mybatis', version: '3.4.1'],
+		[group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'],
+
+		// Other
+		[group: 'org.jfree', name: 'jfreechart', version: '1.0.19'],
+		[group: 'javax.mail', name: 'javax.mail-api', version: '1.5.6'],
+
 		// Reports
 		[group: 'net.sf.jasperreports', name: 'jasperreports', version: '5.1.0'],
 		[group: 'com.lowagie', name: 'itext', version: '2.1.7'],
 		[group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.4.7'],
+
+		// Scheduler
+		[group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.3'],
 
 		// XML
 		[group: 'org.dom4j', name: 'dom4j', version: '2.0.0'],

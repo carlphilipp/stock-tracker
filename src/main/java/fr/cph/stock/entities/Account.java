@@ -16,8 +16,8 @@
 
 package fr.cph.stock.entities;
 
+import com.google.gson.JsonObject;
 import fr.cph.stock.enumtype.Currency;
-import net.sf.json.JSONObject;
 
 import static fr.cph.stock.util.Constants.CURRENCY;
 import static fr.cph.stock.util.Constants.LIQUIDITY;
@@ -26,27 +26,39 @@ import static fr.cph.stock.util.Constants.LIQUIDITY;
  * This class represents the account of the user
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class Account {
 
-	/** id **/
+	/**
+	 * id
+	 **/
 	private int id;
-	/** user id **/
+	/**
+	 * user id
+	 **/
 	private int userId;
-	/** name of the account **/
+	/**
+	 * name of the account
+	 **/
 	private String name;
-	/** currency of the account **/
+	/**
+	 * currency of the account
+	 **/
 	private Currency currency;
-	/** liquidity of the account **/
+	/**
+	 * liquidity of the account
+	 **/
 	private Double liquidity;
-	/** is it allowed to delete it from db ? **/
+	/**
+	 * is it allowed to delete it from db ?
+	 **/
 	private Boolean del;
-	/** parity of the account **/
+	/**
+	 * parity of the account
+	 **/
 	private Double parity;
 
 	/**
-	 *
 	 * @return the id
 	 */
 	public final int getId() {
@@ -54,8 +66,7 @@ public class Account {
 	}
 
 	/**
-	 * @param id
-	 *            the id
+	 * @param id the id
 	 */
 	public final void setId(final int id) {
 		this.id = id;
@@ -69,8 +80,7 @@ public class Account {
 	}
 
 	/**
-	 * @param userId
-	 *            the user id
+	 * @param userId the user id
 	 */
 	public final void setUserId(final int userId) {
 		this.userId = userId;
@@ -84,8 +94,7 @@ public class Account {
 	}
 
 	/**
-	 * @param name
-	 *            the name
+	 * @param name the name
 	 */
 	public final void setName(final String name) {
 		this.name = name;
@@ -99,8 +108,7 @@ public class Account {
 	}
 
 	/**
-	 * @param currency
-	 *            the currency
+	 * @param currency the currency
 	 */
 	public final void setCurrency(final Currency currency) {
 		this.currency = currency;
@@ -114,8 +122,7 @@ public class Account {
 	}
 
 	/**
-	 * @param liquidity
-	 *            the liquidity
+	 * @param liquidity the liquidity
 	 */
 	public final void setLiquidity(final Double liquidity) {
 		this.liquidity = liquidity;
@@ -129,8 +136,7 @@ public class Account {
 	}
 
 	/**
-	 * @param del
-	 *            the boolean
+	 * @param del the boolean
 	 */
 	public final void setDel(final Boolean del) {
 		this.del = del;
@@ -144,8 +150,7 @@ public class Account {
 	}
 
 	/**
-	 * @param parity
-	 *            the parity
+	 * @param parity the parity
 	 */
 	public final void setParity(final Double parity) {
 		this.parity = parity;
@@ -156,18 +161,17 @@ public class Account {
 	 *
 	 * @return a json object
 	 */
-	public final JSONObject getJSONObject() {
-		JSONObject json = new JSONObject();
-		json.accumulate("id", id);
-		json.accumulate("name", name);
-		json.accumulate(CURRENCY, currency.getCode());
-		json.accumulate(LIQUIDITY, liquidity);
+	public final JsonObject getJSONObject() {
+		final JsonObject json = new JsonObject();
+		json.addProperty("id", id);
+		json.addProperty("name", name);
+		json.addProperty(CURRENCY, currency.getCode());
+		json.addProperty(LIQUIDITY, liquidity);
 		return json;
 	}
 
 	@Override
 	public final String toString() {
-		return "[Account;id=" + id + "userId=" + userId + ";name=" + name + ";currency=" + currency + ";liquidity=" + liquidity
-			+ "]";
+		return "[Account;id=" + id + "userId=" + userId + ";name=" + name + ";currency=" + currency + ";liquidity=" + liquidity + "]";
 	}
 }

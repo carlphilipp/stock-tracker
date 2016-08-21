@@ -16,8 +16,8 @@
 
 package fr.cph.stock.enumtype;
 
+import com.google.gson.JsonObject;
 import fr.cph.stock.entities.CurrencyData;
-import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -25,7 +25,6 @@ import java.util.List;
  * Enum that represents the currencies
  *
  * @author Carl-Philipp Harmant
- *
  */
 public enum Currency {
 	AUD("Australia Dollar", "$", "AUD"),
@@ -41,12 +40,9 @@ public enum Currency {
 	/**
 	 * Constructor
 	 *
-	 * @param n
-	 *            the name
-	 * @param sy
-	 *            the symbol
-	 * @param c
-	 *            the code
+	 * @param n  the name
+	 * @param sy the symbol
+	 * @param c  the code
 	 */
 	Currency(final String n, final String sy, final String c) {
 		this.name = n;
@@ -93,8 +89,7 @@ public enum Currency {
 	/**
 	 * Set currency data list
 	 *
-	 * @param currencyD
-	 *            the currency data list
+	 * @param currencyD the currency data list
 	 */
 	public final void setCurrencyData(final List<CurrencyData> currencyD) {
 		this.currencyData = currencyD;
@@ -103,8 +98,7 @@ public enum Currency {
 	/**
 	 * Get parity
 	 *
-	 * @param currency
-	 *            the currency
+	 * @param currency the currency
 	 * @return the parity
 	 */
 	public final Double getParity(final Currency currency) {
@@ -121,8 +115,7 @@ public enum Currency {
 	/**
 	 * Get enum from str
 	 *
-	 * @param value
-	 *            the str value
+	 * @param value the str value
 	 * @return the currency
 	 */
 	public static Currency getEnum(final String value) {
@@ -142,21 +135,29 @@ public enum Currency {
 	 *
 	 * @return the JSONObject
 	 */
-	public final JSONObject getJSONObject() {
-		JSONObject json = new JSONObject();
-		json.put("name", getName());
-		json.put("symbol", getSymbol());
-		json.put("code", getCode());
+	public final JsonObject getJSONObject() {
+		final JsonObject json = new JsonObject();
+		json.addProperty("name", getName());
+		json.addProperty("symbol", getSymbol());
+		json.addProperty("code", getCode());
 		return json;
 	}
 
-	/** List of currency data **/
+	/**
+	 * List of currency data
+	 **/
 	private List<CurrencyData> currencyData;
-	/** name **/
+	/**
+	 * name
+	 **/
 	private String name;
-	/** symbol **/
+	/**
+	 * symbol
+	 **/
 	private String symbol;
-	/** cod **/
+	/**
+	 * cod
+	 **/
 	private String code;
 
 }

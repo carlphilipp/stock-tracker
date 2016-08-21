@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
+import com.google.gson.JsonObject;
 import fr.cph.stock.entities.User;
-import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -55,8 +55,8 @@ public class LogOutMobileServlet extends HttpServlet {
 			}
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType("application/json");
-			final JSONObject json = new JSONObject();
-			json.put(SESSION, "null");
+			final JsonObject json = new JsonObject();
+			json.addProperty(SESSION, "null");
 			response.getWriter().write(json.toString());
 		} catch (final Throwable t) {
 			LOG.error(t.getMessage(), t);

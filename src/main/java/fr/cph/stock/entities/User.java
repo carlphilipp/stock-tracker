@@ -16,7 +16,7 @@
 
 package fr.cph.stock.entities;
 
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -29,7 +29,6 @@ import static fr.cph.stock.util.Constants.PASSWORD;
  * This class represents a user
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class User implements Serializable {
 
@@ -38,29 +37,53 @@ public class User implements Serializable {
 	 */
 	private static final long serialVersionUID = -7736017495914032958L;
 
-	/** Id **/
+	/**
+	 * Id
+	 **/
 	private int id;
-	/** Login **/
+	/**
+	 * Login
+	 **/
 	private String login;
-	/** Password **/
+	/**
+	 * Password
+	 **/
 	private String password;
-	/** Email **/
+	/**
+	 * Email
+	 **/
 	private String email;
-	/** Locale **/
+	/**
+	 * Locale
+	 **/
 	private String locale;
-	/** Timezone **/
+	/**
+	 * Timezone
+	 **/
 	private String timeZone;
-	/** Time of update **/
+	/**
+	 * Time of update
+	 **/
 	private Integer updateHourTime;
-	/** Send mail if fail at updating ? **/
+	/**
+	 * Send mail if fail at updating ?
+	 **/
 	private Boolean updateSendMail;
-	/** Date pattern **/
+	/**
+	 * Date pattern
+	 **/
 	private String datePattern;
-	/** Date pattern without hours and minutes **/
+	/**
+	 * Date pattern without hours and minutes
+	 **/
 	private String datePatternWithoutHourMin;
-	/** Allow to login **/
+	/**
+	 * Allow to login
+	 **/
 	private Boolean allow;
-	/** Last update **/
+	/**
+	 * Last update
+	 **/
 	private Date lastUpdate;
 
 	/**
@@ -72,10 +95,8 @@ public class User implements Serializable {
 	/**
 	 * Constructor
 	 *
-	 * @param login
-	 *            the login
-	 * @param password
-	 *            the password
+	 * @param login    the login
+	 * @param password the password
 	 */
 	public User(final String login, final String password) {
 		this.login = login;
@@ -94,8 +115,7 @@ public class User implements Serializable {
 	/**
 	 * Set the id
 	 *
-	 * @param id
-	 *            the id
+	 * @param id the id
 	 */
 	public final void setId(final int id) {
 		this.id = id;
@@ -113,8 +133,7 @@ public class User implements Serializable {
 	/**
 	 * Set the login
 	 *
-	 * @param login
-	 *            the login
+	 * @param login the login
 	 */
 	public final void setLogin(final String login) {
 		this.login = login;
@@ -132,8 +151,7 @@ public class User implements Serializable {
 	/**
 	 * Set password
 	 *
-	 * @param password
-	 *            the password
+	 * @param password the password
 	 */
 	public final void setPassword(final String password) {
 		this.password = password;
@@ -151,8 +169,7 @@ public class User implements Serializable {
 	/**
 	 * Set email
 	 *
-	 * @param email
-	 *            the email
+	 * @param email the email
 	 */
 	public final void setEmail(final String email) {
 		this.email = email;
@@ -170,8 +187,7 @@ public class User implements Serializable {
 	/**
 	 * Set locale
 	 *
-	 * @param locale
-	 *            the locale
+	 * @param locale the locale
 	 */
 	public final void setLocale(final Locale locale) {
 		this.locale = locale.toString();
@@ -180,8 +196,7 @@ public class User implements Serializable {
 	/**
 	 * Set locale with a string
 	 *
-	 * @param locale
-	 *            the locale
+	 * @param locale the locale
 	 */
 	public final void setLocale(final String locale) {
 		this.locale = locale;
@@ -203,8 +218,7 @@ public class User implements Serializable {
 	/**
 	 * Set last update
 	 *
-	 * @param lastUpdate
-	 *            the last update
+	 * @param lastUpdate the last update
 	 */
 	public final void setLastUpdate(final Date lastUpdate) {
 		this.lastUpdate = (Date) lastUpdate.clone();
@@ -222,8 +236,7 @@ public class User implements Serializable {
 	/**
 	 * Set timezone
 	 *
-	 * @param timeZone
-	 *            the timezone
+	 * @param timeZone the timezone
 	 */
 	public final void setTimeZone(final String timeZone) {
 		this.timeZone = timeZone;
@@ -241,8 +254,7 @@ public class User implements Serializable {
 	/**
 	 * Set date pattern
 	 *
-	 * @param datePattern
-	 *            the date pattern
+	 * @param datePattern the date pattern
 	 */
 	public final void setDatePattern(final String datePattern) {
 		this.datePattern = datePattern;
@@ -261,8 +273,7 @@ public class User implements Serializable {
 	/**
 	 * Set date pattern without hour min
 	 *
-	 * @param datePatternWithoutHourMin
-	 *            the date pattern
+	 * @param datePatternWithoutHourMin the date pattern
 	 */
 	public final void setDatePatternWithoutHourMin(final String datePatternWithoutHourMin) {
 		this.datePatternWithoutHourMin = datePatternWithoutHourMin;
@@ -280,8 +291,7 @@ public class User implements Serializable {
 	/**
 	 * Set allow
 	 *
-	 * @param allow
-	 *            the boolean that will tell if the user is allowed to enter the website
+	 * @param allow the boolean that will tell if the user is allowed to enter the website
 	 */
 	public final void setAllow(final Boolean allow) {
 		this.allow = allow;
@@ -299,8 +309,7 @@ public class User implements Serializable {
 	/**
 	 * Set update hour time
 	 *
-	 * @param updateHourTime
-	 *            the hour time
+	 * @param updateHourTime the hour time
 	 */
 	public final void setUpdateHourTime(final Integer updateHourTime) {
 		this.updateHourTime = updateHourTime;
@@ -318,8 +327,7 @@ public class User implements Serializable {
 	/**
 	 * Set if an email must be send when update did not work
 	 *
-	 * @param updateSendMail
-	 *            true or false
+	 * @param updateSendMail true or false
 	 */
 	public final void setUpdateSendMail(final Boolean updateSendMail) {
 		this.updateSendMail = updateSendMail;
@@ -327,6 +335,7 @@ public class User implements Serializable {
 
 	/**
 	 * Getter
+	 *
 	 * @return a language
 	 */
 	public final String getLanguage() {
@@ -335,6 +344,7 @@ public class User implements Serializable {
 
 	/**
 	 * Getter
+	 *
 	 * @return a country
 	 */
 	public final String getCountry() {
@@ -346,20 +356,20 @@ public class User implements Serializable {
 	 *
 	 * @return a JSONObject
 	 */
-	public final JSONObject getJSONObject() {
-		JSONObject json = new JSONObject();
-		json.put("id", getId());
-		json.put(LOGIN, getLogin());
-		json.put(PASSWORD, getPassword());
-		json.put("email", getEmail());
-		json.put("locale", getLocale());
-		json.put("timeZone", getTimeZone());
-		json.put("updateHourTime", getUpdateHourTime());
-		json.put("updateSendMail", getUpdateSendMail());
-		json.put("datePattern", getDatePattern());
-		json.put("datePatternWithoutHourMin", getDatePatternWithoutHourMin());
-		json.put("allow", getAllow());
-		json.put("lastUpdate", getLastUpdate());
+	public final JsonObject getJSONObject() {
+		JsonObject json = new JsonObject();
+		json.addProperty("id", getId());
+		json.addProperty(LOGIN, getLogin());
+		json.addProperty(PASSWORD, getPassword());
+		json.addProperty("email", getEmail());
+		json.addProperty("locale", getLocale());
+		json.addProperty("timeZone", getTimeZone());
+		json.addProperty("updateHourTime", getUpdateHourTime());
+		json.addProperty("updateSendMail", getUpdateSendMail());
+		json.addProperty("datePattern", getDatePattern());
+		json.addProperty("datePatternWithoutHourMin", getDatePatternWithoutHourMin());
+		json.addProperty("allow", getAllow());
+		json.addProperty("lastUpdate", getLastUpdate() != null ? getLastUpdate().toString() : "");
 		return json;
 	}
 

@@ -16,6 +16,7 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
+import com.google.gson.JsonObject;
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.business.impl.IndexBusinessImpl;
@@ -25,7 +26,6 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
-import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -84,9 +84,9 @@ public class HomeMobileServlet extends HttpServlet {
 			response.setContentType("application/json");
 
 			if (portfolio != null) {
-				final JSONObject json = new JSONObject();
-				json.put(PORTFOLIO, portfolio.getJSONObject());
-				json.put(USER, user.getJSONObject());
+				final JsonObject json = new JsonObject();
+				json.add(PORTFOLIO, portfolio.getJSONObject());
+				json.add(USER, user.getJSONObject());
 				response.getWriter().write(json.toString());
 			} else {
 				response.getWriter().write("{\"error\":empty\"}");

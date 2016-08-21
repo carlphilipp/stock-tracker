@@ -16,8 +16,9 @@
 
 package fr.cph.stock.external;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import fr.cph.stock.exception.YahooException;
-import net.sf.json.JSONObject;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
@@ -93,10 +94,11 @@ enum YahooGateway {
 	 * @param data the data to convert
 	 * @return a JSONObject
 	 */
-	private JSONObject convertDataToJSONObject(final String data) {
+	private JsonObject convertDataToJSONObject(final String data) {
 		final String temp = data.substring(11, data.length());
 		final String temp2 = temp.substring(0, temp.length() - 2);
-		return JSONObject.fromObject(temp2);
+		JsonParser jsonParser = new JsonParser();
+		return (JsonObject) jsonParser.parse(temp2);
 	}
 
 	/**
@@ -105,7 +107,7 @@ enum YahooGateway {
 	 * @return a JSONObject that contains the data
 	 * @throws YahooException the yahoo exception
 	 */
-	public final JSONObject getJSONObject(final String yqlRequest) throws YahooException {
+	public final JsonObject getJSONObject(final String yqlRequest) throws YahooException {
 		final String data = connectUrl(urlBuilder(yqlRequest));
 		return convertDataToJSONObject(data);
 	}
