@@ -12,6 +12,7 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
@@ -36,7 +37,7 @@ public enum UserBusinessImpl implements UserBusiness {
 	private SecurityService securityService;
 
 	UserBusinessImpl() {
-		currencyBusiness =  CurrencyBusinessImpl.INSTANCE;
+		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 		userDAO = UserDAO.INSTANCE;
 		portfolioDAO = PortfolioDAO.INSTANCE;
 		accountDAO = new AccountDAO();

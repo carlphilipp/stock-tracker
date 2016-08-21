@@ -1,21 +1,23 @@
 package fr.cph.stock.business.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.dao.CurrencyDAO;
+import fr.cph.stock.dao.DAO;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.IExternalDataAccess;
-import fr.cph.stock.external.YahooExternalDataAccess;
 import fr.cph.stock.util.Util;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public enum CurrencyBusinessImpl implements CurrencyBusiness {
-
-	INSTANCE;
+@Singleton
+public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	private static final Logger LOG = Logger.getLogger(CurrencyBusinessImpl.class);
 	private static final int PAUSE = 1000;
@@ -23,9 +25,10 @@ public enum CurrencyBusinessImpl implements CurrencyBusiness {
 	private IExternalDataAccess yahoo;
 	private CurrencyDAO currencyDAO;
 
-	CurrencyBusinessImpl() {
-		yahoo = new YahooExternalDataAccess();
-		currencyDAO = CurrencyDAO.INSTANCE;
+	@Inject
+	public CurrencyBusinessImpl(final IExternalDataAccess yahoo, @Named("Currency") final DAO dao) {
+		this.yahoo = yahoo;
+		currencyDAO = (CurrencyDAO) dao;
 	}
 
 	@Override

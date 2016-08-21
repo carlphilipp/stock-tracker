@@ -16,15 +16,14 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.CurrencyBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.web.servlet.CookieManagement;
 import org.apache.log4j.Logger;
@@ -57,7 +56,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 	public final void init() {
 		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		userBusiness = UserBusinessImpl.INSTANCE;
-		currencyBusiness = CurrencyBusinessImpl.INSTANCE;
+		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 	}
 
 	@Override

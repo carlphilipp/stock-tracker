@@ -17,8 +17,8 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.business.CurrencyBusiness;
-import fr.cph.stock.business.impl.CurrencyBusinessImpl;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -37,7 +37,7 @@ public class CurrencyJob implements Job {
 
 	/** Constructor **/
 	public CurrencyJob() {
-		currencyBusiness = CurrencyBusinessImpl.INSTANCE;
+		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 	}
 
 	@Override

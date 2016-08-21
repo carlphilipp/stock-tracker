@@ -18,11 +18,11 @@ package fr.cph.stock.web.servlet;
 
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.CurrencyBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import org.apache.log4j.Logger;
@@ -55,7 +55,7 @@ public class CurrencyServlet extends HttpServlet {
 	public final void init() throws ServletException {
 		language = LanguageFactory.INSTANCE;
 		userBusiness = UserBusinessImpl.INSTANCE;
-		currencyBusiness = CurrencyBusinessImpl.INSTANCE;
+		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 	}
 
 	@Override
