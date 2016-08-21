@@ -1,14 +1,17 @@
 package fr.cph.stock.business.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.dao.CompanyDAO;
+import fr.cph.stock.dao.DAO;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
 import fr.cph.stock.external.IExternalDataAccess;
-import fr.cph.stock.external.YahooExternalDataAccess;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
@@ -17,9 +20,8 @@ import org.apache.log4j.Logger;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public enum CompanyBusinessImpl implements CompanyBusiness {
-
-	INSTANCE;
+@Singleton
+public class CompanyBusinessImpl implements CompanyBusiness {
 
 	private static final Logger LOG = Logger.getLogger(CompanyBusinessImpl.class);
 	private static final int MAX_UPDATE_COMPANY = 15;
@@ -28,9 +30,10 @@ public enum CompanyBusinessImpl implements CompanyBusiness {
 	private final CompanyDAO companyDAO;
 	private final IExternalDataAccess yahoo;
 
-	CompanyBusinessImpl() {
-		yahoo = new YahooExternalDataAccess();
-		companyDAO = CompanyDAO.INSTANCE;
+	@Inject
+	public CompanyBusinessImpl(final IExternalDataAccess yahoo, @Named("Company") final DAO dao) {
+		this.yahoo = yahoo;
+		companyDAO = (CompanyDAO) dao;
 	}
 
 	@Override

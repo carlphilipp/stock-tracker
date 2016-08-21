@@ -18,6 +18,8 @@ targetCompatibility = javaVersion
 dependencies {
 	compile(
 
+		[group: 'com.google.inject', name: 'guice', version: '4.1.0'],
+
 		// CSV
 		[group: 'net.sf.opencsv', name: 'opencsv', version: '2.3'],
 

@@ -1,5 +1,6 @@
 package fr.cph.stock.business.impl;
 
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
 import fr.cph.stock.dao.CompanyDAO;
@@ -24,10 +25,10 @@ public enum EquityBusinessImpl implements EquityBusiness {
 	private final CompanyDAO companyDAO;
 
 	EquityBusinessImpl() {
-		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		equityDAO = EquityDAO.INSTANCE;
 		portfolioDAO = PortfolioDAO.INSTANCE;
-		companyDAO = CompanyDAO.INSTANCE;
+		companyDAO = new CompanyDAO();
 	}
 
 	@Override

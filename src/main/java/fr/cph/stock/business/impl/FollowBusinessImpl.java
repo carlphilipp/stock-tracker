@@ -1,5 +1,6 @@
 package fr.cph.stock.business.impl;
 
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.FollowBusiness;
 import fr.cph.stock.dao.CompanyDAO;
@@ -20,9 +21,9 @@ public enum FollowBusinessImpl implements FollowBusiness {
 	private CompanyDAO companyDAO;
 
 	FollowBusinessImpl() {
-		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		followDAO = FollowDAO.INSTANCE;
-		companyDAO = CompanyDAO.INSTANCE;
+		companyDAO = new CompanyDAO();
 	}
 
 	@Override

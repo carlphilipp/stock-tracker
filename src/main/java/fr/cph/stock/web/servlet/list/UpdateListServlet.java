@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.list;
 
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.business.impl.FollowBusinessImpl;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
@@ -57,7 +57,7 @@ public class UpdateListServlet extends HttpServlet {
 	@Override
 	public final void init() throws ServletException {
 		followBusiness = FollowBusinessImpl.INSTANCE;
-		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		language = LanguageFactory.INSTANCE;
 	}
 

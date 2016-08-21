@@ -1,5 +1,6 @@
 package fr.cph.stock.business.impl;
 
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
@@ -38,7 +39,7 @@ public enum ShareValueBusinessImpl implements ShareValueBusiness {
 	ShareValueBusinessImpl() {
 		shareValueDAO = ShareValueDAO.INSTANCE;
 		userDAO = UserDAO.INSTANCE;
-		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		userBusiness = UserBusinessImpl.INSTANCE;
 	}
 

@@ -39,7 +39,7 @@ public enum UserBusinessImpl implements UserBusiness {
 		currencyBusiness =  CurrencyBusinessImpl.INSTANCE;
 		userDAO = UserDAO.INSTANCE;
 		portfolioDAO = PortfolioDAO.INSTANCE;
-		accountDAO = AccountDAO.INSTANCE;
+		accountDAO = new AccountDAO();
 		securityService = SecurityService.INSTANCE;
 	}
 

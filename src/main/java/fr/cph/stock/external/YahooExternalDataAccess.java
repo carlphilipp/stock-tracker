@@ -19,6 +19,7 @@ package fr.cph.stock.external;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.inject.Singleton;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.entities.Index;
@@ -45,11 +46,9 @@ import static fr.cph.stock.util.Constants.QUOTE;
  *
  * @author Carl-Philipp Harmant
  */
+@Singleton
 public class YahooExternalDataAccess implements IExternalDataAccess {
 
-	/**
-	 * Logger
-	 **/
 	private static final Logger LOG = Logger.getLogger(YahooExternalDataAccess.class);
 	private static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 

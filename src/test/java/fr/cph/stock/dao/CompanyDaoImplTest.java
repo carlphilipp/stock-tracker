@@ -30,7 +30,7 @@ public final class CompanyDaoImplTest {
 
 	@Test
 	public void testCRUDCompany() {
-		CompanyDAO dao = CompanyDAO.INSTANCE;
+		CompanyDAO dao = new CompanyDAO();
 
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
 

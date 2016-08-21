@@ -16,8 +16,12 @@
 
 package fr.cph.stock.business.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import fr.cph.stock.business.AccountBusiness;
 import fr.cph.stock.dao.AccountDAO;
+import fr.cph.stock.dao.DAO;
 import fr.cph.stock.entities.Account;
 
 /**
@@ -26,14 +30,14 @@ import fr.cph.stock.entities.Account;
  * @author Carl-Philipp Harmant
  * @version 1
  */
-public enum AccountBusinessImpl implements AccountBusiness {
-
-	INSTANCE;
+@Singleton
+public class AccountBusinessImpl implements AccountBusiness {
 
 	private final AccountDAO accountDAO;
 
-	AccountBusinessImpl() {
-		accountDAO = AccountDAO.INSTANCE;
+	@Inject
+	public AccountBusinessImpl(@Named("Account") final DAO dao) {
+		accountDAO = (AccountDAO) dao;
 	}
 
 	// Account

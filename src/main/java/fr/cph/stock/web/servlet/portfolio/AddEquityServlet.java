@@ -16,9 +16,9 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
-import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
@@ -59,7 +59,7 @@ public class AddEquityServlet extends HttpServlet {
 	@Override
 	public final void init() {
 		equityBusiness = EquityBusinessImpl.INSTANCE;
-		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		languageFactory = LanguageFactory.INSTANCE;
 	}
 

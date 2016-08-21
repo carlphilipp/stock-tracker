@@ -16,8 +16,8 @@
 
 package fr.cph.stock.cron;
 
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -35,7 +35,7 @@ public class CleanJob implements Job {
 
 	/** Constructor  **/
 	public CleanJob() {
-		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 	}
 
 	@Override

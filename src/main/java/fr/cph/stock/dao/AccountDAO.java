@@ -16,6 +16,7 @@
 
 package fr.cph.stock.dao;
 
+import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import org.apache.ibatis.session.SqlSession;
@@ -30,9 +31,8 @@ import java.util.Map;
  * @author Carl-Philipp Harmant
  *
  */
-public enum AccountDAO implements DAO<Account> {
-
-	INSTANCE;
+@Singleton
+public class AccountDAO implements DAO<Account> {
 
 	private static final String INSERT = "AccountDao.insertOneAccount";
 	private static final String SELECT = "AccountDao.selectOneAccount";

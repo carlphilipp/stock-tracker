@@ -90,7 +90,7 @@ public final class PortfolioDaoImplTest {
 
 		daoEquity = EquityDAO.INSTANCE;
 
-		daoCompany = CompanyDAO.INSTANCE;
+		daoCompany = new CompanyDAO();
 		portfolio = new Portfolio();
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());

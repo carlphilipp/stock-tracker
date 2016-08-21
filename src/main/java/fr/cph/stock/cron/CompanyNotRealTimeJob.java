@@ -17,7 +17,6 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -37,7 +36,7 @@ public class CompanyNotRealTimeJob implements Job {
 	 * Constructor
 	 **/
 	public CompanyNotRealTimeJob() {
-		business = CompanyBusinessImpl.INSTANCE;
+		business = null;
 	}
 
 	@Override

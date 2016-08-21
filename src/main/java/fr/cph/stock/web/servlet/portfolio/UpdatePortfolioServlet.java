@@ -16,10 +16,10 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.CompanyBusinessImpl;
 import fr.cph.stock.business.impl.CurrencyBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
@@ -55,7 +55,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		companyBusiness = CompanyBusinessImpl.INSTANCE;
+		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		userBusiness = UserBusinessImpl.INSTANCE;
 		currencyBusiness = CurrencyBusinessImpl.INSTANCE;
 	}

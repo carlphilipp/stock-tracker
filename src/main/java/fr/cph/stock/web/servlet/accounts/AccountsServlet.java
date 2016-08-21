@@ -18,12 +18,12 @@ package fr.cph.stock.web.servlet.accounts;
 
 import fr.cph.stock.business.AccountBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.AccountBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -56,7 +56,7 @@ public class AccountsServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		business = AccountBusinessImpl.INSTANCE;
+		business = GuiceInjector.INSTANCE.getAccountBusiness();
 		userBusiness = UserBusinessImpl.INSTANCE;
 		language = LanguageFactory.INSTANCE;
 	}
