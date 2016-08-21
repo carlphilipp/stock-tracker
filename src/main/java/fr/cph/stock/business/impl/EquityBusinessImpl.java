@@ -1,9 +1,12 @@
 package fr.cph.stock.business.impl;
 
-import fr.cph.stock.guice.GuiceInjector;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
 import fr.cph.stock.dao.CompanyDAO;
+import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.EquityDAO;
 import fr.cph.stock.dao.PortfolioDAO;
 import fr.cph.stock.entities.Company;
@@ -15,20 +18,24 @@ import fr.cph.stock.exception.YahooException;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
-public enum EquityBusinessImpl implements EquityBusiness {
-
-	INSTANCE;
+@Singleton
+public class EquityBusinessImpl implements EquityBusiness {
 
 	private final CompanyBusiness companyBusiness;
+	private final CompanyDAO companyDAO;
 	private final EquityDAO equityDAO;
 	private final PortfolioDAO portfolioDAO;
-	private final CompanyDAO companyDAO;
 
-	EquityBusinessImpl() {
-		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
-		equityDAO = EquityDAO.INSTANCE;
-		portfolioDAO = PortfolioDAO.INSTANCE;
-		companyDAO = new CompanyDAO();
+
+	@Inject
+	public EquityBusinessImpl(final CompanyBusiness companyBusiness,
+							  @Named("Company") final DAO companyDAO,
+							  @Named("Equity") final DAO equityDAO,
+							  @Named("Portfolio") final DAO portfolioDAO) {
+		this.companyBusiness = companyBusiness;
+		this.companyDAO = (CompanyDAO) companyDAO;
+		this.equityDAO = (EquityDAO) equityDAO;
+		this.portfolioDAO = (PortfolioDAO) portfolioDAO;
 	}
 
 	@Override

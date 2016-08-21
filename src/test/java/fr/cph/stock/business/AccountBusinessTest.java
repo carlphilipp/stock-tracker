@@ -16,7 +16,6 @@
 
 package fr.cph.stock.business;
 
-import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.dao.EquityDAO;
 import fr.cph.stock.dao.PortfolioDAO;
@@ -27,6 +26,7 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,7 +58,7 @@ public final class AccountBusinessTest {
 		user = userDao.selectWithLogin("lolzcarlz");
 
 		portfolio = new Portfolio();
-		portfolioDao = PortfolioDAO.INSTANCE;
+		portfolioDao = new PortfolioDAO();
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());
 		portfolioDao.insert(portfolio);
@@ -73,12 +73,12 @@ public final class AccountBusinessTest {
 
 	@Test
 	public void testAddOrUpdateEquity() throws UnsupportedEncodingException, YahooException {
-		EquityBusiness business = EquityBusinessImpl.INSTANCE;
+		EquityBusiness business = GuiceInjector.INSTANCE.getEquityBusiness();
 		Equity equity = new Equity();
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);
 		business.updateEquity(user.getId(), "FP.PA", equity);
-		EquityDAO daoEquity = EquityDAO.INSTANCE;
+		EquityDAO daoEquity = new EquityDAO();
 		Portfolio port = portfolioDao.selectPortfolioFromUserIdWithEquities(user.getId(), null, null);
 		Equity eq = port.getEquities().get(0);
 		assertNotNull(eq);
@@ -87,7 +87,7 @@ public final class AccountBusinessTest {
 
 	@Test
 	public void testDeleteEquity() throws UnsupportedEncodingException, YahooException {
-		EquityBusiness business = EquityBusinessImpl.INSTANCE;
+		EquityBusiness business = GuiceInjector.INSTANCE.getEquityBusiness();
 		Equity equity = new Equity();
 		equity.setUnitCostPrice(10.9);
 		equity.setQuantity(10.0);

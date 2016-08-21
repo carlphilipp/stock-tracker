@@ -16,16 +16,15 @@
 
 package fr.cph.stock.web.servlet.portfolio;
 
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
-import fr.cph.stock.business.impl.EquityBusinessImpl;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.web.servlet.CookieManagement;
 import org.apache.commons.lang.math.NumberUtils;
@@ -58,7 +57,7 @@ public class AddEquityServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		equityBusiness = EquityBusinessImpl.INSTANCE;
+		equityBusiness = GuiceInjector.INSTANCE.getEquityBusiness();
 		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 		languageFactory = LanguageFactory.INSTANCE;
 	}

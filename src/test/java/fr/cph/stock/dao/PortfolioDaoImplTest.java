@@ -59,7 +59,7 @@ public final class PortfolioDaoImplTest {
 
 	@Test
 	public void testCRUDPortfolio() {
-		PortfolioDAO dao = PortfolioDAO.INSTANCE;
+		PortfolioDAO dao = new PortfolioDAO();
 
 		int userId = user.getId();
 
@@ -86,9 +86,9 @@ public final class PortfolioDaoImplTest {
 
 	@Test
 	public void testselectPortfolioFromUser() {
-		PortfolioDAO dao = PortfolioDAO.INSTANCE;
+		PortfolioDAO dao = new PortfolioDAO();
 
-		daoEquity = EquityDAO.INSTANCE;
+		daoEquity = new EquityDAO();
 
 		daoCompany = new CompanyDAO();
 		portfolio = new Portfolio();
@@ -111,7 +111,7 @@ public final class PortfolioDaoImplTest {
 		daoCompany.insert(company);
 		company = daoCompany.selectWithYahooId("NK.ECA");
 
-		daoEquity = EquityDAO.INSTANCE;
+		daoEquity = new EquityDAO();
 		equity = new Equity();
 		equity.setPortfolioId(portfolio.getId());
 		equity.setCompany(company);

@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import fr.cph.stock.business.AccountBusiness;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.CurrencyBusiness;
+import fr.cph.stock.business.EquityBusiness;
 
 public enum GuiceInjector {
 
@@ -26,5 +27,9 @@ public enum GuiceInjector {
 
 	public CurrencyBusiness getCurrencyBusiness() {
 		return injector.getInstance(CurrencyBusiness.class);
+	}
+
+	public EquityBusiness getEquityBusiness() {
+		return injector.getInstance(EquityBusiness.class);
 	}
 }

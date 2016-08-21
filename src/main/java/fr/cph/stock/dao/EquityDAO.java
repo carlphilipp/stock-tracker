@@ -16,6 +16,7 @@
 
 package fr.cph.stock.dao;
 
+import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Equity;
 import org.apache.ibatis.session.SqlSession;
@@ -26,9 +27,8 @@ import org.apache.ibatis.session.SqlSession;
  * @author Carl-Philipp Harmant
  *
  */
-public enum EquityDAO implements DAO<Equity> {
-
-	INSTANCE;
+@Singleton
+public class EquityDAO implements DAO<Equity> {
 
 	private static final String INSERT = "EquityDao.insertOneEquity";
 	private static final String SELECT = "EquityDao.selectOneEquity";

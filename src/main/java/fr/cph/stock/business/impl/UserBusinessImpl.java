@@ -39,7 +39,7 @@ public enum UserBusinessImpl implements UserBusiness {
 	UserBusinessImpl() {
 		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 		userDAO = UserDAO.INSTANCE;
-		portfolioDAO = PortfolioDAO.INSTANCE;
+		portfolioDAO = new PortfolioDAO();
 		accountDAO = new AccountDAO();
 		securityService = SecurityService.INSTANCE;
 	}
