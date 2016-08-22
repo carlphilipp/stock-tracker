@@ -179,16 +179,18 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		String industry = null;
 		JsonElement sectorJsonElement = jsonCompanyInfo.get(SECTOR);
 		JsonElement industryJsonElement = jsonCompanyInfo.get(INDUSTRY);
-		if (sectorJsonElement.isJsonNull() && industryJsonElement.isJsonNull()) {
-			sector = jsonCompanyInfo.get(CATEGORY).getAsString();
-			final String fundFamily = jsonCompanyInfo.get(FUND_FAMILY).getAsString();
-			if (fundFamily != null) {
-				company.setFund(true);
+		if ((sectorJsonElement == null || sectorJsonElement.isJsonNull()) && (industryJsonElement == null || industryJsonElement.isJsonNull())) {
+			if (jsonCompanyInfo.get(CATEGORY) != null) {
+				sector = jsonCompanyInfo.get(CATEGORY).getAsString();
 			}
-			industry = fundFamily;
-			final String marketCap = jsonCompanyInfo.get(NET_ASSETS).getAsString();
-			if (StringUtils.isNotEmpty(marketCap) && !marketCap.equals(NULL)) {
-				company.setMarketCapitalization(jsonCompanyInfo.get(NET_ASSETS).getAsString());
+			if (jsonCompanyInfo.get(FUND_FAMILY) != null) {
+				final String fundFamily = jsonCompanyInfo.get(FUND_FAMILY).getAsString();
+				company.setFund(true);
+				industry = fundFamily;
+			}
+			final JsonElement marketCap = jsonCompanyInfo.get(NET_ASSETS);
+			if (marketCap != null && StringUtils.isNotEmpty(marketCap.getAsString()) && !marketCap.getAsString().equals(NULL)) {
+				company.setMarketCapitalization(marketCap.getAsString());
 			}
 		}
 		if (StringUtils.isNotEmpty(industry)) {
@@ -338,8 +340,9 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 		if (jQuery != null) {
 			final JsonObject jsonResults = jQuery.getAsJsonObject(RESULTS);
 			if (jsonResults != null) {
-				quotes = jsonResults.getAsJsonArray(QUOTE);
-				if (quotes == null) {
+				if (jsonResults.get(QUOTE).isJsonArray()) {
+					quotes = jsonResults.getAsJsonArray(QUOTE);
+				} else {
 					final JsonObject quote = jsonResults.getAsJsonObject(QUOTE);
 					if (quote == null) {
 						final JsonObject error2 = json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS).getAsJsonObject(JAVASCRIPT);
