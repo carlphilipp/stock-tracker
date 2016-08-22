@@ -18,7 +18,6 @@ package fr.cph.stock.web.servlet;
 
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -54,7 +53,7 @@ public class CurrencyServlet extends HttpServlet {
 	@Override
 	public final void init() throws ServletException {
 		language = LanguageFactory.INSTANCE;
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 	}
 

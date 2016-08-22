@@ -1,8 +1,12 @@
 package fr.cph.stock.business.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.dao.AccountDAO;
+import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.PortfolioDAO;
 import fr.cph.stock.dao.UserDAO;
 import fr.cph.stock.entities.Account;
@@ -12,7 +16,6 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
@@ -24,9 +27,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Date;
 
-public enum UserBusinessImpl implements UserBusiness {
-
-	INSTANCE;
+@Singleton
+public class UserBusinessImpl implements UserBusiness {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 
@@ -34,14 +36,18 @@ public enum UserBusinessImpl implements UserBusiness {
 	private final UserDAO userDAO;
 	private final PortfolioDAO portfolioDAO;
 	private final AccountDAO accountDAO;
-	private SecurityService securityService;
+	private final SecurityService securityService;
 
-	UserBusinessImpl() {
-		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
-		userDAO = UserDAO.INSTANCE;
-		portfolioDAO = new PortfolioDAO();
-		accountDAO = new AccountDAO();
-		securityService = SecurityService.INSTANCE;
+	@Inject
+	public UserBusinessImpl(final CurrencyBusiness currencyBusiness,
+							@Named("User") final DAO userDAO,
+							@Named("Portfolio") final DAO portfolioDAO,
+							@Named("Account") final DAO accountDAO) {
+		this.currencyBusiness = currencyBusiness;
+		this.userDAO = (UserDAO) userDAO;
+		this.portfolioDAO = (PortfolioDAO) portfolioDAO;
+		this.accountDAO = (AccountDAO) accountDAO;
+		this.securityService = SecurityService.INSTANCE;
 	}
 
 	@Override

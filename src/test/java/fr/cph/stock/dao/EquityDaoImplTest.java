@@ -42,7 +42,7 @@ public final class EquityDaoImplTest {
 
 	@Before
 	public void setUp() {
-		daoUser = UserDAO.INSTANCE;
+		daoUser = new UserDAO();
 		daoPortfolio = new PortfolioDAO();
 		daoCompany =  new CompanyDAO();
 		String uuid = UUID.randomUUID().toString().substring(0, 5);

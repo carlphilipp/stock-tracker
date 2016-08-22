@@ -18,13 +18,12 @@ package fr.cph.stock.web.servlet.share;
 
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.ShareValueBusinessImpl;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -55,8 +54,8 @@ public class UpdateShareValueServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		userBusiness = UserBusinessImpl.INSTANCE;
-		shareValueBusiness = ShareValueBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
+		shareValueBusiness = GuiceInjector.INSTANCE.getShareValueBusiness();
 	}
 
 	@Override

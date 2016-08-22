@@ -16,7 +16,6 @@
 
 package fr.cph.stock.business;
 
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.dao.EquityDAO;
 import fr.cph.stock.dao.PortfolioDAO;
 import fr.cph.stock.dao.UserDAO;
@@ -50,7 +49,7 @@ public final class AccountBusinessTest {
 	@Before
 	public void setUp() {
 		user = new User();
-		userDao = UserDAO.INSTANCE;
+		userDao = new UserDAO();
 		user.setLogin("lolzcarlz");
 		user.setPassword("passwordd");
 		user.setEmail("poke@poke.com");
@@ -100,7 +99,7 @@ public final class AccountBusinessTest {
 
 	@Test
 	public void testCreateDeleteUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		UserBusiness userBusiness = UserBusinessImpl.INSTANCE;
+		UserBusiness userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@testderpderp.com";
@@ -126,7 +125,7 @@ public final class AccountBusinessTest {
 
 	@Test
 	public void testCheckUser() throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
-		UserBusiness userBusiness = UserBusinessImpl.INSTANCE;
+		UserBusiness userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		String login = UUID.randomUUID().toString().substring(0, 10);
 		String md5Password = "myEcryptedMd5Password";
 		String email = "test@test.com";

@@ -21,6 +21,8 @@ class GuiceModule extends AbstractModule {
 		bind(DAO.class).annotatedWith(Names.named("Follow")).to(FollowDAO.class);
 		bind(DAO.class).annotatedWith(Names.named("Index")).to(IndexDAO.class);
 		bind(DAO.class).annotatedWith(Names.named("Portfolio")).to(PortfolioDAO.class);
+		bind(DAO.class).annotatedWith(Names.named("ShareValue")).to(ShareValueDAO.class);
+		bind(DAO.class).annotatedWith(Names.named("User")).to(UserDAO.class);
 
 		bind(AccountBusiness.class).to(AccountBusinessImpl.class);
 		bind(CompanyBusiness.class).to(CompanyBusinessImpl.class);
@@ -28,5 +30,7 @@ class GuiceModule extends AbstractModule {
 		bind(EquityBusiness.class).to(EquityBusinessImpl.class);
 		bind(FollowBusiness.class).to(FollowBusinessImpl.class);
 		bind(IndexBusiness.class).to(IndexBusinessImpl.class);
+		bind(ShareValueBusiness.class).to(ShareValueBusinessImpl.class);
+		bind(UserBusiness.class).to(UserBusinessImpl.class);
 	}
 }

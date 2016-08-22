@@ -17,8 +17,8 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.business.ShareValueBusiness;
-import fr.cph.stock.business.impl.ShareValueBusinessImpl;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -40,7 +40,7 @@ public class UserJob implements Job {
 
 	/** Constructor **/
 	public UserJob() {
-		shareValueBusiness = ShareValueBusinessImpl.INSTANCE;
+		shareValueBusiness = GuiceInjector.INSTANCE.getShareValueBusiness();
 	}
 
 	@Override

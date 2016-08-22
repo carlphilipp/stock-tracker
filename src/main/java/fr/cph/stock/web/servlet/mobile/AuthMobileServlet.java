@@ -17,8 +17,8 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.guice.GuiceInjector;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -43,7 +43,7 @@ public class AuthMobileServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 	}
 
 	@Override

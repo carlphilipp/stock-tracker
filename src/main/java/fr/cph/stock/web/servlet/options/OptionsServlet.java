@@ -17,10 +17,10 @@
 package fr.cph.stock.web.servlet.options;
 
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -52,7 +52,7 @@ public class OptionsServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		language = LanguageFactory.INSTANCE;
 		formatList = Arrays.asList(Locale.getISOLanguages());
 		Collections.sort(formatList);

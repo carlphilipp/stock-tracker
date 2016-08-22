@@ -1,9 +1,12 @@
 package fr.cph.stock.business.impl;
 
-import fr.cph.stock.guice.GuiceInjector;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.ShareValueDAO;
 import fr.cph.stock.dao.UserDAO;
 import fr.cph.stock.entities.Account;
@@ -22,9 +25,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-public enum ShareValueBusinessImpl implements ShareValueBusiness {
-
-	INSTANCE;
+@Singleton
+public class ShareValueBusinessImpl implements ShareValueBusiness {
 
 	private static final Logger LOG = Logger.getLogger(AccountBusinessImpl.class);
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
@@ -36,11 +38,15 @@ public enum ShareValueBusinessImpl implements ShareValueBusiness {
 	private final CompanyBusiness companyBusiness;
 	private final UserBusiness userBusiness;
 
-	ShareValueBusinessImpl() {
-		shareValueDAO = ShareValueDAO.INSTANCE;
-		userDAO = UserDAO.INSTANCE;
-		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
-		userBusiness = UserBusinessImpl.INSTANCE;
+	@Inject
+	public ShareValueBusinessImpl(@Named("ShareValue") final DAO shareValueDAO,
+								  @Named("User") final DAO userDAO,
+								  final CompanyBusiness companyBusiness,
+								  final UserBusiness userBusiness) {
+		this.shareValueDAO = (ShareValueDAO) shareValueDAO;
+		this.userDAO = (UserDAO) userDAO;
+		this.companyBusiness = companyBusiness;
+		this.userBusiness = userBusiness;
 	}
 
 	@Override

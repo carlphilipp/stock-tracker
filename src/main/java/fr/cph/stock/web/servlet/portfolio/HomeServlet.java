@@ -18,7 +18,6 @@ package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
@@ -73,7 +72,7 @@ public class HomeServlet extends HttpServlet {
 		} catch (final UnknownHostException | SchedulerException e) {
 			LOG.error(e.getMessage(), e);
 		}
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 		language = LanguageFactory.INSTANCE;
 	}

@@ -17,8 +17,8 @@
 package fr.cph.stock.web.servlet.user;
 
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.security.SecurityService;
 import org.apache.log4j.Logger;
 
@@ -45,7 +45,7 @@ public class NewPasswordServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		securityService = SecurityService.INSTANCE;
 	}
 

@@ -16,8 +16,9 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import fr.cph.stock.business.impl.UserBusinessImpl;
+import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.web.servlet.CookieManagement;
 import org.apache.log4j.Logger;
 
@@ -44,12 +45,12 @@ public class AuthServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(AuthServlet.class);
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
-	private UserBusinessImpl userBusiness;
+	private UserBusiness userBusiness;
 	private List<String> lcookies;
 
 	@Override
 	public final void init() {
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		lcookies = new ArrayList<>();
 		lcookies.add(QUOTE);
 		lcookies.add(CURRENCY);

@@ -26,7 +26,7 @@ public final class UserDaoImplTest {
 
 	@Test
 	public void testCRUDUser() {
-		UserDAO dao = UserDAO.INSTANCE;
+		UserDAO dao = new UserDAO();
 
 		String login = "carlzacdscdcsssscs";
 		String password = "password";

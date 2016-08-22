@@ -16,13 +16,12 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -52,7 +51,7 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 	@Override
 	public final void init() {
 		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 	}
 
 	@Override

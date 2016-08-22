@@ -18,7 +18,6 @@ package fr.cph.stock.web.servlet.accounts;
 
 import fr.cph.stock.business.AccountBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -57,7 +56,7 @@ public class AccountsServlet extends HttpServlet {
 	@Override
 	public final void init() throws ServletException {
 		business = GuiceInjector.INSTANCE.getAccountBusiness();
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		language = LanguageFactory.INSTANCE;
 	}
 

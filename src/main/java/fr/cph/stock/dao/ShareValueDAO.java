@@ -16,6 +16,7 @@
 
 package fr.cph.stock.dao;
 
+import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.ShareValue;
 import org.apache.ibatis.session.SqlSession;
@@ -27,9 +28,8 @@ import java.util.List;
  *
  * @author Carl-Philipp Harmant
  */
-public enum ShareValueDAO implements DAO<ShareValue> {
-
-	INSTANCE;
+@Singleton
+public class ShareValueDAO implements DAO<ShareValue> {
 
 	private static final String INSERT = "ShareValue.insertOneShareValue";
 	private static final String SELECT = "ShareValue.selectOneShareValue";

@@ -3,6 +3,7 @@ package fr.cph.stock.guice;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import fr.cph.stock.business.*;
+import fr.cph.stock.business.impl.ShareValueBusinessImpl;
 
 public enum GuiceInjector {
 
@@ -36,5 +37,13 @@ public enum GuiceInjector {
 
 	public IndexBusiness getIndexBusiness() {
 		return injector.getInstance(IndexBusiness.class);
+	}
+
+	public ShareValueBusiness getShareValueBusiness() {
+		return injector.getInstance(ShareValueBusinessImpl.class);
+	}
+
+	public UserBusiness getUserBusiness() {
+		return injector.getInstance(UserBusiness.class);
 	}
 }

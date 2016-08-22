@@ -44,7 +44,7 @@ public final class PortfolioDaoImplTest {
 
 	@Before
 	public void setUp() {
-		daoUser = UserDAO.INSTANCE;
+		daoUser = new UserDAO();
 		String uuid = UUID.randomUUID().toString().substring(0, 5);
 		user = new User(uuid, PASSWORD);
 		user.setEmail("carl@carl.com");

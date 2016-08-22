@@ -18,11 +18,10 @@ package fr.cph.stock.web.servlet.mobile;
 
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.ShareValueBusinessImpl;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.guice.GuiceInjector;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -52,8 +51,8 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		userBusiness = UserBusinessImpl.INSTANCE;
-		shareValueBusiness = ShareValueBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
+		shareValueBusiness = GuiceInjector.INSTANCE.getShareValueBusiness();
 	}
 
 	@Override

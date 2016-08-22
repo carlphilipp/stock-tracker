@@ -19,7 +19,6 @@ package fr.cph.stock.web.servlet.mobile;
 import com.google.gson.JsonObject;
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -56,7 +55,7 @@ public class HomeMobileServlet extends HttpServlet {
 	@Override
 	public final void init() throws ServletException {
 		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 	}
 
 	@Override

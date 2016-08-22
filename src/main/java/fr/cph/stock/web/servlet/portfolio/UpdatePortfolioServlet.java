@@ -19,7 +19,6 @@ package fr.cph.stock.web.servlet.portfolio;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -55,7 +54,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 	@Override
 	public final void init() {
 		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
-		userBusiness = UserBusinessImpl.INSTANCE;
+		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 	}
 
