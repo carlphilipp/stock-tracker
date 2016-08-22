@@ -33,4 +33,8 @@ public enum GuiceInjector {
 	public FollowBusiness getFollowBusiness() {
 		return injector.getInstance(FollowBusiness.class);
 	}
+
+	public IndexBusiness getIndexBusiness() {
+		return injector.getInstance(IndexBusiness.class);
+	}
 }

@@ -18,7 +18,6 @@ package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Index;
@@ -26,6 +25,7 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -74,7 +74,7 @@ public class HomeServlet extends HttpServlet {
 			LOG.error(e.getMessage(), e);
 		}
 		userBusiness = UserBusinessImpl.INSTANCE;
-		indexBusiness = IndexBusinessImpl.INSTANCE;
+		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 		language = LanguageFactory.INSTANCE;
 	}
 

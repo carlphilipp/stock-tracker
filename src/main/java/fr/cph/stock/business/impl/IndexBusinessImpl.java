@@ -1,11 +1,14 @@
 package fr.cph.stock.business.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import fr.cph.stock.business.IndexBusiness;
+import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.IndexDAO;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.IExternalDataAccess;
-import fr.cph.stock.external.YahooExternalDataAccess;
 import fr.cph.stock.util.Util;
 import org.apache.log4j.Logger;
 
@@ -16,9 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public enum IndexBusinessImpl implements IndexBusiness {
-
-	INSTANCE;
+@Singleton
+public class IndexBusinessImpl implements IndexBusiness {
 
 	private static final Logger LOG = Logger.getLogger(IndexBusinessImpl.class);
 	private static final int PERCENT = 100;
@@ -27,9 +29,10 @@ public enum IndexBusinessImpl implements IndexBusiness {
 	private final IndexDAO indexDAO;
 	private final IExternalDataAccess yahoo;
 
-	IndexBusinessImpl() {
-		indexDAO = IndexDAO.INSTANCE;
-		yahoo = new YahooExternalDataAccess();
+	@Inject
+	public IndexBusinessImpl(@Named("Index") final DAO dao, final IExternalDataAccess yahoo) {
+		indexDAO = (IndexDAO) dao;
+		this.yahoo = yahoo;
 	}
 
 	@Override

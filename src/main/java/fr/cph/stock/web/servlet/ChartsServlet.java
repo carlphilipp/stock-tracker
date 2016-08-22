@@ -18,12 +18,12 @@ package fr.cph.stock.web.servlet;
 
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import org.apache.log4j.Logger;
@@ -56,7 +56,7 @@ public class ChartsServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		indexBusiness = IndexBusinessImpl.INSTANCE;
+		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 		userBusiness = UserBusinessImpl.INSTANCE;
 		language = LanguageFactory.INSTANCE;
 	}

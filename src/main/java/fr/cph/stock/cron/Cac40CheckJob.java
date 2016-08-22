@@ -17,8 +17,8 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.business.IndexBusiness;
-import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.Info;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
@@ -34,16 +34,20 @@ import java.util.TimeZone;
  */
 public class Cac40CheckJob implements Job {
 
-	/** Logger **/
+	/**
+	 * Logger
+	 **/
 	private static final Logger LOG = Logger.getLogger(Cac40CheckJob.class);
-	/** AccountBusinessImpl **/
+	/**
+	 * AccountBusinessImpl
+	 **/
 	private IndexBusiness indexBusiness;
 
 	/**
 	 * Constructor
 	 */
 	public Cac40CheckJob() {
-		indexBusiness = IndexBusinessImpl.INSTANCE;
+		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 	}
 
 	@Override

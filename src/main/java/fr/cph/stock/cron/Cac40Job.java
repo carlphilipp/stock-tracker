@@ -17,8 +17,8 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.business.IndexBusiness;
-import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.Info;
 import org.apache.log4j.Logger;
 import org.quartz.Job;
@@ -41,7 +41,7 @@ public class Cac40Job implements Job {
 	 * Constructor
 	 */
 	public Cac40Job() {
-		indexBusiness = IndexBusinessImpl.INSTANCE;
+		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 	}
 
 	@Override

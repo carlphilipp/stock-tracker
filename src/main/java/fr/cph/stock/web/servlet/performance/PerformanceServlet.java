@@ -18,7 +18,6 @@ package fr.cph.stock.web.servlet.performance;
 
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.business.impl.IndexBusinessImpl;
 import fr.cph.stock.business.impl.UserBusinessImpl;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
@@ -26,6 +25,7 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.entities.chart.PieChart;
 import fr.cph.stock.entities.chart.TimeChart;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.report.PdfReport;
 import fr.cph.stock.util.Info;
@@ -68,7 +68,7 @@ public class PerformanceServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		indexBusiness = IndexBusinessImpl.INSTANCE;
+		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 		userBusiness = UserBusinessImpl.INSTANCE;
 		language = LanguageFactory.INSTANCE;
 	}
