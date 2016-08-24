@@ -32,9 +32,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountsServletTest {
-
-	private User user;
-
+	
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	@Mock
@@ -58,14 +56,15 @@ public class AccountsServletTest {
 		accountsServlet.init();
 		accountsServlet.setAccountBusiness(accountBusiness);
 		accountsServlet.setUserBusiness(userBusiness);
-		user = new User();
+		final User user = new User();
 		user.setId(1);
+
+		when(request.getSession(false)).thenReturn(httpSession);
+		when(httpSession.getAttribute(USER)).thenReturn(user);
 	}
 
 	@Test
 	public void testAccountServlet() throws ServletException, YahooException {
-		when(request.getSession(false)).thenReturn(httpSession);
-		when(httpSession.getAttribute(USER)).thenReturn(user);
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
 		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
@@ -73,9 +72,7 @@ public class AccountsServletTest {
 		accountsServlet.doPost(request, response);
 
 		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
-		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
-		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
-		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
+		verifyMainAttributes();
 	}
 
 	@Test
@@ -87,18 +84,14 @@ public class AccountsServletTest {
 		accountsServlet.doPost(request, response);
 
 		verify(userBusiness, never()).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
-		verify(request, never()).setAttribute(eq(LANGUAGE), isA(Map.class));
-		verify(request, never()).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
-		verify(request, never()).setAttribute(eq(APP_TITLE), isA(String.class));
+		verifyMainAttributes();
 	}
 
 	@Test
 	public void testAccountServletAdd() throws ServletException, YahooException {
-		when(request.getSession(false)).thenReturn(httpSession);
 		when(request.getParameter(ADD)).thenReturn("add");
 		when(request.getParameter(CURRENCY)).thenReturn("USD");
 		when(request.getParameter(LIQUIDITY)).thenReturn("10.5");
-		when(httpSession.getAttribute(USER)).thenReturn(user);
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
 		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
@@ -107,20 +100,17 @@ public class AccountsServletTest {
 
 		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
 		verify(accountBusiness).addAccount(isA(Account.class));
-		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
-		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
-		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
 		verify(request).setAttribute(eq(MESSAGE), eq(ADDED));
+		verifyMainAttributes();
 	}
 
 	@Test
 	public void testAccountServletModify() throws ServletException, YahooException {
-		when(request.getSession(false)).thenReturn(httpSession);
+		;
 		when(request.getParameter(MOD)).thenReturn("mod");
 		when(request.getParameter(CURRENCY)).thenReturn("USD");
 		when(request.getParameter(LIQUIDITY)).thenReturn("10.5");
 		when(request.getParameter(ID)).thenReturn("1");
-		when(httpSession.getAttribute(USER)).thenReturn(user);
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
 		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
@@ -129,19 +119,15 @@ public class AccountsServletTest {
 
 		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
 		verify(accountBusiness).updateAccount(isA(Account.class));
-		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
-		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
-		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
 		verify(request).setAttribute(eq(MESSAGE), eq(MODIFIED_MESSAGE));
+		verifyMainAttributes();
 	}
 
 	@Test
 	public void testAccountServletDelete() throws ServletException, YahooException {
-		when(request.getSession(false)).thenReturn(httpSession);
 		when(request.getParameter(DELETE)).thenReturn("delete");
 		when(request.getParameter(ID)).thenReturn("1");
 		when(request.getParameter(DELETE_2)).thenReturn("true");
-		when(httpSession.getAttribute(USER)).thenReturn(user);
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
 		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
@@ -150,18 +136,14 @@ public class AccountsServletTest {
 
 		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
 		verify(accountBusiness).deleteAccount(isA(Account.class));
-		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
-		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
-		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
+		verifyMainAttributes();
 	}
 
 	@Test
 	public void testAccountServletDeleteFail() throws ServletException, YahooException {
-		when(request.getSession(false)).thenReturn(httpSession);
 		when(request.getParameter(DELETE)).thenReturn("delete");
 		when(request.getParameter(ID)).thenReturn("1");
 		when(request.getParameter(DELETE_2)).thenReturn("false");
-		when(httpSession.getAttribute(USER)).thenReturn(user);
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
 		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
@@ -170,9 +152,13 @@ public class AccountsServletTest {
 
 		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
 		verify(accountBusiness, never()).deleteAccount(isA(Account.class));
+		verify(request).setAttribute(eq(ERROR), isA(String.class));
+		verifyMainAttributes();
+	}
+
+	public void verifyMainAttributes() {
 		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
 		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
 		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
-		verify(request).setAttribute(eq(ERROR), isA(String.class));
 	}
 }
