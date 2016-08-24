@@ -374,13 +374,10 @@ public class Company {
 	 */
 	public final void setChangeInPercent(final String changeInPercent) {
 		if (changeInPercent != null) {
-			char c = changeInPercent.charAt(0);
-			String number = null;
-			if (c == '+') {
-				number = changeInPercent.substring(1, changeInPercent.length() - 1);
-			} else {
-				number = changeInPercent.substring(0, changeInPercent.length() - 1);
-			}
+			final char c = changeInPercent.charAt(0);
+			final String number = c == '+'
+				? changeInPercent.substring(1, changeInPercent.length() - 1)
+				: changeInPercent.substring(0, changeInPercent.length() - 1);
 			setChange(Double.parseDouble(number));
 		}
 		this.changeInPercent = changeInPercent;

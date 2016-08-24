@@ -32,7 +32,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountsServletTest {
-	
+
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	@Mock

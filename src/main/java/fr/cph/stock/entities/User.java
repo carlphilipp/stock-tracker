@@ -208,11 +208,7 @@ public class User implements Serializable {
 	 * @return the last update
 	 */
 	public final Date getLastUpdate() {
-		if (lastUpdate != null) {
-			return (Date) lastUpdate.clone();
-		} else {
-			return null;
-		}
+		return lastUpdate != null ? (Date) lastUpdate.clone() : null;
 	}
 
 	/**

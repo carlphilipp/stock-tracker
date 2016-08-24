@@ -94,11 +94,7 @@ public class ShareValue {
 	 * @return the date
 	 */
 	public final Date getDate() {
-		if (date != null) {
-			return (Date) date.clone();
-		} else {
-			return null;
-		}
+		return date != null ? (Date) date.clone() : null;
 	}
 
 	/**

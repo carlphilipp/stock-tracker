@@ -30,6 +30,7 @@ import java.math.MathContext;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import static fr.cph.stock.util.Constants.CURRENCY;
 import static fr.cph.stock.util.Constants.LIQUIDITY;
@@ -172,14 +173,14 @@ public class Portfolio {
 	 * Constructor
 	 */
 	public Portfolio() {
-		totalQuantity = new Double(0);
-		averageUnitCostPrice = new Double(0);
-		averageQuotePrice = new Double(0);
-		totalValue = new Double(0);
-		totalPlusMinusValue = new Double(0);
-		yieldYear = new Double(0);
-		totalGain = new Double(0);
-		yieldYearPerc = new Double(0);
+		totalQuantity = 0d;
+		averageUnitCostPrice = 0d;
+		averageQuotePrice = 0d;
+		totalValue = 0d;
+		totalPlusMinusValue = 0d;
+		yieldYear = 0d;
+		totalGain = 0d;
+		yieldYearPerc = 0d;
 		indexes = new HashMap<>();
 	}
 
@@ -609,13 +610,10 @@ public class Portfolio {
 	 * @return a list of yahoo id
 	 */
 	public final List<String> getCompaniesYahooIdRealTime() {
-		List<String> res = new ArrayList<>();
-		for (Equity e : getEquities()) {
-			if (e.getCompany().getRealTime()) {
-				res.add(e.getCompany().getYahooId());
-			}
-		}
-		return res;
+		return getEquities().stream()
+			.filter(equity -> equity.getCompany().getRealTime())
+			.map(equity -> equity.getCompany().getYahooId())
+			.collect(Collectors.toList());
 	}
 
 	/**
@@ -691,7 +689,6 @@ public class Portfolio {
 			getChartShareValueData2();
 			timeValueChart = new TimeValueChart(chartShareValueData2, chartShareValueData3, shareValues.get(0).getDate());
 			timeValueChart.generate();
-
 		}
 		return timeValueChart;
 	}
@@ -736,14 +733,10 @@ public class Portfolio {
 	 * @return the account
 	 */
 	public final Account getAccount(final String name) {
-		Account res = null;
-		for (Account account : getAccounts()) {
-			if (account.getName().equals(name)) {
-				res = account;
-				break;
-			}
-		}
-		return res;
+		return accounts.stream()
+			.filter(account -> account.getName().equals(name))
+			.findFirst()
+			.orElse(null);
 	}
 
 	/**
@@ -753,14 +746,10 @@ public class Portfolio {
 	 * @return the account
 	 */
 	public final Account getAccount(final int id) {
-		Account res = null;
-		for (Account account : getAccounts()) {
-			if (account.getId() == id) {
-				res = account;
-				break;
-			}
-		}
-		return res;
+		return accounts.stream()
+			.filter(account -> account.getId() == id)
+			.findFirst()
+			.orElse(null);
 	}
 
 	/**
@@ -769,14 +758,10 @@ public class Portfolio {
 	 * @return the account
 	 */
 	public final Account getFirstAccount() {
-		Account res = null;
-		for (Account account : getAccounts()) {
-			if (!account.getDel()) {
-				res = account;
-				break;
-			}
-		}
-		return res;
+		return accounts.stream()
+			.filter(account -> !account.getDel())
+			.findFirst()
+			.orElse(null);
 	}
 
 	/**
@@ -787,8 +772,8 @@ public class Portfolio {
 	public final String getSectorCompanies() {
 		StringBuilder res = new StringBuilder();
 		Map<String, List<Equity>> map = new HashMap<>();
-		Company company = null;
-		List<Equity> companies = null;
+		Company company;
+		List<Equity> companies;
 		for (Equity e : getEquities()) {
 			company = e.getCompany();
 			if (e.getCurrentSector() == null) {
@@ -836,7 +821,7 @@ public class Portfolio {
 	public final String getCapCompanies() {
 		StringBuilder res = new StringBuilder();
 		Map<String, List<Equity>> map = new HashMap<>();
-		List<Equity> companies = null;
+		List<Equity> companies;
 		for (Equity e : getEquities()) {
 			if (e.getMarketCapitalizationType().getValue() == null || e.getCompany().getFund()) {
 				e.setMarketCapitalizationType(MarketCapitalization.UNKNOWN);
@@ -880,9 +865,9 @@ public class Portfolio {
 			ShareValue lastShareValue = shareValuess.get(0);
 			ShareValue firstShareValue = shareValuess.get(shareValuess.size() - 1);
 			double liquidityMov = 0;
-			currentShareValuesYield = new Double(0);
-			currentShareValuesTaxes = new Double(0);
-			currentShareValuesVolume = new Double(0);
+			currentShareValuesYield = 0d;
+			currentShareValuesTaxes = 0d;
+			currentShareValuesVolume = 0d;
 
 			double max = shareValuess.get(0).getShareValue();
 			Date date = shareValuess.get(0).getDate();

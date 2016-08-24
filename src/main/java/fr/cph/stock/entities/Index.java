@@ -22,19 +22,28 @@ import java.util.Date;
  * This class represents an Index, like cac40 or s&p500
  *
  * @author Carl-Philipp Harmant
- *
  */
 public class Index {
 
-	/** Id **/
+	/**
+	 * Id
+	 **/
 	private int id;
-	/** Yahoo Id **/
+	/**
+	 * Yahoo Id
+	 **/
 	private String yahooId;
-	/** Value **/
+	/**
+	 * Value
+	 **/
 	private Double value;
-	/** Date **/
+	/**
+	 * Date
+	 **/
 	private Date date;
-	/** Share Value **/
+	/**
+	 * Share Value
+	 **/
 	private Double shareValue;
 
 	/**
@@ -49,8 +58,7 @@ public class Index {
 	/**
 	 * Set the id
 	 *
-	 * @param id
-	 *            the id
+	 * @param id the id
 	 */
 	public final void setId(final int id) {
 		this.id = id;
@@ -68,8 +76,7 @@ public class Index {
 	/**
 	 * Set the yahoo id
 	 *
-	 * @param yahooId
-	 *            the yahoo id
+	 * @param yahooId the yahoo id
 	 */
 	public final void setYahooId(final String yahooId) {
 		this.yahooId = yahooId;
@@ -87,8 +94,7 @@ public class Index {
 	/**
 	 * Set the value
 	 *
-	 * @param value
-	 *            the value
+	 * @param value the value
 	 */
 	public final void setValue(final Double value) {
 		this.value = value;
@@ -100,18 +106,13 @@ public class Index {
 	 * @return the date
 	 */
 	public final Date getDate() {
-		if (date != null) {
-			return (Date) date.clone();
-		} else {
-			return null;
-		}
+		return date != null ? (Date) date.clone() : null;
 	}
 
 	/**
 	 * Set the date
 	 *
-	 * @param date
-	 *            the date
+	 * @param date the date
 	 */
 	public final void setDate(final Date date) {
 		this.date = (Date) date.clone();
@@ -129,8 +130,7 @@ public class Index {
 	/**
 	 * Set the share value
 	 *
-	 * @param shareValue
-	 *            the share value
+	 * @param shareValue the share value
 	 */
 	public final void setShareValue(final Double shareValue) {
 		this.shareValue = shareValue;
@@ -140,5 +140,4 @@ public class Index {
 	public final String toString() {
 		return "Index value : " + shareValue;
 	}
-
 }
