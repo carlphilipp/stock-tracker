@@ -51,14 +51,14 @@ public class AccountsServlet extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(AccountsServlet.class);
 
 	@Setter
-	private AccountBusiness business;
+	private AccountBusiness accountBusiness;
 	@Setter
 	private UserBusiness userBusiness;
 	private LanguageFactory language;
 
 	@Override
-	public final void init() throws ServletException {
-		business = GuiceInjector.INSTANCE.getAccountBusiness();
+	public final void init() {
+		accountBusiness = GuiceInjector.INSTANCE.getAccountBusiness();
 		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		language = LanguageFactory.INSTANCE;
 	}
@@ -106,7 +106,7 @@ public class AccountsServlet extends HttpServlet {
 		account.setLiquidity(Double.valueOf(liquidity));
 		account.setUserId(userId);
 		account.setDel(true);
-		business.addAccount(account);
+		accountBusiness.addAccount(account);
 
 		request.setAttribute(MESSAGE, ADDED);
 	}
@@ -123,7 +123,7 @@ public class AccountsServlet extends HttpServlet {
 		account.setLiquidity(Double.valueOf(liquidity));
 		account.setUserId(userId);
 		account.setId(Integer.parseInt(id));
-		business.updateAccount(account);
+		accountBusiness.updateAccount(account);
 
 		request.setAttribute(MESSAGE, MODIFIED_MESSAGE);
 	}
@@ -134,7 +134,7 @@ public class AccountsServlet extends HttpServlet {
 		if (delete.equals(Boolean.toString(true))) {
 			final Account account = new Account();
 			account.setId(Integer.parseInt(id));
-			business.deleteAccount(account);
+			accountBusiness.deleteAccount(account);
 		} else {
 			request.setAttribute(ERROR, "You are not allowed to delete this account!");
 		}

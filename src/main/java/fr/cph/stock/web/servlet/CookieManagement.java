@@ -16,6 +16,8 @@
 
 package fr.cph.stock.web.servlet;
 
+import lombok.NonNull;
+
 import javax.servlet.http.Cookie;
 import java.util.List;
 
@@ -27,13 +29,8 @@ import static fr.cph.stock.util.Constants.LANGUAGE;
  *
  * @author Carl-Philipp Harmant
  */
-public final class CookieManagement {
-
-	/**
-	 * Constructor
-	 */
-	private CookieManagement() {
-	}
+public enum CookieManagement {
+	;
 
 	/**
 	 * Get the name of the language stored in cookies
@@ -41,16 +38,12 @@ public final class CookieManagement {
 	 * @param cookies a list of cookie
 	 * @return the name of the language
 	 */
-	public static String getCookieLanguage(final List<Cookie> cookies) {
-		String language = null;
-		for (final Cookie cookie : cookies) {
-			if (cookie.getName().equals(LANGUAGE)) {
-				language = cookie.getValue();
-				break;
-			}
-		}
-		language = language == null ? ENGLISH : language;
-		return language;
+	public static String getCookieLanguage(@NonNull final List<Cookie> cookies) {
+		return cookies.stream()
+			.filter(cookie -> cookie.getName().equals(LANGUAGE))
+			.findFirst()
+			.map(Cookie::getValue)
+			.orElse(ENGLISH);
 	}
 
 	/**
@@ -60,16 +53,11 @@ public final class CookieManagement {
 	 * @param cookieName a cookie name
 	 * @return true or false
 	 */
-	public static boolean containsCookie(final List<Cookie> cookies, final String cookieName) {
-		boolean res = false;
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals(cookieName)) {
-					res = true;
-					break;
-				}
-			}
-		}
-		return res;
+	public static boolean containsCookie(@NonNull final List<Cookie> cookies, final String cookieName) {
+		return cookies.stream()
+			.filter(cookie -> cookie.getName().equals(cookieName))
+			.findFirst()
+			.map(cookie -> true)
+			.orElse(false);
 	}
 }

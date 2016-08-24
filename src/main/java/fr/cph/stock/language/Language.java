@@ -17,7 +17,7 @@
 package fr.cph.stock.language;
 
 import fr.cph.stock.exception.LanguageException;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 
@@ -33,13 +33,13 @@ import java.util.Map;
  * Extract from XML files and put in a map, all the translation needed.
  *
  * @author Carl-Philipp Harmant
- *
  */
+@Log4j
 public class Language {
 
-	private static final Logger LOG = Logger.getLogger(Language.class);
-
-	/** Path of the XML file **/
+	/**
+	 * Path of the XML file
+	 **/
 	private String path;
 	private XMLRetriever xml;
 	private Map<String, String> map;
@@ -64,8 +64,7 @@ public class Language {
 	/**
 	 * Constructor
 	 *
-	 * @param p
-	 *            the path of the xml file
+	 * @param p the path of the xml file
 	 * @throws LanguageException the language exception
 	 */
 	protected Language(final String path) {
@@ -73,7 +72,7 @@ public class Language {
 		try {
 			this.xml = new XMLRetriever(path);
 		} catch (final IOException | DocumentException e) {
-			LOG.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw new LanguageException(e.getMessage(), e);
 		}
 		this.map = new HashMap<>();
@@ -336,15 +335,11 @@ public class Language {
 	/**
 	 * Add the informations to the result map
 	 *
-	 * @param m
-	 *            the result map
-	 * @param base
-	 *            the node base
-	 * @param node
-	 *            the node
+	 * @param m    the result map
+	 * @param base the node base
+	 * @param node the node
 	 */
 	protected final void addToMap(final Map<String, String> m, final Node base, final Node node) {
 		m.put(base.getName().toUpperCase() + "_" + node.getName().toUpperCase(), node.getStringValue());
 	}
-
 }
