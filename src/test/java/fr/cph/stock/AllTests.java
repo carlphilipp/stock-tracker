@@ -16,10 +16,6 @@
 
 package fr.cph.stock;
 
-import fr.cph.stock.business.AccountBusinessTest;
-import fr.cph.stock.dao.CompanyDaoImplTest;
-import fr.cph.stock.dao.EquityDaoImplTest;
-import fr.cph.stock.dao.PortfolioDaoImplTest;
 import fr.cph.stock.dao.UserDaoImplTest;
 import fr.cph.stock.entities.UserTest;
 import fr.cph.stock.external.YahooGatewayTest;
@@ -29,13 +25,10 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	CompanyDaoImplTest.class,
 	UserDaoImplTest.class,
-	PortfolioDaoImplTest.class,
-	EquityDaoImplTest.class,
 	UserTest.class,
-	YahooGatewayTest.class,
-	AccountBusinessTest.class})
+	YahooGatewayTest.class
+})
 public class AllTests {
 
 }

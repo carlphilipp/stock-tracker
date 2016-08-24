@@ -18,6 +18,7 @@ package fr.cph.stock.entities;
 
 import com.google.gson.JsonObject;
 import fr.cph.stock.enumtype.Currency;
+import lombok.Data;
 
 import static fr.cph.stock.util.Constants.CURRENCY;
 import static fr.cph.stock.util.Constants.LIQUIDITY;
@@ -27,141 +28,26 @@ import static fr.cph.stock.util.Constants.LIQUIDITY;
  *
  * @author Carl-Philipp Harmant
  */
+@Data
 public class Account {
 
-	/**
-	 * id
-	 **/
 	private int id;
-	/**
-	 * user id
-	 **/
 	private int userId;
-	/**
-	 * name of the account
-	 **/
 	private String name;
-	/**
-	 * currency of the account
-	 **/
 	private Currency currency;
-	/**
-	 * liquidity of the account
-	 **/
 	private Double liquidity;
 	/**
 	 * is it allowed to delete it from db ?
 	 **/
 	private Boolean del;
-	/**
-	 * parity of the account
-	 **/
 	private Double parity;
-
-	/**
-	 * @return the id
-	 */
-	public final int getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id
-	 */
-	public final void setId(final int id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the user id
-	 */
-	public final int getUserId() {
-		return userId;
-	}
-
-	/**
-	 * @param userId the user id
-	 */
-	public final void setUserId(final int userId) {
-		this.userId = userId;
-	}
-
-	/**
-	 * @return the name
-	 */
-	public final String getName() {
-		return name;
-	}
-
-	/**
-	 * @param name the name
-	 */
-	public final void setName(final String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @return the currency
-	 */
-	public final Currency getCurrency() {
-		return currency;
-	}
-
-	/**
-	 * @param currency the currency
-	 */
-	public final void setCurrency(final Currency currency) {
-		this.currency = currency;
-	}
-
-	/**
-	 * @return the liquidity
-	 */
-	public final double getLiquidity() {
-		return liquidity;
-	}
-
-	/**
-	 * @param liquidity the liquidity
-	 */
-	public final void setLiquidity(final Double liquidity) {
-		this.liquidity = liquidity;
-	}
-
-	/**
-	 * @return a boolean
-	 */
-	public final Boolean getDel() {
-		return del;
-	}
-
-	/**
-	 * @param del the boolean
-	 */
-	public final void setDel(final Boolean del) {
-		this.del = del;
-	}
-
-	/**
-	 * @return the parity
-	 */
-	public final Double getParity() {
-		return parity;
-	}
-
-	/**
-	 * @param parity the parity
-	 */
-	public final void setParity(final Double parity) {
-		this.parity = parity;
-	}
 
 	/**
 	 * Get a JSONObject of the current object
 	 *
 	 * @return a json object
 	 */
-	public final JsonObject getJSONObject() {
+	final JsonObject getJSONObject() {
 		final JsonObject json = new JsonObject();
 		json.addProperty("id", id);
 		json.addProperty("name", name);

@@ -26,6 +26,7 @@ import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
+import lombok.Setter;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
@@ -49,7 +50,9 @@ public class AccountsServlet extends HttpServlet {
 	private static final long serialVersionUID = -5015939908893417514L;
 	private static final Logger LOG = Logger.getLogger(AccountsServlet.class);
 
+	@Setter
 	private AccountBusiness business;
+	@Setter
 	private UserBusiness userBusiness;
 	private LanguageFactory language;
 
