@@ -33,26 +33,25 @@ import fr.cph.stock.entities.Account;
 @Singleton
 public class AccountBusinessImpl implements AccountBusiness {
 
-	private final AccountDAO accountDAO;
+	private AccountDAO accountDAO;
 
 	@Inject
 	public AccountBusinessImpl(@Named("Account") final DAO dao) {
 		accountDAO = (AccountDAO) dao;
 	}
 
-	// Account
 	@Override
-	public final void addAccount(final Account account) {
+	public void addAccount(final Account account) {
 		accountDAO.insert(account);
 	}
 
 	@Override
-	public final void updateAccount(final Account account) {
+	public void updateAccount(final Account account) {
 		accountDAO.update(account);
 	}
 
 	@Override
-	public final void deleteAccount(final Account account) {
+	public void deleteAccount(final Account account) {
 		accountDAO.delete(account);
 	}
 }

@@ -44,28 +44,28 @@ public class AccountDAO implements DAO<Account> {
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
-	public final void insert(final Account account) {
+	public void insert(final Account account) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert(INSERT, account);
 		}
 	}
 
 	@Override
-	public final Account select(final int id) {
+	public Account select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne(SELECT, id);
 		}
 	}
 
 	@Override
-	public final void update(final Account account) {
+	public void update(final Account account) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update(UPDATE, account);
 		}
 	}
 
 	@Override
-	public final void delete(final Account account) {
+	public void delete(final Account account) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete(DELETE, account);
 		}
@@ -78,7 +78,7 @@ public class AccountDAO implements DAO<Account> {
 	 *            the user id
 	 * @return a list of account
 	 */
-	public final List<Account> selectAllAccountWithUserId(final int userId) {
+	public List<Account> selectAllAccountWithUserId(final int userId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectList(SELECT_WITH_USER_ID, userId);
 		}
@@ -93,7 +93,7 @@ public class AccountDAO implements DAO<Account> {
 	 *            the name of the account
 	 * @return an account
 	 */
-	public final Account selectOneAccountWithName(final int userId, final String name) {
+	public Account selectOneAccountWithName(final int userId, final String name) {
 		final Map<String, Object> map = new HashMap<>();
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			map.put("userId", userId);
