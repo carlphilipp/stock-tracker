@@ -2,6 +2,7 @@ package fr.cph.stock.web.servlet.accounts;
 
 import fr.cph.stock.business.AccountBusiness;
 import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
@@ -89,5 +90,89 @@ public class AccountsServletTest {
 		verify(request, never()).setAttribute(eq(LANGUAGE), isA(Map.class));
 		verify(request, never()).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
 		verify(request, never()).setAttribute(eq(APP_TITLE), isA(String.class));
+	}
+
+	@Test
+	public void testAccountServletAdd() throws ServletException, YahooException {
+		when(request.getSession(false)).thenReturn(httpSession);
+		when(request.getParameter(ADD)).thenReturn("add");
+		when(request.getParameter(CURRENCY)).thenReturn("USD");
+		when(request.getParameter(LIQUIDITY)).thenReturn("10.5");
+		when(httpSession.getAttribute(USER)).thenReturn(user);
+		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
+		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+
+		accountsServlet.doPost(request, response);
+
+		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(accountBusiness).addAccount(isA(Account.class));
+		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
+		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
+		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
+		verify(request).setAttribute(eq(MESSAGE), eq(ADDED));
+	}
+
+	@Test
+	public void testAccountServletModify() throws ServletException, YahooException {
+		when(request.getSession(false)).thenReturn(httpSession);
+		when(request.getParameter(MOD)).thenReturn("mod");
+		when(request.getParameter(CURRENCY)).thenReturn("USD");
+		when(request.getParameter(LIQUIDITY)).thenReturn("10.5");
+		when(request.getParameter(ID)).thenReturn("1");
+		when(httpSession.getAttribute(USER)).thenReturn(user);
+		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
+		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+
+		accountsServlet.doPost(request, response);
+
+		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(accountBusiness).updateAccount(isA(Account.class));
+		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
+		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
+		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
+		verify(request).setAttribute(eq(MESSAGE), eq(MODIFIED_MESSAGE));
+	}
+
+	@Test
+	public void testAccountServletDelete() throws ServletException, YahooException {
+		when(request.getSession(false)).thenReturn(httpSession);
+		when(request.getParameter(DELETE)).thenReturn("delete");
+		when(request.getParameter(ID)).thenReturn("1");
+		when(request.getParameter(DELETE_2)).thenReturn("true");
+		when(httpSession.getAttribute(USER)).thenReturn(user);
+		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
+		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+
+		accountsServlet.doPost(request, response);
+
+		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(accountBusiness).deleteAccount(isA(Account.class));
+		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
+		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
+		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
+	}
+
+	@Test
+	public void testAccountServletDeleteFail() throws ServletException, YahooException {
+		when(request.getSession(false)).thenReturn(httpSession);
+		when(request.getParameter(DELETE)).thenReturn("delete");
+		when(request.getParameter(ID)).thenReturn("1");
+		when(request.getParameter(DELETE_2)).thenReturn("false");
+		when(httpSession.getAttribute(USER)).thenReturn(user);
+		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
+		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+
+		accountsServlet.doPost(request, response);
+
+		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(accountBusiness, never()).deleteAccount(isA(Account.class));
+		verify(request).setAttribute(eq(LANGUAGE), isA(Map.class));
+		verify(request).setAttribute(eq(PORTFOLIO), isA(Portfolio.class));
+		verify(request).setAttribute(eq(APP_TITLE), isA(String.class));
+		verify(request).setAttribute(eq(ERROR), isA(String.class));
 	}
 }
