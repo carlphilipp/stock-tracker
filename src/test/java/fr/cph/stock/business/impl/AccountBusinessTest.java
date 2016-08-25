@@ -1,6 +1,5 @@
-package fr.cph.stock.business;
+package fr.cph.stock.business.impl;
 
-import fr.cph.stock.business.impl.AccountBusinessImpl;
 import fr.cph.stock.dao.AccountDAO;
 import fr.cph.stock.entities.Account;
 import org.junit.Test;
@@ -10,14 +9,13 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountBusinessTest {
 
 	@Mock
-	private AccountDAO accountDAO = mock(AccountDAO.class);
+	private AccountDAO accountDAO;
 
 	@InjectMocks
 	private AccountBusinessImpl accountBusiness;

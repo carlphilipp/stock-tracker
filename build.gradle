@@ -73,6 +73,7 @@ dependencies {
 		[group: 'junit', name: 'junit', version: '4.12'],
 		[group: 'org.mockito', name: 'mockito-all', version: '2.0.2-beta'],
 		[group: 'org.apache.tomcat', name: 'tomcat-catalina', version: '8.5.4'],
+		[group: 'org.hamcrest', name: 'hamcrest-all', version: '1.3']
 	)
 }
 
@@ -89,4 +90,9 @@ checkstyle {
 
 test {
 	finalizedBy jacocoTestReport
+}
+
+sourceSets.main.java {
+	srcDir 'generated'
+	exclude '*/AutoValue.java'
 }

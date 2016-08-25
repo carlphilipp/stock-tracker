@@ -89,7 +89,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 
 	// TODO sounds like we need GSON or Jackson here.
 	@Override
-	public final List<Company> getCompaniesData(final List<String> yahooIds) throws YahooException {
+	public List<Company> getCompaniesData(final List<String> yahooIds) throws YahooException {
 		final List<Company> companies = new ArrayList<>();
 
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
@@ -167,7 +167,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	}
 
 	@Override
-	public final Company getCompanyInfo(final Company company) throws YahooException {
+	public Company getCompanyInfo(final Company company) throws YahooException {
 		final String requestStocks = "select * from yahoo.finance.stocks where symbol='" + company.getYahooId() + "'";
 		JsonObject jsonCompanyInfo = yahooGateway.getJSONObject(requestStocks);
 		try {

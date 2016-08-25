@@ -46,7 +46,7 @@ public class CompanyDAO implements DAO<Company> {
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
-	public final void insert(final Company company) {
+	public void insert(final Company company) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert(INSERT, company);
 		}
@@ -60,7 +60,7 @@ public class CompanyDAO implements DAO<Company> {
 	}
 
 	@Override
-	public final void update(final Company company) {
+	public void update(final Company company) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update(UPDATE, company);
 		}
@@ -79,7 +79,7 @@ public class CompanyDAO implements DAO<Company> {
 	 * @param yahooId the yahoo id
 	 * @return a company
 	 */
-	public final Company selectWithYahooId(final String yahooId) {
+	public Company selectWithYahooId(final String yahooId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne(SELECT_WITH_ID, yahooId);
 		}
