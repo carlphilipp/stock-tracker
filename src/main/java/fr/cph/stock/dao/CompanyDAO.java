@@ -67,7 +67,7 @@ public class CompanyDAO implements DAO<Company> {
 	}
 
 	@Override
-	public final void delete(final Company company) {
+	public void delete(final Company company) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete(DELETE, company);
 		}
@@ -91,7 +91,7 @@ public class CompanyDAO implements DAO<Company> {
 	 * @param realTime a boolean that represents a real time data information. If
 	 * @return a list of company
 	 */
-	public final List<Company> selectAllCompany(final boolean realTime) {
+	public List<Company> selectAllCompany(final boolean realTime) {
 		final Map<String, Boolean> options = new HashMap<>();
 		options.put("realTime", realTime);
 		// Remove manual companies

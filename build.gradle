@@ -91,8 +91,3 @@ checkstyle {
 test {
 	finalizedBy jacocoTestReport
 }
-
-sourceSets.main.java {
-	srcDir 'generated'
-	exclude '*/AutoValue.java'
-}

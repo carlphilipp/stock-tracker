@@ -67,7 +67,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	}
 
 	@Override
-	public final void updateCompaniesNotRealTime() {
+	public void updateCompaniesNotRealTime() {
 		final List<Company> companies = companyDAO.selectAllCompany(false);
 		final Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -7);
@@ -86,7 +86,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	}
 
 	@Override
-	public final void deleteCompany(final Company company) {
+	public void deleteCompany(final Company company) {
 		companyDAO.delete(company);
 	}
 

@@ -284,7 +284,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	}
 
 	@Override
-	public final List<Company> getCompanyDataHistory(final String yahooId, final Date from, final Date to) throws YahooException {
+	public List<Company> getCompanyDataHistory(final String yahooId, final Date from, final Date to) throws YahooException {
 		final String startDate = SIMPLE_DATE_FORMAT.format(from);
 		final Calendar cal = Calendar.getInstance();
 		final String endDate = to == null
