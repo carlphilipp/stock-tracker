@@ -27,12 +27,12 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	private static final int MAX_UPDATE_COMPANY = 15;
 	private static final int PAUSE = 1000;
 
-	private final CompanyDAO companyDAO;
-	private final IExternalDataAccess yahoo;
+	@Inject
+	private IExternalDataAccess yahoo;
+	private CompanyDAO companyDAO;
 
 	@Inject
-	public CompanyBusinessImpl(final IExternalDataAccess yahoo, @Named("Company") final DAO dao) {
-		this.yahoo = yahoo;
+	public void setCompanyDAO(@Named("Company") final DAO dao) {
 		companyDAO = (CompanyDAO) dao;
 	}
 

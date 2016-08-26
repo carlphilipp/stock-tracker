@@ -53,7 +53,7 @@ public class CompanyDAO implements DAO<Company> {
 	}
 
 	@Override
-	public final Company select(final int id) {
+	public Company select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne(SELECT, id);
 		}
@@ -106,7 +106,7 @@ public class CompanyDAO implements DAO<Company> {
 	 *
 	 * @return a list of integer representing company ids.
 	 */
-	public final List<Integer> selectAllUnusedCompanyIds() {
+	public List<Integer> selectAllUnusedCompanyIds() {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectList(SELECT_UNUSED);
 		}
