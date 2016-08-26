@@ -10,8 +10,10 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +38,7 @@ public class CompanyBusinessTest {
 	@Mock
 	private YahooExternalDataAccess yahoo;
 
+	@Spy
 	@InjectMocks
 	private CompanyBusinessImpl companyBusiness;
 
@@ -104,5 +107,26 @@ public class CompanyBusinessTest {
 		companyBusiness.deleteCompany(company);
 
 		verify(companyDAO).delete(company);
+	}
+
+	@Test
+	public void testAddOrUpdateCompaniesLimitedRequest() throws YahooException {
+		final List<String> tickers = new ArrayList<>();
+		tickers.add(TICKER);
+
+		final String actual = companyBusiness.addOrUpdateCompaniesLimitedRequest(tickers);
+
+		assertNotNull(actual);
+		assertThat(actual.length(), is(0));
+	}
+
+	@Test
+	public void testAddOrUpdateCompaniesLimitedRequestMax() throws YahooException {
+		final List<String> tickers = Collections.nCopies(16, TICKER);
+
+		final String actual = companyBusiness.addOrUpdateCompaniesLimitedRequest(tickers);
+
+		assertNotNull(actual);
+		assertThat(actual.length(), is(0));
 	}
 }
