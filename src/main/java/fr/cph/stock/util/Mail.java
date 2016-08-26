@@ -17,7 +17,7 @@
 package fr.cph.stock.util;
 
 import com.sun.net.ssl.internal.ssl.Provider;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.activation.DataHandler;
 import javax.activation.FileDataSource;
@@ -35,9 +35,9 @@ import java.util.Properties;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 public final class Mail {
 
-	private static final Logger LOG = Logger.getLogger(Mail.class);
 	private static String smtpHostName;
 	private static String smtpPort;
 	private static String emailFromUsername;
@@ -72,7 +72,6 @@ public final class Mail {
 	 * @param recipients tab of recipients
 	 * @param subject    the subject
 	 * @param message    the content
-	 * @param from       the sender
 	 * @param attachFile the attach files
 	 * @throws MessagingException the messaging exception
 	 * @throws IOException        the io exception
@@ -137,7 +136,7 @@ public final class Mail {
 		try {
 			new Mail(emailSubjectTxt, emailMsgTxt, sendTo, attachFile);
 		} catch (final MessagingException | IOException e1) {
-			LOG.error("Error while trying to send an email : " + e1.getMessage(), e1);
+			log.error("Error while trying to send an email : {}", e1.getMessage(), e1);
 		}
 	}
 }

@@ -16,7 +16,7 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,13 +29,12 @@ import javax.servlet.http.HttpSession;
  * This servlet is called when the user want to logout
  *
  * @author Carl-Philipp Harmant
- *
  */
+@Log4j2
 @WebServlet(name = "LogOutServlet", urlPatterns = {"/logout"})
 public class LogOutServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -6107097536653860984L;
-	private static final Logger LOG = Logger.getLogger(LogOutServlet.class);
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
@@ -46,7 +45,7 @@ public class LogOutServlet extends HttpServlet {
 			}
 			response.sendRedirect("index.jsp");
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

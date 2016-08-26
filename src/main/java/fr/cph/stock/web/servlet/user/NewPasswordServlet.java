@@ -20,7 +20,7 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.security.SecurityService;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,11 +35,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "NewPasswordServlet", urlPatterns = {"/newpassword"})
 public class NewPasswordServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4548932564405559822L;
-	private static final Logger LOG = Logger.getLogger(NewPasswordServlet.class);
 	private UserBusiness userBusiness;
 	private SecurityService securityService;
 
@@ -66,8 +66,8 @@ public class NewPasswordServlet extends HttpServlet {
 				request.setAttribute(ERROR, "Error while checking id");
 			}
 			request.getRequestDispatcher("jsp/newpassword.jsp").forward(request, response);
-		} catch (Throwable t) {
-			LOG.error(t.getMessage(), t);
+		} catch (final Throwable t) {
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

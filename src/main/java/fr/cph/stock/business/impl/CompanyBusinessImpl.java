@@ -15,15 +15,15 @@ import fr.cph.stock.external.IExternalDataAccess;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Singleton
 public class CompanyBusinessImpl implements CompanyBusiness {
 
-	private static final Logger LOG = Logger.getLogger(CompanyBusinessImpl.class);
 	private static final int MAX_UPDATE_COMPANY = 15;
 	private static final int PAUSE = 1000;
 
@@ -38,7 +38,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 
 	@Override
 	public final List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {
-		LOG.debug("Updating: " + tickers);
+		log.debug("Updating: {}", tickers);
 		final List<Company> companies = yahoo.getCompaniesData(tickers);
 		final List<Company> companiesResult = new ArrayList<>();
 		for (Company companyYahoo : companies) {
@@ -81,7 +81,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				}
 			}
 		} catch (final YahooException e) {
-			LOG.warn("Company update not real time error: " + e.getMessage());
+			log.warn("Company update not real time error: {}", e.getMessage());
 		}
 	}
 
@@ -158,11 +158,11 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 			try {
 				addOrUpdateCompanies(yahooIdList);
 			} catch (final YahooUnknownTickerException e) {
-				LOG.warn(e.getMessage());
+				log.warn(e.getMessage());
 				Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]), null);
 			} catch (final YahooException e) {
 				canUpdate = false;
-				LOG.warn("All companies update failed: " + e.getMessage());
+				log.warn("All companies update failed: {}", e.getMessage());
 			}
 		} else {
 			int from = 0;
@@ -176,12 +176,12 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 					addOrUpdateCompanies(yahooIdList.subList(from, to));
 					Util.makeAPause(PAUSE);
 				} catch (final YahooUnknownTickerException e) {
-					LOG.warn(e.getMessage());
+					log.warn(e.getMessage());
 					Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]), null);
 				} catch (final YahooException e) {
 					canUpdate = false;
 					isOk = false;
-					LOG.warn("All companies update failed: " + e.getMessage() + " | Issue trying to update at limit [" + from + ", " + to + "]");
+					log.warn("All companies update failed: {} | Issue trying to update at limit [{},{}]", e.getMessage(), from, to);
 				}
 				if (to == yahooIdList.size()) {
 					isOk = false;

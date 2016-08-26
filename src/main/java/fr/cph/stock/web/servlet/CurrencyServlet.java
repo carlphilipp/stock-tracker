@@ -24,7 +24,7 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,11 +41,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "CurrencyServlet", urlPatterns = {"/currencies"})
 public class CurrencyServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 8821408830626147089L;
-	private static final Logger LOG = Logger.getLogger(CurrencyServlet.class);
 	private UserBusiness userBusiness;
 	private CurrencyBusiness currencyBusiness;
 	private LanguageFactory language;
@@ -81,7 +81,7 @@ public class CurrencyServlet extends HttpServlet {
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Currencies");
 			request.getRequestDispatcher("jsp/currencies.jsp").forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

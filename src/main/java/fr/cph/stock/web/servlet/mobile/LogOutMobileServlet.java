@@ -18,7 +18,7 @@ package fr.cph.stock.web.servlet.mobile;
 
 import com.google.gson.JsonObject;
 import fr.cph.stock.entities.User;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,13 +34,12 @@ import static fr.cph.stock.util.Constants.USER;
  * This servlet is called by mobiles to logout from the app
  *
  * @author Carl-Philipp Harmant
- *
  */
+@Log4j2
 @WebServlet(name = "LogOutMobileServlet", urlPatterns = {"/logoutmobile"})
 public class LogOutMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -6390397454452936077L;
-	private static final Logger LOG = Logger.getLogger(LogOutMobileServlet.class);
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
@@ -59,7 +58,7 @@ public class LogOutMobileServlet extends HttpServlet {
 			json.addProperty(SESSION, "null");
 			response.getWriter().write(json.toString());
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

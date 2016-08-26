@@ -11,15 +11,15 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.IExternalDataAccess;
 import fr.cph.stock.util.Util;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Log4j2
 @Singleton
 public class CurrencyBusinessImpl implements CurrencyBusiness {
 
-	private static final Logger LOG = Logger.getLogger(CurrencyBusinessImpl.class);
 	private static final int PAUSE = 1000;
 
 	private IExternalDataAccess yahoo;
@@ -63,7 +63,7 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 				}
 				currencyDone.add(currency);
 			} else {
-				LOG.warn("Impossible to update this currency: " + currency.getCode());
+				log.warn("Impossible to update this currency: {}", currency.getCode());
 			}
 		}
 	}

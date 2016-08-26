@@ -25,7 +25,7 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.web.servlet.CookieManagement;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,11 +42,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "UpdatePortfolioServlet", urlPatterns = {"/updateportfolio"})
 public class UpdatePortfolioServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5252788304524725462L;
-	private static final Logger LOG = Logger.getLogger(UpdatePortfolioServlet.class);
 	private UserBusiness userBusiness;
 	private CompanyBusiness companyBusiness;
 	private CurrencyBusiness currencyBusiness;
@@ -75,7 +75,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 				}
 				error = companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 			} catch (YahooException e1) {
-				LOG.error(e1.getMessage(), e1);
+				log.error(e1.getMessage(), e1);
 				sb.append(e1.getMessage()).append(" ");
 			}
 			if (!sb.toString().equals("")) {
@@ -93,7 +93,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher(HOME).forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

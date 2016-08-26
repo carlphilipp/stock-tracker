@@ -22,7 +22,7 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.guice.GuiceInjector;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,11 +40,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "UpdateShareValueMobileServlet", urlPatterns = {"/updatesharevaluemobile"})
 public class UpdateShareValueMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2877166802472612746L;
-	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
 	private UserBusiness userBusiness;
 	private ShareValueBusiness shareValueBusiness;
 	private final MathContext mathContext = MathContext.DECIMAL32;
@@ -95,7 +95,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 				response.getWriter().write("{\"error\":" + e.getMessage() + "\"}");
 			}
 		} catch (final Throwable t) {
-			LOG.error("Error: " + t.getMessage(), t);
+			log.error("Error: {}", t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

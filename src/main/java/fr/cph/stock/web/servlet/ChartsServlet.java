@@ -25,7 +25,7 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,11 +44,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "ChartsServlet", urlPatterns = {"/charts"})
 public class ChartsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -2726055360179985134L;
-	private static final Logger LOG = Logger.getLogger(ChartsServlet.class);
 	private IndexBusiness indexBusiness;
 	private UserBusiness userBusiness;
 	private LanguageFactory language;
@@ -81,14 +81,14 @@ public class ChartsServlet extends HttpServlet {
 				request.setAttribute(MAP_SECTOR, mapSector);
 				request.setAttribute(MAP_CAP, mapCap);
 			} catch (final YahooException e) {
-				LOG.error("Error: " + e.getMessage(), e);
+				log.error("Error: {}", e.getMessage(), e);
 			}
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Charts");
 			request.getRequestDispatcher("jsp/charts.jsp").forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

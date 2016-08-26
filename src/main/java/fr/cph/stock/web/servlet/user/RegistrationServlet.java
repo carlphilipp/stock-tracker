@@ -20,7 +20,7 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.guice.GuiceInjector;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,11 +37,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "RegistrationServlet", urlPatterns = {"/register"})
 public class RegistrationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6262531123441177265L;
-	private static final Logger LOG = Logger.getLogger(RegistrationServlet.class);
 	private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
 	private UserBusiness userBusiness;
 
@@ -69,7 +69,7 @@ public class RegistrationServlet extends HttpServlet {
 				request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
 			}
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

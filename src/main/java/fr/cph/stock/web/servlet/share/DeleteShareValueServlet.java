@@ -23,7 +23,7 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.guice.GuiceInjector;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,11 +41,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "DeleteShareValueServlet", urlPatterns = {"/deletesharevalue"})
 public class DeleteShareValueServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6742409927502374595L;
-	private static final Logger LOG = Logger.getLogger(DeleteShareValueServlet.class);
 	private UserBusiness userBusiness;
 	private ShareValueBusiness shareValueBusiness;
 	private final MathContext mathContext = MathContext.DECIMAL32;
@@ -93,7 +93,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 			}
 			request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

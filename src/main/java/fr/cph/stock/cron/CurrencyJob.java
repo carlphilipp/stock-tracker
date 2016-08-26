@@ -19,7 +19,7 @@ package fr.cph.stock.cron;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -29,13 +29,14 @@ import org.quartz.JobExecutionContext;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Log4j2
 public class CurrencyJob implements Job {
 
-	/** Logger **/
-	private static final Logger LOG = Logger.getLogger(CurrencyJob.class);
 	private final CurrencyBusiness currencyBusiness;
 
-	/** Constructor **/
+	/**
+	 * Constructor
+	 **/
 	public CurrencyJob() {
 		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 	}
@@ -45,9 +46,9 @@ public class CurrencyJob implements Job {
 		try {
 			currencyBusiness.updateAllCurrencies();
 		} catch (final YahooException e) {
-			LOG.warn("Error while executing CurrencyJob: " + e.getMessage());
+			log.warn("Error while executing CurrencyJob: {}", e.getMessage());
 		} catch (final Throwable t) {
-			LOG.error("Error while executing CurrencyJob: " + t.getMessage(), t);
+			log.error("Error while executing CurrencyJob: {}", t.getMessage(), t);
 		}
 	}
 }

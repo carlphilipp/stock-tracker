@@ -28,7 +28,7 @@ import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.SchedulerException;
 
 import javax.servlet.ServletException;
@@ -51,11 +51,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "HomeServlet", urlPatterns = {"/home"}, loadOnStartup = 1)
 public class HomeServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 122322259823208331L;
-	private static final Logger LOG = Logger.getLogger(HomeServlet.class);
 	private UserBusiness userBusiness;
 	private IndexBusiness indexBusiness;
 	private LanguageFactory language;
@@ -70,7 +70,7 @@ public class HomeServlet extends HttpServlet {
 				job.run();
 			}
 		} catch (final UnknownHostException | SchedulerException e) {
-			LOG.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
@@ -102,7 +102,7 @@ public class HomeServlet extends HttpServlet {
 				}
 				request.setAttribute(PORTFOLIO, portfolio);
 			} catch (final YahooException e) {
-				LOG.error("Error: " + e.getMessage(), e);
+				log.error("Error: {}", e.getMessage(), e);
 			}
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
@@ -110,7 +110,7 @@ public class HomeServlet extends HttpServlet {
 			request.setAttribute(CURRENCIES, Currency.values());
 			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

@@ -24,8 +24,8 @@ import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,11 +42,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "ShareValueServlet", urlPatterns = {"/sharevalue"})
 public class ShareValueServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(ShareValueServlet.class);
 	private UserBusiness userBusiness;
 	private LanguageFactory language;
 	private static final int ITEM_MAX = 20;
@@ -84,7 +84,7 @@ public class ShareValueServlet extends HttpServlet {
 				}
 				request.setAttribute(PORTFOLIO, portfolio);
 			} catch (final YahooException e) {
-				LOG.error(e.getMessage(), e);
+				log.error(e.getMessage(), e);
 				throw new ServletException("Error: " + e.getMessage(), e);
 			}
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
@@ -92,7 +92,7 @@ public class ShareValueServlet extends HttpServlet {
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; History");
 			request.getRequestDispatcher("jsp/sharevalue.jsp").forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

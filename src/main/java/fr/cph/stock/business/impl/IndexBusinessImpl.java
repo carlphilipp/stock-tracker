@@ -10,7 +10,7 @@ import fr.cph.stock.entities.Index;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.IExternalDataAccess;
 import fr.cph.stock.util.Util;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -19,10 +19,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@Log4j2
 @Singleton
 public class IndexBusinessImpl implements IndexBusiness {
 
-	private static final Logger LOG = Logger.getLogger(IndexBusinessImpl.class);
 	private static final int PERCENT = 100;
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 
@@ -65,11 +65,10 @@ public class IndexBusinessImpl implements IndexBusiness {
 		final Index index = indexDAO.selectLast(yahooId);
 		final Calendar currentCal = Util.getCurrentCalendarInTimeZone(timeZone);
 		final Calendar indexCal = Util.getDateInTimeZone(index.getDate(), timeZone);
-		LOG.debug("Check update for " + yahooId + " in timezone : " + timeZone.getDisplayName());
-		LOG.debug("CurrentHour: " + currentCal.get(Calendar.HOUR_OF_DAY) + "h" + currentCal.get(Calendar.MINUTE) + " / indexHour: "
-			+ indexCal.get(Calendar.HOUR_OF_DAY) + "h" + indexCal.get(Calendar.MINUTE));
+		log.debug("Check update for {} in timezone : {}", yahooId, timeZone.getDisplayName());
+		log.debug("CurrentHour: {}h{} / indexHour: {}h{}", currentCal.get(Calendar.HOUR_OF_DAY), currentCal.get(Calendar.MINUTE), indexCal.get(Calendar.HOUR_OF_DAY), indexCal.get(Calendar.MINUTE));
 		if (!Util.isSameDay(currentCal, indexCal)) {
-			LOG.debug("Update index after checking! " + yahooId);
+			log.debug("Update index after checking! {}", yahooId);
 			updateIndex(yahooId);
 		}
 	}

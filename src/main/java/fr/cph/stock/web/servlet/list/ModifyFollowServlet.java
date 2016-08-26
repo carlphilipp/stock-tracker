@@ -23,7 +23,7 @@ import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,11 +41,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "ModifyFollowServlet", urlPatterns = {"/modifyfollow"})
 public class ModifyFollowServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1797882155581192455L;
-	private static final Logger LOG = Logger.getLogger(ModifyFollowServlet.class);
 
 	private FollowBusiness followBusiness;
 	private LanguageFactory language;
@@ -77,7 +77,7 @@ public class ModifyFollowServlet extends HttpServlet {
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; List");
 			request.getRequestDispatcher("jsp/list.jsp").forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

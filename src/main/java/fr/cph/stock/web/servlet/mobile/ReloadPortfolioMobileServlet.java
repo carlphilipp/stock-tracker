@@ -22,7 +22,7 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,13 +38,12 @@ import static fr.cph.stock.util.Constants.USER;
  * This servlet is called by mobile to reload the portfolio
  *
  * @author Carl-Philipp Harmant
- *
  */
+@Log4j2
 @WebServlet(name = "ReloadPortfolioMobileServlet", urlPatterns = {"/reloadportfoliomobile"})
 public class ReloadPortfolioMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5211078955305413271L;
-	private static final Logger LOG = Logger.getLogger(ReloadPortfolioMobileServlet.class);
 	private CompanyBusiness companyBusiness;
 	private UserBusiness userBusiness;
 
@@ -67,7 +66,7 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 				response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
 			}
 		} catch (final Throwable t) {
-			LOG.error("Error: " + t.getMessage(), t);
+			log.error("Error: {}", t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

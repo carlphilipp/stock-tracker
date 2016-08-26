@@ -17,7 +17,7 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.business.CompanyBusiness;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -27,9 +27,9 @@ import org.quartz.JobExecutionContext;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Log4j2
 public class CompanyNotRealTimeJob implements Job {
 
-	private static final Logger LOG = Logger.getLogger(CompanyNotRealTimeJob.class);
 	private CompanyBusiness business;
 
 	/**
@@ -44,7 +44,7 @@ public class CompanyNotRealTimeJob implements Job {
 		try {
 			business.updateCompaniesNotRealTime();
 		} catch (final Throwable t) {
-			LOG.error("Error while executing CompanyNotRealTimeJob: " + t.getMessage(), t);
+			log.error("Error while executing CompanyNotRealTimeJob: {}", t.getMessage(), t);
 		}
 	}
 }

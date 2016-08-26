@@ -20,7 +20,7 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.web.servlet.CookieManagement;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,11 +39,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "AuthServlet", urlPatterns = {"/auth"})
 public class AuthServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(AuthServlet.class);
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 	private UserBusiness userBusiness;
 	private List<String> lcookies;
@@ -97,7 +97,7 @@ public class AuthServlet extends HttpServlet {
 				}
 			}
 		} catch (final Throwable t) {
-			LOG.error("Error: " + t.getMessage(), t);
+			log.error("Error: {}", t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

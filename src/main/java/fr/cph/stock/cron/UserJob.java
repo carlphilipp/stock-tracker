@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ package fr.cph.stock.cron;
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -32,13 +32,14 @@ import java.util.TimeZone;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Log4j2
 public class UserJob implements Job {
 
-	/** Logger **/
-	private static final Logger LOG = Logger.getLogger(UserJob.class);
 	private ShareValueBusiness shareValueBusiness;
 
-	/** Constructor **/
+	/**
+	 * Constructor
+	 **/
 	public UserJob() {
 		shareValueBusiness = GuiceInjector.INSTANCE.getShareValueBusiness();
 	}
@@ -46,14 +47,14 @@ public class UserJob implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
-			LOG.info("User job");
+			log.info("User job");
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
 			shareValueBusiness.autoUpdateUserShareValue(cal);
 		} catch (final YahooException e) {
-			LOG.error("Error while executing UserJob: " + e.getMessage());
+			log.error("Error while executing UserJob: {}", e.getMessage());
 		} catch (final Throwable t) {
-			LOG.error("Error while executing UserJob: " + t.getMessage(), t);
+			log.error("Error while executing UserJob: {}", t.getMessage(), t);
 		}
 	}
 

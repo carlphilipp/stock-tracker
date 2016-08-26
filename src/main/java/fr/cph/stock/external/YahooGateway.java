@@ -19,7 +19,7 @@ package fr.cph.stock.external;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import fr.cph.stock.exception.YahooException;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,14 +33,11 @@ import java.nio.charset.Charset;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 enum YahooGateway {
 
 	INSTANCE;
 
-	/**
-	 * Logger
-	 **/
-	private static final Logger LOG = Logger.getLogger(YahooGateway.class);
 	/**
 	 * Url base
 	 **/
@@ -72,7 +69,7 @@ enum YahooGateway {
 	 * @throws YahooException the yahoo exception
 	 */
 	private String connectUrl(final String address) throws YahooException {
-		LOG.debug("URL " + address);
+		log.debug("URL {}", address);
 		String toReturn;
 		try (final InputStreamReader in = new InputStreamReader((new URL(address).openConnection()).getInputStream(), Charset.forName("UTF8"))) {
 			int c = in.read();

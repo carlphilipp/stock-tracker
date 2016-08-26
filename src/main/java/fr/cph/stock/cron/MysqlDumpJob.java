@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ package fr.cph.stock.cron;
 import fr.cph.stock.dropbox.DropBox;
 import fr.cph.stock.util.MySQLDumper;
 import fr.cph.stock.util.Util;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -31,10 +31,8 @@ import java.io.File;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Log4j2
 public class MysqlDumpJob implements Job {
-
-	/** Logger **/
-	private static final Logger LOG = Logger.getLogger(MysqlDumpJob.class);
 
 	@Override
 	public final void execute(final JobExecutionContext context) {
@@ -55,18 +53,18 @@ public class MysqlDumpJob implements Job {
 			dropBox.deleteOldFileIfNeeded(tarGzFile);
 			dropBox.uploadFile(tarGzFile);
 		} catch (final Throwable t) {
-			LOG.error("Error while executing MysqlDumpJob: " + t.getMessage(), t);
+			log.error("Error while executing MysqlDumpJob: {}", t.getMessage(), t);
 		} finally {
 			if (tarGzFile != null && tarGzFile.exists()) {
 				boolean del = tarGzFile.delete();
 				if (!del) {
-					LOG.error("Error while deleting the tar file: " + tarGzFile.getAbsolutePath());
+					log.error("Error while deleting the tar file: {}", tarGzFile.getAbsolutePath());
 				}
 			}
 			if (sqlFile != null && sqlFile.exists()) {
 				boolean del = sqlFile.delete();
 				if (!del) {
-					LOG.error("Error while deleting the tar file: " + sqlFile.getAbsolutePath());
+					log.error("Error while deleting the tar file: {}", sqlFile.getAbsolutePath());
 				}
 			}
 		}

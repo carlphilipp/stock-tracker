@@ -16,7 +16,7 @@
 
 package fr.cph.stock.web.servlet;
 
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,14 +31,12 @@ import static fr.cph.stock.util.Constants.*;
  * This servlet is called to change the user language
  *
  * @author Carl-Philipp Harmant
- *
  */
-
+@Log4j2
 @WebServlet(name = "ChangeLanguageServlet", urlPatterns = {"/language"})
 public class ChangeLanguageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1381535043505856447L;
-	private static final Logger LOG = Logger.getLogger(ChangeLanguageServlet.class);
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
@@ -50,7 +48,7 @@ public class ChangeLanguageServlet extends HttpServlet {
 			}
 			response.sendRedirect(HOME);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

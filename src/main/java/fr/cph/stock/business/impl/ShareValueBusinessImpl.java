@@ -17,7 +17,7 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -25,10 +25,10 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
+@Log4j2
 @Singleton
 public class ShareValueBusinessImpl implements ShareValueBusiness {
 
-	private static final Logger LOG = Logger.getLogger(AccountBusinessImpl.class);
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
 
@@ -119,7 +119,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 						tryToUpdate = true;
 					}
 					if (canUpdate) {
-						LOG.info("Update user portfolio: " + user.getLogin());
+						log.info("Update user portfolio: {}", user.getLogin());
 						portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 						account = portfolio.getFirstAccount();
 						updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");

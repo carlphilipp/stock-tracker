@@ -24,8 +24,8 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.guice.GuiceInjector;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -43,12 +43,12 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "CreateHistoryServlet", urlPatterns = {"/createhistory"})
 @MultipartConfig
 public class CreateHistoryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -2999218921595727810L;
-	private static final Logger LOG = Logger.getLogger(CreateHistoryServlet.class);
 	private ShareValueBusiness shareValueBusiness;
 	private UserBusiness userBusiness;
 
@@ -83,7 +83,7 @@ public class CreateHistoryServlet extends HttpServlet {
 				request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 			}
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

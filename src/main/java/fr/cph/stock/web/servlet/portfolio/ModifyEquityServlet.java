@@ -25,9 +25,9 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.web.servlet.CookieManagement;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,11 +45,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "ModifyEquityServlet", urlPatterns = {"/modifyequity"})
 public class ModifyEquityServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 886732846315131952L;
-	private static final Logger LOG = Logger.getLogger(ModifyEquityServlet.class);
 	private CompanyBusiness companyBusiness;
 	private EquityBusiness equityBusiness;
 	private LanguageFactory language;
@@ -78,12 +78,12 @@ public class ModifyEquityServlet extends HttpServlet {
 					modify(request, user, lang);
 				}
 			} catch (final NumberFormatException | YahooException e) {
-				LOG.warn(e.getMessage(), e);
+				log.warn(e.getMessage(), e);
 				request.setAttribute("modifyError", "Error: " + e.getMessage());
 			}
 			request.getRequestDispatcher(HOME).forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

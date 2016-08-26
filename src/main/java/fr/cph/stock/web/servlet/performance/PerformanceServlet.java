@@ -30,10 +30,10 @@ import fr.cph.stock.report.PdfReport;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Util;
 import fr.cph.stock.web.servlet.CookieManagement;
+import lombok.extern.log4j.Log4j2;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -56,11 +56,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "PerformanceServlet", urlPatterns = {"/performance"})
 public class PerformanceServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2435465891228710040L;
-	private static final Logger LOG = Logger.getLogger(PerformanceServlet.class);
 	private UserBusiness userBusiness;
 	private IndexBusiness indexBusiness;
 	private LanguageFactory language;
@@ -134,7 +134,7 @@ public class PerformanceServlet extends HttpServlet {
 
 				request.setAttribute(PORTFOLIO, portfolio);
 			} catch (final YahooException e) {
-				LOG.error("Error: " + e.getMessage(), e);
+				log.error("Error: {}", e.getMessage(), e);
 			}
 			if (createPdf != null && createPdf.equals("pdf")) {
 				final Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");
@@ -163,7 +163,7 @@ public class PerformanceServlet extends HttpServlet {
 				request.getRequestDispatcher("jsp/performance.jsp").forward(request, response);
 			}
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

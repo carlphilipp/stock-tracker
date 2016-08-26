@@ -20,7 +20,7 @@ import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.Info;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -32,10 +32,9 @@ import java.util.TimeZone;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Log4j2
 public class SP500CheckJob implements Job {
 
-	/** Logger **/
-	private static final Logger LOG = Logger.getLogger(SP500CheckJob.class);
 	private IndexBusiness indexBusiness;
 
 	/**
@@ -48,14 +47,13 @@ public class SP500CheckJob implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
-			LOG.debug("SP500 Check job running");
+			log.debug("SP500 Check job running");
 			final TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
 			indexBusiness.checkUpdateIndex(Info.YAHOO_ID_SP500, timeZone);
 		} catch (final YahooException e) {
-			LOG.warn("Error while executing SP500CheckJob: " + e.getMessage());
+			log.warn("Error while executing SP500CheckJob: {}", e.getMessage());
 		} catch (final Throwable t) {
-			LOG.error("Error while executing SP500CheckJob: " + t.getMessage(), t);
+			log.error("Error while executing SP500CheckJob: {}", t.getMessage(), t);
 		}
 	}
-
 }

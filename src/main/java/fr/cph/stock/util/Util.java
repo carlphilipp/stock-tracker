@@ -1,10 +1,10 @@
 package fr.cph.stock.util;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
 import org.apache.commons.compress.utils.IOUtils;
-import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.text.DateFormat;
@@ -16,13 +16,9 @@ import java.util.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 public enum Util {
 	;
-
-	/**
-	 * Logger
-	 **/
-	private static final Logger LOG = Logger.getLogger(Util.class);
 
 	private static final Random RANDOM = new Random();
 
@@ -173,7 +169,7 @@ public enum Util {
 			Thread.currentThread();
 			Thread.sleep(timeInMs);
 		} catch (final InterruptedException e) {
-			LOG.warn(e.getMessage(), e);
+			log.warn(e.getMessage(), e);
 		}
 	}
 
@@ -204,7 +200,7 @@ public enum Util {
 		try {
 			prop.load(Util.class.getClassLoader().getResourceAsStream("app.properties"));
 		} catch (final IOException e) {
-			LOG.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
 		return prop;
 	}

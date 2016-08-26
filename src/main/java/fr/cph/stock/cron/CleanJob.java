@@ -16,9 +16,9 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.business.CompanyBusiness;
-import org.apache.log4j.Logger;
+import fr.cph.stock.guice.GuiceInjector;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -28,12 +28,14 @@ import org.quartz.JobExecutionContext;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Log4j2
 public class CleanJob implements Job {
 
-	private static final Logger LOG = Logger.getLogger(CleanJob.class);
 	private CompanyBusiness companyBusiness;
 
-	/** Constructor  **/
+	/**
+	 * Constructor
+	 **/
 	public CleanJob() {
 		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
 	}
@@ -43,7 +45,7 @@ public class CleanJob implements Job {
 		try {
 			companyBusiness.cleanDB();
 		} catch (final Throwable t) {
-			LOG.error("Error while executing CleanJob: " + t.getMessage(), t);
+			log.error("Error while executing CleanJob: {}", t.getMessage(), t);
 		}
 	}
 }

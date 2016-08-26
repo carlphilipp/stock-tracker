@@ -20,7 +20,7 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.security.SecurityService;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -36,11 +36,11 @@ import static fr.cph.stock.util.Constants.PASSWORD;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "NewPasswordConfirmServlet", urlPatterns = {"/newpasswordconf"})
 public class NewPasswordConfirmServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(NewPasswordConfirmServlet.class);
 	private UserBusiness userBusiness;
 	private SecurityService securityService;
 
@@ -67,7 +67,7 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 			request.setAttribute("ok", "Password changed!");
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

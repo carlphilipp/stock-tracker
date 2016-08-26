@@ -19,7 +19,7 @@ package fr.cph.stock.web.servlet.mobile;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.guice.GuiceInjector;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,11 +34,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "AuthMobileServlet", urlPatterns = {"/authmobile"})
 public class AuthMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -7713821485113054118L;
-	private static final Logger LOG = Logger.getLogger(AuthMobileServlet.class);
 	private UserBusiness userBusiness;
 
 	@Override
@@ -66,7 +66,7 @@ public class AuthMobileServlet extends HttpServlet {
 				}
 			}
 		} catch (final Throwable t) {
-			LOG.error("Error: " + t.getMessage(), t);
+			log.error("Error: {}", t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

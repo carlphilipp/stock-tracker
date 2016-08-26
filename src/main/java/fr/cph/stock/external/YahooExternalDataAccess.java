@@ -27,9 +27,9 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
-import org.apache.log4j.Logger;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,10 +46,10 @@ import static fr.cph.stock.util.Constants.QUOTE;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @Singleton
 public class YahooExternalDataAccess implements IExternalDataAccess {
 
-	private static final Logger LOG = Logger.getLogger(YahooExternalDataAccess.class);
 	private static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
 	private static final String CHANGE_IN_PERCENT = "ChangeinPercent";
@@ -112,7 +112,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 						final List<Company> temp = getCompanyDataHistory(company.getYahooId(), cal.getTime(), null);
 						company.setQuote(temp.get(0).getQuote());
 					} catch (final YahooException e) {
-						LOG.error(e.getMessage(), e);
+						log.error(e.getMessage(), e);
 					}
 					companies.add(company);
 				} else {
@@ -238,12 +238,12 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				} else {
 					jsonn = json.getAsJsonObject(ERROR);
 					if (jsonn == null) {
-						LOG.error("query null: " + json);
+						log.error("query null: {}", json);
 					} else {
 						if (jsonn.get(DESCRIPTION).isJsonNull()) {
-							LOG.warn("error description null: " + jsonn);
+							log.warn("error description null: {}", jsonn);
 						} else {
-							LOG.warn("error description: " + jsonn.get(DESCRIPTION).getAsString());
+							log.warn("error description: {}", jsonn.get(DESCRIPTION).getAsString());
 						}
 					}
 				}
@@ -303,7 +303,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 				company.setYahooId(yahooId);
 				companies.add(company);
 			} catch (final Exception e) {
-				LOG.warn("Error while trying to get double (Close) from json object: " + jsonIndex);
+				log.warn("Error while trying to get double (Close) from json object: {}", jsonIndex);
 			}
 		}
 		return companies;
@@ -360,7 +360,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 			} else {
 				final JsonObject error = json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS).getAsJsonObject(JAVASCRIPT);
 				if (error == null) {
-					LOG.debug("JSONObject found: " + json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS));
+					log.debug("JSONObject found: {}", json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS));
 					throw new YahooException("The current table 'yahoo.finance.quotes' has probably been blocked.");
 				} else {
 					throw new YahooException(error.getAsJsonObject("content").getAsString());

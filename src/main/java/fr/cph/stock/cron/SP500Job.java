@@ -1,12 +1,12 @@
 /**
  * Copyright 2016 Carl-Philipp Harmant
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@ import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.Info;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -30,10 +30,9 @@ import org.quartz.JobExecutionContext;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Log4j2
 public class SP500Job implements Job {
 
-	/** Logger **/
-	private static final Logger LOG = Logger.getLogger(SP500Job.class);
 	private IndexBusiness indexBusiness;
 
 	/**
@@ -46,12 +45,12 @@ public class SP500Job implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
-			LOG.info("S&P500 Job");
+			log.info("S&P500 Job");
 			indexBusiness.updateIndex(Info.YAHOO_ID_SP500);
 		} catch (final YahooException e) {
-			LOG.warn("Error while executing SP500Job: " + e.getMessage());
+			log.warn("Error while executing SP500Job: {}", e.getMessage());
 		} catch (final Throwable t) {
-			LOG.error("Error while executing SP500Job: " + t.getMessage(), t);
+			log.error("Error while executing SP500Job: {}", t.getMessage(), t);
 		}
 	}
 }

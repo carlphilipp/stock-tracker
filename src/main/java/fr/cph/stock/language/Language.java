@@ -17,7 +17,7 @@
 package fr.cph.stock.language;
 
 import fr.cph.stock.exception.LanguageException;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 
@@ -34,7 +34,7 @@ import java.util.Map;
  *
  * @author Carl-Philipp Harmant
  */
-@Log4j
+@Log4j2
 public class Language {
 
 	/**

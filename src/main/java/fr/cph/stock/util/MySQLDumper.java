@@ -16,7 +16,7 @@
 
 package fr.cph.stock.util;
 
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,12 +29,9 @@ import java.util.Properties;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 public class MySQLDumper {
 
-	/**
-	 * Logger
-	 **/
-	private static final Logger LOG = Logger.getLogger(MySQLDumper.class);
 	/**
 	 * Ip
 	 **/
@@ -72,7 +69,7 @@ public class MySQLDumper {
 	/**
 	 * Constructor
 	 *
-	 * @param d the date
+	 * @param date the date
 	 */
 	public MySQLDumper(final String date) {
 		this.date = date;
@@ -133,7 +130,7 @@ public class MySQLDumper {
 				ps.write(ch);
 			}
 			while ((ch = err.read()) != -1) {
-				LOG.error(ch);
+				log.error(ch);
 			}
 		}
 	}

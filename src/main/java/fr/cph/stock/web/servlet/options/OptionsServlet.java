@@ -24,7 +24,7 @@ import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,11 +38,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Log4j2
 @WebServlet(name = "OptionsServlet", urlPatterns = {"/options"})
 public class OptionsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -6025904929231678296L;
-	private static final Logger LOG = Logger.getLogger(OptionsServlet.class);
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 
 	private UserBusiness userBusiness;
@@ -185,7 +185,7 @@ public class OptionsServlet extends HttpServlet {
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Options");
 			request.getRequestDispatcher("jsp/options.jsp").forward(request, response);
 		} catch (final Throwable t) {
-			LOG.error(t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

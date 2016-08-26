@@ -20,7 +20,7 @@ import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.Info;
-import org.apache.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 
@@ -30,11 +30,12 @@ import org.quartz.JobExecutionContext;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Log4j2
 public class Cac40Job implements Job {
 
-	/** Logger **/
-	private static final Logger LOG = Logger.getLogger(Cac40Job.class);
-	/** AccountBusinessImpl **/
+	/**
+	 * AccountBusinessImpl
+	 **/
 	private IndexBusiness indexBusiness;
 
 	/**
@@ -47,12 +48,12 @@ public class Cac40Job implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
-			LOG.info("CAC40 Job");
+			log.info("CAC40 Job");
 			indexBusiness.updateIndex(Info.YAHOO_ID_CAC40);
 		} catch (final YahooException e) {
-			LOG.warn("Error while executing Cac40Job: " + e.getMessage());
+			log.warn("Error while executing Cac40Job: {}", e.getMessage());
 		} catch (final Throwable t) {
-			LOG.error("Error while executing Cac40Job: " + t.getMessage(), t);
+			log.error("Error while executing Cac40Job: {}", t.getMessage(), t);
 		}
 	}
 }
