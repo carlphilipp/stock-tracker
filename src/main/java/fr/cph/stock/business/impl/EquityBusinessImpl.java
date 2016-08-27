@@ -75,7 +75,7 @@ public class EquityBusinessImpl implements EquityBusiness {
 		equity.setCompanyId(company.getId());
 		equity.setPortfolioId(portfolio.getId());
 		if (found.isPresent()) {
-			equity.setid(found.get().getId());
+			equity.setId(found.get().getId());
 			equityDAO.update(equity);
 		} else {
 			equityDAO.insert(equity);

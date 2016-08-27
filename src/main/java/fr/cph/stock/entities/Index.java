@@ -16,6 +16,8 @@
 
 package fr.cph.stock.entities;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -23,6 +25,7 @@ import java.util.Date;
  *
  * @author Carl-Philipp Harmant
  */
+@Data
 public class Index {
 
 	/**
@@ -47,60 +50,6 @@ public class Index {
 	private Double shareValue;
 
 	/**
-	 * Get the id
-	 *
-	 * @return the id
-	 */
-	public final int getId() {
-		return id;
-	}
-
-	/**
-	 * Set the id
-	 *
-	 * @param id the id
-	 */
-	public final void setId(final int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Get the yahoo id
-	 *
-	 * @return the yahoo id
-	 */
-	public final String getYahooId() {
-		return yahooId;
-	}
-
-	/**
-	 * Set the yahoo id
-	 *
-	 * @param yahooId the yahoo id
-	 */
-	public final void setYahooId(final String yahooId) {
-		this.yahooId = yahooId;
-	}
-
-	/**
-	 * Get the value
-	 *
-	 * @return the value
-	 */
-	public final Double getValue() {
-		return value;
-	}
-
-	/**
-	 * Set the value
-	 *
-	 * @param value the value
-	 */
-	public final void setValue(final Double value) {
-		this.value = value;
-	}
-
-	/**
 	 * Get the date
 	 *
 	 * @return the date
@@ -116,28 +65,5 @@ public class Index {
 	 */
 	public final void setDate(final Date date) {
 		this.date = (Date) date.clone();
-	}
-
-	/**
-	 * Get the share value
-	 *
-	 * @return the share value
-	 */
-	public final Double getShareValue() {
-		return shareValue;
-	}
-
-	/**
-	 * Set the share value
-	 *
-	 * @param shareValue the share value
-	 */
-	public final void setShareValue(final Double shareValue) {
-		this.shareValue = shareValue;
-	}
-
-	@Override
-	public final String toString() {
-		return "Index value : " + shareValue;
 	}
 }

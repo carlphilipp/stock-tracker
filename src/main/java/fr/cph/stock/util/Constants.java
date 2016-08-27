@@ -118,6 +118,7 @@ public enum Constants {
 	public static final String UPDATE_TIME = "updateTime";
 	public static final String UPDATE_STATUS = "updateStatus";
 	public static final String UNIT_COST_PRICE = "unitCostPrice";
+	public static final String UNKNOWN = "Unknown";
 
 	public static final String WARN = "warn";
 

@@ -55,9 +55,4 @@ public class Account {
 		json.addProperty(LIQUIDITY, liquidity);
 		return json;
 	}
-
-	@Override
-	public final String toString() {
-		return "[Account;id=" + id + "userId=" + userId + ";name=" + name + ";currency=" + currency + ";liquidity=" + liquidity + "]";
-	}
 }

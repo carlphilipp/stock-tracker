@@ -17,10 +17,10 @@
 package fr.cph.stock.entities;
 
 import com.google.gson.JsonObject;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Locale;
 
 import static fr.cph.stock.util.Constants.LOGIN;
 import static fr.cph.stock.util.Constants.PASSWORD;
@@ -30,60 +30,22 @@ import static fr.cph.stock.util.Constants.PASSWORD;
  *
  * @author Carl-Philipp Harmant
  */
+@Data
 public class User implements Serializable {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -7736017495914032958L;
 
-	/**
-	 * Id
-	 **/
 	private int id;
-	/**
-	 * Login
-	 **/
 	private String login;
-	/**
-	 * Password
-	 **/
 	private String password;
-	/**
-	 * Email
-	 **/
 	private String email;
-	/**
-	 * Locale
-	 **/
 	private String locale;
-	/**
-	 * Timezone
-	 **/
 	private String timeZone;
-	/**
-	 * Time of update
-	 **/
 	private Integer updateHourTime;
-	/**
-	 * Send mail if fail at updating ?
-	 **/
 	private Boolean updateSendMail;
-	/**
-	 * Date pattern
-	 **/
 	private String datePattern;
-	/**
-	 * Date pattern without hours and minutes
-	 **/
 	private String datePatternWithoutHourMin;
-	/**
-	 * Allow to login
-	 **/
 	private Boolean allow;
-	/**
-	 * Last update
-	 **/
 	private Date lastUpdate;
 
 	/**
@@ -103,101 +65,6 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	/**
-	 * Get the id
-	 *
-	 * @return the id
-	 */
-	public final int getId() {
-		return id;
-	}
-
-	/**
-	 * Set the id
-	 *
-	 * @param id the id
-	 */
-	public final void setId(final int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Get the login
-	 *
-	 * @return the login
-	 */
-	public final String getLogin() {
-		return login;
-	}
-
-	/**
-	 * Set the login
-	 *
-	 * @param login the login
-	 */
-	public final void setLogin(final String login) {
-		this.login = login;
-	}
-
-	/**
-	 * Get the password
-	 *
-	 * @return the password
-	 */
-	public final String getPassword() {
-		return password;
-	}
-
-	/**
-	 * Set password
-	 *
-	 * @param password the password
-	 */
-	public final void setPassword(final String password) {
-		this.password = password;
-	}
-
-	/**
-	 * Get email
-	 *
-	 * @return the email
-	 */
-	public final String getEmail() {
-		return email;
-	}
-
-	/**
-	 * Set email
-	 *
-	 * @param email the email
-	 */
-	public final void setEmail(final String email) {
-		this.email = email;
-	}
-
-	/**
-	 * Get locale
-	 *
-	 * @return the locale
-	 */
-	public final String getLocale() {
-		return locale;
-	}
-
-	/**
-	 * Set locale
-	 *
-	 * @param locale the locale
-	 */
-	public final void setLocale(final Locale locale) {
-		this.locale = locale.toString();
-	}
-
-	/**
-	 * Set locale with a string
-	 *
-	 * @param locale the locale
-	 */
 	public final void setLocale(final String locale) {
 		this.locale = locale;
 	}
@@ -220,32 +87,6 @@ public class User implements Serializable {
 		this.lastUpdate = (Date) lastUpdate.clone();
 	}
 
-	/**
-	 * Get timezone
-	 *
-	 * @return the timezone
-	 */
-	public final String getTimeZone() {
-		return timeZone;
-	}
-
-	/**
-	 * Set timezone
-	 *
-	 * @param timeZone the timezone
-	 */
-	public final void setTimeZone(final String timeZone) {
-		this.timeZone = timeZone;
-	}
-
-	/**
-	 * Get date pattern
-	 *
-	 * @return the date pattern
-	 */
-	public final String getDatePattern() {
-		return datePattern;
-	}
 
 	/**
 	 * Set date pattern
@@ -255,78 +96,6 @@ public class User implements Serializable {
 	public final void setDatePattern(final String datePattern) {
 		this.datePattern = datePattern;
 		setDatePatternWithoutHourMin(datePattern.substring(0, datePattern.indexOf(' ')));
-	}
-
-	/**
-	 * Get date pattern without hour and min
-	 *
-	 * @return the date pattern
-	 */
-	public final String getDatePatternWithoutHourMin() {
-		return datePatternWithoutHourMin;
-	}
-
-	/**
-	 * Set date pattern without hour min
-	 *
-	 * @param datePatternWithoutHourMin the date pattern
-	 */
-	public final void setDatePatternWithoutHourMin(final String datePatternWithoutHourMin) {
-		this.datePatternWithoutHourMin = datePatternWithoutHourMin;
-	}
-
-	/**
-	 * Get allow
-	 *
-	 * @return if the user is allowed or not to enter the website
-	 */
-	public final Boolean getAllow() {
-		return allow;
-	}
-
-	/**
-	 * Set allow
-	 *
-	 * @param allow the boolean that will tell if the user is allowed to enter the website
-	 */
-	public final void setAllow(final Boolean allow) {
-		this.allow = allow;
-	}
-
-	/**
-	 * Get update hour time
-	 *
-	 * @return the hour time
-	 */
-	public final Integer getUpdateHourTime() {
-		return updateHourTime;
-	}
-
-	/**
-	 * Set update hour time
-	 *
-	 * @param updateHourTime the hour time
-	 */
-	public final void setUpdateHourTime(final Integer updateHourTime) {
-		this.updateHourTime = updateHourTime;
-	}
-
-	/**
-	 * Get if an email must be send when update did not work
-	 *
-	 * @return true or false
-	 */
-	public final Boolean getUpdateSendMail() {
-		return updateSendMail;
-	}
-
-	/**
-	 * Set if an email must be send when update did not work
-	 *
-	 * @param updateSendMail true or false
-	 */
-	public final void setUpdateSendMail(final Boolean updateSendMail) {
-		this.updateSendMail = updateSendMail;
 	}
 
 	/**
@@ -353,7 +122,7 @@ public class User implements Serializable {
 	 * @return a JSONObject
 	 */
 	public final JsonObject getJSONObject() {
-		JsonObject json = new JsonObject();
+		final JsonObject json = new JsonObject();
 		json.addProperty("id", getId());
 		json.addProperty(LOGIN, getLogin());
 		json.addProperty(PASSWORD, getPassword());
@@ -368,5 +137,4 @@ public class User implements Serializable {
 		json.addProperty("lastUpdate", getLastUpdate() != null ? getLastUpdate().toString() : "");
 		return json;
 	}
-
 }

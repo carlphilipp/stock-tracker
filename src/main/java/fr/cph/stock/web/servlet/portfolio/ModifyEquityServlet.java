@@ -98,14 +98,14 @@ public class ModifyEquityServlet extends HttpServlet {
 		if (request.getParameter(MANUAL) != null) {
 			final String id = request.getParameter(ID);
 			final String companyId = request.getParameter(COMPANY_ID);
-			equity.setid(Integer.parseInt(id));
+			equity.setId(Integer.parseInt(id));
 			equityBusiness.deleteEquity(equity);
 			final Company company = new Company();
 			company.setId(Integer.parseInt(companyId));
 			companyBusiness.deleteCompany(company);
 		} else {
 			final String id = request.getParameter(ID);
-			equity.setid(Integer.parseInt(id));
+			equity.setId(Integer.parseInt(id));
 			equityBusiness.deleteEquity(equity);
 		}
 	}

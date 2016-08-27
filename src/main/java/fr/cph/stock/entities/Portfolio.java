@@ -24,6 +24,8 @@ import fr.cph.stock.entities.chart.TimeChart;
 import fr.cph.stock.entities.chart.TimeValueChart;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.MarketCapitalization;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -32,8 +34,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import static fr.cph.stock.util.Constants.CURRENCY;
-import static fr.cph.stock.util.Constants.LIQUIDITY;
+import static fr.cph.stock.util.Constants.*;
 
 /**
  * This class represents a portofolio that belongs to a user
@@ -46,51 +47,40 @@ public class Portfolio {
 	 **/
 	private final MathContext mathContext = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
-	/**
-	 * Id
-	 **/
+	@Getter
+	@Setter
 	private int id;
-	/**
-	 * User Id that get this portfolio
-	 **/
+	@Getter
+	@Setter
 	private int userId;
-	/**
-	 * Currency
-	 **/
+	@Getter
+	@Setter
 	private Currency currency;
-	/**
-	 * Liquidity
-	 **/
+	@Getter
+	@Setter
 	private Double liquidity;
-	/**
-	 * List of equities
-	 **/
+	@Getter
+	@Setter
 	private List<Equity> equities;
-	/**
-	 * List of share value
-	 **/
+	@Getter
+	@Setter
 	private List<ShareValue> shareValues;
-	/**
-	 * List of accounts
-	 **/
+	@Getter
+	@Setter
 	private List<Account> accounts;
-	/**
-	 * Map representing the indexes
-	 **/
+	@Getter
+	@Setter
 	private Map<String, List<Index>> indexes;
 
 	// Calculated
 	/**
 	 * Total quantity
 	 **/
+	@Getter
 	private Double totalQuantity;
-	/**
-	 * Average unit cost price
-	 **/
+	@Getter
 	private Double averageUnitCostPrice;
-	/**
-	 * Average quote price
-	 **/
+	@Getter
 	private Double averageQuotePrice;
 	/**
 	 * Total value
@@ -144,13 +134,9 @@ public class Portfolio {
 	 * Current share value taxes
 	 **/
 	private Double currentShareValuesVolume;
-	/**
-	 * Total variation percentage
-	 **/
+	@Getter
 	private Double totalVariation;
-	/**
-	 * Total gain today
-	 **/
+	@Getter
 	private Double totalGainToday;
 	/**
 	 * Map that represents data of sector chart
@@ -182,126 +168,6 @@ public class Portfolio {
 		totalGain = 0d;
 		yieldYearPerc = 0d;
 		indexes = new HashMap<>();
-	}
-
-	/**
-	 * Get currency
-	 *
-	 * @return the currency
-	 */
-	public final Currency getCurrency() {
-		return currency;
-	}
-
-	/**
-	 * Set the currency
-	 *
-	 * @param currency the currency
-	 */
-	public final void setCurrency(final Currency currency) {
-		this.currency = currency;
-	}
-
-	/**
-	 * Get equities
-	 *
-	 * @return the equities
-	 */
-	public final List<Equity> getEquities() {
-		return equities;
-	}
-
-	/**
-	 * Set equities
-	 *
-	 * @param equities the equities
-	 */
-	public final void setEquities(final List<Equity> equities) {
-		this.equities = equities;
-	}
-
-	/**
-	 * Get id
-	 *
-	 * @return the id
-	 */
-	public final int getId() {
-		return id;
-	}
-
-	/**
-	 * Set id
-	 *
-	 * @param id the id
-	 */
-	public final void setId(final int id) {
-		this.id = id;
-	}
-
-	/**
-	 * Get user id
-	 *
-	 * @return the user id
-	 */
-	public final int getUserId() {
-		return userId;
-	}
-
-	/**
-	 * Set user id
-	 *
-	 * @param userId the user id
-	 */
-	public final void setUserId(final int userId) {
-		this.userId = userId;
-	}
-
-	@Override
-	public final String toString() {
-		return id + " - UserId: " + userId + " - Currency - " + currency + "\n" + equities;
-	}
-
-	/**
-	 * Get liquidity
-	 *
-	 * @return the liquidity
-	 */
-	public final Double getLiquidity() {
-		return liquidity;
-	}
-
-	/**
-	 * Set liquidity
-	 *
-	 * @param liquidity the liquidity
-	 */
-	public final void setLiquidity(final Double liquidity) {
-		this.liquidity = liquidity;
-	}
-
-	/**
-	 * Get total quantity
-	 *
-	 * @return the total quantity
-	 */
-	public final Double getTotalQuantity() {
-		return totalQuantity;
-	}
-
-	/**
-	 * @return the average unit cost price
-	 */
-	public final Double getAverageUnitCostPrice() {
-		return averageUnitCostPrice;
-	}
-
-	/**
-	 * Get average quote price
-	 *
-	 * @return the average quote price
-	 */
-	public final Double getAverageQuotePrice() {
-		return averageQuotePrice;
 	}
 
 	/**
@@ -350,48 +216,12 @@ public class Portfolio {
 	}
 
 	/**
-	 * Get a map containing all the data indexes
-	 *
-	 * @return a map with (Index name) => List of Index
-	 */
-	public final Map<String, List<Index>> getIndexes() {
-		return indexes;
-	}
-
-	/**
-	 * Set a map containing all the data indexes
-	 *
-	 * @param indexes a map with (Index name) => List of Index
-	 */
-	public final void setIndexes(final Map<String, List<Index>> indexes) {
-		this.indexes = indexes;
-	}
-
-	/**
 	 * Get Yield per year in percentage
 	 *
 	 * @return a double
 	 */
 	public final Double getYieldYearPerc() {
 		return yieldYearPerc;
-	}
-
-	/**
-	 * Get a list of share value
-	 *
-	 * @return a list of share value
-	 */
-	public final List<ShareValue> getShareValues() {
-		return shareValues;
-	}
-
-	/**
-	 * Set the share value
-	 *
-	 * @param shareValues a list of share value
-	 */
-	public final void setShareValues(final List<ShareValue> shareValues) {
-		this.shareValues = shareValues;
 	}
 
 	/**
@@ -461,10 +291,6 @@ public class Portfolio {
 			yieldYearPerc = yieldYear / getTotalValue() * PERCENT;
 			setLastCompanyUpdate(lastUpdate);
 		}
-	}
-
-	public final Double getTotalGainToday() {
-		return totalGainToday;
 	}
 
 	public final Double getTotalGainTodayAbsolute() {
@@ -572,12 +398,12 @@ public class Portfolio {
 				if (!e.getCompany().getFund()) {
 					MarketCapitalization marketCap = e.getMarketCapitalizationType();
 					if (marketCap == null) {
-						if (data.containsKey("Unknown")) {
-							Double d = data.get("Unknown");
+						if (data.containsKey(UNKNOWN)) {
+							Double d = data.get(UNKNOWN);
 							d += e.getValue();
-							data.put("Unknown", d);
+							data.put(UNKNOWN, d);
 						} else {
-							data.put("Unknown", e.getValue());
+							data.put(UNKNOWN, e.getValue());
 						}
 					} else {
 						if (data.containsKey(marketCap.getValue())) {
@@ -589,12 +415,12 @@ public class Portfolio {
 						}
 					}
 				} else {
-					if (data.containsKey("Unknown")) {
-						Double d = data.get("Unknown");
+					if (data.containsKey(UNKNOWN)) {
+						Double d = data.get(UNKNOWN);
 						d += e.getValue();
-						data.put("Unknown", d);
+						data.put(UNKNOWN, d);
 					} else {
-						data.put("Unknown", e.getValue());
+						data.put(UNKNOWN, e.getValue());
 					}
 				}
 			}
@@ -706,24 +532,6 @@ public class Portfolio {
 			timechart.generate();
 		}
 		return timechart;
-	}
-
-	/**
-	 * Get List of accounts
-	 *
-	 * @return the list of accounts
-	 */
-	public final List<Account> getAccounts() {
-		return accounts;
-	}
-
-	/**
-	 * Set list of accounts
-	 *
-	 * @param accounts the list of accounts
-	 */
-	public final void setAccounts(final List<Account> accounts) {
-		this.accounts = accounts;
 	}
 
 	/**
@@ -936,11 +744,9 @@ public class Portfolio {
 	 */
 	public final Date getMaxShareValueDate() {
 		generateShareValueInfo();
-		if (maxShareValueDate != null) {
-			return (Date) maxShareValueDate.clone();
-		} else {
-			return null;
-		}
+		return maxShareValueDate != null
+			? (Date) maxShareValueDate.clone()
+			: null;
 	}
 
 	/**
@@ -1056,14 +862,5 @@ public class Portfolio {
 		json.addProperty("totalVariation", totalVariation);
 
 		return json;
-	}
-
-	/**
-	 * Get total variation
-	 *
-	 * @return the total variation
-	 */
-	public final Double getTotalVariation() {
-		return totalVariation;
 	}
 }

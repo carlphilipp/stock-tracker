@@ -58,9 +58,4 @@ public class CurrencyData {
 	public final void setLastUpdate(final Date lastUpdate) {
 		this.lastUpdate = (Date) lastUpdate.clone();
 	}
-
-	@Override
-	public final String toString() {
-		return currency1 + " " + currency2 + " " + lastUpdate;
-	}
 }
