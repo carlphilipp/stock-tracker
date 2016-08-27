@@ -34,12 +34,12 @@ import java.util.Map;
 @Singleton
 public class IndexDAO implements DAO<Index> {
 
-	private static final String INSERT = "IndexDao.insertOneIndex";
-	private static final String SELECT = "IndexDao.selectOneIndex";
-	private static final String UPDATE = "IndexDao.updateOneIndex";
-	private static final String DELETE = "IndexDao.deleteOneIndex";
-	private static final String SELECT_FROM_TO = "IndexDao.selectListIndexFromTo";
-	private static final String SELECT_LAST = "IndexDao.selectLastIndex";
+	private static final String INSERT = "fr.cph.stock.dao.IndexDao.insertOneIndex";
+	private static final String SELECT = "fr.cph.stock.dao.IndexDao.selectOneIndex";
+	private static final String UPDATE = "fr.cph.stock.dao.IndexDao.updateOneIndex";
+	private static final String DELETE = "fr.cph.stock.dao.IndexDao.deleteOneIndex";
+	private static final String SELECT_FROM_TO = "fr.cph.stock.dao.IndexDao.selectListIndexFromTo";
+	private static final String SELECT_LAST = "fr.cph.stock.dao.IndexDao.selectLastIndex";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

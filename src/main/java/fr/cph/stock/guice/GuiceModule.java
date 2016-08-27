@@ -7,14 +7,16 @@ import fr.cph.stock.business.impl.*;
 import fr.cph.stock.dao.*;
 import fr.cph.stock.dropbox.DropBox;
 import fr.cph.stock.dropbox.DropBoxImpl;
-import fr.cph.stock.external.IExternalDataAccess;
-import fr.cph.stock.external.YahooExternalDataAccess;
+import fr.cph.stock.external.ExternalDataAccess;
+import fr.cph.stock.external.impl.ExternalDataAccessImpl;
+import fr.cph.stock.external.YahooGateway;
+import fr.cph.stock.external.impl.YahooGatewayImpl;
 
 class GuiceModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bind(IExternalDataAccess.class).to(YahooExternalDataAccess.class);
+		bind(ExternalDataAccess.class).to(ExternalDataAccessImpl.class);
 
 		bind(DAO.class).annotatedWith(Names.named("Account")).to(AccountDAO.class);
 		bind(DAO.class).annotatedWith(Names.named("Company")).to(CompanyDAO.class);
@@ -36,5 +38,7 @@ class GuiceModule extends AbstractModule {
 		bind(UserBusiness.class).to(UserBusinessImpl.class);
 
 		bind(DropBox.class).to(DropBoxImpl.class);
+
+		bind(YahooGateway.class).to(YahooGatewayImpl.class);
 	}
 }

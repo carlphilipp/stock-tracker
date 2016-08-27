@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.external;
+package fr.cph.stock.external.impl;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.CurrencyData;
@@ -27,6 +28,8 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
+import fr.cph.stock.external.ExternalDataAccess;
+import fr.cph.stock.external.YahooGateway;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -42,13 +45,13 @@ import java.util.List;
 import static fr.cph.stock.util.Constants.QUOTE;
 
 /**
- * This class connect to yahooGateway api and convert the jsonObjects to java bean of the app
+ * This class connect to yahooGatewayImpl api and convert the jsonObjects to java bean of the app
  *
  * @author Carl-Philipp Harmant
  */
 @Log4j2
 @Singleton
-public class YahooExternalDataAccess implements IExternalDataAccess {
+public class ExternalDataAccessImpl implements ExternalDataAccess {
 
 	private static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -81,11 +84,8 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	private static final String YEAR_LOW = "YearLow";
 	private static final String YEAR_HIGH = "YearHigh";
 
+	@Inject
 	private YahooGateway yahooGateway;
-
-	public YahooExternalDataAccess() {
-		yahooGateway = YahooGateway.INSTANCE;
-	}
 
 	// TODO sounds like we need GSON or Jackson here.
 	@Override
@@ -332,7 +332,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	 *
 	 * @param json the jsonObject
 	 * @return a jsonArray
-	 * @throws YahooException the yahooGateway exception
+	 * @throws YahooException the yahooGatewayImpl exception
 	 */
 	private JsonArray getJSONArrayFromJSONObject(final JsonObject json) throws YahooException {
 		final JsonObject jQuery = json.getAsJsonObject(QUERY);
@@ -351,7 +351,6 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 						} else {
 							throw new YahooException(error2.getAsJsonObject("content").getAsString());
 						}
-
 					} else {
 						quotes = new JsonArray();
 						quotes.add(quote);
@@ -394,7 +393,7 @@ public class YahooExternalDataAccess implements IExternalDataAccess {
 	/**
 	 * Guess the market from the id
 	 *
-	 * @param yahooId the yahooGateway id
+	 * @param yahooId the yahooGatewayImpl id
 	 * @return a Market
 	 */
 	private Market guessMarket(final String yahooId) {

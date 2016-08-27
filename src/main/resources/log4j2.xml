@@ -18,7 +18,15 @@
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
 		</Logger>
+		<Logger name="fr.cph.stock.dao" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</Logger>
 		<Logger name="org.quartz.core" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</Logger>
+		<Logger name="org.apache.ibatis" level="info" additivity="false">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
 		</Logger>

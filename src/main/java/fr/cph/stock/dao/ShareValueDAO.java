@@ -29,12 +29,12 @@ import org.apache.ibatis.session.SqlSession;
 @Singleton
 public class ShareValueDAO implements DAO<ShareValue> {
 
-	private static final String INSERT = "ShareValue.insertOneShareValue";
-	private static final String SELECT = "ShareValue.selectOneShareValue";
-	private static final String UPDATE = "ShareValue.updateOneShareValue";
-	private static final String DELETE = "ShareValue.deleteOneShareValue";
-	private static final String INSERT_WITH_DATE = "ShareValue.insertOneShareValueWithDate";
-	private static final String SELECT_LAST_VALUE = "ShareValue.selectLastValue";
+	private static final String INSERT = "fr.cph.stock.dao.ShareValue.insertOneShareValue";
+	private static final String SELECT = "fr.cph.stock.dao.ShareValue.selectOneShareValue";
+	private static final String UPDATE = "fr.cph.stock.dao.ShareValue.updateOneShareValue";
+	private static final String DELETE = "fr.cph.stock.dao.ShareValue.deleteOneShareValue";
+	private static final String INSERT_WITH_DATE = "fr.cph.stock.dao.ShareValue.insertOneShareValueWithDate";
+	private static final String SELECT_LAST_VALUE = "fr.cph.stock.dao.ShareValue.selectLastValue";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

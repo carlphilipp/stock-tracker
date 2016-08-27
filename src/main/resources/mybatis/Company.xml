@@ -16,7 +16,7 @@
  -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="CompanyDao">
+<mapper namespace="fr.cph.stock.dao.CompanyDao">
 	<insert id="insertOneCompany" parameterType="Company">
 		insert into company (id, yahooId, name, market, currency, industry, sector, quote,
 		yesterdayClose, changeInPercent, yield,

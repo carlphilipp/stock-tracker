@@ -32,13 +32,13 @@ import java.util.List;
 @Singleton
 public class CurrencyDAO implements DAO<CurrencyData> {
 
-	private static final String INSERT = "CurrencyData.insertOneCurrencyData";
-	private static final String SELECT = "CurrencyData.selectOneCurrencyData";
-	private static final String UPDATE = "CurrencyData.updateOneCurrencyData";
-	private static final String DELETE = "CurrencyData.deleteOneCurrencyData";
-	private static final String SELECT_WITH_PARAM = "CurrencyData.selectOneCurrencyDataWithParam";
-	private static final String SELECT_LIST = "CurrencyData.selectListCurrencyData";
-	private static final String SELECT_LIST_ALL = "CurrencyData.selectListAllCurrencyData";
+	private static final String INSERT = "fr.cph.stock.dao.CurrencyData.insertOneCurrencyData";
+	private static final String SELECT = "fr.cph.stock.dao.CurrencyData.selectOneCurrencyData";
+	private static final String UPDATE = "fr.cph.stock.dao.CurrencyData.updateOneCurrencyData";
+	private static final String DELETE = "fr.cph.stock.dao.CurrencyData.deleteOneCurrencyData";
+	private static final String SELECT_WITH_PARAM = "fr.cph.stock.dao.CurrencyData.selectOneCurrencyDataWithParam";
+	private static final String SELECT_LIST = "fr.cph.stock.dao.CurrencyData.selectListCurrencyData";
+	private static final String SELECT_LIST_ALL = "fr.cph.stock.dao.CurrencyData.selectListAllCurrencyData";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

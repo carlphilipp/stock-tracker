@@ -11,7 +11,7 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
-import fr.cph.stock.external.IExternalDataAccess;
+import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
@@ -28,7 +28,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	private static final int PAUSE = 1000;
 
 	@Inject
-	private IExternalDataAccess yahoo;
+	private ExternalDataAccess yahoo;
 	private CompanyDAO companyDAO;
 
 	@Inject

@@ -8,7 +8,7 @@ import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.IndexDAO;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.external.IExternalDataAccess;
+import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Util;
 import lombok.extern.log4j.Log4j2;
 
@@ -27,10 +27,10 @@ public class IndexBusinessImpl implements IndexBusiness {
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 
 	private final IndexDAO indexDAO;
-	private final IExternalDataAccess yahoo;
+	private final ExternalDataAccess yahoo;
 
 	@Inject
-	public IndexBusinessImpl(@Named("Index") final DAO dao, final IExternalDataAccess yahoo) {
+	public IndexBusinessImpl(@Named("Index") final DAO dao, final ExternalDataAccess yahoo) {
 		indexDAO = (IndexDAO) dao;
 		this.yahoo = yahoo;
 	}

@@ -35,13 +35,13 @@ import static fr.cph.stock.util.Constants.MANUAL;
 @Singleton
 public class CompanyDAO implements DAO<Company> {
 
-	private static final String INSERT = "CompanyDao.insertOneCompany";
-	private static final String SELECT = "CompanyDao.selectOneCompany";
-	private static final String UPDATE = "CompanyDao.updateOneCompany";
-	private static final String DELETE = "CompanyDao.deleteOneCompany";
-	private static final String SELECT_WITH_ID = "CompanyDao.selectOneCompanyWithYahooId";
-	private static final String SELECT_NOT_REAL_TIME = "CompanyDao.selectAllCompanyNotRealTime";
-	private static final String SELECT_UNUSED = "CompanyDao.selectAllUnusedCompanyIds";
+	private static final String INSERT = "fr.cph.stock.dao.CompanyDao.insertOneCompany";
+	private static final String SELECT = "fr.cph.stock.dao.CompanyDao.selectOneCompany";
+	private static final String UPDATE = "fr.cph.stock.dao.CompanyDao.updateOneCompany";
+	private static final String DELETE = "fr.cph.stock.dao.CompanyDao.deleteOneCompany";
+	private static final String SELECT_WITH_ID = "fr.cph.stock.dao.CompanyDao.selectOneCompanyWithYahooId";
+	private static final String SELECT_NOT_REAL_TIME = "fr.cph.stock.dao.CompanyDao.selectAllCompanyNotRealTime";
+	private static final String SELECT_UNUSED = "fr.cph.stock.dao.CompanyDao.selectAllUnusedCompanyIds";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

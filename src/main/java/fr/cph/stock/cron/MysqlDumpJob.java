@@ -35,12 +35,8 @@ import java.io.File;
 @Log4j2
 public class MysqlDumpJob implements Job {
 
-	private DropBox dropBox;
-
 	@Inject
-	public void setDropBox(final DropBox dropBox) {
-		this.dropBox = dropBox;
-	}
+	private DropBox dropBox;
 
 	@Override
 	public final void execute(final JobExecutionContext context) {

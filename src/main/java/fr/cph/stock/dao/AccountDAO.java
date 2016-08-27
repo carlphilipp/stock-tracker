@@ -29,10 +29,10 @@ import org.apache.ibatis.session.SqlSession;
 @Singleton
 public class AccountDAO implements DAO<Account> {
 
-	private static final String INSERT = "AccountDao.insertOneAccount";
-	private static final String SELECT = "AccountDao.selectOneAccount";
-	private static final String UPDATE = "AccountDao.updateOneAccount";
-	private static final String DELETE = "AccountDao.deleteOneAccount";
+	private static final String INSERT = "fr.cph.stock.dao.AccountDao.insertOneAccount";
+	private static final String SELECT = "fr.cph.stock.dao.AccountDao.selectOneAccount";
+	private static final String UPDATE = "fr.cph.stock.dao.AccountDao.updateOneAccount";
+	private static final String DELETE = "fr.cph.stock.dao.AccountDao.deleteOneAccount";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

@@ -34,11 +34,11 @@ import java.util.Map;
 @Singleton
 public class FollowDAO implements DAO<Follow> {
 
-	private static final String INSERT = "FollowDao.insertOneFollow";
-	private static final String SELECT = "FollowDao.selectOneFollow";
-	private static final String UPDATE = "FollowDao.updateOneFollow";
-	private static final String DELETE = "FollowDao.deleteOneFollow";
-	private static final String SELECT_LIST = "FollowDao.selectListFollow";
+	private static final String INSERT = "fr.cph.stock.dao.FollowDao.insertOneFollow";
+	private static final String SELECT = "fr.cph.stock.dao.FollowDao.selectOneFollow";
+	private static final String UPDATE = "fr.cph.stock.dao.FollowDao.updateOneFollow";
+	private static final String DELETE = "fr.cph.stock.dao.FollowDao.deleteOneFollow";
+	private static final String SELECT_LIST = "fr.cph.stock.dao.FollowDao.selectListFollow";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

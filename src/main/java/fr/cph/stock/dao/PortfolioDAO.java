@@ -37,16 +37,16 @@ import java.util.Map;
 @Singleton
 public class PortfolioDAO implements DAO<Portfolio> {
 
-	private static final String INSERT = "PortfolioDao.insertOnePortfolio";
-	private static final String SELECT = "PortfolioDao.selectOnePortfolio";
-	private static final String UPDATE = "PortfolioDao.updateOnePortfolio";
-	private static final String DELETE = "PortfolioDao.deleteOnePortfolio";
-	private static final String SELECT_WITH_ID = "PortfolioDao.selectPortfolioWithId";
-	private static final String SELECT_EQUITY = "PortfolioDao.selectEquityFromPortfolio";
-	private static final String ACCOUNT_SELECT = "AccountDao.selectAllAccountWithUserId";
-	private static final String SHARE_VALUE_SELECT = "ShareValue.selectAllValue";
-	private static final String SHARE_VALUE_SELECT_FROM = "ShareValue.selectShareValueFrom";
-	private static final String SHARE_VALUE_SELECT_TO = "ShareValue.selectShareValueFromTo";
+	private static final String INSERT = "fr.cph.stock.dao.PortfolioDao.insertOnePortfolio";
+	private static final String SELECT = "fr.cph.stock.dao.PortfolioDao.selectOnePortfolio";
+	private static final String UPDATE = "fr.cph.stock.dao.PortfolioDao.updateOnePortfolio";
+	private static final String DELETE = "fr.cph.stock.dao.PortfolioDao.deleteOnePortfolio";
+	private static final String SELECT_WITH_ID = "fr.cph.stock.dao.PortfolioDao.selectPortfolioWithId";
+	private static final String SELECT_EQUITY = "fr.cph.stock.dao.PortfolioDao.selectEquityFromPortfolio";
+	private static final String ACCOUNT_SELECT = "fr.cph.stock.dao.AccountDao.selectAllAccountWithUserId";
+	private static final String SHARE_VALUE_SELECT = "fr.cph.stock.dao.ShareValue.selectAllValue";
+	private static final String SHARE_VALUE_SELECT_FROM = "fr.cph.stock.dao.ShareValue.selectShareValueFrom";
+	private static final String SHARE_VALUE_SELECT_TO = "fr.cph.stock.dao.ShareValue.selectShareValueFromTo";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

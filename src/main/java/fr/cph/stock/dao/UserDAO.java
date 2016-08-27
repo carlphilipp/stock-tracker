@@ -31,14 +31,14 @@ import java.util.List;
 @Singleton
 public class UserDAO implements DAO<User> {
 
-	private static final String INSERT = "UserDao.insertOneUser";
-	private static final String SELECT = "UserDao.selectOneUser";
-	private static final String UPDATE = "UserDao.updateOneUser";
-	private static final String DELETE = "UserDao.deleteOneUser";
-	private static final String UPDATE_PASSWORD = "UserDao.updateOneUserPassword";
-	private static final String SELECT_WITH_LOGIN = "UserDao.selectOneUserWithLogin";
-	private static final String SELECT_WITH_EMAIL = "UserDao.selectOneUserWithEmail";
-	private static final String SELECT_ALL_USER = "UserDao.selectAllUsers";
+	private static final String INSERT = "fr.cph.stock.dao.UserDao.insertOneUser";
+	private static final String SELECT = "fr.cph.stock.dao.UserDao.selectOneUser";
+	private static final String UPDATE = "fr.cph.stock.dao.UserDao.updateOneUser";
+	private static final String DELETE = "fr.cph.stock.dao.UserDao.deleteOneUser";
+	private static final String UPDATE_PASSWORD = "fr.cph.stock.dao.UserDao.updateOneUserPassword";
+	private static final String SELECT_WITH_LOGIN = "fr.cph.stock.dao.UserDao.selectOneUserWithLogin";
+	private static final String SELECT_WITH_EMAIL = "fr.cph.stock.dao.UserDao.selectOneUserWithEmail";
+	private static final String SELECT_ALL_USER = "fr.cph.stock.dao.UserDao.selectAllUsers";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

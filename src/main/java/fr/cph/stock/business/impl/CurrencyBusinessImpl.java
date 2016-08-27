@@ -9,7 +9,7 @@ import fr.cph.stock.dao.DAO;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.external.IExternalDataAccess;
+import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Util;
 import lombok.extern.log4j.Log4j2;
 
@@ -22,11 +22,11 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	private static final int PAUSE = 1000;
 
-	private IExternalDataAccess yahoo;
+	private ExternalDataAccess yahoo;
 	private CurrencyDAO currencyDAO;
 
 	@Inject
-	public CurrencyBusinessImpl(final IExternalDataAccess yahoo, @Named("Currency") final DAO dao) {
+	public CurrencyBusinessImpl(final ExternalDataAccess yahoo, @Named("Currency") final DAO dao) {
 		this.yahoo = yahoo;
 		currencyDAO = (CurrencyDAO) dao;
 	}

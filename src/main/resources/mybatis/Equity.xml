@@ -16,7 +16,7 @@
  -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="EquityDao">
+<mapper namespace="fr.cph.stock.dao.EquityDao">
 	<insert id="insertOneEquity" parameterType="Equity">
 		insert into equity (id, portfolioId, companyId, namePersonal, quantity, unitCostPrice, yieldPersonal, parityPersonal,
 		stopLossLocal, objectivLocal, yieldFrequency, yieldMonth, lastUpdate)

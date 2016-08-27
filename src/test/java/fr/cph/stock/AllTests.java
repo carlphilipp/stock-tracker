@@ -20,7 +20,7 @@ import fr.cph.stock.business.impl.AccountBusinessTest;
 import fr.cph.stock.business.impl.CompanyBusinessTest;
 import fr.cph.stock.dao.UserDaoImplTest;
 import fr.cph.stock.entities.UserTest;
-import fr.cph.stock.external.YahooGatewayTest;
+import fr.cph.stock.external.YahooGatewayImplTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -32,7 +32,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 	UserDaoImplTest.class,
 	UserTest.class,
-	YahooGatewayTest.class
+	YahooGatewayImplTest.class
 })
 public class AllTests {
 

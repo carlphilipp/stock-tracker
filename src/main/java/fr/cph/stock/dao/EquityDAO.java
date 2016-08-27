@@ -30,10 +30,10 @@ import org.apache.ibatis.session.SqlSession;
 @Singleton
 public class EquityDAO implements DAO<Equity> {
 
-	private static final String INSERT = "EquityDao.insertOneEquity";
-	private static final String SELECT = "EquityDao.selectOneEquity";
-	private static final String UPDATE = "EquityDao.updateOneEquity";
-	private static final String DELETE = "EquityDao.deleteOneEquity";
+	private static final String INSERT = "fr.cph.stock.dao.EquityDao.insertOneEquity";
+	private static final String SELECT = "fr.cph.stock.dao.EquityDao.selectOneEquity";
+	private static final String UPDATE = "fr.cph.stock.dao.EquityDao.updateOneEquity";
+	private static final String DELETE = "fr.cph.stock.dao.EquityDao.deleteOneEquity";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 

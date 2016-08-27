@@ -16,7 +16,7 @@
  -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="FollowDao">
+<mapper namespace="fr.cph.stock.dao.FollowDao">
 	<resultMap type="Follow" id="FollowResult">
 		<result property="id" column="followId"/>
 		<result property="companyId" column="companyId"/>

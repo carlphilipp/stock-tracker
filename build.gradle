@@ -80,7 +80,6 @@ dependencies {
 war {
 	archiveName = 'stock-tracker.war'
 	rootSpec.exclude('app.properties.template')
-	rootSpec.exclude('log4j.properties.template')
 	exclude('**/bdd.sql')
 }
 

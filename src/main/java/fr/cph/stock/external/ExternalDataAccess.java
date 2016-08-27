@@ -31,7 +31,7 @@ import java.util.List;
  * @author Carl-Philipp Harmant
  *
  */
-public interface IExternalDataAccess {
+public interface ExternalDataAccess {
 
 	/**
 	 * Get companies data

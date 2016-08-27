@@ -19,15 +19,16 @@ package fr.cph.stock.external;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.external.impl.ExternalDataAccessImpl;
 import org.junit.Test;
 
 import java.util.List;
 
-public final class YahooGatewayTest {
+public final class YahooGatewayImplTest {
 
 	@Test
 	public void testUpdateCurrency() throws YahooException {
-		IExternalDataAccess data = new YahooExternalDataAccess();
+		ExternalDataAccess data = new ExternalDataAccessImpl();
 		Currency currency = Currency.EUR;
 		List<CurrencyData> currenciesData = data.getCurrencyData(currency);
 		//assertEquals(4, currenciesData.size());
