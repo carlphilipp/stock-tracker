@@ -30,7 +30,6 @@ import java.util.Map;
  * This class implements DAO functions and add some more. It access to the Index in DB.
  *
  * @author Carl-Philipp Harmant
- *
  */
 @Singleton
 public class IndexDAO implements DAO<Index> {
@@ -39,7 +38,6 @@ public class IndexDAO implements DAO<Index> {
 	private static final String SELECT = "IndexDao.selectOneIndex";
 	private static final String UPDATE = "IndexDao.updateOneIndex";
 	private static final String DELETE = "IndexDao.deleteOneIndex";
-	private static final String SELECT_WITH_ID = "IndexDao.selectOneIndexWithIdAndIndex";
 	private static final String SELECT_FROM_TO = "IndexDao.selectListIndexFromTo";
 	private static final String SELECT_LAST = "IndexDao.selectLastIndex";
 
@@ -56,19 +54,6 @@ public class IndexDAO implements DAO<Index> {
 	public final Index select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne(SELECT, id);
-		}
-	}
-
-	/**
-	 * Get Index from DB
-	 *
-	 * @param ind
-	 *            the index
-	 * @return an index
-	 */
-	public final Index selectOneIndexWithIdAndIndex(final Index ind) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT_WITH_ID, ind);
 		}
 	}
 
@@ -89,12 +74,9 @@ public class IndexDAO implements DAO<Index> {
 	/**
 	 * Get a list of Index
 	 *
-	 * @param yahooId
-	 *            the index requested
-	 * @param from
-	 *            first date
-	 * @param to
-	 *            second date
+	 * @param yahooId the index requested
+	 * @param from    first date
+	 * @param to      second date
 	 * @return a list of Index
 	 */
 	public final List<Index> selectListFrom(final String yahooId, final Date from, final Date to) {
@@ -110,8 +92,7 @@ public class IndexDAO implements DAO<Index> {
 	/**
 	 * Get last Index
 	 *
-	 * @param yahooId
-	 *            the index requested
+	 * @param yahooId the index requested
 	 * @return and Index with last data
 	 */
 	public final Index selectLast(final String yahooId) {

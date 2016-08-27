@@ -24,9 +24,6 @@
 	<select id="selectOneIndex" parameterType="int" resultType="Index">
 		select * from `index` where id = #{id}
 	</select>
-	<select id="selectOneIndexWithIdAndIndex" parameterType="Index" resultType="Index">
-		select * from `index` where yahooId = #{yahooId} and date = #{date}
-	</select>
 	<update id="updateOneIndex" parameterType="Index">
 		update `index` set email = #{email}, locale = #{locale} where login = #{login};
 	</update>

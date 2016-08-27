@@ -21,8 +21,6 @@ import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.ShareValue;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.List;
-
 /**
  * This class implements DAO functions and add some more. It access to the ShareValue in DB.
  *
@@ -37,7 +35,6 @@ public class ShareValueDAO implements DAO<ShareValue> {
 	private static final String DELETE = "ShareValue.deleteOneShareValue";
 	private static final String INSERT_WITH_DATE = "ShareValue.insertOneShareValueWithDate";
 	private static final String SELECT_LAST_VALUE = "ShareValue.selectLastValue";
-	private static final String SELECT_ALL_VALUE = "ShareValue.selectAllValue";
 
 	private SessionManager sessionManager = SessionManager.INSTANCE;
 
@@ -89,18 +86,6 @@ public class ShareValueDAO implements DAO<ShareValue> {
 	public final ShareValue selectLastValue(final int userId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectOne(SELECT_LAST_VALUE, userId);
-		}
-	}
-
-	/**
-	 * Get all ShareValue of a user
-	 *
-	 * @param userId a user id
-	 * @return a list of share value
-	 */
-	public final List<ShareValue> selectAllValue(final int userId) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList(SELECT_ALL_VALUE, userId);
 		}
 	}
 }

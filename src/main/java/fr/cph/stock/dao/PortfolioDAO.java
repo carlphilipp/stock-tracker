@@ -33,7 +33,6 @@ import java.util.Map;
  * This class implements DAO functions and add some more. It access to the Portfolio in DB.
  *
  * @author Carl-Philipp Harmant
- *
  */
 @Singleton
 public class PortfolioDAO implements DAO<Portfolio> {
@@ -65,19 +64,6 @@ public class PortfolioDAO implements DAO<Portfolio> {
 		}
 	}
 
-	/**
-	 * Get portfolio with user id
-	 *
-	 * @param userId
-	 *            the user id
-	 * @return a Portfolio
-	 */
-	public final Portfolio selectPortfolioWithId(final int userId) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT_WITH_ID, userId);
-		}
-	}
-
 	@Override
 	public final void update(final Portfolio portfolio) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
@@ -95,12 +81,9 @@ public class PortfolioDAO implements DAO<Portfolio> {
 	/**
 	 * Get portfolio, loaded with its equities
 	 *
-	 * @param userId
-	 *            the user id
-	 * @param from
-	 *            the from date
-	 * @param to
-	 *            the to date
+	 * @param userId the user id
+	 * @param from   the from date
+	 * @param to     the to date
 	 * @return a portfolio
 	 */
 	public final Portfolio selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {

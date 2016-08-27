@@ -37,7 +37,4 @@
 	<select id="selectAllAccountWithUserId" parameterType="int" resultType="Account">
 		select * from account where userId = #{userId}
 	</select>
-	<select id="selectOneAccountWithName" parameterType="Map" resultType="Account">
-		select * from account where userId = #{userId} and name = #{name}
-	</select>
 </mapper>

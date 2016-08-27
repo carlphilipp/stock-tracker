@@ -163,7 +163,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the plus minus value
 	 */
-	final Double getPlusMinusUnitCostPriceValue() {
+	public final Double getPlusMinusUnitCostPriceValue() {
 		if (plusMinusUnitCostPriceValue == null) {
 			plusMinusUnitCostPriceValue = getValue() - unitCostPrice * getCurrentParity() * quantity;
 		}
@@ -175,7 +175,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return a yield
 	 */
-	final Double getYieldYear() {
+	public final Double getYieldYear() {
 		if (yieldYear == null) {
 			yieldYear = getCurrentPruYield() * getValue() / PERCENT;
 		}
@@ -187,7 +187,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the plus minus value
 	 */
-	private Double getPlusMinusValue() {
+	public Double getPlusMinusValue() {
 		if (plusMinusValue == null) {
 			if (getUnitCostPrice() == 0) {
 				plusMinusValue = 0.0;
@@ -203,7 +203,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the yield
 	 */
-	private Double getYieldUnitCostPrice() {
+	public Double getYieldUnitCostPrice() {
 		if (yieldUnitCostPrice == null) {
 			yieldUnitCostPrice = getCurrentPruYield();
 		}
@@ -261,7 +261,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the market capitalization
 	 */
-	final MarketCapitalization getMarketCapitalizationType() {
+	public final MarketCapitalization getMarketCapitalizationType() {
 		if (marketCapitalizationType == null) {
 			BigDecimal cap = getMarketCapitalizationLocal();
 			if (cap != null) {
@@ -335,7 +335,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the current sector
 	 */
-	final String getCurrentSector() {
+	public final String getCurrentSector() {
 		return getSectorPersonal() == null ? company.getSector() : getSectorPersonal();
 	}
 
@@ -353,7 +353,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the current market cap
 	 */
-	private String getCurrentMarketCap() {
+	public String getCurrentMarketCap() {
 		return getMarketCapPersonal() == null ? company.getMarketCapitalization() : getMarketCapPersonal();
 	}
 
@@ -399,7 +399,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the current yield
 	 */
-	private Double getCurrentYield() {
+	public Double getCurrentYield() {
 		final Double res = getYieldPersonal() != null
 			? getYieldPersonal() / getCompany().getQuote() * PERCENT
 			: getCompany().getYield() / getCompany().getQuote() * PERCENT;
@@ -435,7 +435,7 @@ public class Equity implements Comparable<Equity> {
 	 *
 	 * @return the current name
 	 */
-	final String getCurrentName() {
+	public final String getCurrentName() {
 		return getNamePersonal() != null ? getNamePersonal() : company.getName();
 	}
 
