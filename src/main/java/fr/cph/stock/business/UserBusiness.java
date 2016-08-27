@@ -12,25 +12,25 @@ import java.util.Date;
 
 public interface UserBusiness {
 
-	void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException;
+	void createUser(String login, String md5Password, String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException;
 
-	User getUser(final String login);
+	User getUser(String login);
 
-	User getUserWithEmail(final String email);
+	User getUserWithEmail(String email);
 
-	void deleteUser(final String login);
+	void deleteUser(String login);
 
-	void validateUser(final String login);
+	void validateUser(String login);
 
-	void updateUser(final User user);
+	void updateUser(User user);
 
-	User checkUser(final String login, final String md5Password) throws LoginException;
+	User checkUser(String login, String md5Password) throws LoginException;
 
-	void updateOneUserPassword(final User user);
+	void updateOneUserPassword(User user);
 
-	Portfolio getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException;
+	Portfolio getUserPortfolio(int userId, Date from, Date to) throws YahooException;
 
-	void updatePortfolio(final Portfolio portfolio);
+	void updatePortfolio(Portfolio portfolio);
 
-	void updateLiquidity(final Account account, final double liquidity);
+	void updateLiquidity(Account account, double liquidity);
 }

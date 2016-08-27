@@ -96,7 +96,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 
 	@Override
 	public final void autoUpdateUserShareValue(final Calendar calendar) throws YahooException {
-		boolean tryToUpdate = false, canUpdate = false;
+		boolean tryToUpdate = false, companyUpdateSuccess = false;
 		final List<User> users = userDAO.selectAllUsers();
 		Portfolio portfolio;
 		Account account;
@@ -115,10 +115,10 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 				final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 				if (hour == currentHour) {
 					if (!tryToUpdate) {
-						canUpdate = companyBusiness.updateAllCompanies();
+						companyUpdateSuccess = companyBusiness.updateAllCompanies();
 						tryToUpdate = true;
 					}
-					if (canUpdate) {
+					if (companyUpdateSuccess) {
 						log.info("Update user portfolio: {}", user.getLogin());
 						portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
 						account = portfolio.getFirstAccount();

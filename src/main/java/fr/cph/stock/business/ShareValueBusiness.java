@@ -21,21 +21,21 @@ public interface ShareValueBusiness {
 	 * @param taxe              the taxe
 	 * @param commentary        the commentary
 	 */
-	void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield, final Double buy, final Double sell, final Double taxe, final String commentary);
+	void updateCurrentShareValue(Portfolio portfolio, Account account, Double liquidityMovement, Double yield, Double buy, Double sell, Double taxe, String commentary);
 
 	/**
 	 * Delete a share value
 	 *
 	 * @param sv the share value
 	 */
-	void deleteShareValue(final ShareValue sv);
+	void deleteShareValue(ShareValue sv);
 
 	/**
 	 * Add a share value
 	 *
 	 * @param share a sharevalue
 	 */
-	void addShareValue(final ShareValue share);
+	void addShareValue(ShareValue share);
 
 	/**
 	 * Auto update all companies data and if there is no error, auto update the share value of selected user
@@ -43,7 +43,7 @@ public interface ShareValueBusiness {
 	 * @param date the date
 	 * @throws YahooException the yahoo exception
 	 */
-	void autoUpdateUserShareValue(final Calendar date) throws YahooException;
+	void autoUpdateUserShareValue(Calendar date) throws YahooException;
 
 	/**
 	 * Get a share value
@@ -51,12 +51,12 @@ public interface ShareValueBusiness {
 	 * @param id the id of the sharevalue to get
 	 * @return a share value
 	 */
-	ShareValue selectOneShareValue(final int id);
+	ShareValue selectOneShareValue(int id);
 
 	/**
 	 * Update commentare in share value
 	 *
 	 * @param sv the share value
 	 */
-	void updateCommentaryShareValue(final ShareValue sv);
+	void updateCommentaryShareValue(ShareValue sv);
 }

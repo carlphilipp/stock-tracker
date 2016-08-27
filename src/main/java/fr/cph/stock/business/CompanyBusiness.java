@@ -8,19 +8,19 @@ import java.util.List;
 
 public interface CompanyBusiness {
 
-	List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException;
+	List<Company> addOrUpdateCompanies(List<String> tickers) throws YahooException;
 
 	void updateCompaniesNotRealTime();
 
-	void deleteCompany(final Company company);
+	void deleteCompany(Company company);
 
-	String addOrUpdateCompaniesLimitedRequest(final List<String> companiesYahooIdRealTime) throws YahooException;
+	String addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException;
 
-	Company createManualCompany(final String name, final String industry, final String sector, final Currency currency, final double quote);
+	Company createManualCompany(String name, String industry, String sector, Currency currency, double quote);
 
-	void updateCompanyManual(final Integer companyId, final Double newQuote);
+	void updateCompanyManual(Integer companyId, Double newQuote);
 
-	Company addOrUpdateCompany(final String ticker) throws YahooException;
+	Company addOrUpdateCompany(String ticker) throws YahooException;
 
 	void cleanDB();
 

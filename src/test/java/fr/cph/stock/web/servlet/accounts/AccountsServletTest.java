@@ -106,7 +106,6 @@ public class AccountsServletTest {
 
 	@Test
 	public void testAccountServletModify() throws ServletException, YahooException {
-		;
 		when(request.getParameter(MOD)).thenReturn("mod");
 		when(request.getParameter(CURRENCY)).thenReturn("USD");
 		when(request.getParameter(LIQUIDITY)).thenReturn("10.5");

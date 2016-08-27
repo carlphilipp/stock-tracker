@@ -26,6 +26,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -207,5 +208,37 @@ public class CompanyBusinessTest {
 
 		verify(companyDAO).selectAllUnusedCompanyIds();
 		verify(companyDAO, times(2)).delete(isA(Company.class));
+	}
+
+	@Test
+	public void testUpdateAllCompanies(){
+		final Company company = new Company();
+		company.setYahooId(TICKER);
+		company.setRealTime(true);
+		company.setMarket(Market.PAR);
+		final List<Company> companies = Collections.singletonList(company);
+
+		when(companyDAO.selectAllCompany(true)).thenReturn(companies);
+
+		boolean actual = companyBusiness.updateAllCompanies();
+
+		assertTrue(actual);
+		verify(companyDAO).selectAllCompany(true);
+	}
+
+	@Test
+	public void testUpdateAllCompaniesMore(){
+		final Company company = new Company();
+		company.setYahooId(TICKER);
+		company.setRealTime(true);
+		company.setMarket(Market.PAR);
+		final List<Company> companies = Collections.nCopies(16, company);
+
+		when(companyDAO.selectAllCompany(true)).thenReturn(companies);
+
+		boolean actual = companyBusiness.updateAllCompanies();
+
+		assertTrue(actual);
+		verify(companyDAO).selectAllCompany(true);
 	}
 }

@@ -42,7 +42,7 @@ public interface IExternalDataAccess {
 	 * @throws YahooException
 	 *             the yahoo exception
 	 */
-	List<Company> getCompaniesData(final List<String> ids) throws YahooException;
+	List<Company> getCompaniesData(List<String> ids) throws YahooException;
 
 	/**
 	 * Get company history data
@@ -57,7 +57,7 @@ public interface IExternalDataAccess {
 	 * @throws YahooException
 	 *             the yahoo exception
 	 */
-	List<Company> getCompanyDataHistory(final String id, final Date from, final Date to) throws YahooException;
+	List<Company> getCompanyDataHistory(String id, Date from, Date to) throws YahooException;
 
 	/**
 	 * Get company info
@@ -68,7 +68,7 @@ public interface IExternalDataAccess {
 	 * @throws YahooException
 	 *             the yahoo exception
 	 */
-	Company getCompanyInfo(final Company company) throws YahooException;
+	Company getCompanyInfo(Company company) throws YahooException;
 
 	/**
 	 * Get currency data
@@ -79,7 +79,7 @@ public interface IExternalDataAccess {
 	 * @throws YahooException
 	 *             the yahoo exception
 	 */
-	List<CurrencyData> getCurrencyData(final Currency currency) throws YahooException;
+	List<CurrencyData> getCurrencyData(Currency currency) throws YahooException;
 
 	/**
 	 * Get index data
@@ -90,7 +90,7 @@ public interface IExternalDataAccess {
 	 * @throws YahooException
 	 *             the yahoo exception
 	 */
-	Index getIndexData(final String id) throws YahooException;
+	Index getIndexData(String id) throws YahooException;
 
 	/**
 	 * Get index history
@@ -105,6 +105,6 @@ public interface IExternalDataAccess {
 	 * @throws YahooException
 	 *             the yahoo exception
 	 */
-	List<Index> getIndexDataHistory(final String id, final Date from, final Date to) throws YahooException;
+	List<Index> getIndexDataHistory(String id, Date from, Date to) throws YahooException;
 
 }

@@ -32,7 +32,7 @@ public interface DAO<T> {
 	 * @param obj
 	 *            the object to insert
 	 */
-	void insert(final T obj);
+	void insert(T obj);
 
 	/**
 	 * Get an object from DB
@@ -41,7 +41,7 @@ public interface DAO<T> {
 	 *            the id of the object to get
 	 * @return the object
 	 */
-	T select(final int id);
+	T select(int id);
 
 	/**
 	 * Update an object in DB
@@ -49,7 +49,7 @@ public interface DAO<T> {
 	 * @param obj
 	 *            the object to update
 	 */
-	void update(final T obj);
+	void update(T obj);
 
 	/**
 	 * Delete an object in DB
@@ -57,6 +57,6 @@ public interface DAO<T> {
 	 * @param obj
 	 *            the object to delete
 	 */
-	void delete(final T obj);
+	void delete(T obj);
 
 }

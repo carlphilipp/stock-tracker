@@ -17,7 +17,7 @@ public interface IndexBusiness {
 	 * @param to      the to date
 	 * @return a list of index
 	 */
-	List<Index> getIndexes(final String yahooId, final Date from, final Date to);
+	List<Index> getIndexes(String yahooId, Date from, Date to);
 
 	/**
 	 * Update an index
@@ -25,7 +25,7 @@ public interface IndexBusiness {
 	 * @param yahooId the yahoo id
 	 * @throws YahooException the yahoo exception
 	 */
-	void updateIndex(final String yahooId) throws YahooException;
+	void updateIndex(String yahooId) throws YahooException;
 
 	/**
 	 * Don't remember what it does
@@ -34,5 +34,5 @@ public interface IndexBusiness {
 	 * @param timeZone the timezone
 	 * @throws YahooException the yahoo exception
 	 */
-	void checkUpdateIndex(final String yahooId, final TimeZone timeZone) throws YahooException;
+	void checkUpdateIndex(String yahooId, TimeZone timeZone) throws YahooException;
 }

@@ -12,7 +12,7 @@ public interface CurrencyBusiness {
 	 * @return a currency
 	 * @throws YahooException the yahoo exception
 	 */
-	Currency loadCurrencyData(final Currency currency) throws YahooException;
+	Currency loadCurrencyData(Currency currency) throws YahooException;
 
 	/**
 	 * Update all current currencies
@@ -27,7 +27,7 @@ public interface CurrencyBusiness {
 	 * @param currency the currency
 	 * @throws YahooException the yahoo exception
 	 */
-	void updateOneCurrency(final Currency currency) throws YahooException;
+	void updateOneCurrency(Currency currency) throws YahooException;
 
 	/**
 	 * Get all currency data
@@ -35,5 +35,5 @@ public interface CurrencyBusiness {
 	 * @param currency the currency
 	 * @return a 2 dim array of object
 	 */
-	Object[][] getAllCurrencyData(final Currency currency);
+	Object[][] getAllCurrencyData(Currency currency);
 }

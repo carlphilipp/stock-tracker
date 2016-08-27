@@ -31,19 +31,19 @@ public interface AccountBusiness {
 	 *
 	 * @param account the account to add
 	 */
-	void addAccount(final Account account);
+	void addAccount(Account account);
 
 	/**
 	 * Update an account
 	 *
 	 * @param account the account to update
 	 */
-	void updateAccount(final Account account);
+	void updateAccount(Account account);
 
 	/**
 	 * Delete account
 	 *
 	 * @param account the account to delete
 	 */
-	void deleteAccount(final Account account);
+	void deleteAccount(Account account);
 }

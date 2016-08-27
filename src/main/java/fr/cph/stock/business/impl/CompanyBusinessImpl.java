@@ -147,13 +147,14 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 		companyDAO.update(company);
 	}
 
+	@Override
 	public boolean updateAllCompanies() {
 		final List<Company> companies = companyDAO.selectAllCompany(true);
 		final List<String> yahooIdList = companies.stream()
 			.filter(Company::getRealTime)
 			.map(Company::getYahooId)
 			.collect(Collectors.toList());
-		boolean canUpdate = true;
+		boolean updateSuccess = true;
 		if (yahooIdList.size() <= MAX_UPDATE_COMPANY) {
 			try {
 				addOrUpdateCompanies(yahooIdList);
@@ -161,7 +162,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				log.warn(e.getMessage());
 				Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]), null);
 			} catch (final YahooException e) {
-				canUpdate = false;
+				updateSuccess = false;
 				log.warn("All companies update failed: {}", e.getMessage());
 			}
 		} else {
@@ -179,7 +180,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 					log.warn(e.getMessage());
 					Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]), null);
 				} catch (final YahooException e) {
-					canUpdate = false;
+					updateSuccess = false;
 					isOk = false;
 					log.warn("All companies update failed: {} | Issue trying to update at limit [{},{}]", e.getMessage(), from, to);
 				}
@@ -190,7 +191,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				to = to + MAX_UPDATE_COMPANY;
 			}
 		}
-		return canUpdate;
+		return updateSuccess;
 	}
 
 	@Override

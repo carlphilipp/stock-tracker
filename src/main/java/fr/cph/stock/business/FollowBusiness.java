@@ -11,11 +11,11 @@ import java.util.List;
  */
 public interface FollowBusiness {
 
-	void addFollow(final User user, final String ticker, final Double lower, final Double higher) throws YahooException;
+	void addFollow(User user, String ticker, Double lower, Double higher) throws YahooException;
 
-	void updateFollow(final User user, final String ticker, final Double lower, final Double higher);
+	void updateFollow(User user, String ticker, Double lower, Double higher);
 
-	void deleteFollow(final int id);
+	void deleteFollow(int id);
 
-	List<Follow> getListFollow(final int userId);
+	List<Follow> getListFollow(int userId);
 }

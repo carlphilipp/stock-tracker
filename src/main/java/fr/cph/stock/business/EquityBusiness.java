@@ -9,11 +9,11 @@ import java.io.UnsupportedEncodingException;
 
 public interface EquityBusiness {
 
-	void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException;
+	void createEquity(int userId, String ticker, Equity equity) throws EquityException, YahooException;
 
-	void createManualEquity(final int userId, final Company company, final Equity equity) throws EquityException;
+	void createManualEquity(int userId, Company company, Equity equity) throws EquityException;
 
-	void updateEquity(final int userId, final String ticker, final Equity equity) throws UnsupportedEncodingException, YahooException;
+	void updateEquity(int userId, String ticker, Equity equity) throws UnsupportedEncodingException, YahooException;
 
-	void deleteEquity(final Equity equity);
+	void deleteEquity(Equity equity);
 }
