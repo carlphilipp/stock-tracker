@@ -16,6 +16,7 @@
 
 package fr.cph.stock.cron;
 
+import com.google.inject.Inject;
 import fr.cph.stock.dropbox.DropBox;
 import fr.cph.stock.util.MySQLDumper;
 import fr.cph.stock.util.Util;
@@ -34,6 +35,13 @@ import java.io.File;
 @Log4j2
 public class MysqlDumpJob implements Job {
 
+	private DropBox dropBox;
+
+	@Inject
+	public void setDropBox(final DropBox dropBox) {
+		this.dropBox = dropBox;
+	}
+
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		File tarGzFile = null;
@@ -49,7 +57,6 @@ public class MysqlDumpJob implements Job {
 
 			Util.createTarGz(sqlPath, tarGzPath);
 
-			final DropBox dropBox = new DropBox();
 			dropBox.deleteOldFileIfNeeded(tarGzFile);
 			dropBox.uploadFile(tarGzFile);
 		} catch (final Throwable t) {

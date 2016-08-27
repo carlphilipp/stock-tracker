@@ -5,6 +5,8 @@ import com.google.inject.name.Names;
 import fr.cph.stock.business.*;
 import fr.cph.stock.business.impl.*;
 import fr.cph.stock.dao.*;
+import fr.cph.stock.dropbox.DropBox;
+import fr.cph.stock.dropbox.DropBoxImpl;
 import fr.cph.stock.external.IExternalDataAccess;
 import fr.cph.stock.external.YahooExternalDataAccess;
 
@@ -32,5 +34,7 @@ class GuiceModule extends AbstractModule {
 		bind(IndexBusiness.class).to(IndexBusinessImpl.class);
 		bind(ShareValueBusiness.class).to(ShareValueBusinessImpl.class);
 		bind(UserBusiness.class).to(UserBusinessImpl.class);
+
+		bind(DropBox.class).to(DropBoxImpl.class);
 	}
 }
