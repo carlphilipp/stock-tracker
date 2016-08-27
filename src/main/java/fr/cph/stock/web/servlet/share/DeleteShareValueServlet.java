@@ -62,7 +62,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 			final HttpSession session = request.getSession(false);
 			final StringBuilder message = new StringBuilder();
 			final User user = (User) session.getAttribute(USER);
-			final String shareIdd = request.getParameter(USER);
+			final String shareIdd = request.getParameter(SHARE_ID);
 			final int shareId = Integer.parseInt(shareIdd);
 			final Double liquidityMovement = Double.parseDouble(request.getParameter(LIQUIDITY_MOVEMENT));
 			final Double yield = Double.parseDouble(request.getParameter(YIELD));
