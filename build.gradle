@@ -26,7 +26,7 @@ dependencies {
 		[group: 'commons-codec', name: 'commons-codec', version: '1.10'],
 		[group: 'org.apache.commons', name: 'commons-compress', version: '1.12'],
 		[group: 'commons-io', name: 'commons-io', version: '2.5'],
-		[group: 'commons-lang', name: 'commons-lang', version: '2.3'],
+		[group: 'commons-lang', name: 'commons-lang', version: '2.6'],
 
 		// Dropbox
 		[name: 'dropbox-java-sdk-1.5.3'],
@@ -41,14 +41,12 @@ dependencies {
 		[group: 'javax.servlet', name: 'jstl', version: '1.2'],
 
 		// Logging
-/*		[group: 'log4j', name: 'log4j', version: '1.2.17'],
-		[group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.21'],*/
 		[group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6.2'],
 		[group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.6.2'],
 
 		// ORM
 		[group: 'org.mybatis', name: 'mybatis', version: '3.4.1'],
-		[group: 'mysql', name: 'mysql-connector-java', version: '5.1.22'],
+		[group: 'mysql', name: 'mysql-connector-java', version: '6.0.3'],
 
 		// Other
 		[group: 'org.jfree', name: 'jfreechart', version: '1.0.19'],

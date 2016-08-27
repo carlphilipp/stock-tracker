@@ -18,6 +18,10 @@
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
 		</Logger>
+		<Logger name="org.quartz.core" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</Logger>
 		<Root level="debug">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>

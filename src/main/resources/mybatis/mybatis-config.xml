@@ -34,7 +34,7 @@
 			<transactionManager type="JDBC"/>
 			<dataSource type="POOLED">
 				<property name="driver" value="com.mysql.jdbc.Driver"/>
-				<property name="url" value="jdbc:mysql://${db.ip}/${db.name}"/>
+				<property name="url" value="jdbc:mysql://${db.ip}/${db.name}?useSSL=false&amp;serverTimezone=Europe/Paris"/>
 				<property name="username" value="${db.user}"/>
 				<property name="password" value="${db.password}"/>
 				<property name="poolPingQuery" value="select 1"/>
