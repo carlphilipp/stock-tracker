@@ -27,13 +27,13 @@ public class IndexBusinessImpl implements IndexBusiness {
 	private static final int PERCENT = 100;
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 
-	private final IndexDAO indexDAO;
-	private final ExternalDataAccess yahoo;
+	@Inject
+	private ExternalDataAccess yahoo;
+	private IndexDAO indexDAO;
 
 	@Inject
-	public IndexBusinessImpl(@Named("Index") final DAO dao, final ExternalDataAccess yahoo) {
+	public void setIndexDAO(@Named("Index") final DAO dao) {
 		indexDAO = (IndexDAO) dao;
-		this.yahoo = yahoo;
 	}
 
 	@Override

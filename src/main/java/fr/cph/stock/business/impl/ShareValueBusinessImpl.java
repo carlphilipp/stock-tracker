@@ -33,21 +33,22 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
 
-	private final ShareValueDAO shareValueDAO;
-	private final UserDAO userDAO;
-
-	private final CompanyBusiness companyBusiness;
-	private final UserBusiness userBusiness;
+	private ShareValueDAO shareValueDAO;
+	private UserDAO userDAO;
 
 	@Inject
-	public ShareValueBusinessImpl(@Named("ShareValue") final DAO shareValueDAO,
-								  @Named("User") final DAO userDAO,
-								  final CompanyBusiness companyBusiness,
-								  final UserBusiness userBusiness) {
-		this.shareValueDAO = (ShareValueDAO) shareValueDAO;
-		this.userDAO = (UserDAO) userDAO;
-		this.companyBusiness = companyBusiness;
-		this.userBusiness = userBusiness;
+	private CompanyBusiness companyBusiness;
+	@Inject
+	private UserBusiness userBusiness;
+
+	@Inject
+	public void setShareValueDAO(@Named("ShareValue") final DAO dao) {
+		shareValueDAO = (ShareValueDAO) dao;
+	}
+
+	@Inject
+	public void setIndexDAO(@Named("User") final DAO dao) {
+		userDAO = (UserDAO) dao;
 	}
 
 	@Override

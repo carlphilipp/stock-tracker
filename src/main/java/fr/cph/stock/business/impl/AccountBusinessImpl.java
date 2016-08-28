@@ -36,7 +36,7 @@ public class AccountBusinessImpl implements AccountBusiness {
 	private AccountDAO accountDAO;
 
 	@Inject
-	public AccountBusinessImpl(@Named("Account") final DAO dao) {
+	public void setAccountDAO(@Named("Account") final DAO dao) {
 		accountDAO = (AccountDAO) dao;
 	}
 

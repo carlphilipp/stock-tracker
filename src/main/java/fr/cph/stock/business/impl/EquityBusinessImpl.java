@@ -21,21 +21,25 @@ import java.util.Optional;
 @Singleton
 public class EquityBusinessImpl implements EquityBusiness {
 
-	private final CompanyBusiness companyBusiness;
-	private final CompanyDAO companyDAO;
-	private final EquityDAO equityDAO;
-	private final PortfolioDAO portfolioDAO;
-
+	@Inject
+	private CompanyBusiness companyBusiness;
+	private CompanyDAO companyDAO;
+	private EquityDAO equityDAO;
+	private PortfolioDAO portfolioDAO;
 
 	@Inject
-	public EquityBusinessImpl(final CompanyBusiness companyBusiness,
-							  @Named("Company") final DAO companyDAO,
-							  @Named("Equity") final DAO equityDAO,
-							  @Named("Portfolio") final DAO portfolioDAO) {
-		this.companyBusiness = companyBusiness;
-		this.companyDAO = (CompanyDAO) companyDAO;
-		this.equityDAO = (EquityDAO) equityDAO;
-		this.portfolioDAO = (PortfolioDAO) portfolioDAO;
+	public void setCurrencyDAO(@Named("Company") final DAO dao) {
+		companyDAO = (CompanyDAO) dao;
+	}
+
+	@Inject
+	public void setEquityDAO(@Named("Equity") final DAO dao) {
+		equityDAO = (EquityDAO) dao;
+	}
+
+	@Inject
+	public void setPortfolioDAO(@Named("Portfolio") final DAO dao) {
+		portfolioDAO = (PortfolioDAO) dao;
 	}
 
 	@Override

@@ -33,23 +33,29 @@ import java.util.Optional;
 public class UserBusinessImpl implements UserBusiness {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
-
-	private final CurrencyBusiness currencyBusiness;
-	private final UserDAO userDAO;
-	private final PortfolioDAO portfolioDAO;
-	private final AccountDAO accountDAO;
-	private final SecurityService securityService;
+	private static final int DB_PASSWORD_LIMIT = 64;
 
 	@Inject
-	public UserBusinessImpl(final CurrencyBusiness currencyBusiness,
-							@Named("User") final DAO userDAO,
-							@Named("Portfolio") final DAO portfolioDAO,
-							@Named("Account") final DAO accountDAO) {
-		this.currencyBusiness = currencyBusiness;
-		this.userDAO = (UserDAO) userDAO;
-		this.portfolioDAO = (PortfolioDAO) portfolioDAO;
-		this.accountDAO = (AccountDAO) accountDAO;
-		this.securityService = SecurityService.INSTANCE;
+	private CurrencyBusiness currencyBusiness;
+
+	private UserDAO userDAO;
+	private PortfolioDAO portfolioDAO;
+	private AccountDAO accountDAO;
+	private final SecurityService securityService = SecurityService.INSTANCE;
+
+	@Inject
+	public void setUserDAO(@Named("User") final DAO dao) {
+		userDAO = (UserDAO) dao;
+	}
+
+	@Inject
+	public void setPortfolioDAO(@Named("Portfolio") final DAO dao) {
+		portfolioDAO = (PortfolioDAO) dao;
+	}
+
+	@Inject
+	public void setAccountDAO(@Named("Account") final DAO dao) {
+		accountDAO = (AccountDAO) dao;
 	}
 
 	@Override
@@ -147,14 +153,12 @@ public class UserBusinessImpl implements UserBusiness {
 	@Override
 	public final Optional<User> checkUser(final String login, final String md5Password) throws LoginException {
 		Optional<User> userOptional = userDAO.selectWithLogin(login);
-		final int sixtyFour = 64;
 		if (userOptional.isPresent()) {
 			final User user = userOptional.get();
-			String md5PasswordHashed;
 			try {
-				md5PasswordHashed = securityService.encodeToSha256(md5Password);
-				final String saltHashed = user.getPassword().substring(0, sixtyFour);
-				final String cryptedPasswordSalt = user.getPassword().substring(sixtyFour, user.getPassword().length());
+				final String md5PasswordHashed = securityService.encodeToSha256(md5Password);
+				final String saltHashed = user.getPassword().substring(0, DB_PASSWORD_LIMIT);
+				final String cryptedPasswordSalt = user.getPassword().substring(DB_PASSWORD_LIMIT, user.getPassword().length());
 				final String cryptedPasswordSaltToTest = securityService.encodeToSha256(md5PasswordHashed + saltHashed);
 				if (!cryptedPasswordSalt.equals(cryptedPasswordSaltToTest)) {
 					userOptional = Optional.empty();
