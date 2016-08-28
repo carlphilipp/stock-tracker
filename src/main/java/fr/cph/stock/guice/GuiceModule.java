@@ -8,9 +8,11 @@ import fr.cph.stock.dao.*;
 import fr.cph.stock.dropbox.DropBox;
 import fr.cph.stock.dropbox.DropBoxImpl;
 import fr.cph.stock.external.ExternalDataAccess;
-import fr.cph.stock.external.impl.ExternalDataAccessImpl;
 import fr.cph.stock.external.YahooGateway;
+import fr.cph.stock.external.impl.ExternalDataAccessImpl;
 import fr.cph.stock.external.impl.YahooGatewayImpl;
+import fr.cph.stock.security.SecurityService;
+import fr.cph.stock.security.SecurityServiceImpl;
 
 class GuiceModule extends AbstractModule {
 
@@ -40,5 +42,6 @@ class GuiceModule extends AbstractModule {
 		bind(DropBox.class).to(DropBoxImpl.class);
 
 		bind(YahooGateway.class).to(YahooGatewayImpl.class);
+		bind(SecurityService.class).to(SecurityServiceImpl.class);
 	}
 }

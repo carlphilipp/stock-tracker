@@ -27,7 +27,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.*;
@@ -48,7 +47,7 @@ public class NewPasswordServlet extends HttpServlet {
 	@Override
 	public final void init() {
 		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
-		securityService = SecurityService.INSTANCE;
+		securityService = GuiceInjector.INSTANCE.getSecurityService();
 	}
 
 	@Override

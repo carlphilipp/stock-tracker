@@ -16,6 +16,7 @@
 
 package fr.cph.stock.security;
 
+import fr.cph.stock.guice.GuiceInjector;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -25,11 +26,13 @@ import static org.junit.Assert.assertEquals;
 
 public final class SecurityServiceTest {
 
+	private SecurityService securityService = GuiceInjector.INSTANCE.getSecurityService();
+
 	@Test
 	public void testEncodeToSha256() throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		String password = "myPassword";
 		String hashedPasswordExpected = "76549b827ec46e705fd03831813fa52172338f0dfcbd711ed44b81a96dac51c6";
-		String actualHashedPassword = SecurityService.INSTANCE.encodeToSha256(password);
+		String actualHashedPassword = securityService.encodeToSha256(password);
 		assertEquals(hashedPasswordExpected, actualHashedPassword);
 	}
 }

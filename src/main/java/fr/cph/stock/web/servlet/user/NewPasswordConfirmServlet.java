@@ -51,7 +51,7 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 	@Override
 	public final void init() {
 		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
-		securityService = SecurityService.INSTANCE;
+		securityService = GuiceInjector.INSTANCE.getSecurityService();
 	}
 
 	@Override

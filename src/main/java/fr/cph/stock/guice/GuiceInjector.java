@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import fr.cph.stock.business.*;
 import fr.cph.stock.business.impl.ShareValueBusinessImpl;
+import fr.cph.stock.security.SecurityService;
 
 public enum GuiceInjector {
 
@@ -45,5 +46,9 @@ public enum GuiceInjector {
 
 	public UserBusiness getUserBusiness() {
 		return injector.getInstance(UserBusiness.class);
+	}
+
+	public SecurityService getSecurityService() {
+		return injector.getInstance(SecurityService.class);
 	}
 }

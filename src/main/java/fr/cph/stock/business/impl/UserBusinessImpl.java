@@ -37,11 +37,12 @@ public class UserBusinessImpl implements UserBusiness {
 
 	@Inject
 	private CurrencyBusiness currencyBusiness;
+	@Inject
+	private SecurityService securityService;
 
 	private UserDAO userDAO;
 	private PortfolioDAO portfolioDAO;
 	private AccountDAO accountDAO;
-	private final SecurityService securityService = SecurityService.INSTANCE;
 
 	@Inject
 	public void setUserDAO(@Named("User") final DAO dao) {
