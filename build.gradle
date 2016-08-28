@@ -30,6 +30,7 @@ dependencies {
 
 		// Dropbox
 		[name: 'dropbox-java-sdk-1.5.3'],
+		[group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'],
 
 		// Guice
 		[group: 'com.google.inject', name: 'guice', version: '4.1.0'],

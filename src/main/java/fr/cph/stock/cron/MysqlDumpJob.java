@@ -16,8 +16,8 @@
 
 package fr.cph.stock.cron;
 
-import com.google.inject.Inject;
 import fr.cph.stock.dropbox.DropBox;
+import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.MySQLDumper;
 import fr.cph.stock.util.Util;
 import lombok.extern.log4j.Log4j2;
@@ -35,8 +35,11 @@ import java.io.File;
 @Log4j2
 public class MysqlDumpJob implements Job {
 
-	@Inject
-	private DropBox dropBox;
+	private final DropBox dropBox;
+
+	public MysqlDumpJob() {
+		dropBox = GuiceInjector.INSTANCE.getDropBox();
+	}
 
 	@Override
 	public final void execute(final JobExecutionContext context) {

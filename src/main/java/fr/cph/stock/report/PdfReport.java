@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * Class that takes care of pdf reports
@@ -74,9 +73,7 @@ public class PdfReport {
 	public static Image createPieChart(final PieChart pieChart, final String title) {
 		final Map<String, Double> map = pieChart.getEquities();
 		final DefaultPieDataset data = new DefaultPieDataset();
-		for (final Entry<String, Double> e : map.entrySet()) {
-			data.setValue(e.getKey(), e.getValue());
-		}
+		map.entrySet().forEach(entry -> data.setValue(entry.getKey(), entry.getValue()));
 		final JFreeChart chart = ChartFactory.createPieChart(title, data, true, true, true);
 		return chart.createBufferedImage(500, 500);
 	}

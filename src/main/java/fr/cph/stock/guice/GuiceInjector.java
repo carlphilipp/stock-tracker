@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import fr.cph.stock.business.*;
 import fr.cph.stock.business.impl.ShareValueBusinessImpl;
+import fr.cph.stock.dropbox.DropBox;
 import fr.cph.stock.security.SecurityService;
 
 public enum GuiceInjector {
@@ -50,5 +51,9 @@ public enum GuiceInjector {
 
 	public SecurityService getSecurityService() {
 		return injector.getInstance(SecurityService.class);
+	}
+
+	public DropBox getDropBox() {
+		return injector.getInstance(DropBox.class);
 	}
 }
