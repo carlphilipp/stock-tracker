@@ -200,6 +200,11 @@ public class UserBusinessImpl implements UserBusiness {
 	}
 
 	@Override
+	public final Portfolio getUserPortfolio(final int userId) throws YahooException {
+		return getUserPortfolio(userId, null, null);
+	}
+
+	@Override
 	public final void updatePortfolio(final Portfolio portfolio) {
 		portfolioDAO.update(portfolio);
 	}

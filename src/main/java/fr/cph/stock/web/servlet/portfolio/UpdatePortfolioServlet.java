@@ -69,7 +69,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 			final String updateCurrencies = request.getParameter(CURRENCY_UPDATE);
 			String error = null;
 			try {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 				if (updateCurrencies != null) {
 					currencyBusiness.updateOneCurrency(portfolio.getCurrency());
 				}

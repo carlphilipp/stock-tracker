@@ -91,7 +91,7 @@ public class HomeServlet extends HttpServlet {
 					cal.add(Calendar.DATE, -days);
 					portfolio = userBusiness.getUserPortfolio(user.getId(), cal.getTime(), null);
 				} else {
-					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+					portfolio = userBusiness.getUserPortfolio(user.getId());
 				}
 				if (portfolio.getShareValues().size() != 0) {
 					final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();

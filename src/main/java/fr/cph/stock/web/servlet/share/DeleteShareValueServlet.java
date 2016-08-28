@@ -71,7 +71,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 			final Double taxe = Double.parseDouble(request.getParameter(TAXE));
 			final String acc = request.getParameter(ACCOUNT);
 
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 			final Account account = portfolio.getAccount(acc);
 			final ShareValue shareValue = new ShareValue();
 			shareValue.setId(shareId);

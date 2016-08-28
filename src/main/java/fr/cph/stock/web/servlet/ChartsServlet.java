@@ -67,7 +67,7 @@ public class ChartsServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			final Portfolio portfolio;
 			try {
-				portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+				portfolio = userBusiness.getUserPortfolio(user.getId());
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
 					List<Index> indexes = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);

@@ -60,7 +60,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 		try {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
-			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 			try {
 				final int accountId = Integer.valueOf(request.getParameter(ACCOUNT_ID));
 				final double movement = Double.valueOf(request.getParameter(LIQUIDITY));
@@ -83,7 +83,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
 					newLiquidity = new BigDecimal(Double.toString(newLiquidity), mathContext).doubleValue();
 					userBusiness.updateLiquidity(account, newLiquidity);
-					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+					portfolio = userBusiness.getUserPortfolio(user.getId());
 					shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 					response.sendRedirect(HOMEMOBILE);
 				}

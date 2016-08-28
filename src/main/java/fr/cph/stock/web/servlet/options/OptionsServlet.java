@@ -67,7 +67,7 @@ public class OptionsServlet extends HttpServlet {
 			HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
 			final String update = request.getParameter(UPDATE);
-			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 			String quoteRes = null, currencyRes = null, parityRes = null, stopLossRes = null, objectiveRes = null, yield1Res = null, yield2Res = null;
 			if (update != null) {
 				final String currency = request.getParameter(CURRENCY);

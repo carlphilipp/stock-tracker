@@ -30,6 +30,8 @@ public interface UserBusiness {
 
 	Portfolio getUserPortfolio(int userId, Date from, Date to) throws YahooException;
 
+	Portfolio getUserPortfolio(int userId) throws YahooException;
+
 	void updatePortfolio(Portfolio portfolio);
 
 	void updateLiquidity(Account account, double liquidity);

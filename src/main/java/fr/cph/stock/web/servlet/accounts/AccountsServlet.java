@@ -82,7 +82,7 @@ public class AccountsServlet extends HttpServlet {
 			if (del != null) {
 				deleteAccount(request);
 			}
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(PORTFOLIO, portfolio);

@@ -65,7 +65,7 @@ public class ShareValueServlet extends HttpServlet {
 			final String page = request.getParameter(PAGE);
 			final int pageNumber = StringUtils.isEmpty(page) ? 1 : Integer.parseInt(page);
 			try {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 				if (portfolio.getShareValues().size() != 0) {
 					int begin = pageNumber * ITEM_MAX - ITEM_MAX;
 					int end = pageNumber * ITEM_MAX - 1;

@@ -76,13 +76,13 @@ public class UpdateShareValueServlet extends HttpServlet {
 				final String commParam = request.getParameter(COMMENTARY);
 				final String commentary = StringUtils.isNotEmpty(commParam) ? commParam : null;
 				try {
-					Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+					Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 					Account account = portfolio.getAccount(acc);
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
 					newLiquidity = new BigDecimal(Double.toString(newLiquidity), mathContext).doubleValue();
 					userBusiness.updateLiquidity(account, newLiquidity);
 					message.append("'").append(account.getName()).append("' liquidity new value: ").append(newLiquidity);
-					portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+					portfolio = userBusiness.getUserPortfolio(user.getId());
 					shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 				} catch (final YahooException e) {
 					log.error(e.getMessage(), e);

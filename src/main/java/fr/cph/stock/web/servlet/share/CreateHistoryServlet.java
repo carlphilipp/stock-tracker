@@ -66,7 +66,7 @@ public class CreateHistoryServlet extends HttpServlet {
 			final String liquidity = request.getParameter(LIQUIDITY);
 			final String acc = request.getParameter(ACCOUNT);
 
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 			final Account account = portfolio.getAccount(acc);
 
 			final Part p1 = request.getPart(FILE);

@@ -120,7 +120,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 					}
 					if (companyUpdateSuccess) {
 						log.info("Update user portfolio: {}", user.getLogin());
-						portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+						portfolio = userBusiness.getUserPortfolio(user.getId());
 						account = portfolio.getFirstAccount();
 						updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");
 					} else {

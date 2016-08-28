@@ -64,7 +64,7 @@ public class CurrencyServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			final String update = request.getParameter(UPDATE);
 			if (update != null) {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 				try {
 					currencyBusiness.updateOneCurrency(portfolio.getCurrency());
 					request.setAttribute(MESSAGE, "Done !");
@@ -72,7 +72,7 @@ public class CurrencyServlet extends HttpServlet {
 					request.setAttribute(ERROR, e.getMessage());
 				}
 			}
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 			final Object[][] tab = currencyBusiness.getAllCurrencyData(portfolio.getCurrency());
 			request.setAttribute(PORTFOLIO, portfolio);
 			request.setAttribute(TAB, tab);

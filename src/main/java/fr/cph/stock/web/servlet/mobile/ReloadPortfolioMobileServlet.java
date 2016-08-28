@@ -59,7 +59,7 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
 			try {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), null, null);
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
 				companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 				response.sendRedirect(HOMEMOBILE);
 			} catch (YahooException e) {
