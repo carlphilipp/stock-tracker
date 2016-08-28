@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" shutdownHook="disable">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{dd/MM/yyyy HH:mm:ss}{America/Chicago} - %-5p [%c:%L] %m%n"/>
+		</Console>
+		<RollingRandomAccessFile name="File" fileName="/opt/tomcat/logs/stock-tracker.log"
+								 filePattern="/opt/tomcat/logs/archive/stock-tracker-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
+			<Policies>
+				<TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="100 MB"/>
+			</Policies>
+		</RollingRandomAccessFile>
+		<SMTP name="Mail"
+			  smtpProtocol="smtps"
+			  smtpHost="##########################"
+			  smtpUsername="##########################"
+			  smtpPassword="##########################"
+			  smtpPort="465"
+			  subject="##########################"
+			  to="##########################"
+			  from="##########################"
+			  bufferSize="20">
+		</SMTP>
+	</Appenders>
+	<Loggers>
+		<Root level="error">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+			<AppenderRef ref="Mail"/>
+		</Root>
+	</Loggers>
+</Configuration>

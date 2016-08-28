@@ -19,16 +19,8 @@ package fr.cph.stock.web.servlet.portfolio;
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.cron.Job;
-import fr.cph.stock.entities.Index;
-import fr.cph.stock.entities.Portfolio;
-import fr.cph.stock.entities.User;
-import fr.cph.stock.enumtype.Currency;
-import fr.cph.stock.exception.NotFoundException;
-import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
-import fr.cph.stock.util.Info;
-import fr.cph.stock.web.servlet.CookieManagement;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.SchedulerException;
 
@@ -37,15 +29,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import static fr.cph.stock.util.Constants.*;
 
 /**
  * Home servlet
@@ -81,7 +66,8 @@ public class HomeServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			final HttpSession session = request.getSession(false);
+			throw new RuntimeException();
+			/*final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
 			final String day = request.getParameter(DAYS);
 			try {
@@ -109,7 +95,7 @@ public class HomeServlet extends HttpServlet {
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
 			request.setAttribute(CURRENCIES, Currency.values());
-			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
+			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);*/
 		} catch (final Throwable t) {
 			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);

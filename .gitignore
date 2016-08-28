@@ -8,5 +8,5 @@
 .idea
 .gradle
 build
-log4j.properties
+log4j2-prod.xml
 app.properties
