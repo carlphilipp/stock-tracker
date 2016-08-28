@@ -22,6 +22,7 @@ import fr.cph.stock.entities.CurrencyData;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This class implements DAO functions and add some more. It access to the Currency in DB.
@@ -50,9 +51,9 @@ public class CurrencyDAO implements DAO<CurrencyData> {
 	}
 
 	@Override
-	public final CurrencyData select(final int id) {
+	public final Optional<CurrencyData> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT, id);
+			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 
@@ -77,9 +78,9 @@ public class CurrencyDAO implements DAO<CurrencyData> {
 	 *            the currency data
 	 * @return a currency data
 	 */
-	public final CurrencyData selectOneCurrencyDataWithParam(final CurrencyData currencyD) {
+	public final Optional<CurrencyData> selectOneCurrencyDataWithParam(final CurrencyData currencyD) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT_WITH_PARAM, currencyD);
+			return Optional.ofNullable(session.selectOne(SELECT_WITH_PARAM, currencyD));
 		}
 	}
 

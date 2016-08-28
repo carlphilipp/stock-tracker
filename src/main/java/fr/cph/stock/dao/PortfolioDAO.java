@@ -24,10 +24,7 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class implements DAO functions and add some more. It access to the Portfolio in DB.
@@ -58,9 +55,9 @@ public class PortfolioDAO implements DAO<Portfolio> {
 	}
 
 	@Override
-	public final Portfolio select(final int id) {
+	public final Optional<Portfolio> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT, id);
+			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 
@@ -86,11 +83,12 @@ public class PortfolioDAO implements DAO<Portfolio> {
 	 * @param to     the to date
 	 * @return a portfolio
 	 */
-	public final Portfolio selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {
-		Portfolio portfolio;
+	public final Optional<Portfolio> selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {
+		Optional<Portfolio> portfolioOptional;
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			portfolio = session.selectOne(SELECT_WITH_ID, userId);
-			if (portfolio != null) {
+			portfolioOptional = Optional.ofNullable(session.selectOne(SELECT_WITH_ID, userId));
+			if (portfolioOptional.isPresent()) {
+				final Portfolio portfolio = portfolioOptional.get();
 				final List<Equity> equities = session.selectList(SELECT_EQUITY, portfolio.getId());
 				portfolio.setEquities(equities);
 				final List<Account> accounts = session.selectList(ACCOUNT_SELECT, userId);
@@ -110,10 +108,13 @@ public class PortfolioDAO implements DAO<Portfolio> {
 						final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT_TO, map);
 						portfolio.setShareValues(shares);
 					}
-
 				}
 			}
 		}
-		return portfolio;
+		return portfolioOptional;
+	}
+
+	public final Optional<Portfolio> selectPortfolioFromUserIdWithEquities(final int userId) {
+		return selectPortfolioFromUserIdWithEquities(userId, null, null);
 	}
 }

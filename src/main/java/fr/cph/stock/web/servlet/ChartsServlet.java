@@ -21,6 +21,7 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
@@ -67,7 +68,7 @@ public class ChartsServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			final Portfolio portfolio;
 			try {
-				portfolio = userBusiness.getUserPortfolio(user.getId());
+				portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
 					List<Index> indexes = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);

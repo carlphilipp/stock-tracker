@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Optional;
+
 import static fr.cph.stock.util.Constants.*;
 
 /**
@@ -54,8 +56,9 @@ public class NewPasswordServlet extends HttpServlet {
 		try {
 			final String login = request.getParameter(LOGIN);
 			final String check = request.getParameter(CHECK);
-			final User user = userBusiness.getUser(login);
-			if (user != null) {
+			final Optional<User> userOptional = userBusiness.getUser(login);
+			if (userOptional.isPresent()) {
+				final User user = userOptional.get();
 				final String checkServer = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 				if (check.equals(checkServer)) {
 					request.setAttribute(LOGIN, user.getLogin());

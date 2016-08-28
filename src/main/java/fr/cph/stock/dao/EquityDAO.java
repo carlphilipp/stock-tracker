@@ -21,6 +21,8 @@ import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Equity;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.Optional;
+
 /**
  * This class implements DAO functions and add some more. It access to the Equity in DB.
  *
@@ -45,9 +47,9 @@ public class EquityDAO implements DAO<Equity> {
 	}
 
 	@Override
-	public final Equity select(final int id) {
+	public final Optional<Equity> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT, id);
+			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 

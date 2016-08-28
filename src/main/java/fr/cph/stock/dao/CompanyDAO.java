@@ -24,6 +24,7 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.MANUAL;
 
@@ -53,9 +54,9 @@ public class CompanyDAO implements DAO<Company> {
 	}
 
 	@Override
-	public Company select(final int id) {
+	public Optional<Company> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT, id);
+			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 
@@ -79,9 +80,9 @@ public class CompanyDAO implements DAO<Company> {
 	 * @param yahooId the yahoo id
 	 * @return a company
 	 */
-	public Company selectWithYahooId(final String yahooId) {
+	public Optional<Company> selectWithYahooId(final String yahooId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT_WITH_ID, yahooId);
+			return Optional.ofNullable(session.selectOne(SELECT_WITH_ID, yahooId));
 		}
 	}
 

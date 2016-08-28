@@ -7,6 +7,7 @@ import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.IndexDAO;
 import fr.cph.stock.entities.Index;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Util;
@@ -62,7 +63,7 @@ public class IndexBusinessImpl implements IndexBusiness {
 
 	@Override
 	public final void checkUpdateIndex(final String yahooId, final TimeZone timeZone) throws YahooException {
-		final Index index = indexDAO.selectLast(yahooId);
+		final Index index = indexDAO.selectLast(yahooId).orElseThrow(() -> new NotFoundException(yahooId));
 		final Calendar currentCal = Util.getCurrentCalendarInTimeZone(timeZone);
 		final Calendar indexCal = Util.getDateInTimeZone(index.getDate(), timeZone);
 		log.debug("Check update for {} in timezone : {}", yahooId, timeZone.getDisplayName());

@@ -21,6 +21,8 @@ import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.Optional;
+
 /**
  * This class implements DAO functions and add some more. It access to the Account in DB.
  *
@@ -44,9 +46,9 @@ public class AccountDAO implements DAO<Account> {
 	}
 
 	@Override
-	public Account select(final int id) {
+	public Optional<Account> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT, id);
+			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 

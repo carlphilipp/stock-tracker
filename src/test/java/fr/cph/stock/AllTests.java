@@ -18,9 +18,7 @@ package fr.cph.stock;
 
 import fr.cph.stock.business.impl.AccountBusinessTest;
 import fr.cph.stock.business.impl.CompanyBusinessTest;
-import fr.cph.stock.dao.UserDaoImplTest;
 import fr.cph.stock.entities.UserTest;
-import fr.cph.stock.external.YahooGatewayImplTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -30,9 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	AccountBusinessTest.class,
 	CompanyBusinessTest.class,
 
-	UserDaoImplTest.class,
-	UserTest.class,
-	YahooGatewayImplTest.class
+	UserTest.class
 })
 public class AllTests {
 

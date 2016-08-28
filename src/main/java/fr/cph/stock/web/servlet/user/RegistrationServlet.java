@@ -61,9 +61,9 @@ public class RegistrationServlet extends HttpServlet {
 			} else {
 				try {
 					userBusiness.createUser(login, password, email);
-					final User user = userBusiness.getUser(login);
+					final User user = userBusiness.getUser(login).orElseThrow(() -> new LoginException(login));
 					request.setAttribute(USER, user);
-				} catch (LoginException e) {
+				} catch (final LoginException e) {
 					request.setAttribute(ERROR, e.getMessage());
 				}
 				request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);

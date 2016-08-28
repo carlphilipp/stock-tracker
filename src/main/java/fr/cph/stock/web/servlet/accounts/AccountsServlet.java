@@ -22,6 +22,7 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
@@ -82,7 +83,7 @@ public class AccountsServlet extends HttpServlet {
 			if (del != null) {
 				deleteAccount(request);
 			}
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(PORTFOLIO, portfolio);

@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -68,10 +69,9 @@ public class AuthServlet extends HttpServlet {
 			request.getSession().invalidate();
 			final String login = request.getParameter(LOGIN);
 			final String password = request.getParameter(PASSWORD);
-			final User user = userBusiness.checkUser(login, password);
-			if (user == null) {
-				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
-			} else {
+			final Optional<User> userOptional = userBusiness.checkUser(login, password);
+			if (userOptional.isPresent()) {
+				final User user = userOptional.get();
 				if (!user.getAllow()) {
 					request.getSession().setAttribute(ERROR, "Account not confirmed. Check your email!");
 					request.getRequestDispatcher("index.jsp").forward(request, response);
@@ -79,22 +79,19 @@ public class AuthServlet extends HttpServlet {
 					request.getSession().setAttribute(USER, user);
 					if (request.getCookies() != null) {
 						final List<Cookie> cookies = Arrays.asList(request.getCookies());
-						for (final String cookieName : lcookies) {
-							if (!CookieManagement.containsCookie(cookies, cookieName)) {
-								addCookieToResponse(response, cookieName, CHECKED);
-							}
-						}
+						lcookies.stream().filter(cookieName -> !CookieManagement.containsCookie(cookies, cookieName))
+							.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
 						if (!CookieManagement.containsCookie(cookies, LANGUAGE)) {
 							addCookieToResponse(response, LANGUAGE, ENGLISH);
 						}
 					} else {
-						for (final String cookieName : lcookies) {
-							addCookieToResponse(response, cookieName, CHECKED);
-						}
+						lcookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
 						addCookieToResponse(response, LANGUAGE, ENGLISH);
 					}
 					response.sendRedirect(HOME);
 				}
+			} else {
+				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			}
 		} catch (final Throwable t) {
 			log.error("Error: {}", t.getMessage(), t);

@@ -23,6 +23,7 @@ import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
@@ -89,9 +90,9 @@ public class HomeServlet extends HttpServlet {
 					final int days = Integer.parseInt(day);
 					final Calendar cal = Calendar.getInstance();
 					cal.add(Calendar.DATE, -days);
-					portfolio = userBusiness.getUserPortfolio(user.getId(), cal.getTime(), null);
+					portfolio = userBusiness.getUserPortfolio(user.getId(), cal.getTime(), null).orElseThrow(() -> new NotFoundException(user.getId()));
 				} else {
-					portfolio = userBusiness.getUserPortfolio(user.getId());
+					portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 				}
 				if (portfolio.getShareValues().size() != 0) {
 					final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();

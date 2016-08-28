@@ -26,6 +26,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -52,18 +53,19 @@ public class AuthMobileServlet extends HttpServlet {
 			request.getSession().invalidate();
 			final String login = request.getParameter(LOGIN);
 			final String password = request.getParameter(PASSWORD);
-			final User user = userBusiness.checkUser(login, password);
-			if (user == null) {
-				response.setContentType("application/json");
-				response.getWriter().write("{\"error\":\"Login or password unknown\"}");
-			} else {
+			final Optional<User> userOptional = userBusiness.checkUser(login, password);
+			if (userOptional.isPresent()) {
+				final User user = userOptional.get();
 				if (!user.getAllow()) {
 					response.setContentType("application/json");
-					response.getWriter().write("{\"error\":\"User not allowed}\"");
+					response.getWriter().write("{\"error\":\"User not allowed}\"}");
 				} else {
-					request.getSession().setAttribute(USER, user);
+					request.getSession().setAttribute(USER, userOptional);
 					response.sendRedirect(HOMEMOBILE);
 				}
+			} else {
+				response.setContentType("application/json");
+				response.getWriter().write("{\"error\":\"Login or password unknown\"}");
 			}
 		} catch (final Throwable t) {
 			log.error("Error: {}", t.getMessage(), t);

@@ -16,6 +16,8 @@
 
 package fr.cph.stock.dao;
 
+import java.util.Optional;
+
 /**
  * Interface that defines basics operation to DB.
  *
@@ -37,7 +39,7 @@ public interface DAO<T> {
 	 * @param id the id of the object to get
 	 * @return the object
 	 */
-	T select(int id);
+	Optional<T> select(int id);
 
 	/**
 	 * Update an object in DB

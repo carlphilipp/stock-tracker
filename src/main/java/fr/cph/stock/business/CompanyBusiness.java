@@ -5,6 +5,7 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CompanyBusiness {
 
@@ -16,11 +17,11 @@ public interface CompanyBusiness {
 
 	String addOrUpdateCompaniesLimitedRequest(List<String> companiesYahooIdRealTime) throws YahooException;
 
-	Company createManualCompany(String name, String industry, String sector, Currency currency, double quote);
+	Optional<Company> createManualCompany(String name, String industry, String sector, Currency currency, double quote);
 
 	void updateCompanyManual(Integer companyId, Double newQuote);
 
-	Company addOrUpdateCompany(String ticker) throws YahooException;
+	Optional<Company> addOrUpdateCompany(String ticker) throws YahooException;
 
 	void cleanDB();
 

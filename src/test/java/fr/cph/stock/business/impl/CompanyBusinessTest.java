@@ -15,18 +15,13 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -53,7 +48,7 @@ public class CompanyBusinessTest {
 		final List<Company> companies = Collections.singletonList(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
-		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(null).thenReturn(company);
+		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
 		when(yahoo.getCompanyInfo(company)).thenReturn(company);
 
 		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers);
@@ -75,7 +70,7 @@ public class CompanyBusinessTest {
 		final List<Company> companies = Collections.singletonList(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
-		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(company);
+		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
 		when(yahoo.getCompanyInfo(company)).thenReturn(company);
 
 		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers);
@@ -136,11 +131,11 @@ public class CompanyBusinessTest {
 	@Test
 	public void testCreateManualCompany() {
 		final Company company = new Company();
-		when(companyDAO.selectWithYahooId(isA(String.class))).thenReturn(company);
+		when(companyDAO.selectWithYahooId(isA(String.class))).thenReturn(Optional.of(company));
 
-		final Company actual = companyBusiness.createManualCompany("Company name", "industry", "sector", Currency.EUR, 5.0);
+		final Optional<Company> actual = companyBusiness.createManualCompany("Company name", "industry", "sector", Currency.EUR, 5.0);
 
-		assertNotNull(actual);
+		assertTrue(actual.isPresent());
 		verify(companyDAO).insert(isA(Company.class));
 		verify(companyDAO).selectWithYahooId(isA(String.class));
 	}
@@ -148,7 +143,7 @@ public class CompanyBusinessTest {
 	@Test
 	public void testUpdateCompanyManual() {
 		final Company company = new Company();
-		when(companyDAO.select(2)).thenReturn(company);
+		when(companyDAO.select(2)).thenReturn(Optional.of(company));
 
 		companyBusiness.updateCompanyManual(2, 5.0);
 
@@ -163,17 +158,17 @@ public class CompanyBusinessTest {
 		final List<Company> companies = Collections.singletonList(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
-		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(null).thenReturn(company);
+		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
 		when(yahoo.getCompanyInfo(company)).thenReturn(company);
 
-		final Company actual = companyBusiness.addOrUpdateCompany(TICKER);
+		final Optional<Company> actual = companyBusiness.addOrUpdateCompany(TICKER);
 
 		verify(yahoo).getCompaniesData(tickers);
 		verify(companyDAO, times(2)).selectWithYahooId(TICKER);
 		verify(yahoo).getCompanyInfo(company);
 		verify(companyDAO).insert(company);
-		assertNotNull(actual);
-		assertEquals(TICKER, actual.getYahooId());
+		assertTrue(actual.isPresent());
+		assertEquals(TICKER, actual.get().getYahooId());
 	}
 
 	@Test
@@ -185,15 +180,15 @@ public class CompanyBusinessTest {
 		final List<Company> companies = Collections.singletonList(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
-		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(company);
+		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
 		when(yahoo.getCompanyInfo(company)).thenReturn(company);
 
-		final Company actual = companyBusiness.addOrUpdateCompany(TICKER);
+		final Optional<Company> actual = companyBusiness.addOrUpdateCompany(TICKER);
 
 		verify(yahoo).getCompaniesData(tickers);
 		verify(companyDAO).update(company);
-		assertNotNull(actual);
-		assertEquals(TICKER, actual.getYahooId());
+		assertTrue(actual.isPresent());
+		assertEquals(TICKER, actual.get().getYahooId());
 	}
 
 	@Test

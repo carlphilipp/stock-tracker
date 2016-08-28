@@ -6,6 +6,7 @@ import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.exception.YahooException;
 
 import java.util.Calendar;
+import java.util.Optional;
 
 public interface ShareValueBusiness {
 
@@ -51,7 +52,7 @@ public interface ShareValueBusiness {
 	 * @param id the id of the sharevalue to get
 	 * @return a share value
 	 */
-	ShareValue selectOneShareValue(int id);
+	Optional<ShareValue> selectOneShareValue(int id);
 
 	/**
 	 * Update commentare in share value

@@ -15,6 +15,7 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.util.Info;
@@ -26,6 +27,7 @@ import java.math.MathContext;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 
 @Singleton
 public class UserBusinessImpl implements UserBusiness {
@@ -55,12 +57,12 @@ public class UserBusinessImpl implements UserBusiness {
 		final String md5PasswordHashed = securityService.encodeToSha256(md5Password);
 		final String saltHashed = securityService.generateSalt();
 		final String cryptedPasswordSalt = securityService.encodeToSha256(md5PasswordHashed + saltHashed);
-		final User userInDbWithLogin = getUser(login);
-		final User userInDbWithEmail = getUserWithEmail(email);
-		if (userInDbWithLogin != null) {
+		final Optional<User> userInDbWithLogin = getUser(login);
+		final Optional<User> userInDbWithEmail = getUserWithEmail(email);
+		if (!userInDbWithLogin.isPresent()) {
 			throw new LoginException("Sorry, '" + login + "' is not available!");
 		}
-		if (userInDbWithEmail != null) {
+		if (!userInDbWithEmail.isPresent()) {
 			throw new LoginException("Sorry, '" + email + "' is not available!");
 		}
 		final User user = new User();
@@ -89,12 +91,12 @@ public class UserBusinessImpl implements UserBusiness {
 	}
 
 	@Override
-	public final User getUser(final String login) {
+	public final Optional<User> getUser(final String login) {
 		return userDAO.selectWithLogin(login);
 	}
 
 	@Override
-	public final User getUserWithEmail(final String email) {
+	public final Optional<User> getUserWithEmail(final String email) {
 		return userDAO.selectWithEmail(email);
 	}
 
@@ -107,7 +109,7 @@ public class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public final void validateUser(final String login) {
-		final User user = userDAO.selectWithLogin(login);
+		final User user = userDAO.selectWithLogin(login).orElseThrow(() -> new NotFoundException(login));
 		user.setAllow(true);
 		userDAO.update(user);
 	}
@@ -121,7 +123,7 @@ public class UserBusinessImpl implements UserBusiness {
 	 * @param login the login
 	 */
 	private void createUserPortfolio(final String login) {
-		final User user = userDAO.selectWithLogin(login);
+		final User user = userDAO.selectWithLogin(login).orElseThrow(() -> new NotFoundException(login));
 		final Portfolio portfolio = new Portfolio();
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());
@@ -132,7 +134,7 @@ public class UserBusinessImpl implements UserBusiness {
 	 * @param u the user
 	 */
 	private void createUserDefaultAccount(final User u) {
-		final User user = userDAO.selectWithLogin(u.getLogin());
+		final User user = userDAO.selectWithLogin(u.getLogin()).orElseThrow(() -> new NotFoundException(u.getLogin()));
 		final Account account = new Account();
 		account.setCurrency(Currency.EUR);
 		account.setLiquidity(0.0);
@@ -143,10 +145,11 @@ public class UserBusinessImpl implements UserBusiness {
 	}
 
 	@Override
-	public final User checkUser(final String login, final String md5Password) throws LoginException {
-		User user = userDAO.selectWithLogin(login);
+	public final Optional<User> checkUser(final String login, final String md5Password) throws LoginException {
+		Optional<User> userOptional = userDAO.selectWithLogin(login);
 		final int sixtyFour = 64;
-		if (user != null) {
+		if (userOptional.isPresent()) {
+			final User user = userOptional.get();
 			String md5PasswordHashed;
 			try {
 				md5PasswordHashed = securityService.encodeToSha256(md5Password);
@@ -154,7 +157,7 @@ public class UserBusinessImpl implements UserBusiness {
 				final String cryptedPasswordSalt = user.getPassword().substring(sixtyFour, user.getPassword().length());
 				final String cryptedPasswordSaltToTest = securityService.encodeToSha256(md5PasswordHashed + saltHashed);
 				if (!cryptedPasswordSalt.equals(cryptedPasswordSaltToTest)) {
-					user = null;
+					userOptional = Optional.empty();
 				} else {
 					user.setPassword(null);
 				}
@@ -162,7 +165,7 @@ public class UserBusinessImpl implements UserBusiness {
 				throw new LoginException(e.getMessage(), e);
 			}
 		}
-		return user;
+		return userOptional;
 	}
 
 	@Override
@@ -171,36 +174,39 @@ public class UserBusinessImpl implements UserBusiness {
 	}
 
 	@Override
-	public final Portfolio getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
-		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, from, to);
-		Collections.sort(portfolio.getEquities());
-		final Currency currency = currencyBusiness.loadCurrencyData(portfolio.getCurrency());
-		portfolio.setCurrency(currency);
-		for (final Equity e : portfolio.getEquities()) {
-			if (e.getCompany().getCurrency() == portfolio.getCurrency()) {
-				e.setParity(1.0);
-			} else {
-				e.setParity(portfolio.getCurrency().getParity(e.getCompany().getCurrency()));
+	public final Optional<Portfolio> getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
+		final Optional<Portfolio> portfolioOptional = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, from, to);
+		if (portfolioOptional.isPresent()) {
+			final Portfolio portfolio = portfolioOptional.get();
+			Collections.sort(portfolio.getEquities());
+			final Currency currency = currencyBusiness.loadCurrencyData(portfolio.getCurrency());
+			portfolio.setCurrency(currency);
+			for (final Equity e : portfolio.getEquities()) {
+				if (e.getCompany().getCurrency() == portfolio.getCurrency()) {
+					e.setParity(1.0);
+				} else {
+					e.setParity(portfolio.getCurrency().getParity(e.getCompany().getCurrency()));
+				}
 			}
-		}
-		double liquidity = 0.0;
-		for (final Account acc : portfolio.getAccounts()) {
-			if (acc.getCurrency() == portfolio.getCurrency()) {
-				liquidity += acc.getLiquidity();
-				acc.setParity(1.0);
-			} else {
-				liquidity += acc.getLiquidity() * portfolio.getCurrency().getParity(acc.getCurrency());
-				acc.setParity(portfolio.getCurrency().getParity(acc.getCurrency()));
+			double liquidity = 0.0;
+			for (final Account acc : portfolio.getAccounts()) {
+				if (acc.getCurrency() == portfolio.getCurrency()) {
+					liquidity += acc.getLiquidity();
+					acc.setParity(1.0);
+				} else {
+					liquidity += acc.getLiquidity() * portfolio.getCurrency().getParity(acc.getCurrency());
+					acc.setParity(portfolio.getCurrency().getParity(acc.getCurrency()));
+				}
 			}
+			liquidity = new BigDecimal(Double.toString(liquidity), MATHCONTEXT).doubleValue();
+			portfolio.setLiquidity(liquidity);
+			portfolio.compute();
 		}
-		liquidity = new BigDecimal(Double.toString(liquidity), MATHCONTEXT).doubleValue();
-		portfolio.setLiquidity(liquidity);
-		portfolio.compute();
-		return portfolio;
+		return portfolioOptional;
 	}
 
 	@Override
-	public final Portfolio getUserPortfolio(final int userId) throws YahooException {
+	public final Optional<Portfolio> getUserPortfolio(final int userId) throws YahooException {
 		return getUserPortfolio(userId, null, null);
 	}
 

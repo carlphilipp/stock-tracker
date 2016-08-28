@@ -20,6 +20,7 @@ import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import lombok.extern.log4j.Log4j2;
@@ -59,7 +60,7 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
 			try {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 				companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 				response.sendRedirect(HOMEMOBILE);
 			} catch (YahooException e) {

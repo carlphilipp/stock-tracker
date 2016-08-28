@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Singleton
@@ -52,12 +53,12 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 			if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
 				for (final CurrencyData currencyData : currenciesData) {
 					if (!(currencyDone.contains(currencyData.getCurrency1()) || currencyDone.contains(currencyData.getCurrency2()))) {
-						CurrencyData c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
-						if (c == null) {
-							currencyDAO.insert(currencyData);
-						} else {
-							currencyData.setId(c.getId());
+						Optional<CurrencyData> c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
+						if (c.isPresent()) {
+							currencyData.setId(c.get().getId());
 							currencyDAO.update(currencyData);
+						} else {
+							currencyDAO.insert(currencyData);
 						}
 					}
 				}
@@ -105,12 +106,12 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	private void updateOrInsertCurrency(final List<CurrencyData> currenciesData) {
 		for (final CurrencyData currencyData : currenciesData) {
-			final CurrencyData c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
-			if (c == null) {
-				currencyDAO.insert(currencyData);
-			} else {
-				currencyData.setId(c.getId());
+			final Optional<CurrencyData> c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
+			if (c.isPresent()) {
+				currencyData.setId(c.get().getId());
 				currencyDAO.update(currencyData);
+			} else {
+				currencyDAO.insert(currencyData);
 			}
 		}
 	}

@@ -9,14 +9,15 @@ import fr.cph.stock.exception.YahooException;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
+import java.util.Optional;
 
 public interface UserBusiness {
 
 	void createUser(String login, String md5Password, String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException;
 
-	User getUser(String login);
+	Optional<User> getUser(String login);
 
-	User getUserWithEmail(String email);
+	Optional<User> getUserWithEmail(String email);
 
 	void deleteUser(String login);
 
@@ -24,13 +25,13 @@ public interface UserBusiness {
 
 	void updateUser(User user);
 
-	User checkUser(String login, String md5Password) throws LoginException;
+	Optional<User> checkUser(String login, String md5Password) throws LoginException;
 
 	void updateOneUserPassword(User user);
 
-	Portfolio getUserPortfolio(int userId, Date from, Date to) throws YahooException;
+	Optional<Portfolio> getUserPortfolio(int userId, Date from, Date to) throws YahooException;
 
-	Portfolio getUserPortfolio(int userId) throws YahooException;
+	Optional<Portfolio> getUserPortfolio(int userId) throws YahooException;
 
 	void updatePortfolio(Portfolio portfolio);
 

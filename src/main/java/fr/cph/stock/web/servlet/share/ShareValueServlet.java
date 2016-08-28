@@ -19,6 +19,7 @@ package fr.cph.stock.web.servlet.share;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
@@ -65,7 +66,7 @@ public class ShareValueServlet extends HttpServlet {
 			final String page = request.getParameter(PAGE);
 			final int pageNumber = StringUtils.isEmpty(page) ? 1 : Integer.parseInt(page);
 			try {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 				if (portfolio.getShareValues().size() != 0) {
 					int begin = pageNumber * ITEM_MAX - ITEM_MAX;
 					int end = pageNumber * ITEM_MAX - 1;

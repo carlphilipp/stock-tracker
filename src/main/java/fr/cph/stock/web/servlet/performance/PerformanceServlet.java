@@ -23,6 +23,7 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.entities.chart.PieChart;
 import fr.cph.stock.entities.chart.TimeChart;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
@@ -87,7 +88,7 @@ public class PerformanceServlet extends HttpServlet {
 				final Date fromDate = StringUtils.isNotEmpty(fromParameter) ? formatter.parse(fromParameter) : null;
 				final Date toDate = StringUtils.isNotEmpty(toParameter) ? formatter.parse(toParameter) : null;
 
-				portfolio = userBusiness.getUserPortfolio(user.getId(), fromDate, toDate);
+				portfolio = userBusiness.getUserPortfolio(user.getId(), fromDate, toDate).orElseThrow(() -> new NotFoundException(user.getId()));
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
 					// Reset time to 17:00PM to get also the cac40 into the day selected (or it would not select it

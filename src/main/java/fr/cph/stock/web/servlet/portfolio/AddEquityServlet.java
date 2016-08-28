@@ -23,6 +23,7 @@ import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.EquityException;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
@@ -104,7 +105,8 @@ public class AddEquityServlet extends HttpServlet {
 			parityPersonal = NumberUtils.createDouble(manualParityPersonal);
 		}
 		final Double quote = NumberUtils.createDouble(manualQuote);
-		final Company company = companyBusiness.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), quote);
+		final Company company = companyBusiness.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), quote)
+			.orElseThrow(() -> new NotFoundException(manualName));
 
 		final Equity equity = new Equity();
 		equity.setQuantity(quantity);

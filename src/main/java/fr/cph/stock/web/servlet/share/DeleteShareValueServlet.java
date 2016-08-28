@@ -22,6 +22,7 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.guice.GuiceInjector;
 import lombok.extern.log4j.Log4j2;
 
@@ -71,7 +72,7 @@ public class DeleteShareValueServlet extends HttpServlet {
 			final Double taxe = Double.parseDouble(request.getParameter(TAXE));
 			final String acc = request.getParameter(ACCOUNT);
 
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			final Account account = portfolio.getAccount(acc);
 			final ShareValue shareValue = new ShareValue();
 			shareValue.setId(shareId);

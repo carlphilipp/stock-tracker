@@ -11,9 +11,11 @@ import fr.cph.stock.dao.FollowDAO;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Follow;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class FollowBusinessImpl implements FollowBusiness {
@@ -31,9 +33,13 @@ public class FollowBusinessImpl implements FollowBusiness {
 
 	@Override
 	public final void addFollow(final User user, final String ticker, final Double lower, final Double higher) throws YahooException {
-		final Company company = companyBusiness.addOrUpdateCompany(ticker);
-		final Follow foll = followDAO.selectOneFollow(user.getId(), company.getId());
-		if (foll == null) {
+		final Company company = companyBusiness.addOrUpdateCompany(ticker).orElseThrow(() -> new NotFoundException(ticker));
+		final Optional<Follow> followOptional = followDAO.selectOneFollow(user.getId(), company.getId());
+		if (followOptional.isPresent()) {
+			followOptional.get().setLowerLimit(lower);
+			followOptional.get().setHigherLimit(higher);
+			followDAO.update(followOptional.get());
+		} else {
 			final Follow follow = new Follow();
 			follow.setCompany(company);
 			follow.setCompanyId(company.getId());
@@ -41,17 +47,13 @@ public class FollowBusinessImpl implements FollowBusiness {
 			follow.setLowerLimit(lower);
 			follow.setHigherLimit(higher);
 			followDAO.insert(follow);
-		} else {
-			foll.setLowerLimit(lower);
-			foll.setHigherLimit(higher);
-			followDAO.update(foll);
 		}
 	}
 
 	@Override
 	public final void updateFollow(final User user, final String ticker, final Double lower, final Double higher) {
-		final Company company = companyDAO.selectWithYahooId(ticker);
-		final Follow foll = followDAO.selectOneFollow(user.getId(), company.getId());
+		final Company company = companyDAO.selectWithYahooId(ticker).orElseThrow(() -> new NotFoundException(ticker));
+		final Follow foll = followDAO.selectOneFollow(user.getId(), company.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		foll.setLowerLimit(lower);
 		foll.setHigherLimit(higher);
 		followDAO.update(foll);

@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.*;
 import static org.mockito.Matchers.eq;
@@ -67,7 +68,7 @@ public class AccountsServletTest {
 	public void testAccountServlet() throws ServletException, YahooException {
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
@@ -94,7 +95,7 @@ public class AccountsServletTest {
 		when(request.getParameter(LIQUIDITY)).thenReturn("10.5");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
@@ -112,7 +113,7 @@ public class AccountsServletTest {
 		when(request.getParameter(ID)).thenReturn("1");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
@@ -129,7 +130,7 @@ public class AccountsServletTest {
 		when(request.getParameter(DELETE_2)).thenReturn("true");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
@@ -145,7 +146,7 @@ public class AccountsServletTest {
 		when(request.getParameter(DELETE_2)).thenReturn("false");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(new Portfolio());
+		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 

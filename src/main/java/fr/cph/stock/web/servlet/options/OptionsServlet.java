@@ -20,6 +20,7 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
@@ -67,7 +68,7 @@ public class OptionsServlet extends HttpServlet {
 			HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
 			final String update = request.getParameter(UPDATE);
-			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
+			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			String quoteRes = null, currencyRes = null, parityRes = null, stopLossRes = null, objectiveRes = null, yield1Res = null, yield2Res = null;
 			if (update != null) {
 				final String currency = request.getParameter(CURRENCY);

@@ -22,6 +22,7 @@ import fr.cph.stock.entities.User;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This class implements DAO functions and add some more. It access to the User in DB.
@@ -50,9 +51,9 @@ public class UserDAO implements DAO<User> {
 	}
 
 	@Override
-	public final User select(final int id) {
+	public final Optional<User> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT, id);
+			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 
@@ -87,9 +88,9 @@ public class UserDAO implements DAO<User> {
 	 * @param login the login
 	 * @return a user
 	 */
-	public final User selectWithLogin(final String login) {
+	public final Optional<User> selectWithLogin(final String login) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT_WITH_LOGIN, login);
+			return Optional.ofNullable(session.selectOne(SELECT_WITH_LOGIN, login));
 		}
 	}
 
@@ -99,9 +100,9 @@ public class UserDAO implements DAO<User> {
 	 * @param email the email
 	 * @return a user
 	 */
-	public final User selectWithEmail(final String email) {
+	public final Optional<User> selectWithEmail(final String email) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT_WITH_EMAIL, email);
+			return Optional.ofNullable(session.selectOne(SELECT_WITH_EMAIL, email));
 		}
 	}
 

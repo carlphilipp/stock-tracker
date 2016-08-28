@@ -18,6 +18,7 @@ package fr.cph.stock.web.servlet.user;
 
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.security.SecurityService;
 import lombok.extern.log4j.Log4j2;
@@ -58,7 +59,8 @@ public class NewPasswordConfirmServlet extends HttpServlet {
 		try {
 			final String login = request.getParameter(LOGIN);
 			final String password = request.getParameter(PASSWORD);
-			final User user = userBusiness.getUser(login);
+
+			final User user = userBusiness.getUser(login).orElseThrow(() -> new NotFoundException(login));
 			final String md5PasswordHashed = securityService.encodeToSha256(password);
 			final String saltHashed = securityService.generateSalt();
 			final String cryptedPasswordSalt = securityService.encodeToSha256(md5PasswordHashed + saltHashed);

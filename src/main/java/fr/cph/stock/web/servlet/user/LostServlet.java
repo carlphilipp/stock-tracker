@@ -30,6 +30,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Optional;
+
 import static fr.cph.stock.util.Constants.EMAIL;
 import static fr.cph.stock.util.Constants.ERROR;
 
@@ -60,8 +62,9 @@ public class LostServlet extends HttpServlet {
 		try {
 			final String email = request.getParameter(EMAIL);
 			if (!email.equals("")) {
-				final User user = userBusiness.getUserWithEmail(email);
-				if (user != null) {
+				final Optional<User> userOptional = userBusiness.getUserWithEmail(email);
+				if (userOptional.isPresent()) {
+					final User user = userOptional.get();
 					final StringBuilder body = new StringBuilder();
 					final String check = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 					body.append("Dear ")

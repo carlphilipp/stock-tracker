@@ -21,6 +21,7 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.guice.GuiceInjector;
 import lombok.extern.log4j.Log4j2;
 
@@ -60,7 +61,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 		try {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
-			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
+			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			try {
 				final int accountId = Integer.valueOf(request.getParameter(ACCOUNT_ID));
 				final double movement = Double.valueOf(request.getParameter(LIQUIDITY));
@@ -83,7 +84,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
 					newLiquidity = new BigDecimal(Double.toString(newLiquidity), mathContext).doubleValue();
 					userBusiness.updateLiquidity(account, newLiquidity);
-					portfolio = userBusiness.getUserPortfolio(user.getId());
+					portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 					shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 					response.sendRedirect(HOMEMOBILE);
 				}

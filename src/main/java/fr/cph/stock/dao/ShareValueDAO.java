@@ -21,6 +21,8 @@ import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.ShareValue;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.Optional;
+
 /**
  * This class implements DAO functions and add some more. It access to the ShareValue in DB.
  *
@@ -57,9 +59,9 @@ public class ShareValueDAO implements DAO<ShareValue> {
 	}
 
 	@Override
-	public final ShareValue select(final int id) {
+	public final Optional<ShareValue> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT, id);
+			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 
@@ -83,9 +85,9 @@ public class ShareValueDAO implements DAO<ShareValue> {
 	 * @param userId the user id
 	 * @return a share value
 	 */
-	public final ShareValue selectLastValue(final int userId) {
+	public final Optional<ShareValue> selectLastValue(final int userId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT_LAST_VALUE, userId);
+			return Optional.ofNullable(session.selectOne(SELECT_LAST_VALUE, userId));
 		}
 	}
 }

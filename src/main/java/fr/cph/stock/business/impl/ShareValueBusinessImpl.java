@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.TimeZone;
 
 @Log4j2
@@ -65,21 +66,21 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 		// shareValue.setAccountName(account.getName());
 		shareValue.setCommentary(commentary);
 		shareValue.setDetails(portfolio.getPortfolioReview());
-		ShareValue lastShareValue = shareValueDAO.selectLastValue(portfolio.getUserId());
-		if (lastShareValue == null) {
-			shareValue.setShareQuantity(portfolio.getTotalValue() / PERCENT);
-			shareValue.setShareValue((double) PERCENT);
-			shareValueDAO.insert(shareValue);
-		} else {
+		Optional<ShareValue> lastShareValue = shareValueDAO.selectLastValue(portfolio.getUserId());
+		if (lastShareValue.isPresent()) {
 			double parity = portfolio.getCurrency() == account.getCurrency()
 				? 1
 				: portfolio.getCurrency().getParity(account.getCurrency());
-			final Double quantity = lastShareValue.getShareQuantity() + (liquidityMovement * parity)
-				/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.getShareQuantity());
+			final Double quantity = lastShareValue.get().getShareQuantity() + (liquidityMovement * parity)
+				/ ((portfolio.getTotalValue() - liquidityMovement * parity) / lastShareValue.get().getShareQuantity());
 			shareValue.setShareQuantity(new BigDecimal(Double.toString(quantity), MATHCONTEXT).doubleValue());
 
 			final Double shareValue2 = portfolio.getTotalValue() / quantity;
 			shareValue.setShareValue(new BigDecimal(Double.toString(shareValue2), MATHCONTEXT).doubleValue());
+			shareValueDAO.insert(shareValue);
+		} else {
+			shareValue.setShareQuantity(portfolio.getTotalValue() / PERCENT);
+			shareValue.setShareValue((double) PERCENT);
 			shareValueDAO.insert(shareValue);
 		}
 	}
@@ -98,20 +99,10 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 	public final void autoUpdateUserShareValue(final Calendar calendar) throws YahooException {
 		boolean tryToUpdate = false, companyUpdateSuccess = false;
 		final List<User> users = userDAO.selectAllUsers();
-		Portfolio portfolio;
-		Account account;
 		for (final User user : users) {
 			if (user.getUpdateHourTime() != null) {
 				final int hourDiff = Util.timeZoneDiff(TimeZone.getTimeZone(user.getTimeZone()));
 				final int hour = Util.getRealHour(user.getUpdateHourTime(), hourDiff);
-
-				/*
-				 * if (user.getLogin().equals("carl") || user.getLogin().equals("carlphilipp")) { LOG.info("========================");
-				 * LOG.info("User : " + user.getLogin()); LOG.info("Current paris hour: " + calendar.get(Calendar.HOUR_OF_DAY));
-				 * LOG.info("User current time zone: " + user.getTimeZone()); LOG.info("Hour diff: " + hourDiff); LOG.info("User wants to update at "
-				 * + user.getUpdateHourTime()); LOG.info("Hour retained for user: " + hour); }
-				 */
-
 				final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 				if (hour == currentHour) {
 					if (!tryToUpdate) {
@@ -120,9 +111,11 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 					}
 					if (companyUpdateSuccess) {
 						log.info("Update user portfolio: {}", user.getLogin());
-						portfolio = userBusiness.getUserPortfolio(user.getId());
-						account = portfolio.getFirstAccount();
-						updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");
+						final Optional<Portfolio> portfolioOptional = userBusiness.getUserPortfolio(user.getId());
+						portfolioOptional.ifPresent(portfolio -> {
+							final Account account = portfolio.getFirstAccount();
+							updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");
+						});
 					} else {
 						if (user.getUpdateSendMail()) {
 							final String body = ("Dear "
@@ -138,7 +131,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 	}
 
 	@Override
-	public final ShareValue selectOneShareValue(final int id) {
+	public final Optional<ShareValue> selectOneShareValue(final int id) {
 		return shareValueDAO.select(id);
 	}
 

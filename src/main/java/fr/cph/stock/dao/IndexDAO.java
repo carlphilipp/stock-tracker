@@ -21,10 +21,7 @@ import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Index;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class implements DAO functions and add some more. It access to the Index in DB.
@@ -51,9 +48,9 @@ public class IndexDAO implements DAO<Index> {
 	}
 
 	@Override
-	public final Index select(final int id) {
+	public final Optional<Index> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT, id);
+			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 
@@ -95,9 +92,9 @@ public class IndexDAO implements DAO<Index> {
 	 * @param yahooId the index requested
 	 * @return and Index with last data
 	 */
-	public final Index selectLast(final String yahooId) {
+	public final Optional<Index> selectLast(final String yahooId) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectOne(SELECT_LAST, yahooId);
+			return Optional.ofNullable(session.selectOne(SELECT_LAST, yahooId));
 		}
 	}
 }

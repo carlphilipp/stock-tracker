@@ -20,6 +20,7 @@ import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
@@ -64,7 +65,7 @@ public class CurrencyServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			final String update = request.getParameter(UPDATE);
 			if (update != null) {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
+				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 				try {
 					currencyBusiness.updateOneCurrency(portfolio.getCurrency());
 					request.setAttribute(MESSAGE, "Done !");
@@ -72,7 +73,7 @@ public class CurrencyServlet extends HttpServlet {
 					request.setAttribute(ERROR, e.getMessage());
 				}
 			}
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId());
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			final Object[][] tab = currencyBusiness.getAllCurrencyData(portfolio.getCurrency());
 			request.setAttribute(PORTFOLIO, portfolio);
 			request.setAttribute(TAB, tab);
