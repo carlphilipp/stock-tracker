@@ -23,7 +23,7 @@ import java.util.Properties;
 public class DropBoxImpl implements DropBox {
 
 	private static final SimpleDateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-	private DropboxAPI<WebAuthSession> dropBoxAPI;
+	private final DropboxAPI<WebAuthSession> dropBoxAPI;
 
 	public DropBoxImpl() {
 		final Properties prop = Util.getProperties();

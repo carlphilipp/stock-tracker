@@ -79,9 +79,9 @@ public class AuthServlet extends HttpServlet {
 					request.getSession().setAttribute(USER, user);
 					if (request.getCookies() != null) {
 						final List<Cookie> cookies = Arrays.asList(request.getCookies());
-						lcookies.stream().filter(cookieName -> !CookieManagement.containsCookie(cookies, cookieName))
+						lcookies.stream().filter(cookieName -> CookieManagement.notContainsCookie(cookies, cookieName))
 							.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
-						if (!CookieManagement.containsCookie(cookies, LANGUAGE)) {
+						if (CookieManagement.notContainsCookie(cookies, LANGUAGE)) {
 							addCookieToResponse(response, LANGUAGE, ENGLISH);
 						}
 					} else {

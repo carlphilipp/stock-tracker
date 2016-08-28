@@ -33,7 +33,7 @@ import org.quartz.JobExecutionContext;
 @Log4j2
 public class SP500Job implements Job {
 
-	private IndexBusiness indexBusiness;
+	private final IndexBusiness indexBusiness;
 
 	/**
 	 * Constructor

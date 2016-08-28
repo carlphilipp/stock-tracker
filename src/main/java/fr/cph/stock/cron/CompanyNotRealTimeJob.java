@@ -17,6 +17,7 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.business.CompanyBusiness;
+import fr.cph.stock.guice.GuiceInjector;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -32,11 +33,8 @@ public class CompanyNotRealTimeJob implements Job {
 
 	private CompanyBusiness business;
 
-	/**
-	 * Constructor
-	 **/
 	public CompanyNotRealTimeJob() {
-		business = null;
+		business = GuiceInjector.INSTANCE.getCompanyBusiness();
 	}
 
 	@Override

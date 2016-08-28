@@ -37,11 +37,11 @@ import java.util.List;
  */
 public class Csv {
 	/** User **/
-	private User user;
+	private final User user;
 	/** Reader **/
-	private BufferedReader reader;
+	private final BufferedReader reader;
 	/** Account **/
-	private String account;
+	private final String account;
 
 	/**
 	 * Constructor

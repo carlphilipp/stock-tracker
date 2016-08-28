@@ -14,7 +14,6 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 
 import java.awt.*;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,8 +28,8 @@ import java.util.Map.Entry;
  */
 public class PdfReport {
 
-	private String jrxml;
-	private Map<String, Object> parameters;
+	private final String jrxml;
+	private final Map<String, Object> parameters;
 
 	/**
 	 * Constructor
@@ -56,10 +55,9 @@ public class PdfReport {
 	 * Get report
 	 *
 	 * @return a jasper print
-	 * @throws FileNotFoundException the file not found exception
-	 * @throws JRException           the jreException
+	 * @throws JRException the jreException
 	 */
-	public final JasperPrint getReport() throws FileNotFoundException, JRException {
+	public final JasperPrint getReport() throws JRException {
 		final InputStream inputStream = PdfReport.class.getClassLoader().getResourceAsStream(jrxml);
 		final JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
 		final JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);

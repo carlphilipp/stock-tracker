@@ -38,7 +38,7 @@ public class IndexDAO implements DAO<Index> {
 	private static final String SELECT_FROM_TO = "fr.cph.stock.dao.IndexDao.selectListIndexFromTo";
 	private static final String SELECT_LAST = "fr.cph.stock.dao.IndexDao.selectLastIndex";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Index index) {

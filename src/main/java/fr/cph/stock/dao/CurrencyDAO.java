@@ -41,7 +41,7 @@ public class CurrencyDAO implements DAO<CurrencyData> {
 	private static final String SELECT_LIST = "fr.cph.stock.dao.CurrencyData.selectListCurrencyData";
 	private static final String SELECT_LIST_ALL = "fr.cph.stock.dao.CurrencyData.selectListAllCurrencyData";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final CurrencyData currencyData) {

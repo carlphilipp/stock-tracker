@@ -41,7 +41,7 @@ public class FollowDAO implements DAO<Follow> {
 	private static final String DELETE = "fr.cph.stock.dao.FollowDao.deleteOneFollow";
 	private static final String SELECT_LIST = "fr.cph.stock.dao.FollowDao.selectListFollow";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Follow follow) {

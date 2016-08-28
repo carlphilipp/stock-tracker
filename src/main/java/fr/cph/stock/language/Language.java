@@ -21,7 +21,6 @@ import lombok.extern.log4j.Log4j2;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 
-import java.io.IOException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
@@ -40,10 +39,10 @@ public class Language {
 	/**
 	 * Path of the XML file
 	 **/
-	private String path;
+	private final String path;
 	private XMLRetriever xml;
 	private Map<String, String> map;
-	private static FileSystem system = FileSystems.getDefault();
+	private static final FileSystem FILE_SYSTEM = FileSystems.getDefault();
 	private static final String BASE = "/root";
 	private static final String CONSTANT = "/constant";
 	private static final String MENU = "/menu/title";
@@ -64,14 +63,14 @@ public class Language {
 	/**
 	 * Constructor
 	 *
-	 * @param p the path of the xml file
+	 * @param path the path of the xml file
 	 * @throws LanguageException the language exception
 	 */
 	protected Language(final String path) {
 		this.path = path;
 		try {
 			this.xml = new XMLRetriever(path);
-		} catch (final IOException | DocumentException e) {
+		} catch (final DocumentException e) {
 			log.error(e.getMessage(), e);
 			throw new LanguageException(e.getMessage(), e);
 		}
@@ -84,7 +83,7 @@ public class Language {
 	 * @return the language name
 	 */
 	public final String getLanguageName() {
-		return path.substring(path.indexOf(system.getSeparator() + "xml" + system.getSeparator()) + 5, path.indexOf(".xml"));
+		return path.substring(path.indexOf(FILE_SYSTEM.getSeparator() + "xml" + FILE_SYSTEM.getSeparator()) + 5, path.indexOf(".xml"));
 	}
 
 	/**

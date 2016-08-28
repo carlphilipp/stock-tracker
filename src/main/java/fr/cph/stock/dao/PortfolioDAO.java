@@ -45,7 +45,7 @@ public class PortfolioDAO implements DAO<Portfolio> {
 	private static final String SHARE_VALUE_SELECT_FROM = "fr.cph.stock.dao.ShareValue.selectShareValueFrom";
 	private static final String SHARE_VALUE_SELECT_TO = "fr.cph.stock.dao.ShareValue.selectShareValueFromTo";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Portfolio portfolio) {

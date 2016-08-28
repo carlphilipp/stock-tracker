@@ -37,7 +37,7 @@ public class EquityDAO implements DAO<Equity> {
 	private static final String UPDATE = "fr.cph.stock.dao.EquityDao.updateOneEquity";
 	private static final String DELETE = "fr.cph.stock.dao.EquityDao.deleteOneEquity";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final Equity equity) {

@@ -6,9 +6,6 @@ import fr.cph.stock.exception.YahooException;
 
 import java.util.List;
 
-/**
- * Created by carl on 8/11/16.
- */
 public interface FollowBusiness {
 
 	void addFollow(User user, String ticker, Double lower, Double higher) throws YahooException;

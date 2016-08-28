@@ -23,12 +23,12 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	private static final int PAUSE = 1000;
 
+	@Inject
 	private ExternalDataAccess yahoo;
 	private CurrencyDAO currencyDAO;
 
 	@Inject
-	public CurrencyBusinessImpl(final ExternalDataAccess yahoo, @Named("Currency") final DAO dao) {
-		this.yahoo = yahoo;
+	public void setCurrencyDAO(@Named("Currency") final DAO dao) {
 		currencyDAO = (CurrencyDAO) dao;
 	}
 
@@ -51,17 +51,17 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
 			Util.makeAPause(PAUSE);
 			if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
-				for (final CurrencyData currencyData : currenciesData) {
-					if (!(currencyDone.contains(currencyData.getCurrency1()) || currencyDone.contains(currencyData.getCurrency2()))) {
-						Optional<CurrencyData> c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
+				currenciesData.stream()
+					.filter(currencyData -> !(currencyDone.contains(currencyData.getCurrency1()) || currencyDone.contains(currencyData.getCurrency2())))
+					.forEach(currencyData -> {
+						final Optional<CurrencyData> c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
 						if (c.isPresent()) {
 							currencyData.setId(c.get().getId());
 							currencyDAO.update(currencyData);
 						} else {
 							currencyDAO.insert(currencyData);
 						}
-					}
-				}
+					});
 				currencyDone.add(currency);
 			} else {
 				log.warn("Impossible to update this currency: {}", currency.getCode());

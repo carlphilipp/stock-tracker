@@ -20,14 +20,18 @@ import java.util.Optional;
 @Singleton
 public class FollowBusinessImpl implements FollowBusiness {
 
+	@Inject
 	private CompanyBusiness companyBusiness;
 	private FollowDAO followDAO;
 	private CompanyDAO companyDAO;
 
 	@Inject
-	public FollowBusinessImpl(final CompanyBusiness companyBusiness, @Named("Follow") final DAO followDAO, @Named("Company") final DAO companyDAO) {
-		this.companyBusiness = companyBusiness;
+	public void setFollowDAO(@Named("Follow") final DAO followDAO) {
 		this.followDAO = (FollowDAO) followDAO;
+	}
+
+	@Inject
+	public void setCompanyDAO(@Named("Company") final DAO companyDAO) {
 		this.companyDAO = (CompanyDAO) companyDAO;
 	}
 

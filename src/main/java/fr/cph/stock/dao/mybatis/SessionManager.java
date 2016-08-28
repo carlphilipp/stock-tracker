@@ -23,16 +23,15 @@ import org.apache.ibatis.session.SqlSessionFactory;
  * Abstract class that load DB objects
  *
  * @author Carl-Philipp Harmant
- *
- * @param <T>
- *            the type of object the current class will process
  */
 public enum SessionManager {
 
 	INSTANCE;
 
-	/** Sql session **/
-	private SqlSessionFactory sqlSessionFactory = Mybatis.INSTANCE.getSqlMapInstance();
+	/**
+	 * Sql session
+	 **/
+	private final SqlSessionFactory sqlSessionFactory = Mybatis.INSTANCE.getSqlMapInstance();
 
 	/**
 	 * Open session to DB

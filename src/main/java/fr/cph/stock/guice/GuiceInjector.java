@@ -9,7 +9,7 @@ public enum GuiceInjector {
 
 	INSTANCE;
 
-	private Injector injector;
+	private final Injector injector;
 
 	GuiceInjector() {
 		injector = Guice.createInjector(new GuiceModule());

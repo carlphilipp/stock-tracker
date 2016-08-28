@@ -38,7 +38,7 @@ public class ShareValueDAO implements DAO<ShareValue> {
 	private static final String INSERT_WITH_DATE = "fr.cph.stock.dao.ShareValue.insertOneShareValueWithDate";
 	private static final String SELECT_LAST_VALUE = "fr.cph.stock.dao.ShareValue.selectLastValue";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final ShareValue shareValue) {

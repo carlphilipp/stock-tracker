@@ -52,5 +52,5 @@ public enum MarketCapitalization {
 	}
 
 	/** Market **/
-	private String market;
+	private final String market;
 }

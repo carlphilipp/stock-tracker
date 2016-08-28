@@ -17,7 +17,6 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import com.google.gson.JsonObject;
-import fr.cph.stock.entities.User;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -28,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static fr.cph.stock.util.Constants.SESSION;
-import static fr.cph.stock.util.Constants.USER;
 
 /**
  * This servlet is called by mobiles to logout from the app
@@ -46,10 +44,6 @@ public class LogOutMobileServlet extends HttpServlet {
 		try {
 			final HttpSession session = request.getSession(false);
 			if (session != null) {
-				User user = (User) session.getAttribute(USER);
-				if (user != null) {
-					user = null;
-				}
 				session.invalidate();
 			}
 			response.setCharacterEncoding("UTF-8");

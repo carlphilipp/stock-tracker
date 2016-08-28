@@ -36,7 +36,7 @@ public class AccountDAO implements DAO<Account> {
 	private static final String UPDATE = "fr.cph.stock.dao.AccountDao.updateOneAccount";
 	private static final String DELETE = "fr.cph.stock.dao.AccountDao.deleteOneAccount";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public void insert(final Account account) {

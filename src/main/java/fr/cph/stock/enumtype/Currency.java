@@ -150,14 +150,14 @@ public enum Currency {
 	/**
 	 * name
 	 **/
-	private String name;
+	private final String name;
 	/**
 	 * symbol
 	 **/
-	private String symbol;
+	private final String symbol;
 	/**
 	 * cod
 	 **/
-	private String code;
+	private final String code;
 
 }

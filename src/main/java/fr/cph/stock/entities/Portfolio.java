@@ -463,16 +463,19 @@ public class Portfolio {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<table class=\"shareValueTableDetails\">");
 		for (Equity equity : getEquities()) {
-			sb.append("<tr><td width=200px><b>" + equity.getCurrentName() + "</b></td><td width=180px>" + equity.getQuantity() + " * "
-				+ equity.getCompany().getQuote());
+			sb.append("<tr><td width=200px><b>")
+				.append(equity.getCurrentName())
+				.append("</b></td><td width=180px>")
+				.append(equity.getQuantity())
+				.append(" * ")
+				.append(equity.getCompany().getQuote());
 			if (equity.getCompany().getCurrency() != getCurrency()) {
-				sb.append(" * " + getCurrency().getParity(equity.getCompany().getCurrency()));
+				sb.append(" * ").append(getCurrency().getParity(equity.getCompany().getCurrency()));
 			}
-			sb.append("</td><td>" + equity.getValue() + " (" + getCurrency().getCode() + ")</td></tr>");
+			sb.append("</td><td>").append(equity.getValue()).append(" (").append(getCurrency().getCode()).append(")</td></tr>");
 		}
-		sb.append("<tr><td colspan=3><b>Liquidity:</b> " + getLiquidity() + " (" + getCurrency().getCode() + ")</td></tr>");
-		sb.append("<tr><td colspan=3><b>Total:</b> " + new BigDecimal(getTotalValue(), mathContext).doubleValue() + " (" + getCurrency().getCode()
-			+ ")</td></tr>");
+		sb.append("<tr><td colspan=3><b>Liquidity:</b> ").append(getLiquidity()).append(" (").append(getCurrency().getCode()).append(")</td></tr>");
+		sb.append("<tr><td colspan=3><b>Total:</b> ").append(new BigDecimal(getTotalValue(), mathContext).doubleValue()).append(" (").append(getCurrency().getCode()).append(")</td></tr>");
 		sb.append("</table>");
 		return sb.toString();
 	}

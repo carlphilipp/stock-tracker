@@ -107,7 +107,7 @@ public enum Util {
 	 */
 	public static int getRealHour(final int hour1, final int hour2) {
 		final int hourInDay = 24;
-		int res = 0;
+		int res;
 		int add = hour1 + hour2;
 		if (add >= hourInDay) {
 			res = add - hourInDay;

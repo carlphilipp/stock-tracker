@@ -36,15 +36,15 @@ public class TimeChart extends AChart {
 	/**
 	 * Starting date of the chart
 	 **/
-	private Date date;
+	private final Date date;
 	/**
 	 * Share value info
 	 **/
-	private Map<Date, Double> shareValue;
+	private final Map<Date, Double> shareValue;
 	/**
 	 * Indexes
 	 **/
-	private Map<String, List<Index>> indexes;
+	private final Map<String, List<Index>> indexes;
 
 	/**
 	 * Constructor that constructs a time chart
@@ -84,20 +84,20 @@ public class TimeChart extends AChart {
 			dataTemp.append(",");
 			drawTemp.append(",");
 			List<Index> indexesTemp = e.getValue();
-			dataTemp.append("\nd" + j + " = [");
+			dataTemp.append("\nd").append(j).append(" = [");
 			String indexName = null;
 			if (indexesTemp.get(0).getYahooId().equals(Info.YAHOO_ID_CAC40)) {
 				indexName = "CAC 40";
 			} else if (indexesTemp.get(0).getYahooId().equals(Info.YAHOO_ID_SP500)) {
 				indexName = "S&P 500";
 			}
-			drawTemp.append("{data: d" + j + ", label: '" + indexName + "'}");
+			drawTemp.append("{data: d").append(j).append(", label: '").append(indexName).append("'}");
 			int k = 0;
 			for (Index indexTemp : indexesTemp) {
 				if (k != 0) {
 					dataTemp.append(",");
 				}
-				dataTemp.append("[" + indexTemp.getDate().getTime() + "," + indexTemp.getShareValue() + "]");
+				dataTemp.append("[").append(indexTemp.getDate().getTime()).append(",").append(indexTemp.getShareValue()).append("]");
 				k++;
 			}
 			dataTemp.append("]");

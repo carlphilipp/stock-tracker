@@ -35,7 +35,7 @@ import java.util.TimeZone;
 @Log4j2
 public class SP500CheckJob implements Job {
 
-	private IndexBusiness indexBusiness;
+	private final IndexBusiness indexBusiness;
 
 	/**
 	 * Constructor

@@ -76,8 +76,7 @@ public final class Mail {
 	 * @throws MessagingException the messaging exception
 	 * @throws IOException        the io exception
 	 */
-	private void sendSSLMessage(final String[] recipients, final String subject, final String message, final String attachFile)
-		throws MessagingException, IOException {
+	private void sendSSLMessage(final String[] recipients, final String subject, final String message, final String attachFile) throws MessagingException {
 		final boolean debug = false;
 
 		final Properties props = new Properties();

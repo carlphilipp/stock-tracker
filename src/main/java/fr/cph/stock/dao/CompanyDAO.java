@@ -44,7 +44,7 @@ public class CompanyDAO implements DAO<Company> {
 	private static final String SELECT_NOT_REAL_TIME = "fr.cph.stock.dao.CompanyDao.selectAllCompanyNotRealTime";
 	private static final String SELECT_UNUSED = "fr.cph.stock.dao.CompanyDao.selectAllUnusedCompanyIds";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public void insert(final Company company) {

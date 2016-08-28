@@ -37,7 +37,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 import static fr.cph.stock.util.Constants.*;
@@ -52,7 +51,7 @@ import static fr.cph.stock.util.Constants.*;
 public class AddEquityServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4917456731220463031L;
-	;
+
 	private CompanyBusiness companyBusiness;
 	private EquityBusiness equityBusiness;
 	private LanguageFactory languageFactory;
@@ -120,7 +119,7 @@ public class AddEquityServlet extends HttpServlet {
 		}
 	}
 
-	private void add(final HttpServletRequest request, final int id, final String lang) throws UnsupportedEncodingException {
+	private void add(final HttpServletRequest request, final int id, final String lang) {
 		final String ticker = request.getParameter(TICKER).toUpperCase();
 		final String unitCostP = request.getParameter(UNIT_COST_PRICE);
 		final String quant = request.getParameter(QUANTITY);

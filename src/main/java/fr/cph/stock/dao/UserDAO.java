@@ -41,7 +41,7 @@ public class UserDAO implements DAO<User> {
 	private static final String SELECT_WITH_EMAIL = "fr.cph.stock.dao.UserDao.selectOneUserWithEmail";
 	private static final String SELECT_ALL_USER = "fr.cph.stock.dao.UserDao.selectAllUsers";
 
-	private SessionManager sessionManager = SessionManager.INSTANCE;
+	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
 	public final void insert(final User user) {

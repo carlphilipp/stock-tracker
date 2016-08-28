@@ -33,11 +33,11 @@ import java.util.Map.Entry;
 public class TimeValueChart extends AChart {
 
 	/** Starting date **/
-	private Date date;
+	private final Date date;
 	/** Portfolio value **/
-	private Map<Date, Double> portfolioValue;
+	private final Map<Date, Double> portfolioValue;
 	/** Liqudity **/
-	private Map<Date, Double> liquidity;
+	private final Map<Date, Double> liquidity;
 
 	/**
 	 * Constructor
@@ -66,7 +66,7 @@ public class TimeValueChart extends AChart {
 			if (i != 1) {
 				dataTemp.append(",");
 			}
-			dataTemp.append("[" + e.getKey().getTime() + "," + e.getValue() + "]");
+			dataTemp.append("[").append(e.getKey().getTime()).append(",").append(e.getValue()).append("]");
 			i++;
 		}
 		dataTemp.append("]");
@@ -77,7 +77,7 @@ public class TimeValueChart extends AChart {
 			if (j != 1) {
 				dataTemp.append(",");
 			}
-			dataTemp.append("[" + e.getKey().getTime() + "," + e.getValue() + "]");
+			dataTemp.append("[").append(e.getKey().getTime()).append(",").append(e.getValue()).append("]");
 			j++;
 		}
 		dataTemp.append("]");

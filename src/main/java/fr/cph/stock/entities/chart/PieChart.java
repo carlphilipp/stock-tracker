@@ -28,7 +28,7 @@ import java.util.Map.Entry;
 public class PieChart extends AChart {
 
 	/** Equities **/
-	private Map<String, Double> equities;
+	private final Map<String, Double> equities;
 
 	/**
 	 * Constructor that will construct a chart with the given equities

@@ -35,7 +35,7 @@ import java.util.TimeZone;
 @Log4j2
 public class UserJob implements Job {
 
-	private ShareValueBusiness shareValueBusiness;
+	private final ShareValueBusiness shareValueBusiness;
 
 	/**
 	 * Constructor

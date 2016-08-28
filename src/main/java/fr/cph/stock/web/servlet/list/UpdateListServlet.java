@@ -33,9 +33,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -49,7 +49,6 @@ import static fr.cph.stock.util.Constants.*;
 public class UpdateListServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	;
 
 	private FollowBusiness followBusiness;
 	private CompanyBusiness companyBusiness;
@@ -96,12 +95,10 @@ public class UpdateListServlet extends HttpServlet {
 	private void update(final int userId, final StringBuilder error) {
 		try {
 			final List<Follow> follows = followBusiness.getListFollow(userId);
-			final List<String> followsString = new ArrayList<>();
-			for (final Follow follow : follows) {
-				if (follow.getCompany().getRealTime() != null && follow.getCompany().getRealTime()) {
-					followsString.add(follow.getCompany().getYahooId());
-				}
-			}
+			final List<String> followsString = follows.stream()
+				.filter(follow -> follow.getCompany().getRealTime() != null && follow.getCompany().getRealTime())
+				.map(follow -> follow.getCompany().getYahooId())
+				.collect(Collectors.toList());
 			companyBusiness.addOrUpdateCompaniesLimitedRequest(followsString);
 		} catch (final YahooException e1) {
 			error.append(e1.getMessage()).append(" ");

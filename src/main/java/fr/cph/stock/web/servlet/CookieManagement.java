@@ -53,11 +53,15 @@ public enum CookieManagement {
 	 * @param cookieName a cookie name
 	 * @return true or false
 	 */
-	public static boolean containsCookie(@NonNull final List<Cookie> cookies, final String cookieName) {
+	private static boolean containsCookie(@NonNull final List<Cookie> cookies, final String cookieName) {
 		return cookies.stream()
 			.filter(cookie -> cookie.getName().equals(cookieName))
 			.findFirst()
 			.map(cookie -> true)
 			.orElse(false);
+	}
+
+	public static boolean notContainsCookie(@NonNull final List<Cookie> cookies, final String cookieName) {
+		return !containsCookie(cookies, cookieName);
 	}
 }

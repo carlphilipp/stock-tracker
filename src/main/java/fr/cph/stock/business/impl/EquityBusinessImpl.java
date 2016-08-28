@@ -16,7 +16,6 @@ import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 @Singleton
@@ -66,7 +65,7 @@ public class EquityBusinessImpl implements EquityBusiness {
 	}
 
 	@Override
-	public final void updateEquity(final int userId, final String ticker, final Equity equity) throws UnsupportedEncodingException, YahooException {
+	public final void updateEquity(final int userId, final String ticker, final Equity equity) throws YahooException {
 		final Company company = companyDAO.selectWithYahooId(ticker).orElseThrow(() -> new NotFoundException(ticker));
 		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
 

@@ -155,5 +155,5 @@ public enum Market {
 	}
 
 	/** Market type **/
-	private String marketType;
+	private final String marketType;
 }

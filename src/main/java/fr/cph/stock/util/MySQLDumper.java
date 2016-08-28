@@ -35,20 +35,20 @@ public class MySQLDumper {
 	/**
 	 * Ip
 	 **/
-	private String ip;
+	private final String ip;
 	// private static String port = "3306";
 	/**
 	 * Database
 	 **/
-	private String database;
+	private final String database;
 	/**
 	 * Database user
 	 **/
-	private String user;
+	private final String user;
 	/**
 	 * Database password
 	 **/
-	private String pass;
+	private final String pass;
 	/**
 	 * Path
 	 **/
@@ -64,7 +64,7 @@ public class MySQLDumper {
 	/**
 	 * Date
 	 **/
-	private String date;
+	private final String date;
 
 	/**
 	 * Constructor

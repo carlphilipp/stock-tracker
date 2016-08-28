@@ -23,7 +23,6 @@ import org.dom4j.io.SAXReader;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
@@ -44,10 +43,9 @@ public class XMLRetriever {
 	 * Constructor
 	 *
 	 * @param path the path of the xml file
-	 * @throws IOException       the io exception
 	 * @throws DocumentException the document exception
 	 */
-	public XMLRetriever(final String path) throws IOException, DocumentException {
+	public XMLRetriever(final String path) throws DocumentException {
 		final URL inputStream = Thread.currentThread().getContextClassLoader().getResource(path);
 		document = parse(inputStream);
 	}
