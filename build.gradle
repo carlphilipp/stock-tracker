@@ -29,8 +29,7 @@ dependencies {
 		[group: 'commons-lang', name: 'commons-lang', version: '2.6'],
 
 		// Dropbox
-		[name: 'dropbox-java-sdk-1.5.3'],
-		[group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'],
+		[group: 'com.dropbox.core', name: 'dropbox-core-sdk', version: '2.1.1'],
 
 		// Guice
 		[group: 'com.google.inject', name: 'guice', version: '4.1.0'],

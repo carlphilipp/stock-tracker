@@ -16,7 +16,7 @@
 
 package fr.cph.stock.dropbox;
 
-import com.dropbox.client2.exception.DropboxException;
+import com.dropbox.core.DbxException;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +30,7 @@ import java.text.ParseException;
  */
 public interface DropBox {
 
-	void deleteOldFileIfNeeded(final File file) throws ParseException, DropboxException;
+	void deleteOldFileIfNeeded(final File file) throws ParseException, DbxException;
 
-	void uploadFile(final File file) throws DropboxException, IOException;
+	void uploadFile(final File file) throws IOException, DbxException;
 }
