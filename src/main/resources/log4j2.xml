@@ -14,25 +14,25 @@
 		</RollingRandomAccessFile>
 	</Appenders>
 	<Loggers>
-		<Logger name="fr.cph.stock" level="debug" additivity="false">
+		<AsyncLogger name="fr.cph.stock" level="debug" additivity="false">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
-		</Logger>
-		<Logger name="fr.cph.stock.dao" level="info" additivity="false">
+		</AsyncLogger>
+		<AsyncLogger name="fr.cph.stock.dao" level="info" additivity="false">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
-		</Logger>
-		<Logger name="org.quartz.core" level="info" additivity="false">
+		</AsyncLogger>
+		<AsyncLogger name="org.quartz.core" level="info" additivity="false">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
-		</Logger>
-		<Logger name="org.apache.ibatis" level="info" additivity="false">
+		</AsyncLogger>
+		<AsyncLogger name="org.apache.ibatis" level="info" additivity="false">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
-		</Logger>
-		<Root level="debug">
+		</AsyncLogger>
+		<AsyncRoot level="debug">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
-		</Root>
+		</AsyncRoot>
 	</Loggers>
 </Configuration>
