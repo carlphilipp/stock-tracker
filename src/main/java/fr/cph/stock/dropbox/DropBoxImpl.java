@@ -45,7 +45,7 @@ public class DropBoxImpl implements DropBox {
 			try {
 				client.files().delete("/" + date + "-stock.tar.gz");
 			} catch (final DbxException e) {
-				log.error("Error while deleting Dropbox file", e);
+				log.error("Error while deleting DropBox file", e);
 			}
 		});
 	}

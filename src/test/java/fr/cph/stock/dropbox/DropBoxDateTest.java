@@ -12,13 +12,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 @RunWith(value = Parameterized.class)
-public class DropBoxTest {
+public class DropBoxDateTest {
 
 	private DropBoxImpl dropBox = new DropBoxImpl();
 	private File file;
 	private String expected;
 
-	public DropBoxTest(final File file, final String expected) {
+	public DropBoxDateTest(final File file, final String expected) {
 		this.file = file;
 		this.expected = expected;
 	}
@@ -34,7 +34,7 @@ public class DropBoxTest {
 	}
 
 	@Test
-	public void testE() {
+	public void test() {
 		assertThat(dropBox.calculateNewDateFromFileName(file), is(expected));
 	}
 }

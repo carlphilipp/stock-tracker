@@ -30,7 +30,7 @@ import java.text.ParseException;
  */
 public interface DropBox {
 
-	void deleteOldFileIfNeeded(final File file) throws ParseException, DbxException;
+	void deleteOldFileIfNeeded(File file) throws ParseException, DbxException;
 
-	void uploadFile(final File file) throws IOException, DbxException;
+	void uploadFile(File file) throws IOException, DbxException;
 }
