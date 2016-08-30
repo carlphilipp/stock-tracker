@@ -68,11 +68,11 @@ public class AccountsServletTest {
 	public void testAccountServlet() throws ServletException, YahooException {
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
+		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(userBusiness).getUserPortfolio(eq(1));
 		verifyMainAttributes();
 	}
 
@@ -95,11 +95,11 @@ public class AccountsServletTest {
 		when(request.getParameter(LIQUIDITY)).thenReturn("10.5");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
+		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(userBusiness).getUserPortfolio(eq(1));
 		verify(accountBusiness).addAccount(isA(Account.class));
 		verify(request).setAttribute(eq(MESSAGE), eq(ADDED));
 		verifyMainAttributes();
@@ -113,11 +113,11 @@ public class AccountsServletTest {
 		when(request.getParameter(ID)).thenReturn("1");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
+		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(userBusiness).getUserPortfolio(eq(1));
 		verify(accountBusiness).updateAccount(isA(Account.class));
 		verify(request).setAttribute(eq(MESSAGE), eq(MODIFIED_MESSAGE));
 		verifyMainAttributes();
@@ -130,11 +130,11 @@ public class AccountsServletTest {
 		when(request.getParameter(DELETE_2)).thenReturn("true");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
+		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(userBusiness).getUserPortfolio(eq(1));
 		verify(accountBusiness).deleteAccount(isA(Account.class));
 		verifyMainAttributes();
 	}
@@ -146,11 +146,11 @@ public class AccountsServletTest {
 		when(request.getParameter(DELETE_2)).thenReturn("false");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class))).thenReturn(Optional.of(new Portfolio()));
+		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(userBusiness).getUserPortfolio(eq(1));
 		verify(accountBusiness, never()).deleteAccount(isA(Account.class));
 		verify(request).setAttribute(eq(ERROR), isA(String.class));
 		verifyMainAttributes();

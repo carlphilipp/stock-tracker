@@ -34,7 +34,7 @@ public class CompanyBusinessTest {
 	private CompanyDAO companyDAO;
 	@Mock
 	private ExternalDataAccessImpl yahoo;
-	
+
 	@InjectMocks
 	private CompanyBusinessImpl companyBusiness;
 
