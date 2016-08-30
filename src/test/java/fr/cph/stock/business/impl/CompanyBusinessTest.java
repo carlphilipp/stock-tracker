@@ -12,7 +12,6 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.*;
@@ -35,8 +34,7 @@ public class CompanyBusinessTest {
 	private CompanyDAO companyDAO;
 	@Mock
 	private ExternalDataAccessImpl yahoo;
-
-	@Spy
+	
 	@InjectMocks
 	private CompanyBusinessImpl companyBusiness;
 
@@ -206,7 +204,7 @@ public class CompanyBusinessTest {
 	}
 
 	@Test
-	public void testUpdateAllCompanies(){
+	public void testUpdateAllCompanies() {
 		final Company company = new Company();
 		company.setYahooId(TICKER);
 		company.setRealTime(true);
@@ -222,7 +220,7 @@ public class CompanyBusinessTest {
 	}
 
 	@Test
-	public void testUpdateAllCompaniesMore(){
+	public void testUpdateAllCompaniesMore() {
 		final Company company = new Company();
 		company.setYahooId(TICKER);
 		company.setRealTime(true);
