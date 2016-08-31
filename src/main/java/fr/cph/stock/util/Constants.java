@@ -46,6 +46,7 @@ public enum Constants {
 	public static final String FROM = "from";
 	public static final String FROM_UNDERSCORE = "_from";
 	public static final String FOLLOWS = "follows";
+	public static final String FUND = "Fund";
 
 	public static final String HOME = "home";
 	public static final String HOMEMOBILE = "homemobile";

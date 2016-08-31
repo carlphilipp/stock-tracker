@@ -167,6 +167,7 @@ public class Portfolio {
 		yieldYear = 0d;
 		totalGain = 0d;
 		yieldYearPerc = 0d;
+		liquidity = 0d;
 		indexes = new HashMap<>();
 	}
 
@@ -260,7 +261,7 @@ public class Portfolio {
 		totalGainToday = 0d;
 		Date lastUpdate = null;
 		if (equities != null) {
-			for (Equity equity : equities) {
+			for (final Equity equity : equities) {
 				totalQuantity += equity.getQuantity();
 				totalUnitCostPrice += equity.getUnitCostPrice();
 				totalAverageQuotePrice += equity.getCompany().getQuote() * equity.getParity();
@@ -272,7 +273,7 @@ public class Portfolio {
 					if (lastUpdate == null) {
 						lastUpdate = equity.getCompany().getLastUpdate();
 					} else {
-						if (lastUpdate.after(equity.getCompany().getLastUpdate())) {
+						if (equity.getCompany().getLastUpdate() != null && lastUpdate.after(equity.getCompany().getLastUpdate())) {
 							lastUpdate = equity.getCompany().getLastUpdate();
 						}
 					}
@@ -304,34 +305,16 @@ public class Portfolio {
 	 */
 	protected final Map<String, Double> getChartSectorData() {
 		if (chartSectorData == null) {
-			Map<String, Double> data = new HashMap<>();
-			for (Equity e : getEquities()) {
-				if (e.getCompany().getFund()) {
-					if (data.containsKey("Fund")) {
-						Double d = data.get("Fund");
-						d += e.getValue();
-						data.put("Fund", d);
-					} else {
-						data.put("Fund", e.getValue());
-					}
+			final Map<String, Double> data = new HashMap<>();
+			for (final Equity equity : getEquities()) {
+				if (equity.getCompany().getFund()) {
+					addEquityValueToMap(data, FUND, equity);
 				} else {
-					String sector = e.getCurrentSector();
+					final String sector = equity.getCurrentSector();
 					if (sector == null) {
-						if (data.containsKey("Unknown")) {
-							Double d = data.get("Unknown");
-							d += e.getValue();
-							data.put("Unknown", d);
-						} else {
-							data.put("Unknown", e.getValue());
-						}
+						addEquityValueToMap(data, UNKNOWN, equity);
 					} else {
-						if (data.containsKey(sector)) {
-							Double d = data.get(sector);
-							d += e.getValue();
-							data.put(sector, d);
-						} else {
-							data.put(sector, e.getValue());
-						}
+						addEquityValueToMap(data, sector, equity);
 					}
 				}
 			}
@@ -339,6 +322,14 @@ public class Portfolio {
 			chartSectorData.putAll(data);
 		}
 		return chartSectorData;
+	}
+
+	private void addEquityValueToMap(final Map<String, Double> data, final String key, final Equity equity) {
+		if (data.containsKey(key)) {
+			data.put(key, data.get(key) + equity.getValue());
+		} else {
+			data.put(key, equity.getValue());
+		}
 	}
 
 	/**
