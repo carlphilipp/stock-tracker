@@ -21,15 +21,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.Map;
 import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.*;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
-import static org.mockito.Matchers.isNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AccountsServletTest {
@@ -84,7 +85,7 @@ public class AccountsServletTest {
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness, never()).getUserPortfolio(eq(1), isNull(Date.class), isNull(Date.class));
+		verify(userBusiness, never()).getUserPortfolio(eq(1), isNull(), isNull());
 		verifyMainAttributes();
 	}
 

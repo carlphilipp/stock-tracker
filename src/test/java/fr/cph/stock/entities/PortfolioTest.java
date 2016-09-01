@@ -4,15 +4,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static fr.cph.stock.util.Constants.FUND;
 import static fr.cph.stock.util.Constants.UNKNOWN;
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class PortfolioTest {
 
@@ -26,14 +25,14 @@ public class PortfolioTest {
 	@Test
 	public void testGetTotalValue() {
 		Double actual = portfolio.getTotalValue();
-		assertEquals(0d, actual);
+		assertEquals(0d, actual, 0.1);
 	}
 
 	@Test
 	public void testGetTotalValueWithLiquidity() {
 		portfolio.setLiquidity(1000d);
 		Double actual = portfolio.getTotalValue();
-		assertEquals(1000d, actual);
+		assertEquals(1000d, actual, 0.1);
 	}
 
 	@Test
@@ -41,10 +40,10 @@ public class PortfolioTest {
 		portfolio.setEquities(createEquities());
 		portfolio.compute();
 
-		assertEquals(66d, portfolio.getTotalQuantity());
-		assertEquals(30500d, portfolio.getTotalValue());
-		assertEquals(0d, portfolio.getYieldYear());
-		assertEquals(12700d, portfolio.getTotalGain());
+		assertEquals(66d, portfolio.getTotalQuantity(), 0.1);
+		assertEquals(30500d, portfolio.getTotalValue(), 0.1);
+		assertEquals(0d, portfolio.getYieldYear(), 0.1);
+		assertEquals(12700d, portfolio.getTotalGain(), 0.1);
 		assertNotNull(portfolio.getLastCompanyUpdate());
 	}
 
@@ -53,9 +52,36 @@ public class PortfolioTest {
 		portfolio.setEquities(createEquities());
 		Map<String, Double> actual = portfolio.getChartSectorData();
 		assertNotNull(actual);
-		assertEquals(25500d , actual.get(FUND));
-		assertEquals(4000d , actual.get("HighTech"));
-		assertEquals(1000d , actual.get(UNKNOWN));
+		assertEquals(25500d, actual.get(FUND), 0.1);
+		assertEquals(4000d, actual.get("HighTech"), 0.1);
+		assertEquals(1000d, actual.get(UNKNOWN), 0.1);
+	}
+
+	@Test
+	public void testGetChartShareValueData() {
+		portfolio.setShareValues(createShareValues());
+		Map<Date, Double> actual = portfolio.getChartShareValueData();
+		assertNotNull(actual);
+		assertThat(actual.size(), is(2));
+		Iterator<Date> iterator = actual.keySet().iterator();
+		assertEquals(100d, actual.get(iterator.next()), 0.1);
+		assertEquals(50d, actual.get(iterator.next()), 0.1);
+	}
+
+	private List<ShareValue> createShareValues() {
+		Date date = new Date();
+		List<ShareValue> shareValues = new ArrayList<>();
+
+		ShareValue shareValue1 = new ShareValue();
+		shareValue1.setShareValue(5d);
+		shareValue1.setDate(new Date(date.getTime() + 50000));
+		shareValues.add(shareValue1);
+
+		ShareValue shareValue2 = new ShareValue();
+		shareValue2.setShareValue(10d);
+		shareValue2.setDate(date);
+		shareValues.add(shareValue2);
+		return shareValues;
 	}
 
 	private List<Equity> createEquities() {
