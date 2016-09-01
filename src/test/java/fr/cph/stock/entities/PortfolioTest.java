@@ -1,5 +1,6 @@
 package fr.cph.stock.entities;
 
+import fr.cph.stock.enumtype.MarketCapitalization;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -68,6 +69,16 @@ public class PortfolioTest {
 		assertEquals(50d, actual.get(iterator.next()), 0.1);
 	}
 
+	@Test
+	public void testGetChartCapData() {
+		portfolio.setEquities(createEquities());
+		Map<String, Double> actual = portfolio.getChartCapData();
+		assertNotNull(actual);
+		assertEquals(1000d, actual.get(MarketCapitalization.MEGA_CAP.getValue()), 0.1);
+		assertEquals(4000d, actual.get(MarketCapitalization.LARGE_CAP.getValue()), 0.1);
+		assertEquals(25500d, actual.get(UNKNOWN), 0.1);
+	}
+
 	private List<ShareValue> createShareValues() {
 		Date date = new Date();
 		List<ShareValue> shareValues = new ArrayList<>();
@@ -95,6 +106,7 @@ public class PortfolioTest {
 		companyGoogle.setRealTime(true);
 		companyGoogle.setFund(false);
 		google.setParity(1d);
+		google.setMarketCapitalizationType(MarketCapitalization.MEGA_CAP);
 
 		Equity apple = new Equity();
 		apple.setQuantity(10d);
@@ -106,6 +118,7 @@ public class PortfolioTest {
 		companyApple.setFund(false);
 		apple.setCompany(companyApple);
 		apple.setParity(1d);
+		apple.setMarketCapitalizationType(MarketCapitalization.LARGE_CAP);
 
 		Equity fund1 = new Equity();
 		fund1.setQuantity(50d);

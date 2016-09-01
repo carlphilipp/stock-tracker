@@ -385,34 +385,16 @@ public class Portfolio {
 	protected final Map<String, Double> getChartCapData() {
 		if (chartCapData == null) {
 			Map<String, Double> data = new HashMap<>();
-			for (Equity e : getEquities()) {
-				if (!e.getCompany().getFund()) {
-					MarketCapitalization marketCap = e.getMarketCapitalizationType();
+			for (Equity equity : getEquities()) {
+				if (!equity.getCompany().getFund()) {
+					MarketCapitalization marketCap = equity.getMarketCapitalizationType();
 					if (marketCap == null) {
-						if (data.containsKey(UNKNOWN)) {
-							Double d = data.get(UNKNOWN);
-							d += e.getValue();
-							data.put(UNKNOWN, d);
-						} else {
-							data.put(UNKNOWN, e.getValue());
-						}
+						addEquityValueToMap(data, UNKNOWN, equity);
 					} else {
-						if (data.containsKey(marketCap.getValue())) {
-							Double d = data.get(marketCap.getValue());
-							d += e.getValue();
-							data.put(marketCap.getValue(), d);
-						} else {
-							data.put(marketCap.getValue(), e.getValue());
-						}
+						addEquityValueToMap(data, marketCap.getValue(), equity);
 					}
 				} else {
-					if (data.containsKey(UNKNOWN)) {
-						Double d = data.get(UNKNOWN);
-						d += e.getValue();
-						data.put(UNKNOWN, d);
-					} else {
-						data.put(UNKNOWN, e.getValue());
-					}
+					addEquityValueToMap(data, UNKNOWN, equity);
 				}
 			}
 			chartCapData = new TreeMap<>();
