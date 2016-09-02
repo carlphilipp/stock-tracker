@@ -68,7 +68,7 @@ public class CreateHistoryServlet extends HttpServlet {
 			final String acc = request.getParameter(ACCOUNT);
 
 			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-			final Account account = portfolio.getAccount(acc);
+			final Account account = portfolio.getAccount(acc).orElseThrow(() -> new NotFoundException(acc));
 
 			final Part p1 = request.getPart(FILE);
 			try (final InputStream is = p1.getInputStream();

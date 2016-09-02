@@ -1,7 +1,7 @@
 package fr.cph.stock.entities;
 
-import fr.cph.stock.enumtype.*;
 import fr.cph.stock.enumtype.Currency;
+import fr.cph.stock.enumtype.MarketCapitalization;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,7 +14,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class PortfolioTest {
 
@@ -91,7 +93,7 @@ public class PortfolioTest {
 	}
 
 	@Test
-	public void testAddIndexes(){
+	public void testAddIndexes() {
 		final List<Index> indexes = new ArrayList<>();
 		final Index index = new Index();
 		index.setYahooId("CAC40");
@@ -105,26 +107,60 @@ public class PortfolioTest {
 	}
 
 	@Test
-	public void testGetPortfolioReview(){
+	public void testGetPortfolioReview() {
 		portfolio.setEquities(createEquities());
 		final String actual = portfolio.getPortfolioReview();
 		assertNotNull(actual);
 	}
 
+	@Test
+	public void testGetAccountByName() {
+		portfolio.setAccounts(createAccounts());
+		Optional<Account> actual = portfolio.getAccount("Fidelity");
+		assertTrue(actual.isPresent());
+	}
+
+	@Test
+	public void testGetAccountById() {
+		portfolio.setAccounts(createAccounts());
+		Optional<Account> actual = portfolio.getAccount(2);
+		assertTrue(actual.isPresent());
+	}
+
+	@Test
+	public void testGetAccountByIdEmpty() {
+		Optional<Account> actual = portfolio.getAccount(2);
+		assertFalse(actual.isPresent());
+	}
+
+	@Test
+	public void testGetFirstAccount() {
+		portfolio.setAccounts(createAccounts());
+		Optional<Account> actual = portfolio.getFirstAccount();
+		assertTrue(actual.isPresent());
+	}
+
+	private List<Account> createAccounts() {
+		Account account1 = new Account();
+		account1.setId(2);
+		account1.setName("Fidelity");
+		account1.setDel(false);
+		Account account2 = new Account();
+		account2.setId(3);
+		account2.setDel(true);
+		return Arrays.asList(account1, account2);
+	}
+
 	private List<ShareValue> createShareValues() {
 		Date date = new Date();
-		List<ShareValue> shareValues = new ArrayList<>();
-
 		ShareValue shareValue1 = new ShareValue();
 		shareValue1.setShareValue(5d);
 		shareValue1.setDate(new Date(date.getTime() + 50000));
-		shareValues.add(shareValue1);
 
 		ShareValue shareValue2 = new ShareValue();
 		shareValue2.setShareValue(10d);
 		shareValue2.setDate(date);
-		shareValues.add(shareValue2);
-		return shareValues;
+		return Arrays.asList(shareValue1, shareValue2);
 	}
 
 	private List<Equity> createEquities() {

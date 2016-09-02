@@ -24,6 +24,7 @@ import fr.cph.stock.entities.chart.TimeChart;
 import fr.cph.stock.entities.chart.TimeValueChart;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.MarketCapitalization;
+import fr.cph.stock.exception.NotFoundException;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +35,10 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
-import static fr.cph.stock.util.Constants.*;
+import static fr.cph.stock.util.Constants.CURRENCY;
+import static fr.cph.stock.util.Constants.FUND;
+import static fr.cph.stock.util.Constants.LIQUIDITY;
+import static fr.cph.stock.util.Constants.UNKNOWN;
 
 /**
  * This class represents a portofolio that belongs to a user
@@ -516,11 +520,10 @@ public class Portfolio {
 	 * @param name the account name
 	 * @return the account
 	 */
-	public final Account getAccount(final String name) {
-		return accounts.stream()
-			.filter(account -> account.getName().equals(name))
-			.findFirst()
-			.orElse(null);
+	public final Optional<Account> getAccount(final String name) {
+		return accounts == null
+			? Optional.empty()
+			: accounts.stream().filter(account -> account.getName().equals(name)).findFirst();
 	}
 
 	/**
@@ -530,9 +533,9 @@ public class Portfolio {
 	 * @return the account
 	 */
 	public final Optional<Account> getAccount(final int id) {
-		return accounts.stream()
-			.filter(account -> account.getId() == id)
-			.findFirst();
+		return accounts == null
+			? Optional.empty()
+			: accounts.stream().filter(account -> account.getId() == id).findFirst();
 	}
 
 	/**
@@ -541,9 +544,9 @@ public class Portfolio {
 	 * @return the account
 	 */
 	public final Optional<Account> getFirstAccount() {
-		return accounts.stream()
-			.filter(account -> !account.getDel())
-			.findFirst();
+		return accounts == null
+			? Optional.empty()
+			: accounts.stream().filter(account -> !account.getDel()).findFirst();
 	}
 
 	/**
@@ -656,7 +659,7 @@ public class Portfolio {
 			for (int i = 0; i <= shareValuess.size() - 1; i++) {
 				ShareValue sv = shareValuess.get(i);
 				double current = sv.getShareValue();
-				Account account = getAccount(sv.getAccount().getName());
+				final Account account = getAccount(sv.getAccount().getName()).orElseThrow(() -> new NotFoundException(sv.getAccount().getName()));
 				if (current > max) {
 					max = current;
 					date = sv.getDate();
