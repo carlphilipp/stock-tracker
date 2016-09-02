@@ -529,11 +529,10 @@ public class Portfolio {
 	 * @param id the id
 	 * @return the account
 	 */
-	public final Account getAccount(final int id) {
+	public final Optional<Account> getAccount(final int id) {
 		return accounts.stream()
 			.filter(account -> account.getId() == id)
-			.findFirst()
-			.orElse(null);
+			.findFirst();
 	}
 
 	/**
@@ -541,11 +540,10 @@ public class Portfolio {
 	 *
 	 * @return the account
 	 */
-	public final Account getFirstAccount() {
+	public final Optional<Account> getFirstAccount() {
 		return accounts.stream()
 			.filter(account -> !account.getDel())
-			.findFirst()
-			.orElse(null);
+			.findFirst();
 	}
 
 	/**

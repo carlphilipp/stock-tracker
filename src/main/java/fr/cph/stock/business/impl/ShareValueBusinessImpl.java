@@ -13,6 +13,7 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
@@ -114,7 +115,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 						log.info("Update user portfolio: {}", user.getLogin());
 						final Optional<Portfolio> portfolioOptional = userBusiness.getUserPortfolio(user.getId());
 						portfolioOptional.ifPresent(portfolio -> {
-							final Account account = portfolio.getFirstAccount();
+							final Account account = portfolio.getFirstAccount().orElseThrow(() -> new NotFoundException("Account not found"));
 							updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");
 						});
 					} else {

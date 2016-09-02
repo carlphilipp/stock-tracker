@@ -78,7 +78,7 @@ public class UpdateShareValueServlet extends HttpServlet {
 				final String commentary = StringUtils.isNotEmpty(commParam) ? commParam : null;
 				try {
 					Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-					Account account = portfolio.getAccount(acc);
+					final Account account = portfolio.getAccount(acc).orElseThrow(() -> new NotFoundException(acc));
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
 					newLiquidity = new BigDecimal(Double.toString(newLiquidity), mathContext).doubleValue();
 					userBusiness.updateLiquidity(account, newLiquidity);
