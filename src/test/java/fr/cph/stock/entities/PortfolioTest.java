@@ -1,6 +1,7 @@
 package fr.cph.stock.entities;
 
-import fr.cph.stock.enumtype.MarketCapitalization;
+import fr.cph.stock.enumtype.*;
+import fr.cph.stock.enumtype.Currency;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,6 +11,7 @@ import java.util.*;
 import static fr.cph.stock.util.Constants.FUND;
 import static fr.cph.stock.util.Constants.UNKNOWN;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -21,6 +23,7 @@ public class PortfolioTest {
 	@Before
 	public void setUp() {
 		portfolio = new Portfolio();
+		portfolio.setCurrency(Currency.USD);
 	}
 
 	@Test
@@ -79,6 +82,35 @@ public class PortfolioTest {
 		assertEquals(25500d, actual.get(UNKNOWN), 0.1);
 	}
 
+	@Test
+	public void testGetCompaniesYahooIdRealTime() {
+		portfolio.setEquities(createEquities());
+		List<String> actual = portfolio.getCompaniesYahooIdRealTime();
+		assertNotNull(actual);
+		assertThat(actual, containsInAnyOrder("GOOG", "AAPL"));
+	}
+
+	@Test
+	public void testAddIndexes(){
+		final List<Index> indexes = new ArrayList<>();
+		final Index index = new Index();
+		index.setYahooId("CAC40");
+		indexes.add(index);
+
+		portfolio.addIndexes(indexes);
+		final Map<String, List<Index>> actual = portfolio.getIndexes();
+		assertNotNull(actual);
+		assertThat(actual.size(), is(1));
+		assertNotNull(actual.get("CAC40"));
+	}
+
+	@Test
+	public void testGetPortfolioReview(){
+		portfolio.setEquities(createEquities());
+		final String actual = portfolio.getPortfolioReview();
+		assertNotNull(actual);
+	}
+
 	private List<ShareValue> createShareValues() {
 		Date date = new Date();
 		List<ShareValue> shareValues = new ArrayList<>();
@@ -100,8 +132,10 @@ public class PortfolioTest {
 		google.setQuantity(5d);
 		google.setUnitCostPrice(100d);
 		Company companyGoogle = new Company();
+		companyGoogle.setYahooId("GOOG");
 		companyGoogle.setQuote(200d);
 		companyGoogle.setLastUpdate(new Timestamp(new Date().getTime()));
+		companyGoogle.setCurrency(Currency.USD);
 		google.setCompany(companyGoogle);
 		companyGoogle.setRealTime(true);
 		companyGoogle.setFund(false);
@@ -116,6 +150,8 @@ public class PortfolioTest {
 		companyApple.setQuote(400d);
 		companyApple.setRealTime(true);
 		companyApple.setFund(false);
+		companyApple.setYahooId("AAPL");
+		companyApple.setCurrency(Currency.USD);
 		apple.setCompany(companyApple);
 		apple.setParity(1d);
 		apple.setMarketCapitalizationType(MarketCapitalization.LARGE_CAP);
@@ -125,8 +161,10 @@ public class PortfolioTest {
 		fund1.setUnitCostPrice(300d);
 		Company companyFund1 = new Company();
 		companyFund1.setQuote(500d);
-		companyFund1.setRealTime(true);
+		companyFund1.setRealTime(false);
 		companyFund1.setFund(true);
+		companyFund1.setYahooId("FUND1");
+		companyFund1.setCurrency(Currency.USD);
 		fund1.setCompany(companyFund1);
 		fund1.setParity(1d);
 
@@ -135,8 +173,10 @@ public class PortfolioTest {
 		fund2.setUnitCostPrice(300d);
 		Company companyFund2 = new Company();
 		companyFund2.setQuote(500d);
-		companyFund2.setRealTime(true);
+		companyFund2.setRealTime(false);
 		companyFund2.setFund(true);
+		companyFund2.setYahooId("FUND2");
+		companyFund2.setCurrency(Currency.USD);
 		fund2.setCompany(companyFund2);
 		fund2.setParity(1d);
 		return Arrays.asList(google, apple, fund1, fund2);

@@ -433,9 +433,9 @@ public class Portfolio {
 	 * @return a string
 	 */
 	public final String getPortfolioReview() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("<table class=\"shareValueTableDetails\">");
-		for (Equity equity : getEquities()) {
+		for (final Equity equity : getEquities()) {
 			sb.append("<tr><td width=200px><b>")
 				.append(equity.getCurrentName())
 				.append("</b></td><td width=180px>")
@@ -460,7 +460,7 @@ public class Portfolio {
 	 */
 	public final IChart getPieChartSector() {
 		if (piechartsector == null) {
-			Map<String, Double> map = getChartSectorData();
+			final Map<String, Double> map = getChartSectorData();
 			piechartsector = new PieChart(map);
 			piechartsector.generate();
 		}
@@ -474,7 +474,7 @@ public class Portfolio {
 	 */
 	public final IChart getPieChartCap() {
 		if (piechartcap == null) {
-			Map<String, Double> map = getChartCapData();
+			final Map<String, Double> map = getChartCapData();
 			piechartcap = new PieChart(map);
 			piechartcap.generate();
 		}

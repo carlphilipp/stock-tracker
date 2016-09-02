@@ -6,6 +6,7 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.impl.ExternalDataAccessImpl;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -20,7 +21,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,6 +40,11 @@ public class CompanyBusinessTest {
 
 	@InjectMocks
 	private CompanyBusinessImpl companyBusiness;
+
+	@After
+	public void tearDown() {
+		reset(yahoo);
+	}
 
 	@Test
 	public void testAddCompanies() throws YahooException {
