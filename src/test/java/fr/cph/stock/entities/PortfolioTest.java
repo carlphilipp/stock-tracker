@@ -1,5 +1,6 @@
 package fr.cph.stock.entities;
 
+import com.google.gson.JsonObject;
 import fr.cph.stock.enumtype.Currency;
 import org.junit.Before;
 import org.junit.Test;
@@ -182,6 +183,16 @@ public class PortfolioTest {
 		verifyHTML(actual);
 	}
 
+	@Test
+	public void testGetJonObject() {
+		portfolio.setEquities(createEquities());
+		portfolio.setShareValues(new ArrayList<>());
+		portfolio.setAccounts(createAccounts());
+		portfolio.setLastCompanyUpdate(Calendar.getInstance().getTime());
+		JsonObject actual = portfolio.getJSONObject();
+		assertNotNull(actual);
+	}
+
 	private void verifyHTML(final String html) {
 		assertNotNull(html);
 		assertThat(html.length(), is(not(0)));
@@ -194,9 +205,11 @@ public class PortfolioTest {
 		account1.setId(2);
 		account1.setName(FIDELITY);
 		account1.setDel(false);
+		account1.setCurrency(Currency.USD);
 		Account account2 = new Account();
 		account2.setId(3);
 		account2.setDel(true);
+		account2.setCurrency(Currency.USD);
 		return Arrays.asList(account1, account2);
 	}
 

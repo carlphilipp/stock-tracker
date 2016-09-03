@@ -792,12 +792,15 @@ public class Portfolio {
 		jsonPerf.addProperty("taxes", currentShareValuesTaxes);
 		json.add("performance", jsonPerf);
 
-		json.addProperty("chartShareValueColors", ((TimeChart) getTimeChart()).getColors());
-		json.addProperty("chartShareValueData", ((TimeChart) getTimeChart()).getData());
-		Date date = ((TimeChart) getTimeChart()).getDate();
-		String formatDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date);
-		json.addProperty("chartShareValueDate", formatDate);
-		json.addProperty("chartShareValueDraw", ((TimeChart) getTimeChart()).getDraw());
+		if (getTimeChart() != null) {
+			TimeChart timeChart = (TimeChart) getTimeChart();
+			json.addProperty("chartShareValueColors", timeChart.getColors());
+			json.addProperty("chartShareValueData", timeChart.getData());
+			Date date = timeChart.getDate();
+			String formatDate = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date);
+			json.addProperty("chartShareValueDate", formatDate);
+			json.addProperty("chartShareValueDraw", timeChart.getDraw());
+		}
 
 		PieChart pieChart = (PieChart) getPieChartSector();
 		json.addProperty("chartSectorData", pieChart.getData());
