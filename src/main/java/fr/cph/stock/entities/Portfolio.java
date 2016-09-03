@@ -556,7 +556,7 @@ public class Portfolio {
 	 */
 	public final String getHTMLSectorByCompanies() {
 		final Map<String, List<Equity>> map = getSectorByCompanies();
-		return extractHTMLSectorByCompanies(map);
+		return extractHTMLfromMap(map);
 	}
 
 	protected Map<String, List<Equity>> getSectorByCompanies() {
@@ -574,7 +574,7 @@ public class Portfolio {
 		return map;
 	}
 
-	private String extractHTMLSectorByCompanies(final Map<String, List<Equity>> map) {
+	private String extractHTMLfromMap(final Map<String, List<Equity>> map) {
 		final StringBuilder res = new StringBuilder("var companies = [");
 		boolean addComma = false;
 		for (final Entry<String, List<Equity>> entry : map.entrySet()) {
@@ -595,40 +595,23 @@ public class Portfolio {
 	 *
 	 * @return a string
 	 */
-	public final String getCapCompanies() {
-		StringBuilder res = new StringBuilder();
-		Map<String, List<Equity>> map = new HashMap<>();
+	public final String getHTMLCapByCompanies() {
+		final Map<String, List<Equity>> map = getGapByCompanies();
+		return extractHTMLfromMap(map);
+	}
+
+	protected Map<String, List<Equity>> getGapByCompanies() {
+		final Map<String, List<Equity>> map = new TreeMap<>();
 		List<Equity> companies;
-		for (Equity e : getEquities()) {
-			if (e.getMarketCapitalizationType().getValue() == null || e.getCompany().getFund()) {
-				e.setMarketCapitalizationType(MarketCapitalization.UNKNOWN);
+		for (final Equity equity : getEquities()) {
+			if (equity.getMarketCapitalizationType().getValue() == null || equity.getCompany().getFund()) {
+				equity.setMarketCapitalizationType(MarketCapitalization.UNKNOWN);
 			}
-			if (!map.containsKey(e.getMarketCapitalizationType().getValue())) {
-				companies = new ArrayList<>();
-			} else {
-				companies = map.get(e.getMarketCapitalizationType().getValue());
-			}
-			companies.add(e);
-			map.put(e.getMarketCapitalizationType().getValue(), companies);
+			companies = map.getOrDefault(equity.getMarketCapitalizationType().getValue(), new ArrayList<>());
+			companies.add(equity);
+			map.put(equity.getMarketCapitalizationType().getValue(), companies);
 		}
-		TreeMap<String, List<Equity>> treeMap = new TreeMap<>();
-		treeMap.putAll(map);
-		res.append("var companies = [");
-		int i = 0;
-		for (Entry<String, List<Equity>> entry : treeMap.entrySet()) {
-			if (i != 0) {
-				res.append(",");
-			}
-			List<Equity> list = entry.getValue();
-			res.append("'");
-			for (Equity e : list) {
-				res.append(" - " + e.getCurrentName() + "<br>");
-			}
-			res.append("'");
-			i++;
-		}
-		res.append("];");
-		return res.toString();
+		return map;
 	}
 
 	/**
@@ -826,7 +809,7 @@ public class Portfolio {
 		json.addProperty("chartCapData", pieChart.getData());
 		json.addProperty("chartCapTitle", pieChart.getTitle());
 		json.addProperty("chartCapDraw", pieChart.getDraw());
-		json.addProperty("chartCapCompanies", getCapCompanies());
+		json.addProperty("chartCapCompanies", getHTMLCapByCompanies());
 
 		json.addProperty("totalVariation", totalVariation);
 

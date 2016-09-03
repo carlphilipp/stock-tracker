@@ -1,13 +1,14 @@
 package fr.cph.stock.entities;
 
 import fr.cph.stock.enumtype.Currency;
-import fr.cph.stock.enumtype.MarketCapitalization;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Timestamp;
 import java.util.*;
 
+import static fr.cph.stock.enumtype.MarketCapitalization.LARGE_CAP;
+import static fr.cph.stock.enumtype.MarketCapitalization.MEGA_CAP;
 import static fr.cph.stock.util.Constants.FUND;
 import static fr.cph.stock.util.Constants.UNKNOWN;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -84,8 +85,8 @@ public class PortfolioTest {
 		portfolio.setEquities(createEquities());
 		Map<String, Double> actual = portfolio.getChartCapData();
 		assertNotNull(actual);
-		assertEquals(1000d, actual.get(MarketCapitalization.MEGA_CAP.getValue()), 0.1);
-		assertEquals(4000d, actual.get(MarketCapitalization.LARGE_CAP.getValue()), 0.1);
+		assertEquals(1000d, actual.get(MEGA_CAP.getValue()), 0.1);
+		assertEquals(4000d, actual.get(LARGE_CAP.getValue()), 0.1);
 		assertEquals(25500d, actual.get(UNKNOWN), 0.1);
 	}
 
@@ -160,10 +161,32 @@ public class PortfolioTest {
 	public void testGetHTMLSectorByCompanies() {
 		portfolio.setEquities(createEquities());
 		String actual = portfolio.getHTMLSectorByCompanies();
+		verifyHTML(actual);
+	}
+
+	@Test
+	public void testGetGapByCompanies() {
+		portfolio.setEquities(createEquities());
+		Map<String, List<Equity>> actual = portfolio.getGapByCompanies();
 		assertNotNull(actual);
-		assertThat(actual.length(), is(not(0)));
-		assertThat(actual, startsWith("var companies = ['"));
-		assertThat(actual, endsWith("'];"));
+		assertThat(actual.size(), is(3));
+		assertTrue(actual.containsKey(LARGE_CAP.getValue()));
+		assertTrue(actual.containsKey(MEGA_CAP.getValue()));
+		assertTrue(actual.containsKey(UNKNOWN));
+	}
+
+	@Test
+	public void testGetHTMLCapByCompanies() {
+		portfolio.setEquities(createEquities());
+		String actual = portfolio.getHTMLCapByCompanies();
+		verifyHTML(actual);
+	}
+
+	private void verifyHTML(final String html) {
+		assertNotNull(html);
+		assertThat(html.length(), is(not(0)));
+		assertThat(html, startsWith("var companies = ['"));
+		assertThat(html, endsWith("'];"));
 	}
 
 	private List<Account> createAccounts() {
@@ -202,7 +225,7 @@ public class PortfolioTest {
 		companyGoogle.setRealTime(true);
 		companyGoogle.setFund(false);
 		google.setParity(1d);
-		google.setMarketCapitalizationType(MarketCapitalization.MEGA_CAP);
+		google.setMarketCapitalizationType(MEGA_CAP);
 
 		Equity apple = new Equity();
 		apple.setQuantity(10d);
@@ -216,7 +239,7 @@ public class PortfolioTest {
 		companyApple.setCurrency(Currency.USD);
 		apple.setCompany(companyApple);
 		apple.setParity(1d);
-		apple.setMarketCapitalizationType(MarketCapitalization.LARGE_CAP);
+		apple.setMarketCapitalizationType(LARGE_CAP);
 
 		Equity fund1 = new Equity();
 		fund1.setQuantity(50d);
