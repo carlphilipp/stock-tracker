@@ -11,17 +11,19 @@ import java.util.*;
 import static fr.cph.stock.util.Constants.FUND;
 import static fr.cph.stock.util.Constants.UNKNOWN;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.startsWith;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class PortfolioTest {
+
+	private static final String FIDELITY = "Fidelity";
+	private static final String HIGH_TECH = "HighTech";
+	private static final String GOOGLE = "GOOG";
+	private static final String APPLE = "AAPL";
+	private static final String CAC40 = "CAC40";
 
 	private Portfolio portfolio;
 
@@ -62,7 +64,7 @@ public class PortfolioTest {
 		Map<String, Double> actual = portfolio.getChartSectorData();
 		assertNotNull(actual);
 		assertEquals(25500d, actual.get(FUND), 0.1);
-		assertEquals(4000d, actual.get("HighTech"), 0.1);
+		assertEquals(4000d, actual.get(HIGH_TECH), 0.1);
 		assertEquals(1000d, actual.get(UNKNOWN), 0.1);
 	}
 
@@ -92,21 +94,21 @@ public class PortfolioTest {
 		portfolio.setEquities(createEquities());
 		List<String> actual = portfolio.getCompaniesYahooIdRealTime();
 		assertNotNull(actual);
-		assertThat(actual, containsInAnyOrder("GOOG", "AAPL"));
+		assertThat(actual, containsInAnyOrder(GOOGLE, APPLE));
 	}
 
 	@Test
 	public void testAddIndexes() {
 		final List<Index> indexes = new ArrayList<>();
 		final Index index = new Index();
-		index.setYahooId("CAC40");
+		index.setYahooId(CAC40);
 		indexes.add(index);
 
 		portfolio.addIndexes(indexes);
 		final Map<String, List<Index>> actual = portfolio.getIndexes();
 		assertNotNull(actual);
 		assertThat(actual.size(), is(1));
-		assertNotNull(actual.get("CAC40"));
+		assertNotNull(actual.get(CAC40));
 	}
 
 	@Test
@@ -119,7 +121,7 @@ public class PortfolioTest {
 	@Test
 	public void testGetAccountByName() {
 		portfolio.setAccounts(createAccounts());
-		Optional<Account> actual = portfolio.getAccount("Fidelity");
+		Optional<Account> actual = portfolio.getAccount(FIDELITY);
 		assertTrue(actual.isPresent());
 	}
 
@@ -151,7 +153,7 @@ public class PortfolioTest {
 		assertThat(actual.size(), is(3));
 		assertTrue(actual.containsKey(FUND));
 		assertTrue(actual.containsKey(UNKNOWN));
-		assertTrue(actual.containsKey("HighTech"));
+		assertTrue(actual.containsKey(HIGH_TECH));
 	}
 
 	@Test
@@ -167,7 +169,7 @@ public class PortfolioTest {
 	private List<Account> createAccounts() {
 		Account account1 = new Account();
 		account1.setId(2);
-		account1.setName("Fidelity");
+		account1.setName(FIDELITY);
 		account1.setDel(false);
 		Account account2 = new Account();
 		account2.setId(3);
@@ -192,7 +194,7 @@ public class PortfolioTest {
 		google.setQuantity(5d);
 		google.setUnitCostPrice(100d);
 		Company companyGoogle = new Company();
-		companyGoogle.setYahooId("GOOG");
+		companyGoogle.setYahooId(GOOGLE);
 		companyGoogle.setQuote(200d);
 		companyGoogle.setLastUpdate(new Timestamp(new Date().getTime()));
 		companyGoogle.setCurrency(Currency.USD);
@@ -205,12 +207,12 @@ public class PortfolioTest {
 		Equity apple = new Equity();
 		apple.setQuantity(10d);
 		apple.setUnitCostPrice(200d);
-		apple.setSectorPersonal("HighTech");
+		apple.setSectorPersonal(HIGH_TECH);
 		Company companyApple = new Company();
 		companyApple.setQuote(400d);
 		companyApple.setRealTime(true);
 		companyApple.setFund(false);
-		companyApple.setYahooId("AAPL");
+		companyApple.setYahooId(APPLE);
 		companyApple.setCurrency(Currency.USD);
 		apple.setCompany(companyApple);
 		apple.setParity(1d);

@@ -574,7 +574,7 @@ public class Portfolio {
 		return map;
 	}
 
-	private String extractHTMLSectorByCompanies(final Map<String, List<Equity>> map){
+	private String extractHTMLSectorByCompanies(final Map<String, List<Equity>> map) {
 		final StringBuilder res = new StringBuilder("var companies = [");
 		boolean addComma = false;
 		for (final Entry<String, List<Equity>> entry : map.entrySet()) {
