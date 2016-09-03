@@ -76,7 +76,7 @@ public class ChartsServlet extends HttpServlet {
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
 				}
-				final String mapSector = portfolio.getSectorCompanies();
+				final String mapSector = portfolio.getHTMLSectorByCompanies();
 				final String mapCap = portfolio.getCapCompanies();
 				request.setAttribute(PORTFOLIO, portfolio);
 				request.setAttribute(MAP_SECTOR, mapSector);

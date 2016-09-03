@@ -12,7 +12,10 @@ import static fr.cph.stock.util.Constants.FUND;
 import static fr.cph.stock.util.Constants.UNKNOWN;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -138,6 +141,27 @@ public class PortfolioTest {
 		portfolio.setAccounts(createAccounts());
 		Optional<Account> actual = portfolio.getFirstAccount();
 		assertTrue(actual.isPresent());
+	}
+
+	@Test
+	public void testGetSectorByCompanies() {
+		portfolio.setEquities(createEquities());
+		Map<String, List<Equity>> actual = portfolio.getSectorByCompanies();
+		assertNotNull(actual);
+		assertThat(actual.size(), is(3));
+		assertTrue(actual.containsKey(FUND));
+		assertTrue(actual.containsKey(UNKNOWN));
+		assertTrue(actual.containsKey("HighTech"));
+	}
+
+	@Test
+	public void testGetHTMLSectorByCompanies() {
+		portfolio.setEquities(createEquities());
+		String actual = portfolio.getHTMLSectorByCompanies();
+		assertNotNull(actual);
+		assertThat(actual.length(), is(not(0)));
+		assertThat(actual, startsWith("var companies = ['"));
+		assertThat(actual, endsWith("'];"));
 	}
 
 	private List<Account> createAccounts() {

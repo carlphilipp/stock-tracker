@@ -554,45 +554,37 @@ public class Portfolio {
 	 *
 	 * @return a string
 	 */
-	public final String getSectorCompanies() {
-		StringBuilder res = new StringBuilder();
-		Map<String, List<Equity>> map = new HashMap<>();
-		Company company;
+	public final String getHTMLSectorByCompanies() {
+		final Map<String, List<Equity>> map = getSectorByCompanies();
+		return extractHTMLSectorByCompanies(map);
+	}
+
+	protected Map<String, List<Equity>> getSectorByCompanies() {
+		final Map<String, List<Equity>> map = new TreeMap<>();
 		List<Equity> companies;
-		for (Equity e : getEquities()) {
-			company = e.getCompany();
-			if (e.getCurrentSector() == null) {
-				company.setSector("Unknown");
-			}
-			if (company.getFund()) {
-				company.setSector("Fund");
-			}
-			if (!map.containsKey(e.getCurrentSector())) {
-				companies = new ArrayList<>();
-			} else {
-				companies = map.get(e.getCurrentSector());
-			}
-			companies.add(e);
-			map.put(e.getCurrentSector(), companies);
+		for (final Equity equity : getEquities()) {
+			String sector = equity.getCurrentSector() == null ? UNKNOWN : null;
+			sector = equity.getCompany().getFund() ? FUND : sector;
+			equity.getCompany().setSector(sector);
+
+			companies = map.getOrDefault(equity.getCurrentSector(), new ArrayList<>());
+			companies.add(equity);
+			map.put(equity.getCurrentSector(), companies);
 		}
-		TreeMap<String, List<Equity>> treeMap = new TreeMap<>();
-		treeMap.putAll(map);
-		res.append("var companies = [");
-		int i = 0;
-		for (Entry<String, List<Equity>> entry : treeMap.entrySet()) {
-			if (i != 0) {
+		return map;
+	}
+
+	private String extractHTMLSectorByCompanies(final Map<String, List<Equity>> map){
+		final StringBuilder res = new StringBuilder("var companies = [");
+		boolean addComma = false;
+		for (final Entry<String, List<Equity>> entry : map.entrySet()) {
+			if (addComma) {
 				res.append(",");
 			}
-			List<Equity> list = entry.getValue();
-			// res.append("'<ul>");
+			addComma = true;
 			res.append("'");
-			for (Equity e : list) {
-				// res.append("<li>" + e.getCurrentName() + "</li>");
-				res.append(" - " + e.getCurrentName() + "<br>");
-			}
-			// res.append("</ul>'");
+			entry.getValue().forEach(equity -> res.append(" - ").append(equity.getCurrentName()).append("<br>"));
 			res.append("'");
-			i++;
 		}
 		res.append("];");
 		return res.toString();
@@ -828,7 +820,7 @@ public class Portfolio {
 		json.addProperty("chartSectorData", pieChart.getData());
 		json.addProperty("chartSectorTitle", pieChart.getTitle());
 		json.addProperty("chartSectorDraw", pieChart.getDraw());
-		json.addProperty("chartSectorCompanies", getSectorCompanies());
+		json.addProperty("chartSectorCompanies", getHTMLSectorByCompanies());
 
 		pieChart = (PieChart) getPieChartCap();
 		json.addProperty("chartCapData", pieChart.getData());
