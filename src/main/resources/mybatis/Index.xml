@@ -38,7 +38,7 @@
 		</if>
 		order by date
 	</select>
-	<select id="selectLastIndex" parameterType="int" resultType="Index">
+	<select id="selectLastIndex" parameterType="String" resultType="Index">
 		select * from `index` WHERE yahooId = #{yahooId} order by date DESC LIMIT 0,1
 	</select>
 </mapper>

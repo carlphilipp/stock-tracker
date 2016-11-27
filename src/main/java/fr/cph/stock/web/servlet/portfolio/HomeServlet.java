@@ -66,7 +66,7 @@ public class HomeServlet extends HttpServlet {
 		try {
 			final InetAddress inetAddress = InetAddress.getLocalHost();
 			final String hostName = inetAddress.getHostName();
-			if (!hostName.equals("carl-Laptop")) {
+			if (!hostName.equals("carl-Desktop")) {
 				final Job job = new Job();
 				job.run();
 			}
