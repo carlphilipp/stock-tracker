@@ -4,7 +4,7 @@
 		<Console name="Console" target="SYSTEM_OUT">
 			<PatternLayout pattern="%d{dd/MM/yyyy HH:mm:ss}{America/Chicago} - %-5p [%c:%L] %m%n"/>
 		</Console>
-		<RollingRandomAccessFile name="File" fileName="/opt/tomcat/logs/stock-tracker.log"
+		<RollingRandomAccessFile name="File" fileName="/opt/tomcat8/logs/stock-tracker.log"
 								 filePattern="/opt/tomcat/logs/archive/stock-tracker-%d{yyyy-MM-dd}-%i.log.gz">
 			<PatternLayout pattern="%d %p %c{1.} [%t] %m%n"/>
 			<Policies>
