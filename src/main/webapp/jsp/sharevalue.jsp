@@ -86,8 +86,8 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['HISTORY_HIDDEN_MOVEMENT']}:</td>
-				<td><input type="text" name="movement" value="0.0" required pattern="\-?\d+(\.\d+)?"
-						   placeholder="Pattern: \-?\d+(\.\d+)?"></td>
+				<td><input type="text" name="movement" value="0.0" required pattern="-?\d+(\.\d+)?"
+						   placeholder="Pattern: -?\d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['HISTORY_HIDDEN_YIELD']}:</td>
