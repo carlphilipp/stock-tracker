@@ -150,13 +150,13 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 					company.setYesterdayClose(0.0);
 				}
 				company.setChangeInPercent(jsonCompany.get(CHANGE_IN_PERCENT).getAsString());
-				final Double yearLow = jsonCompany.get(YEAR_LOW).getAsDouble();
-				if (!yearLow.isNaN()) {
-					company.setYearLow(yearLow);
+				final JsonElement yearLowJsonElement = jsonCompany.get(YEAR_LOW);
+				if (!yearLowJsonElement.isJsonNull()) {
+					company.setYearLow(yearLowJsonElement.getAsDouble());
 				}
-				final Double yearHigh = jsonCompany.get(YEAR_HIGH).getAsDouble();
-				if (!yearHigh.isNaN()) {
-					company.setYearHigh(yearHigh);
+				final JsonElement yearHighJsonElement = jsonCompany.get(YEAR_HIGH);
+				if (!yearHighJsonElement.isJsonNull()) {
+					company.setYearHigh(yearHighJsonElement.getAsDouble());
 				}
 				company.setRealTime(true);
 				company.setFund(false);

@@ -62,7 +62,7 @@ public class UpdatePortfolioServlet extends HttpServlet {
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
-			final HttpSession session = request.getSession(false);
+ 			final HttpSession session = request.getSession(false);
 			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
 			final LanguageFactory language = LanguageFactory.INSTANCE;
 			final StringBuilder sb = new StringBuilder();
