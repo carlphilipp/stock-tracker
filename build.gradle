@@ -74,7 +74,7 @@ dependencies {
 		testCompile(group: 'junit', name: 'junit', version: junit_version) {
 			exclude group: 'org.hamcrest', module: 'hamcrest-core'
 		},
-		testCompile(group: 'org.mockito', name: 'mockito-core', version: '2.1.0-beta.119'){
+		testCompile(group: 'org.mockito', name: 'mockito-core', version: mockito_version){
 			exclude group: 'org.hamcrest', module: 'hamcrest-core'
 		},
 		[group: 'org.apache.tomcat', name: 'tomcat-catalina', version: tomcat_version],
