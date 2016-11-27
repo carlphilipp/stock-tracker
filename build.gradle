@@ -38,7 +38,7 @@ dependencies {
 		[group: 'com.google.code.gson', name: 'gson', version: gson_version],
 
 		// JSTL
-		[group: 'javax.servlet', name: 'jstl', version: servlet_version],
+		[group: 'javax.servlet', name: 'jstl', version: jstl_version],
 
 		// Logging
 		[group: 'org.apache.logging.log4j', name: 'log4j-core', version: log4j_version],
