@@ -563,7 +563,7 @@ public class Portfolio {
 		final Map<String, List<Equity>> map = new TreeMap<>();
 		List<Equity> companies;
 		for (final Equity equity : getEquities()) {
-			String sector = equity.getCurrentSector() == null ? UNKNOWN : null;
+			String sector = equity.getCurrentSector() == null ? UNKNOWN : equity.getCurrentSector();
 			sector = equity.getCompany().getFund() ? FUND : sector;
 			equity.getCompany().setSector(sector);
 
