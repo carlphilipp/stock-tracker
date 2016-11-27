@@ -201,15 +201,8 @@ public class PortfolioTest {
 	}
 
 	private List<Account> createAccounts() {
-		Account account1 = new Account();
-		account1.setId(2);
-		account1.setName(FIDELITY);
-		account1.setDel(false);
-		account1.setCurrency(Currency.USD);
-		Account account2 = new Account();
-		account2.setId(3);
-		account2.setDel(true);
-		account2.setCurrency(Currency.USD);
+		Account account1 = Account.builder().id(2).name(FIDELITY).del(false).currency(Currency.USD).build();
+		Account account2 = Account.builder().id(3).del(true).currency(Currency.USD).build();
 		return Arrays.asList(account1, account2);
 	}
 

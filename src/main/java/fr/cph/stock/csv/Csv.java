@@ -94,8 +94,7 @@ public class Csv {
 			sv.setShareValue(format(row[4]));
 			sv.setYield(0.0);
 			sv.setTaxe(0.0);
-			final Account acc = new Account();
-			acc.setName(account);
+			final Account acc = Account.builder().name(account).build();
 			sv.setAccount(acc);
 			shareValues.add(sv);
 		}

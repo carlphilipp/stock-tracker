@@ -22,7 +22,7 @@ public class AccountBusinessTest {
 
 	@Test
 	public void testAddAccount() {
-		final Account account = new Account();
+		final Account account = Account.builder().build();
 		accountBusiness.addAccount(account);
 
 		verify(accountDAO).insert(isA(Account.class));
@@ -30,7 +30,7 @@ public class AccountBusinessTest {
 
 	@Test
 	public void testUpdateAccount() {
-		final Account account = new Account();
+		final Account account = Account.builder().build();
 		accountBusiness.updateAccount(account);
 
 		verify(accountDAO).update(isA(Account.class));
@@ -38,7 +38,7 @@ public class AccountBusinessTest {
 
 	@Test
 	public void testDeleteAccount() {
-		final Account account = new Account();
+		final Account account = Account.builder().build();
 		accountBusiness.deleteAccount(account);
 
 		verify(accountDAO).delete(isA(Account.class));

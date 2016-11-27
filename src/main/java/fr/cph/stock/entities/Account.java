@@ -18,7 +18,10 @@ package fr.cph.stock.entities;
 
 import com.google.gson.JsonObject;
 import fr.cph.stock.enumtype.Currency;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import static fr.cph.stock.util.Constants.CURRENCY;
 import static fr.cph.stock.util.Constants.LIQUIDITY;
@@ -28,7 +31,10 @@ import static fr.cph.stock.util.Constants.LIQUIDITY;
  *
  * @author Carl-Philipp Harmant
  */
+@Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
 
 	private int id;

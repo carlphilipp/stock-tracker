@@ -101,12 +101,12 @@ public class AccountsServlet extends HttpServlet {
 		final String currency = request.getParameter(CURRENCY);
 		final String liquidity = request.getParameter(LIQUIDITY);
 
-		final Account account = new Account();
-		account.setName(acc);
-		account.setCurrency(Currency.getEnum(currency));
-		account.setLiquidity(Double.valueOf(liquidity));
-		account.setUserId(userId);
-		account.setDel(true);
+		Account account = Account.builder()
+			.currency(Currency.getEnum(currency))
+			.liquidity(Double.valueOf(liquidity))
+			.name(acc)
+			.userId(userId)
+			.del(true).build();
 		accountBusiness.addAccount(account);
 
 		request.setAttribute(MESSAGE, ADDED);
@@ -118,12 +118,11 @@ public class AccountsServlet extends HttpServlet {
 		final String currency = request.getParameter(CURRENCY);
 		final String liquidity = request.getParameter(LIQUIDITY);
 
-		final Account account = new Account();
-		account.setName(acc);
-		account.setCurrency(Currency.getEnum(currency));
-		account.setLiquidity(Double.valueOf(liquidity));
-		account.setUserId(userId);
-		account.setId(Integer.parseInt(id));
+		Account account = Account.builder()
+			.currency(Currency.getEnum(currency))
+			.liquidity(Double.valueOf(liquidity))
+			.name(acc)
+			.userId(Integer.parseInt(id)).build();
 		accountBusiness.updateAccount(account);
 
 		request.setAttribute(MESSAGE, MODIFIED_MESSAGE);
@@ -133,8 +132,7 @@ public class AccountsServlet extends HttpServlet {
 		final String id = request.getParameter(ID);
 		final String delete = request.getParameter(DELETE_2);
 		if (delete.equals(Boolean.toString(true))) {
-			final Account account = new Account();
-			account.setId(Integer.parseInt(id));
+			final Account account = Account.builder().id(Integer.parseInt(id)).build();
 			accountBusiness.deleteAccount(account);
 		} else {
 			request.setAttribute(ERROR, "You are not allowed to delete this account!");

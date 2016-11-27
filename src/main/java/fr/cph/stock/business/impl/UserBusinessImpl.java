@@ -142,12 +142,12 @@ public class UserBusinessImpl implements UserBusiness {
 	 */
 	private void createUserDefaultAccount(final User u) {
 		final User user = userDAO.selectWithLogin(u.getLogin()).orElseThrow(() -> new NotFoundException(u.getLogin()));
-		final Account account = new Account();
-		account.setCurrency(Currency.EUR);
-		account.setLiquidity(0.0);
-		account.setName("Default");
-		account.setUserId(user.getId());
-		account.setDel(false);
+		final Account account = Account.builder()
+			.currency(Currency.EUR)
+			.liquidity(0.0)
+			.name("Default")
+			.userId(user.getId())
+			.del(false).build();
 		accountDAO.insert(account);
 	}
 
@@ -187,11 +187,9 @@ public class UserBusinessImpl implements UserBusiness {
 			final Currency currency = currencyBusiness.loadCurrencyData(portfolio.getCurrency());
 			portfolio.setCurrency(currency);
 			for (final Equity e : portfolio.getEquities()) {
-				if (e.getCompany().getCurrency() == portfolio.getCurrency()) {
-					e.setParity(1.0);
-				} else {
-					e.setParity(portfolio.getCurrency().getParity(e.getCompany().getCurrency()));
-				}
+				final double parity = e.getCompany().getCurrency() == portfolio.getCurrency()
+					? 1.0 : portfolio.getCurrency().getParity(e.getCompany().getCurrency());
+				e.setParity(parity);
 			}
 			double liquidity = 0.0;
 			for (final Account acc : portfolio.getAccounts()) {
