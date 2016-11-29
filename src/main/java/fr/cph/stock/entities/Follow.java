@@ -16,13 +16,19 @@
 
 package fr.cph.stock.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * This class represents a company that is followed by the user
  *
  * @author Carl-Philipp Harmant
  */
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Follow {
 

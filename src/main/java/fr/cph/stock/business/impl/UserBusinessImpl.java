@@ -72,11 +72,12 @@ public class UserBusinessImpl implements UserBusiness {
 		if (!userInDbWithEmail.isPresent()) {
 			throw new LoginException("Sorry, '" + email + "' is not available!");
 		}
-		final User user = new User();
-		user.setLogin(login);
-		user.setPassword(saltHashed + cryptedPasswordSalt);
-		user.setEmail(email);
-		user.setAllow(false);
+		final User user = User.builder()
+			.login(login)
+			.password(saltHashed + cryptedPasswordSalt)
+			.email(email)
+			.allow(false)
+			.build();
 		userDAO.insert(user);
 		final StringBuilder body = new StringBuilder();
 		final String check = securityService.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
@@ -109,9 +110,7 @@ public class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public final void deleteUser(final String login) {
-		final User user = new User();
-		user.setLogin(login);
-		userDAO.delete(user);
+		userDAO.delete(User.builder().login(login).build());
 	}
 
 	@Override

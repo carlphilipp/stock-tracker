@@ -17,7 +17,10 @@
 package fr.cph.stock.entities;
 
 import com.google.gson.JsonObject;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -28,6 +31,9 @@ import static fr.cph.stock.util.Constants.ACCOUNT;
  *
  * @author Carl-Philipp Harmant
  */
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ShareValue {
 

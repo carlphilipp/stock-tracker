@@ -102,8 +102,7 @@ public class PortfolioTest {
 	@Test
 	public void testAddIndexes() {
 		final List<Index> indexes = new ArrayList<>();
-		final Index index = new Index();
-		index.setYahooId(CAC40);
+		final Index index = Index.builder().yahooId(CAC40).build();
 		indexes.add(index);
 
 		portfolio.addIndexes(indexes);
@@ -219,57 +218,70 @@ public class PortfolioTest {
 	}
 
 	private List<Equity> createEquities() {
-		Equity google = new Equity();
-		google.setQuantity(5d);
-		google.setUnitCostPrice(100d);
-		Company companyGoogle = new Company();
-		companyGoogle.setYahooId(GOOGLE);
-		companyGoogle.setQuote(200d);
-		companyGoogle.setLastUpdate(new Timestamp(new Date().getTime()));
-		companyGoogle.setCurrency(Currency.USD);
-		google.setCompany(companyGoogle);
-		companyGoogle.setRealTime(true);
-		companyGoogle.setFund(false);
-		google.setParity(1d);
-		google.setMarketCapitalizationType(MEGA_CAP);
+		Company companyGoogle = Company.builder()
+			.yahooId(GOOGLE)
+			.quote(200d)
+			.lastUpdate(new Timestamp(new Date().getTime()))
+			.currency(Currency.USD)
+			.realTime(true)
+			.fund(false)
+			.build();
 
-		Equity apple = new Equity();
-		apple.setQuantity(10d);
-		apple.setUnitCostPrice(200d);
-		apple.setSectorPersonal(HIGH_TECH);
-		Company companyApple = new Company();
-		companyApple.setQuote(400d);
-		companyApple.setRealTime(true);
-		companyApple.setFund(false);
-		companyApple.setYahooId(APPLE);
-		companyApple.setCurrency(Currency.USD);
-		apple.setCompany(companyApple);
-		apple.setParity(1d);
-		apple.setMarketCapitalizationType(LARGE_CAP);
+		Equity google = Equity.builder()
+			.quantity(5d)
+			.unitCostPrice(100d)
+			.parity(1d)
+			.marketCapitalizationType(MEGA_CAP)
+			.company(companyGoogle)
+			.build();
 
-		Equity fund1 = new Equity();
-		fund1.setQuantity(50d);
-		fund1.setUnitCostPrice(300d);
-		Company companyFund1 = new Company();
-		companyFund1.setQuote(500d);
-		companyFund1.setRealTime(false);
-		companyFund1.setFund(true);
-		companyFund1.setYahooId("FUND1");
-		companyFund1.setCurrency(Currency.USD);
-		fund1.setCompany(companyFund1);
-		fund1.setParity(1d);
+		Company companyApple = Company.builder()
+			.quote(400d)
+			.realTime(true)
+			.fund(false)
+			.yahooId(APPLE)
+			.currency(Currency.USD)
+			.build();
 
-		Equity fund2 = new Equity();
-		fund2.setQuantity(1d);
-		fund2.setUnitCostPrice(300d);
-		Company companyFund2 = new Company();
-		companyFund2.setQuote(500d);
-		companyFund2.setRealTime(false);
-		companyFund2.setFund(true);
-		companyFund2.setYahooId("FUND2");
-		companyFund2.setCurrency(Currency.USD);
-		fund2.setCompany(companyFund2);
-		fund2.setParity(1d);
+		Equity apple = Equity.builder()
+			.quantity(10d)
+			.unitCostPrice(200d)
+			.sectorPersonal(HIGH_TECH)
+			.company(companyApple)
+			.parity(1d)
+			.marketCapitalizationType(LARGE_CAP)
+			.build();
+
+		Company companyFund1 = Company.builder()
+			.quote(500d)
+			.realTime(false)
+			.fund(true)
+			.yahooId("FUND1")
+			.currency(Currency.USD)
+			.build();
+
+		Company companyFund2 = Company.builder()
+			.quote(500d)
+			.realTime(false)
+			.fund(true)
+			.yahooId("FUND2")
+			.currency(Currency.USD)
+			.build();
+
+		Equity fund1 = Equity.builder()
+			.quantity(50d)
+			.unitCostPrice(300d)
+			.parity(1d)
+			.company(companyFund1)
+			.build();
+
+		Equity fund2 = Equity.builder()
+			.quantity(1d)
+			.unitCostPrice(300d)
+			.parity(1d)
+			.company(companyFund2)
+			.build();
+
 		return Arrays.asList(google, apple, fund1, fund2);
 	}
 }

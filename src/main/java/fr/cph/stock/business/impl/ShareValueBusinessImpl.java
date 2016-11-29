@@ -54,20 +54,20 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 
 	@Override
 	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield, final Double buy, final Double sell, final Double taxe, final String commentary) {
-		final ShareValue shareValue = new ShareValue();
-		shareValue.setUserId(portfolio.getUserId());
-		final double monthlyYield = new BigDecimal(portfolio.getYieldYear() / 12, MATHCONTEXT).doubleValue();
-		shareValue.setMonthlyYield(monthlyYield);
-		shareValue.setPortfolioValue(new BigDecimal(portfolio.getTotalValue(), MATHCONTEXT).doubleValue());
-		shareValue.setLiquidityMovement(liquidityMovement);
-		shareValue.setYield(yield);
-		shareValue.setBuy(buy);
-		shareValue.setSell(sell);
-		shareValue.setTaxe(taxe);
-		shareValue.setAccount(account);
-		// shareValue.setAccountName(account.getName());
-		shareValue.setCommentary(commentary);
-		shareValue.setDetails(portfolio.getPortfolioReview());
+		final ShareValue shareValue = ShareValue.builder()
+			.userId(portfolio.getUserId())
+			.monthlyYield(new BigDecimal(portfolio.getYieldYear() / 12, MATHCONTEXT).doubleValue())
+			.portfolioValue(new BigDecimal(portfolio.getTotalValue(), MATHCONTEXT).doubleValue())
+			.liquidityMovement(liquidityMovement)
+			.yield(yield)
+			.buy(buy)
+			.sell(sell)
+			.taxe(taxe)
+			.account(account)
+			.commentary(commentary)
+			.details(portfolio.getPortfolioReview())
+			.build();
+
 		Optional<ShareValue> lastShareValue = shareValueDAO.selectLastValue(portfolio.getUserId());
 		if (lastShareValue.isPresent()) {
 			double parity = portfolio.getCurrency() == account.getCurrency()

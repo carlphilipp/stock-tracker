@@ -107,10 +107,11 @@ public class AddEquityServlet extends HttpServlet {
 		final Company company = companyBusiness.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), quote)
 			.orElseThrow(() -> new NotFoundException(manualName));
 
-		final Equity equity = new Equity();
-		equity.setQuantity(quantity);
-		equity.setUnitCostPrice(unitCostPrice);
-		equity.setParityPersonal(parityPersonal);
+		final Equity equity = Equity.builder()
+			.quantity(quantity)
+			.unitCostPrice(quantity)
+			.parityPersonal(parityPersonal)
+			.build();
 		try {
 			equityBusiness.createManualEquity(id, company, equity);
 			request.setAttribute("added", languageFactory.getLanguage(lang).get(CONSTANT_ADDED) + " !");
@@ -132,10 +133,11 @@ public class AddEquityServlet extends HttpServlet {
 			parityPersonal = NumberUtils.createDouble(parityPerso);
 		}
 
-		final Equity equity = new Equity();
-		equity.setQuantity(quantity);
-		equity.setUnitCostPrice(unitCostPrice);
-		equity.setParityPersonal(parityPersonal);
+		final Equity equity = Equity.builder()
+			.quantity(quantity)
+			.unitCostPrice(unitCostPrice)
+			.parityPersonal(parityPersonal)
+			.build();
 		try {
 			equityBusiness.createEquity(id, ticker, equity);
 			request.setAttribute("added", languageFactory.getLanguage(lang).get(CONSTANT_ADDED) + " !");

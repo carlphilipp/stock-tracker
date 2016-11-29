@@ -126,17 +126,17 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 
 	@Override
 	public final Optional<Company> createManualCompany(final String name, final String industry, final String sector, final Currency currency, final double quote) {
-		final Company company = new Company();
 		final String uuid = UUID.randomUUID().toString();
-		company.setYahooId(uuid);
-		company.setName(name);
-		company.setCurrency(currency);
-		company.setIndustry(industry);
-		company.setQuote(quote);
-		company.setSector(sector);
-		company.setManual(true);
-		company.setRealTime(false);
-		company.setFund(false);
+		final Company company = Company.builder()
+			.yahooId(uuid)
+			.name(name)
+			.currency(currency)
+			.industry(industry)
+			.quote(quote)
+			.sector(sector)
+			.manual(true)
+			.realTime(false)
+			.fund(false).build();
 		companyDAO.insert(company);
 		return companyDAO.selectWithYahooId(uuid);
 	}
@@ -222,10 +222,6 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	@Override
 	public final void cleanDB() {
 		final List<Integer> companies = companyDAO.selectAllUnusedCompanyIds();
-		companies.forEach(id -> {
-			final Company company = new Company();
-			company.setId(id);
-			companyDAO.delete(company);
-		});
+		companies.forEach(id -> companyDAO.delete(Company.builder().id(id).build()));
 	}
 }

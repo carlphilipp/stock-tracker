@@ -17,7 +17,10 @@
 package fr.cph.stock.entities;
 
 import com.google.gson.JsonObject;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -30,6 +33,9 @@ import static fr.cph.stock.util.Constants.PASSWORD;
  *
  * @author Carl-Philipp Harmant
  */
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class User implements Serializable {
 
@@ -47,12 +53,6 @@ public class User implements Serializable {
 	private String datePatternWithoutHourMin;
 	private Boolean allow;
 	private Date lastUpdate;
-
-	/**
-	 * Constructor
-	 */
-	public User() {
-	}
 
 	/**
 	 * Constructor

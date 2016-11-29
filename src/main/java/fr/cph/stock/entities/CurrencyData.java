@@ -17,7 +17,10 @@
 package fr.cph.stock.entities;
 
 import fr.cph.stock.enumtype.Currency;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -27,6 +30,9 @@ import java.util.Date;
  * @author Carl-Philipp Harmant
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CurrencyData {
 
 	/**

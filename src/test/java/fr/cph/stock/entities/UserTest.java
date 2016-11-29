@@ -27,9 +27,8 @@ public final class UserTest {
 		String login = "carl";
 		String password = "mypassword";
 		String email = "mail@gmail.com";
-		User user = new User(login, password);
+		User user = User.builder().login(login).password(password).email(email).build();
 		assertEquals(login, user.getLogin());
-		user.setEmail(email);
 		assertEquals(email, user.getEmail());
 	}
 }

@@ -16,7 +16,10 @@
 
 package fr.cph.stock.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -25,6 +28,9 @@ import java.util.Date;
  *
  * @author Carl-Philipp Harmant
  */
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class Index {
 

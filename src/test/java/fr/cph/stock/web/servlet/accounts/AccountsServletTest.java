@@ -58,8 +58,7 @@ public class AccountsServletTest {
 		accountsServlet.init();
 		accountsServlet.setAccountBusiness(accountBusiness);
 		accountsServlet.setUserBusiness(userBusiness);
-		final User user = new User();
-		user.setId(1);
+		final User user = User.builder().id(1).build();
 
 		when(request.getSession(false)).thenReturn(httpSession);
 		when(httpSession.getAttribute(USER)).thenReturn(user);

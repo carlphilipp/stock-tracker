@@ -18,7 +18,10 @@ package fr.cph.stock.entities;
 
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
@@ -27,7 +30,10 @@ import java.sql.Timestamp;
  *
  * @author Carl-Philipp Harmant
  */
+@Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Company {
 
 	private int id;

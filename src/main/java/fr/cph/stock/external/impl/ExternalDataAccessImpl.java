@@ -97,9 +97,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
 			final JsonObject jsonCompany = (JsonObject) jsonResults.get(j);
-			Company company = new Company();
-			company.setYahooId(jsonCompany.get(SYMBOL).getAsString());
-			company.setManual(false);
+			Company company = Company.builder().yahooId(jsonCompany.get(SYMBOL).getAsString()).manual(false).build();
 			if (jsonCompany.get(STOCK_EXCHANGE).getAsString().equals(NULL)) {
 				company = getCompanyInfo(company);
 				if (company.getSector() != null && company.getIndustry() != null && company.getMarketCapitalization() != null) {
@@ -220,18 +218,20 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 						if (jsonArray != null) {
 							// 1st part
 							final JsonObject response1 = (JsonObject) jsonArray.get(0);
-							CurrencyData currencyData = new CurrencyData();
-							currencyData.setCurrency1(currency);
-							currencyData.setCurrency2(c);
-							currencyData.setValue(response1.get(RATE_UPPERCASE).getAsDouble());
+							final CurrencyData currencyData = CurrencyData.builder()
+								.currency1(currency)
+								.currency2(c)
+								.value(response1.get(RATE_UPPERCASE).getAsDouble())
+								.build();
 							currenciesData.add(currencyData);
 
 							// 2nd part
 							final JsonObject response2 = (JsonObject) jsonArray.get(1);
-							CurrencyData currencyData2 = new CurrencyData();
-							currencyData2.setCurrency1(c);
-							currencyData2.setCurrency2(currency);
-							currencyData2.setValue(response2.get(RATE_UPPERCASE).getAsDouble());
+							CurrencyData currencyData2 = CurrencyData.builder()
+								.currency1(c)
+								.currency2(currency)
+								.value(response2.get(RATE_UPPERCASE).getAsDouble())
+								.build();
 							currenciesData.add(currencyData2);
 						}
 					}
@@ -265,8 +265,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
 			final JsonObject jsonIndex = (JsonObject) jsonResults.get(j);
-			final Index index = new Index();
-			index.setValue(jsonIndex.get(CLOSE).getAsDouble());
+			final Index index = Index.builder().value(jsonIndex.get(CLOSE).getAsDouble()).build();
 
 			Date date;
 			try {
@@ -296,11 +295,12 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
 			final JsonObject jsonIndex = (JsonObject) jsonResults.get(j);
-			final Company company = new Company();
+
 			try {
-				final double close = jsonIndex.get(CLOSE).getAsDouble();
-				company.setQuote(close);
-				company.setYahooId(yahooId);
+				final Company company = Company.builder()
+					.quote(jsonIndex.get(CLOSE).getAsDouble())
+					.yahooId(yahooId)
+					.build();
 				companies.add(company);
 			} catch (final Exception e) {
 				log.warn("Error while trying to get double (Close) from json object: {}", jsonIndex);
@@ -312,7 +312,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	@Override
 	public final Index getIndexData(final String yahooId) throws YahooException {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in ('" + yahooId + "')";
-		final Index index = new Index();
+
 		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
 
 		JsonObject jsonn;
@@ -321,10 +321,11 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		} catch (final Exception e) {
 			throw new YahooException(YahooException.ERROR, e);
 		}
-		index.setYahooId(yahooId);
-		index.setValue(jsonn.get(LAST_TRADE_PRICE_ONLY).getAsDouble());
 
-		return index;
+		return Index.builder()
+			.yahooId(yahooId)
+			.value(jsonn.get(LAST_TRADE_PRICE_ONLY).getAsDouble())
+			.build();
 	}
 
 	/**

@@ -20,9 +20,7 @@ import com.google.gson.JsonObject;
 import fr.cph.stock.enumtype.Frequency;
 import fr.cph.stock.enumtype.MarketCapitalization;
 import fr.cph.stock.enumtype.Month;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -33,6 +31,9 @@ import java.util.Date;
  *
  * @author Carl-Philipp Harmant
  */
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class Equity implements Comparable<Equity> {
 

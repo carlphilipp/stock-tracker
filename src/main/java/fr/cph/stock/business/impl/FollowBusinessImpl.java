@@ -44,12 +44,13 @@ public class FollowBusinessImpl implements FollowBusiness {
 			followOptional.get().setHigherLimit(higher);
 			followDAO.update(followOptional.get());
 		} else {
-			final Follow follow = new Follow();
-			follow.setCompany(company);
-			follow.setCompanyId(company.getId());
-			follow.setUserId(user.getId());
-			follow.setLowerLimit(lower);
-			follow.setHigherLimit(higher);
+			final Follow follow = Follow.builder()
+				.company(company)
+				.companyId(company.getId())
+				.userId(user.getId())
+				.lowerLimit(lower)
+				.higherLimit(higher)
+				.build();
 			followDAO.insert(follow);
 		}
 	}
@@ -65,9 +66,7 @@ public class FollowBusinessImpl implements FollowBusiness {
 
 	@Override
 	public final void deleteFollow(final int id) {
-		final Follow follow = new Follow();
-		follow.setId(id);
-		followDAO.delete(follow);
+		followDAO.delete(Follow.builder().id(id).build());
 	}
 
 	@Override

@@ -94,14 +94,13 @@ public class ModifyEquityServlet extends HttpServlet {
 	}
 
 	private void delete(final HttpServletRequest request) {
-		final Equity equity = new Equity();
+		final Equity equity = Equity.builder().build();
 		if (request.getParameter(MANUAL) != null) {
 			final String id = request.getParameter(ID);
 			final String companyId = request.getParameter(COMPANY_ID);
 			equity.setId(Integer.parseInt(id));
 			equityBusiness.deleteEquity(equity);
-			final Company company = new Company();
-			company.setId(Integer.parseInt(companyId));
+			final Company company = Company.builder().id(Integer.parseInt(companyId)).build();
 			companyBusiness.deleteCompany(company);
 		} else {
 			final String id = request.getParameter(ID);
@@ -146,17 +145,18 @@ public class ModifyEquityServlet extends HttpServlet {
 		final Double yieldPersonal = StringUtils.isNotEmpty(yieldParam) ? NumberUtils.createDouble(yieldParam) : null;
 		final Double parityPersonal = StringUtils.isNotEmpty(parityParam) ? NumberUtils.createDouble(parityParam) : null;
 
-		final Equity equity = new Equity();
-		equity.setNamePersonal(namePersonal);
-		equity.setSectorPersonal(sectorPersonal);
-		equity.setIndustryPersonal(industryPersonal);
-		equity.setMarketCapPersonal(marketCapPersonal);
-		equity.setQuantity(quantity);
-		equity.setUnitCostPrice(unitCostPrice);
-		equity.setStopLossLocal(stopLoss);
-		equity.setObjectivLocal(objective);
-		equity.setYieldPersonal(yieldPersonal);
-		equity.setParityPersonal(parityPersonal);
+		final Equity equity = Equity.builder()
+			.namePersonal(namePersonal)
+			.sectorPersonal(sectorPersonal)
+			.industryPersonal(industryPersonal)
+			.marketCapPersonal(marketCapPersonal)
+			.quantity(quantity)
+			.unitCostPrice(unitCostPrice)
+			.stopLossLocal(stopLoss)
+			.objectivLocal(objective)
+			.yieldPersonal(yieldPersonal)
+			.parityPersonal(parityPersonal)
+			.build();
 		equityBusiness.updateEquity(userId, ticker, equity);
 	}
 
