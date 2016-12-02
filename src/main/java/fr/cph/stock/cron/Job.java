@@ -133,7 +133,7 @@ public class Job {
 		final JobDetail jobMysql = JobBuilder.newJob(MysqlDumpJob.class).withIdentity("jobMysql", "system").build();
 		final Trigger triggerMysql = TriggerBuilder.newTrigger().withIdentity("triggerMysql", "system")
 			// .withSchedule(CronScheduleBuilder.cronSchedule("0 24 14 ? * *")
-			.withSchedule(CronScheduleBuilder.cronSchedule("0 30 5 ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
+			.withSchedule(CronScheduleBuilder.cronSchedule("0 30 3 ? * *").inTimeZone(TimeZone.getTimeZone("Europe/Paris")))
 			.build();
 		sched.scheduleJob(jobMysql, triggerMysql);
 
