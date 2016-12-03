@@ -31,6 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static fr.cph.stock.util.Constants.*;
+import static org.apache.commons.lang.StringUtils.isBlank;
 
 /**
  * This servlet is called when the user want to register
@@ -56,7 +57,7 @@ public class RegistrationServlet extends HttpServlet {
 			final String login = request.getParameter(LOGIN);
 			final String password = request.getParameter(PASSWORD);
 			final String email = request.getParameter(EMAIL);
-			if (!isValidEmailAddress(email)) {
+			if (isBlank(login) || isBlank(password) || isBlank(email) || !isValidEmailAddress(email)) {
 				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			} else {
 				try {

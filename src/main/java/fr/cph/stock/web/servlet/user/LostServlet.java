@@ -33,6 +33,7 @@ import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.EMAIL;
 import static fr.cph.stock.util.Constants.ERROR;
+import static org.apache.commons.lang.StringUtils.isNotBlank;
 
 /**
  * This servlet is called when the user has lost his password and want to get a new ont
@@ -44,6 +45,8 @@ import static fr.cph.stock.util.Constants.ERROR;
 public class LostServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1724898618001479554L;
+	private static final String USER_NOT_FOUND = "User not found!";
+
 	private UserBusiness userBusiness;
 	private SecurityService securityService;
 
@@ -60,7 +63,7 @@ public class LostServlet extends HttpServlet {
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			final String email = request.getParameter(EMAIL);
-			if (!email.equals("")) {
+			if (isNotBlank(email)) {
 				final Optional<User> userOptional = userBusiness.getUserWithEmail(email);
 				if (userOptional.isPresent()) {
 					final User user = userOptional.get();
@@ -82,10 +85,10 @@ public class LostServlet extends HttpServlet {
 					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[]{email}, null);
 					request.setAttribute("ok", "Check your email!");
 				} else {
-					request.setAttribute(ERROR, "User not found!");
+					request.setAttribute(ERROR, USER_NOT_FOUND);
 				}
 			} else {
-				request.setAttribute(ERROR, "User not found!");
+				request.setAttribute(ERROR, USER_NOT_FOUND);
 			}
 			request.getRequestDispatcher("index.jsp").forward(request, response);
 		} catch (final Throwable t) {
