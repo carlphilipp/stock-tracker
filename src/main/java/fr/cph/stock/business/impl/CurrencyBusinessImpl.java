@@ -71,11 +71,11 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	@Override
 	public final void updateOneCurrency(final Currency currency) throws YahooException {
-		List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+		final List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
 		if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
 			updateOrInsertCurrency(currenciesData);
 		} else {
-			throw new YahooException("The current table 'yahoo.finance.xchange' has been blocked. It exceeded the allotted quotas of either time or instructions");
+			throw new YahooException("Number of currency found should be " + (Currency.values().length - 1) * 2 + ". Found: " + currenciesData);
 		}
 	}
 

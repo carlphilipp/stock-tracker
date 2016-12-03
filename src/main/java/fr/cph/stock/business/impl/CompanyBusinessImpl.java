@@ -39,7 +39,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 
 	@Override
 	public final List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {
-		log.debug("Updating: {}", tickers);
+		log.debug("Updating tickers: {}", tickers);
 		final List<Company> companies = yahoo.getCompaniesData(tickers);
 		final List<Company> companiesResult = new ArrayList<>();
 		for (Company companyYahoo : companies) {

@@ -30,6 +30,8 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.external.YahooGateway;
+import fr.cph.stock.external.web.currency.BaseResult;
+import fr.cph.stock.external.web.currency.Rate;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -209,43 +211,23 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 				final StringBuilder sb = new StringBuilder();
 				sb.append("\"").append(currency.getCode()).append(c.getCode()).append("\",\"").append(c.getCode()).append(currency.getCode()).append("\"");
 				final String request = "select * from yahoo.finance.xchange where pair in (" + sb + ")";
-				final JsonObject json = yahooGateway.getJSONObject(request);
-				JsonObject jsonn = json.get(QUERY).getAsJsonObject();
-				if (jsonn != null) {
-					final JsonObject jsonnn = jsonn.getAsJsonObject(RESULTS);
-					if (jsonnn != null) {
-						final JsonArray jsonArray = jsonnn.getAsJsonArray(RATE_LOWERCASE);
-						if (jsonArray != null) {
-							// 1st part
-							final JsonObject response1 = (JsonObject) jsonArray.get(0);
-							final CurrencyData currencyData = CurrencyData.builder()
-								.currency1(currency)
-								.currency2(c)
-								.value(response1.get(RATE_UPPERCASE).getAsDouble())
-								.build();
-							currenciesData.add(currencyData);
-
-							// 2nd part
-							final JsonObject response2 = (JsonObject) jsonArray.get(1);
-							CurrencyData currencyData2 = CurrencyData.builder()
-								.currency1(c)
-								.currency2(currency)
-								.value(response2.get(RATE_UPPERCASE).getAsDouble())
-								.build();
-							currenciesData.add(currencyData2);
-						}
-					}
+				final BaseResult baseResultDTO = (BaseResult) yahooGateway.getObject(request, BaseResult.class);
+				if (baseResultDTO.getQuery().getResults().getRate() != null && baseResultDTO.getQuery().getResults().getRate().size() == 2) {
+					final List<Rate> rates = baseResultDTO.getQuery().getResults().getRate();
+					final CurrencyData currencyData = CurrencyData.builder()
+						.currency1(currency)
+						.currency2(c)
+						.value(rates.get(0).getRate())
+						.build();
+					currenciesData.add(currencyData);
+					final CurrencyData currencyData2 = CurrencyData.builder()
+						.currency1(c)
+						.currency2(currency)
+						.value(rates.get(1).getRate())
+						.build();
+					currenciesData.add(currencyData2);
 				} else {
-					jsonn = json.getAsJsonObject(ERROR);
-					if (jsonn == null) {
-						log.error("query null: {}", json);
-					} else {
-						if (jsonn.get(DESCRIPTION).isJsonNull()) {
-							log.warn("error description null: {}", jsonn);
-						} else {
-							log.warn("error description: {}", jsonn.get(DESCRIPTION).getAsString());
-						}
-					}
+					log.error("Could not find currency data: {}", baseResultDTO);
 				}
 			}
 		}

@@ -59,7 +59,7 @@ public class CurrencyDAO implements DAO<CurrencyData> {
 
 	@Override
 	public final void update(final CurrencyData currencyData) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
+		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update(UPDATE, currencyData);
 		}
 	}

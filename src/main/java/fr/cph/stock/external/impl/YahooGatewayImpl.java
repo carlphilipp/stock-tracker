@@ -16,11 +16,14 @@
 
 package fr.cph.stock.external.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.YahooGateway;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 import java.io.IOException;
@@ -47,6 +50,14 @@ public class YahooGatewayImpl implements YahooGateway {
 	 * Url end
 	 **/
 	private static final String URL_END = "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=cbfunc";
+
+	@NonNull
+	private Gson gson;
+
+	@Inject
+	public YahooGatewayImpl(final Gson gson) {
+		this.gson = gson;
+	}
 
 	/**
 	 * This function build the URL.
@@ -109,5 +120,15 @@ public class YahooGatewayImpl implements YahooGateway {
 	public final JsonObject getJSONObject(final String yqlRequest) throws YahooException {
 		final String data = connectUrl(urlBuilder(yqlRequest));
 		return convertDataToJSONObject(data);
+	}
+
+	@Override
+	public final Object getObject(final String yqlQuery, final Class<?> clazz) throws YahooException {
+		final String data = connectUrl(urlBuilder(yqlQuery));
+
+		final String substring = data.substring(11, data.length());
+		final String substring2 = substring.substring(0, substring.length() - 2);
+
+		return gson.fromJson(substring2, clazz);
 	}
 }
