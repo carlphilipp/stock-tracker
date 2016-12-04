@@ -86,8 +86,12 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	private static final String YEAR_LOW = "YearLow";
 	private static final String YEAR_HIGH = "YearHigh";
 
-	@Inject
 	private YahooGateway yahooGateway;
+
+	@Inject
+	public ExternalDataAccessImpl(final YahooGateway yahooGateway) {
+		this.yahooGateway = yahooGateway;
+	}
 
 	// TODO sounds like we need GSON or Jackson here.
 	@Override

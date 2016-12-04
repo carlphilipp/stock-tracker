@@ -19,6 +19,7 @@ package fr.cph.stock.cron;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.guice.GuiceInjector;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -32,6 +33,7 @@ import org.quartz.JobExecutionContext;
 @Log4j2
 public class CurrencyJob implements Job {
 
+	@NonNull
 	private final CurrencyBusiness currencyBusiness;
 
 	/**
@@ -46,7 +48,7 @@ public class CurrencyJob implements Job {
 		try {
 			currencyBusiness.updateAllCurrencies();
 		} catch (final YahooException e) {
-			log.warn("Error while executing CurrencyJob: {}", e.getMessage());
+			log.error("Error while executing CurrencyJob: {}", e.getMessage());
 		} catch (final Throwable t) {
 			log.error("Error while executing CurrencyJob: {}", t.getMessage(), t);
 		}

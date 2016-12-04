@@ -19,12 +19,14 @@ package fr.cph.stock.external.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.YahooGateway;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,14 +44,9 @@ import java.nio.charset.Charset;
 @Singleton
 public class YahooGatewayImpl implements YahooGateway {
 
-	/**
-	 * Url base
-	 **/
 	private static final String URL_BASE = "http://query.yahooapis.com/v1/public/yql?q=";
-	/**
-	 * Url end
-	 **/
 	private static final String URL_END = "&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback=cbfunc";
+	private static final String ENCODING = "UTF-8";
 
 	@NonNull
 	private Gson gson;
@@ -67,7 +64,7 @@ public class YahooGatewayImpl implements YahooGateway {
 	 */
 	private String urlBuilder(final String yqlRequest) throws YahooException {
 		try {
-			return URL_BASE + URLEncoder.encode(yqlRequest, "UTF-8") + URL_END;
+			return URL_BASE + URLEncoder.encode(yqlRequest, ENCODING) + URL_END;
 		} catch (final UnsupportedEncodingException e) {
 			throw YahooException.encodeErrorException(e);
 		}
@@ -80,20 +77,15 @@ public class YahooGatewayImpl implements YahooGateway {
 	 * @return the content of the page
 	 * @throws YahooException the yahoo exception
 	 */
-	private String connectUrl(final String address) throws YahooException {
-		log.debug("URL {}", address);
+	private String get(final String address) throws YahooException {
+		log.debug("Request: {}", address);
 		String toReturn;
-		try (final InputStreamReader in = new InputStreamReader((new URL(address).openConnection()).getInputStream(), Charset.forName("UTF8"))) {
-			int c = in.read();
-			final StringBuilder build = new StringBuilder();
-			while (c != -1) {
-				build.append((char) c);
-				c = in.read();
-			}
-			toReturn = build.toString();
+		try (final InputStreamReader in = new InputStreamReader((new URL(address).openConnection()).getInputStream(), Charset.forName(ENCODING))) {
+			toReturn = IOUtils.toString(in);
 		} catch (final IOException e) {
 			throw YahooException.cantConnectException(e);
 		}
+		log.debug("Response: {}", toReturn);
 		return toReturn;
 	}
 
@@ -118,17 +110,19 @@ public class YahooGatewayImpl implements YahooGateway {
 	 */
 	@Override
 	public final JsonObject getJSONObject(final String yqlRequest) throws YahooException {
-		final String data = connectUrl(urlBuilder(yqlRequest));
+		final String data = get(urlBuilder(yqlRequest));
 		return convertDataToJSONObject(data);
 	}
 
 	@Override
 	public final Object getObject(final String yqlQuery, final Class<?> clazz) throws YahooException {
-		final String data = connectUrl(urlBuilder(yqlQuery));
-
+		final String data = get(urlBuilder(yqlQuery));
 		final String substring = data.substring(11, data.length());
 		final String substring2 = substring.substring(0, substring.length() - 2);
-
-		return gson.fromJson(substring2, clazz);
+		try {
+			return gson.fromJson(substring2, clazz);
+		} catch (final JsonSyntaxException jsonSyntaxException) {
+			throw new YahooException("Error while parsing json: " + data, jsonSyntaxException);
+		}
 	}
 }

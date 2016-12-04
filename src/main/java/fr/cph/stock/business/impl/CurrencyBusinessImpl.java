@@ -11,6 +11,7 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Util;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.ArrayList;
@@ -23,13 +24,15 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	private static final int PAUSE = 1000;
 
-	@Inject
-	private ExternalDataAccess yahoo;
-	private CurrencyDAO currencyDAO;
+	@NonNull
+	private final ExternalDataAccess yahoo;
+	@NonNull
+	private final CurrencyDAO currencyDAO;
 
 	@Inject
-	public void setCurrencyDAO(@Named("Currency") final DAO dao) {
+	public CurrencyBusinessImpl(@Named("Currency") final DAO dao, final ExternalDataAccess yahoo) {
 		currencyDAO = (CurrencyDAO) dao;
+		this.yahoo = yahoo;
 	}
 
 	@Override
