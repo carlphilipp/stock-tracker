@@ -37,7 +37,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -236,36 +235,6 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 			}
 		}
 		return currenciesData;
-	}
-
-	@Override
-	public final List<Index> getIndexDataHistory(final String yahooId, final Date from, final Date to) throws YahooException {
-		final String startDate = SIMPLE_DATE_FORMAT.format(from);
-		final Calendar cal = Calendar.getInstance();
-		final String endDate = to == null
-			? SIMPLE_DATE_FORMAT.format(cal.getTime())
-			: SIMPLE_DATE_FORMAT.format(to);
-		final List<Index> indexes = new ArrayList<>();
-		final String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
-		final JsonObject json = yahooGateway.getJSONObject(request);
-		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
-		for (int j = 0; j < jsonResults.size(); j++) {
-			final JsonObject jsonIndex = (JsonObject) jsonResults.get(j);
-			final Index index = Index.builder().value(jsonIndex.get(CLOSE).getAsDouble()).build();
-
-			Date date;
-			try {
-				date = SIMPLE_DATE_FORMAT.parse(jsonIndex.get(DATE).getAsString());
-			} catch (final ParseException e) {
-				throw new YahooException(e.getMessage(), e);
-			}
-			final Calendar calendar = Calendar.getInstance();
-			calendar.setTime(date);
-			index.setDate(calendar.getTime());
-			index.setYahooId(yahooId);
-			indexes.add(index);
-		}
-		return indexes;
 	}
 
 	@Override
