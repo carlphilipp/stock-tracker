@@ -16,6 +16,7 @@ import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 import java.util.*;
@@ -28,13 +29,15 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	private static final int MAX_UPDATE_COMPANY = 15;
 	private static final int PAUSE = 1000;
 
-	@Inject
+	@NonNull
 	private ExternalDataAccess yahoo;
+	@NonNull
 	private CompanyDAO companyDAO;
 
 	@Inject
-	public void setCompanyDAO(@Named("Company") final DAO dao) {
-		companyDAO = (CompanyDAO) dao;
+	public CompanyBusinessImpl(@Named("Company") final DAO dao, final ExternalDataAccess yahoo) {
+		this.companyDAO = (CompanyDAO) dao;
+		this.yahoo = yahoo;
 	}
 
 	@Override

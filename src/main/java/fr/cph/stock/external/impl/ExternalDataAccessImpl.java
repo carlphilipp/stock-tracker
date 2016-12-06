@@ -32,6 +32,7 @@ import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.external.YahooGateway;
 import fr.cph.stock.external.web.currency.BaseResult;
 import fr.cph.stock.external.web.currency.Rate;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
@@ -85,6 +86,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	private static final String YEAR_LOW = "YearLow";
 	private static final String YEAR_HIGH = "YearHigh";
 
+	@NonNull
 	private YahooGateway yahooGateway;
 
 	@Inject
@@ -250,7 +252,6 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
 			final JsonObject jsonIndex = (JsonObject) jsonResults.get(j);
-
 			try {
 				final Company company = Company.builder()
 					.quote(jsonIndex.get(CLOSE).getAsDouble())
