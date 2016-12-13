@@ -55,13 +55,11 @@ public class CompanyBusinessTest {
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
-		when(yahoo.getCompanyInfo(company)).thenReturn(company);
 
 		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers);
 
 		verify(yahoo).getCompaniesData(tickers);
 		verify(companyDAO, times(2)).selectWithYahooId(TICKER);
-		verify(yahoo).getCompanyInfo(company);
 		verify(companyDAO).insert(company);
 		assertNotNull(actual);
 		assertThat(actual, is(not(empty())));
@@ -77,7 +75,6 @@ public class CompanyBusinessTest {
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
-		when(yahoo.getCompanyInfo(company)).thenReturn(company);
 
 		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers);
 
@@ -165,16 +162,14 @@ public class CompanyBusinessTest {
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
-		when(yahoo.getCompanyInfo(company)).thenReturn(company);
 
 		final Optional<Company> actual = companyBusiness.addOrUpdateCompany(TICKER);
 
 		verify(yahoo).getCompaniesData(tickers);
 		verify(companyDAO, times(2)).selectWithYahooId(TICKER);
-		verify(yahoo).getCompanyInfo(company);
 		verify(companyDAO).insert(company);
 		assertTrue(actual.isPresent());
-		assertEquals(TICKER, actual.get().getYahooId());
+		assertEquals(TICKER, actual.orElseThrow(AssertionError::new).getYahooId());
 	}
 
 	@Test
@@ -187,14 +182,13 @@ public class CompanyBusinessTest {
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
-		when(yahoo.getCompanyInfo(company)).thenReturn(company);
 
 		final Optional<Company> actual = companyBusiness.addOrUpdateCompany(TICKER);
 
 		verify(yahoo).getCompaniesData(tickers);
 		verify(companyDAO).update(company);
 		assertTrue(actual.isPresent());
-		assertEquals(TICKER, actual.get().getYahooId());
+		assertEquals(TICKER, actual.orElseThrow(AssertionError::new).getYahooId());
 	}
 
 	@Test

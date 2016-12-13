@@ -51,7 +51,6 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				companyInDB.get().setQuote(companyYahoo.getQuote());
 				companyInDB.get().setYield(companyYahoo.getYield());
 				companyInDB.get().setName(companyYahoo.getName());
-				// companyInDB.setCurrency(Market.getCurrency(companyYahoo.getMarket()));
 				companyInDB.get().setCurrency(companyYahoo.getCurrency());
 				companyInDB.get().setMarketCapitalization(companyYahoo.getMarketCapitalization());
 				companyInDB.get().setMarket(companyYahoo.getMarket());
@@ -61,7 +60,6 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				companyInDB.get().setChangeInPercent(companyYahoo.getChangeInPercent());
 				companyDAO.update(companyInDB.get());
 			} else {
-				companyYahoo = yahoo.getCompanyInfo(companyYahoo);
 				companyDAO.insert(companyYahoo);
 				companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
 			}
@@ -215,7 +213,6 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 			companyInDB.get().setYesterdayClose(companyYahoo.getYesterdayClose());
 			companyDAO.update(companyInDB.get());
 		} else {
-			companyYahoo = yahoo.getCompanyInfo(companyYahoo);
 			companyDAO.insert(companyYahoo);
 			companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
 		}

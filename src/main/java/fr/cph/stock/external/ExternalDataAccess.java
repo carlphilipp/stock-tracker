@@ -20,7 +20,6 @@ import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.enumtype.Currency;
-import fr.cph.stock.exception.YahooException;
 
 import java.util.Date;
 import java.util.List;
@@ -39,7 +38,7 @@ public interface ExternalDataAccess {
 	 * @return a list of company
 	 * @throws YahooException the yahoo exception
 	 */
-	List<Company> getCompaniesData(List<String> ids) throws YahooException;
+	List<Company> getCompaniesData(List<String> ids);
 
 	/**
 	 * Get company history data
@@ -50,16 +49,7 @@ public interface ExternalDataAccess {
 	 * @return a list of company
 	 * @throws YahooException the yahoo exception
 	 */
-	List<Company> getCompanyDataHistory(String id, Date from, Date to) throws YahooException;
-
-	/**
-	 * Get company info
-	 *
-	 * @param company the company
-	 * @return a company
-	 * @throws YahooException the yahoo exception
-	 */
-	Company getCompanyInfo(Company company) throws YahooException;
+	List<Company> getCompanyDataHistory(String id, Date from, Date to);
 
 	/**
 	 * Get currency data
@@ -68,7 +58,7 @@ public interface ExternalDataAccess {
 	 * @return a list of currency data
 	 * @throws YahooException the yahoo exception
 	 */
-	List<CurrencyData> getCurrencyData(Currency currency) throws YahooException;
+	List<CurrencyData> getCurrencyData(Currency currency);
 
 	/**
 	 * Get index data
@@ -77,5 +67,5 @@ public interface ExternalDataAccess {
 	 * @return an Index
 	 * @throws YahooException the yahoo exception
 	 */
-	Index getIndexData(String id) throws YahooException;
+	Index getIndexData(String id);
 }
