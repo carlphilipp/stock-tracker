@@ -1,10 +1,10 @@
-package fr.cph.stock.external.web.currency;
+package fr.cph.stock.external.web.currency.xchange;
 
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
-public class BaseResult {
+public class XChangeResult {
 	private Query query;
 }

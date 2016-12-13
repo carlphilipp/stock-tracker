@@ -16,6 +16,7 @@
 
 package fr.cph.stock.external.impl;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -30,8 +31,10 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.external.YahooGateway;
-import fr.cph.stock.external.web.currency.BaseResult;
-import fr.cph.stock.external.web.currency.Rate;
+import fr.cph.stock.external.web.company.Quote;
+import fr.cph.stock.external.web.currency.history.HistoryResult;
+import fr.cph.stock.external.web.currency.xchange.Rate;
+import fr.cph.stock.external.web.currency.xchange.XChangeResult;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang.StringUtils;
@@ -39,10 +42,8 @@ import org.apache.commons.lang.WordUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static fr.cph.stock.util.Constants.QUOTE;
 
@@ -57,44 +58,42 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 
 	private static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 
-	private static final String CHANGE_IN_PERCENT = "ChangeinPercent";
 	private static final String CATEGORY = "Category";
-	private static final String CURRENCY = "Currency";
 	private static final String CLOSE = "Close";
-	private static final String DATE = "Date";
-	private static final String DIVIDEND_YIELD = "DividendYield";
 	private static final String DIAGNOSTICS = "diagnostics";
-	private static final String DESCRIPTION = "description";
-	private static final String ERROR = "error";
 	private static final String FUND_FAMILY = "FundFamily";
 	private static final String INDUSTRY = "Industry";
 	private static final String JAVASCRIPT = "javascript";
 	private static final String LAST_TRADE_PRICE_ONLY = "LastTradePriceOnly";
-	private static final String PREVIOUS_CLOSE = "PreviousClose";
 	private static final String QUERY = "query";
-	private static final String MARKET_CAPITALIZATION = "MarketCapitalization";
 	private static final String NET_ASSETS = "NetAssets";
 	private static final String NULL = "null";
-	private static final String NAME = "Name";
-	private static final String RATE_UPPERCASE = "Rate";
-	private static final String RATE_LOWERCASE = "rate";
 	private static final String RESULTS = "results";
-	private static final String STOCK_EXCHANGE = "StockExchange";
-	private static final String SYMBOL = "symbol";
 	private static final String SECTOR = "Sector";
 	private static final String STOCK = "stock";
-	private static final String YEAR_LOW = "YearLow";
-	private static final String YEAR_HIGH = "YearHigh";
 
 	@NonNull
 	private YahooGateway yahooGateway;
+	@NonNull
+	private Gson gson;
 
 	@Inject
-	public ExternalDataAccessImpl(final YahooGateway yahooGateway) {
+	public ExternalDataAccessImpl(final YahooGateway yahooGateway, final Gson gson) {
 		this.yahooGateway = yahooGateway;
+		this.gson = gson;
 	}
 
-	// TODO sounds like we need GSON or Jackson here.
+/*	public static void main(String[] args) thr	ows YahooException {
+		Gson gson = new Gson();
+		ExternalDataAccessImpl externalDataAccess = new ExternalDataAccessImpl(new YahooGatewayImpl(gson), gson);
+		Company company = Company.builder().yahooId("APPL").build();
+		//externalDataAccess.getCompanyInfo(company);
+		final Calendar from = Calendar.getInstance();
+		from.add(Calendar.DATE, -7);
+		List<Company> companies = externalDataAccess.getCompanyDataHistory("GOOG", from.getTime(), null);
+		System.out.println(companies);
+	}*/
+
 	@Override
 	public List<Company> getCompaniesData(final List<String> yahooIds) throws YahooException {
 		final List<Company> companies = new ArrayList<>();
@@ -103,9 +102,9 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
 		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
 		for (int j = 0; j < jsonResults.size(); j++) {
-			final JsonObject jsonCompany = (JsonObject) jsonResults.get(j);
-			Company company = Company.builder().yahooId(jsonCompany.get(SYMBOL).getAsString()).manual(false).build();
-			if (jsonCompany.get(STOCK_EXCHANGE).getAsString().equals(NULL)) {
+			final Quote quote = gson.fromJson(jsonResults.get(j), Quote.class);
+			if (quote.getStockExchange() == null) {
+				Company company = Company.builder().yahooId(quote.getSymbol()).manual(false).build();
 				company = getCompanyInfo(company);
 				if (company.getSector() != null && company.getIndustry() != null && company.getMarketCapitalization() != null) {
 					company.setRealTime(false);
@@ -121,56 +120,39 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 					}
 					companies.add(company);
 				} else {
-					throw new YahooUnknownTickerException(jsonCompany.get(SYMBOL).getAsString() + YahooUnknownTickerException.TOKEN_UNKNOWN);
+					throw new YahooUnknownTickerException(quote.getSymbol() + YahooUnknownTickerException.TOKEN_UNKNOWN);
 				}
 			} else {
-				company.setName(WordUtils.capitalizeFully(jsonCompany.get(NAME).getAsString()));
-				final String stockExchange = jsonCompany.get(STOCK_EXCHANGE).getAsString().toUpperCase();
-				company.setMarket(Market.getMarket(stockExchange));
-
+				final Company company = Company.builder()
+					.yahooId(quote.getSymbol())
+					.name(WordUtils.capitalizeFully(quote.getName()))
+					.market(Market.getMarket(quote.getStockExchange()))
+					.yield(quote.getDividendYield() == null ? 0.0 : quote.getDividendYield())
+					.quote(quote.getLastTradePriceOnly() == null ? 0.0 : quote.getLastTradePriceOnly())
+					.marketCapitalization(quote.getMarketCapitalization())
+					.yesterdayClose(quote.getPreviousClose() == null ? 0.0 : quote.getPreviousClose())
+					.changeInPercent(quote.getChangeinPercent())
+					.yearLow(quote.getYearLow())
+					.yearHigh(quote.getYearHigh())
+					.realTime(true)
+					.fund(false)
+					.manual(false)
+					.build();
 				if (company.getMarket().equals(Market.UNKNOWN)) {
-					final String currency = jsonCompany.get(CURRENCY).getAsString();
+					final String currency = quote.getCurrency();
 					if (StringUtils.isNotEmpty(currency) && !currency.equals(NULL)) {
 						company.setCurrency(Currency.getEnum(currency));
 					}
 				} else {
 					company.setCurrency(Market.getCurrency(company.getMarket()));
 				}
-				JsonElement jsonElement = jsonCompany.get(DIVIDEND_YIELD);
-				if (!jsonElement.isJsonNull()) {
-					company.setYield(jsonElement.getAsDouble());
-				}
-				final String lastTrade = jsonCompany.get(LAST_TRADE_PRICE_ONLY).getAsString();
-				if (StringUtils.isNotEmpty(lastTrade) && !lastTrade.equals(NULL)) {
-					company.setQuote(Double.valueOf(lastTrade));
-				}
-				final JsonElement marketCap = jsonCompany.get(MARKET_CAPITALIZATION);
-				if (!marketCap.isJsonNull()) {
-					company.setMarketCapitalization(marketCap.getAsString());
-				}
-				final Double previousClose = jsonCompany.get(PREVIOUS_CLOSE).getAsDouble();
-				if (!previousClose.isNaN()) {
-					company.setYesterdayClose(previousClose);
-				} else {
-					company.setYesterdayClose(0.0);
-				}
-				company.setChangeInPercent(jsonCompany.get(CHANGE_IN_PERCENT).getAsString());
-				final JsonElement yearLowJsonElement = jsonCompany.get(YEAR_LOW);
-				if (!yearLowJsonElement.isJsonNull()) {
-					company.setYearLow(yearLowJsonElement.getAsDouble());
-				}
-				final JsonElement yearHighJsonElement = jsonCompany.get(YEAR_HIGH);
-				if (!yearHighJsonElement.isJsonNull()) {
-					company.setYearHigh(yearHighJsonElement.getAsDouble());
-				}
-				company.setRealTime(true);
-				company.setFund(false);
 				companies.add(company);
 			}
 		}
 		return companies;
 	}
 
+	// TODO see if this method is really useful, it seems that the response of the request contains no relevant data
 	@Override
 	public Company getCompanyInfo(final Company company) throws YahooException {
 		final String requestStocks = "select * from yahoo.finance.stocks where symbol='" + company.getYahooId() + "'";
@@ -216,7 +198,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 				final StringBuilder sb = new StringBuilder();
 				sb.append("\"").append(currency.getCode()).append(c.getCode()).append("\",\"").append(c.getCode()).append(currency.getCode()).append("\"");
 				final String request = "select * from yahoo.finance.xchange where pair in (" + sb + ")";
-				final BaseResult baseResultDTO = (BaseResult) yahooGateway.getObject(request, BaseResult.class);
+				final XChangeResult baseResultDTO = (XChangeResult) yahooGateway.getObject(request, XChangeResult.class);
 				if (baseResultDTO.getQuery().getResults().getRate() != null && baseResultDTO.getQuery().getResults().getRate().size() == 2) {
 					final List<Rate> rates = baseResultDTO.getQuery().getResults().getRate();
 					final CurrencyData currencyData = CurrencyData.builder()
@@ -246,23 +228,16 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		final String endDate = to == null
 			? SIMPLE_DATE_FORMAT.format(cal.getTime())
 			: SIMPLE_DATE_FORMAT.format(to);
-		final List<Company> companies = new ArrayList<>();
 		final String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
-		final JsonObject json = yahooGateway.getJSONObject(request);
-		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
-		for (int j = 0; j < jsonResults.size(); j++) {
-			final JsonObject jsonIndex = (JsonObject) jsonResults.get(j);
-			try {
-				final Company company = Company.builder()
-					.quote(jsonIndex.get(CLOSE).getAsDouble())
-					.yahooId(yahooId)
-					.build();
-				companies.add(company);
-			} catch (final Exception e) {
-				log.warn("Error while trying to get double (Close) from json object: {}", jsonIndex);
-			}
+		final HistoryResult historyResult = (HistoryResult) yahooGateway.getObject(request, HistoryResult.class);
+		final List<fr.cph.stock.external.web.currency.history.Quote> listResult = historyResult.getQuery().getResults().getQuote();
+		if (listResult != null) {
+			return listResult.stream()
+				.map(quote -> Company.builder().quote(quote.getClose()).yahooId(yahooId).build())
+				.collect(Collectors.toList());
+		} else {
+			return Collections.emptyList();
 		}
-		return companies;
 	}
 
 	@Override
