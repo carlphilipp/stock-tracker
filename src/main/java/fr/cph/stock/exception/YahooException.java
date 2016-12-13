@@ -22,7 +22,7 @@ package fr.cph.stock.exception;
  * @author Carl-Philipp Harmant
  * @version 1
  */
-public class YahooException extends Exception {
+public class YahooException extends RuntimeException {
 
 	/**
 	 * Serialization

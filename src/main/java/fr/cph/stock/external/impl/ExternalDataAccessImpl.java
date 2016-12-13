@@ -83,16 +83,13 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		this.gson = gson;
 	}
 
-/*	public static void main(String[] args) thr	ows YahooException {
+	public static void main(String[] args) {
 		Gson gson = new Gson();
 		ExternalDataAccessImpl externalDataAccess = new ExternalDataAccessImpl(new YahooGatewayImpl(gson), gson);
 		Company company = Company.builder().yahooId("APPL").build();
-		//externalDataAccess.getCompanyInfo(company);
-		final Calendar from = Calendar.getInstance();
-		from.add(Calendar.DATE, -7);
-		List<Company> companies = externalDataAccess.getCompanyDataHistory("GOOG", from.getTime(), null);
-		System.out.println(companies);
-	}*/
+		externalDataAccess.getIndexData("GOOG");
+
+	}
 
 	@Override
 	public List<Company> getCompaniesData(final List<String> yahooIds) throws YahooException {
@@ -243,19 +240,11 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	@Override
 	public final Index getIndexData(final String yahooId) throws YahooException {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in ('" + yahooId + "')";
-
 		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
-
-		JsonObject jsonn;
-		try {
-			jsonn = json.getAsJsonObject(QUERY).getAsJsonObject(RESULTS).getAsJsonObject(QUOTE);
-		} catch (final Exception e) {
-			throw new YahooException(YahooException.ERROR, e);
-		}
-
+		final Quote quote = gson.fromJson(json.getAsJsonObject(QUERY).getAsJsonObject(RESULTS).getAsJsonObject(QUOTE), Quote.class);
 		return Index.builder()
 			.yahooId(yahooId)
-			.value(jsonn.get(LAST_TRADE_PRICE_ONLY).getAsDouble())
+			.value(quote.getLastTradePriceOnly())
 			.build();
 	}
 
