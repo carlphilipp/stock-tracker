@@ -77,7 +77,7 @@ public enum Market {
 		try {
 			market = valueOf(mark);
 		} catch (final Exception e) {
-			if (mark.equals("OTHER OTC")) {
+			if ("OTHER OTC".equals(mark)) {
 				market = Market.OTC;
 			} else {
 				market = Market.UNKNOWN;

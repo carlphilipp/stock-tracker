@@ -27,7 +27,6 @@ import fr.cph.stock.entities.Index;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.exception.YahooUnknownTickerException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.external.YahooGateway;
 import fr.cph.stock.external.web.company.Quote;
@@ -44,6 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static fr.cph.stock.util.Constants.QUOTE;
 
@@ -75,42 +75,14 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		this.gson = gson;
 	}
 
-/*	public static void main(String[] args) {
-		Gson gson = new Gson();
-		ExternalDataAccessImpl externalDataAccess = new ExternalDataAccessImpl(new YahooGatewayImpl(gson), gson);
-		Company company = Company.builder().yahooId("APPL").build();
-		List<CurrencyData> list = externalDataAccess.getCurrencyData(Currency.USD);
-		log.error(list);
-	}*/
-
 	@Override
 	public List<Company> getCompaniesData(final List<String> yahooIds) {
-		final List<Company> companies = new ArrayList<>();
-
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
 		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
 		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
-		for (int j = 0; j < jsonResults.size(); j++) {
-			final Quote quote = gson.fromJson(jsonResults.get(j), Quote.class);
-			if (quote.getStockExchange() == null) {
-				Company company = Company.builder().yahooId(quote.getSymbol()).manual(false).build();
-				if (company.getSector() != null && company.getIndustry() != null && company.getMarketCapitalization() != null) {
-					company.setRealTime(false);
-					company.setMarket(guessMarket(company.getYahooId()));
-					company.setCurrency(Market.getCurrency(company.getMarket()));
-					final Calendar cal = Calendar.getInstance();
-					cal.add(Calendar.DATE, -5);
-					try {
-						final List<Company> temp = getCompanyDataHistory(company.getYahooId(), cal.getTime(), null);
-						company.setQuote(temp.get(0).getQuote());
-					} catch (final YahooException e) {
-						log.error(e.getMessage(), e);
-					}
-					companies.add(company);
-				} else {
-					throw new YahooUnknownTickerException(quote.getSymbol() + YahooUnknownTickerException.TOKEN_UNKNOWN);
-				}
-			} else {
+		return StreamSupport.stream(jsonResults.spliterator(), false)
+			.map(jsonElement -> gson.fromJson(jsonElement, Quote.class))
+			.map(quote -> {
 				final Company company = Company.builder()
 					.yahooId(quote.getSymbol())
 					.name(WordUtils.capitalizeFully(quote.getName()))
@@ -134,10 +106,9 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 				} else {
 					company.setCurrency(Market.getCurrency(company.getMarket()));
 				}
-				companies.add(company);
-			}
-		}
-		return companies;
+				return company;
+			})
+			.collect(Collectors.toList());
 	}
 
 	@Override
