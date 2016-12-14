@@ -9,8 +9,6 @@ import java.util.Optional;
 
 public interface CompanyBusiness {
 
-	List<Company> addOrUpdateCompanies(List<String> tickers) throws YahooException;
-
 	void updateCompaniesNotRealTime();
 
 	void deleteCompany(Company company);

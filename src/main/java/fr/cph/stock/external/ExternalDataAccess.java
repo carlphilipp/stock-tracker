@@ -23,6 +23,7 @@ import fr.cph.stock.enumtype.Currency;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * This interface represents the access to external sources
@@ -38,7 +39,7 @@ public interface ExternalDataAccess {
 	 * @return a list of company
 	 * @throws YahooException the yahoo exception
 	 */
-	List<Company> getCompaniesData(List<String> ids);
+	Stream<Company> getCompaniesData(List<String> ids);
 
 	/**
 	 * Get company history data
@@ -49,7 +50,7 @@ public interface ExternalDataAccess {
 	 * @return a list of company
 	 * @throws YahooException the yahoo exception
 	 */
-	List<Company> getCompanyDataHistory(String id, Date from, Date to);
+	Stream<Company> getCompanyDataHistory(String id, Date from, Date to);
 
 	/**
 	 * Get currency data

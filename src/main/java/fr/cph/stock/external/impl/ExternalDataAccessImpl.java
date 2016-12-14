@@ -76,7 +76,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	}
 
 	@Override
-	public List<Company> getCompaniesData(final List<String> yahooIds) {
+	public Stream<Company> getCompaniesData(final List<String> yahooIds) {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
 		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
 		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
@@ -107,8 +107,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 					company.setCurrency(Market.getCurrency(company.getMarket()));
 				}
 				return company;
-			})
-			.collect(Collectors.toList());
+			});
 	}
 
 	@Override
@@ -142,7 +141,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	}
 
 	@Override
-	public List<Company> getCompanyDataHistory(final String yahooId, final Date from, final Date to) {
+	public Stream<Company> getCompanyDataHistory(final String yahooId, final Date from, final Date to) {
 		final String startDate = SIMPLE_DATE_FORMAT.format(from);
 		final Calendar cal = Calendar.getInstance();
 		final String endDate = to == null
@@ -152,11 +151,9 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 		final HistoryResult historyResult = (HistoryResult) yahooGateway.getObject(request, HistoryResult.class);
 		final List<fr.cph.stock.external.web.currency.history.Quote> listResult = historyResult.getQuery().getResults().getQuote();
 		if (listResult != null) {
-			return listResult.stream()
-				.map(quote -> Company.builder().quote(quote.getClose()).yahooId(yahooId).build())
-				.collect(Collectors.toList());
+			return listResult.stream().map(quote -> Company.builder().quote(quote.getClose()).yahooId(yahooId).build());
 		} else {
-			return Collections.emptyList();
+			return Stream.empty();
 		}
 	}
 

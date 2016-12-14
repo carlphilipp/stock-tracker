@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -49,14 +51,13 @@ public class CompanyBusinessTest {
 	@Test
 	public void testAddCompanies() throws YahooException {
 		final List<String> tickers = Collections.singletonList(TICKER);
-		final Company company = new Company();
-		company.setYahooId(TICKER);
-		final List<Company> companies = Collections.singletonList(company);
+		final Company company = Company.builder().yahooId(TICKER).build();
+		final Stream<Company> companies = Stream.of(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
 
-		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers);
+		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers).collect(Collectors.toList());
 
 		verify(yahoo).getCompaniesData(tickers);
 		verify(companyDAO, times(2)).selectWithYahooId(TICKER);
@@ -71,12 +72,12 @@ public class CompanyBusinessTest {
 		final List<String> tickers = Collections.singletonList(TICKER);
 		final Company company = new Company();
 		company.setYahooId(TICKER);
-		final List<Company> companies = Collections.singletonList(company);
+		final Stream<Company> companies = Stream.of(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
 
-		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers);
+		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers).collect(Collectors.toList());
 
 		verify(yahoo).getCompaniesData(tickers);
 		verify(companyDAO).update(company);
@@ -92,7 +93,7 @@ public class CompanyBusinessTest {
 		final List<Company> companies = Collections.singletonList(company);
 
 		when(companyDAO.selectAllCompany(false)).thenReturn(companies);
-		when(yahoo.getCompanyDataHistory(eq(TICKER), isA(Date.class), eq(null))).thenReturn(companies);
+		when(yahoo.getCompanyDataHistory(eq(TICKER), isA(Date.class), eq(null))).thenReturn(companies.stream());
 
 		companyBusiness.updateCompaniesNotRealTime();
 
@@ -158,7 +159,7 @@ public class CompanyBusinessTest {
 		final List<String> tickers = Collections.singletonList(TICKER);
 		final Company company = new Company();
 		company.setYahooId(TICKER);
-		final List<Company> companies = Collections.singletonList(company);
+		final Stream<Company> companies = Stream.of(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
@@ -178,7 +179,7 @@ public class CompanyBusinessTest {
 		final Company company = new Company();
 		company.setYahooId(TICKER);
 		company.setMarket(Market.PAR);
-		final List<Company> companies = Collections.singletonList(company);
+		final Stream<Company> companies = Stream.of(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));

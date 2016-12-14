@@ -21,6 +21,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Log4j2
 @Singleton
@@ -41,47 +42,17 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	}
 
 	@Override
-	public final List<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {
-		log.debug("Updating tickers: {}", tickers);
-		final List<Company> companies = yahoo.getCompaniesData(tickers);
-		final List<Company> companiesResult = new ArrayList<>();
-		for (Company companyYahoo : companies) {
-			Optional<Company> companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
-			if (companyInDB.isPresent()) {
-				companyInDB.get().setQuote(companyYahoo.getQuote());
-				companyInDB.get().setYield(companyYahoo.getYield());
-				companyInDB.get().setName(companyYahoo.getName());
-				companyInDB.get().setCurrency(companyYahoo.getCurrency());
-				companyInDB.get().setMarketCapitalization(companyYahoo.getMarketCapitalization());
-				companyInDB.get().setMarket(companyYahoo.getMarket());
-				companyInDB.get().setYearHigh(companyYahoo.getYearHigh());
-				companyInDB.get().setYearLow(companyYahoo.getYearLow());
-				companyInDB.get().setYesterdayClose(companyYahoo.getYesterdayClose());
-				companyInDB.get().setChangeInPercent(companyYahoo.getChangeInPercent());
-				companyDAO.update(companyInDB.get());
-			} else {
-				companyDAO.insert(companyYahoo);
-				companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
-			}
-			companiesResult.add(companyInDB.get());
-		}
-		return companiesResult;
-	}
-
-	@Override
 	public void updateCompaniesNotRealTime() {
 		final List<Company> companies = companyDAO.selectAllCompany(false);
 		final Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -7);
 		try {
-			for (final Company company : companies) {
-				final List<Company> data = yahoo.getCompanyDataHistory(company.getYahooId(), cal.getTime(), null);
-				if (data.size() != 0) {
-					final Company temp = data.get(0);
-					company.setQuote(temp.getQuote());
+			companies.forEach(company -> yahoo.getCompanyDataHistory(company.getYahooId(), cal.getTime(), null)
+				.findFirst()
+				.ifPresent(c -> {
+					company.setQuote(c.getQuote());
 					companyDAO.update(company);
-				}
-			}
+				}));
 		} catch (final YahooException e) {
 			log.warn("Company update not real time error: {}", e.getMessage());
 		}
@@ -199,7 +170,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	@Override
 	public Optional<Company> addOrUpdateCompany(final String ticker) throws YahooException {
 		final List<String> tickers = Collections.singletonList(ticker);
-		Company companyYahoo = yahoo.getCompaniesData(tickers).get(0);
+		final Company companyYahoo = yahoo.getCompaniesData(tickers).findFirst().orElseThrow(RuntimeException::new);
 		Optional<Company> companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
 		if (companyInDB.isPresent()) {
 			companyInDB.get().setQuote(companyYahoo.getQuote());
@@ -223,5 +194,30 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	public final void cleanDB() {
 		final List<Integer> companies = companyDAO.selectAllUnusedCompanyIds();
 		companies.forEach(id -> companyDAO.delete(Company.builder().id(id).build()));
+	}
+
+	Stream<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {
+		log.debug("Updating tickers: {}", tickers);
+		final Stream<Company> companies = yahoo.getCompaniesData(tickers);
+		return companies.map(company -> {
+			Optional<Company> companyInDB = companyDAO.selectWithYahooId(company.getYahooId());
+			if (companyInDB.isPresent()) {
+				companyInDB.get().setQuote(company.getQuote());
+				companyInDB.get().setYield(company.getYield());
+				companyInDB.get().setName(company.getName());
+				companyInDB.get().setCurrency(company.getCurrency());
+				companyInDB.get().setMarketCapitalization(company.getMarketCapitalization());
+				companyInDB.get().setMarket(company.getMarket());
+				companyInDB.get().setYearHigh(company.getYearHigh());
+				companyInDB.get().setYearLow(company.getYearLow());
+				companyInDB.get().setYesterdayClose(company.getYesterdayClose());
+				companyInDB.get().setChangeInPercent(company.getChangeInPercent());
+				companyDAO.update(companyInDB.get());
+			} else {
+				companyDAO.insert(company);
+				companyInDB = companyDAO.selectWithYahooId(company.getYahooId());
+			}
+			return companyInDB.get();
+		});
 	}
 }
