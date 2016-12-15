@@ -17,6 +17,8 @@ import lombok.extern.log4j.Log4j2;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Log4j2
 @Singleton
@@ -39,8 +41,8 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 	public final Currency loadCurrencyData(final Currency currency) throws YahooException {
 		List<CurrencyData> currencyDataList = currencyDAO.selectListCurrency(currency.getCode());
 		if (currencyDataList.size() == 0) {
-			final List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
-			updateOrInsertCurrency(currenciesData);
+			final Stream<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+			updateOrInsertCurrency(currenciesData.collect(Collectors.toList()));
 			currencyDataList = currencyDAO.selectListCurrency(currency.getCode());
 		}
 		currency.setCurrencyData(currencyDataList);
@@ -51,7 +53,7 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 	public final void updateAllCurrencies() throws YahooException {
 		List<Currency> currencyDone = new ArrayList<>();
 		for (Currency currency : Currency.values()) {
-			List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+			final List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency).collect(Collectors.toList());
 			Util.makeAPause(PAUSE);
 			if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
 				currenciesData.stream()
@@ -74,7 +76,7 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	@Override
 	public final void updateOneCurrency(final Currency currency) throws YahooException {
-		final List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
+		final List<CurrencyData> currenciesData = yahoo.getCurrencyData(currency).collect(Collectors.toList());
 		if ((Currency.values().length - 1) * 2 == currenciesData.size()) {
 			updateOrInsertCurrency(currenciesData);
 		} else {

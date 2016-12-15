@@ -40,8 +40,10 @@ import org.apache.commons.lang.WordUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -111,7 +113,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	}
 
 	@Override
-	public final List<CurrencyData> getCurrencyData(final Currency currency) {
+	public final Stream<CurrencyData> getCurrencyData(final Currency currency) {
 		return Arrays.stream(Currency.values())
 			.filter(c -> c != currency)
 			.flatMap(c -> {
@@ -136,8 +138,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 					log.error("Could not find currency data: {}", baseResultDTO);
 					return Stream.empty();
 				}
-			})
-			.collect(Collectors.toList());
+			});
 	}
 
 	@Override

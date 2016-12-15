@@ -59,7 +59,7 @@ public interface ExternalDataAccess {
 	 * @return a list of currency data
 	 * @throws YahooException the yahoo exception
 	 */
-	List<CurrencyData> getCurrencyData(Currency currency);
+	Stream<CurrencyData> getCurrencyData(Currency currency);
 
 	/**
 	 * Get index data
