@@ -59,7 +59,6 @@ import static fr.cph.stock.util.Constants.QUOTE;
 public class ExternalDataAccessImpl implements ExternalDataAccess {
 
 	private static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-
 	private static final String DIAGNOSTICS = "diagnostics";
 	private static final String JAVASCRIPT = "javascript";
 	private static final String QUERY = "query";
