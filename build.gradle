@@ -7,10 +7,6 @@ apply plugin: 'jacoco'
 
 repositories {
 	mavenCentral()
-	// TODO clean the lib directory and delete that comment
-	/*flatDir {
-		dirs 'src/main/webapp/WEB-INF/lib'
-	}*/
 }
 
 def javaVersion = JavaVersion.VERSION_1_8
@@ -84,7 +80,7 @@ dependencies {
 }
 
 war {
-	ext.prod = project.hasProperty('prod');
+	ext.prod = project.hasProperty('prod')
 	if (ext.prod) {
 		archiveName = 'ROOT.war'
 		rootSpec.exclude('log4j2.xml')
