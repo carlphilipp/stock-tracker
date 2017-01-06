@@ -16,13 +16,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -57,14 +54,11 @@ public class CompanyBusinessTest {
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
 
-		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers).collect(Collectors.toList());
+		companyBusiness.addOrUpdateCompanies(tickers);
 
 		verify(yahoo).getCompaniesData(tickers);
-		verify(companyDAO, times(2)).selectWithYahooId(TICKER);
+		verify(companyDAO).selectWithYahooId(TICKER);
 		verify(companyDAO).insert(company);
-		assertNotNull(actual);
-		assertThat(actual, is(not(empty())));
-		assertEquals(TICKER, actual.get(0).getYahooId());
 	}
 
 	@Test
@@ -77,13 +71,10 @@ public class CompanyBusinessTest {
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
 		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
 
-		final List<Company> actual = companyBusiness.addOrUpdateCompanies(tickers).collect(Collectors.toList());
+		companyBusiness.addOrUpdateCompanies(tickers);
 
 		verify(yahoo).getCompaniesData(tickers);
 		verify(companyDAO).update(company);
-		assertNotNull(actual);
-		assertThat(actual, is(not(empty())));
-		assertEquals(TICKER, actual.get(0).getYahooId());
 	}
 
 	@Test

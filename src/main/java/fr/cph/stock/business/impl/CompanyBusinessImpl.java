@@ -212,10 +212,10 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 		companies.forEach(id -> companyDAO.delete(Company.builder().id(id).build()));
 	}
 
-	Stream<Company> addOrUpdateCompanies(final List<String> tickers) throws YahooException {
+	void addOrUpdateCompanies(final List<String> tickers) throws YahooException {
 		log.debug("Updating tickers: {}", tickers);
 		final Stream<Company> companies = yahoo.getCompaniesData(tickers);
-		return companies.map(company -> {
+		companies.forEach(company -> {
 			Optional<Company> companyInDB = companyDAO.selectWithYahooId(company.getYahooId());
 			if (companyInDB.isPresent()) {
 				companyInDB.get().setQuote(company.getQuote());
@@ -231,9 +231,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				companyDAO.update(companyInDB.get());
 			} else {
 				companyDAO.insert(company);
-				companyInDB = companyDAO.selectWithYahooId(company.getYahooId());
 			}
-			return companyInDB.get();
 		});
 	}
 }
