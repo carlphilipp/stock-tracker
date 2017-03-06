@@ -33,7 +33,7 @@ import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.EMAIL;
 import static fr.cph.stock.util.Constants.ERROR;
-import static org.apache.commons.lang.StringUtils.isNotBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 /**
  * This servlet is called when the user has lost his password and want to get a new ont

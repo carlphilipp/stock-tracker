@@ -17,13 +17,13 @@ dependencies {
 	compile(
 
 		// CSV
-		[group: 'net.sf.opencsv', name: 'opencsv', version: opencsv_version],
+		[group: 'com.opencsv', name: 'opencsv', version: opencsv_version],
 
 		// Commons
 		[group: 'commons-codec', name: 'commons-codec', version: commons_codec_version],
 		[group: 'org.apache.commons', name: 'commons-compress', version: commons_compress_version],
 		[group: 'commons-io', name: 'commons-io', version: commons_io_version],
-		[group: 'commons-lang', name: 'commons-lang', version: commons_lang_version],
+		[group: 'org.apache.commons', name: 'commons-lang3', version: commons_lang_version],
 
 		// Dropbox
 		[group: 'com.dropbox.core', name: 'dropbox-core-sdk', version: dropbox_version],

@@ -35,8 +35,8 @@ import fr.cph.stock.external.web.currency.xchange.Rate;
 import fr.cph.stock.external.web.currency.xchange.XChangeResult;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
