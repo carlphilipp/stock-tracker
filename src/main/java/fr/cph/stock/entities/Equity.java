@@ -190,11 +190,9 @@ public class Equity implements Comparable<Equity> {
 	 */
 	public Double getPlusMinusValue() {
 		if (plusMinusValue == null) {
-			if (getUnitCostPrice() == 0) {
-				plusMinusValue = 0.0;
-			} else {
-				plusMinusValue = (getValue() - getOriginalValue()) / getOriginalValue() * PERCENT;
-			}
+			plusMinusValue = getUnitCostPrice() == 0
+				? 0.0
+				: (getValue() - getOriginalValue()) / getOriginalValue() * PERCENT;
 		}
 		return plusMinusValue;
 	}

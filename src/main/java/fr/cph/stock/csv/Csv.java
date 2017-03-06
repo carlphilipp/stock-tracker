@@ -36,22 +36,25 @@ import java.util.List;
  * @version 1
  */
 public class Csv {
-	/** User **/
+	/**
+	 * User
+	 **/
 	private final User user;
-	/** Reader **/
+	/**
+	 * Reader
+	 **/
 	private final BufferedReader reader;
-	/** Account **/
+	/**
+	 * Account
+	 **/
 	private final String account;
 
 	/**
 	 * Constructor
 	 *
-	 * @param reader
-	 *            the reader
-	 * @param user
-	 *            the user
-	 * @param account
-	 *            the account
+	 * @param reader  the reader
+	 * @param user    the user
+	 * @param account the account
 	 */
 	public Csv(final BufferedReader reader, final User user, final String account) {
 		this.reader = reader;
@@ -60,12 +63,9 @@ public class Csv {
 	}
 
 	/**
-	 *
 	 * @return a list of share value
-	 * @throws IOException
-	 *             the io exception
-	 * @throws ParseException
-	 *             the parse exception
+	 * @throws IOException    the io exception
+	 * @throws ParseException the parse exception
 	 */
 	public final List<ShareValue> getShareValueList() throws IOException, ParseException {
 		final CSVReader csvReader = new CSVReader(reader, ';');
@@ -80,14 +80,8 @@ public class Csv {
 			sv.setUserId(userId);
 			sv.setBuy(0.0);
 			sv.setDate(formatter.parse(row[0]));
-			if (row[1] != null) {
-				sv.setLiquidityMovement(format(row[1]));
-			}
-			if (row.length == 6) {
-				sv.setMonthlyYield(format(row[5]));
-			} else {
-				sv.setMonthlyYield(0.0);
-			}
+			sv.setLiquidityMovement(row[1] != null ? format(row[1]) : null);
+			sv.setMonthlyYield(row.length == 6 ? format(row[5]) : 0.0);
 			sv.setPortfolioValue(format(row[2]));
 			sv.setSell(0.0);
 			sv.setShareQuantity(format(row[3]));
@@ -105,8 +99,7 @@ public class Csv {
 	/**
 	 * Format
 	 *
-	 * @param text
-	 *            the text to format
+	 * @param text the text to format
 	 * @return a Double
 	 */
 	private Double format(final String text) {

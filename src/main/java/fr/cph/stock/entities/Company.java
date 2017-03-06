@@ -70,11 +70,7 @@ public class Company {
 	 * @return the last update
 	 */
 	public final Timestamp getLastUpdate() {
-		if (lastUpdate != null) {
-			return (Timestamp) lastUpdate.clone();
-		} else {
-			return null;
-		}
+		return lastUpdate != null ? (Timestamp) lastUpdate.clone() : null;
 	}
 
 	/**
