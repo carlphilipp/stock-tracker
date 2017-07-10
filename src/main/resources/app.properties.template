@@ -27,6 +27,7 @@ db.user=
 db.password=
 
 # Dropbox
+dropbox.clientId=
 dropbox.access.token=
 
 # Email

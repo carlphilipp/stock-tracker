@@ -1,4 +1,4 @@
-#Stock Tracker
+# Stock Tracker
 
 A web application to track your personal investments with minimum maintenance.
 
@@ -6,7 +6,7 @@ Calculate your overall performance across all your investments.
 
 # Prerequisite
 - Java 8
-- Tomcat 8.5.8
+- Tomcat 8.5.16
 - MySQL
 
 # Usage

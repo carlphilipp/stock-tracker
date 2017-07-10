@@ -25,7 +25,7 @@ public class DropBoxImpl implements DropBox {
 
 	public DropBoxImpl() {
 		final Properties prop = Util.getProperties();
-		final DbxRequestConfig config = new DbxRequestConfig("stock-tracker");
+		final DbxRequestConfig config = new DbxRequestConfig(prop.getProperty("dropbox.clientId"));
 		client = new DbxClientV2(config, prop.getProperty("dropbox.access.token"));
 	}
 
@@ -64,7 +64,7 @@ public class DropBoxImpl implements DropBox {
 		}
 	}
 
-	protected String calculateNewDateFromFileName(final File file) {
+	String calculateNewDateFromFileName(final File file) {
 		final String date = file.getName().substring(0, file.getName().indexOf("-stock"));
 		final LocalDate newLocalDate = LocalDate.parse(date, FORMATTER).minusDays(7);
 		return newLocalDate.format(FORMATTER);
