@@ -88,6 +88,7 @@ public class AuthServlet extends HttpServlet {
 						lcookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
 						addCookieToResponse(response, LANGUAGE, ENGLISH);
 					}
+					log.info("User logged in [{}]", login);
 					response.sendRedirect(HOME);
 				}
 			} else {
