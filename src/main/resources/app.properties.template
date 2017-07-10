@@ -27,11 +27,7 @@ db.user=
 db.password=
 
 # Dropbox
-app_key=
-app_secret=
-token_key=
-token_value=
-access_token=
+dropbox.access.token=
 
 # Email
 email.smtp_host_name=smtp.gmail.com

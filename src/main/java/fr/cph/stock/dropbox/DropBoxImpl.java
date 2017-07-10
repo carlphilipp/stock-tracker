@@ -26,7 +26,7 @@ public class DropBoxImpl implements DropBox {
 	public DropBoxImpl() {
 		final Properties prop = Util.getProperties();
 		final DbxRequestConfig config = new DbxRequestConfig("stock-tracker");
-		client = new DbxClientV2(config, prop.getProperty("access_token"));
+		client = new DbxClientV2(config, prop.getProperty("dropbox.access.token"));
 	}
 
 	/**
