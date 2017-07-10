@@ -46,6 +46,7 @@ public class MysqlDumpJob implements Job {
 		File tarGzFile = null;
 		File sqlFile = null;
 		try {
+			log.info("Exporting MYSQL db");
 			final MySQLDumper mysql = new MySQLDumper(Util.getCurrentDateInFormat("dd-MM-yyyy"));
 			mysql.export();
 
@@ -56,8 +57,13 @@ public class MysqlDumpJob implements Job {
 
 			Util.createTarGz(sqlPath, tarGzPath);
 
+			log.info("Delete old file in Dropbox if needed");
 			dropBox.deleteOldFileIfNeeded(tarGzFile);
+
+			log.info("Upload new dump in Dropbox if needed");
 			dropBox.uploadFile(tarGzFile);
+			
+			log.info("Done!");
 		} catch (final Throwable t) {
 			log.error("Error while executing MysqlDumpJob: {}", t.getMessage(), t);
 		} finally {

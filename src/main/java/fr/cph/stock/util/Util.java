@@ -93,7 +93,7 @@ public enum Util {
 	 * @return the formatted date
 	 */
 	public static String getCurrentDateInFormat(final String format) {
-		final Calendar cal = Util.getCurrentCalendarInTimeZone(TimeZone.getTimeZone("Europe/Paris"));
+		final Calendar cal = Util.getCurrentCalendarInTimeZone(TimeZone.getTimeZone("America/Chicago"));
 		final DateFormat formatter = new SimpleDateFormat(format);
 		return formatter.format(cal.getTime());
 	}

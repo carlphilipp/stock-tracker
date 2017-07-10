@@ -32,45 +32,16 @@ import java.util.Properties;
 @Log4j2
 public class MySQLDumper {
 
-	/**
-	 * Ip
-	 **/
 	private final String ip;
 	// private static String port = "3306";
-	/**
-	 * Database
-	 **/
 	private final String database;
-	/**
-	 * Database user
-	 **/
 	private final String user;
-	/**
-	 * Database password
-	 **/
 	private final String pass;
-	/**
-	 * Path
-	 **/
 	private static final String PATH = "stock";
-	/**
-	 * Extension of the file
-	 **/
-	private static final String SQLEXT = ".sql";
-	/**
-	 * Compression of the file
-	 **/
-	private static final String TARGZEXT = ".tar.gz";
-	/**
-	 * Date
-	 **/
+	private static final String SQL_EXT = ".sql";
+	private static final String TARGZ_EXT = ".tar.gz";
 	private final String date;
 
-	/**
-	 * Constructor
-	 *
-	 * @param date the date
-	 */
 	public MySQLDumper(final String date) {
 		this.date = date;
 		final Properties prop = Util.getProperties();
@@ -95,7 +66,7 @@ public class MySQLDumper {
 	 * @return the file name with extension
 	 */
 	public final String getCurrentSqlNameFile() {
-		return getCurrentNameFile() + SQLEXT;
+		return getCurrentNameFile() + SQL_EXT;
 	}
 
 	/**
@@ -104,7 +75,7 @@ public class MySQLDumper {
 	 * @return the current file name with compression
 	 */
 	public final String getCurrentTarGzNameFile() {
-		return getCurrentNameFile() + TARGZEXT;
+		return getCurrentNameFile() + TARGZ_EXT;
 	}
 
 	/**
@@ -114,24 +85,24 @@ public class MySQLDumper {
 	 */
 	public final void export() throws Exception {
 		final String dumpCommand = "mysqldump " + database + " -h " + ip + " -u " + user + " -p" + pass;
+		log.info("Executing '{}'", dumpCommand);
 		final Runtime rt = Runtime.getRuntime();
 		PrintStream ps;
 		final Process child = rt.exec(dumpCommand);
 		try {
-			ps = new PrintStream(date + "-" + PATH + SQLEXT, "UTF-8");
+			ps = new PrintStream(date + "-" + PATH + SQL_EXT, "UTF-8");
 		} catch (final FileNotFoundException fileEx) {
 			final File file = new File("");
 			throw new FileNotFoundException(fileEx.getMessage() + " / " + file.getPath());
 		}
-		try (final InputStream in = child.getInputStream();
-			 final InputStream err = child.getErrorStream()) {
+		try (final InputStream in = child.getInputStream()) {
 			int ch;
 			while ((ch = in.read()) != -1) {
 				ps.write(ch);
 			}
-			while ((ch = err.read()) != -1) {
-				log.error(ch);
-			}
+		} catch (Throwable t) {
+			log.error("Failed at exporting MYSQL db {}", t.getMessage(), t);
 		}
+		log.info("File exported to '{}'", getCurrentSqlNameFile());
 	}
 }
