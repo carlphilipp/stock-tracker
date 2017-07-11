@@ -34,41 +34,16 @@ import java.util.Date;
 @Data
 public class Index {
 
-	/**
-	 * Id
-	 **/
 	private int id;
-	/**
-	 * Yahoo Id
-	 **/
 	private String yahooId;
-	/**
-	 * Value
-	 **/
 	private Double value;
-	/**
-	 * Date
-	 **/
 	private Date date;
-	/**
-	 * Share Value
-	 **/
 	private Double shareValue;
 
-	/**
-	 * Get the date
-	 *
-	 * @return the date
-	 */
 	public final Date getDate() {
 		return date != null ? (Date) date.clone() : null;
 	}
 
-	/**
-	 * Set the date
-	 *
-	 * @param date the date
-	 */
 	public final void setDate(final Date date) {
 		this.date = (Date) date.clone();
 	}

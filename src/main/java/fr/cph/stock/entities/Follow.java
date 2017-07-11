@@ -32,46 +32,17 @@ import lombok.NoArgsConstructor;
 @Data
 public class Follow {
 
-	/**
-	 * Company
-	 **/
 	private Company company;
-	/**
-	 * Id
-	 **/
 	private int id;
-	/**
-	 * Company Id
-	 **/
 	private int companyId;
-	/**
-	 * User id
-	 **/
 	private int userId;
-	/**
-	 * Lower limit
-	 **/
 	private Double lowerLimit;
-	/**
-	 * Higher limit
-	 **/
 	private Double higherLimit;
 
 	// Not stored in DB. Calculated and cached at run time
-	/**
-	 * Gap lower limit
-	 **/
 	private Double gapLowerLimit;
-	/**
-	 * Gap higher limit
-	 **/
 	private Double gapHigherLimit;
 
-	/**
-	 * Get gap lower limit
-	 *
-	 * @return the gap lower limit
-	 */
 	public final Double getGapLowerLimit() {
 		if (gapLowerLimit == null) {
 			gapLowerLimit = (company.getQuote() / getLowerLimit() - 1) * 100;
@@ -79,11 +50,6 @@ public class Follow {
 		return gapLowerLimit;
 	}
 
-	/**
-	 * The gap higher limit
-	 *
-	 * @return the gap higher limit
-	 */
 	public final Double getGapHigherLimit() {
 		if (gapHigherLimit == null) {
 			gapHigherLimit = (getHigherLimit() / company.getQuote() - 1) * 100;

@@ -77,7 +77,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	}
 
 	@Override
-	public Stream<Company> getCompaniesData(final List<String> yahooIds) {
+	public final Stream<Company> getCompaniesData(final List<String> yahooIds) {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
 		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
 		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
@@ -119,7 +119,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 				final StringBuilder sb = new StringBuilder();
 				sb.append("\"").append(currency.getCode()).append(c.getCode()).append("\",\"").append(c.getCode()).append(currency.getCode()).append("\"");
 				final String request = "select * from yahoo.finance.xchange where pair in (" + sb + ")";
-				final XChangeResult baseResultDTO = (XChangeResult) yahooGateway.getObject(request, XChangeResult.class);
+				final XChangeResult baseResultDTO = yahooGateway.getObject(request, XChangeResult.class);
 				final List<Rate> rates = baseResultDTO.getQuery().getResults().getRate();
 				if (rates != null && rates.size() == 2) {
 					final CurrencyData currencyData = CurrencyData.builder()
@@ -141,20 +141,18 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	}
 
 	@Override
-	public Stream<Company> getCompanyDataHistory(final String yahooId, final Date from, final Date to) {
+	public final Stream<Company> getCompanyDataHistory(final String yahooId, final Date from, final Date to) {
 		final String startDate = SIMPLE_DATE_FORMAT.format(from);
 		final Calendar cal = Calendar.getInstance();
 		final String endDate = to == null
 			? SIMPLE_DATE_FORMAT.format(cal.getTime())
 			: SIMPLE_DATE_FORMAT.format(to);
 		final String request = "select * from yahoo.finance.historicaldata where symbol = \"" + yahooId + "\" and startDate = \"" + startDate + "\" and endDate = \"" + endDate + "\"";
-		final HistoryResult historyResult = (HistoryResult) yahooGateway.getObject(request, HistoryResult.class);
+		final HistoryResult historyResult = yahooGateway.getObject(request, HistoryResult.class);
 		final List<fr.cph.stock.external.web.currency.history.Quote> listResult = historyResult.getQuery().getResults().getQuote();
-		if (listResult != null) {
-			return listResult.stream().map(quote -> Company.builder().quote(quote.getClose()).yahooId(yahooId).build());
-		} else {
-			return Stream.empty();
-		}
+		return listResult != null
+			? listResult.stream().map(quote -> Company.builder().quote(quote.getClose()).yahooId(yahooId).build())
+			: Stream.empty();
 	}
 
 	@Override

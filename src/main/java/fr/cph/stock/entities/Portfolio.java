@@ -77,38 +77,17 @@ public class Portfolio {
 	private Map<String, List<Index>> indexes;
 
 	// Calculated
-	/**
-	 * Total quantity
-	 **/
 	@Getter
 	private Double totalQuantity;
 	@Getter
 	private Double averageUnitCostPrice;
 	@Getter
 	private Double averageQuotePrice;
-	/**
-	 * Total value
-	 **/
 	private Double totalValue;
-	/**
-	 * Total plus minus value
-	 **/
 	private Double totalPlusMinusValue;
-	/**
-	 * Yield per year
-	 **/
 	private Double yieldYear;
-	/**
-	 * Yield per year in percentage
-	 **/
 	private Double yieldYearPerc;
-	/**
-	 * Total gain
-	 **/
 	private Double totalGain;
-	/**
-	 * Last company update
-	 **/
 	private Date lastCompanyUpdate;
 	/**
 	 * Best performance of the share value

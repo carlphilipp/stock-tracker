@@ -37,7 +37,6 @@ public interface ExternalDataAccess {
 	 *
 	 * @param ids a list of id
 	 * @return a list of company
-	 * @throws YahooException the yahoo exception
 	 */
 	Stream<Company> getCompaniesData(List<String> ids);
 
@@ -48,7 +47,6 @@ public interface ExternalDataAccess {
 	 * @param from date from
 	 * @param to   date to
 	 * @return a list of company
-	 * @throws YahooException the yahoo exception
 	 */
 	Stream<Company> getCompanyDataHistory(String id, Date from, Date to);
 
@@ -57,7 +55,6 @@ public interface ExternalDataAccess {
 	 *
 	 * @param currency the currency
 	 * @return a list of currency data
-	 * @throws YahooException the yahoo exception
 	 */
 	Stream<CurrencyData> getCurrencyData(Currency currency);
 
@@ -66,7 +63,6 @@ public interface ExternalDataAccess {
 	 *
 	 * @param id the id
 	 * @return an Index
-	 * @throws YahooException the yahoo exception
 	 */
 	Index getIndexData(String id);
 }

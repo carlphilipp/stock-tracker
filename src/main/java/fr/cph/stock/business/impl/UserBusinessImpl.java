@@ -125,11 +125,6 @@ public class UserBusinessImpl implements UserBusiness {
 	}
 
 	@Override
-	public final void deleteUser(final String login) {
-		userDAO.delete(User.builder().login(login).build());
-	}
-
-	@Override
 	public final void validateUser(final String login) {
 		final User user = userDAO.selectWithLogin(login).orElseThrow(() -> new NotFoundException(login));
 		user.setAllow(true);

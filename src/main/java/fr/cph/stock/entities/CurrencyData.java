@@ -33,25 +33,13 @@ import java.util.Date;
 @ToString
 public class CurrencyData {
 
-	/**
-	 * id
-	 **/
 	private int id;
-	/**
-	 * First currency
-	 **/
 	private Currency currency1;
-	/**
-	 * Second currency
-	 **/
 	private Currency currency2;
 	/**
 	 * Value of the first currency compare to the second
 	 **/
 	private Double value;
-	/**
-	 * Last update of the value
-	 **/
 	private Date lastUpdate;
 
 

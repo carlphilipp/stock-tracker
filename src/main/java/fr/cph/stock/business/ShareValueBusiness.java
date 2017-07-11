@@ -35,10 +35,10 @@ public interface ShareValueBusiness {
 	 * @param yield             the yield
 	 * @param buy               the amount buy
 	 * @param sell              the amount sell
-	 * @param taxe              the taxe
+	 * @param tax              the tax
 	 * @param commentary        the commentary
 	 */
-	void updateCurrentShareValue(Portfolio portfolio, Account account, Double liquidityMovement, Double yield, Double buy, Double sell, Double taxe, String commentary);
+	void updateCurrentShareValue(Portfolio portfolio, Account account, Double liquidityMovement, Double yield, Double buy, Double sell, Double tax, String commentary);
 
 	/**
 	 * Delete a share value

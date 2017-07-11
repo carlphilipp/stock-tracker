@@ -115,7 +115,7 @@ public class YahooGatewayImpl implements YahooGateway {
 	}
 
 	@Override
-	public final Object getObject(final String yqlQuery, final Class<?> clazz) throws YahooException {
+	public final <T> T getObject(final String yqlQuery, final Class<T> clazz) throws YahooException {
 		final String data = get(urlBuilder(yqlQuery));
 		final String substring = data.substring(11, data.length());
 		final String substring2 = substring.substring(0, substring.length() - 2);

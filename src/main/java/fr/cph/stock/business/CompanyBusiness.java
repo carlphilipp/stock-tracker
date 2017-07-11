@@ -33,9 +33,9 @@ public interface CompanyBusiness {
 
 	Optional<Company> createManualCompany(String name, String industry, String sector, Currency currency, double quote);
 
-	void updateCompanyManual(Integer companyId, Double newQuote);
-
 	Optional<Company> addOrUpdateCompany(String ticker) throws YahooException;
+
+	void updateCompanyManual(Integer companyId, Double newQuote);
 
 	void cleanDB();
 

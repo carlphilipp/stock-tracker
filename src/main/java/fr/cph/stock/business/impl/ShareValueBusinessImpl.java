@@ -69,7 +69,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 	}
 
 	@Override
-	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield, final Double buy, final Double sell, final Double taxe, final String commentary) {
+	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield, final Double buy, final Double sell, final Double tax, final String commentary) {
 		final ShareValue shareValue = ShareValue.builder()
 			.userId(portfolio.getUserId())
 			.monthlyYield(new BigDecimal(portfolio.getYieldYear() / 12, MATHCONTEXT).doubleValue())
@@ -78,7 +78,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 			.yield(yield)
 			.buy(buy)
 			.sell(sell)
-			.taxe(taxe)
+			.taxe(tax)
 			.account(account)
 			.commentary(commentary)
 			.details(portfolio.getPortfolioReview())

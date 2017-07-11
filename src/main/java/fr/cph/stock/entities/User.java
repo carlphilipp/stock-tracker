@@ -54,12 +54,6 @@ public class User implements Serializable {
 	private Boolean allow;
 	private Date lastUpdate;
 
-	/**
-	 * Constructor
-	 *
-	 * @param login    the login
-	 * @param password the password
-	 */
 	public User(final String login, final String password) {
 		this.login = login;
 		this.password = password;

@@ -35,19 +35,17 @@ public interface UserBusiness {
 
 	Optional<User> getUserWithEmail(String email);
 
-	void deleteUser(String login);
+	Optional<User> checkUser(String login, String md5Password) throws LoginException;
+
+	Optional<Portfolio> getUserPortfolio(int userId, Date from, Date to) throws YahooException;
+
+	Optional<Portfolio> getUserPortfolio(int userId) throws YahooException;
 
 	void validateUser(String login);
 
 	void updateUser(User user);
 
-	Optional<User> checkUser(String login, String md5Password) throws LoginException;
-
 	void updateOneUserPassword(User user);
-
-	Optional<Portfolio> getUserPortfolio(int userId, Date from, Date to) throws YahooException;
-
-	Optional<Portfolio> getUserPortfolio(int userId) throws YahooException;
 
 	void updatePortfolio(Portfolio portfolio);
 
