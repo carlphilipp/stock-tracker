@@ -5,6 +5,7 @@ import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.external.impl.ExternalDataAccessImpl;
 import org.junit.After;
 import org.junit.Rule;
@@ -35,7 +36,7 @@ public class CompanyBusinessTest {
 	@Mock
 	private CompanyDAO companyDAO;
 	@Mock
-	private ExternalDataAccessImpl yahoo;
+	private ExternalDataAccess yahoo;
 
 	@InjectMocks
 	private CompanyBusinessImpl companyBusiness;
