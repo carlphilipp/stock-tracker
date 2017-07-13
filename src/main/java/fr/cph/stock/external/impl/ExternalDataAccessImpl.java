@@ -119,8 +119,9 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 				final StringBuilder sb = new StringBuilder();
 				sb.append("\"").append(currency.getCode()).append(c.getCode()).append("\",\"").append(c.getCode()).append(currency.getCode()).append("\"");
 				final String request = "select * from yahoo.finance.xchange where pair in (" + sb + ")";
-				final XChangeResult baseResultDTO = yahooGateway.getObject(request, XChangeResult.class);
-				final List<Rate> rates = baseResultDTO.getQuery().getResults().getRate();
+				final XChangeResult xChangeResult = yahooGateway.getObject(request, XChangeResult.class);
+				log.info("XChangeResult: " + xChangeResult);
+				final List<Rate> rates = xChangeResult.getQuery().getResults().getRate();
 				if (rates != null && rates.size() == 2) {
 					final CurrencyData currencyData = CurrencyData.builder()
 						.currency1(currency)
@@ -134,7 +135,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 						.build();
 					return Stream.of(currencyData, currencyData2);
 				} else {
-					log.error("Could not find currency data: {}", baseResultDTO);
+					log.error("Could not find currency data: {}", xChangeResult);
 					return Stream.empty();
 				}
 			});

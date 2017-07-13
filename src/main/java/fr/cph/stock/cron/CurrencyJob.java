@@ -45,6 +45,7 @@ public class CurrencyJob implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
+			log.info("Executing update all currencies job");
 			currencyBusiness.updateAllCurrencies();
 		} catch (final Throwable t) {
 			log.error("Error while executing CurrencyJob: {}", t.getMessage(), t);
