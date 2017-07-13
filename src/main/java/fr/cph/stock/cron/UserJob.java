@@ -47,7 +47,7 @@ public class UserJob implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
-			log.info("User job");
+			log.info("Executing user auto update share value");
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
 			shareValueBusiness.autoUpdateUserShareValue(cal);
