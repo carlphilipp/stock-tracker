@@ -36,6 +36,7 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -45,6 +46,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
+@Log4j2
 @Singleton
 public class UserBusinessImpl implements UserBusiness {
 

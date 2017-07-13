@@ -460,6 +460,8 @@ public class Equity implements Comparable<Equity> {
 
 	@Override
 	public final int compareTo(final Equity equity) {
-		return this.getCurrentName().compareTo(equity.getCurrentName());
+		return getCurrentName() != null && equity.getCurrentName() != null
+			? getCurrentName().compareTo(equity.getCurrentName())
+			: -1;
 	}
 }
