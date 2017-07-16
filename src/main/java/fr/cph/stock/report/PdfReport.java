@@ -73,7 +73,7 @@ public class PdfReport {
 	public static Image createPieChart(final PieChart pieChart, final String title) {
 		final Map<String, Double> map = pieChart.getEquities();
 		final DefaultPieDataset data = new DefaultPieDataset();
-		map.entrySet().forEach(entry -> data.setValue(entry.getKey(), entry.getValue()));
+		map.forEach(data::setValue);
 		final JFreeChart chart = ChartFactory.createPieChart(title, data, true, true, true);
 		return chart.createBufferedImage(500, 500);
 	}
@@ -93,7 +93,7 @@ public class PdfReport {
 		final TimeSeries series2 = new TimeSeries("CAC40");
 		final TimeSeries series3 = new TimeSeries("S&P 500");
 
-		mapShareValueChart.entrySet().forEach(entry -> series.add(new Millisecond(entry.getKey()), entry.getValue()));
+		mapShareValueChart.forEach((key, value) -> series.add(new Millisecond(key), value));
 		mapIndexChart.get("^FCHI").forEach(entry -> series2.add(new Millisecond(entry.getDate()), entry.getShareValue()));
 		mapIndexChart.get("^GSPC").forEach(entry -> series3.add(new Millisecond(entry.getDate()), entry.getShareValue()));
 

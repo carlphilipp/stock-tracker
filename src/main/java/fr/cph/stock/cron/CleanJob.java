@@ -31,7 +31,7 @@ import org.quartz.JobExecutionContext;
 @Log4j2
 public class CleanJob implements Job {
 
-	private CompanyBusiness companyBusiness;
+	private final CompanyBusiness companyBusiness;
 
 	/**
 	 * Constructor

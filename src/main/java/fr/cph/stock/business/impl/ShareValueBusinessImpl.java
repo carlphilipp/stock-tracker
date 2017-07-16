@@ -140,7 +140,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 								+ user.getLogin()
 								+ ",\n\nThe update today did not work, probably because of Yahoo's API.\nSorry for the inconvenience. You still can try do it manually."
 								+ "\n\nBest regards,\nThe " + Info.NAME + " team.");
-							Mail.sendMail("[Auto-update fail] " + Info.NAME, body, new String[]{user.getEmail()}, null);
+							Mail.sendMail("[Auto-update fail] " + Info.NAME, body, new String[]{user.getEmail()});
 						}
 					}
 				}

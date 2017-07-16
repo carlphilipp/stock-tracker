@@ -38,7 +38,7 @@ public class Cac40CheckJob implements Job {
 	/**
 	 * AccountBusinessImpl
 	 **/
-	private IndexBusiness indexBusiness;
+	private final IndexBusiness indexBusiness;
 
 	/**
 	 * Constructor

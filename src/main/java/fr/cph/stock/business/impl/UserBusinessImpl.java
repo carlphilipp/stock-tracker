@@ -111,7 +111,7 @@ public class UserBusinessImpl implements UserBusiness {
 			.append(".\n\nBest regards,\nThe ")
 			.append(Info.NAME)
 			.append(" team.");
-		Mail.sendMail("[Registration] " + Info.NAME, body.toString(), new String[]{email}, null);
+		Mail.sendMail("[Registration] " + Info.NAME, body.toString(), new String[]{email});
 		createUserPortfolio(user.getLogin());
 		createUserDefaultAccount(user);
 	}
@@ -193,8 +193,7 @@ public class UserBusinessImpl implements UserBusiness {
 	@Override
 	public final Optional<Portfolio> getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
 		final Optional<Portfolio> portfolioOptional = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, from, to);
-		if (portfolioOptional.isPresent()) {
-			final Portfolio portfolio = portfolioOptional.get();
+		portfolioOptional.ifPresent(portfolio -> {
 			Collections.sort(portfolio.getEquities());
 			final Currency currency = currencyBusiness.loadCurrencyData(portfolio.getCurrency());
 			portfolio.setCurrency(currency);
@@ -216,7 +215,7 @@ public class UserBusinessImpl implements UserBusiness {
 			liquidity = new BigDecimal(Double.toString(liquidity), MATHCONTEXT).doubleValue();
 			portfolio.setLiquidity(liquidity);
 			portfolio.compute();
-		}
+		});
 		return portfolioOptional;
 	}
 

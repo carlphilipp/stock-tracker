@@ -49,7 +49,7 @@ public class YahooGatewayImpl implements YahooGateway {
 	private static final String ENCODING = "UTF-8";
 
 	@NonNull
-	private Gson gson;
+	private final Gson gson;
 
 	@Inject
 	public YahooGatewayImpl(final Gson gson) {

@@ -21,7 +21,7 @@ import java.util.Properties;
 public class DropBoxImpl implements DropBox {
 
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-	private DbxClientV2 client;
+	private final DbxClientV2 client;
 
 	public DropBoxImpl() {
 		final Properties prop = Util.getProperties();

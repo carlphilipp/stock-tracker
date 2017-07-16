@@ -123,7 +123,7 @@ public class ModifyEquityServlet extends HttpServlet {
 		}
 	}
 
-	private void updateEquity(final HttpServletRequest request, final int userId, final Double quantity) throws UnsupportedEncodingException, YahooException {
+	private void updateEquity(final HttpServletRequest request, final int userId, final Double quantity) throws YahooException {
 		final String ticker = request.getParameter(TICKER);
 		final String nameParam = request.getParameter(NAME_PERSONAL);
 		final String sectorParam = request.getParameter(SECTOR_PERSONAL);

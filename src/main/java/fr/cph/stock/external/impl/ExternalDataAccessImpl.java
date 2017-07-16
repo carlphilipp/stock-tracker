@@ -66,9 +66,9 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	private static final String RESULTS = "results";
 
 	@NonNull
-	private YahooGateway yahooGateway;
+	private final YahooGateway yahooGateway;
 	@NonNull
-	private Gson gson;
+	private final Gson gson;
 
 	@Inject
 	public ExternalDataAccessImpl(final YahooGateway yahooGateway, final Gson gson) {

@@ -47,9 +47,9 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	private static final int PAUSE = 1000;
 
 	@NonNull
-	private ExternalDataAccess yahoo;
+	private final ExternalDataAccess yahoo;
 	@NonNull
-	private CompanyDAO companyDAO;
+	private final CompanyDAO companyDAO;
 
 	@Inject
 	public CompanyBusinessImpl(@Named("Company") final DAO dao, final ExternalDataAccess yahoo) {
@@ -149,7 +149,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				addOrUpdateCompanies(yahooIdList);
 			} catch (final YahooUnknownTickerException e) {
 				log.warn(e.getMessage());
-				Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]), null);
+				Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]));
 			} catch (final YahooException e) {
 				updateSuccess = false;
 				log.warn("All companies update failed: {}", e.getMessage());
@@ -167,7 +167,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 					Util.makeAPause(PAUSE);
 				} catch (final YahooUnknownTickerException e) {
 					log.warn(e.getMessage());
-					Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]), null);
+					Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]));
 				} catch (final YahooException e) {
 					updateSuccess = false;
 					isOk = false;

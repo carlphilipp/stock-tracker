@@ -82,7 +82,7 @@ public class LostServlet extends HttpServlet {
 						.append(".\n\nBest regards,\nThe ")
 						.append(Info.NAME)
 						.append(" team.");
-					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[]{email}, null);
+					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[]{email});
 					request.setAttribute("ok", "Check your email!");
 				} else {
 					request.setAttribute(ERROR, USER_NOT_FOUND);

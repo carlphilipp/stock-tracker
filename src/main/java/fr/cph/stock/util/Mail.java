@@ -19,12 +19,9 @@ package fr.cph.stock.util;
 import com.sun.net.ssl.internal.ssl.Provider;
 import lombok.extern.log4j.Log4j2;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 import java.io.IOException;
 import java.security.Security;
 import java.util.Date;
@@ -51,11 +48,9 @@ public final class Mail {
 	 * @param emailSubjectTxt the subject
 	 * @param emailMsgTxt     the content
 	 * @param sendTo          the targets
-	 * @param attachFile      the files to attach
 	 * @throws MessagingException the messaging exception
-	 * @throws IOException        the io exception
 	 */
-	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) throws MessagingException, IOException {
+	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo) throws MessagingException {
 		final Properties prop = Util.getProperties();
 		smtpHostName = prop.getProperty("email.smtp_host_name");
 		smtpPort = prop.getProperty("email.smtp_port");
@@ -63,7 +58,7 @@ public final class Mail {
 		emailFrom = prop.getProperty("email.from");
 		passwordFrom = prop.getProperty("email.password");
 		Security.addProvider(new Provider());
-		sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt, attachFile);
+		sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt);
 	}
 
 	/**
@@ -72,11 +67,9 @@ public final class Mail {
 	 * @param recipients tab of recipients
 	 * @param subject    the subject
 	 * @param message    the content
-	 * @param attachFile the attach files
 	 * @throws MessagingException the messaging exception
-	 * @throws IOException        the io exception
 	 */
-	private void sendSSLMessage(final String[] recipients, final String subject, final String message, final String attachFile) throws MessagingException {
+	private void sendSSLMessage(final String[] recipients, final String subject, final String message) throws MessagingException {
 		final boolean debug = false;
 
 		final Properties props = new Properties();
@@ -113,13 +106,6 @@ public final class Mail {
 		msg.setSubject(subject);
 		msg.setContent(message, "text/plain");
 		msg.setSentDate(new Date());
-		if (attachFile != null) {
-			final File file = new File(attachFile);
-			final FileDataSource fds = new FileDataSource(file);
-			final DataHandler dh = new DataHandler(fds);
-			msg.setDataHandler(dh);
-			msg.setFileName(attachFile);
-		}
 		Transport.send(msg);
 	}
 
@@ -129,13 +115,12 @@ public final class Mail {
 	 * @param emailSubjectTxt the email subject
 	 * @param emailMsgTxt     the email content
 	 * @param sendTo          the recipients
-	 * @param attachFile      the attach files
 	 */
-	public static void sendMail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo, final String attachFile) {
+	public static void sendMail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo) {
 		try {
-			new Mail(emailSubjectTxt, emailMsgTxt, sendTo, attachFile);
-		} catch (final MessagingException | IOException e1) {
-			log.error("Error while trying to send an email : {}", e1.getMessage(), e1);
+			new Mail(emailSubjectTxt, emailMsgTxt, sendTo);
+		} catch (final MessagingException e) {
+			log.error("Error while trying to send an email : {}", e.getMessage(), e);
 		}
 	}
 }

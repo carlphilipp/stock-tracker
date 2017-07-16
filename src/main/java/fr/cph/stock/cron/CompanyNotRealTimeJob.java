@@ -31,7 +31,7 @@ import org.quartz.JobExecutionContext;
 @Log4j2
 public class CompanyNotRealTimeJob implements Job {
 
-	private CompanyBusiness business;
+	private final CompanyBusiness business;
 
 	public CompanyNotRealTimeJob() {
 		business = GuiceInjector.INSTANCE.getCompanyBusiness();

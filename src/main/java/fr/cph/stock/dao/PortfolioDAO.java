@@ -87,8 +87,7 @@ public class PortfolioDAO implements DAO<Portfolio> {
 		Optional<Portfolio> portfolioOptional;
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			portfolioOptional = Optional.ofNullable(session.selectOne(SELECT_WITH_ID, userId));
-			if (portfolioOptional.isPresent()) {
-				final Portfolio portfolio = portfolioOptional.get();
+			portfolioOptional.ifPresent(portfolio -> {
 				final List<Equity> equities = session.selectList(SELECT_EQUITY, portfolio.getId());
 				portfolio.setEquities(equities);
 				final List<Account> accounts = session.selectList(ACCOUNT_SELECT, userId);
@@ -109,7 +108,7 @@ public class PortfolioDAO implements DAO<Portfolio> {
 						portfolio.setShareValues(shares);
 					}
 				}
-			}
+			});
 		}
 		return portfolioOptional;
 	}
