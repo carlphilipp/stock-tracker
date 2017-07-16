@@ -47,20 +47,20 @@ public class AuthServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 	private UserBusiness userBusiness;
-	private List<String> lcookies;
+	private List<String> defaultCookies;
 
 	@Override
 	public final void init() {
 		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
-		lcookies = new ArrayList<>();
-		lcookies.add(QUOTE);
-		lcookies.add(CURRENCY);
-		lcookies.add(PARITY);
-		lcookies.add(STOP_LOSS);
-		lcookies.add(OBJECTIVE);
-		lcookies.add(YIELD_1);
-		lcookies.add(YIELD_2);
-		lcookies.add(AUTO_UPDATE);
+		defaultCookies = new ArrayList<>();
+		defaultCookies.add(QUOTE);
+		defaultCookies.add(CURRENCY);
+		defaultCookies.add(PARITY);
+		defaultCookies.add(STOP_LOSS);
+		defaultCookies.add(OBJECTIVE);
+		defaultCookies.add(YIELD_1);
+		defaultCookies.add(YIELD_2);
+		defaultCookies.add(AUTO_UPDATE);
 	}
 
 	@Override
@@ -79,13 +79,13 @@ public class AuthServlet extends HttpServlet {
 					request.getSession().setAttribute(USER, user);
 					if (request.getCookies() != null) {
 						final List<Cookie> cookies = Arrays.asList(request.getCookies());
-						lcookies.stream().filter(cookieName -> CookieManagement.notContainsCookie(cookies, cookieName))
+						defaultCookies.stream().filter(cookieName -> CookieManagement.notContainsCookie(cookies, cookieName))
 							.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
 						if (CookieManagement.notContainsCookie(cookies, LANGUAGE)) {
 							addCookieToResponse(response, LANGUAGE, ENGLISH);
 						}
 					} else {
-						lcookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
+						defaultCookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
 						addCookieToResponse(response, LANGUAGE, ENGLISH);
 					}
 					log.info("User logged in [{}]", login);
