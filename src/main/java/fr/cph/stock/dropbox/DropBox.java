@@ -20,7 +20,6 @@ import com.dropbox.core.DbxException;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 
 /**
  * This class connects to dropbox, upload and delete files. It is used to save DB into dropbox. It deletes last week dump and

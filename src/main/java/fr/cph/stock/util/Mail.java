@@ -22,7 +22,6 @@ import lombok.extern.log4j.Log4j2;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;

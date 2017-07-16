@@ -37,7 +37,7 @@ public class DropBoxImpl implements DropBox {
 	 * @throws DbxException   the dropbox exception
 	 */
 	@Override
-	public final void deleteOldFileIfNeeded(final File file) throws ParseException, DbxException {
+	public final void deleteOldFileIfNeeded(final File file) throws DbxException {
 		final String date = calculateNewDateFromFileName(file);
 
 		final List<SearchMatch> searchMatches = client.files().search("", date + "-stock.tar.gz").getMatches();
