@@ -19,10 +19,10 @@ limitations under the License.
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript" src="js/flotr2.min.js"></script>
 	<script type="text/javascript" src="js/jquery.reveal.js"></script>
@@ -50,10 +50,8 @@ limitations under the License.
 							}
 						} else {
 							if (size == 9) {
-								//console.log("GO " + node.childNodes[0].innerHTML);
 								return node.childNodes[0].innerHTML.replace(/\s+/g, '').replace('&nbsp;', '');
 							} else {
-								//console.log(node.innerHTML + " " + size);
 								return node.innerHTML.replace(/\s+/g, '').replace('&nbsp;', '').replace(',', '.');
 							}
 						}
@@ -97,8 +95,7 @@ limitations under the License.
 				</td>
 			</tr>
 			<tr>
-				<td><input type="button" value="Add"
-						   onclick="javascript:execFunWithTimeout(checkForm('sendEquity', 'addEquity', 'processSendEquity', addEquity))">
+				<td><input type="button" value="Add" onclick="javascript:execFunWithTimeout(checkForm('sendEquity', 'addEquity', 'processSendEquity', addEquity))">
 					<input id="processSendEquity" type="submit" style="display: none;"></td>
 				<td></td>
 			</tr>
@@ -113,18 +110,15 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_QUANTITY']}:</td>
-				<td><input name="manualQuantity" type="text" required pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input name="manualQuantity" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_UNITCOSTPRICE']}:</td>
-				<td><input name="manualUnitCostPrice" type="text" required pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input name="manualUnitCostPrice" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
-				<td><input name="manualParityPersonal" type="text" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input name="manualParityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>Currency:</td>
@@ -149,8 +143,7 @@ limitations under the License.
 				<td><input name="manualQuote" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
-				<td><input type="button" value="Add"
-						   onclick="javascript:execFunWithTimeout(checkForm('sendEquityManual', 'addEquity', 'processSendEquity2', addEquityManual))">
+				<td><input type="button" value="Add" onclick="javascript:execFunWithTimeout(checkForm('sendEquityManual', 'addEquity', 'processSendEquity2', addEquityManual))">
 					<input id="processSendEquity2" type="submit" style="display: none;"></td>
 				<td></td>
 			</tr>
@@ -169,8 +162,7 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZENAME']}:</td>
-				<td><input id="modifyNamePersonal" name="namePersonal" type="text" placeholder="Custom Company Name"
-						   pattern="[\w\d _\-àèé/%\.,&\(\)]+"></td>
+				<td><input id="modifyNamePersonal" name="namePersonal" type="text" placeholder="Custom Company Name" pattern="[\w\d _\-àèé/%\.,&\(\)]+"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZESECTOR']}:</td>
@@ -178,13 +170,11 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEINDUSTRY']}:</td>
-				<td><input id="modifyIndustryPersonal" name="industryPersonal" type="text"
-						   placeholder="Custom Industry"></td>
+				<td><input id="modifyIndustryPersonal" name="industryPersonal" type="text" placeholder="Custom Industry"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEMARKETCAP']}:</td>
-				<td><input id="modifyMarketCapPersonal" name="marketCapPersonal" type="text" pattern="\d+(\.\d+)?[BM]"
-						   placeholder="Pattern: \d+(\.\d+)?[BM]"></td>
+				<td><input id="modifyMarketCapPersonal" name="marketCapPersonal" type="text" pattern="\d+(\.\d+)?[BM]" placeholder="Pattern: \d+(\.\d+)?[BM]"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_QUANTITY']}:</td>
@@ -201,8 +191,7 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
-				<td><input id="modifyParityPersonal" name="modifyParityPersonal" type="text" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input id="modifyParityPersonal" name="modifyParityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_YAHOOYIELD']}:</td>
@@ -210,23 +199,19 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_PERSONALYIELD']}:</td>
-				<td><input id="modifyYieldPersonal" name="yieldPersonal" type="text" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input id="modifyYieldPersonal" name="yieldPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_STOPLOSS']}:</td>
-				<td><input id="modifyStopLoss" name="stopLoss" type="text" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input id="modifyStopLoss" name="stopLoss" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_OBJECTIVE']}:</td>
-				<td><input type="text" id="modifyObjective" name="objective" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input type="text" id="modifyObjective" name="objective" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>
-					<input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}"
-						   onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify', 'modifyEquity', 'processModifyEquity', modifyEquity))">
+					<input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}" onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify', 'modifyEquity', 'processModifyEquity', modifyEquity))">
 					<input id="processModifyEquity" type="submit" style="display: none;">
 				</td>
 				<td></td>
@@ -234,8 +219,7 @@ limitations under the License.
 		</table>
 	</form>
 	<form name="sendEquityDelete" id="sendEquityDelete">
-		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity"
-												   onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
+		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
 		<input name="delete" type="hidden" value="true">
 		<input id="processDeleteEquity" type="submit" style="display: none;">
 		<input id="deleteTicker" type="hidden" name="id" value="">
@@ -247,8 +231,7 @@ limitations under the License.
 		<table id="manualForm2">
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZENAME']}:</td>
-				<td><input id="modifyNamePersonal2" name="namePersonal" type="text" placeholder="Custom Company Name"
-						   pattern="[\w\d _\-àèé/%\.,&\(\)]+"></td>
+				<td><input id="modifyNamePersonal2" name="namePersonal" type="text" placeholder="Custom Company Name" pattern="[\w\d _\-àèé/%\.,&\(\)]+"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZESECTOR']}:</td>
@@ -257,13 +240,11 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEINDUSTRY']}:</td>
-				<td><input id="modifyIndustryPersonal2" name="industryPersonal" type="text"
-						   placeholder="Custom Industry"></td>
+				<td><input id="modifyIndustryPersonal2" name="industryPersonal" type="text" placeholder="Custom Industry"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEMARKETCAP']}:</td>
-				<td><input id="modifyMarketCapPersonal2" name="marketCapPersonal" type="text" pattern="\d+(\.\d+)?[BM]"
-						   placeholder="Pattern: \d+(\.\d+)?[BM]"></td>
+				<td><input id="modifyMarketCapPersonal2" name="marketCapPersonal" type="text" pattern="\d+(\.\d+)?[BM]" placeholder="Pattern: \d+(\.\d+)?[BM]"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_QUANTITY']}:</td>
@@ -284,27 +265,22 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
-				<td><input id="modifyParityPersonal2" name="modifyParityPersonal" type="text" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input id="modifyParityPersonal2" name="modifyParityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_PERSONALYIELD']}:</td>
-				<td><input id="modifyYieldPersonal2" name="yieldPersonal" type="text" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input id="modifyYieldPersonal2" name="yieldPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_STOPLOSS']}:</td>
-				<td><input id="modifyStopLoss2" name="stopLoss" type="text" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input id="modifyStopLoss2" name="stopLoss" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_OBJECTIVE']}:</td>
-				<td><input type="text" id="modifyObjective2" name="objective" pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input type="text" id="modifyObjective2" name="objective" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
-				<td><input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}"
-						   onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify2', 'modifyEquity', 'processModifyEquity', modifyEquityManual))">
+				<td><input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}" onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify2', 'modifyEquity', 'processModifyEquity', modifyEquityManual))">
 					<input id="processModifyEquity" type="submit" style="display: none;">
 				</td>
 				<td></td>
@@ -340,9 +316,7 @@ limitations under the License.
 		<div class="equities_container">
 			<div class="floatLeft">
 				<h2 style="margin-top: 5px;display:inline;">
-					${language['PORTFOLIO_TITLE']}&nbsp;<a href="#" data-reveal-id="refresh"><img alt="Refresh"
-																								  src="image/refresh.png"
-																								  style="border: 0"></a>
+					${language['PORTFOLIO_TITLE']}&nbsp;<a href="#" data-reveal-id="refresh"><img alt="Refresh" src="image/refresh.png" style="border: 0"></a>
 				</h2>
 				<br>Last update: <fmt:formatDate value="${portfolio.lastCompanyUpdate}" pattern="${user.datePattern }"/>
 
@@ -351,31 +325,25 @@ limitations under the License.
 				<table id="tableEquityTotal" border="1" class="shadow">
 					<tr>
 						<td class="center">
-							<span class="totalValue"><fmt:formatNumber type="currency" value="${portfolio.totalValue }"
-																	   maxFractionDigits="1"
-																	   currencySymbol="${portfolio.currency.symbol }"/></span>
+							<span class="totalValue"><fmt:formatNumber type="currency" value="${portfolio.totalValue }" maxFractionDigits="1" currencySymbol="${portfolio.currency.symbol }"/></span>
 							<span class="totalGain">
 				<c:choose>
 					<c:when test="${fn:startsWith(portfolio.totalGain, '-')}">
 						<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif"
 							 alt="Down">
-						<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="0"
-																   value="${portfolio.totalGain}"/></span>
+						<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="0" value="${portfolio.totalGain}"/></span>
 					</c:when>
 					<c:otherwise>
 						<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up">
-						<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="0"
-																 value="${portfolio.totalGain}"/></span>
+						<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="0" value="${portfolio.totalGain}"/></span>
 					</c:otherwise>
 				</c:choose>
 				<c:choose>
 					<c:when test="${fn:startsWith(portfolio.totalPlusMinusValue, '-')}">
-						<span class="cQuoteDown">(<fmt:formatNumber type="number" maxFractionDigits="1"
-																	value="${portfolio.totalPlusMinusValueAbsolute}"/>%)</span>
+						<span class="cQuoteDown">(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.totalPlusMinusValueAbsolute}"/>%)</span>
 					</c:when>
 					<c:otherwise>
-						<span class="cQuoteUp">(<fmt:formatNumber type="number" maxFractionDigits="1"
-																  value="${portfolio.totalPlusMinusValue}"/>%)</span>
+						<span class="cQuoteUp">(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.totalPlusMinusValue}"/>%)</span>
 					</c:otherwise>
 				</c:choose>
 				</span>
@@ -407,16 +375,14 @@ limitations under the License.
 							| Today:
 							<c:choose>
 								<c:when test="${portfolio.totalGainToday < 0}">
-									<img width="10" height="14" style="margin-right:-2px;border:0"
-										 src="image/down_r.gif" alt="Down">
+									<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif" alt="Down">
 									<span class="cQuoteDown shareValue"><fmt:formatNumber type="number"
 																						  minFractionDigits="0"
 																						  maxFractionDigits="0"
 																						  value="${portfolio.totalGainTodayAbsolute }"/> </span>
 								</c:when>
 								<c:otherwise>
-									<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif"
-										 alt="Up">
+									<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up">
 									<span class="cQuoteUp shareValue"><fmt:formatNumber type="number"
 																						minFractionDigits="0"
 																						maxFractionDigits="0"
@@ -646,12 +612,10 @@ limitations under the License.
 								<br>
 								<c:choose>
 									<c:when test="${equity.gapStopLossLocal < 0 }">
-										<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="1"
-																				   value="${equity.gapStopLossLocal}"/>%</span>
+										<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapStopLossLocal}"/>%</span>
 									</c:when>
 									<c:when test="${equity.gapStopLossLocal < 5 }">
-										<span class="cQuoteOrange"><fmt:formatNumber type="number" maxFractionDigits="1"
-																					 value="${equity.gapStopLossLocal}"/>%</span>
+										<span class="cQuoteOrange"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapStopLossLocal}"/>%</span>
 									</c:when>
 									<c:otherwise>
 										<fmt:formatNumber type="number" maxFractionDigits="1"
@@ -704,9 +668,7 @@ limitations under the License.
 
 					<br><br>
 
-					<h2 style="margin-top: 5px;">
-							${language['PORTFOLIO_CHARTTITLEVALUE']}
-					</h2>
+					<h2 style="margin-top: 5px;">${language['PORTFOLIO_CHARTTITLEVALUE']}</h2>
 
 					<span id="graphTop2">[ <a href="home#shareValue">${language['PORTFOLIO_ALL']}</a> - <a
 						href="home?days=1825#shareValue">${language['PORTFOLIO_FIVEYEARS']}</a> - <a
@@ -721,7 +683,7 @@ limitations under the License.
 			</div>
 		</div>
 	</div>
-	<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2016</div>
+	<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2017</div>
 </div>
 
 <script type="text/javascript">

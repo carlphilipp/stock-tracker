@@ -35,7 +35,7 @@ limitations under the License.
 	<div class="main">
 		Working on it...
 	</div>
-	<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2016</div>
+	<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2017</div>
 </div>
 
 </body>

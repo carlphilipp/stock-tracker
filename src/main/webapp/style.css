@@ -122,7 +122,6 @@ h1 {
 	position: relative;
 	margin-top: 0px;
 	width: 1100px;
-/ / border-bottom: thin solid #000000;
 	margin-bottom: 20px;
 	float: left;
 }
@@ -169,16 +168,16 @@ h1 {
 	position: relative;
 	width: 100%;
 	text-align: left;
-	cell-spacing: 20px;
 	border-collapse: collapse;
-	border: none;
+}
+
+#tableEquity, td, th {
+	border: 1px solid #ddd;
 }
 
 #tableAccounts {
 	position: relative;
-/ / width: 100 %;
 	text-align: left;
-	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
 }
@@ -186,7 +185,6 @@ h1 {
 #tableOption {
 	position: relative;
 	text-align: left;
-	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
 }
@@ -194,7 +192,6 @@ h1 {
 #tableCurrency {
 	width: 500px;
 	text-align: left;
-	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
 }
@@ -202,7 +199,6 @@ h1 {
 #tableEquityTotal {
 	position: relative;
 	text-align: left;
-	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
 	float: right;
@@ -218,7 +214,6 @@ h1 {
 #tableHistoryTotal {
 	position: relative;
 	text-align: left;
-	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
 	float: right;
@@ -241,14 +236,12 @@ h1 {
 #shareValueTable {
 	width: 100%;
 	text-align: left;
-	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
 
 }
 
 .shareValueTableDetails {
-	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
 }
@@ -256,7 +249,6 @@ h1 {
 #tableList {
 	width: 100%;
 	text-align: left;
-	cell-spacing: 20px;
 	border-collapse: collapse;
 	border: none;
 }
@@ -336,7 +328,6 @@ table a:visited {
 }
 
 .equities_container p {
-/ / margin-left: 597 px;
 
 }
 
@@ -357,8 +348,6 @@ table a:visited {
 }
 
 #sector {
-	/* 	position: absolute;
-        left: 36px; */
 	float: left;
 }
 
@@ -444,12 +433,7 @@ table.tablesorter thead tr .headerSortDown {
 }
 
 .totalValue {
-	/* margin: 20px 20px 20px 20px; // (top, right, bottom, left) */
-/ / font-weight: bold;
-/ / font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
-/ / font-size: 25 px;
 	font: bold 30px arial;
-/ / display: inline;
 	color: #2E2E2E;
 }
 
@@ -487,10 +471,6 @@ table.tablesorter thead tr .headerSortDown {
 	margin-left: 25px;
 }
 
-/*  .flotr-labels {
-font-size:small;
-}
- */
 .flotr-labels .flotr-grid-label {
 	padding: 15px;
 }

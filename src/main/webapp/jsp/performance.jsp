@@ -169,7 +169,7 @@ limitations under the License.
 			<br>
 			<div id="graphicShareValue" class="shadow"></div>
 		</div>
-		<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2016</div>
+		<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2017--></div>
 	</div>
 </div>
 <script type="text/javascript">
