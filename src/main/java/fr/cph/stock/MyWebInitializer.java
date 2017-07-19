@@ -24,7 +24,7 @@ public class MyWebInitializer extends AbstractAnnotationConfigDispatcherServletI
 	}
 
 	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
+	public void onStartup(final ServletContext servletContext) throws ServletException {
 		super.onStartup(servletContext);
 		servletContext
 			.addFilter("sessionFilter", SessionFilter.class)

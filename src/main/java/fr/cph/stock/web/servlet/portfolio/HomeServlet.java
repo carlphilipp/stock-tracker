@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package fr.cph.stock.web.servlet.portfolio;
 
 import fr.cph.stock.business.IndexBusiness;
@@ -32,14 +31,12 @@ import lombok.extern.log4j.Log4j2;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -54,6 +51,7 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@SessionAttributes(USER)
 @Log4j2
 @Controller
 public class HomeServlet {
@@ -80,10 +78,9 @@ public class HomeServlet {
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String loadHome(final HttpServletRequest request, final HttpServletResponse response) {
-		final HttpSession session = request.getSession(false);
-		final User user = (User) session.getAttribute(USER);
-		final String day = request.getParameter(DAYS);
+	public String loadHome(final HttpServletRequest request, final HttpServletResponse response,
+						   @RequestParam(value = DAYS, required = false) final String day,
+						   @ModelAttribute final User user) {
 		try {
 			final Portfolio portfolio;
 			if (day != null) {
