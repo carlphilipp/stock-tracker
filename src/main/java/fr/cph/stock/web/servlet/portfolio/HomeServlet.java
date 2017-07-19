@@ -23,6 +23,8 @@ import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +46,13 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  */
 @SessionAttributes(USER)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Controller
 public class HomeServlet {
 
-	@Autowired
-	private UserBusiness userBusiness;
+	@NonNull
+	private final UserBusiness userBusiness;
 
 	// TODO create quartz job in Spring
 	@PostConstruct
