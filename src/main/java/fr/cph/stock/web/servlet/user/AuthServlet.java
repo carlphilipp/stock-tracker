@@ -24,7 +24,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
@@ -44,7 +43,6 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  */
 @Log4j2
-//@WebServlet(name = "AuthServlet", urlPatterns = {"/auth"})
 @Controller
 public class AuthServlet {
 
@@ -54,10 +52,8 @@ public class AuthServlet {
 	private UserBusiness userBusiness;
 	private List<String> defaultCookies;
 
-	//@Override
 	@PostConstruct
 	public final void init() {
-		//userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		defaultCookies = new ArrayList<>();
 		defaultCookies.add(QUOTE);
 		defaultCookies.add(CURRENCY);
@@ -70,8 +66,7 @@ public class AuthServlet {
 	}
 
 	@RequestMapping(value = "/auth")
-	protected final String doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, LoginException {
-		//ModelAndView model = new ModelAndView("derp");
+	public String authUser(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, LoginException {
 		try {
 			request.getSession().invalidate();
 			final String login = request.getParameter(LOGIN);
@@ -95,10 +90,8 @@ public class AuthServlet {
 						defaultCookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
 						addCookieToResponse(response, LANGUAGE, ENGLISH);
 					}
-					//model.addObject(USER, user);
 					log.info("User logged in [{}]", login);
-					//response.sendRedirect(HOME);
-					return "forward:/derp";
+					return "forward:/loadHome";
 				}
 			} else {
 				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);

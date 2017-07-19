@@ -57,18 +57,15 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  */
 @Log4j2
-//@WebServlet(name = "HomeServlet", urlPatterns = {"/home"}, loadOnStartup = 1)
 @Controller
 public class HomeServlet {
 
-	private static final long serialVersionUID = 122322259823208331L;
 	@Autowired
 	private UserBusiness userBusiness;
 	@Autowired
 	private IndexBusiness indexBusiness;
 	private LanguageFactory language;
 
-	//@Override
 	@PostConstruct
 	public final void init() throws ServletException {
 		try {
@@ -81,13 +78,11 @@ public class HomeServlet {
 		} catch (final UnknownHostException | SchedulerException e) {
 			log.error(e.getMessage(), e);
 		}
-		//userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
-		//indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 		language = LanguageFactory.INSTANCE;
 	}
 
-	@RequestMapping(value = "/derp")
-	protected final String doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
+	@RequestMapping(value = "/loadHome")
+	public String loadHome(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
@@ -117,7 +112,6 @@ public class HomeServlet {
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
 			request.setAttribute(CURRENCIES, Currency.values());
-			//request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
 			return "home";
 		} catch (final Throwable t) {
 			log.error(t.getMessage(), t);
