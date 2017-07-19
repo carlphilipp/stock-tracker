@@ -15,34 +15,26 @@
  */
 package fr.cph.stock.web.servlet.portfolio;
 
-import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.cron.Job;
-import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
-import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
-import fr.cph.stock.web.servlet.CookieManagement;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -58,10 +50,8 @@ public class HomeServlet {
 
 	@Autowired
 	private UserBusiness userBusiness;
-	@Autowired
-	private IndexBusiness indexBusiness;
-	private LanguageFactory language;
 
+	// TODO create quartz job in Spring
 	@PostConstruct
 	public final void init() throws ServletException {
 		try {
@@ -74,38 +64,30 @@ public class HomeServlet {
 		} catch (final UnknownHostException | SchedulerException e) {
 			log.error(e.getMessage(), e);
 		}
-		language = LanguageFactory.INSTANCE;
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String loadHome(final HttpServletRequest request, final HttpServletResponse response,
-						   @RequestParam(value = DAYS, required = false) final String day,
-						   @ModelAttribute final User user) {
-		try {
-			final Portfolio portfolio;
-			if (day != null) {
-				final int days = Integer.parseInt(day);
-				final Calendar cal = Calendar.getInstance();
-				cal.add(Calendar.DATE, -days);
-				portfolio = userBusiness.getUserPortfolio(user.getId(), cal.getTime(), null).orElseThrow(() -> new NotFoundException(user.getId()));
-			} else {
-				portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-			}
-			if (portfolio.getShareValues().size() != 0) {
-				final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-				final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);
-				final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, null);
-				portfolio.addIndexes(indexesCAC40);
-				portfolio.addIndexes(indexesSP500);
-			}
-			request.setAttribute(PORTFOLIO, portfolio);
-		} catch (final YahooException e) {
-			log.error("Error: {}", e.getMessage(), e);
+	public ModelAndView loadHome(@RequestParam(value = DAYS, required = false) final String days,
+								 @ModelAttribute final User user,
+								 @CookieValue(LANGUAGE) final String lang) {
+		final ModelAndView model = new ModelAndView(HOME);
+		final Calendar calendar = getCalendarFromDays(days);
+		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), calendar == null ? null : calendar.getTime()).orElseThrow(() -> new NotFoundException(user.getId()));
+
+		model.addObject(PORTFOLIO, portfolio);
+		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
+		model.addObject(APP_TITLE, Info.NAME + " &bull; Portfolio");
+		model.addObject(CURRENCIES, Currency.values());
+		return model;
+	}
+
+	private Calendar getCalendarFromDays(final String days) {
+		if (days == null) {
+			return null;
 		}
-		final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-		request.setAttribute(LANGUAGE, language.getLanguage(lang));
-		request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
-		request.setAttribute(CURRENCIES, Currency.values());
-		return "home";
+		final int daysInteger = Integer.parseInt(days);
+		final Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -daysInteger);
+		return cal;
 	}
 }

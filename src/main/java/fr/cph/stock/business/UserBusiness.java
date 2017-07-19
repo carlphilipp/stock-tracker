@@ -37,9 +37,11 @@ public interface UserBusiness {
 
 	Optional<User> checkUser(String login, String md5Password) throws LoginException;
 
-	Optional<Portfolio> getUserPortfolio(int userId, Date from, Date to) throws YahooException;
-
 	Optional<Portfolio> getUserPortfolio(int userId) throws YahooException;
+
+	Optional<Portfolio> getUserPortfolio(int userId, Date from) throws YahooException;
+
+	Optional<Portfolio> getUserPortfolio(int userId, Date from, Date to) throws YahooException;
 
 	void validateUser(String login);
 

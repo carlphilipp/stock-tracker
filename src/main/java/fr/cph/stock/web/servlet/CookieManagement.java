@@ -38,6 +38,7 @@ public enum CookieManagement {
 	 * @param cookies a list of cookie
 	 * @return the name of the language
 	 */
+	// TODO to delete and use @CookieValue("name") instead
 	public static String getCookieLanguage(@NonNull final List<Cookie> cookies) {
 		return cookies.stream()
 			.filter(cookie -> cookie.getName().equals(LANGUAGE))

@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package fr.cph.stock.business.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import fr.cph.stock.business.IndexBusiness;
-import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.IndexDAO;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.exception.NotFoundException;
@@ -54,6 +52,11 @@ public class IndexBusinessImpl implements IndexBusiness {
 	@Inject
 	public void setIndexDAO(@Named("Index") final IndexDAO dao) {
 		indexDAO = dao;
+	}
+
+	@Override
+	public List<Index> getIndexes(String yahooId, Date from) {
+		return getIndexes(yahooId, from, null);
 	}
 
 	@Override

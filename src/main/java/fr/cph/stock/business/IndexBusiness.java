@@ -26,12 +26,19 @@ import java.util.TimeZone;
 public interface IndexBusiness {
 
 	/**
+	 * @param yahooId the yahoo id
+	 * @param from the from date
+	 * @return a list of indexes
+	 */
+	List<Index> getIndexes(String yahooId, Date from);
+
+	/**
 	 * Get index information
 	 *
 	 * @param yahooId the yahoo id
 	 * @param from    the from date
 	 * @param to      the to date
-	 * @return a list of index
+	 * @return a list of indexes
 	 */
 	List<Index> getIndexes(String yahooId, Date from, Date to);
 

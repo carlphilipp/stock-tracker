@@ -20,15 +20,12 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import fr.cph.stock.business.CurrencyBusiness;
+import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.dao.AccountDAO;
-import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.PortfolioDAO;
 import fr.cph.stock.dao.UserDAO;
-import fr.cph.stock.entities.Account;
-import fr.cph.stock.entities.Equity;
-import fr.cph.stock.entities.Portfolio;
-import fr.cph.stock.entities.User;
+import fr.cph.stock.entities.*;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.NotFoundException;
@@ -47,6 +44,7 @@ import java.math.MathContext;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -64,6 +62,8 @@ public class UserBusinessImpl implements UserBusiness {
 	@Autowired
 	@Inject
 	private SecurityService securityService;
+	@Autowired
+	private IndexBusiness indexBusiness;
 
 	@Autowired
 	private UserDAO userDAO;
@@ -206,8 +206,7 @@ public class UserBusinessImpl implements UserBusiness {
 		final Optional<Portfolio> portfolioOptional = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, from, to);
 		portfolioOptional.ifPresent(portfolio -> {
 			Collections.sort(portfolio.getEquities());
-			final Currency currency = currencyBusiness.loadCurrencyData(portfolio.getCurrency());
-			portfolio.setCurrency(currency);
+			portfolio.setCurrency(currencyBusiness.loadCurrencyData(portfolio.getCurrency()));
 			for (final Equity e : portfolio.getEquities()) {
 				final double parity = e.getCompany().getCurrency() == portfolio.getCurrency()
 					? 1.0 : portfolio.getCurrency().getParity(e.getCompany().getCurrency());
@@ -226,8 +225,21 @@ public class UserBusinessImpl implements UserBusiness {
 			liquidity = new BigDecimal(Double.toString(liquidity), MATHCONTEXT).doubleValue();
 			portfolio.setLiquidity(liquidity);
 			portfolio.compute();
+
+			if (!portfolio.getShareValues().isEmpty()) {
+				final Date date = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
+				final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, date);
+				final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, date);
+				portfolio.addIndexes(indexesCAC40);
+				portfolio.addIndexes(indexesSP500);
+			}
 		});
 		return portfolioOptional;
+	}
+
+	@Override
+	public Optional<Portfolio> getUserPortfolio(int userId, Date from) throws YahooException {
+		return getUserPortfolio(userId, from, null);
 	}
 
 	@Override
