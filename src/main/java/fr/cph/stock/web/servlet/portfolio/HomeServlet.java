@@ -34,6 +34,7 @@ import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
@@ -81,7 +82,7 @@ public class HomeServlet {
 		language = LanguageFactory.INSTANCE;
 	}
 
-	@RequestMapping(value = "/loadHome")
+	@RequestMapping(value = "/loadHome", method = RequestMethod.POST)
 	public String loadHome(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			final HttpSession session = request.getSession(false);

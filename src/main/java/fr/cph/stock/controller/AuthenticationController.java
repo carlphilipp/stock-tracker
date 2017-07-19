@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.web.servlet.user;
+package fr.cph.stock.controller;
 
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
@@ -24,9 +24,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,7 @@ import static fr.cph.stock.util.Constants.*;
  */
 @Log4j2
 @Controller
-public class AuthServlet {
+public class AuthenticationController {
 
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 
@@ -65,44 +66,38 @@ public class AuthServlet {
 		defaultCookies.add(AUTO_UPDATE);
 	}
 
-	@RequestMapping(value = "/auth")
-	public String authUser(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, LoginException {
-		try {
-			request.getSession().invalidate();
-			final String login = request.getParameter(LOGIN);
-			final String password = request.getParameter(PASSWORD);
-			final Optional<User> userOptional = userBusiness.checkUser(login, password);
-			if (userOptional.isPresent()) {
-				final User user = userOptional.get();
-				if (!user.getAllow()) {
-					request.getSession().setAttribute(ERROR, "Account not confirmed. Check your email!");
-					request.getRequestDispatcher("index.jsp").forward(request, response);
-				} else {
-					request.getSession().setAttribute(USER, user);
-					if (request.getCookies() != null) {
-						final List<Cookie> cookies = Arrays.asList(request.getCookies());
-						defaultCookies.stream().filter(cookieName -> CookieManagement.notContainsCookie(cookies, cookieName))
-							.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
-						if (CookieManagement.notContainsCookie(cookies, LANGUAGE)) {
-							addCookieToResponse(response, LANGUAGE, ENGLISH);
-						}
-					} else {
-						defaultCookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
+	@RequestMapping(value = "/auth", method = RequestMethod.POST)
+	public String authUser(
+		final HttpServletRequest request,
+		final HttpServletResponse response,
+		@RequestParam(value = LOGIN) final String login,
+		@RequestParam(value = PASSWORD) final String password) throws LoginException {
+		request.getSession().invalidate();
+		final Optional<User> userOptional = userBusiness.checkUser(login, password);
+		if (userOptional.isPresent()) {
+			final User user = userOptional.get();
+			if (!user.getAllow()) {
+				request.getSession().setAttribute(ERROR, "Account not confirmed. Check your email!");
+				return "index";
+			} else {
+				request.getSession().setAttribute(USER, user);
+				if (request.getCookies() != null) {
+					final List<Cookie> cookies = Arrays.asList(request.getCookies());
+					defaultCookies.stream().filter(cookieName -> CookieManagement.notContainsCookie(cookies, cookieName))
+						.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
+					if (CookieManagement.notContainsCookie(cookies, LANGUAGE)) {
 						addCookieToResponse(response, LANGUAGE, ENGLISH);
 					}
-					log.info("User logged in [{}]", login);
-					return "forward:/loadHome";
+				} else {
+					defaultCookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
+					addCookieToResponse(response, LANGUAGE, ENGLISH);
 				}
-			} else {
-				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+				log.info("User logged in [{}]", login);
+				return "forward:/loadHome";
 			}
-		} catch (final LoginException ex) {
-			throw ex;
-		} catch (final Throwable t) {
-			log.error("Error: {}", t.getMessage(), t);
-			throw new ServletException("Error: " + t.getMessage(), t);
+		} else {
+			return "loginError";
 		}
-		return "error";
 	}
 
 	private void addCookieToResponse(final HttpServletResponse response, final String name, final String value) {

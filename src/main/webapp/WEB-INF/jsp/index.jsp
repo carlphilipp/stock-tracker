@@ -23,13 +23,13 @@ limitations under the License.
 	<meta charset="utf-8">
 	<title>Stock Tracker</title>
 	<meta name="description" content="A very cool Stock Exchange website">
-	<link type="text/css" rel="stylesheet" href="./style.css"/>
-	<link type="text/css" rel="stylesheet" href="./reveal.css">
-	<link rel="shortcut icon" href="favicon.ico"/>
-	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-	<script type="text/javascript" src="js/jquery.reveal.js"></script>
-	<script type="text/javascript" src="js/base.js"></script>
-	<script type="text/javascript" src="js/md5.js"></script>
+	<link type="text/css" rel="stylesheet" href="../../style.css"/>
+	<link type="text/css" rel="stylesheet" href="../../reveal.css">
+	<link rel="shortcut icon" href="../../favicon.ico"/>
+	<script type="text/javascript" src="../../js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="../../js/jquery.reveal.js"></script>
+	<script type="text/javascript" src="../../js/base.js"></script>
+	<script type="text/javascript" src="../../js/md5.js"></script>
 	<script type="text/javascript">
 		function checkRegister() {
 			if (document.getElementById('password1').value != document.getElementById('password2').value) {
@@ -65,7 +65,7 @@ limitations under the License.
 			document.lostPasswordFormName.submit();
 		}
 	</script>
-	<script type="text/javascript" src="js/analytics.js"></script>
+	<script type="text/javascript" src="../../js/analytics.js"></script>
 </head>
 <body>
 <header></header>
