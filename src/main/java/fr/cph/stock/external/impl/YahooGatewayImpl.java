@@ -27,6 +27,7 @@ import fr.cph.stock.external.YahooGateway;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,6 +41,7 @@ import java.nio.charset.Charset;
  *
  * @author Carl-Philipp Harmant
  */
+@Component
 @Log4j2
 @Singleton
 public class YahooGatewayImpl implements YahooGateway {

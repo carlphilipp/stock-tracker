@@ -23,6 +23,7 @@ import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
@@ -31,6 +32,7 @@ import java.util.*;
  *
  * @author Carl-Philipp Harmant
  */
+@Repository
 @Singleton
 public class PortfolioDAO implements DAO<Portfolio> {
 

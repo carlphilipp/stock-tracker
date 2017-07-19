@@ -31,7 +31,11 @@ import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -53,15 +57,19 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  */
 @Log4j2
-@WebServlet(name = "HomeServlet", urlPatterns = {"/home"}, loadOnStartup = 1)
-public class HomeServlet extends HttpServlet {
+//@WebServlet(name = "HomeServlet", urlPatterns = {"/home"}, loadOnStartup = 1)
+@Controller
+public class HomeServlet {
 
 	private static final long serialVersionUID = 122322259823208331L;
+	@Autowired
 	private UserBusiness userBusiness;
+	@Autowired
 	private IndexBusiness indexBusiness;
 	private LanguageFactory language;
 
-	@Override
+	//@Override
+	@PostConstruct
 	public final void init() throws ServletException {
 		try {
 			final InetAddress inetAddress = InetAddress.getLocalHost();
@@ -73,13 +81,13 @@ public class HomeServlet extends HttpServlet {
 		} catch (final UnknownHostException | SchedulerException e) {
 			log.error(e.getMessage(), e);
 		}
-		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
-		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
+		//userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
+		//indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 		language = LanguageFactory.INSTANCE;
 	}
 
-	@Override
-	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
+	@RequestMapping(value = "/derp")
+	protected final String doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
@@ -109,15 +117,11 @@ public class HomeServlet extends HttpServlet {
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
 			request.setAttribute(CURRENCIES, Currency.values());
-			request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
+			//request.getRequestDispatcher("jsp/home.jsp").forward(request, response);
+			return "home";
 		} catch (final Throwable t) {
 			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
-	}
-
-	@Override
-	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
-		doGet(request, response);
 	}
 }

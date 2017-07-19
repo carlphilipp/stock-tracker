@@ -37,6 +37,9 @@ import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -46,35 +49,43 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Optional;
 
+@Component
 @Log4j2
 @Singleton
+@Repository
 public class UserBusinessImpl implements UserBusiness {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int DB_PASSWORD_LIMIT = 64;
 
+	@Autowired
 	@Inject
 	private CurrencyBusiness currencyBusiness;
+	@Autowired
 	@Inject
 	private SecurityService securityService;
 
+	@Autowired
 	private UserDAO userDAO;
+	@Autowired
 	private PortfolioDAO portfolioDAO;
+	@Autowired
 	private AccountDAO accountDAO;
 
 	@Inject
-	public void setUserDAO(@Named("User") final DAO dao) {
-		userDAO = (UserDAO) dao;
+	@Autowired
+	public void setUserDAO(@Named("User") final UserDAO dao) {
+		userDAO = dao;
 	}
 
 	@Inject
-	public void setPortfolioDAO(@Named("Portfolio") final DAO dao) {
-		portfolioDAO = (PortfolioDAO) dao;
+	public void setPortfolioDAO(@Named("Portfolio") final PortfolioDAO dao) {
+		portfolioDAO = dao;
 	}
 
 	@Inject
-	public void setAccountDAO(@Named("Account") final DAO dao) {
-		accountDAO = (AccountDAO) dao;
+	public void setAccountDAO(@Named("Account") final AccountDAO dao) {
+		accountDAO = dao;
 	}
 
 	@Override

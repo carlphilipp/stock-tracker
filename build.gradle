@@ -77,6 +77,8 @@ dependencies {
 		[group: 'org.apache.tomcat', name: 'tomcat-catalina', version: tomcat_version],
 		[group: 'org.hamcrest', name: 'hamcrest-all', version: hamcrest_version]
 	)
+
+	compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.9.RELEASE'
 }
 
 war {

@@ -37,6 +37,8 @@ import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -54,6 +56,7 @@ import static fr.cph.stock.util.Constants.QUOTE;
  *
  * @author Carl-Philipp Harmant
  */
+@Component
 @Log4j2
 @Singleton
 public class ExternalDataAccessImpl implements ExternalDataAccess {
@@ -70,6 +73,7 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	@NonNull
 	private final Gson gson;
 
+	@Autowired
 	@Inject
 	public ExternalDataAccessImpl(final YahooGateway yahooGateway, final Gson gson) {
 		this.yahooGateway = yahooGateway;

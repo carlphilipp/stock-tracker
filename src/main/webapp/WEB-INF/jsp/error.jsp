@@ -14,22 +14,24 @@
   limitations under the License.
  -->
 
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<link type="text/css" rel="stylesheet" href="../style.css"/>
-	<link rel="shortcut icon" href="../favicon.ico"/>
-	<title>Timeout</title>
+	<link type="text/css" rel="stylesheet" href="./style.css"/>
+	<link rel="shortcut icon" href="./favicon.ico"/>
+	<title>Stock Tracker &bull; Error</title>
 </head>
 <body>
 <header></header>
 <nav></nav>
 <article>
-	<div id="error" style="text-align: center">
-		Session timeout.<br>
-		[<a href="../index.jsp">Home</a>]
+	<div id="error">
+		Error, something bad happened!<br>
+		[<a href="javascript:history.back()">back</a>] [<a href="index.jsp">index</a>]
 	</div>
 </article>
 <footer></footer>

@@ -28,6 +28,8 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Util;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -38,6 +40,7 @@ import java.util.TimeZone;
 
 @Log4j2
 @Singleton
+@Component
 public class IndexBusinessImpl implements IndexBusiness {
 
 	private static final int PERCENT = 100;
@@ -47,9 +50,10 @@ public class IndexBusinessImpl implements IndexBusiness {
 	private ExternalDataAccess yahoo;
 	private IndexDAO indexDAO;
 
+	@Autowired
 	@Inject
-	public void setIndexDAO(@Named("Index") final DAO dao) {
-		indexDAO = (IndexDAO) dao;
+	public void setIndexDAO(@Named("Index") final IndexDAO dao) {
+		indexDAO = dao;
 	}
 
 	@Override

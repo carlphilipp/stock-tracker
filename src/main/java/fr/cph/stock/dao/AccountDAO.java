@@ -20,6 +20,7 @@ import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ import java.util.Optional;
  *
  * @author Carl-Philipp Harmant
  */
+@Repository
 @Singleton
 public class AccountDAO implements DAO<Account> {
 

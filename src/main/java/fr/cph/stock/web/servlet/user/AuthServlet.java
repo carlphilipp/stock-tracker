@@ -18,14 +18,17 @@ package fr.cph.stock.web.servlet.user;
 
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
-import fr.cph.stock.guice.GuiceInjector;
+import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.web.servlet.CookieManagement;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -41,17 +44,20 @@ import static fr.cph.stock.util.Constants.*;
  * @author Carl-Philipp Harmant
  */
 @Log4j2
-@WebServlet(name = "AuthServlet", urlPatterns = {"/auth"})
-public class AuthServlet extends HttpServlet {
+//@WebServlet(name = "AuthServlet", urlPatterns = {"/auth"})
+@Controller
+public class AuthServlet {
 
-	private static final long serialVersionUID = 1L;
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
+
+	@Autowired
 	private UserBusiness userBusiness;
 	private List<String> defaultCookies;
 
-	@Override
+	//@Override
+	@PostConstruct
 	public final void init() {
-		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
+		//userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		defaultCookies = new ArrayList<>();
 		defaultCookies.add(QUOTE);
 		defaultCookies.add(CURRENCY);
@@ -63,8 +69,9 @@ public class AuthServlet extends HttpServlet {
 		defaultCookies.add(AUTO_UPDATE);
 	}
 
-	@Override
-	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
+	@RequestMapping(value = "/auth")
+	protected final String doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, LoginException {
+		//ModelAndView model = new ModelAndView("derp");
 		try {
 			request.getSession().invalidate();
 			final String login = request.getParameter(LOGIN);
@@ -88,16 +95,21 @@ public class AuthServlet extends HttpServlet {
 						defaultCookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
 						addCookieToResponse(response, LANGUAGE, ENGLISH);
 					}
+					//model.addObject(USER, user);
 					log.info("User logged in [{}]", login);
-					response.sendRedirect(HOME);
+					//response.sendRedirect(HOME);
+					return "forward:/derp";
 				}
 			} else {
 				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			}
+		} catch (final LoginException ex) {
+			throw ex;
 		} catch (final Throwable t) {
 			log.error("Error: {}", t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
+		return "error";
 	}
 
 	private void addCookieToResponse(final HttpServletResponse response, final String name, final String value) {

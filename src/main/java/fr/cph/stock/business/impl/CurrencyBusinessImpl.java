@@ -29,6 +29,8 @@ import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,20 +40,24 @@ import java.util.stream.Stream;
 
 @Log4j2
 @Singleton
+@Component
 public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	private static final int PAUSE = 1000;
 
+	@Autowired
 	@NonNull
-	private final ExternalDataAccess yahoo;
+	private ExternalDataAccess yahoo;
+	@Autowired
 	@NonNull
-	private final CurrencyDAO currencyDAO;
+	private CurrencyDAO currencyDAO;
 
+/*
 	@Inject
 	public CurrencyBusinessImpl(@Named("Currency") final DAO dao, final ExternalDataAccess yahoo) {
 		currencyDAO = (CurrencyDAO) dao;
 		this.yahoo = yahoo;
-	}
+	}*/
 
 	@Override
 	public final Currency loadCurrencyData(final Currency currency) throws YahooException {
