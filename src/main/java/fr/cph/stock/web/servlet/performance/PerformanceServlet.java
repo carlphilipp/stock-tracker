@@ -96,6 +96,7 @@ public class PerformanceServlet extends HttpServlet {
 					// Put 17:00PM to the first sharevalue, to make it nice in graphic
 					portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).setDate(from);
 
+					// FIXME that should be done already into get user portfolio. To verify.
 					final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, toDate);
 					final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, toDate);
 					portfolio.addIndexes(indexesCAC40);
