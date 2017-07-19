@@ -1,4 +1,4 @@
-<!--
+'<!--
   Copyright 2017 Carl-Philipp Harmant
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +31,7 @@
 <article>
 	<div id="error">
 		Error, something bad happened!<br>
-		[<a href="javascript:history.back()">back</a>] [<a href="index.jsp">index</a>]
+		[<a href="javascript:history.back()">back</a>] [<a href="/">index</a>]
 	</div>
 </article>
 <footer></footer>

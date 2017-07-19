@@ -20,17 +20,20 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.web.servlet.CookieManagement;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -49,12 +52,14 @@ public class AuthenticationController {
 
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 
-	@Autowired
-	private UserBusiness userBusiness;
-	private List<String> defaultCookies;
+	@NonNull
+	private final UserBusiness userBusiness;
+	@NonNull
+	private final List<String> defaultCookies;
 
-	@PostConstruct
-	public final void init() {
+	@Autowired
+	public AuthenticationController(final UserBusiness userBusiness) {
+		this.userBusiness = userBusiness;
 		defaultCookies = new ArrayList<>();
 		defaultCookies.add(QUOTE);
 		defaultCookies.add(CURRENCY);
@@ -67,18 +72,21 @@ public class AuthenticationController {
 	}
 
 	@RequestMapping(value = "/auth", method = RequestMethod.POST)
-	public String authUser(
+	public ModelAndView authUser(
 		final HttpServletRequest request,
 		final HttpServletResponse response,
 		@RequestParam(value = LOGIN) final String login,
 		@RequestParam(value = PASSWORD) final String password) throws LoginException {
+		final ModelAndView model = new ModelAndView();
 		request.getSession().invalidate();
 		final Optional<User> userOptional = userBusiness.checkUser(login, password);
 		if (userOptional.isPresent()) {
 			final User user = userOptional.get();
 			if (!user.getAllow()) {
+				//request.getSession().setAttribute(ERROR, "Account not confirmed. Check your email!");
+				//return "index";
 				request.getSession().setAttribute(ERROR, "Account not confirmed. Check your email!");
-				return "index";
+				model.setViewName("index");
 			} else {
 				request.getSession().setAttribute(USER, user);
 				if (request.getCookies() != null) {
@@ -93,11 +101,14 @@ public class AuthenticationController {
 					addCookieToResponse(response, LANGUAGE, ENGLISH);
 				}
 				log.info("User logged in [{}]", login);
-				return "redirect:/home";
+				model.setViewName("redirect:/home");
+				//return "redirect:/home";
 			}
 		} else {
-			return "loginError";
+			model.setViewName("loginError");
+			//return "loginError";
 		}
+		return model;
 	}
 
 	private void addCookieToResponse(final HttpServletResponse response, final String name, final String value) {
