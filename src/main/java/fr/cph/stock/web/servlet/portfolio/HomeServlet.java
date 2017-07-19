@@ -25,7 +25,6 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -38,8 +37,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -82,41 +79,36 @@ public class HomeServlet {
 		language = LanguageFactory.INSTANCE;
 	}
 
-	@RequestMapping(value = "/loadHome", method = RequestMethod.POST)
-	public String loadHome(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
+	@RequestMapping(value = "/home", method = RequestMethod.GET)
+	public String loadHome(final HttpServletRequest request, final HttpServletResponse response) {
+		final HttpSession session = request.getSession(false);
+		final User user = (User) session.getAttribute(USER);
+		final String day = request.getParameter(DAYS);
 		try {
-			final HttpSession session = request.getSession(false);
-			final User user = (User) session.getAttribute(USER);
-			final String day = request.getParameter(DAYS);
-			try {
-				final Portfolio portfolio;
-				if (day != null) {
-					final int days = Integer.parseInt(day);
-					final Calendar cal = Calendar.getInstance();
-					cal.add(Calendar.DATE, -days);
-					portfolio = userBusiness.getUserPortfolio(user.getId(), cal.getTime(), null).orElseThrow(() -> new NotFoundException(user.getId()));
-				} else {
-					portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-				}
-				if (portfolio.getShareValues().size() != 0) {
-					final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);
-					final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, null);
-					portfolio.addIndexes(indexesCAC40);
-					portfolio.addIndexes(indexesSP500);
-				}
-				request.setAttribute(PORTFOLIO, portfolio);
-			} catch (final YahooException e) {
-				log.error("Error: {}", e.getMessage(), e);
+			final Portfolio portfolio;
+			if (day != null) {
+				final int days = Integer.parseInt(day);
+				final Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.DATE, -days);
+				portfolio = userBusiness.getUserPortfolio(user.getId(), cal.getTime(), null).orElseThrow(() -> new NotFoundException(user.getId()));
+			} else {
+				portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			}
-			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			request.setAttribute(LANGUAGE, language.getLanguage(lang));
-			request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
-			request.setAttribute(CURRENCIES, Currency.values());
-			return "home";
-		} catch (final Throwable t) {
-			log.error(t.getMessage(), t);
-			throw new ServletException("Error: " + t.getMessage(), t);
+			if (portfolio.getShareValues().size() != 0) {
+				final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
+				final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);
+				final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, null);
+				portfolio.addIndexes(indexesCAC40);
+				portfolio.addIndexes(indexesSP500);
+			}
+			request.setAttribute(PORTFOLIO, portfolio);
+		} catch (final YahooException e) {
+			log.error("Error: {}", e.getMessage(), e);
 		}
+		final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
+		request.setAttribute(LANGUAGE, language.getLanguage(lang));
+		request.setAttribute(APP_TITLE, Info.NAME + " &bull; Portfolio");
+		request.setAttribute(CURRENCIES, Currency.values());
+		return "home";
 	}
 }

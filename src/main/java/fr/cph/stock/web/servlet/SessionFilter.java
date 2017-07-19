@@ -22,6 +22,7 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 import static fr.cph.stock.util.Constants.USER;
 
@@ -34,32 +35,28 @@ import static fr.cph.stock.util.Constants.USER;
 public class SessionFilter implements Filter {
 
 	@Override
-	public final void init(final FilterConfig config) throws ServletException {
+	public final void init(final FilterConfig config) {
 	}
 
 	@Override
-	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws ServletException {
-		try {
-			final HttpServletRequest request = (HttpServletRequest) req;
-			final HttpServletResponse response = (HttpServletResponse) res;
-			final HttpSession session = request.getSession(false);
+	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws IOException, ServletException {
+		final HttpServletRequest request = (HttpServletRequest) req;
+		final HttpServletResponse response = (HttpServletResponse) res;
+		final HttpSession session = request.getSession(false);
 
-			if (session == null) {
-				response.sendRedirect("jsp/timeout.html");
+		if (session == null) {
+			response.sendRedirect("timeout");
+		} else {
+			final User user = (User) session.getAttribute(USER);
+			if (user == null) {
+				response.sendRedirect("timeout");
 			} else {
-				final User user = (User) session.getAttribute(USER);
-				if (user == null) {
-					response.sendRedirect("jsp/timeout.html");
-				} else {
-					chain.doFilter(req, res);
-				}
+				chain.doFilter(req, res);
 			}
-		} catch (final Throwable t) {
-			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}
 
 	@Override
-	public final void destroy() {
+	public void destroy() {
 	}
 }

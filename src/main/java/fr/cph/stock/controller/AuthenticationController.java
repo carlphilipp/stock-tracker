@@ -93,7 +93,7 @@ public class AuthenticationController {
 					addCookieToResponse(response, LANGUAGE, ENGLISH);
 				}
 				log.info("User logged in [{}]", login);
-				return "forward:/loadHome";
+				return "redirect:/home";
 			}
 		} else {
 			return "loginError";

@@ -1,6 +1,10 @@
 package fr.cph.stock;
 
+import fr.cph.stock.web.servlet.SessionFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 public class MyWebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -17,5 +21,13 @@ public class MyWebInitializer extends AbstractAnnotationConfigDispatcherServletI
 	@Override
 	protected String[] getServletMappings() {
 		return new String[]{"/"};
+	}
+
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		super.onStartup(servletContext);
+		servletContext
+			.addFilter("sessionFilter", SessionFilter.class)
+			.addMappingForUrlPatterns(null, false, "/home");
 	}
 }

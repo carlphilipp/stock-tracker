@@ -29,7 +29,7 @@
 <article>
 	<div id="error" style="text-align: center">
 		Session timeout.<br>
-		[<a href="index.jsp">Home</a>]
+		[<a href="/">Home</a>]
 	</div>
 </article>
 <footer></footer>
