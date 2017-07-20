@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.web.servlet.portfolio;
+package fr.cph.stock.controller.portfolio;
 
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.CurrencyBusiness;
@@ -49,7 +49,7 @@ import static fr.cph.stock.util.Constants.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Controller
-public class UpdatePortfolioServlet {
+public class UpdatePortfolioController {
 
 	@NonNull
 	private final UserBusiness userBusiness;
@@ -86,7 +86,7 @@ public class UpdatePortfolioServlet {
 					+ yahooUpdateCompanyError
 					+ "The company does not exist anymore. Please delete it from your portfolio. The other companies has been updated.</span>");
 		} else {
-			request.setAttribute(UPDATE_STATUS, "<span class='cQuoteUp'>" + LanguageFactory.INSTANCE.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
+			model.addObject(UPDATE_STATUS, "<span class='cQuoteUp'>" + LanguageFactory.INSTANCE.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
 		}
 		return model;
 	}
