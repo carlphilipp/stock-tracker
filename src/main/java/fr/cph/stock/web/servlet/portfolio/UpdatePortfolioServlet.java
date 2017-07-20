@@ -23,18 +23,20 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
-import fr.cph.stock.web.servlet.CookieManagement;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.Arrays;
+import java.io.IOException;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -43,64 +45,49 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+@SessionAttributes({USER, "id"})
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
-@WebServlet(name = "UpdatePortfolioServlet", urlPatterns = {"/updateportfolio"})
-public class UpdatePortfolioServlet extends HttpServlet {
+@Controller
+public class UpdatePortfolioServlet {
 
-	private static final long serialVersionUID = 5252788304524725462L;
-	private UserBusiness userBusiness;
-	private CompanyBusiness companyBusiness;
-	private CurrencyBusiness currencyBusiness;
+	@NonNull
+	private final UserBusiness userBusiness;
+	@NonNull
+	private final CompanyBusiness companyBusiness;
+	@NonNull
+	private final CurrencyBusiness currencyBusiness;
 
-	@Override
-	public final void init() {
-		companyBusiness = GuiceInjector.INSTANCE.getCompanyBusiness();
-		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
-		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
-	}
-
-	@Override
-	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
+	@RequestMapping(value = "/updateportfolio", method = RequestMethod.POST)
+	public ModelAndView updatePortfolio(final HttpServletRequest request,
+										final HttpServletResponse response,
+										@RequestParam(value = CURRENCY_UPDATE, required = false) final String updateCurrencies,
+										@ModelAttribute final String id,
+										@ModelAttribute final User user,
+										@CookieValue(LANGUAGE) final String lang) throws IOException, ServletException {
+		final ModelAndView model = new ModelAndView("forward:/" + HOME);
+		String yahooError = null;
+		String yahooUpdateCompanyError = null;
 		try {
- 			final HttpSession session = request.getSession(false);
-			final String lang = CookieManagement.getCookieLanguage(Arrays.asList(request.getCookies()));
-			final LanguageFactory language = LanguageFactory.INSTANCE;
-			final StringBuilder sb = new StringBuilder();
-			final User user = (User) session.getAttribute(USER);
-			final String updateCurrencies = request.getParameter(CURRENCY_UPDATE);
-			String error = null;
-			try {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-				if (updateCurrencies != null) {
-					currencyBusiness.updateOneCurrency(portfolio.getCurrency());
-				}
-				error = companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
-			} catch (YahooException e1) {
-				log.error(e1.getMessage(), e1);
-				sb.append(e1.getMessage()).append(" ");
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			if (updateCurrencies != null) {
+				currencyBusiness.updateOneCurrency(portfolio.getCurrency());
 			}
-			if (!sb.toString().equals("")) {
-				request.setAttribute(UPDATE_STATUS, "<span class='cQuoteDown'>Error !</span>");
-			} else {
-				if (error != null && !error.equals("")) {
-					request.setAttribute(
-						UPDATE_STATUS,
-						"<span class='cQuoteOrange'>"
-							+ error
-							+ "The company does not exist anymore. Please delete it from your portfolio. The other companies has been updated.</span>");
-				} else {
-					request.setAttribute("updateStatus", "<span class='cQuoteUp'>" + language.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
-				}
-			}
-			request.getRequestDispatcher(HOME).forward(request, response);
-		} catch (final Throwable t) {
-			log.error(t.getMessage(), t);
-			throw new ServletException("Error: " + t.getMessage(), t);
+			yahooUpdateCompanyError = companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
+		} catch (YahooException yahooException) {
+			log.error(yahooException.getMessage(), yahooException);
+			yahooError = yahooException.getMessage();
 		}
-	}
-
-	@Override
-	protected final void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
-		doGet(request, response);
+		if (StringUtils.isNotBlank(yahooError)) {
+			model.addObject(UPDATE_STATUS, "<span class='cQuoteDown'>Error !</span>");
+		} else if (StringUtils.isNotBlank(yahooUpdateCompanyError)) {
+			model.addObject(UPDATE_STATUS,
+				"<span class='cQuoteOrange'>"
+					+ yahooUpdateCompanyError
+					+ "The company does not exist anymore. Please delete it from your portfolio. The other companies has been updated.</span>");
+		} else {
+			request.setAttribute(UPDATE_STATUS, "<span class='cQuoteUp'>" + LanguageFactory.INSTANCE.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
+		}
+		return model;
 	}
 }

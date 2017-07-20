@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.cph.stock.web.servlet.portfolio;
+package fr.cph.stock.controller;
 
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.cron.Job;
@@ -49,7 +49,7 @@ import static fr.cph.stock.util.Constants.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Controller
-public class HomeServlet {
+public class HomeController {
 
 	@NonNull
 	private final UserBusiness userBusiness;
@@ -69,10 +69,10 @@ public class HomeServlet {
 		}
 	}
 
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ModelAndView loadHome(@RequestParam(value = DAYS, required = false) final String days,
-								 @ModelAttribute final User user,
-								 @CookieValue(LANGUAGE) final String lang) {
+	@RequestMapping(value = "/home", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView home(@RequestParam(value = DAYS, required = false) final String days,
+							 @ModelAttribute final User user,
+							 @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView(HOME);
 		final Calendar calendar = getCalendarFromDays(days);
 		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), calendar == null ? null : calendar.getTime()).orElseThrow(() -> new NotFoundException(user.getId()));

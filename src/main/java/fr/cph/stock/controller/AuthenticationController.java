@@ -29,11 +29,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,32 +81,33 @@ public class AuthenticationController {
 		if (userOptional.isPresent()) {
 			final User user = userOptional.get();
 			if (!user.getAllow()) {
-				//request.getSession().setAttribute(ERROR, "Account not confirmed. Check your email!");
-				//return "index";
 				request.getSession().setAttribute(ERROR, "Account not confirmed. Check your email!");
 				model.setViewName("index");
 			} else {
 				request.getSession().setAttribute(USER, user);
-				if (request.getCookies() != null) {
-					final List<Cookie> cookies = Arrays.asList(request.getCookies());
-					defaultCookies.stream().filter(cookieName -> CookieManagement.notContainsCookie(cookies, cookieName))
-						.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
-					if (CookieManagement.notContainsCookie(cookies, LANGUAGE)) {
-						addCookieToResponse(response, LANGUAGE, ENGLISH);
-					}
-				} else {
-					defaultCookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
-					addCookieToResponse(response, LANGUAGE, ENGLISH);
-				}
+				setUpCookies(request, response);
+
 				log.info("User logged in [{}]", login);
 				model.setViewName("redirect:/home");
-				//return "redirect:/home";
 			}
 		} else {
 			model.setViewName("loginError");
-			//return "loginError";
 		}
 		return model;
+	}
+
+	private void setUpCookies(final HttpServletRequest request, final HttpServletResponse response) {
+		if (request.getCookies() != null) {
+			final List<Cookie> cookies = Arrays.asList(request.getCookies());
+			defaultCookies.stream().filter(cookieName -> CookieManagement.notContainsCookie(cookies, cookieName))
+				.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
+			if (CookieManagement.notContainsCookie(cookies, LANGUAGE)) {
+				addCookieToResponse(response, LANGUAGE, ENGLISH);
+			}
+		} else {
+			defaultCookies.forEach(cookieName -> addCookieToResponse(response, cookieName, CHECKED));
+			addCookieToResponse(response, LANGUAGE, ENGLISH);
+		}
 	}
 
 	private void addCookieToResponse(final HttpServletResponse response, final String name, final String value) {

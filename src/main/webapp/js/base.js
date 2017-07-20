@@ -1,12 +1,12 @@
 /**
  * Copyright 2014 Carl-Philipp Harmant
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -164,7 +164,7 @@ function updateTicker(id, ticker, namePersonal, sector, industry, marketCap,
   document.getElementById('notManualForm2').style.display = 'block';
   document.getElementById('sendEquityDelete').style.display = 'block';
   document.getElementById('sendEquityDelete2').style.display = 'none';
-  
+
   document.getElementById('modifyTicker').innerHTML = ticker;
   document.getElementById('modifyTickerHidden').value = ticker;
   document.getElementById('deleteTicker').value = id;
@@ -197,7 +197,7 @@ function updateManual(id, ticker, namePersonal, sector, industry, marketCap,
   document.getElementById('notManualForm2').style.display = 'none';
   document.getElementById('sendEquityDelete').style.display = 'none';
   document.getElementById('sendEquityDelete2').style.display = 'block';
-  
+
   document.getElementById('modifyTickerHidden2').value = ticker;
   document.getElementById('deleteTicker2').value = id;
   document.getElementById('companyId').value = companyId;

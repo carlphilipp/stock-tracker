@@ -305,7 +305,7 @@ limitations under the License.
 		<input name="currencyUpdate" type="checkbox"> ${language['PORTFOLIO_HIDDEN_UPDATECURRENCIES']}<br><br>
 		<input type="button" value="Confirm"
 			   onclick="javascript:checkForm('sendRefresh', 'refresh','refreshButton',refresh)">
-		<input id="refreshButton" type="hidden" name="id" value="">
+		<input id="refreshButton" type="hidden">
 	</form>
 	<a class="close-reveal-modal">&#215;</a>
 </div>

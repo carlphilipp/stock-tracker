@@ -20,6 +20,7 @@ import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Company;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +34,7 @@ import static fr.cph.stock.util.Constants.MANUAL;
  *
  * @author Carl-Philipp Harmant
  */
+@Component
 @Singleton
 public class CompanyDAO implements DAO<Company> {
 

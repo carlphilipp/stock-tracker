@@ -16,12 +16,9 @@
 
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.dao.CompanyDAO;
-import fr.cph.stock.dao.DAO;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
@@ -33,14 +30,19 @@ import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Singleton
+@Component
 public class CompanyBusinessImpl implements CompanyBusiness {
 
 	private static final int MAX_UPDATE_COMPANY = 15;
@@ -51,11 +53,11 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	@NonNull
 	private final CompanyDAO companyDAO;
 
-	@Inject
+/*	@Inject
 	public CompanyBusinessImpl(@Named("Company") final DAO dao, final ExternalDataAccess yahoo) {
 		this.companyDAO = (CompanyDAO) dao;
 		this.yahoo = yahoo;
-	}
+	}*/
 
 	@Override
 	public void updateCompaniesNotRealTime() {

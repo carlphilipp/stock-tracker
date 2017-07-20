@@ -16,12 +16,9 @@
 
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.dao.CurrencyDAO;
-import fr.cph.stock.dao.DAO;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
