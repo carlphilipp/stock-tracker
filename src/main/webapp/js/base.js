@@ -59,7 +59,7 @@ function deleteEquity() {
   document.sendEquityDelete.submit();
 }
 function deleteEquityManual() {
-  document.sendEquityDelete2.action = "modifyequity";
+  document.sendEquityDelete2.action = "deleteManualEquity";
   document.sendEquityDelete2.method = "post";
   document.sendEquityDelete2.submit();
 }

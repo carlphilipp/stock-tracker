@@ -96,10 +96,8 @@ public class EquityController {
 										@ModelAttribute final User user,
 										@CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = homeModelView();
-
 		final Company company = companyBusiness.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), manualQuote)
 			.orElseThrow(() -> new NotFoundException(manualName));
-
 		final Equity equity = Equity.builder()
 			.quantity(quantity)
 			.unitCostPrice(unitCostPrice)
@@ -111,6 +109,20 @@ public class EquityController {
 		} catch (final EquityException e) {
 			model.addObject("addError", e.getMessage());
 		}
+		return model;
+	}
+
+	@RequestMapping(value = "/deleteManualEquity", method = RequestMethod.POST)
+	public ModelAndView deleteManualEquity(@RequestParam(value = "equityId") final int equityId,
+										   @RequestParam(value = COMPANY_ID) final int companyId,
+										   @ModelAttribute final User user,
+										   @CookieValue(LANGUAGE) final String lang) {
+		final ModelAndView model = homeModelView();
+		final Equity equity = Equity.builder().id(equityId).build();
+		equityBusiness.deleteEquity(equity);
+		final Company company = Company.builder().id(companyId).build();
+		companyBusiness.deleteCompany(company);
+		model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_DELETED) + " !");
 		return model;
 	}
 
