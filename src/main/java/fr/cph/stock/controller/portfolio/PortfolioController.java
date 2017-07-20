@@ -18,6 +18,7 @@ package fr.cph.stock.controller.portfolio;
 
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.CurrencyBusiness;
+import fr.cph.stock.business.EquityBusiness;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -45,11 +46,11 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
-@SessionAttributes({USER, "id"})
+@SessionAttributes(USER)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Controller
-public class UpdatePortfolioController {
+public class PortfolioController {
 
 	@NonNull
 	private final UserBusiness userBusiness;
@@ -58,11 +59,10 @@ public class UpdatePortfolioController {
 	@NonNull
 	private final CurrencyBusiness currencyBusiness;
 
-	@RequestMapping(value = "/updateportfolio", method = RequestMethod.POST)
+	@RequestMapping(value = "/portfolio", method = RequestMethod.POST)
 	public ModelAndView updatePortfolio(final HttpServletRequest request,
 										final HttpServletResponse response,
 										@RequestParam(value = CURRENCY_UPDATE, required = false) final String updateCurrencies,
-										@ModelAttribute final String id,
 										@ModelAttribute final User user,
 										@CookieValue(LANGUAGE) final String lang) throws IOException, ServletException {
 		final ModelAndView model = new ModelAndView("forward:/" + HOME);

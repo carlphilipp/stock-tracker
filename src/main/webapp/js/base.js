@@ -33,13 +33,13 @@ function poufpoufpouf(id) {
 }
 function addEquity() {
   displayWaitbar();
-  document.sendEquity.action = "add";
+  document.sendEquity.action = "equity";
   document.sendEquity.method = "post";
   document.sendEquity.submit();
 }
 function addEquityManual() {
   displayWaitbar();
-  document.sendEquityManual.action = "add";
+  document.sendEquityManual.action = "manualEquity";
   document.sendEquityManual.method = "post";
   document.sendEquityManual.submit();
 }
@@ -65,7 +65,7 @@ function deleteEquityManual() {
 }
 function refresh() {
   displayWaitbar();
-  document.sendRefresh.action = "updateportfolio";
+  document.sendRefresh.action = "portfolio";
   document.sendRefresh.method = "post";
   document.sendRefresh.submit();
 }

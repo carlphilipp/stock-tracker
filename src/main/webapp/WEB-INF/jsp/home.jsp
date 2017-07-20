@@ -101,7 +101,7 @@ limitations under the License.
 			</tr>
 		</table>
 	</form>
-	<form id="sendEquityManual" name="sendEquityManual" autocomplete="on" action="add">
+	<form id="sendEquityManual" name="sendEquityManual" autocomplete="on" action="manualEquity">
 		<input type="hidden" name="manual" value="true">
 		<table id="manualForm">
 			<tr>

@@ -1,0 +1,118 @@
+/**
+ * Copyright 2017 Carl-Philipp Harmant
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package fr.cph.stock.controller.equity;
+
+import fr.cph.stock.business.CompanyBusiness;
+import fr.cph.stock.business.EquityBusiness;
+import fr.cph.stock.entities.Company;
+import fr.cph.stock.entities.Equity;
+import fr.cph.stock.entities.User;
+import fr.cph.stock.enumtype.Currency;
+import fr.cph.stock.exception.EquityException;
+import fr.cph.stock.exception.NotFoundException;
+import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.language.LanguageFactory;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static fr.cph.stock.util.Constants.*;
+
+/**
+ * This servlet is called when the user want to update the portfolio
+ *
+ * @author Carl-Philipp Harmant
+ */
+@SessionAttributes(USER)
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Log4j2
+@Controller
+public class EquityController {
+
+	@NonNull
+	private final CompanyBusiness companyBusiness;
+	@NonNull
+	private final EquityBusiness equityBusiness;
+
+	@RequestMapping(value = "/equity", method = RequestMethod.POST)
+	public ModelAndView addEquity(final HttpServletRequest request,
+								  final HttpServletResponse response,
+								  @RequestParam(value = TICKER) final String ticker,
+								  @RequestParam(value = UNIT_COST_PRICE) final Double unitCostPrice,
+								  @RequestParam(value = QUANTITY) final Double quantity,
+								  @RequestParam(value = PARITY_PERSONAL, required = false) final Double parityPersonal,
+								  @ModelAttribute final User user,
+								  @CookieValue(LANGUAGE) final String lang) {
+		final ModelAndView model = homeModelView();
+		final Equity equity = Equity.builder()
+			.quantity(quantity)
+			.unitCostPrice(unitCostPrice)
+			.parityPersonal(parityPersonal)
+			.build();
+		try {
+			equityBusiness.createEquity(user.getId(), ticker, equity);
+			model.addObject("added", LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_ADDED) + " !");
+		} catch (final YahooException | EquityException e) {
+			model.addObject("addError", e.getMessage());
+		}
+		return model;
+	}
+
+	@RequestMapping(value = "/manualEquity", method = RequestMethod.POST)
+	public ModelAndView addManualEquity(final HttpServletRequest request,
+										final HttpServletResponse response,
+										@RequestParam(value = MANUAL_NAME) final String manualName,
+										@RequestParam(value = MANUAL_CURRENCY) final String manualCurrency,
+										@RequestParam(value = MANUAL_INDUSTRY) final String manualIndustry,
+										@RequestParam(value = MANUAL_SECTOR) final String manualSector,
+										@RequestParam(value = MANUAL_QUOTE) final Double manualQuote,
+										@RequestParam(value = MANUAL_UNIT_COST_PRICE) final Double unitCostPrice,
+										@RequestParam(value = MANUAL_QUANTITY) final Double quantity,
+										@RequestParam(value = MANUAL_PARITY_PERSONAL, required = false) final Double parityPersonal,
+										@ModelAttribute final User user,
+										@CookieValue(LANGUAGE) final String lang) {
+		final ModelAndView model = homeModelView();
+
+		final Company company = companyBusiness.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), manualQuote)
+			.orElseThrow(() -> new NotFoundException(manualName));
+
+		final Equity equity = Equity.builder()
+			.quantity(quantity)
+			.unitCostPrice(unitCostPrice)
+			.parityPersonal(parityPersonal)
+			.build();
+		try {
+			equityBusiness.createManualEquity(user.getId(), company, equity);
+			model.addObject("added", LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_ADDED) + " !");
+		} catch (final EquityException e) {
+			model.addObject("addError", e.getMessage());
+		}
+		return model;
+	}
+
+	private ModelAndView homeModelView() {
+		return new ModelAndView("forward:/" + HOME);
+	}
+}

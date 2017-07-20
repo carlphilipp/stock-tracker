@@ -31,19 +31,28 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Component
 @Singleton
 public class EquityBusinessImpl implements EquityBusiness {
 
-	@Inject
+	@NonNull
 	private CompanyBusiness companyBusiness;
+	@NonNull
 	private CompanyDAO companyDAO;
+	@NonNull
 	private EquityDAO equityDAO;
+	@NonNull
 	private PortfolioDAO portfolioDAO;
 
-	@Inject
+/*	@Inject
 	public void setCurrencyDAO(@Named("Company") final DAO dao) {
 		companyDAO = (CompanyDAO) dao;
 	}
@@ -56,7 +65,7 @@ public class EquityBusinessImpl implements EquityBusiness {
 	@Inject
 	public void setPortfolioDAO(@Named("Portfolio") final DAO dao) {
 		portfolioDAO = (PortfolioDAO) dao;
-	}
+	}*/
 
 	@Override
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {
