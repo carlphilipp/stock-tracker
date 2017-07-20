@@ -220,9 +220,8 @@ limitations under the License.
 	</form>
 	<form name="sendEquityDelete" id="sendEquityDelete">
 		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
-		<input name="delete" type="hidden" value="true">
 		<input id="processDeleteEquity" type="submit" style="display: none;">
-		<input id="deleteTicker" type="hidden" name="id" value="">
+		<input id="deleteTicker" type="hidden" name="equityId" value="">
 	</form>
 	<%-- Manual modify Equity --%>
 	<form name="sendEquityModify2" id="sendEquityModify2" autocomplete="on">

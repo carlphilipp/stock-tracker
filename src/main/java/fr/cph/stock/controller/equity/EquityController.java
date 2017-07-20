@@ -29,14 +29,10 @@ import fr.cph.stock.language.LanguageFactory;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -57,9 +53,7 @@ public class EquityController {
 	private final EquityBusiness equityBusiness;
 
 	@RequestMapping(value = "/equity", method = RequestMethod.POST)
-	public ModelAndView addEquity(final HttpServletRequest request,
-								  final HttpServletResponse response,
-								  @RequestParam(value = TICKER) final String ticker,
+	public ModelAndView addEquity(@RequestParam(value = TICKER) final String ticker,
 								  @RequestParam(value = UNIT_COST_PRICE) final Double unitCostPrice,
 								  @RequestParam(value = QUANTITY) final Double quantity,
 								  @RequestParam(value = PARITY_PERSONAL, required = false) final Double parityPersonal,
@@ -80,10 +74,18 @@ public class EquityController {
 		return model;
 	}
 
+	@RequestMapping(value = "/deleteEquity", method = RequestMethod.POST)
+	public ModelAndView deleteEquity(@RequestParam(value = "equityId") final int id,
+									 @ModelAttribute final User user,
+									 @CookieValue(LANGUAGE) final String lang) {
+		final ModelAndView model = homeModelView();
+		equityBusiness.deleteEquity(Equity.builder().id(id).build());
+		model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_DELETED) + " !");
+		return model;
+	}
+
 	@RequestMapping(value = "/manualEquity", method = RequestMethod.POST)
-	public ModelAndView addManualEquity(final HttpServletRequest request,
-										final HttpServletResponse response,
-										@RequestParam(value = MANUAL_NAME) final String manualName,
+	public ModelAndView addManualEquity(@RequestParam(value = MANUAL_NAME) final String manualName,
 										@RequestParam(value = MANUAL_CURRENCY) final String manualCurrency,
 										@RequestParam(value = MANUAL_INDUSTRY) final String manualIndustry,
 										@RequestParam(value = MANUAL_SECTOR) final String manualSector,
