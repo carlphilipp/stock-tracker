@@ -88,22 +88,26 @@ public class EquityController {
 									 @RequestParam(value = MODIFY_PARITY_PERSONAL, required = false) final Double parityPersonal,
 									 @ModelAttribute final User user,
 									 @CookieValue(LANGUAGE) final String lang) {
+		final Equity equity = Equity.builder()
+			.namePersonal(namePersonal)
+			.sectorPersonal(sectorPersonal)
+			.industryPersonal(industryPersonal)
+			.marketCapPersonal(marketCapPersonal)
+			.quantity(quantity)
+			.unitCostPrice(unitCostPrice)
+			.stopLossLocal(stopLoss)
+			.objectivLocal(objective)
+			.yieldPersonal(yieldPersonal)
+			.parityPersonal(parityPersonal)
+			.build();
+		return updateEquity(equity, user, ticker, lang);
+	}
+
+	private ModelAndView updateEquity(final Equity equity, final User user, final String ticker, final String lang) {
 		final ModelAndView model = homeModelView();
-		if (quantity <= 0) {
+		if (equity.getQuantity() <= 0) {
 			model.addObject(MODIFY_ERROR, "Error: quantity can not be 0 or lower");
 		} else {
-			final Equity equity = Equity.builder()
-				.namePersonal(namePersonal)
-				.sectorPersonal(sectorPersonal)
-				.industryPersonal(industryPersonal)
-				.marketCapPersonal(marketCapPersonal)
-				.quantity(quantity)
-				.unitCostPrice(unitCostPrice)
-				.stopLossLocal(stopLoss)
-				.objectivLocal(objective)
-				.yieldPersonal(yieldPersonal)
-				.parityPersonal(parityPersonal)
-				.build();
 			equityBusiness.updateEquity(user.getId(), ticker, equity);
 			model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_DELETED) + " !");
 		}
@@ -149,13 +153,35 @@ public class EquityController {
 	}
 
 	@RequestMapping(value = "/updateManualEquity", method = RequestMethod.POST)
-	public ModelAndView updateManualEquity(@RequestParam(value = "equityId") final int id,
+	public ModelAndView updateManualEquity(@RequestParam(value = TICKER) final String ticker,
+										   @RequestParam(value = NAME_PERSONAL, required = false) final String namePersonal,
+										   @RequestParam(value = SECTOR_PERSONAL, required = false) final String sectorPersonal,
+										   @RequestParam(value = INDUSTRY_PERSONAL, required = false) final String industryPersonal,
+										   @RequestParam(value = MARKET_CAP_PERSONAL, required = false) final String marketCapPersonal,
+										   @RequestParam(value = UNIT_COST_PRICE) final Double unitCostPrice,
+										   @RequestParam(value = QUANTITY) final Double quantity,
+										   @RequestParam(value = STOP_LOSS, required = false) final Double stopLoss,
+										   @RequestParam(value = OBJECTIVE, required = false) final Double objective,
+										   @RequestParam(value = YIELD_PERSONAL, required = false) final Double yieldPersonal,
+										   @RequestParam(value = MODIFY_PARITY_PERSONAL, required = false) final Double parityPersonal,
+										   @RequestParam(value = COMPANY_ID) final int companyId,
+										   @RequestParam(value = QUOTE) final Double quote,
 										   @ModelAttribute final User user,
 										   @CookieValue(LANGUAGE) final String lang) {
-		final ModelAndView model = homeModelView();
-		//equityBusiness.deleteEquity(Equity.builder().id(id).build());
-		//model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_DELETED) + " !");
-		return model;
+		final Equity equity = Equity.builder()
+			.namePersonal(namePersonal)
+			.sectorPersonal(sectorPersonal)
+			.industryPersonal(industryPersonal)
+			.marketCapPersonal(marketCapPersonal)
+			.quantity(quantity)
+			.unitCostPrice(unitCostPrice)
+			.stopLossLocal(stopLoss)
+			.objectivLocal(objective)
+			.yieldPersonal(yieldPersonal)
+			.parityPersonal(parityPersonal)
+			.build();
+		companyBusiness.updateCompanyManual(companyId, quote);
+		return updateEquity(equity, user, ticker, lang);
 	}
 
 	@RequestMapping(value = "/deleteManualEquity", method = RequestMethod.POST)
