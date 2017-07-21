@@ -44,12 +44,12 @@ function addEquityManual() {
   document.sendEquityManual.submit();
 }
 function modifyEquity() {
-  document.sendEquityModify.action = "modifyequity";
+  document.sendEquityModify.action = "updateEquity";
   document.sendEquityModify.method = "post";
   document.sendEquityModify.submit();
 }
 function modifyEquityManual() {
-  document.sendEquityModify2.action = "modifyequity";
+  document.sendEquityModify2.action = "updateManualEquity";
   document.sendEquityModify2.method = "post";
   document.sendEquityModify2.submit();
 }
