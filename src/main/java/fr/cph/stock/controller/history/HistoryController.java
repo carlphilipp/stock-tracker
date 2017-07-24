@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.web.servlet.share;
+package fr.cph.stock.controller.history;
 
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Portfolio;
@@ -46,14 +46,14 @@ import static fr.cph.stock.util.Constants.*;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Controller
-public class ShareValueServlet {
+public class HistoryController {
 
 	private static final int ITEM_MAX = 20;
 
 	@NonNull
 	private UserBusiness userBusiness;
 
-	@RequestMapping(value = "/sharevalue", method = RequestMethod.GET)
+	@RequestMapping(value = "/history", method = RequestMethod.GET)
 	protected ModelAndView history(@RequestParam(value = PAGE, defaultValue = "1") final int pageNumber,
 								   @ModelAttribute final User user,
 								   @CookieValue(LANGUAGE) final String lang,
