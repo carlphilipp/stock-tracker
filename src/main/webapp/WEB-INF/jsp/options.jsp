@@ -196,9 +196,7 @@ limitations under the License.
 	<div class="main">
 		<div class="equities_container">
 			<h2 style="margin-top: 5px;">
-				${language['OPTIONS_TITLE']}&nbsp;<a href="#" data-reveal-id="modify"><img alt="Edit"
-																						   src="image/edit.png"
-																						   style="border: 0"></a>
+				${language['OPTIONS_TITLE']}&nbsp;<a href="#" data-reveal-id="modify"><img alt="Edit" src="image/edit.png" style="border: 0"></a>
 			</h2>
 			<c:if test="${!empty updated}">
 				<span class="cQuoteUp">${updated}</span>
@@ -257,8 +255,7 @@ limitations under the License.
 					<td>
 						<form action="createhistory" method="post" enctype="multipart/form-data">
 							${language['OPTIONS_LOADHISTORY']}: <input type="file" name="file" size="chars" required>
-							<br> ${language['OPTIONS_LIQUIDITY']}: <input type="text" name="liquidity" value="0.0"
-																		  required>
+							<br> ${language['OPTIONS_LIQUIDITY']}: <input type="text" name="liquidity" value="0.0" required>
 							<br> ${language['OPTIONS_ACCOUNT']}: <select name="account">
 							<c:forEach var="acc" items="${portfolio.accounts }">
 								<option value="${acc.name}">${acc.name } - ${acc.currency.symbol }</option>

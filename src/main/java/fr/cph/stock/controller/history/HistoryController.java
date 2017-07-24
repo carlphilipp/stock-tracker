@@ -35,10 +35,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.util.Optional;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -125,15 +124,49 @@ public class HistoryController {
 	@RequestMapping(value = "/updatecommentonsharevalue", method = RequestMethod.POST)
 	public ModelAndView updateCommentOnShareValue(
 		@RequestParam(value = COMMENTARY_UPDATED) final String commentary,
-		@RequestParam(value = SHARE_ID) final int shareId,
-		@ModelAttribute final User user,
-		final HttpServletRequest request,
-		final HttpServletResponse response) throws ServletException {
+		@RequestParam(value = SHARE_ID) final int shareId) throws ServletException {
 		final ModelAndView model = new ModelAndView("forward:/history");
 		final ShareValue sv = shareValueBusiness.selectOneShareValue(shareId).orElseThrow(() -> new NotFoundException(shareId));
 		sv.setCommentary(commentary);
 		shareValueBusiness.updateCommentaryShareValue(sv);
 		model.addObject(MESSAGE, "Modified!");
+		return model;
+	}
+
+	@RequestMapping(value = "/deletesharevalue", method = RequestMethod.POST)
+	public ModelAndView updateCommentOnShareValue(
+		@RequestParam(value = SHARE_ID) final int shareId,
+		@RequestParam(value = LIQUIDITY_MOVEMENT) final double liquidityMovement,
+		@RequestParam(value = YIELD) final double yield,
+		@RequestParam(value = BUY) final double buy,
+		@RequestParam(value = SELL) final double sell,
+		@RequestParam(value = TAXE) final double tax,
+		@RequestParam(value = ACCOUNT) final String accountName,
+		@ModelAttribute final User user) {
+		final ModelAndView model = new ModelAndView("forward:/history");
+		final StringBuilder message = new StringBuilder();
+
+		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Optional<Account> account = portfolio.getAccount(accountName);
+		final ShareValue shareValue = new ShareValue();
+		shareValue.setId(shareId);
+		if (!account.isPresent()) {
+			shareValueBusiness.deleteShareValue(shareValue);
+			message.append("Account not found, probably deleted before. Line has still been deleted!");
+			model.addObject(WARN, message);
+		} else {
+			// Update account total
+			double total = liquidityMovement + yield - buy + sell - tax;
+			total = new BigDecimal(Double.toString(total), MATH_CONTEXT).doubleValue();
+			if (total != 0.0) {
+				double newLiquidity = account.get().getLiquidity() - total;
+				userBusiness.updateLiquidity(account.get(), new BigDecimal(Double.toString(newLiquidity), MATH_CONTEXT).doubleValue());
+				message.append("Liquidity new value: ").append((new BigDecimal(Double.toString(newLiquidity), MATH_CONTEXT)).doubleValue()).append("<br>");
+			}
+		}
+		shareValueBusiness.deleteShareValue(shareValue);
+		message.append("Done !");
+		model.addObject(MESSAGE, message);
 		return model;
 	}
 }
