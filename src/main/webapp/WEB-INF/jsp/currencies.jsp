@@ -39,9 +39,8 @@ limitations under the License.
 <div id="refresh" class="reveal-modal">
 	<h1>${language['CURRENCIES_HIDDEN_REFRESH']}</h1>
 	<form id="sendRefresh" name="sendRefresh" autocomplete="on">
-		<input type="button" value="${language['CURRENCIES_HIDDEN_CONFIRM']}"
-			   onclick="javascript:checkForm('sendRefresh', 'refresh','refreshButton',refreshCurrency)">
-		<input id="refreshButton" type="hidden" name="id" value="">
+		<input type="button" value="${language['CURRENCIES_HIDDEN_CONFIRM']}" onclick="javascript:checkForm('sendRefresh', 'refresh','refreshButton',refreshCurrency)">
+		<input id="refreshButton" type="hidden" name="noname" value="">
 	</form>
 	<a class="close-reveal-modal">&#215;</a>
 </div>
@@ -50,9 +49,7 @@ limitations under the License.
 	<div class="main">
 		<div class="equities_container">
 			<h2 style="margin-top: 5px;">
-				${language['CURRENCIES_TITLE']}&nbsp;<a href="#" data-reveal-id="refresh"><img alt=""
-																							   src="image/refresh.png"
-																							   style="border: 0"></a>
+				${language['CURRENCIES_TITLE']}&nbsp;<a href="#" data-reveal-id="refresh"><img alt="" src="image/refresh.png" style="border: 0"></a>
 			</h2>
 			<c:if test="${!empty message}">
 				<span class="cQuoteUp">${message}</span><br>

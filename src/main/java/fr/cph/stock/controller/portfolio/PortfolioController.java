@@ -194,6 +194,35 @@ public class PortfolioController {
 		return model;
 	}
 
+	@RequestMapping(value = "/currencies", method = RequestMethod.GET)
+	public ModelAndView currencies(
+		@ModelAttribute final User user,
+		@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
+		final ModelAndView model = new ModelAndView("currencies");
+		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Object[][] tab = currencyBusiness.getAllCurrencyData(portfolio.getCurrency());
+		model.addObject(PORTFOLIO, portfolio);
+		model.addObject(TAB, tab);
+		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
+		model.addObject(APP_TITLE, Info.NAME + " &bull;   Currencies");
+		return model;
+	}
+
+	@RequestMapping(value = "/currencies", method = RequestMethod.POST)
+	public ModelAndView refreshCurrencies(
+		@ModelAttribute final User user,
+		@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
+		final ModelAndView model = currencies(user, lang);
+		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		try {
+			currencyBusiness.updateOneCurrency(portfolio.getCurrency());
+			model.addObject(MESSAGE, "Done !");
+		} catch (final YahooException e) {
+			model.addObject(ERROR, e.getMessage());
+		}
+		return model;
+	}
+
 	// FIXME: PDF generated does not work
 	@RequestMapping(value = "/pdf", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
 	public void pdf(final HttpServletResponse response,

@@ -77,7 +77,7 @@ function refreshList() {
 }
 function refreshCurrency() {
   displayWaitbar();
-  document.sendRefresh.action = "currencies?update=1";
+  document.sendRefresh.action = "currencies";
   document.sendRefresh.method = "post";
   document.sendRefresh.submit();
 }
