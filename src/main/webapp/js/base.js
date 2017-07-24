@@ -103,17 +103,17 @@ function modifyOption() {
   document.modifyOptionId.submit();
 }
 function addAcc() {
-  document.addAccountName.action = "accounts?add=1";
+  document.addAccountName.action = "addaccount";
   document.addAccountName.method = "post";
   document.addAccountName.submit();
 }
 function modifyAcc() {
-  document.modifyAccountName.action = "accounts?mod=1";
+  document.modifyAccountName.action = "editaccount";
   document.modifyAccountName.method = "post";
   document.modifyAccountName.submit();
 }
 function deleteAcc() {
-  document.deletAccountName.action = "accounts?delete=1";
+  document.deletAccountName.action = "deleteaccount";
   document.deletAccountName.method = "post";
   document.deletAccountName.submit();
 }
@@ -236,13 +236,12 @@ function updateFollow(id, yahooId, lowerLimit, higherLimit) {
   document.getElementById('deleteFollowId').value = id;
 }
 
-function updateAccount(id, name, currency, liquidity, del) {
-  document.getElementById('id').value = id;
+function updateAccount(accountId, name, currency, liquidity) {
+  document.getElementById('accountId').value = accountId;
   document.getElementById('account').value = name;
   document.getElementById('currency').value = currency;
   document.getElementById('liquidity').value = liquidity;
-  document.getElementById('idDelete').value = id;
-  document.getElementById('idDeleteDelete').value = del;
+  document.getElementById('idDelete').value = accountId;
 }
 
 function updateShare(id, commentary) {

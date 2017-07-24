@@ -18,6 +18,8 @@ package fr.cph.stock.business;
 
 import fr.cph.stock.entities.Account;
 
+import java.util.Optional;
+
 /**
  * Interface defining function that access database and process information
  *
@@ -25,6 +27,13 @@ import fr.cph.stock.entities.Account;
  * @version 1
  */
 public interface AccountBusiness {
+
+	/**
+	 * Get an account
+	 *
+	 * @param account the account to add
+	 */
+	Optional<Account> getAccount(int id);
 
 	/**
 	 * Add an account

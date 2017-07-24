@@ -70,8 +70,7 @@ limitations under the License.
 				<td><input name="liquidity" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 		</table>
-		<input type="button" value="Confirm"
-			   onclick="javascript:checkForm('addAccountId', 'addAccount','refreshButton',addAcc)">
+		<input type="button" value="Confirm" onclick="javascript:checkForm('addAccountId', 'addAccount','refreshButton',addAcc)">
 		<input id="refreshButton" type="submit" style="display: none;">
 	</form>
 	<a class="close-reveal-modal">&#215;</a>
@@ -94,21 +93,16 @@ limitations under the License.
 				</td>
 			<tr>
 				<td>Liquidity:</td>
-				<td><input name="liquidity" id="liquidity" required pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input name="liquidity" id="liquidity" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 		</table>
-		<input id="id" name="id" type="hidden" value="">
-		<input type="button" value="Confirm"
-			   onclick="javascript:checkForm('modifyAccountId', 'modifyAccount','refreshButton2',modifyAcc)">
+		<input id="accountId" name="accountId" type="hidden" value="">
+		<input type="button" value="Confirm" onclick="javascript:checkForm('modifyAccountId', 'modifyAccount','refreshButton2',modifyAcc)">
 		<input id="refreshButton2" type="submit" style="display: none;">
 	</form>
 	<form id="deteletAccountId" name="deletAccountName">
-		or <a href="#" id="deleteAccount"
-			  onClick="if(confirm('Are you sure you want to delete this account?')) checkForm('deteletAccountId','modifyAccount','refreshButton3',deleteAcc)">delete</a>
-		<input name="delete" type="hidden" value="true">
-		<input id="idDelete" name="id" type="hidden" value="">
-		<input id="idDeleteDelete" name="delete2" type="hidden" value="">
+		or <a href="#" id="deleteAccount" onClick="if(confirm('Are you sure you want to delete this account?')) checkForm('deteletAccountId','modifyAccount','refreshButton3',deleteAcc)">delete</a>
+		<input id="idDelete" name="accountId" type="hidden" value="">
 		<input id="refreshButton3" type="submit" style="display: none;">
 	</form>
 </div>
@@ -131,8 +125,7 @@ limitations under the License.
 					<th class="bold tdCenter" style="min-width: 90px">${language['ACCOUNTS_CURRENCY']}</th>
 					<th class="bold tdCenter" style="min-width: 90px">${language['ACCOUNTS_LIQUIDITY']}</th>
 					<th class="bold tdCenter" style="min-width: 90px">${language['ACCOUNTS_PARITY']}</th>
-					<th class="bold tdCenter"
-						style="min-width: 90px">${language['ACCOUNTS_VALUE']}&nbsp;${portfolio.currency }</th>
+					<th class="bold tdCenter" style="min-width: 90px">${language['ACCOUNTS_VALUE']}&nbsp;${portfolio.currency }</th>
 					<th class="bold tdCenter" style="min-width: 90px">${language['ACCOUNTS_OPTION']}</th>
 				</tr>
 				</thead>
@@ -142,12 +135,10 @@ limitations under the License.
 						<td class="">${account.name }</td>
 						<td class="tdCenter">${account.currency }</td>
 						<td class="tdCenter">${account.liquidity }</td>
-						<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="3"
-															   value="${account.parity }"/></td>
-						<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2"
-															   value="${account.parity * account.liquidity }"/></td>
+						<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="3" value="${account.parity }"/></td>
+						<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2" value="${account.parity * account.liquidity }"/></td>
 						<td class="tdCenter">[<a href="#" data-reveal-id="modifyAccount"
-												 onclick="javascript:updateAccount('${account.id}', '${account.name}', '${account.currency }', '${account.liquidity}', '${account.del }');">${language['ACCOUNTS_MODIFY']}</a>]
+												 onclick="javascript:updateAccount('${account.id}', '${account.name}', '${account.currency }', '${account.liquidity}');">${language['ACCOUNTS_MODIFY']}</a>]
 						</td>
 					</tr>
 				</c:forEach>
@@ -159,9 +150,7 @@ limitations under the License.
 				<tr class="static">
 					<td class="bold">${language['ACCOUNTS_TOTAL']}</td>
 					<td colspan="3"></td>
-					<td class="tdCenter bold"><fmt:formatNumber type="number" value="${portfolio.liquidity }"
-																maxFractionDigits="2"
-																currencySymbol="${portfolio.currency.symbol }"/></td>
+					<td class="tdCenter bold"><fmt:formatNumber type="number" value="${portfolio.liquidity }" maxFractionDigits="2" currencySymbol="${portfolio.currency.symbol }"/></td>
 					<td></td>
 				</tr>
 				</tfoot>
