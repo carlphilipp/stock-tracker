@@ -18,13 +18,15 @@ package fr.cph.stock.controller.portfolio;
 
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.CurrencyBusiness;
-import fr.cph.stock.business.EquityBusiness;
+import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
+import fr.cph.stock.util.Info;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,6 +40,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -58,6 +62,8 @@ public class PortfolioController {
 	private final CompanyBusiness companyBusiness;
 	@NonNull
 	private final CurrencyBusiness currencyBusiness;
+	@NonNull
+	private final IndexBusiness indexBusiness;
 
 	@RequestMapping(value = "/portfolio", method = RequestMethod.POST)
 	public ModelAndView updatePortfolio(final HttpServletRequest request,
@@ -89,5 +95,31 @@ public class PortfolioController {
 			model.addObject(UPDATE_STATUS, "<span class='cQuoteUp'>" + LanguageFactory.INSTANCE.getLanguage(lang).get("CONSTANT_UPDATED") + " !</span>");
 		}
 		return model;
+	}
+
+	@RequestMapping(value = "/charts", method = RequestMethod.GET)
+	public ModelAndView charts(@ModelAttribute final User user, @CookieValue(LANGUAGE) final String lang) throws ServletException {
+		final ModelAndView model = new ModelAndView("charts");
+		try {
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			if (!portfolio.getShareValues().isEmpty()) {
+				final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
+				final List<Index> indexes = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);
+				final List<Index> indexes2 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, null);
+				portfolio.addIndexes(indexes);
+				portfolio.addIndexes(indexes2);
+			}
+			final String mapSector = portfolio.getHTMLSectorByCompanies();
+			final String mapCap = portfolio.getHTMLCapByCompanies();
+			model.addObject(PORTFOLIO, portfolio);
+			model.addObject(MAP_SECTOR, mapSector);
+			model.addObject(MAP_CAP, mapCap);
+		} catch (final YahooException e) {
+			log.error("Error: {}", e.getMessage(), e);
+		}
+		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
+		model.addObject(APP_TITLE, Info.NAME + " &bull;   Charts");
+		return model;
+
 	}
 }
