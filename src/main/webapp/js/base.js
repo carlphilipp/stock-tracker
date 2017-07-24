@@ -69,12 +69,6 @@ function refresh() {
   document.sendRefresh.method = "post";
   document.sendRefresh.submit();
 }
-function refreshList() {
-  displayWaitbar();
-  document.sendRefresh.action = "updatelist";
-  document.sendRefresh.method = "post";
-  document.sendRefresh.submit();
-}
 function refreshCurrency() {
   displayWaitbar();
   document.sendRefresh.action = "currencies";

@@ -33,10 +33,6 @@ public enum GuiceInjector {
 		return injector.getInstance(EquityBusiness.class);
 	}
 
-	public FollowBusiness getFollowBusiness() {
-		return injector.getInstance(FollowBusiness.class);
-	}
-
 	public IndexBusiness getIndexBusiness() {
 		return injector.getInstance(IndexBusiness.class);
 	}

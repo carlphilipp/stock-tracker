@@ -26,7 +26,6 @@
 		<typeAlias alias="CurrencyData" type="fr.cph.stock.entities.CurrencyData"/>
 		<typeAlias alias="ShareValue" type="fr.cph.stock.entities.ShareValue"/>
 		<typeAlias alias="Index" type="fr.cph.stock.entities.Index"/>
-		<typeAlias alias="Follow" type="fr.cph.stock.entities.Follow"/>
 		<typeAlias alias="Account" type="fr.cph.stock.entities.Account"/>
 	</typeAliases>
 	<environments default="development">
@@ -50,7 +49,6 @@
 		<mapper resource="mybatis/CurrencyData.xml"/>
 		<mapper resource="mybatis/ShareValue.xml"/>
 		<mapper resource="mybatis/Index.xml"/>
-		<mapper resource="mybatis/Follow.xml"/>
 		<mapper resource="mybatis/Account.xml"/>
 	</mappers>
 </configuration>
