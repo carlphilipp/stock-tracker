@@ -23,23 +23,35 @@ import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.entities.chart.PieChart;
+import fr.cph.stock.entities.chart.TimeChart;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
+import fr.cph.stock.report.PdfReport;
 import fr.cph.stock.util.Info;
+import fr.cph.stock.util.Util;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -56,6 +68,8 @@ import static fr.cph.stock.util.Constants.*;
 @Controller
 public class PortfolioController {
 
+	private static final String DATE_FORMAT = "dd/MM/yyyy";
+
 	@NonNull
 	private final UserBusiness userBusiness;
 	@NonNull
@@ -66,9 +80,7 @@ public class PortfolioController {
 	private final IndexBusiness indexBusiness;
 
 	@RequestMapping(value = "/portfolio", method = RequestMethod.POST)
-	public ModelAndView updatePortfolio(final HttpServletRequest request,
-										final HttpServletResponse response,
-										@RequestParam(value = CURRENCY_UPDATE, required = false) final String updateCurrencies,
+	public ModelAndView updatePortfolio(@RequestParam(value = CURRENCY_UPDATE, required = false) final String updateCurrencies,
 										@ModelAttribute final User user,
 										@CookieValue(LANGUAGE) final String lang) throws IOException, ServletException {
 		final ModelAndView model = new ModelAndView("forward:/" + HOME);
@@ -120,6 +132,93 @@ public class PortfolioController {
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
 		model.addObject(APP_TITLE, Info.NAME + " &bull;   Charts");
 		return model;
+	}
 
+	@RequestMapping(value = "/performance", method = RequestMethod.GET)
+	public ModelAndView performance(@RequestParam(value = FROM, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date fromDate,
+									@RequestParam(value = TO, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date toDate,
+									@ModelAttribute final User user,
+									@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
+		final ModelAndView model = new ModelAndView("performance");
+		try {
+			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), fromDate, toDate).orElseThrow(() -> new NotFoundException(user.getId()));
+			if (portfolio.getShareValues().size() != 0) {
+				Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
+				// Reset time to 17:00PM to get also the cac40 into the day selected (or it would not select it
+				from = Util.resetHourMinSecMill(from);
+				// Put 17:00PM to the first sharevalue, to make it nice in graphic
+				portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).setDate(from);
+
+				// FIXME that should be done already into get user portfolio. To verify.
+				final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, toDate);
+				final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, toDate);
+				portfolio.addIndexes(indexesCAC40);
+				portfolio.addIndexes(indexesSP500);
+				portfolio.compute();
+
+				Date fro = from;
+				if (indexesCAC40.size() > 0) {
+					final Date date = indexesCAC40.get(0).getDate();
+					if (date.before(fro)) {
+						fro = date;
+					}
+				}
+				if (indexesSP500.size() > 0) {
+					final Date date2 = indexesSP500.get(0).getDate();
+					if (date2.before(fro)) {
+						fro = date2;
+					}
+				}
+				Date t = portfolio.getShareValues().get(0).getDate();
+				if (indexesCAC40.size() > 1) {
+					final Date date3 = indexesCAC40.get(indexesCAC40.size() - 1).getDate();
+					if (date3.after(t)) {
+						t = date3;
+					}
+				}
+				if (indexesSP500.size() > 1) {
+					final Date date = indexesSP500.get(indexesSP500.size() - 1).getDate();
+					if (date.after(t)) {
+						t = date;
+					}
+				}
+				model.addObject(FROM_UNDERSCORE, fro);
+				model.addObject(TO_UNDERSCORE, t);
+			}
+			model.addObject(PORTFOLIO, portfolio);
+		} catch (final YahooException e) {
+			log.error("Error: {}", e.getMessage(), e);
+		}
+		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
+		model.addObject(APP_TITLE, Info.NAME + " &bull;   Performance");
+		return model;
+	}
+
+	// FIXME: PDF generated does not work
+	@RequestMapping(value = "/pdf", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+	public void pdf(final HttpServletResponse response,
+					@RequestParam(value = FROM, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date fromDate,
+					@RequestParam(value = TO, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date toDate,
+					@ModelAttribute final User user,
+					@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException, IOException {
+		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");
+		final Image capChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartCap(), "Cap Chart");
+		final Image timeChart = PdfReport.createTimeChart((TimeChart) portfolio.getTimeChart(), "Share value");
+		final PdfReport pdf = new PdfReport(Info.REPORT);
+		pdf.addParam(PORTFOLIO, portfolio);
+		pdf.addParam(EQUITIES, portfolio.getEquities());
+		pdf.addParam(USER, user);
+		pdf.addParam(SECTOR_PIE, sectorChart);
+		pdf.addParam(CAP_PIE, capChart);
+		pdf.addParam(SHARE_VALUE_PIE, timeChart);
+		final DateFormat df = new SimpleDateFormat("dd-MM-yy");
+		final String formattedDate = df.format(new Date());
+		response.addHeader("Content-Disposition", "attachment; filename=" + user.getLogin() + formattedDate + ".pdf");
+		try (final OutputStream responseOutputStream = response.getOutputStream()) {
+			JasperExportManager.exportReportToPdfStream(pdf.getReport(), responseOutputStream);
+		} catch (final JRException e) {
+			throw new ServletException("Error: " + e.getMessage(), e);
+		}
 	}
 }

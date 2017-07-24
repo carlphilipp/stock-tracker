@@ -75,14 +75,10 @@ limitations under the License.
 				href="javascript:poufpouf('formDate')">modify</a>]
 				<div id="formDate" style="display: none;">
 					<form action="performance">
-						From <input type="text" id="from" name="from" style="width:70px;"/> to <input type="text"
-																									  id="to" name="to"
-																									  style="width:70px;"/><input
-						type="submit" value="modify">
+						From <input type="text" id="from" name="from" style="width:70px;"/> to <input type="text" id="to" name="to" style="width:70px;"/><input type="submit" value="modify">
 					</form>
 				</div>
-				<form id="pdf" method="post" action="">
-					<input type="hidden" name="pdf" value="pdf">
+				<form id="pdf" method="get" action="pdf">
 					<a href="javascript:document.getElementById('pdf').submit();">Generate pdf</a>
 				</form>
 			</div>
@@ -95,16 +91,11 @@ limitations under the License.
 								<td align="right">
 									<c:choose>
 										<c:when test="${fn:startsWith(portfolio.currenShareValuesGain, '-')}">
-									<span class="cQuoteDown bold"><fmt:formatNumber type="currency"
-																					maxFractionDigits="1"
-																					value="${portfolio.currenShareValuesGain}"
-																					currencySymbol="${portfolio.currency.symbol }"/>
+									<span class="cQuoteDown bold"><fmt:formatNumber type="currency" maxFractionDigits="1" value="${portfolio.currenShareValuesGain}" currencySymbol="${portfolio.currency.symbol }"/>
 									</span>
 										</c:when>
 										<c:otherwise>
-									<span class="cQuoteUp bold"><fmt:formatNumber type="currency" maxFractionDigits="1"
-																				  value="${portfolio.currenShareValuesGain}"
-																				  currencySymbol="${portfolio.currency.symbol }"/>
+									<span class="cQuoteUp bold"><fmt:formatNumber type="currency" maxFractionDigits="1" value="${portfolio.currenShareValuesGain}" currencySymbol="${portfolio.currency.symbol }"/>
 									</span>
 										</c:otherwise>
 									</c:choose>
@@ -117,13 +108,11 @@ limitations under the License.
 								<td align="right">
 									<c:choose>
 										<c:when test="${fn:startsWith(portfolio.currenShareValuesGainPorcentage, '-')}">
-									<span class="cQuoteDown bold"> <fmt:formatNumber type="number" maxFractionDigits="1"
-																					 value="${portfolio.currenShareValuesGainPorcentage}"/> %
+									<span class="cQuoteDown bold"> <fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.currenShareValuesGainPorcentage}"/> %
 									</span>
 										</c:when>
 										<c:otherwise>
-									<span class="cQuoteUp bold">+<fmt:formatNumber type="number" maxFractionDigits="1"
-																				   value="${portfolio.currenShareValuesGainPorcentage}"/> %
+									<span class="cQuoteUp bold">+<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.currenShareValuesGainPorcentage}"/> %
 									</span>
 										</c:otherwise>
 									</c:choose>
@@ -136,19 +125,14 @@ limitations under the License.
 								</td>
 								<td align="right">
 
-							<span class="cQuoteUp bold"> <fmt:formatNumber type="currency" maxFractionDigits="1"
-																		   value="${portfolio.currentShareValuesYield}"
-																		   currencySymbol="${portfolio.currency.symbol }"/></span>
+									<span class="cQuoteUp bold"> <fmt:formatNumber type="currency" maxFractionDigits="1" value="${portfolio.currentShareValuesYield}" currencySymbol="${portfolio.currency.symbol }"/></span>
 								</td>
 							</tr>
 							<tr>
 								<td align="left">
 									Taxes:
 								</td>
-								<td align="right"><span class="cQuoteDown"> <fmt:formatNumber type="currency"
-																							  maxFractionDigits="1"
-																							  value="${portfolio.currentShareValuesTaxes}"
-																							  currencySymbol="${portfolio.currency.symbol }"/></span>
+								<td align="right"><span class="cQuoteDown"> <fmt:formatNumber type="currency" maxFractionDigits="1" value="${portfolio.currentShareValuesTaxes}" currencySymbol="${portfolio.currency.symbol }"/></span>
 								</td>
 							</tr>
 							<tr>
@@ -156,9 +140,7 @@ limitations under the License.
 									Volume:
 								</td>
 								<td align="right">
-									<fmt:formatNumber type="currency" maxFractionDigits="1"
-													  value="${portfolio.currentShareValuesVolume}"
-													  currencySymbol="${portfolio.currency.symbol }"/>
+									<fmt:formatNumber type="currency" maxFractionDigits="1" value="${portfolio.currentShareValuesVolume}" currencySymbol="${portfolio.currency.symbol }"/>
 								</td>
 							</tr>
 						</table>
@@ -169,7 +151,7 @@ limitations under the License.
 			<br>
 			<div id="graphicShareValue" class="shadow"></div>
 		</div>
-		<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2017--></div>
+		<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2017</div>
 	</div>
 </div>
 <script type="text/javascript">
