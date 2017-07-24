@@ -16,8 +16,11 @@
 
 package fr.cph.stock.controller.history;
 
+import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
+import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
@@ -34,6 +37,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.math.MathContext;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -49,16 +54,17 @@ import static fr.cph.stock.util.Constants.*;
 public class HistoryController {
 
 	private static final int ITEM_MAX = 20;
+	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL32;
 
 	@NonNull
 	private UserBusiness userBusiness;
+	@NonNull
+	private ShareValueBusiness shareValueBusiness;
 
-	@RequestMapping(value = "/history", method = RequestMethod.GET)
-	protected ModelAndView history(@RequestParam(value = PAGE, defaultValue = "1") final int pageNumber,
-								   @ModelAttribute final User user,
-								   @CookieValue(LANGUAGE) final String lang,
-								   final HttpServletRequest request,
-								   final HttpServletResponse response) throws ServletException {
+	@RequestMapping(value = "/history", method = {RequestMethod.GET, RequestMethod.POST})
+	public ModelAndView history(@RequestParam(value = PAGE, defaultValue = "1") final int pageNumber,
+								@ModelAttribute final User user,
+								@CookieValue(LANGUAGE) final String lang) throws ServletException {
 		final ModelAndView model = new ModelAndView("sharevalue");
 		try {
 			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
@@ -85,6 +91,49 @@ public class HistoryController {
 		}
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
 		model.addObject(APP_TITLE, Info.NAME + " &bull; History");
+		return model;
+	}
+
+	@RequestMapping(value = "/updatesharevalue", method = RequestMethod.POST)
+	public ModelAndView updateShareValue(
+		@RequestParam(value = ACCOUNT) final int acc,
+		@RequestParam(value = MOVEMENT) final double movement,
+		@RequestParam(value = YIELD) final double yield,
+		@RequestParam(value = BUY) final double buy,
+		@RequestParam(value = SELL) final double sell,
+		@RequestParam(value = TAXE) final double tax,
+		@RequestParam(value = COMMENTARY, required = false) final String commentary,
+		@ModelAttribute final User user) throws ServletException {
+		final ModelAndView model = new ModelAndView("forward:/history");
+		String message = null;
+		try {
+			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			final Account account = portfolio.getAccount(acc).orElseThrow(() -> new NotFoundException(acc));
+			double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - tax;
+			newLiquidity = new BigDecimal(Double.toString(newLiquidity), MATH_CONTEXT).doubleValue();
+			userBusiness.updateLiquidity(account, newLiquidity);
+			message = ("'" + account.getName() + "' liquidity new value: " + newLiquidity);
+			portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, tax, commentary);
+		} catch (final YahooException e) {
+			log.error(e.getMessage(), e);
+		}
+		model.addObject(MESSAGE, message);
+		return model;
+	}
+
+	@RequestMapping(value = "/updatecommentonsharevalue", method = RequestMethod.POST)
+	public ModelAndView updateCommentOnShareValue(
+		@RequestParam(value = COMMENTARY_UPDATED) final String commentary,
+		@RequestParam(value = SHARE_ID) final int shareId,
+		@ModelAttribute final User user,
+		final HttpServletRequest request,
+		final HttpServletResponse response) throws ServletException {
+		final ModelAndView model = new ModelAndView("forward:/history");
+		final ShareValue sv = shareValueBusiness.selectOneShareValue(shareId).orElseThrow(() -> new NotFoundException(shareId));
+		sv.setCommentary(commentary);
+		shareValueBusiness.updateCommentaryShareValue(sv);
+		model.addObject(MESSAGE, "Modified!");
 		return model;
 	}
 }

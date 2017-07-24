@@ -16,13 +16,10 @@
 
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.ShareValueDAO;
 import fr.cph.stock.dao.UserDAO;
 import fr.cph.stock.entities.Account;
@@ -35,6 +32,8 @@ import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -44,29 +43,22 @@ import java.util.Optional;
 import java.util.TimeZone;
 
 @Log4j2
+@Component
 @Singleton
 public class ShareValueBusinessImpl implements ShareValueBusiness {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
 
+	@Autowired
 	private ShareValueDAO shareValueDAO;
+	@Autowired
 	private UserDAO userDAO;
 
-	@Inject
+	@Autowired
 	private CompanyBusiness companyBusiness;
-	@Inject
+	@Autowired
 	private UserBusiness userBusiness;
-
-	@Inject
-	public void setShareValueDAO(@Named("ShareValue") final DAO dao) {
-		shareValueDAO = (ShareValueDAO) dao;
-	}
-
-	@Inject
-	public void setIndexDAO(@Named("User") final DAO dao) {
-		userDAO = (UserDAO) dao;
-	}
 
 	@Override
 	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield, final Double buy, final Double sell, final Double tax, final String commentary) {

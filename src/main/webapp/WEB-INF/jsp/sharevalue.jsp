@@ -34,7 +34,7 @@ limitations under the License.
 			document.sendRefreshShare.submit();
 		}
 		function update() {
-			document.updateShareFormName.action = "updatesharevalue?commentary=true";
+			document.updateShareFormName.action = "updatecommentonsharevalue";
 			document.updateShareFormName.method = "post";
 			document.updateShareFormName.submit();
 		}
