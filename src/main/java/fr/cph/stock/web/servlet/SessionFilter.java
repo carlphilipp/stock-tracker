@@ -17,6 +17,7 @@
 package fr.cph.stock.web.servlet;
 
 import fr.cph.stock.entities.User;
+import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +33,8 @@ import static fr.cph.stock.util.Constants.USER;
  *
  * @author Carl-Philipp Harmant
  */
-public class SessionFilter implements Filter {
-
-	@Override
-	public final void init(final FilterConfig config) {
-	}
+// FIXME: might not been needed anymore with @SessionAttributes(USER)
+public class SessionFilter extends GenericFilterBean {
 
 	@Override
 	public final void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain) throws IOException, ServletException {
@@ -54,9 +52,5 @@ public class SessionFilter implements Filter {
 				chain.doFilter(req, res);
 			}
 		}
-	}
-
-	@Override
-	public void destroy() {
 	}
 }
