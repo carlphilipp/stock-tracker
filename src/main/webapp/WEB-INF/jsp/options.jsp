@@ -158,36 +158,28 @@ limitations under the License.
 					<td>
 						<table>
 							<tr>
-								<td><input name="quote" type="checkbox" ${quote }> ${language['OPTIONS_HIDDEN_QUOTE']}
-								</td>
-								<td><input name="currency2"
-										   type="checkbox" ${currency }> ${language['OPTIONS_HIDDEN_CURRENCY']}</td>
+								<td><input name="quote" type="checkbox" ${quote }> ${language['OPTIONS_HIDDEN_QUOTE']}</td>
+								<td><input name="currency2" type="checkbox" ${currency }> ${language['OPTIONS_HIDDEN_CURRENCY']}</td>
 							</tr>
 							<tr>
-								<td><input name="parity"
-										   type="checkbox" ${parity}> ${language['OPTIONS_HIDDEN_PARITIES']}</td>
-								<td><input name="yield1"
-										   type="checkbox" ${yield1}> ${language['OPTIONS_HIDDEN_YIELDTTM']}</td>
+								<td><input name="parity" type="checkbox" ${parity}> ${language['OPTIONS_HIDDEN_PARITIES']}</td>
+								<td><input name="yield1" type="checkbox" ${yield1}> ${language['OPTIONS_HIDDEN_YIELDTTM']}</td>
 							</tr>
 							<tr>
-								<td><input name="yield2"
-										   type="checkbox" ${yield2 }> ${language['OPTIONS_HIDDEN_YIELDPERUNITCOSTPRICE']}
-								</td>
-								<td><input name="stopLoss"
-										   type="checkbox" ${stopLoss }> ${language['OPTIONS_HIDDEN_STOPLOSS']}</td>
+								<td><input name="yield2" type="checkbox" ${yield2 }> ${language['OPTIONS_HIDDEN_YIELDPERUNITCOSTPRICE']}</td>
+								<td><input name="stopLoss" type="checkbox" ${stopLoss }> ${language['OPTIONS_HIDDEN_STOPLOSS']}</td>
 							</tr>
 							<tr>
-								<td><input name="objective"
-										   type="checkbox" ${objective }> ${language['OPTIONS_HIDDEN_OBJECTIVE']}</td>
+								<td><input name="objective" type="checkbox" ${objective }> ${language['OPTIONS_HIDDEN_OBJECTIVE']}</td>
 							</tr>
 						</table>
 					</td>
 				</tr>
 				<tr>
-					<td><input type="button" value="Modify"
-							   onclick="javascript:checkForm('modifyOptionId', 'modify', 'processSendOption', modifyOption);">
-						<input
-							id="processSendOption" type="submit" style="display: none;"></td>
+					<td>
+						<input type="button" value="Modify" onclick="javascript:checkForm('modifyOptionId', 'modify', 'processSendOption', modifyOption);">
+						<input id="processSendOption" type="submit" style="display: none;">
+					</td>
 				</tr>
 			</table>
 		</form>
@@ -226,8 +218,7 @@ limitations under the License.
 				</c:otherwise>
 			</c:choose>
 
-			<span class="bold">
-					${language['OPTIONS_PORTFOLIOCOLUMN']}:</span>
+			<span class="bold">${language['OPTIONS_PORTFOLIOCOLUMN']}:</span>
 			<c:if test="${quote == 'checked'}">
 				Quote
 			</c:if>
@@ -261,8 +252,7 @@ limitations under the License.
 								<option value="${acc.name}">${acc.name } - ${acc.currency.symbol }</option>
 							</c:forEach>
 						</select>
-							<br> <input type="submit"
-										value="${language['OPTIONS_LOAD']}">
+							<br> <input type="submit" value="${language['OPTIONS_LOAD']}">
 						</form>
 					</td>
 				</tr>
