@@ -16,9 +16,8 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.service.IndexService;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.service.IndexService;
 import fr.cph.stock.util.Constants;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;

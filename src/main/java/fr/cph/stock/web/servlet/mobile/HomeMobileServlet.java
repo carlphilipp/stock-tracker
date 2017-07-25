@@ -17,14 +17,13 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import com.google.gson.JsonObject;
-import fr.cph.stock.service.IndexService;
-import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.service.IndexService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.util.Constants;
 import lombok.extern.log4j.Log4j2;
 

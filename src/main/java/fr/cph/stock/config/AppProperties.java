@@ -13,8 +13,6 @@ public class AppProperties {
 	private String name;
 	private String address;
 	private String folder;
-	private String yahoocac40;
-	private String yahoosp500;
 	private List<String> admins;
 
 	private final Db db = new Db();
@@ -23,8 +21,9 @@ public class AppProperties {
 	private final Report report = new Report();
 
 	@Data
-	private static class Db {
+	public static class Db {
 		private String ip;
+		private String driver;
 		private String name;
 		private String user;
 		private String password;

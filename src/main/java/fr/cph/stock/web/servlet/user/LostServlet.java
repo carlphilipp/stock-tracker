@@ -20,7 +20,6 @@ import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.service.UserService;
-import fr.cph.stock.util.AppProperty;
 import fr.cph.stock.util.Mail;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;

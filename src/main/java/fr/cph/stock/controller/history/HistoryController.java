@@ -17,8 +17,6 @@
 package fr.cph.stock.controller.history;
 
 import fr.cph.stock.config.AppProperties;
-import fr.cph.stock.service.ShareValueService;
-import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
@@ -26,7 +24,8 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
-import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.service.ShareValueService;
+import fr.cph.stock.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

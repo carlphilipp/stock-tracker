@@ -25,7 +25,6 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.language.LanguageFactory;
-import fr.cph.stock.util.AppProperty;
 import fr.cph.stock.web.servlet.CookieManagement;
 import lombok.NonNull;
 import lombok.Setter;

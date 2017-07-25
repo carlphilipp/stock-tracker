@@ -30,7 +30,6 @@ import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.report.PdfReport;
-import fr.cph.stock.util.AppProperty;
 import fr.cph.stock.util.Constants;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
@@ -120,7 +119,7 @@ public class PortfolioController {
 			final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			if (!portfolio.getShareValues().isEmpty()) {
 				final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-				final List<Index> indexes = indexService.getIndexes(appProperties.getYahoocac40(), from, null);
+				final List<Index> indexes = indexService.getIndexes(Constants.CAC_40, from, null);
 				final List<Index> indexes2 = indexService.getIndexes(Constants.SP_500, from, null);
 				portfolio.addIndexes(indexes);
 				portfolio.addIndexes(indexes2);
@@ -154,7 +153,7 @@ public class PortfolioController {
 				portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).setDate(from);
 
 				// FIXME that should be done already into get user portfolio. To verify.
-				final List<Index> indexesCAC40 = indexService.getIndexes(appProperties.getYahoocac40(), from, toDate);
+				final List<Index> indexesCAC40 = indexService.getIndexes(Constants.CAC_40, from, toDate);
 				final List<Index> indexesSP500 = indexService.getIndexes(Constants.SP_500, from, toDate);
 				portfolio.addIndexes(indexesCAC40);
 				portfolio.addIndexes(indexesSP500);

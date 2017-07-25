@@ -16,12 +16,13 @@
 
 package fr.cph.stock.repository;
 
-import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
+import fr.cph.stock.repository.mybatis.SessionManager;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -30,7 +31,8 @@ import java.util.*;
  *
  * @author Carl-Philipp Harmant
  */
-@org.springframework.stereotype.Repository
+//@org.springframework.stereotype.Repository
+@Component
 public class PortfolioRepository implements Repository<Portfolio> {
 
 	private static final String INSERT = "fr.cph.stock.repository.PortfolioRepository.insertOnePortfolio";
@@ -44,34 +46,40 @@ public class PortfolioRepository implements Repository<Portfolio> {
 	private static final String SHARE_VALUE_SELECT_FROM = "fr.cph.stock.repository.ShareValueRepository.selectShareValueFrom";
 	private static final String SHARE_VALUE_SELECT_TO = "fr.cph.stock.repository.ShareValueRepository.selectShareValueFromTo";
 
-	private final SessionManager sessionManager = SessionManager.INSTANCE;
+	//private final SessionManager sessionManager = SessionManager.INSTANCE;
+
+	private final SqlSession session;
+
+	public PortfolioRepository(SqlSession sqlSession) {
+		this.session = sqlSession;
+	}
 
 	@Override
 	public final void insert(final Portfolio portfolio) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert(INSERT, portfolio);
-		}
+		//}
 	}
 
 	@Override
 	public final Optional<Portfolio> select(final int id) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return Optional.ofNullable(session.selectOne(SELECT, id));
-		}
+		//}
 	}
 
 	@Override
 	public final void update(final Portfolio portfolio) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update(UPDATE, portfolio);
-		}
+		//}
 	}
 
 	@Override
 	public final void delete(final Portfolio portfolio) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete(DELETE, portfolio);
-		}
+		//}
 	}
 
 	/**
@@ -84,7 +92,7 @@ public class PortfolioRepository implements Repository<Portfolio> {
 	 */
 	public final Optional<Portfolio> selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {
 		Optional<Portfolio> portfolioOptional;
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			portfolioOptional = Optional.ofNullable(session.selectOne(SELECT_WITH_ID, userId));
 			portfolioOptional.ifPresent(portfolio -> {
 				final List<Equity> equities = session.selectList(SELECT_EQUITY, portfolio.getId());
@@ -108,7 +116,7 @@ public class PortfolioRepository implements Repository<Portfolio> {
 					}
 				}
 			});
-		}
+		//}
 		return portfolioOptional;
 	}
 

@@ -1,15 +1,14 @@
 package fr.cph.stock.controller.account;
 
 import fr.cph.stock.config.AppProperties;
-import fr.cph.stock.service.AccountService;
-import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.language.LanguageFactory;
-import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.service.AccountService;
+import fr.cph.stock.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -161,7 +160,7 @@ public class AccountController {
 		model.addObject(TIME_ZONE, TIME_ZONE_LIST);
 
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
-		model.addObject(APP_TITLE, appProperties.getName()+ " &bull; Options");
+		model.addObject(APP_TITLE, appProperties.getName() + " &bull; Options");
 		return model;
 	}
 

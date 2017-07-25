@@ -19,6 +19,9 @@ package fr.cph.stock.repository;
 import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.User;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +31,8 @@ import java.util.Optional;
  *
  * @author Carl-Philipp Harmant
  */
-@org.springframework.stereotype.Repository
+//@org.springframework.stereotype.Repository
+@Component
 public class UserRepository implements Repository<User> {
 
 	private static final String INSERT = "fr.cph.stock.repository.UserRepository.insertOneUser";
@@ -40,27 +44,33 @@ public class UserRepository implements Repository<User> {
 	private static final String SELECT_WITH_EMAIL = "fr.cph.stock.repository.UserRepository.selectOneUserWithEmail";
 	private static final String SELECT_ALL_USER = "fr.cph.stock.repository.UserRepository.selectAllUsers";
 
-	private final SessionManager sessionManager = SessionManager.INSTANCE;
+	//private final SessionManager sessionManager = SessionManager.INSTANCE;
+	//@Autowired
+	private final SqlSession session;
+
+	public UserRepository(SqlSession sqlSession) {
+		this.session = sqlSession;
+	}
 
 	@Override
 	public final void insert(final User user) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.insert(INSERT, user);
-		}
+		//}
 	}
 
 	@Override
 	public final Optional<User> select(final int id) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return Optional.ofNullable(session.selectOne(SELECT, id));
-		}
+		//}
 	}
 
 	@Override
 	public final void update(final User user) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update(UPDATE, user);
-		}
+		//}
 	}
 
 	/**
@@ -69,16 +79,16 @@ public class UserRepository implements Repository<User> {
 	 * @param user the user
 	 */
 	public final void updateOneUserPassword(final User user) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.update(UPDATE_PASSWORD, user);
-		}
+		//}
 	}
 
 	@Override
 	public final void delete(final User user) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
 			session.delete(DELETE, user);
-		}
+		//}
 	}
 
 	/**
@@ -88,9 +98,9 @@ public class UserRepository implements Repository<User> {
 	 * @return a user
 	 */
 	public final Optional<User> selectWithLogin(final String login) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return Optional.ofNullable(session.selectOne(SELECT_WITH_LOGIN, login));
-		}
+		//}
 	}
 
 	/**
@@ -100,9 +110,9 @@ public class UserRepository implements Repository<User> {
 	 * @return a user
 	 */
 	public final Optional<User> selectWithEmail(final String email) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return Optional.ofNullable(session.selectOne(SELECT_WITH_EMAIL, email));
-		}
+		//}
 	}
 
 	/**
@@ -111,8 +121,8 @@ public class UserRepository implements Repository<User> {
 	 * @return a list of user
 	 */
 	public final List<User> selectAllUsers() {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
+		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return session.selectList(SELECT_ALL_USER);
-		}
+		//}
 	}
 }

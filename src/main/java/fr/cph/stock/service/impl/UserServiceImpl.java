@@ -29,7 +29,6 @@ import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.service.CurrencyService;
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.service.UserService;
-import fr.cph.stock.util.AppProperty;
 import fr.cph.stock.util.Constants;
 import fr.cph.stock.util.Mail;
 import lombok.NonNull;

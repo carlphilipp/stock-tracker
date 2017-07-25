@@ -17,7 +17,6 @@
 package fr.cph.stock.entities.chart;
 
 import fr.cph.stock.entities.Index;
-import fr.cph.stock.util.AppProperty;
 import fr.cph.stock.util.Constants;
 import fr.cph.stock.util.Util;
 
