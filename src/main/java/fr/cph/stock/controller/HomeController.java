@@ -15,14 +15,14 @@
  */
 package fr.cph.stock.controller;
 
-import fr.cph.stock.service.UserService;
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.language.LanguageFactory;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -52,6 +52,8 @@ import static fr.cph.stock.util.Constants.*;
 public class HomeController {
 
 	@NonNull
+	private AppProperties appProperties;
+	@NonNull
 	private final UserService userService;
 
 	// TODO create quartz job in Spring
@@ -79,7 +81,7 @@ public class HomeController {
 
 		model.addObject(PORTFOLIO, portfolio);
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
-		model.addObject(APP_TITLE, Info.NAME + " &bull; Portfolio");
+		model.addObject(APP_TITLE, appProperties.getName() + " &bull; Portfolio");
 		model.addObject(CURRENCIES, Currency.values());
 		return model;
 	}

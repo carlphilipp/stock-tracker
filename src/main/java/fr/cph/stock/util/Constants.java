@@ -3,6 +3,10 @@ package fr.cph.stock.util;
 public enum Constants {
 	;
 
+	public static final String SP_500 = "^GSPC";
+	public static final String CAC_40 = "^FCHI";
+
+
 	public static final String APP_TITLE = "appTitle";
 	public static final String AUTO_UPDATE = "autoUpdate";
 	public static final String AUTO_UPDATE_EMAIL = "autoUpdateEmail";

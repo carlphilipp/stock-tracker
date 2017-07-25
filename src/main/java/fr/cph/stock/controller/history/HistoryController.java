@@ -16,6 +16,7 @@
 
 package fr.cph.stock.controller.history;
 
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.service.ShareValueService;
 import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
@@ -25,7 +26,7 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -55,6 +56,8 @@ public class HistoryController {
 	private static final int ITEM_MAX = 20;
 	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL32;
 
+	@NonNull
+	private AppProperties appProperties;
 	@NonNull
 	private UserService userService;
 	@NonNull
@@ -89,7 +92,7 @@ public class HistoryController {
 			throw new ServletException("Error: " + e.getMessage(), e);
 		}
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
-		model.addObject(APP_TITLE, Info.NAME + " &bull; History");
+		model.addObject(APP_TITLE, appProperties.getName() + " &bull; History");
 		return model;
 	}
 

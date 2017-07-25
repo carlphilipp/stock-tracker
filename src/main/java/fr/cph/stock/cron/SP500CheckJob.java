@@ -18,7 +18,8 @@ package fr.cph.stock.cron;
 
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.util.Constants;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -47,7 +48,7 @@ public class SP500CheckJob implements Job {
 		try {
 			log.debug("SP500 Check job running");
 			final TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
-			indexService.checkUpdateIndex(Info.YAHOO_ID_SP500, timeZone);
+			indexService.checkUpdateIndex(Constants.SP_500, timeZone);
 		} catch (final YahooException e) {
 			log.warn("Error while executing SP500CheckJob: {}", e.getMessage());
 		} catch (final Throwable t) {

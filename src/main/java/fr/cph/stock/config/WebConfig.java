@@ -1,6 +1,7 @@
-package fr.cph.stock;
+package fr.cph.stock.config;
 
-import com.google.gson.Gson;
+import fr.cph.stock.web.servlet.SessionFilter;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.view.JstlView;
 @EnableWebMvc
 @Configuration
 @ComponentScan({"fr.cph.stock"})
-public class SpringWebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -36,7 +37,10 @@ public class SpringWebConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public Gson gson() {
-		return new Gson();
+	public FilterRegistrationBean sessionFilter() {
+		final FilterRegistrationBean registration = new FilterRegistrationBean();
+		registration.setFilter(new SessionFilter());
+		registration.addUrlPatterns("/home/*", "/history/*", "/accounts/*", "/charts/*", "/performance/*", "/currencies/*", "/options/*");
+		return registration;
 	}
 }

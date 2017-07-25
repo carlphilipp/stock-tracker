@@ -16,18 +16,18 @@
 
 package fr.cph.stock.service.impl;
 
-import fr.cph.stock.service.CompanyService;
-import fr.cph.stock.service.ShareValueService;
-import fr.cph.stock.service.UserService;
-import fr.cph.stock.repository.ShareValueRepository;
-import fr.cph.stock.repository.UserRepository;
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.repository.ShareValueRepository;
+import fr.cph.stock.repository.UserRepository;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.ShareValueService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
@@ -51,6 +51,8 @@ public class ShareValueServiceImpl implements ShareValueService {
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
 
+	@NonNull
+	private AppProperties appProperties;
 	@NonNull
 	private final ShareValueRepository shareValueRepository;
 	@NonNull
@@ -131,8 +133,8 @@ public class ShareValueServiceImpl implements ShareValueService {
 							final String body = ("Dear "
 								+ user.getLogin()
 								+ ",\n\nThe update today did not work, probably because of Yahoo's API.\nSorry for the inconvenience. You still can try do it manually."
-								+ "\n\nBest regards,\nThe " + Info.NAME + " team.");
-							Mail.sendMail("[Auto-update fail] " + Info.NAME, body, new String[]{user.getEmail()});
+								+ "\n\nBest regards,\nThe " + appProperties.getName() + " team.");
+							Mail.sendMail("[Auto-update fail] " + appProperties.getName(), body, new String[]{user.getEmail()});
 						}
 					}
 				}

@@ -16,9 +16,10 @@
 
 package fr.cph.stock.cron;
 
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -36,6 +37,7 @@ public class Cac40Job implements Job {
 	 * AccountServiceImpl
 	 **/
 	private IndexService indexService;
+	private AppProperties appProperties; // FIXME
 
 	/**
 	 * Constructor
@@ -47,7 +49,7 @@ public class Cac40Job implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			log.info("CAC40 Job");
-			indexService.updateIndex(Info.YAHOO_ID_CAC40);
+			indexService.updateIndex(appProperties.getYahoocac40());
 		} catch (final YahooException e) {
 			log.warn("Error while executing Cac40Job: {}", e.getMessage());
 		} catch (final Throwable t) {

@@ -18,7 +18,8 @@ package fr.cph.stock.cron;
 
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.util.Constants;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -44,7 +45,7 @@ public class SP500Job implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			log.info("S&P500 Job");
-			indexService.updateIndex(Info.YAHOO_ID_SP500);
+			indexService.updateIndex(Constants.SP_500);
 		} catch (final YahooException e) {
 			log.warn("Error while executing SP500Job: {}", e.getMessage());
 		} catch (final Throwable t) {

@@ -17,7 +17,8 @@
 package fr.cph.stock.entities.chart;
 
 import fr.cph.stock.entities.Index;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.util.Constants;
 import fr.cph.stock.util.Util;
 
 import java.util.ArrayList;
@@ -86,9 +87,9 @@ public class TimeChart extends AChart {
 			List<Index> indexesTemp = e.getValue();
 			dataTemp.append("\nd").append(j).append(" = [");
 			String indexName = null;
-			if (indexesTemp.get(0).getYahooId().equals(Info.YAHOO_ID_CAC40)) {
+			if (indexesTemp.get(0).getYahooId().equals(Constants.CAC_40)) {
 				indexName = "CAC 40";
-			} else if (indexesTemp.get(0).getYahooId().equals(Info.YAHOO_ID_SP500)) {
+			} else if (indexesTemp.get(0).getYahooId().equals(Constants.SP_500)) {
 				indexName = "S&P 500";
 			}
 			drawTemp.append("{data: d").append(j).append(", label: '").append(indexName).append("'}");

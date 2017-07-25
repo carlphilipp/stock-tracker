@@ -16,26 +16,27 @@
 
 package fr.cph.stock.service.impl;
 
-import fr.cph.stock.service.CurrencyService;
-import fr.cph.stock.service.IndexService;
-import fr.cph.stock.service.UserService;
-import fr.cph.stock.repository.AccountRepository;
-import fr.cph.stock.repository.PortfolioRepository;
-import fr.cph.stock.repository.UserRepository;
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.entities.*;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.repository.AccountRepository;
+import fr.cph.stock.repository.PortfolioRepository;
+import fr.cph.stock.repository.UserRepository;
 import fr.cph.stock.security.SecurityService;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.service.CurrencyService;
+import fr.cph.stock.service.IndexService;
+import fr.cph.stock.service.UserService;
+import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.util.Constants;
 import fr.cph.stock.util.Mail;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -49,12 +50,13 @@ import java.util.Optional;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 @Log4j2
-@Repository
 public class UserServiceImpl implements UserService {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int DB_PASSWORD_LIMIT = 64;
 
+	@NonNull
+	private AppProperties appProperties;
 	@NonNull
 	private CurrencyService currencyService;
 	@NonNull
@@ -91,18 +93,18 @@ public class UserServiceImpl implements UserService {
 		final StringBuilder body = new StringBuilder();
 		final String check = securityService.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
 		body.append("Welcome to ")
-			.append(Info.NAME)
+			.append(appProperties.getName())
 			.append(",\n\nPlease valid your account by clicking on that link:")
-			.append(Info.ADDRESS)
-			.append(Info.FOLDER)
+			.append(appProperties.getAddress())
+			.append(appProperties.getFolder())
 			.append("/check?&login=")
 			.append(login)
 			.append("&check=")
 			.append(check)
 			.append(".\n\nBest regards,\nThe ")
-			.append(Info.NAME)
+			.append(appProperties.getName())
 			.append(" team.");
-		Mail.sendMail("[Registration] " + Info.NAME, body.toString(), new String[]{email});
+		Mail.sendMail("[Registration] " + appProperties.getName(), body.toString(), new String[]{email});
 		createUserPortfolio(user.getLogin());
 		createUserDefaultAccount(user);
 	}
@@ -208,8 +210,8 @@ public class UserServiceImpl implements UserService {
 
 			if (!portfolio.getShareValues().isEmpty()) {
 				final Date date = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-				final List<Index> indexesCAC40 = indexService.getIndexes(Info.YAHOO_ID_CAC40, date);
-				final List<Index> indexesSP500 = indexService.getIndexes(Info.YAHOO_ID_SP500, date);
+				final List<Index> indexesCAC40 = indexService.getIndexes(Constants.CAC_40, date);
+				final List<Index> indexesSP500 = indexService.getIndexes(Constants.SP_500, date);
 				portfolio.addIndexes(indexesCAC40);
 				portfolio.addIndexes(indexesSP500);
 			}

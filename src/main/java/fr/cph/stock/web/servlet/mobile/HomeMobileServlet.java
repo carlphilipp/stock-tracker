@@ -24,7 +24,8 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.util.Constants;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -67,8 +68,8 @@ public class HomeMobileServlet extends HttpServlet {
 				portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					List<Index> indexes = indexService.getIndexes(Info.YAHOO_ID_CAC40, from, null);
-					List<Index> indexes2 = indexService.getIndexes(Info.YAHOO_ID_SP500, from, null);
+					List<Index> indexes = indexService.getIndexes(Constants.CAC_40, from, null);
+					List<Index> indexes2 = indexService.getIndexes(Constants.SP_500, from, null);
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
 				}

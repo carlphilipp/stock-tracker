@@ -4,8 +4,10 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.SearchMatch;
-import fr.cph.stock.util.Util;
+import fr.cph.stock.config.AppProperties;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,18 +17,18 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Properties;
 
+@Component
 @Log4j2
 public class DropBoxImpl implements DropBox {
 
 	private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 	private final DbxClientV2 client;
 
-	public DropBoxImpl() {
-		final Properties prop = Util.getProperties();
-		final DbxRequestConfig config = new DbxRequestConfig(prop.getProperty("dropbox.clientId"));
-		client = new DbxClientV2(config, prop.getProperty("dropbox.access.token"));
+	@Autowired
+	public DropBoxImpl(final AppProperties appProperties) {
+		final DbxRequestConfig config = new DbxRequestConfig(appProperties.getDropbox().getClientId());
+		client = new DbxClientV2(config, appProperties.getDropbox().getClientId());
 	}
 
 	/**

@@ -16,11 +16,13 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import fr.cph.stock.service.UserService;
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.SecurityService;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.service.UserService;
+import fr.cph.stock.util.AppProperty;
 import fr.cph.stock.util.Mail;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -46,6 +48,8 @@ public class LostServlet extends HttpServlet {
 	private static final long serialVersionUID = -1724898618001479554L;
 	private static final String USER_NOT_FOUND = "User not found!";
 
+	@NonNull
+	private AppProperties appProperties;
 	private UserService userService;
 	private SecurityService securityService;
 
@@ -70,16 +74,16 @@ public class LostServlet extends HttpServlet {
 						.append(user.getLogin())
 						.append(",\n\nSomeone is trying to reset your password. If it is not you, just ignore this email.\n")
 						.append("If it's you, click on this link:  ")
-						.append(Info.ADDRESS)
-						.append(Info.FOLDER)
+						.append(appProperties.getAddress())
+						.append(appProperties.getFolder())
 						.append("/newpassword?&login=")
 						.append(user.getLogin())
 						.append("&check=")
 						.append(check)
 						.append(".\n\nBest regards,\nThe ")
-						.append(Info.NAME)
+						.append(appProperties.getName())
 						.append(" team.");
-					Mail.sendMail("[Password Reset] " + Info.NAME, body.toString(), new String[]{email});
+					Mail.sendMail("[Password Reset] " + appProperties.getName(), body.toString(), new String[]{email});
 					request.setAttribute("ok", "Check your email!");
 				} else {
 					request.setAttribute(ERROR, USER_NOT_FOUND);

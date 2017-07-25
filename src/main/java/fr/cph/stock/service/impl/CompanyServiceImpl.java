@@ -16,6 +16,7 @@
 
 package fr.cph.stock.service.impl;
 
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.service.CompanyService;
 import fr.cph.stock.repository.CompanyRepository;
 import fr.cph.stock.entities.Company;
@@ -25,7 +26,7 @@ import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
 import fr.cph.stock.external.ExternalDataAccess;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
@@ -46,6 +47,8 @@ public class CompanyServiceImpl implements CompanyService {
 	private static final int MAX_UPDATE_COMPANY = 15;
 	private static final int PAUSE = 1000;
 
+	@NonNull
+	private AppProperties appProperties;
 	@NonNull
 	private final ExternalDataAccess yahoo;
 	@NonNull
@@ -143,7 +146,7 @@ public class CompanyServiceImpl implements CompanyService {
 				addOrUpdateCompanies(yahooIdList);
 			} catch (final YahooUnknownTickerException e) {
 				log.warn(e.getMessage());
-				Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]));
+				Mail.sendMail("[Error] " + appProperties.getName(), e.getMessage(), appProperties.getAdmins().toArray(new String[appProperties.getAdmins().size()]));
 			} catch (final YahooException e) {
 				updateSuccess = false;
 				log.warn("All companies update failed: {}", e.getMessage());
@@ -161,7 +164,7 @@ public class CompanyServiceImpl implements CompanyService {
 					Util.makeAPause(PAUSE);
 				} catch (final YahooUnknownTickerException e) {
 					log.warn(e.getMessage());
-					Mail.sendMail("[Error] " + Info.NAME, e.getMessage(), Info.ADMINS.toArray(new String[Info.ADMINS.size()]));
+					Mail.sendMail("[Error] " + appProperties.getName(), e.getMessage(), appProperties.getAdmins().toArray(new String[appProperties.getAdmins().size()]));
 				} catch (final YahooException e) {
 					updateSuccess = false;
 					isOk = false;

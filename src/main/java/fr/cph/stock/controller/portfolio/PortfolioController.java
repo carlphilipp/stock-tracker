@@ -16,6 +16,7 @@
 
 package fr.cph.stock.controller.portfolio;
 
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.service.CompanyService;
 import fr.cph.stock.service.CurrencyService;
 import fr.cph.stock.service.IndexService;
@@ -29,7 +30,8 @@ import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.report.PdfReport;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.util.Constants;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +72,8 @@ public class PortfolioController {
 
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
 
+	@NonNull
+	private AppProperties appProperties;
 	@NonNull
 	private final UserService userService;
 	@NonNull
@@ -116,8 +120,8 @@ public class PortfolioController {
 			final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			if (!portfolio.getShareValues().isEmpty()) {
 				final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-				final List<Index> indexes = indexService.getIndexes(Info.YAHOO_ID_CAC40, from, null);
-				final List<Index> indexes2 = indexService.getIndexes(Info.YAHOO_ID_SP500, from, null);
+				final List<Index> indexes = indexService.getIndexes(appProperties.getYahoocac40(), from, null);
+				final List<Index> indexes2 = indexService.getIndexes(Constants.SP_500, from, null);
 				portfolio.addIndexes(indexes);
 				portfolio.addIndexes(indexes2);
 			}
@@ -130,7 +134,7 @@ public class PortfolioController {
 			log.error("Error: {}", e.getMessage(), e);
 		}
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
-		model.addObject(APP_TITLE, Info.NAME + " &bull;   Charts");
+		model.addObject(APP_TITLE, appProperties.getName() + " &bull;   Charts");
 		return model;
 	}
 
@@ -150,8 +154,8 @@ public class PortfolioController {
 				portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).setDate(from);
 
 				// FIXME that should be done already into get user portfolio. To verify.
-				final List<Index> indexesCAC40 = indexService.getIndexes(Info.YAHOO_ID_CAC40, from, toDate);
-				final List<Index> indexesSP500 = indexService.getIndexes(Info.YAHOO_ID_SP500, from, toDate);
+				final List<Index> indexesCAC40 = indexService.getIndexes(appProperties.getYahoocac40(), from, toDate);
+				final List<Index> indexesSP500 = indexService.getIndexes(Constants.SP_500, from, toDate);
 				portfolio.addIndexes(indexesCAC40);
 				portfolio.addIndexes(indexesSP500);
 				portfolio.compute();
@@ -190,7 +194,7 @@ public class PortfolioController {
 			log.error("Error: {}", e.getMessage(), e);
 		}
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
-		model.addObject(APP_TITLE, Info.NAME + " &bull;   Performance");
+		model.addObject(APP_TITLE, appProperties.getName() + " &bull;   Performance");
 		return model;
 	}
 
@@ -204,7 +208,7 @@ public class PortfolioController {
 		model.addObject(PORTFOLIO, portfolio);
 		model.addObject(TAB, tab);
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
-		model.addObject(APP_TITLE, Info.NAME + " &bull;   Currencies");
+		model.addObject(APP_TITLE, appProperties.getName() + " &bull;   Currencies");
 		return model;
 	}
 
@@ -234,7 +238,7 @@ public class PortfolioController {
 		final Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");
 		final Image capChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartCap(), "Cap Chart");
 		final Image timeChart = PdfReport.createTimeChart((TimeChart) portfolio.getTimeChart(), "Share value");
-		final PdfReport pdf = new PdfReport(Info.REPORT);
+		final PdfReport pdf = new PdfReport(appProperties.getReport().getIreport());
 		pdf.addParam(PORTFOLIO, portfolio);
 		pdf.addParam(EQUITIES, portfolio.getEquities());
 		pdf.addParam(USER, user);

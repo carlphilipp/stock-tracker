@@ -37,6 +37,10 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-log4j2')
 	compile('org.apache.tomcat.embed:tomcat-embed-jasper')
 
+	compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.9.RELEASE'
+
+	compile "org.springframework.boot:spring-boot-configuration-processor"
+
 	compile(
 
 		// CSV
@@ -95,9 +99,9 @@ dependencies {
 		[group: 'org.apache.tomcat', name: 'tomcat-catalina', version: tomcat_version],
 		[group: 'org.hamcrest', name: 'hamcrest-all', version: hamcrest_version]
 	)
-
-	compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.9.RELEASE'
 }
+
+compileJava.dependsOn(processResources)
 
 /*war {
 	ext.prod = project.hasProperty('prod')

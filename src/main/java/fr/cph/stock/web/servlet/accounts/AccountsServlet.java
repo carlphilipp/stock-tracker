@@ -16,6 +16,7 @@
 
 package fr.cph.stock.web.servlet.accounts;
 
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.service.AccountService;
 import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
@@ -24,8 +25,9 @@ import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.language.LanguageFactory;
-import fr.cph.stock.util.Info;
+import fr.cph.stock.util.AppProperty;
 import fr.cph.stock.web.servlet.CookieManagement;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 
@@ -50,6 +52,8 @@ public class AccountsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -5015939908893417514L;
 
+	@NonNull
+	private AppProperties appProperties;
 	@Setter
 	private AccountService accountService;
 	@Setter
@@ -85,7 +89,7 @@ public class AccountsServlet extends HttpServlet {
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(PORTFOLIO, portfolio);
 			request.setAttribute(CURRENCIES, Currency.values());
-			request.setAttribute(APP_TITLE, Info.NAME + " &bull;   Accounts");
+			request.setAttribute(APP_TITLE, appProperties.getName() + " &bull;   Accounts");
 			request.getRequestDispatcher("jsp/accounts.jsp").forward(request, response);
 		} catch (final Throwable t) {
 			log.error(t.getMessage(), t);
