@@ -17,8 +17,6 @@
 package fr.cph.stock.service.impl;
 
 import fr.cph.stock.config.AppProperties;
-import fr.cph.stock.service.CompanyService;
-import fr.cph.stock.repository.CompanyRepository;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
@@ -26,7 +24,8 @@ import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.exception.YahooUnknownTickerException;
 import fr.cph.stock.external.ExternalDataAccess;
-import fr.cph.stock.util.AppProperty;
+import fr.cph.stock.repository.CompanyRepository;
+import fr.cph.stock.service.CompanyService;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;

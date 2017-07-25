@@ -16,8 +16,6 @@
 name=Stock Tracker
 address=https://www.stocktracker.fr
 folder=
-yahoocac40=^FCHI
-yahoosp500=^GSPC
 admins=email1@gmail.com;email2@gmail.com
 
 # Mysql

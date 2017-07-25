@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.is;
 @RunWith(value = Parameterized.class)
 public class DropBoxDateTest {
 
-	private DropBoxImpl dropBox = new DropBoxImpl();
+	private DropBoxImpl dropBox = new DropBoxImpl(null);
 	private File file;
 	private String expected;
 
