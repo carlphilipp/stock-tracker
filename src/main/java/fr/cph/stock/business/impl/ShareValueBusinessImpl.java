@@ -16,7 +16,6 @@
 
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Singleton;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
@@ -31,6 +30,8 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,23 +43,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Component
-@Singleton
 public class ShareValueBusinessImpl implements ShareValueBusiness {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
 
-	@Autowired
-	private ShareValueDAO shareValueDAO;
-	@Autowired
-	private UserDAO userDAO;
-
-	@Autowired
-	private CompanyBusiness companyBusiness;
-	@Autowired
-	private UserBusiness userBusiness;
+	@NonNull
+	private final ShareValueDAO shareValueDAO;
+	@NonNull
+	private final UserDAO userDAO;
+	@NonNull
+	private final CompanyBusiness companyBusiness;
+	@NonNull
+	private final UserBusiness userBusiness;
 
 	@Override
 	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield, final Double buy, final Double sell, final Double tax, final String commentary) {

@@ -18,7 +18,6 @@ package fr.cph.stock.web.servlet.user;
 
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.security.SecurityService;
 import lombok.extern.log4j.Log4j2;
 
@@ -46,8 +45,6 @@ public class CheckUserServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
-		securityService = GuiceInjector.INSTANCE.getSecurityService();
 	}
 
 	@Override

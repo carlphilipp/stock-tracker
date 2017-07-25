@@ -16,7 +16,6 @@
 
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Singleton;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.dao.CurrencyDAO;
 import fr.cph.stock.entities.CurrencyData;
@@ -25,6 +24,7 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,26 +35,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
-@Singleton
 @Component
 public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	private static final int PAUSE = 1000;
 
-	@Autowired
 	@NonNull
-	private ExternalDataAccess yahoo;
-	@Autowired
+	private final ExternalDataAccess yahoo;
 	@NonNull
-	private CurrencyDAO currencyDAO;
-
-/*
-	@Inject
-	public CurrencyBusinessImpl(@Named("Currency") final DAO dao, final ExternalDataAccess yahoo) {
-		currencyDAO = (CurrencyDAO) dao;
-		this.yahoo = yahoo;
-	}*/
+	private final CurrencyDAO currencyDAO;
 
 	@Override
 	public final Currency loadCurrencyData(final Currency currency) throws YahooException {

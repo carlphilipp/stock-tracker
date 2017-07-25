@@ -20,13 +20,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.YahooGateway;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -41,9 +41,9 @@ import java.nio.charset.Charset;
  *
  * @author Carl-Philipp Harmant
  */
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 @Log4j2
-@Singleton
 public class YahooGatewayImpl implements YahooGateway {
 
 	private static final String URL_BASE = "http://query.yahooapis.com/v1/public/yql?q=";
@@ -52,11 +52,6 @@ public class YahooGatewayImpl implements YahooGateway {
 
 	@NonNull
 	private final Gson gson;
-
-	@Inject
-	public YahooGatewayImpl(final Gson gson) {
-		this.gson = gson;
-	}
 
 	/**
 	 * This function build the URL.

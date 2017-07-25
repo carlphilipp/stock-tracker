@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Equity;
 import org.apache.ibatis.session.SqlSession;
@@ -28,10 +27,8 @@ import java.util.Optional;
  * This class implements DAO functions and add some more. It access to the Equity in DB.
  *
  * @author Carl-Philipp Harmant
- *
  */
 @Repository
-@Singleton
 public class EquityDAO implements DAO<Equity> {
 
 	private static final String INSERT = "fr.cph.stock.dao.EquityDao.insertOneEquity";

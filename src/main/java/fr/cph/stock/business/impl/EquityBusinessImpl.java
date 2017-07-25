@@ -16,13 +16,9 @@
 
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
 import fr.cph.stock.dao.CompanyDAO;
-import fr.cph.stock.dao.DAO;
 import fr.cph.stock.dao.EquityDAO;
 import fr.cph.stock.dao.PortfolioDAO;
 import fr.cph.stock.entities.Company;
@@ -40,32 +36,16 @@ import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
-@Singleton
 public class EquityBusinessImpl implements EquityBusiness {
 
 	@NonNull
-	private CompanyBusiness companyBusiness;
+	private final CompanyBusiness companyBusiness;
 	@NonNull
-	private CompanyDAO companyDAO;
+	private final CompanyDAO companyDAO;
 	@NonNull
-	private EquityDAO equityDAO;
+	private final EquityDAO equityDAO;
 	@NonNull
-	private PortfolioDAO portfolioDAO;
-
-/*	@Inject
-	public void setCurrencyDAO(@Named("Company") final DAO dao) {
-		companyDAO = (CompanyDAO) dao;
-	}
-
-	@Inject
-	public void setEquityDAO(@Named("Equity") final DAO dao) {
-		equityDAO = (EquityDAO) dao;
-	}
-
-	@Inject
-	public void setPortfolioDAO(@Named("Portfolio") final DAO dao) {
-		portfolioDAO = (PortfolioDAO) dao;
-	}*/
+	private final PortfolioDAO portfolioDAO;
 
 	@Override
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {

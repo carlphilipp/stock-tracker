@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Equity;
@@ -33,7 +32,6 @@ import java.util.*;
  * @author Carl-Philipp Harmant
  */
 @Repository
-@Singleton
 public class PortfolioDAO implements DAO<Portfolio> {
 
 	private static final String INSERT = "fr.cph.stock.dao.PortfolioDao.insertOnePortfolio";

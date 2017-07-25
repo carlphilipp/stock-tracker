@@ -18,7 +18,6 @@ package fr.cph.stock.cron;
 
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.guice.GuiceInjector;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -35,13 +34,12 @@ import java.util.TimeZone;
 @Log4j2
 public class UserJob implements Job {
 
-	private final ShareValueBusiness shareValueBusiness;
+	private ShareValueBusiness shareValueBusiness;
 
 	/**
 	 * Constructor
 	 **/
 	public UserJob() {
-		shareValueBusiness = GuiceInjector.INSTANCE.getShareValueBusiness();
 	}
 
 	@Override

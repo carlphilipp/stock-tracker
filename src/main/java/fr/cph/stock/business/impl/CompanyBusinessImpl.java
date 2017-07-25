@@ -16,7 +16,6 @@
 
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Singleton;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.dao.CompanyDAO;
 import fr.cph.stock.entities.Company;
@@ -41,7 +40,6 @@ import java.util.stream.Stream;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
-@Singleton
 @Component
 public class CompanyBusinessImpl implements CompanyBusiness {
 
@@ -52,12 +50,6 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	private final ExternalDataAccess yahoo;
 	@NonNull
 	private final CompanyDAO companyDAO;
-
-/*	@Inject
-	public CompanyBusinessImpl(@Named("Company") final DAO dao, final ExternalDataAccess yahoo) {
-		this.companyDAO = (CompanyDAO) dao;
-		this.yahoo = yahoo;
-	}*/
 
 	@Override
 	public void updateCompaniesNotRealTime() {

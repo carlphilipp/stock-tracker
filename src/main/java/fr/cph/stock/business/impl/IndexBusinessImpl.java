@@ -15,9 +15,6 @@
  */
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.dao.IndexDAO;
 import fr.cph.stock.entities.Index;
@@ -25,6 +22,8 @@ import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.util.Util;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,23 +35,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
-@Singleton
 @Component
 public class IndexBusinessImpl implements IndexBusiness {
 
 	private static final int PERCENT = 100;
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 
-	@Inject
-	private ExternalDataAccess yahoo;
-	private IndexDAO indexDAO;
-
-	@Autowired
-	@Inject
-	public void setIndexDAO(@Named("Index") final IndexDAO dao) {
-		indexDAO = dao;
-	}
+	@NonNull
+	private final ExternalDataAccess yahoo;
+	@NonNull
+	private final IndexDAO indexDAO;
 
 	@Override
 	public List<Index> getIndexes(String yahooId, Date from) {

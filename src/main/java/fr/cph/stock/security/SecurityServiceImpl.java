@@ -16,7 +16,6 @@
 
 package fr.cph.stock.security;
 
-import com.google.inject.Singleton;
 import org.apache.commons.codec.binary.Hex;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +30,6 @@ import java.security.SecureRandom;
  * @author Carl-Philipp Harmant
  */
 @Component
-@Singleton
 public class SecurityServiceImpl implements SecurityService {
 
 	/**

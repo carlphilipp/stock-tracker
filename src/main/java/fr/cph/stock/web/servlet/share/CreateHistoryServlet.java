@@ -24,7 +24,6 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
-import fr.cph.stock.guice.GuiceInjector;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 
@@ -55,8 +54,6 @@ public class CreateHistoryServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
-		shareValueBusiness = GuiceInjector.INSTANCE.getShareValueBusiness();
 	}
 
 	@Override

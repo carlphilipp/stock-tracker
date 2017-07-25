@@ -23,7 +23,6 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -59,8 +58,6 @@ public class AccountsServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		accountBusiness = GuiceInjector.INSTANCE.getAccountBusiness();
-		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 		language = LanguageFactory.INSTANCE;
 	}
 

@@ -17,7 +17,6 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.business.CurrencyBusiness;
-import fr.cph.stock.guice.GuiceInjector;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
@@ -33,13 +32,12 @@ import org.quartz.JobExecutionContext;
 public class CurrencyJob implements Job {
 
 	@NonNull
-	private final CurrencyBusiness currencyBusiness;
+	private CurrencyBusiness currencyBusiness;
 
 	/**
 	 * Constructor
 	 **/
 	public CurrencyJob() {
-		currencyBusiness = GuiceInjector.INSTANCE.getCurrencyBusiness();
 	}
 
 	@Override

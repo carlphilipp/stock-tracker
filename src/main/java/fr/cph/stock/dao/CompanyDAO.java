@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Company;
 import org.apache.ibatis.session.SqlSession;
@@ -35,7 +34,6 @@ import static fr.cph.stock.util.Constants.MANUAL;
  * @author Carl-Philipp Harmant
  */
 @Component
-@Singleton
 public class CompanyDAO implements DAO<Company> {
 
 	private static final String INSERT = "fr.cph.stock.dao.CompanyDao.insertOneCompany";

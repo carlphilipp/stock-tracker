@@ -17,7 +17,6 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.dropbox.DropBox;
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.MySQLDumper;
 import fr.cph.stock.util.Util;
 import lombok.extern.log4j.Log4j2;
@@ -35,10 +34,9 @@ import java.io.File;
 @Log4j2
 public class MysqlDumpJob implements Job {
 
-	private final DropBox dropBox;
+	private DropBox dropBox;
 
 	public MysqlDumpJob() {
-		dropBox = GuiceInjector.INSTANCE.getDropBox();
 	}
 
 	@Override
@@ -62,7 +60,7 @@ public class MysqlDumpJob implements Job {
 
 			log.info("Upload new dump in Dropbox if needed");
 			dropBox.uploadFile(tarGzFile);
-			
+
 			log.info("Done!");
 		} catch (final Throwable t) {
 			log.error("Error while executing MysqlDumpJob: {}", t.getMessage(), t);

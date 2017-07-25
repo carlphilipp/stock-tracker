@@ -16,7 +16,6 @@
 
 package fr.cph.stock.security;
 
-import fr.cph.stock.guice.GuiceInjector;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
@@ -26,7 +25,7 @@ import static org.junit.Assert.assertEquals;
 
 public final class SecurityServiceTest {
 
-	private SecurityService securityService = GuiceInjector.INSTANCE.getSecurityService();
+	private SecurityService securityService = new SecurityServiceImpl();
 
 	@Test
 	public void testEncodeToSha256() throws UnsupportedEncodingException, NoSuchAlgorithmException {

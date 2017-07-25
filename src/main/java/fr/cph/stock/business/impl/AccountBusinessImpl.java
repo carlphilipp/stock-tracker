@@ -19,6 +19,8 @@ package fr.cph.stock.business.impl;
 import fr.cph.stock.business.AccountBusiness;
 import fr.cph.stock.dao.AccountDAO;
 import fr.cph.stock.entities.Account;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,11 +32,12 @@ import java.util.Optional;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 public class AccountBusinessImpl implements AccountBusiness {
 
-	@Autowired
-	private AccountDAO accountDAO;
+	@NonNull
+	private final AccountDAO accountDAO;
 
 	@Override
 	public Optional<Account> getAccount(int id) {

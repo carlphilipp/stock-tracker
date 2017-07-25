@@ -19,8 +19,6 @@ package fr.cph.stock.external.impl;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.entities.Index;
@@ -34,6 +32,7 @@ import fr.cph.stock.external.web.currency.history.HistoryResult;
 import fr.cph.stock.external.web.currency.xchange.Rate;
 import fr.cph.stock.external.web.currency.xchange.XChangeResult;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
@@ -56,9 +55,9 @@ import static fr.cph.stock.util.Constants.QUOTE;
  *
  * @author Carl-Philipp Harmant
  */
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 @Log4j2
-@Singleton
 public class ExternalDataAccessImpl implements ExternalDataAccess {
 
 	private static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
@@ -72,13 +71,6 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	private final YahooGateway yahooGateway;
 	@NonNull
 	private final Gson gson;
-
-	@Autowired
-	@Inject
-	public ExternalDataAccessImpl(final YahooGateway yahooGateway, final Gson gson) {
-		this.yahooGateway = yahooGateway;
-		this.gson = gson;
-	}
 
 	@Override
 	public final Stream<Company> getCompaniesData(final List<String> yahooIds) {

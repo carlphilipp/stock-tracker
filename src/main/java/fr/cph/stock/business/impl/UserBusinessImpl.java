@@ -16,9 +16,6 @@
 
 package fr.cph.stock.business.impl;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
@@ -33,6 +30,8 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.util.Info;
 import fr.cph.stock.util.Mail;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,46 +46,27 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
 @Log4j2
-@Singleton
 @Repository
 public class UserBusinessImpl implements UserBusiness {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int DB_PASSWORD_LIMIT = 64;
 
-	@Autowired
-	@Inject
+	@NonNull
 	private CurrencyBusiness currencyBusiness;
-	@Autowired
-	@Inject
+	@NonNull
 	private SecurityService securityService;
-	@Autowired
+	@NonNull
 	private IndexBusiness indexBusiness;
-
-	@Autowired
+	@NonNull
 	private UserDAO userDAO;
-	@Autowired
+	@NonNull
 	private PortfolioDAO portfolioDAO;
-	@Autowired
+	@NonNull
 	private AccountDAO accountDAO;
-
-	@Inject
-	@Autowired
-	public void setUserDAO(@Named("User") final UserDAO dao) {
-		userDAO = dao;
-	}
-
-	@Inject
-	public void setPortfolioDAO(@Named("Portfolio") final PortfolioDAO dao) {
-		portfolioDAO = dao;
-	}
-
-	@Inject
-	public void setAccountDAO(@Named("Account") final AccountDAO dao) {
-		accountDAO = dao;
-	}
 
 	@Override
 	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {

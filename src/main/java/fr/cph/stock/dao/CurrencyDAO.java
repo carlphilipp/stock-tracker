@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.CurrencyData;
 import org.apache.ibatis.session.SqlSession;
@@ -29,10 +28,8 @@ import java.util.Optional;
  * This class implements DAO functions and add some more. It access to the Currency in DB.
  *
  * @author Carl-Philipp Harmant
- *
  */
 @Repository
-@Singleton
 public class CurrencyDAO implements DAO<CurrencyData> {
 
 	private static final String INSERT = "fr.cph.stock.dao.CurrencyData.insertOneCurrencyData";
@@ -76,8 +73,7 @@ public class CurrencyDAO implements DAO<CurrencyData> {
 	/**
 	 * Get one currency data
 	 *
-	 * @param currencyD
-	 *            the currency data
+	 * @param currencyD the currency data
 	 * @return a currency data
 	 */
 	public final Optional<CurrencyData> selectOneCurrencyDataWithParam(final CurrencyData currencyD) {
@@ -89,8 +85,7 @@ public class CurrencyDAO implements DAO<CurrencyData> {
 	/**
 	 * Get a list of currency data
 	 *
-	 * @param currency
-	 *            the currency
+	 * @param currency the currency
 	 * @return a list of currency
 	 */
 	public final List<CurrencyData> selectListCurrency(final String currency) {

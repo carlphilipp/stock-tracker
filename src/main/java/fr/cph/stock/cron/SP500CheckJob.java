@@ -18,7 +18,6 @@ package fr.cph.stock.cron;
 
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.Info;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
@@ -35,13 +34,12 @@ import java.util.TimeZone;
 @Log4j2
 public class SP500CheckJob implements Job {
 
-	private final IndexBusiness indexBusiness;
+	private IndexBusiness indexBusiness;
 
 	/**
 	 * Constructor
 	 */
 	public SP500CheckJob() {
-		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
 	}
 
 	@Override

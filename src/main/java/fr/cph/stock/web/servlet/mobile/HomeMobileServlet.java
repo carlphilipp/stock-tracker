@@ -24,7 +24,6 @@ import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
-import fr.cph.stock.guice.GuiceInjector;
 import fr.cph.stock.util.Info;
 import lombok.extern.log4j.Log4j2;
 
@@ -55,8 +54,7 @@ public class HomeMobileServlet extends HttpServlet {
 
 	@Override
 	public final void init() throws ServletException {
-		indexBusiness = GuiceInjector.INSTANCE.getIndexBusiness();
-		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
+
 	}
 
 	@Override

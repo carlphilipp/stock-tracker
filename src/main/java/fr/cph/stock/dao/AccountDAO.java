@@ -16,7 +16,6 @@
 
 package fr.cph.stock.dao;
 
-import com.google.inject.Singleton;
 import fr.cph.stock.dao.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import org.apache.ibatis.session.SqlSession;
@@ -30,7 +29,6 @@ import java.util.Optional;
  * @author Carl-Philipp Harmant
  */
 @Repository
-@Singleton
 public class AccountDAO implements DAO<Account> {
 
 	private static final String INSERT = "fr.cph.stock.dao.AccountDao.insertOneAccount";

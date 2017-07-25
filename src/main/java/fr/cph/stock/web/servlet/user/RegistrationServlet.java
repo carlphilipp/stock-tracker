@@ -19,7 +19,6 @@ package fr.cph.stock.web.servlet.user;
 import fr.cph.stock.business.UserBusiness;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.LoginException;
-import fr.cph.stock.guice.GuiceInjector;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -48,7 +47,6 @@ public class RegistrationServlet extends HttpServlet {
 
 	@Override
 	public final void init() {
-		userBusiness = GuiceInjector.INSTANCE.getUserBusiness();
 	}
 
 	@Override
