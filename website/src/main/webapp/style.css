@@ -1,0 +1,499 @@
+/**
+ * Copyright 2017 Carl-Philipp Harmant
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@charset "UTF-8";
+
+#container {
+	width: 1100px;
+	margin: 0 auto;
+	padding: 1px 0;
+	text-align: left;
+	position: relative;
+}
+
+html {
+	background: url(image/background.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	font: 11px/1.6em "Lucida Grande", LucidaGrande, Lucida, Helvetica, Arial,
+	sans-serif;
+}
+
+a {
+	color: #666;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #000;
+	text-decoration: underline;
+}
+
+a:active {
+	color: #666;
+}
+
+a:visited {
+	color: #666;
+}
+
+h2 {
+	color: #333;
+	font-size: 25px;
+	margin-bottom: 25px;
+	margin-top: 50px;
+	font-weight: normal;
+}
+
+h3 {
+	display: inline;
+}
+
+input {
+	font-family: sans-serif;
+}
+
+.tdRight {
+	text-align: center;
+}
+
+.tdCenter {
+	text-align: center;
+}
+
+.tdLeft {
+	text-align: left;
+}
+
+.tBackGround {
+	background-color: rgb(240, 240, 240);
+}
+
+.cQuoteUp {
+	color: rgb(0, 160, 0);
+}
+
+.cQuoteDown {
+	color: rgb(160, 0, 0);
+}
+
+.cQuoteOrange {
+	color: #FF4000;
+}
+
+h1 {
+	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
+	font-size: 24px;
+	color: #2aa1d7;
+}
+
+.bold {
+	font-size: 120%;
+	font-weight: bold;
+}
+
+.companyInfo {
+	display: none;
+}
+
+.navigation {
+	position: relative;
+	margin-top: 0px;
+	width: 1100px;
+	margin-bottom: 20px;
+	float: left;
+}
+
+.menu {
+	height: 30px;
+	border-bottom: thin solid #000000;
+}
+
+.menu ul {
+	list-style: none;
+	margin-bottom: 50px;
+	padding: 0px;
+	font-size: 12px;
+}
+
+.menu li {
+	float: left;
+	margin-right: 19px;
+	padding: 0px;
+}
+
+.menu a {
+	padding: 0px;
+	margin: 0px;
+}
+
+.language {
+	position: relative;
+	float: right;
+}
+
+.homepage .navigation a.header-logo {
+	display: none;
+}
+
+.main {
+	width: 1050px;
+	margin-left: 25px;
+	float: left;
+}
+
+#tableEquity {
+	position: relative;
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
+}
+
+#tableEquity, td, th {
+	border: 1px solid #ddd;
+}
+
+#tableAccounts {
+	position: relative;
+	text-align: left;
+	border-collapse: collapse;
+	border: none;
+}
+
+#tableOption {
+	position: relative;
+	text-align: left;
+	border-collapse: collapse;
+	border: none;
+}
+
+#tableCurrency {
+	width: 500px;
+	text-align: left;
+	border-collapse: collapse;
+	border: none;
+}
+
+#tableEquityTotal {
+	position: relative;
+	text-align: left;
+	border-collapse: collapse;
+	border: none;
+	float: right;
+	top: -8px;
+
+}
+
+#tableEquityTotal td {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+#tableHistoryTotal {
+	position: relative;
+	text-align: left;
+	border-collapse: collapse;
+	border: none;
+	float: right;
+	top: -8px;
+}
+
+#tableHistoryTotal td {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.floatLeft {
+	float: left;
+}
+
+.clear {
+	clear: both;
+}
+
+#shareValueTable {
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
+	border: none;
+
+}
+
+.shareValueTableDetails {
+	border-collapse: collapse;
+	border: none;
+}
+
+#tableList {
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
+	border: none;
+}
+
+#footer {
+	position: relative;
+	margin-top: 30px;
+	width: 1100px;
+	border-top: thin solid #000000;
+	margin-bottom: 20px;
+	float: left;
+	text-align: center;
+	line-height: 28px;
+}
+
+#footer2 {
+	position: relative;
+	margin-top: 30px;
+	width: 1100px;
+	border-top: thin solid #000000;
+	margin-bottom: 20px;
+	float: left;
+	text-align: center;
+	line-height: 28px;
+}
+
+#loginContainer {
+	border-bottom: thin solid #000000;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#loginForm {
+	position: fixed;
+	top: 25%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -100px;
+	border-bottom: thin solid #000000;
+}
+
+#error {
+	position: fixed;
+	top: 25%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -100px;
+	border-bottom: thin solid #000000;
+}
+
+table p {
+	padding: 0px;
+	margin: 0px;
+	color: #666;
+}
+
+table a {
+	color: black;
+	text-decoration: none;
+}
+
+table a:hover {
+	color: #666;
+	text-decoration: underline;
+}
+
+table a:active {
+	color: #666;
+}
+
+table a:visited {
+	color: black;
+}
+
+.equities_container {
+	position: relative;
+}
+
+.equities_container p {
+
+}
+
+.share_container {
+	position: relative;
+}
+
+.share_container .shadow {
+	box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+.shadow {
+
+}
+
+.equities_container .shadow {
+	box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
+}
+
+#sector {
+	float: left;
+}
+
+#shareValue {
+	position: relative;
+}
+
+#graphicSectorLegend {
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+}
+
+#graphicSectorLegendContainer {
+	width: 500px;
+	margin-top: 50px;
+	float: right;
+}
+
+#graphicCapLegendContainer {
+	width: 500px;
+	margin-top: 100px;
+	float: right;
+}
+
+#graphicCapLegend {
+	margin-left: auto;
+	margin-right: auto;
+	width: 200px;
+}
+
+#cap {
+	float: left;
+	margin-top: 50px;
+}
+
+#graphQuote {
+	width: 250px;
+	border-collapse: collapse;
+}
+
+td.empty {
+	background-color: #CACACA;
+}
+
+td.full {
+	background-color: #666;
+}
+
+td.graph {
+	width: 5px;
+	height: 15px;
+	padding: 0pt;
+}
+
+#graphicShareValue {
+	width: 1050px;
+	height: 300px;
+}
+
+#graphicShareValue2 {
+	width: 1050px;
+	height: 300px;
+}
+
+table.tablesorter thead tr .header {
+	background-image: url(image/bg.gif);
+	background-repeat: no-repeat;
+	background-position: 104% 90%;
+	cursor: pointer;
+}
+
+table.tablesorter thead tr .headerSortDown, table.tablesorter thead tr .headerSortUp {
+	background-color: #F4F9F8;
+}
+
+table.tablesorter thead tr .headerSortUp {
+	background-image: url(image/asc.gif);
+}
+
+table.tablesorter thead tr .headerSortDown {
+	background-image: url(image/desc.gif);
+}
+
+.totalValue {
+	font: bold 30px arial;
+	color: #2E2E2E;
+}
+
+.totalGain {
+	font-weight: bold;
+	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
+	font-size: 20px;
+	display: inline;
+	color: #2E2E2E;
+}
+
+.liquidity {
+	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
+	font-size: 15px;
+	color: #2E2E2E;
+}
+
+.yield {
+	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
+	font-size: 15px;
+	color: #2E2E2E;
+}
+
+.shareValue {
+	font-family: Lucida Grande, verdana, arial, helvetica, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+}
+
+#graphTop {
+	margin-left: 27px;
+}
+
+#graphTop2 {
+	margin-left: 25px;
+}
+
+.flotr-labels .flotr-grid-label {
+	padding: 15px;
+}
+
+.center {
+	text-align: center;
+}
+
+#loading {
+	background: url('image/loadingUSD.gif') no-repeat center;
+	height: 128px;
+	width: 128px;
+	position: fixed;
+	left: 50%;
+	top: 40%;
+	z-index: 1000;
+	margin: -25px 0 0 -25px;
+}
+
+#manualForm, #manualForm2 {
+	display: none;
+}
+
+#notManualForm, #notManualForm2 {
+	display: block;
+}

@@ -17,4 +17,4 @@ Rename `app.properties.template` to `app.properties` and update that file with c
 
 `./gradlew clean build`
 
-Then deploy the artifact `build/libs/stock-tracker.war` to your local tomcat and go to `http://localhost:8080/stock-tracker`
+Then deploy the artifact `build/libs/fr.cph.stock-tracker.war` to your local tomcat and go to `http://localhost:8080/stock-tracker`

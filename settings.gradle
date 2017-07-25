@@ -1,0 +1,4 @@
+rootProject.name = 'stock-tracker'
+include 'website'
+include 'config-server'
+

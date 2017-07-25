@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2017 Carl-Philipp Harmant
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ -->
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+		 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+		 version="3.0">
+	<display-name>Stock</display-name>
+	<!--<welcome-file-list>-->
+		<!--<welcome-file>index</welcome-file>-->
+		<!--<welcome-file>index.jsp</welcome-file>-->
+	<!--</welcome-file-list>-->
+	<!--<error-page>-->
+		<!--<exception-type>java.lang.Throwable</exception-type>-->
+		<!--<location>/jsp/error.html</location>-->
+	<!--</error-page>-->
+	<!--<error-page>-->
+		<!--<error-code>400</error-code>-->
+		<!--<location>/jsp/error.html</location>-->
+	<!--</error-page>-->
+	<!--<error-page>-->
+		<!--<error-code>403</error-code>-->
+		<!--<location>/jsp/error.html</location>-->
+	<!--</error-page>-->
+	<!--<error-page>-->
+		<!--<error-code>401</error-code>-->
+		<!--<location>/jsp/error.html</location>-->
+	<!--</error-page>-->
+	<!--<error-page>-->
+		<!--<error-code>404</error-code>-->
+		<!--<location>/jsp/error.html</location>-->
+	<!--</error-page>-->
+	<!--<error-page>-->
+		<!--<error-code>405</error-code>-->
+		<!--<location>/jsp/error.html</location>-->
+	<!--</error-page>-->
+	<!--<error-page>-->
+		<!--<error-code>500</error-code>-->
+		<!--<location>/jsp/error.html</location>-->
+	<!--</error-page>-->
+	<!--<context-param>-->
+		<!--<param-name>quartz:config-file</param-name>-->
+		<!--<param-value>quartz.properties</param-value>-->
+	<!--</context-param>-->
+	<!--<context-param>-->
+		<!--<param-name>quartz:shutdown-on-unload</param-name>-->
+		<!--<param-value>true</param-value>-->
+	<!--</context-param>-->
+	<!--<context-param>-->
+		<!--<param-name>quartz:wait-on-shutdown</param-name>-->
+		<!--<param-value>true</param-value>-->
+	<!--</context-param>-->
+	<!--<context-param>-->
+		<!--<param-name>quartz:start-on-load</param-name>-->
+		<!--<param-value>true</param-value>-->
+	<!--</context-param>-->
+	<!--<session-config>-->
+		<!--<session-timeout>720</session-timeout>-->
+	<!--</session-config>-->
+
+	<!--<filter>-->
+		<!--<filter-name>SessionFilter</filter-name>-->
+		<!--<filter-class>-->
+			<!--SessionFilter-->
+		<!--</filter-class>-->
+	<!--</filter>-->
+	<!--<filter-mapping>-->
+		<!--<filter-name>SessionFilter</filter-name>-->
+		<!--<servlet-name>AddEquityServlet</servlet-name>-->
+		<!--<servlet-name>HomeServlet</servlet-name>-->
+		<!--<servlet-name>ModifyEquityServlet</servlet-name>-->
+		<!--<servlet-name>UpdatePortfolioServlet</servlet-name>-->
+		<!--<servlet-name>ShareValueServlet</servlet-name>-->
+		<!--<servlet-name>UpdateShareValueServlet</servlet-name>-->
+		<!--<servlet-name>ListServlet</servlet-name>-->
+		<!--<servlet-name>ChartsServlet</servlet-name>-->
+		<!--<servlet-name>DeleteShareValueServlet</servlet-name>-->
+		<!--<servlet-name>OptionsServlet</servlet-name>-->
+		<!--<servlet-name>AddFollowServlet</servlet-name>-->
+		<!--<servlet-name>UpdateListServlet</servlet-name>-->
+		<!--<servlet-name>CreateHistoryServlet</servlet-name>-->
+		<!--<servlet-name>CurrencyServlet</servlet-name>-->
+		<!--<servlet-name>ModifyFollowServlet</servlet-name>-->
+		<!--<servlet-name>AccountsServlet</servlet-name>-->
+		<!--<servlet-name>ChangeLanguageServlet</servlet-name>-->
+		<!--<servlet-name>PerformanceServlet</servlet-name>-->
+		<!--<servlet-name>AboutServlet</servlet-name>-->
+	<!--</filter-mapping>-->
+	<!--<filter>-->
+		<!--<filter-name>SessionMobileFilter</filter-name>-->
+		<!--<filter-class>-->
+			<!--SessionMobileFilter-->
+		<!--</filter-class>-->
+	<!--</filter>-->
+	<!--<filter-mapping>-->
+		<!--<filter-name>SessionMobileFilter</filter-name>-->
+		<!--<servlet-name>HomeMobileServlet</servlet-name>-->
+		<!--<servlet-name>UpdateShareValueMobileServlet</servlet-name>-->
+		<!--<servlet-name>ReloadPortfolioMobileServlet</servlet-name>-->
+	<!--</filter-mapping>-->
+	<!--<listener>-->
+		<!--<listener-class>-->
+			<!--org.quartz.ee.servlet.QuartzInitializerListener-->
+		<!--</listener-class>-->
+	<!--</listener>-->
+</web-app>
