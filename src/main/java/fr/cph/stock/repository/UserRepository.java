@@ -14,32 +14,31 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao;
+package fr.cph.stock.repository;
 
-import fr.cph.stock.dao.mybatis.SessionManager;
+import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.User;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * This class implements DAO functions and add some more. It access to the User in DB.
+ * This class implements Repository functions and add some more. It access to the User in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@Repository
-public class UserDAO implements DAO<User> {
+@org.springframework.stereotype.Repository
+public class UserRepository implements Repository<User> {
 
-	private static final String INSERT = "fr.cph.stock.dao.UserDao.insertOneUser";
-	private static final String SELECT = "fr.cph.stock.dao.UserDao.selectOneUser";
-	private static final String UPDATE = "fr.cph.stock.dao.UserDao.updateOneUser";
-	private static final String DELETE = "fr.cph.stock.dao.UserDao.deleteOneUser";
-	private static final String UPDATE_PASSWORD = "fr.cph.stock.dao.UserDao.updateOneUserPassword";
-	private static final String SELECT_WITH_LOGIN = "fr.cph.stock.dao.UserDao.selectOneUserWithLogin";
-	private static final String SELECT_WITH_EMAIL = "fr.cph.stock.dao.UserDao.selectOneUserWithEmail";
-	private static final String SELECT_ALL_USER = "fr.cph.stock.dao.UserDao.selectAllUsers";
+	private static final String INSERT = "fr.cph.stock.repository.UserRepository.insertOneUser";
+	private static final String SELECT = "fr.cph.stock.repository.UserRepository.selectOneUser";
+	private static final String UPDATE = "fr.cph.stock.repository.UserRepository.updateOneUser";
+	private static final String DELETE = "fr.cph.stock.repository.UserRepository.deleteOneUser";
+	private static final String UPDATE_PASSWORD = "fr.cph.stock.repository.UserRepository.updateOneUserPassword";
+	private static final String SELECT_WITH_LOGIN = "fr.cph.stock.repository.UserRepository.selectOneUserWithLogin";
+	private static final String SELECT_WITH_EMAIL = "fr.cph.stock.repository.UserRepository.selectOneUserWithEmail";
+	private static final String SELECT_ALL_USER = "fr.cph.stock.repository.UserRepository.selectAllUsers";
 
 	private final SessionManager sessionManager = SessionManager.INSTANCE;
 

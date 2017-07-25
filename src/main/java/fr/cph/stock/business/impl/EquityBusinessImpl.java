@@ -18,9 +18,9 @@ package fr.cph.stock.business.impl;
 
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.EquityBusiness;
-import fr.cph.stock.dao.CompanyDAO;
-import fr.cph.stock.dao.EquityDAO;
-import fr.cph.stock.dao.PortfolioDAO;
+import fr.cph.stock.repository.CompanyRepository;
+import fr.cph.stock.repository.EquityRepository;
+import fr.cph.stock.repository.PortfolioRepository;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
@@ -41,22 +41,22 @@ public class EquityBusinessImpl implements EquityBusiness {
 	@NonNull
 	private final CompanyBusiness companyBusiness;
 	@NonNull
-	private final CompanyDAO companyDAO;
+	private final CompanyRepository companyRepository;
 	@NonNull
-	private final EquityDAO equityDAO;
+	private final EquityRepository equityRepository;
 	@NonNull
-	private final PortfolioDAO portfolioDAO;
+	private final PortfolioRepository portfolioRepository;
 
 	@Override
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {
 		final Company company = companyBusiness.addOrUpdateCompany(ticker).orElseThrow(() -> new NotFoundException(ticker));
-		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
+		final Portfolio portfolio = portfolioRepository.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
 		createEquity(portfolio, company, equity);
 	}
 
 	@Override
 	public final void createManualEquity(final int userId, final Company company, final Equity equity) throws EquityException {
-		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
+		final Portfolio portfolio = portfolioRepository.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
 		createEquity(portfolio, company, equity);
 	}
 
@@ -69,14 +69,14 @@ public class EquityBusinessImpl implements EquityBusiness {
 		} else {
 			equity.setCompanyId(company.getId());
 			equity.setPortfolioId(portfolio.getId());
-			equityDAO.insert(equity);
+			equityRepository.insert(equity);
 		}
 	}
 
 	@Override
 	public final void updateEquity(final int userId, final String ticker, final Equity equity) throws YahooException {
-		final Company company = companyDAO.selectWithYahooId(ticker).orElseThrow(() -> new NotFoundException(ticker));
-		final Portfolio portfolio = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
+		final Company company = companyRepository.selectWithYahooId(ticker).orElseThrow(() -> new NotFoundException(ticker));
+		final Portfolio portfolio = portfolioRepository.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
 
 		final Optional<Equity> found = portfolio.getEquities().stream()
 			.filter(e -> e.getCompanyId() == company.getId())
@@ -85,14 +85,14 @@ public class EquityBusinessImpl implements EquityBusiness {
 		equity.setPortfolioId(portfolio.getId());
 		if (found.isPresent()) {
 			equity.setId(found.get().getId());
-			equityDAO.update(equity);
+			equityRepository.update(equity);
 		} else {
-			equityDAO.insert(equity);
+			equityRepository.insert(equity);
 		}
 	}
 
 	@Override
 	public final void deleteEquity(final Equity equity) {
-		equityDAO.delete(equity);
+		equityRepository.delete(equity);
 	}
 }

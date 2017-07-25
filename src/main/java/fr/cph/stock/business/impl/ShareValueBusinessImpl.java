@@ -19,8 +19,8 @@ package fr.cph.stock.business.impl;
 import fr.cph.stock.business.CompanyBusiness;
 import fr.cph.stock.business.ShareValueBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.dao.ShareValueDAO;
-import fr.cph.stock.dao.UserDAO;
+import fr.cph.stock.repository.ShareValueRepository;
+import fr.cph.stock.repository.UserRepository;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
@@ -52,9 +52,9 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 	private static final int PERCENT = 100;
 
 	@NonNull
-	private final ShareValueDAO shareValueDAO;
+	private final ShareValueRepository shareValueRepository;
 	@NonNull
-	private final UserDAO userDAO;
+	private final UserRepository userRepository;
 	@NonNull
 	private final CompanyBusiness companyBusiness;
 	@NonNull
@@ -76,7 +76,7 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 			.details(portfolio.getPortfolioReview())
 			.build();
 
-		Optional<ShareValue> lastShareValue = shareValueDAO.selectLastValue(portfolio.getUserId());
+		Optional<ShareValue> lastShareValue = shareValueRepository.selectLastValue(portfolio.getUserId());
 		if (lastShareValue.isPresent()) {
 			double parity = portfolio.getCurrency() == account.getCurrency()
 				? 1
@@ -87,28 +87,28 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 
 			final Double shareValue2 = portfolio.getTotalValue() / quantity;
 			shareValue.setShareValue(new BigDecimal(Double.toString(shareValue2), MATHCONTEXT).doubleValue());
-			shareValueDAO.insert(shareValue);
+			shareValueRepository.insert(shareValue);
 		} else {
 			shareValue.setShareQuantity(portfolio.getTotalValue() / PERCENT);
 			shareValue.setShareValue((double) PERCENT);
-			shareValueDAO.insert(shareValue);
+			shareValueRepository.insert(shareValue);
 		}
 	}
 
 	@Override
 	public final void deleteShareValue(final ShareValue sv) {
-		shareValueDAO.delete(sv);
+		shareValueRepository.delete(sv);
 	}
 
 	@Override
 	public final void addShareValue(final ShareValue share) {
-		shareValueDAO.insertWithDate(share);
+		shareValueRepository.insertWithDate(share);
 	}
 
 	@Override
 	public final void autoUpdateUserShareValue(final Calendar calendar) throws YahooException {
 		boolean tryToUpdate = false, companyUpdateSuccess = false;
-		final List<User> users = userDAO.selectAllUsers();
+		final List<User> users = userRepository.selectAllUsers();
 		for (final User user : users) {
 			if (user.getUpdateHourTime() != null) {
 				final int hourDiff = Util.timeZoneDiff(TimeZone.getTimeZone(user.getTimeZone()));
@@ -142,11 +142,11 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 
 	@Override
 	public final Optional<ShareValue> selectOneShareValue(final int id) {
-		return shareValueDAO.select(id);
+		return shareValueRepository.select(id);
 	}
 
 	@Override
 	public final void updateCommentaryShareValue(final ShareValue shareValue) {
-		shareValueDAO.update(shareValue);
+		shareValueRepository.update(shareValue);
 	}
 }

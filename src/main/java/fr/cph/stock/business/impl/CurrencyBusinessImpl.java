@@ -17,7 +17,7 @@
 package fr.cph.stock.business.impl;
 
 import fr.cph.stock.business.CurrencyBusiness;
-import fr.cph.stock.dao.CurrencyDAO;
+import fr.cph.stock.repository.CurrencyRepository;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
@@ -45,15 +45,15 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 	@NonNull
 	private final ExternalDataAccess yahoo;
 	@NonNull
-	private final CurrencyDAO currencyDAO;
+	private final CurrencyRepository currencyRepository;
 
 	@Override
 	public final Currency loadCurrencyData(final Currency currency) throws YahooException {
-		List<CurrencyData> currencyDataList = currencyDAO.selectListCurrency(currency.getCode());
+		List<CurrencyData> currencyDataList = currencyRepository.selectListCurrency(currency.getCode());
 		if (currencyDataList.size() == 0) {
 			final Stream<CurrencyData> currenciesData = yahoo.getCurrencyData(currency);
 			updateOrInsertCurrency(currenciesData.collect(Collectors.toList()));
-			currencyDataList = currencyDAO.selectListCurrency(currency.getCode());
+			currencyDataList = currencyRepository.selectListCurrency(currency.getCode());
 		}
 		currency.setCurrencyData(currencyDataList);
 		return currency;
@@ -69,12 +69,12 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 				currenciesData.stream()
 					.filter(currencyData -> !(currencyDone.contains(currencyData.getCurrency1()) || currencyDone.contains(currencyData.getCurrency2())))
 					.forEach(currencyData -> {
-						final Optional<CurrencyData> c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
+						final Optional<CurrencyData> c = currencyRepository.selectOneCurrencyDataWithParam(currencyData);
 						if (c.isPresent()) {
 							currencyData.setId(c.get().getId());
-							currencyDAO.update(currencyData);
+							currencyRepository.update(currencyData);
 						} else {
-							currencyDAO.insert(currencyData);
+							currencyRepository.insert(currencyData);
 						}
 					});
 				currencyDone.add(currency);
@@ -96,7 +96,7 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	@Override
 	public final Object[][] getAllCurrencyData(final Currency currency) {
-		final List<CurrencyData> currencies = currencyDAO.selectListAllCurrency();
+		final List<CurrencyData> currencies = currencyRepository.selectListAllCurrency();
 		final Currency[] currencyTab = Currency.values();
 		final Object[][] res = new Object[currencyTab.length - 1][6];
 		int i = 0;
@@ -121,12 +121,12 @@ public class CurrencyBusinessImpl implements CurrencyBusiness {
 
 	private void updateOrInsertCurrency(final List<CurrencyData> currenciesData) {
 		for (final CurrencyData currencyData : currenciesData) {
-			final Optional<CurrencyData> c = currencyDAO.selectOneCurrencyDataWithParam(currencyData);
+			final Optional<CurrencyData> c = currencyRepository.selectOneCurrencyDataWithParam(currencyData);
 			if (c.isPresent()) {
 				currencyData.setId(c.get().getId());
-				currencyDAO.update(currencyData);
+				currencyRepository.update(currencyData);
 			} else {
-				currencyDAO.insert(currencyData);
+				currencyRepository.insert(currencyData);
 			}
 		}
 	}

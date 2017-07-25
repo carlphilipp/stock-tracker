@@ -16,7 +16,7 @@
 package fr.cph.stock.business.impl;
 
 import fr.cph.stock.business.IndexBusiness;
-import fr.cph.stock.dao.IndexDAO;
+import fr.cph.stock.repository.IndexRepository;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
@@ -46,7 +46,7 @@ public class IndexBusinessImpl implements IndexBusiness {
 	@NonNull
 	private final ExternalDataAccess yahoo;
 	@NonNull
-	private final IndexDAO indexDAO;
+	private final IndexRepository indexRepository;
 
 	@Override
 	public List<Index> getIndexes(String yahooId, Date from) {
@@ -55,7 +55,7 @@ public class IndexBusinessImpl implements IndexBusiness {
 
 	@Override
 	public final List<Index> getIndexes(final String yahooId, final Date from, final Date to) {
-		final List<Index> indexes = indexDAO.selectListFrom(yahooId, from, to);
+		final List<Index> indexes = indexRepository.selectListFrom(yahooId, from, to);
 		for (int i = 0; i < indexes.size(); i++) {
 			final Index currentIndex = indexes.get(i);
 			if (i == 0) {
@@ -75,12 +75,12 @@ public class IndexBusinessImpl implements IndexBusiness {
 	@Override
 	public final void updateIndex(final String yahooId) throws YahooException {
 		final Index index = yahoo.getIndexData(yahooId);
-		indexDAO.insert(index);
+		indexRepository.insert(index);
 	}
 
 	@Override
 	public final void checkUpdateIndex(final String yahooId, final TimeZone timeZone) throws YahooException {
-		final Index index = indexDAO.selectLast(yahooId).orElseThrow(() -> new NotFoundException(yahooId));
+		final Index index = indexRepository.selectLast(yahooId).orElseThrow(() -> new NotFoundException(yahooId));
 		final Calendar currentCal = Util.getCurrentCalendarInTimeZone(timeZone);
 		final Calendar indexCal = Util.getDateInTimeZone(index.getDate(), timeZone);
 		log.debug("Check update for {} in timezone : {}", yahooId, timeZone.getDisplayName());

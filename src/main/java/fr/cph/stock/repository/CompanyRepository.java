@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao;
+package fr.cph.stock.repository;
 
-import fr.cph.stock.dao.mybatis.SessionManager;
+import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.Company;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,20 +28,20 @@ import java.util.Optional;
 import static fr.cph.stock.util.Constants.MANUAL;
 
 /**
- * This class implements DAO functions and add some more. It access to the Company in DB.
+ * This class implements Repository functions and add some more. It access to the Company in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@Component
-public class CompanyDAO implements DAO<Company> {
+@org.springframework.stereotype.Repository
+public class CompanyRepository implements Repository<Company> {
 
-	private static final String INSERT = "fr.cph.stock.dao.CompanyDao.insertOneCompany";
-	private static final String SELECT = "fr.cph.stock.dao.CompanyDao.selectOneCompany";
-	private static final String UPDATE = "fr.cph.stock.dao.CompanyDao.updateOneCompany";
-	private static final String DELETE = "fr.cph.stock.dao.CompanyDao.deleteOneCompany";
-	private static final String SELECT_WITH_ID = "fr.cph.stock.dao.CompanyDao.selectOneCompanyWithYahooId";
-	private static final String SELECT_NOT_REAL_TIME = "fr.cph.stock.dao.CompanyDao.selectAllCompanyNotRealTime";
-	private static final String SELECT_UNUSED = "fr.cph.stock.dao.CompanyDao.selectAllUnusedCompanyIds";
+	private static final String INSERT = "fr.cph.stock.repository.CompanyRepository.insertOneCompany";
+	private static final String SELECT = "fr.cph.stock.repository.CompanyRepository.selectOneCompany";
+	private static final String UPDATE = "fr.cph.stock.repository.CompanyRepository.updateOneCompany";
+	private static final String DELETE = "fr.cph.stock.repository.CompanyRepository.deleteOneCompany";
+	private static final String SELECT_WITH_ID = "fr.cph.stock.repository.CompanyRepository.selectOneCompanyWithYahooId";
+	private static final String SELECT_NOT_REAL_TIME = "fr.cph.stock.repository.CompanyRepository.selectAllCompanyNotRealTime";
+	private static final String SELECT_UNUSED = "fr.cph.stock.repository.CompanyRepository.selectAllUnusedCompanyIds";
 
 	private final SessionManager sessionManager = SessionManager.INSTANCE;
 

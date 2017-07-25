@@ -14,45 +14,31 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao;
+package fr.cph.stock.repository.mybatis;
 
-import java.util.Optional;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 
 /**
- * Interface that defines basics operation to DB.
+ * Abstract class that load DB objects
  *
- * @param <T> the type of object the current class will process
  * @author Carl-Philipp Harmant
  */
-public interface DAO<T> {
+public enum SessionManager {
+
+	INSTANCE;
 
 	/**
-	 * Insert an object into DB
-	 *
-	 * @param obj the object to insert
-	 */
-	void insert(T obj);
+	 * Sql session
+	 **/
+	private final SqlSessionFactory sqlSessionFactory = Mybatis.INSTANCE.getSqlMapInstance();
 
 	/**
-	 * Get an object from DB
+	 * Open session to DB
 	 *
-	 * @param id the id of the object to get
-	 * @return the object
+	 * @return a session to access to the DB
 	 */
-	Optional<T> select(int id);
-
-	/**
-	 * Update an object in DB
-	 *
-	 * @param obj the object to update
-	 */
-	void update(T obj);
-
-	/**
-	 * Delete an object in DB
-	 *
-	 * @param obj the object to delete
-	 */
-	void delete(T obj);
-
+	public SqlSession getSqlSessionFactory(final boolean autoCommit) {
+		return sqlSessionFactory.openSession(autoCommit);
+	}
 }

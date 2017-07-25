@@ -17,7 +17,7 @@
 package fr.cph.stock.business.impl;
 
 import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.dao.CompanyDAO;
+import fr.cph.stock.repository.CompanyRepository;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
@@ -49,11 +49,11 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	@NonNull
 	private final ExternalDataAccess yahoo;
 	@NonNull
-	private final CompanyDAO companyDAO;
+	private final CompanyRepository companyRepository;
 
 	@Override
 	public void updateCompaniesNotRealTime() {
-		final List<Company> companies = companyDAO.selectAllCompany(false);
+		final List<Company> companies = companyRepository.selectAllCompany(false);
 		final Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DATE, -7);
 		try {
@@ -61,7 +61,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				.findFirst()
 				.ifPresent(c -> {
 					company.setQuote(c.getQuote());
-					companyDAO.update(company);
+					companyRepository.update(company);
 				}));
 		} catch (final YahooException e) {
 			log.warn("Company update not real time error: {}", e.getMessage());
@@ -70,7 +70,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 
 	@Override
 	public void deleteCompany(final Company company) {
-		companyDAO.delete(company);
+		companyRepository.delete(company);
 	}
 
 	@Override
@@ -119,20 +119,20 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 			.manual(true)
 			.realTime(false)
 			.fund(false).build();
-		companyDAO.insert(company);
-		return companyDAO.selectWithYahooId(uuid);
+		companyRepository.insert(company);
+		return companyRepository.selectWithYahooId(uuid);
 	}
 
 	@Override
 	public void updateCompanyManual(final Integer companyId, final Double newQuote) {
-		final Company company = companyDAO.select(companyId).orElseThrow(() -> new NotFoundException(companyId));
+		final Company company = companyRepository.select(companyId).orElseThrow(() -> new NotFoundException(companyId));
 		company.setQuote(newQuote);
-		companyDAO.update(company);
+		companyRepository.update(company);
 	}
 
 	@Override
 	public boolean updateAllCompanies() {
-		final List<Company> companies = companyDAO.selectAllCompany(true);
+		final List<Company> companies = companyRepository.selectAllCompany(true);
 		final List<String> yahooIdList = companies.stream()
 			.filter(Company::getRealTime)
 			.map(Company::getYahooId)
@@ -181,7 +181,7 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 	public Optional<Company> addOrUpdateCompany(final String ticker) throws YahooException {
 		final List<String> tickers = Collections.singletonList(ticker);
 		final Company companyYahoo = yahoo.getCompaniesData(tickers).findFirst().orElseThrow(RuntimeException::new);
-		Optional<Company> companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
+		Optional<Company> companyInDB = companyRepository.selectWithYahooId(companyYahoo.getYahooId());
 		if (companyInDB.isPresent()) {
 			companyInDB.get().setQuote(companyYahoo.getQuote());
 			companyInDB.get().setYield(companyYahoo.getYield());
@@ -192,25 +192,25 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 			companyInDB.get().setYearHigh(companyYahoo.getYearHigh());
 			companyInDB.get().setYearLow(companyYahoo.getYearLow());
 			companyInDB.get().setYesterdayClose(companyYahoo.getYesterdayClose());
-			companyDAO.update(companyInDB.get());
+			companyRepository.update(companyInDB.get());
 		} else {
-			companyDAO.insert(companyYahoo);
-			companyInDB = companyDAO.selectWithYahooId(companyYahoo.getYahooId());
+			companyRepository.insert(companyYahoo);
+			companyInDB = companyRepository.selectWithYahooId(companyYahoo.getYahooId());
 		}
 		return companyInDB;
 	}
 
 	@Override
 	public final void cleanDB() {
-		final List<Integer> companies = companyDAO.selectAllUnusedCompanyIds();
-		companies.forEach(id -> companyDAO.delete(Company.builder().id(id).build()));
+		final List<Integer> companies = companyRepository.selectAllUnusedCompanyIds();
+		companies.forEach(id -> companyRepository.delete(Company.builder().id(id).build()));
 	}
 
 	void addOrUpdateCompanies(final List<String> tickers) throws YahooException {
 		log.debug("Updating tickers: {}", tickers);
 		final Stream<Company> companies = yahoo.getCompaniesData(tickers);
 		companies.forEach(company -> {
-			Optional<Company> companyInDB = companyDAO.selectWithYahooId(company.getYahooId());
+			Optional<Company> companyInDB = companyRepository.selectWithYahooId(company.getYahooId());
 			if (companyInDB.isPresent()) {
 				companyInDB.get().setQuote(company.getQuote());
 				companyInDB.get().setYield(company.getYield());
@@ -222,9 +222,9 @@ public class CompanyBusinessImpl implements CompanyBusiness {
 				companyInDB.get().setYearLow(company.getYearLow());
 				companyInDB.get().setYesterdayClose(company.getYesterdayClose());
 				companyInDB.get().setChangeInPercent(company.getChangeInPercent());
-				companyDAO.update(companyInDB.get());
+				companyRepository.update(companyInDB.get());
 			} else {
-				companyDAO.insert(company);
+				companyRepository.insert(company);
 			}
 		});
 	}

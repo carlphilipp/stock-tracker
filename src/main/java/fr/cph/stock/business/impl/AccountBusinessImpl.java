@@ -17,7 +17,7 @@
 package fr.cph.stock.business.impl;
 
 import fr.cph.stock.business.AccountBusiness;
-import fr.cph.stock.dao.AccountDAO;
+import fr.cph.stock.repository.AccountRepository;
 import fr.cph.stock.entities.Account;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -37,25 +37,25 @@ import java.util.Optional;
 public class AccountBusinessImpl implements AccountBusiness {
 
 	@NonNull
-	private final AccountDAO accountDAO;
+	private final AccountRepository accountRepository;
 
 	@Override
 	public Optional<Account> getAccount(int id) {
-		return accountDAO.select(id);
+		return accountRepository.select(id);
 	}
 
 	@Override
 	public void addAccount(final Account account) {
-		accountDAO.insert(account);
+		accountRepository.insert(account);
 	}
 
 	@Override
 	public void updateAccount(final Account account) {
-		accountDAO.update(account);
+		accountRepository.update(account);
 	}
 
 	@Override
 	public void deleteAccount(final Account account) {
-		accountDAO.delete(account);
+		accountRepository.delete(account);
 	}
 }

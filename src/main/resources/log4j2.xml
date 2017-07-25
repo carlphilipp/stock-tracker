@@ -17,7 +17,7 @@
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
 		</AsyncLogger>
-		<AsyncLogger name="fr.cph.stock.dao" level="info" additivity="false">
+		<AsyncLogger name="fr.cph.stock.repository" level="info" additivity="false">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
 		</AsyncLogger>

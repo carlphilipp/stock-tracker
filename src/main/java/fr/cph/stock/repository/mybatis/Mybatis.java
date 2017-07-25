@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao.mybatis;
+package fr.cph.stock.repository.mybatis;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;

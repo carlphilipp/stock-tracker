@@ -14,29 +14,28 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao;
+package fr.cph.stock.repository;
 
-import fr.cph.stock.dao.mybatis.SessionManager;
+import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.Index;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 /**
- * This class implements DAO functions and add some more. It access to the Index in DB.
+ * This class implements Repository functions and add some more. It access to the Index in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@Repository
-public class IndexDAO implements DAO<Index> {
+@org.springframework.stereotype.Repository
+public class IndexRepository implements Repository<Index> {
 
-	private static final String INSERT = "fr.cph.stock.dao.IndexDao.insertOneIndex";
-	private static final String SELECT = "fr.cph.stock.dao.IndexDao.selectOneIndex";
-	private static final String UPDATE = "fr.cph.stock.dao.IndexDao.updateOneIndex";
-	private static final String DELETE = "fr.cph.stock.dao.IndexDao.deleteOneIndex";
-	private static final String SELECT_FROM_TO = "fr.cph.stock.dao.IndexDao.selectListIndexFromTo";
-	private static final String SELECT_LAST = "fr.cph.stock.dao.IndexDao.selectLastIndex";
+	private static final String INSERT = "fr.cph.stock.repository.IndexRepository.insertOneIndex";
+	private static final String SELECT = "fr.cph.stock.repository.IndexRepository.selectOneIndex";
+	private static final String UPDATE = "fr.cph.stock.repository.IndexRepository.updateOneIndex";
+	private static final String DELETE = "fr.cph.stock.repository.IndexRepository.deleteOneIndex";
+	private static final String SELECT_FROM_TO = "fr.cph.stock.repository.IndexRepository.selectListIndexFromTo";
+	private static final String SELECT_LAST = "fr.cph.stock.repository.IndexRepository.selectLastIndex";
 
 	private final SessionManager sessionManager = SessionManager.INSTANCE;
 

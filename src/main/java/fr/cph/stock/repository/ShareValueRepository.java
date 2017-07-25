@@ -14,29 +14,28 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao;
+package fr.cph.stock.repository;
 
-import fr.cph.stock.dao.mybatis.SessionManager;
+import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.ShareValue;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 /**
- * This class implements DAO functions and add some more. It access to the ShareValue in DB.
+ * This class implements Repository functions and add some more. It access to the ShareValue in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@Repository
-public class ShareValueDAO implements DAO<ShareValue> {
+@org.springframework.stereotype.Repository
+public class ShareValueRepository implements Repository<ShareValue> {
 
-	private static final String INSERT = "fr.cph.stock.dao.ShareValue.insertOneShareValue";
-	private static final String SELECT = "fr.cph.stock.dao.ShareValue.selectOneShareValue";
-	private static final String UPDATE = "fr.cph.stock.dao.ShareValue.updateOneShareValue";
-	private static final String DELETE = "fr.cph.stock.dao.ShareValue.deleteOneShareValue";
-	private static final String INSERT_WITH_DATE = "fr.cph.stock.dao.ShareValue.insertOneShareValueWithDate";
-	private static final String SELECT_LAST_VALUE = "fr.cph.stock.dao.ShareValue.selectLastValue";
+	private static final String INSERT = "fr.cph.stock.repository.ShareValueRepository.insertOneShareValue";
+	private static final String SELECT = "fr.cph.stock.repository.ShareValueRepository.selectOneShareValue";
+	private static final String UPDATE = "fr.cph.stock.repository.ShareValueRepository.updateOneShareValue";
+	private static final String DELETE = "fr.cph.stock.repository.ShareValueRepository.deleteOneShareValue";
+	private static final String INSERT_WITH_DATE = "fr.cph.stock.repository.ShareValueRepository.insertOneShareValueWithDate";
+	private static final String SELECT_LAST_VALUE = "fr.cph.stock.repository.ShareValueRepository.selectLastValue";
 
 	private final SessionManager sessionManager = SessionManager.INSTANCE;
 

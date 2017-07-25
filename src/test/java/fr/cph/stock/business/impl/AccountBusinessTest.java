@@ -1,6 +1,6 @@
 package fr.cph.stock.business.impl;
 
-import fr.cph.stock.dao.AccountDAO;
+import fr.cph.stock.repository.AccountRepository;
 import fr.cph.stock.entities.Account;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.verify;
 public class AccountBusinessTest {
 
 	@Mock
-	private AccountDAO accountDAO;
+	private AccountRepository accountRepository;
 
 	@InjectMocks
 	private AccountBusinessImpl accountBusiness;
@@ -25,7 +25,7 @@ public class AccountBusinessTest {
 		final Account account = Account.builder().build();
 		accountBusiness.addAccount(account);
 
-		verify(accountDAO).insert(isA(Account.class));
+		verify(accountRepository).insert(isA(Account.class));
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class AccountBusinessTest {
 		final Account account = Account.builder().build();
 		accountBusiness.updateAccount(account);
 
-		verify(accountDAO).update(isA(Account.class));
+		verify(accountRepository).update(isA(Account.class));
 	}
 
 	@Test
@@ -41,6 +41,6 @@ public class AccountBusinessTest {
 		final Account account = Account.builder().build();
 		accountBusiness.deleteAccount(account);
 
-		verify(accountDAO).delete(isA(Account.class));
+		verify(accountRepository).delete(isA(Account.class));
 	}
 }

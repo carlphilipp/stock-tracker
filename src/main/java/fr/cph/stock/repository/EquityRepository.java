@@ -14,55 +14,54 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao;
+package fr.cph.stock.repository;
 
-import fr.cph.stock.dao.mybatis.SessionManager;
-import fr.cph.stock.entities.Account;
+import fr.cph.stock.repository.mybatis.SessionManager;
+import fr.cph.stock.entities.Equity;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 /**
- * This class implements DAO functions and add some more. It access to the Account in DB.
+ * This class implements Repository functions and add some more. It access to the Equity in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@Repository
-public class AccountDAO implements DAO<Account> {
+@org.springframework.stereotype.Repository
+public class EquityRepository implements Repository<Equity> {
 
-	private static final String INSERT = "fr.cph.stock.dao.AccountDao.insertOneAccount";
-	private static final String SELECT = "fr.cph.stock.dao.AccountDao.selectOneAccount";
-	private static final String UPDATE = "fr.cph.stock.dao.AccountDao.updateOneAccount";
-	private static final String DELETE = "fr.cph.stock.dao.AccountDao.deleteOneAccount";
+	private static final String INSERT = "fr.cph.stock.repository.EquityRepository.insertOneEquity";
+	private static final String SELECT = "fr.cph.stock.repository.EquityRepository.selectOneEquity";
+	private static final String UPDATE = "fr.cph.stock.repository.EquityRepository.updateOneEquity";
+	private static final String DELETE = "fr.cph.stock.repository.EquityRepository.deleteOneEquity";
 
 	private final SessionManager sessionManager = SessionManager.INSTANCE;
 
 	@Override
-	public void insert(final Account account) {
+	public final void insert(final Equity equity) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, account);
+			session.insert(INSERT, equity);
 		}
 	}
 
 	@Override
-	public Optional<Account> select(final int id) {
+	public final Optional<Equity> select(final int id) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
 			return Optional.ofNullable(session.selectOne(SELECT, id));
 		}
 	}
 
 	@Override
-	public void update(final Account account) {
+	public final void update(final Equity equity) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, account);
+			session.update(UPDATE, equity);
 		}
 	}
 
 	@Override
-	public void delete(final Account account) {
+	public final void delete(final Equity equity) {
 		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, account);
+			session.delete(DELETE, equity);
 		}
 	}
 }

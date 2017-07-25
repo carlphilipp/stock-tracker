@@ -19,9 +19,9 @@ package fr.cph.stock.business.impl;
 import fr.cph.stock.business.CurrencyBusiness;
 import fr.cph.stock.business.IndexBusiness;
 import fr.cph.stock.business.UserBusiness;
-import fr.cph.stock.dao.AccountDAO;
-import fr.cph.stock.dao.PortfolioDAO;
-import fr.cph.stock.dao.UserDAO;
+import fr.cph.stock.repository.AccountRepository;
+import fr.cph.stock.repository.PortfolioRepository;
+import fr.cph.stock.repository.UserRepository;
 import fr.cph.stock.entities.*;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.LoginException;
@@ -62,11 +62,11 @@ public class UserBusinessImpl implements UserBusiness {
 	@NonNull
 	private IndexBusiness indexBusiness;
 	@NonNull
-	private UserDAO userDAO;
+	private UserRepository userRepository;
 	@NonNull
-	private PortfolioDAO portfolioDAO;
+	private PortfolioRepository portfolioRepository;
 	@NonNull
-	private AccountDAO accountDAO;
+	private AccountRepository accountRepository;
 
 	@Override
 	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
@@ -87,7 +87,7 @@ public class UserBusinessImpl implements UserBusiness {
 			.email(email)
 			.allow(false)
 			.build();
-		userDAO.insert(user);
+		userRepository.insert(user);
 		final StringBuilder body = new StringBuilder();
 		final String check = securityService.encodeToSha256(login + saltHashed + cryptedPasswordSalt + email);
 		body.append("Welcome to ")
@@ -109,54 +109,54 @@ public class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public final Optional<User> getUser(final String login) {
-		return userDAO.selectWithLogin(login);
+		return userRepository.selectWithLogin(login);
 	}
 
 	@Override
 	public final Optional<User> getUserWithEmail(final String email) {
-		return userDAO.selectWithEmail(email);
+		return userRepository.selectWithEmail(email);
 	}
 
 	@Override
 	public final void validateUser(final String login) {
-		final User user = userDAO.selectWithLogin(login).orElseThrow(() -> new NotFoundException(login));
+		final User user = userRepository.selectWithLogin(login).orElseThrow(() -> new NotFoundException(login));
 		user.setAllow(true);
-		userDAO.update(user);
+		userRepository.update(user);
 	}
 
 	@Override
 	public final void updateUser(final User user) {
-		userDAO.update(user);
+		userRepository.update(user);
 	}
 
 	/**
 	 * @param login the login
 	 */
 	private void createUserPortfolio(final String login) {
-		final User user = userDAO.selectWithLogin(login).orElseThrow(() -> new NotFoundException(login));
+		final User user = userRepository.selectWithLogin(login).orElseThrow(() -> new NotFoundException(login));
 		final Portfolio portfolio = new Portfolio();
 		portfolio.setCurrency(Currency.EUR);
 		portfolio.setUserId(user.getId());
-		portfolioDAO.insert(portfolio);
+		portfolioRepository.insert(portfolio);
 	}
 
 	/**
 	 * @param u the user
 	 */
 	private void createUserDefaultAccount(final User u) {
-		final User user = userDAO.selectWithLogin(u.getLogin()).orElseThrow(() -> new NotFoundException(u.getLogin()));
+		final User user = userRepository.selectWithLogin(u.getLogin()).orElseThrow(() -> new NotFoundException(u.getLogin()));
 		final Account account = Account.builder()
 			.currency(Currency.EUR)
 			.liquidity(0.0)
 			.name("Default")
 			.userId(user.getId())
 			.del(false).build();
-		accountDAO.insert(account);
+		accountRepository.insert(account);
 	}
 
 	@Override
 	public final Optional<User> checkUser(final String login, final String md5Password) throws LoginException {
-		Optional<User> userOptional = userDAO.selectWithLogin(login);
+		Optional<User> userOptional = userRepository.selectWithLogin(login);
 		if (userOptional.isPresent()) {
 			final User user = userOptional.get();
 			try {
@@ -178,12 +178,12 @@ public class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public final void updateOneUserPassword(final User user) {
-		userDAO.updateOneUserPassword(user);
+		userRepository.updateOneUserPassword(user);
 	}
 
 	@Override
 	public final Optional<Portfolio> getUserPortfolio(final int userId, final Date from, final Date to) throws YahooException {
-		final Optional<Portfolio> portfolioOptional = portfolioDAO.selectPortfolioFromUserIdWithEquities(userId, from, to);
+		final Optional<Portfolio> portfolioOptional = portfolioRepository.selectPortfolioFromUserIdWithEquities(userId, from, to);
 		portfolioOptional.ifPresent(portfolio -> {
 			Collections.sort(portfolio.getEquities());
 			portfolio.setCurrency(currencyBusiness.loadCurrencyData(portfolio.getCurrency()));
@@ -229,12 +229,12 @@ public class UserBusinessImpl implements UserBusiness {
 
 	@Override
 	public final void updatePortfolio(final Portfolio portfolio) {
-		portfolioDAO.update(portfolio);
+		portfolioRepository.update(portfolio);
 	}
 
 	@Override
 	public final void updateLiquidity(final Account account, final double liquidity) {
 		account.setLiquidity(liquidity);
-		accountDAO.update(account);
+		accountRepository.update(account);
 	}
 }

@@ -14,36 +14,35 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.dao;
+package fr.cph.stock.repository;
 
-import fr.cph.stock.dao.mybatis.SessionManager;
+import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 /**
- * This class implements DAO functions and add some more. It access to the Portfolio in DB.
+ * This class implements Repository functions and add some more. It access to the Portfolio in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@Repository
-public class PortfolioDAO implements DAO<Portfolio> {
+@org.springframework.stereotype.Repository
+public class PortfolioRepository implements Repository<Portfolio> {
 
-	private static final String INSERT = "fr.cph.stock.dao.PortfolioDao.insertOnePortfolio";
-	private static final String SELECT = "fr.cph.stock.dao.PortfolioDao.selectOnePortfolio";
-	private static final String UPDATE = "fr.cph.stock.dao.PortfolioDao.updateOnePortfolio";
-	private static final String DELETE = "fr.cph.stock.dao.PortfolioDao.deleteOnePortfolio";
-	private static final String SELECT_WITH_ID = "fr.cph.stock.dao.PortfolioDao.selectPortfolioWithId";
-	private static final String SELECT_EQUITY = "fr.cph.stock.dao.PortfolioDao.selectEquityFromPortfolio";
-	private static final String ACCOUNT_SELECT = "fr.cph.stock.dao.AccountDao.selectAllAccountWithUserId";
-	private static final String SHARE_VALUE_SELECT = "fr.cph.stock.dao.ShareValue.selectAllValue";
-	private static final String SHARE_VALUE_SELECT_FROM = "fr.cph.stock.dao.ShareValue.selectShareValueFrom";
-	private static final String SHARE_VALUE_SELECT_TO = "fr.cph.stock.dao.ShareValue.selectShareValueFromTo";
+	private static final String INSERT = "fr.cph.stock.repository.PortfolioRepository.insertOnePortfolio";
+	private static final String SELECT = "fr.cph.stock.repository.PortfolioRepository.selectOnePortfolio";
+	private static final String UPDATE = "fr.cph.stock.repository.PortfolioRepository.updateOnePortfolio";
+	private static final String DELETE = "fr.cph.stock.repository.PortfolioRepository.deleteOnePortfolio";
+	private static final String SELECT_WITH_ID = "fr.cph.stock.repository.PortfolioRepository.selectPortfolioWithId";
+	private static final String SELECT_EQUITY = "fr.cph.stock.repository.PortfolioRepository.selectEquityFromPortfolio";
+	private static final String ACCOUNT_SELECT = "fr.cph.stock.repository.AccountRepository.selectAllAccountWithUserId";
+	private static final String SHARE_VALUE_SELECT = "fr.cph.stock.repository.ShareValueRepository.selectAllValue";
+	private static final String SHARE_VALUE_SELECT_FROM = "fr.cph.stock.repository.ShareValueRepository.selectShareValueFrom";
+	private static final String SHARE_VALUE_SELECT_TO = "fr.cph.stock.repository.ShareValueRepository.selectShareValueFromTo";
 
 	private final SessionManager sessionManager = SessionManager.INSTANCE;
 

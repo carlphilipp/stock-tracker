@@ -1,12 +1,11 @@
 package fr.cph.stock.business.impl;
 
-import fr.cph.stock.dao.CompanyDAO;
+import fr.cph.stock.repository.CompanyRepository;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.ExternalDataAccess;
-import fr.cph.stock.external.impl.ExternalDataAccessImpl;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,7 +33,7 @@ public class CompanyBusinessTest {
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
 	@Mock
-	private CompanyDAO companyDAO;
+	private CompanyRepository companyRepository;
 	@Mock
 	private ExternalDataAccess yahoo;
 
@@ -53,13 +52,13 @@ public class CompanyBusinessTest {
 		final Stream<Company> companies = Stream.of(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
-		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
+		when(companyRepository.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
 
 		companyBusiness.addOrUpdateCompanies(tickers);
 
 		verify(yahoo).getCompaniesData(tickers);
-		verify(companyDAO).selectWithYahooId(TICKER);
-		verify(companyDAO).insert(company);
+		verify(companyRepository).selectWithYahooId(TICKER);
+		verify(companyRepository).insert(company);
 	}
 
 	@Test
@@ -70,12 +69,12 @@ public class CompanyBusinessTest {
 		final Stream<Company> companies = Stream.of(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
-		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
+		when(companyRepository.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
 
 		companyBusiness.addOrUpdateCompanies(tickers);
 
 		verify(yahoo).getCompaniesData(tickers);
-		verify(companyDAO).update(company);
+		verify(companyRepository).update(company);
 	}
 
 	@Test
@@ -84,13 +83,13 @@ public class CompanyBusinessTest {
 		company.setYahooId(TICKER);
 		final List<Company> companies = Collections.singletonList(company);
 
-		when(companyDAO.selectAllCompany(false)).thenReturn(companies);
+		when(companyRepository.selectAllCompany(false)).thenReturn(companies);
 		when(yahoo.getCompanyDataHistory(eq(TICKER), isA(Date.class), eq(null))).thenReturn(companies.stream());
 
 		companyBusiness.updateCompaniesNotRealTime();
 
-		verify(companyDAO).selectAllCompany(false);
-		verify(companyDAO).update(company);
+		verify(companyRepository).selectAllCompany(false);
+		verify(companyRepository).update(company);
 	}
 
 	@Test
@@ -100,7 +99,7 @@ public class CompanyBusinessTest {
 
 		companyBusiness.deleteCompany(company);
 
-		verify(companyDAO).delete(company);
+		verify(companyRepository).delete(company);
 	}
 
 	@Test
@@ -127,23 +126,23 @@ public class CompanyBusinessTest {
 	@Test
 	public void testCreateManualCompany() {
 		final Company company = new Company();
-		when(companyDAO.selectWithYahooId(isA(String.class))).thenReturn(Optional.of(company));
+		when(companyRepository.selectWithYahooId(isA(String.class))).thenReturn(Optional.of(company));
 
 		final Optional<Company> actual = companyBusiness.createManualCompany("Company name", "industry", "sector", Currency.EUR, 5.0);
 
 		assertTrue(actual.isPresent());
-		verify(companyDAO).insert(isA(Company.class));
-		verify(companyDAO).selectWithYahooId(isA(String.class));
+		verify(companyRepository).insert(isA(Company.class));
+		verify(companyRepository).selectWithYahooId(isA(String.class));
 	}
 
 	@Test
 	public void testUpdateCompanyManual() {
 		final Company company = new Company();
-		when(companyDAO.select(2)).thenReturn(Optional.of(company));
+		when(companyRepository.select(2)).thenReturn(Optional.of(company));
 
 		companyBusiness.updateCompanyManual(2, 5.0);
 
-		verify(companyDAO).update(isA(Company.class));
+		verify(companyRepository).update(isA(Company.class));
 	}
 
 	@Test
@@ -154,13 +153,13 @@ public class CompanyBusinessTest {
 		final Stream<Company> companies = Stream.of(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
-		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
+		when(companyRepository.selectWithYahooId(TICKER)).thenReturn(Optional.empty()).thenReturn(Optional.of(company));
 
 		final Optional<Company> actual = companyBusiness.addOrUpdateCompany(TICKER);
 
 		verify(yahoo).getCompaniesData(tickers);
-		verify(companyDAO, times(2)).selectWithYahooId(TICKER);
-		verify(companyDAO).insert(company);
+		verify(companyRepository, times(2)).selectWithYahooId(TICKER);
+		verify(companyRepository).insert(company);
 		assertTrue(actual.isPresent());
 		assertEquals(TICKER, actual.orElseThrow(AssertionError::new).getYahooId());
 	}
@@ -174,12 +173,12 @@ public class CompanyBusinessTest {
 		final Stream<Company> companies = Stream.of(company);
 
 		when(yahoo.getCompaniesData(tickers)).thenReturn(companies);
-		when(companyDAO.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
+		when(companyRepository.selectWithYahooId(TICKER)).thenReturn(Optional.of(company));
 
 		final Optional<Company> actual = companyBusiness.addOrUpdateCompany(TICKER);
 
 		verify(yahoo).getCompaniesData(tickers);
-		verify(companyDAO).update(company);
+		verify(companyRepository).update(company);
 		assertTrue(actual.isPresent());
 		assertEquals(TICKER, actual.orElseThrow(AssertionError::new).getYahooId());
 	}
@@ -190,12 +189,12 @@ public class CompanyBusinessTest {
 		companiesId.add(5);
 		companiesId.add(6);
 
-		when(companyDAO.selectAllUnusedCompanyIds()).thenReturn(companiesId);
+		when(companyRepository.selectAllUnusedCompanyIds()).thenReturn(companiesId);
 
 		companyBusiness.cleanDB();
 
-		verify(companyDAO).selectAllUnusedCompanyIds();
-		verify(companyDAO, times(2)).delete(isA(Company.class));
+		verify(companyRepository).selectAllUnusedCompanyIds();
+		verify(companyRepository, times(2)).delete(isA(Company.class));
 	}
 
 	@Test
@@ -206,12 +205,12 @@ public class CompanyBusinessTest {
 		company.setMarket(Market.PAR);
 		final List<Company> companies = Collections.singletonList(company);
 
-		when(companyDAO.selectAllCompany(true)).thenReturn(companies);
+		when(companyRepository.selectAllCompany(true)).thenReturn(companies);
 
 		boolean actual = companyBusiness.updateAllCompanies();
 
 		assertTrue(actual);
-		verify(companyDAO).selectAllCompany(true);
+		verify(companyRepository).selectAllCompany(true);
 	}
 
 	@Test
@@ -222,11 +221,11 @@ public class CompanyBusinessTest {
 		company.setMarket(Market.PAR);
 		final List<Company> companies = Collections.nCopies(16, company);
 
-		when(companyDAO.selectAllCompany(true)).thenReturn(companies);
+		when(companyRepository.selectAllCompany(true)).thenReturn(companies);
 
 		boolean actual = companyBusiness.updateAllCompanies();
 
 		assertTrue(actual);
-		verify(companyDAO).selectAllCompany(true);
+		verify(companyRepository).selectAllCompany(true);
 	}
 }
