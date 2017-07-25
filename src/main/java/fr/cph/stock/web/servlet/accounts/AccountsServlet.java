@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.accounts;
 
-import fr.cph.stock.business.AccountBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.AccountService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -51,9 +51,9 @@ public class AccountsServlet extends HttpServlet {
 	private static final long serialVersionUID = -5015939908893417514L;
 
 	@Setter
-	private AccountBusiness accountBusiness;
+	private AccountService accountService;
 	@Setter
-	private UserBusiness userBusiness;
+	private UserService userService;
 	private LanguageFactory language;
 
 	@Override
@@ -80,7 +80,7 @@ public class AccountsServlet extends HttpServlet {
 			if (del != null) {
 				deleteAccount(request);
 			}
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 
 			request.setAttribute(LANGUAGE, language.getLanguage(lang));
 			request.setAttribute(PORTFOLIO, portfolio);
@@ -104,7 +104,7 @@ public class AccountsServlet extends HttpServlet {
 			.name(acc)
 			.userId(userId)
 			.del(true).build();
-		accountBusiness.addAccount(account);
+		accountService.addAccount(account);
 
 		request.setAttribute(MESSAGE, ADDED);
 	}
@@ -120,7 +120,7 @@ public class AccountsServlet extends HttpServlet {
 			.liquidity(Double.valueOf(liquidity))
 			.name(acc)
 			.userId(Integer.parseInt(id)).build();
-		accountBusiness.updateAccount(account);
+		accountService.updateAccount(account);
 
 		request.setAttribute(MESSAGE, MODIFIED_MESSAGE);
 	}
@@ -130,7 +130,7 @@ public class AccountsServlet extends HttpServlet {
 		final String delete = request.getParameter(DELETE_2);
 		if (delete.equals(Boolean.toString(true))) {
 			final Account account = Account.builder().id(Integer.parseInt(id)).build();
-			accountBusiness.deleteAccount(account);
+			accountService.deleteAccount(account);
 		} else {
 			request.setAttribute(ERROR, "You are not allowed to delete this account!");
 		}

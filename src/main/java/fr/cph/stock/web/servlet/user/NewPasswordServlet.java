@@ -16,7 +16,7 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.SecurityService;
 import lombok.extern.log4j.Log4j2;
@@ -40,7 +40,7 @@ import static fr.cph.stock.util.Constants.*;
 public class NewPasswordServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -4548932564405559822L;
-	private UserBusiness userBusiness;
+	private UserService userService;
 	private SecurityService securityService;
 
 	@Override
@@ -52,7 +52,7 @@ public class NewPasswordServlet extends HttpServlet {
 		try {
 			final String login = request.getParameter(LOGIN);
 			final String check = request.getParameter(CHECK);
-			final Optional<User> userOptional = userBusiness.getUser(login);
+			final Optional<User> userOptional = userService.getUser(login);
 			if (userOptional.isPresent()) {
 				final User user = userOptional.get();
 				final String checkServer = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business.impl;
+package fr.cph.stock.service.impl;
 
-import fr.cph.stock.business.CurrencyBusiness;
+import fr.cph.stock.service.CurrencyService;
 import fr.cph.stock.repository.CurrencyRepository;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.enumtype.Currency;
@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Component
-public class CurrencyBusinessImpl implements CurrencyBusiness {
+public class CurrencyServiceImpl implements CurrencyService {
 
 	private static final int PAUSE = 1000;
 

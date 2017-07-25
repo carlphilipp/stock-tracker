@@ -16,7 +16,7 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.business.IndexBusiness;
+import fr.cph.stock.service.IndexService;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.util.Info;
 import lombok.extern.log4j.Log4j2;
@@ -35,9 +35,9 @@ import java.util.TimeZone;
 public class Cac40CheckJob implements Job {
 
 	/**
-	 * AccountBusinessImpl
+	 * AccountServiceImpl
 	 **/
-	private IndexBusiness indexBusiness;
+	private IndexService indexService;
 
 	/**
 	 * Constructor
@@ -50,7 +50,7 @@ public class Cac40CheckJob implements Job {
 		try {
 			log.debug("Cac40 Check job running");
 			final TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-			indexBusiness.checkUpdateIndex(Info.YAHOO_ID_CAC40, timeZone);
+			indexService.checkUpdateIndex(Info.YAHOO_ID_CAC40, timeZone);
 		} catch (final YahooException e) {
 			log.warn("Error while executing Cac40CheckJob: {}", e.getMessage());
 		} catch (final Throwable t) {

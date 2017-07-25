@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business;
+package fr.cph.stock.service;
 
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
@@ -27,7 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.Optional;
 
-public interface UserBusiness {
+public interface UserService {
 
 	void createUser(String login, String md5Password, String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException;
 

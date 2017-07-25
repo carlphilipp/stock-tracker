@@ -15,7 +15,7 @@
  */
 package fr.cph.stock.controller;
 
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -52,7 +52,7 @@ import static fr.cph.stock.util.Constants.*;
 public class HomeController {
 
 	@NonNull
-	private final UserBusiness userBusiness;
+	private final UserService userService;
 
 	// TODO create quartz job in Spring
 	@PostConstruct
@@ -75,7 +75,7 @@ public class HomeController {
 							 @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView(HOME);
 		final Calendar calendar = getCalendarFromDays(days);
-		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), calendar == null ? null : calendar.getTime()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Portfolio portfolio = userService.getUserPortfolio(user.getId(), calendar == null ? null : calendar.getTime()).orElseThrow(() -> new NotFoundException(user.getId()));
 
 		model.addObject(PORTFOLIO, portfolio);
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));

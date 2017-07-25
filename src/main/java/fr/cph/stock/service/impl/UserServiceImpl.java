@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business.impl;
+package fr.cph.stock.service.impl;
 
-import fr.cph.stock.business.CurrencyBusiness;
-import fr.cph.stock.business.IndexBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.CurrencyService;
+import fr.cph.stock.service.IndexService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.repository.AccountRepository;
 import fr.cph.stock.repository.PortfolioRepository;
 import fr.cph.stock.repository.UserRepository;
@@ -50,17 +50,17 @@ import java.util.Optional;
 @Component
 @Log4j2
 @Repository
-public class UserBusinessImpl implements UserBusiness {
+public class UserServiceImpl implements UserService {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int DB_PASSWORD_LIMIT = 64;
 
 	@NonNull
-	private CurrencyBusiness currencyBusiness;
+	private CurrencyService currencyService;
 	@NonNull
 	private SecurityService securityService;
 	@NonNull
-	private IndexBusiness indexBusiness;
+	private IndexService indexService;
 	@NonNull
 	private UserRepository userRepository;
 	@NonNull
@@ -186,7 +186,7 @@ public class UserBusinessImpl implements UserBusiness {
 		final Optional<Portfolio> portfolioOptional = portfolioRepository.selectPortfolioFromUserIdWithEquities(userId, from, to);
 		portfolioOptional.ifPresent(portfolio -> {
 			Collections.sort(portfolio.getEquities());
-			portfolio.setCurrency(currencyBusiness.loadCurrencyData(portfolio.getCurrency()));
+			portfolio.setCurrency(currencyService.loadCurrencyData(portfolio.getCurrency()));
 			for (final Equity e : portfolio.getEquities()) {
 				final double parity = e.getCompany().getCurrency() == portfolio.getCurrency()
 					? 1.0 : portfolio.getCurrency().getParity(e.getCompany().getCurrency());
@@ -208,8 +208,8 @@ public class UserBusinessImpl implements UserBusiness {
 
 			if (!portfolio.getShareValues().isEmpty()) {
 				final Date date = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-				final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, date);
-				final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, date);
+				final List<Index> indexesCAC40 = indexService.getIndexes(Info.YAHOO_ID_CAC40, date);
+				final List<Index> indexesSP500 = indexService.getIndexes(Info.YAHOO_ID_SP500, date);
 				portfolio.addIndexes(indexesCAC40);
 				portfolio.addIndexes(indexesSP500);
 			}

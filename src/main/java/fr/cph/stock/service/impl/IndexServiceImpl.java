@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.cph.stock.business.impl;
+package fr.cph.stock.service.impl;
 
-import fr.cph.stock.business.IndexBusiness;
+import fr.cph.stock.service.IndexService;
 import fr.cph.stock.repository.IndexRepository;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.exception.NotFoundException;
@@ -38,7 +38,7 @@ import java.util.TimeZone;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Component
-public class IndexBusinessImpl implements IndexBusiness {
+public class IndexServiceImpl implements IndexService {
 
 	private static final int PERCENT = 100;
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;

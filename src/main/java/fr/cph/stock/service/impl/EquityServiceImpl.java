@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business.impl;
+package fr.cph.stock.service.impl;
 
-import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.EquityBusiness;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.EquityService;
 import fr.cph.stock.repository.CompanyRepository;
 import fr.cph.stock.repository.EquityRepository;
 import fr.cph.stock.repository.PortfolioRepository;
@@ -36,10 +36,10 @@ import java.util.Optional;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
-public class EquityBusinessImpl implements EquityBusiness {
+public class EquityServiceImpl implements EquityService {
 
 	@NonNull
-	private final CompanyBusiness companyBusiness;
+	private final CompanyService companyService;
 	@NonNull
 	private final CompanyRepository companyRepository;
 	@NonNull
@@ -49,7 +49,7 @@ public class EquityBusinessImpl implements EquityBusiness {
 
 	@Override
 	public final void createEquity(final int userId, final String ticker, final Equity equity) throws EquityException, YahooException {
-		final Company company = companyBusiness.addOrUpdateCompany(ticker).orElseThrow(() -> new NotFoundException(ticker));
+		final Company company = companyService.addOrUpdateCompany(ticker).orElseThrow(() -> new NotFoundException(ticker));
 		final Portfolio portfolio = portfolioRepository.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
 		createEquity(portfolio, company, equity);
 	}

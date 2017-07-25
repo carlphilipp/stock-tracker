@@ -1,4 +1,4 @@
-package fr.cph.stock.business.impl;
+package fr.cph.stock.service.impl;
 
 import fr.cph.stock.repository.AccountRepository;
 import fr.cph.stock.entities.Account;
@@ -12,13 +12,13 @@ import static org.mockito.ArgumentMatchers.isA;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AccountBusinessTest {
+public class AccountServiceTest {
 
 	@Mock
 	private AccountRepository accountRepository;
 
 	@InjectMocks
-	private AccountBusinessImpl accountBusiness;
+	private AccountServiceImpl accountBusiness;
 
 	@Test
 	public void testAddAccount() {

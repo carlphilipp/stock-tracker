@@ -16,7 +16,7 @@
 
 package fr.cph.stock.controller;
 
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.web.servlet.CookieManagement;
@@ -51,13 +51,13 @@ public class AuthenticationController {
 	private static final int ONE_YEAR_COOKIE = 60 * 60 * 24 * 365;
 
 	@NonNull
-	private final UserBusiness userBusiness;
+	private final UserService userService;
 	@NonNull
 	private final List<String> defaultCookies;
 
 	@Autowired
-	public AuthenticationController(final UserBusiness userBusiness) {
-		this.userBusiness = userBusiness;
+	public AuthenticationController(final UserService userService) {
+		this.userService = userService;
 		defaultCookies = new ArrayList<>();
 		defaultCookies.add(QUOTE);
 		defaultCookies.add(CURRENCY);
@@ -77,7 +77,7 @@ public class AuthenticationController {
 		@RequestParam(value = PASSWORD) final String password) throws LoginException {
 		final ModelAndView model = new ModelAndView();
 		request.getSession().invalidate();
-		final Optional<User> userOptional = userBusiness.checkUser(login, password);
+		final Optional<User> userOptional = userService.checkUser(login, password);
 		if (userOptional.isPresent()) {
 			final User user = userOptional.get();
 			if (!user.getAllow()) {

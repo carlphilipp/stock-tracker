@@ -16,7 +16,7 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.LoginException;
 import lombok.extern.log4j.Log4j2;
@@ -43,7 +43,7 @@ public class RegistrationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6262531123441177265L;
 	private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
-	private UserBusiness userBusiness;
+	private UserService userService;
 
 	@Override
 	public final void init() {
@@ -59,8 +59,8 @@ public class RegistrationServlet extends HttpServlet {
 				request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
 			} else {
 				try {
-					userBusiness.createUser(login, password, email);
-					final User user = userBusiness.getUser(login).orElseThrow(() -> new LoginException(login));
+					userService.createUser(login, password, email);
+					final User user = userService.getUser(login).orElseThrow(() -> new LoginException(login));
 					request.setAttribute(USER, user);
 				} catch (final LoginException e) {
 					request.setAttribute(ERROR, e.getMessage());

@@ -16,7 +16,7 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.business.CurrencyBusiness;
+import fr.cph.stock.service.CurrencyService;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
@@ -32,7 +32,7 @@ import org.quartz.JobExecutionContext;
 public class CurrencyJob implements Job {
 
 	@NonNull
-	private CurrencyBusiness currencyBusiness;
+	private CurrencyService currencyService;
 
 	/**
 	 * Constructor
@@ -44,7 +44,7 @@ public class CurrencyJob implements Job {
 	public final void execute(final JobExecutionContext context) {
 		try {
 			log.info("Executing update all currencies job");
-			currencyBusiness.updateAllCurrencies();
+			currencyService.updateAllCurrencies();
 		} catch (final Throwable t) {
 			log.error("Error while executing CurrencyJob: {}", t.getMessage(), t);
 		}

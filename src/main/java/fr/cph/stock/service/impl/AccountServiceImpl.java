@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business.impl;
+package fr.cph.stock.service.impl;
 
-import fr.cph.stock.business.AccountBusiness;
+import fr.cph.stock.service.AccountService;
 import fr.cph.stock.repository.AccountRepository;
 import fr.cph.stock.entities.Account;
 import lombok.NonNull;
@@ -27,14 +27,14 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 /**
- * AccountBusinessImpl class that access database and process data
+ * AccountServiceImpl class that access database and process data
  *
  * @author Carl-Philipp Harmant
  * @version 1
  */
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Component
-public class AccountBusinessImpl implements AccountBusiness {
+public class AccountServiceImpl implements AccountService {
 
 	@NonNull
 	private final AccountRepository accountRepository;

@@ -16,8 +16,8 @@
 
 package fr.cph.stock.controller.equity;
 
-import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.EquityBusiness;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.EquityService;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.User;
@@ -48,9 +48,9 @@ import static fr.cph.stock.util.Constants.*;
 public class EquityController {
 
 	@NonNull
-	private final CompanyBusiness companyBusiness;
+	private final CompanyService companyService;
 	@NonNull
-	private final EquityBusiness equityBusiness;
+	private final EquityService equityService;
 
 	@RequestMapping(value = "/equity", method = RequestMethod.POST)
 	public ModelAndView addEquity(@RequestParam(value = TICKER) final String ticker,
@@ -66,7 +66,7 @@ public class EquityController {
 			.parityPersonal(parityPersonal)
 			.build();
 		try {
-			equityBusiness.createEquity(user.getId(), ticker, equity);
+			equityService.createEquity(user.getId(), ticker, equity);
 			model.addObject("added", LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 		} catch (final YahooException | EquityException e) {
 			model.addObject("addError", e.getMessage());
@@ -108,7 +108,7 @@ public class EquityController {
 		if (equity.getQuantity() <= 0) {
 			model.addObject(MODIFY_ERROR, "Error: quantity can not be 0 or lower");
 		} else {
-			equityBusiness.updateEquity(user.getId(), ticker, equity);
+			equityService.updateEquity(user.getId(), ticker, equity);
 			model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_DELETED) + " !");
 		}
 		return model;
@@ -119,7 +119,7 @@ public class EquityController {
 									 @ModelAttribute final User user,
 									 @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = homeModelView();
-		equityBusiness.deleteEquity(Equity.builder().id(id).build());
+		equityService.deleteEquity(Equity.builder().id(id).build());
 		model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_DELETED) + " !");
 		return model;
 	}
@@ -136,7 +136,7 @@ public class EquityController {
 										@ModelAttribute final User user,
 										@CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = homeModelView();
-		final Company company = companyBusiness.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), manualQuote)
+		final Company company = companyService.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), manualQuote)
 			.orElseThrow(() -> new NotFoundException(manualName));
 		final Equity equity = Equity.builder()
 			.quantity(quantity)
@@ -144,7 +144,7 @@ public class EquityController {
 			.parityPersonal(parityPersonal)
 			.build();
 		try {
-			equityBusiness.createManualEquity(user.getId(), company, equity);
+			equityService.createManualEquity(user.getId(), company, equity);
 			model.addObject("added", LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_ADDED) + " !");
 		} catch (final EquityException e) {
 			model.addObject("addError", e.getMessage());
@@ -180,7 +180,7 @@ public class EquityController {
 			.yieldPersonal(yieldPersonal)
 			.parityPersonal(parityPersonal)
 			.build();
-		companyBusiness.updateCompanyManual(companyId, quote);
+		companyService.updateCompanyManual(companyId, quote);
 		return updateEquity(equity, user, ticker, lang);
 	}
 
@@ -191,9 +191,9 @@ public class EquityController {
 										   @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = homeModelView();
 		final Equity equity = Equity.builder().id(equityId).build();
-		equityBusiness.deleteEquity(equity);
+		equityService.deleteEquity(equity);
 		final Company company = Company.builder().id(companyId).build();
-		companyBusiness.deleteCompany(company);
+		companyService.deleteCompany(company);
 		model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_DELETED) + " !");
 		return model;
 	}

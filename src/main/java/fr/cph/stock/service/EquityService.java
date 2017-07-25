@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business;
+package fr.cph.stock.service;
 
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.YahooException;
 
-public interface EquityBusiness {
+public interface EquityService {
 
 	void createEquity(int userId, String ticker, Equity equity) throws EquityException, YahooException;
 

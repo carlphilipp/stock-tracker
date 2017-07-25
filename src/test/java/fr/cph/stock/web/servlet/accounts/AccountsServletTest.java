@@ -1,7 +1,7 @@
 package fr.cph.stock.web.servlet.accounts;
 
-import fr.cph.stock.business.AccountBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.AccountService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -46,9 +46,9 @@ public class AccountsServletTest {
 	@Mock
 	private HttpServletResponse response;
 	@Mock
-	private AccountBusiness accountBusiness;
+	private AccountService accountService;
 	@Mock
-	private UserBusiness userBusiness;
+	private UserService userService;
 
 	@InjectMocks
 	private AccountsServlet accountsServlet;
@@ -56,8 +56,8 @@ public class AccountsServletTest {
 	@Before
 	public void init() {
 		accountsServlet.init();
-		accountsServlet.setAccountBusiness(accountBusiness);
-		accountsServlet.setUserBusiness(userBusiness);
+		accountsServlet.setAccountService(accountService);
+		accountsServlet.setUserService(userService);
 		final User user = User.builder().id(1).build();
 
 		when(request.getSession(false)).thenReturn(httpSession);
@@ -68,11 +68,11 @@ public class AccountsServletTest {
 	public void testAccountServlet() throws ServletException, YahooException {
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
+		when(userService.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1));
+		verify(userService).getUserPortfolio(eq(1));
 		verifyMainAttributes();
 	}
 
@@ -84,7 +84,7 @@ public class AccountsServletTest {
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness, never()).getUserPortfolio(eq(1), isNull(), isNull());
+		verify(userService, never()).getUserPortfolio(eq(1), isNull(), isNull());
 		verifyMainAttributes();
 	}
 
@@ -95,12 +95,12 @@ public class AccountsServletTest {
 		when(request.getParameter(LIQUIDITY)).thenReturn("10.5");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
+		when(userService.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1));
-		verify(accountBusiness).addAccount(isA(Account.class));
+		verify(userService).getUserPortfolio(eq(1));
+		verify(accountService).addAccount(isA(Account.class));
 		verify(request).setAttribute(eq(MESSAGE), eq(ADDED));
 		verifyMainAttributes();
 	}
@@ -113,12 +113,12 @@ public class AccountsServletTest {
 		when(request.getParameter(ID)).thenReturn("1");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
+		when(userService.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1));
-		verify(accountBusiness).updateAccount(isA(Account.class));
+		verify(userService).getUserPortfolio(eq(1));
+		verify(accountService).updateAccount(isA(Account.class));
 		verify(request).setAttribute(eq(MESSAGE), eq(MODIFIED_MESSAGE));
 		verifyMainAttributes();
 	}
@@ -130,12 +130,12 @@ public class AccountsServletTest {
 		when(request.getParameter(DELETE_2)).thenReturn("true");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
+		when(userService.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1));
-		verify(accountBusiness).deleteAccount(isA(Account.class));
+		verify(userService).getUserPortfolio(eq(1));
+		verify(accountService).deleteAccount(isA(Account.class));
 		verifyMainAttributes();
 	}
 
@@ -146,12 +146,12 @@ public class AccountsServletTest {
 		when(request.getParameter(DELETE_2)).thenReturn("false");
 		when(request.getCookies()).thenReturn(new Cookie[]{new Cookie(LANGUAGE, "English")});
 		when(request.getRequestDispatcher(isA(String.class))).thenReturn(requestDispatcher);
-		when(userBusiness.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
+		when(userService.getUserPortfolio(eq(1))).thenReturn(Optional.of(new Portfolio()));
 
 		accountsServlet.doPost(request, response);
 
-		verify(userBusiness).getUserPortfolio(eq(1));
-		verify(accountBusiness, never()).deleteAccount(isA(Account.class));
+		verify(userService).getUserPortfolio(eq(1));
+		verify(accountService, never()).deleteAccount(isA(Account.class));
 		verify(request).setAttribute(eq(ERROR), isA(String.class));
 		verifyMainAttributes();
 	}

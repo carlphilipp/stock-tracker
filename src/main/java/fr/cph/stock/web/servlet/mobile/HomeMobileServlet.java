@@ -17,8 +17,8 @@
 package fr.cph.stock.web.servlet.mobile;
 
 import com.google.gson.JsonObject;
-import fr.cph.stock.business.IndexBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.IndexService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -49,8 +49,8 @@ import static fr.cph.stock.util.Constants.USER;
 public class HomeMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8513475864090485886L;
-	private IndexBusiness indexBusiness;
-	private UserBusiness userBusiness;
+	private IndexService indexService;
+	private UserService userService;
 
 	@Override
 	public final void init() throws ServletException {
@@ -64,11 +64,11 @@ public class HomeMobileServlet extends HttpServlet {
 			final User user = (User) session.getAttribute(USER);
 			Portfolio portfolio = null;
 			try {
-				portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+				portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 				if (portfolio.getShareValues().size() != 0) {
 					Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-					List<Index> indexes = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);
-					List<Index> indexes2 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, null);
+					List<Index> indexes = indexService.getIndexes(Info.YAHOO_ID_CAC40, from, null);
+					List<Index> indexes2 = indexService.getIndexes(Info.YAHOO_ID_SP500, from, null);
 					portfolio.addIndexes(indexes);
 					portfolio.addIndexes(indexes2);
 				}

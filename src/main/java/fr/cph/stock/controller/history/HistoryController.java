@@ -16,8 +16,8 @@
 
 package fr.cph.stock.controller.history;
 
-import fr.cph.stock.business.ShareValueBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.ShareValueService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
@@ -56,9 +56,9 @@ public class HistoryController {
 	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL32;
 
 	@NonNull
-	private UserBusiness userBusiness;
+	private UserService userService;
 	@NonNull
-	private ShareValueBusiness shareValueBusiness;
+	private ShareValueService shareValueService;
 
 	@RequestMapping(value = "/history", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView history(@RequestParam(value = PAGE, defaultValue = "1") final int pageNumber,
@@ -66,7 +66,7 @@ public class HistoryController {
 								@CookieValue(LANGUAGE) final String lang) throws ServletException {
 		final ModelAndView model = new ModelAndView("sharevalue");
 		try {
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			if (portfolio.getShareValues().size() != 0) {
 				int begin = pageNumber * ITEM_MAX - ITEM_MAX;
 				int end = pageNumber * ITEM_MAX - 1;
@@ -106,14 +106,14 @@ public class HistoryController {
 		final ModelAndView model = new ModelAndView("forward:/history");
 		String message = null;
 		try {
-			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			final Account account = portfolio.getAccount(acc).orElseThrow(() -> new NotFoundException(acc));
 			double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - tax;
 			newLiquidity = new BigDecimal(Double.toString(newLiquidity), MATH_CONTEXT).doubleValue();
-			userBusiness.updateLiquidity(account, newLiquidity);
+			userService.updateLiquidity(account, newLiquidity);
 			message = ("'" + account.getName() + "' liquidity new value: " + newLiquidity);
-			portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-			shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, tax, commentary);
+			portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			shareValueService.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, tax, commentary);
 		} catch (final YahooException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -126,9 +126,9 @@ public class HistoryController {
 		@RequestParam(value = COMMENTARY_UPDATED) final String commentary,
 		@RequestParam(value = SHARE_ID) final int shareId) throws ServletException {
 		final ModelAndView model = new ModelAndView("forward:/history");
-		final ShareValue sv = shareValueBusiness.selectOneShareValue(shareId).orElseThrow(() -> new NotFoundException(shareId));
+		final ShareValue sv = shareValueService.selectOneShareValue(shareId).orElseThrow(() -> new NotFoundException(shareId));
 		sv.setCommentary(commentary);
-		shareValueBusiness.updateCommentaryShareValue(sv);
+		shareValueService.updateCommentaryShareValue(sv);
 		model.addObject(MESSAGE, "Modified!");
 		return model;
 	}
@@ -146,12 +146,12 @@ public class HistoryController {
 		final ModelAndView model = new ModelAndView("forward:/history");
 		final StringBuilder message = new StringBuilder();
 
-		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		final Optional<Account> account = portfolio.getAccount(accountName);
 		final ShareValue shareValue = new ShareValue();
 		shareValue.setId(shareId);
 		if (!account.isPresent()) {
-			shareValueBusiness.deleteShareValue(shareValue);
+			shareValueService.deleteShareValue(shareValue);
 			message.append("Account not found, probably deleted before. Line has still been deleted!");
 			model.addObject(WARN, message);
 		} else {
@@ -160,11 +160,11 @@ public class HistoryController {
 			total = new BigDecimal(Double.toString(total), MATH_CONTEXT).doubleValue();
 			if (total != 0.0) {
 				double newLiquidity = account.get().getLiquidity() - total;
-				userBusiness.updateLiquidity(account.get(), new BigDecimal(Double.toString(newLiquidity), MATH_CONTEXT).doubleValue());
+				userService.updateLiquidity(account.get(), new BigDecimal(Double.toString(newLiquidity), MATH_CONTEXT).doubleValue());
 				message.append("Liquidity new value: ").append((new BigDecimal(Double.toString(newLiquidity), MATH_CONTEXT)).doubleValue()).append("<br>");
 			}
 		}
-		shareValueBusiness.deleteShareValue(shareValue);
+		shareValueService.deleteShareValue(shareValue);
 		message.append("Done !");
 		model.addObject(MESSAGE, message);
 		return model;

@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import fr.cph.stock.business.ShareValueBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.ShareValueService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -45,8 +45,8 @@ import static fr.cph.stock.util.Constants.*;
 public class UpdateShareValueMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 2877166802472612746L;
-	private UserBusiness userBusiness;
-	private ShareValueBusiness shareValueBusiness;
+	private UserService userService;
+	private ShareValueService shareValueService;
 	private final MathContext mathContext = MathContext.DECIMAL32;
 
 	@Override
@@ -58,7 +58,7 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 		try {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
-			Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			try {
 				final int accountId = Integer.valueOf(request.getParameter(ACCOUNT_ID));
 				final double movement = Double.valueOf(request.getParameter(LIQUIDITY));
@@ -80,14 +80,14 @@ public class UpdateShareValueMobileServlet extends HttpServlet {
 				} else {
 					double newLiquidity = account.getLiquidity() + movement + yield - buy + sell - taxe;
 					newLiquidity = new BigDecimal(Double.toString(newLiquidity), mathContext).doubleValue();
-					userBusiness.updateLiquidity(account, newLiquidity);
-					portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-					shareValueBusiness.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
+					userService.updateLiquidity(account, newLiquidity);
+					portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+					shareValueService.updateCurrentShareValue(portfolio, account, movement, yield, buy, sell, taxe, commentary);
 					response.sendRedirect(HOMEMOBILE);
 				}
 
-				// business.updateOneCurrency(portfolio.getCurrency());
-				// business.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
+				// service.updateOneCurrency(portfolio.getCurrency());
+				// service.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 
 			} catch (final NumberFormatException e) {
 				response.getWriter().write("{\"error\":" + e.getMessage() + "\"}");

@@ -16,10 +16,10 @@
 
 package fr.cph.stock.controller.portfolio;
 
-import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.CurrencyBusiness;
-import fr.cph.stock.business.IndexBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.CurrencyService;
+import fr.cph.stock.service.IndexService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -71,13 +71,13 @@ public class PortfolioController {
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
 
 	@NonNull
-	private final UserBusiness userBusiness;
+	private final UserService userService;
 	@NonNull
-	private final CompanyBusiness companyBusiness;
+	private final CompanyService companyService;
 	@NonNull
-	private final CurrencyBusiness currencyBusiness;
+	private final CurrencyService currencyService;
 	@NonNull
-	private final IndexBusiness indexBusiness;
+	private final IndexService indexService;
 
 	@RequestMapping(value = "/portfolio", method = RequestMethod.POST)
 	public ModelAndView updatePortfolio(@RequestParam(value = CURRENCY_UPDATE, required = false) final String updateCurrencies,
@@ -87,11 +87,11 @@ public class PortfolioController {
 		String yahooError = null;
 		String yahooUpdateCompanyError = null;
 		try {
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			if (updateCurrencies != null) {
-				currencyBusiness.updateOneCurrency(portfolio.getCurrency());
+				currencyService.updateOneCurrency(portfolio.getCurrency());
 			}
-			yahooUpdateCompanyError = companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
+			yahooUpdateCompanyError = companyService.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 		} catch (YahooException yahooException) {
 			log.error(yahooException.getMessage(), yahooException);
 			yahooError = yahooException.getMessage();
@@ -113,11 +113,11 @@ public class PortfolioController {
 	public ModelAndView charts(@ModelAttribute final User user, @CookieValue(LANGUAGE) final String lang) throws ServletException {
 		final ModelAndView model = new ModelAndView("charts");
 		try {
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			if (!portfolio.getShareValues().isEmpty()) {
 				final Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
-				final List<Index> indexes = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, null);
-				final List<Index> indexes2 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, null);
+				final List<Index> indexes = indexService.getIndexes(Info.YAHOO_ID_CAC40, from, null);
+				final List<Index> indexes2 = indexService.getIndexes(Info.YAHOO_ID_SP500, from, null);
 				portfolio.addIndexes(indexes);
 				portfolio.addIndexes(indexes2);
 			}
@@ -141,7 +141,7 @@ public class PortfolioController {
 									@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
 		final ModelAndView model = new ModelAndView("performance");
 		try {
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId(), fromDate, toDate).orElseThrow(() -> new NotFoundException(user.getId()));
+			final Portfolio portfolio = userService.getUserPortfolio(user.getId(), fromDate, toDate).orElseThrow(() -> new NotFoundException(user.getId()));
 			if (portfolio.getShareValues().size() != 0) {
 				Date from = portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).getDate();
 				// Reset time to 17:00PM to get also the cac40 into the day selected (or it would not select it
@@ -150,8 +150,8 @@ public class PortfolioController {
 				portfolio.getShareValues().get(portfolio.getShareValues().size() - 1).setDate(from);
 
 				// FIXME that should be done already into get user portfolio. To verify.
-				final List<Index> indexesCAC40 = indexBusiness.getIndexes(Info.YAHOO_ID_CAC40, from, toDate);
-				final List<Index> indexesSP500 = indexBusiness.getIndexes(Info.YAHOO_ID_SP500, from, toDate);
+				final List<Index> indexesCAC40 = indexService.getIndexes(Info.YAHOO_ID_CAC40, from, toDate);
+				final List<Index> indexesSP500 = indexService.getIndexes(Info.YAHOO_ID_SP500, from, toDate);
 				portfolio.addIndexes(indexesCAC40);
 				portfolio.addIndexes(indexesSP500);
 				portfolio.compute();
@@ -199,8 +199,8 @@ public class PortfolioController {
 		@ModelAttribute final User user,
 		@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
 		final ModelAndView model = new ModelAndView("currencies");
-		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-		final Object[][] tab = currencyBusiness.getAllCurrencyData(portfolio.getCurrency());
+		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Object[][] tab = currencyService.getAllCurrencyData(portfolio.getCurrency());
 		model.addObject(PORTFOLIO, portfolio);
 		model.addObject(TAB, tab);
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
@@ -213,9 +213,9 @@ public class PortfolioController {
 		@ModelAttribute final User user,
 		@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
 		final ModelAndView model = currencies(user, lang);
-		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		try {
-			currencyBusiness.updateOneCurrency(portfolio.getCurrency());
+			currencyService.updateOneCurrency(portfolio.getCurrency());
 			model.addObject(MESSAGE, "Done !");
 		} catch (final YahooException e) {
 			model.addObject(ERROR, e.getMessage());
@@ -230,7 +230,7 @@ public class PortfolioController {
 					@RequestParam(value = TO, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date toDate,
 					@ModelAttribute final User user,
 					@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException, IOException {
-		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		final Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");
 		final Image capChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartCap(), "Cap Chart");
 		final Image timeChart = PdfReport.createTimeChart((TimeChart) portfolio.getTimeChart(), "Share value");

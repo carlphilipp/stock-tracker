@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business;
+package fr.cph.stock.service;
 
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.exception.YahooException;
@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public interface IndexBusiness {
+public interface IndexService {
 
 	/**
 	 * @param yahooId the yahoo id

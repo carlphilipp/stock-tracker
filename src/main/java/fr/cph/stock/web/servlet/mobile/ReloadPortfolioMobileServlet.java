@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.mobile;
 
-import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.NotFoundException;
@@ -44,8 +44,8 @@ import static fr.cph.stock.util.Constants.USER;
 public class ReloadPortfolioMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5211078955305413271L;
-	private CompanyBusiness companyBusiness;
-	private UserBusiness userBusiness;
+	private CompanyService companyService;
+	private UserService userService;
 
 	@Override
 	public final void init() {
@@ -57,8 +57,8 @@ public class ReloadPortfolioMobileServlet extends HttpServlet {
 			final HttpSession session = request.getSession(false);
 			final User user = (User) session.getAttribute(USER);
 			try {
-				final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-				companyBusiness.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
+				final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+				companyService.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
 				response.sendRedirect(HOMEMOBILE);
 			} catch (YahooException e) {
 				response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");

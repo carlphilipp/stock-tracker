@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business.impl;
+package fr.cph.stock.service.impl;
 
-import fr.cph.stock.business.CompanyBusiness;
+import fr.cph.stock.service.CompanyService;
 import fr.cph.stock.repository.CompanyRepository;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
@@ -41,7 +41,7 @@ import java.util.stream.Stream;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Component
-public class CompanyBusinessImpl implements CompanyBusiness {
+public class CompanyServiceImpl implements CompanyService {
 
 	private static final int MAX_UPDATE_COMPANY = 15;
 	private static final int PAUSE = 1000;

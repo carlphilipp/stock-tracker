@@ -16,8 +16,8 @@
 
 package fr.cph.stock;
 
-import fr.cph.stock.business.impl.AccountBusinessTest;
-import fr.cph.stock.business.impl.CompanyBusinessTest;
+import fr.cph.stock.service.impl.AccountServiceTest;
+import fr.cph.stock.service.impl.CompanyServiceTest;
 import fr.cph.stock.entities.UserTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -25,8 +25,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	AccountBusinessTest.class,
-	CompanyBusinessTest.class,
+	AccountServiceTest.class,
+	CompanyServiceTest.class,
 
 	UserTest.class
 })

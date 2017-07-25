@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business;
+package fr.cph.stock.service;
 
 import fr.cph.stock.entities.Account;
 
@@ -26,7 +26,7 @@ import java.util.Optional;
  * @author Carl-Philipp Harmant
  * @version 1
  */
-public interface AccountBusiness {
+public interface AccountService {
 
 	/**
 	 * Get an account

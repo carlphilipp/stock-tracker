@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business;
+package fr.cph.stock.service;
 
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
@@ -24,7 +24,7 @@ import fr.cph.stock.exception.YahooException;
 import java.util.Calendar;
 import java.util.Optional;
 
-public interface ShareValueBusiness {
+public interface ShareValueService {
 
 	/**
 	 * Update current share value

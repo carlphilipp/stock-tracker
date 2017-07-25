@@ -16,7 +16,7 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.business.CompanyBusiness;
+import fr.cph.stock.service.CompanyService;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -30,7 +30,7 @@ import org.quartz.JobExecutionContext;
 @Log4j2
 public class CompanyNotRealTimeJob implements Job {
 
-	private CompanyBusiness business;
+	private CompanyService business;
 
 	public CompanyNotRealTimeJob() {
 	}

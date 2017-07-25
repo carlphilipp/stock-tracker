@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business;
+package fr.cph.stock.service;
 
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.YahooException;
 
-public interface CurrencyBusiness {
+public interface CurrencyService {
 
 	/**
 	 * Load a currency with its data

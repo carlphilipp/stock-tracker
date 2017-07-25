@@ -16,7 +16,7 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.business.CompanyBusiness;
+import fr.cph.stock.service.CompanyService;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -30,7 +30,7 @@ import org.quartz.JobExecutionContext;
 @Log4j2
 public class CleanJob implements Job {
 
-	private CompanyBusiness companyBusiness;
+	private CompanyService companyService;
 
 	/**
 	 * Constructor
@@ -41,7 +41,7 @@ public class CleanJob implements Job {
 	@Override
 	public final void execute(final JobExecutionContext context) {
 		try {
-			companyBusiness.cleanDB();
+			companyService.cleanDB();
 		} catch (final Throwable t) {
 			log.error("Error while executing CleanJob: {}", t.getMessage(), t);
 		}

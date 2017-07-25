@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business.impl;
+package fr.cph.stock.service.impl;
 
-import fr.cph.stock.business.CompanyBusiness;
-import fr.cph.stock.business.ShareValueBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.ShareValueService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.repository.ShareValueRepository;
 import fr.cph.stock.repository.UserRepository;
 import fr.cph.stock.entities.Account;
@@ -46,7 +46,7 @@ import java.util.TimeZone;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Component
-public class ShareValueBusinessImpl implements ShareValueBusiness {
+public class ShareValueServiceImpl implements ShareValueService {
 
 	private static final MathContext MATHCONTEXT = MathContext.DECIMAL32;
 	private static final int PERCENT = 100;
@@ -56,9 +56,9 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 	@NonNull
 	private final UserRepository userRepository;
 	@NonNull
-	private final CompanyBusiness companyBusiness;
+	private final CompanyService companyService;
 	@NonNull
-	private final UserBusiness userBusiness;
+	private final UserService userService;
 
 	@Override
 	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield, final Double buy, final Double sell, final Double tax, final String commentary) {
@@ -116,12 +116,12 @@ public class ShareValueBusinessImpl implements ShareValueBusiness {
 				final int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
 				if (hour == currentHour) {
 					if (!tryToUpdate) {
-						companyUpdateSuccess = companyBusiness.updateAllCompanies();
+						companyUpdateSuccess = companyService.updateAllCompanies();
 						tryToUpdate = true;
 					}
 					if (companyUpdateSuccess) {
 						log.info("Update user portfolio: {}", user.getLogin());
-						final Optional<Portfolio> portfolioOptional = userBusiness.getUserPortfolio(user.getId());
+						final Optional<Portfolio> portfolioOptional = userService.getUserPortfolio(user.getId());
 						portfolioOptional.ifPresent(portfolio -> {
 							final Account account = portfolio.getFirstAccount().orElseThrow(() -> new NotFoundException("Account not found"));
 							updateCurrentShareValue(portfolio, account, 0.0, 0.0, 0.0, 0.0, 0.0, "Auto update");

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.business;
+package fr.cph.stock.service;
 
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
@@ -23,7 +23,7 @@ import fr.cph.stock.exception.YahooException;
 import java.util.List;
 import java.util.Optional;
 
-public interface CompanyBusiness {
+public interface CompanyService {
 
 	void updateCompaniesNotRealTime();
 

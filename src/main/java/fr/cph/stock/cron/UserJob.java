@@ -16,7 +16,7 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.business.ShareValueBusiness;
+import fr.cph.stock.service.ShareValueService;
 import fr.cph.stock.exception.YahooException;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
@@ -34,7 +34,7 @@ import java.util.TimeZone;
 @Log4j2
 public class UserJob implements Job {
 
-	private ShareValueBusiness shareValueBusiness;
+	private ShareValueService shareValueService;
 
 	/**
 	 * Constructor
@@ -48,7 +48,7 @@ public class UserJob implements Job {
 			log.info("Executing user auto update share value job");
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
-			shareValueBusiness.autoUpdateUserShareValue(cal);
+			shareValueService.autoUpdateUserShareValue(cal);
 		} catch (final YahooException e) {
 			log.error("Error while executing UserJob: {}", e.getMessage());
 		} catch (final Throwable t) {

@@ -16,7 +16,7 @@
 
 package fr.cph.stock.web.servlet.user;
 
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.SecurityService;
 import lombok.extern.log4j.Log4j2;
@@ -40,7 +40,7 @@ import static fr.cph.stock.util.Constants.*;
 public class CheckUserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private UserBusiness userBusiness;
+	private UserService userService;
 	private SecurityService securityService;
 
 	@Override
@@ -52,12 +52,12 @@ public class CheckUserServlet extends HttpServlet {
 		try {
 			final String login = request.getParameter(LOGIN);
 			final String check = request.getParameter(CHECK);
-			final Optional<User> userOptional = userBusiness.getUser(login);
+			final Optional<User> userOptional = userService.getUser(login);
 			if (userOptional.isPresent()) {
 				final User user = userOptional.get();
 				final String serverCheck = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
 				if (check.equals(serverCheck)) {
-					userBusiness.validateUser(login);
+					userService.validateUser(login);
 					request.setAttribute(MESSAGE, "It worked!<br>You can now <a href='index.jsp'>login</a>");
 				} else {
 					request.setAttribute(MESSAGE, "Sorry, it did not work");

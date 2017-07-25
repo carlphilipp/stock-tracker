@@ -1,7 +1,7 @@
 package fr.cph.stock.controller.account;
 
-import fr.cph.stock.business.AccountBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.AccountService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -36,9 +36,9 @@ public class AccountController {
 	private static final List<String> TIME_ZONE_LIST = Arrays.asList(TimeZone.getAvailableIDs());
 
 	@NonNull
-	private AccountBusiness accountBusiness;
+	private AccountService accountService;
 	@NonNull
-	private UserBusiness userBusiness;
+	private UserService userService;
 
 	@PostConstruct
 	public void init() {
@@ -50,7 +50,7 @@ public class AccountController {
 	public ModelAndView history(@ModelAttribute final User user,
 								@CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView("accounts");
-		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
 		model.addObject(PORTFOLIO, portfolio);
@@ -71,7 +71,7 @@ public class AccountController {
 			.name(acc)
 			.userId(user.getId())
 			.del(true).build();
-		accountBusiness.addAccount(account);
+		accountService.addAccount(account);
 		model.addObject(MESSAGE, ADDED);
 		return model;
 	}
@@ -89,7 +89,7 @@ public class AccountController {
 			.liquidity(Double.valueOf(liquidity))
 			.name(acc)
 			.userId(user.getId()).build();
-		accountBusiness.updateAccount(account);
+		accountService.updateAccount(account);
 		model.addObject(MESSAGE, MODIFIED_MESSAGE);
 		return model;
 	}
@@ -97,9 +97,9 @@ public class AccountController {
 	@RequestMapping(value = "/deleteaccount", method = RequestMethod.POST)
 	public ModelAndView deleteAccount(@RequestParam(value = "accountId") final int id) {
 		final ModelAndView model = new ModelAndView("forward:/accounts");
-		final Account account = accountBusiness.getAccount(id).orElseThrow(() -> new NotFoundException("Account " + id + "not found"));
+		final Account account = accountService.getAccount(id).orElseThrow(() -> new NotFoundException("Account " + id + "not found"));
 		if (account.getDel()) {
-			accountBusiness.deleteAccount(account);
+			accountService.deleteAccount(account);
 			model.addObject(MESSAGE, "Account deleted");
 		} else {
 			model.addObject(ERROR, "You are not allowed to delete this account!");
@@ -113,7 +113,7 @@ public class AccountController {
 								@ModelAttribute final User user,
 								@CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView("options");
-		Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		String quoteRes = null, currencyRes = null, parityRes = null, stopLossRes = null, objectiveRes = null, yield1Res = null, yield2Res = null;
 		final Cookie[] cookies = request.getCookies();
 		for (Cookie cookie : cookies) {
@@ -182,7 +182,7 @@ public class AccountController {
 									  @ModelAttribute final User user,
 									  @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView("options");
-		final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		String quoteRes = null, currencyRes = null, parityRes = null, stopLossRes = null, objectiveRes = null, yield1Res = null, yield2Res = null;
 		String updateSendMail = null;
 		if (autoUpdate == null) {
@@ -194,7 +194,7 @@ public class AccountController {
 
 		if (currency != portfolio.getCurrency()) {
 			portfolio.setCurrency(currency);
-			userBusiness.updatePortfolio(portfolio);
+			userService.updatePortfolio(portfolio);
 		}
 		user.setLocale(format);
 		user.setTimeZone(timeZone);
@@ -205,7 +205,7 @@ public class AccountController {
 		} else {
 			user.setUpdateSendMail(false);
 		}
-		userBusiness.updateUser(user);
+		userService.updateUser(user);
 
 		boolean bool = addCookieToResponse(response, QUOTE, quote);
 		if (bool) {

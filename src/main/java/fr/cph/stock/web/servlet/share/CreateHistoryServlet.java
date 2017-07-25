@@ -16,8 +16,8 @@
 
 package fr.cph.stock.web.servlet.share;
 
-import fr.cph.stock.business.ShareValueBusiness;
-import fr.cph.stock.business.UserBusiness;
+import fr.cph.stock.service.ShareValueService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.csv.Csv;
 import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Portfolio;
@@ -49,8 +49,8 @@ import static fr.cph.stock.util.Constants.*;
 public class CreateHistoryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -2999218921595727810L;
-	private ShareValueBusiness shareValueBusiness;
-	private UserBusiness userBusiness;
+	private ShareValueService shareValueService;
+	private UserService userService;
 
 	@Override
 	public final void init() {
@@ -64,7 +64,7 @@ public class CreateHistoryServlet extends HttpServlet {
 			final String liquidity = request.getParameter(LIQUIDITY);
 			final String acc = request.getParameter(ACCOUNT);
 
-			final Portfolio portfolio = userBusiness.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
+			final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 			final Account account = portfolio.getAccount(acc).orElseThrow(() -> new NotFoundException(acc));
 
 			final Part p1 = request.getPart(FILE);
@@ -73,10 +73,10 @@ public class CreateHistoryServlet extends HttpServlet {
 				final Csv csv = new Csv(br, user, acc);
 				final List<ShareValue> shareValues = csv.getShareValueList();
 				for (final ShareValue sv : shareValues) {
-					shareValueBusiness.addShareValue(sv);
+					shareValueService.addShareValue(sv);
 				}
 				if (StringUtils.isNotEmpty(liquidity)) {
-					userBusiness.updateLiquidity(account, Double.parseDouble(liquidity));
+					userService.updateLiquidity(account, Double.parseDouble(liquidity));
 				}
 				request.getRequestDispatcher("sharevalue?page=1").forward(request, response);
 			}
