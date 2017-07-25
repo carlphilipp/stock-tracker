@@ -16,52 +16,48 @@
 
 package fr.cph.stock.repository;
 
-import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.Account;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 /**
- * This class implements Repository functions and add some more. It access to the Account in DB.
+ * This class implements DAO functions and add some more. It access to the Account in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@org.springframework.stereotype.Repository
-public class AccountRepository implements Repository<Account> {
+@RequiredArgsConstructor
+@Component
+public class AccountRepository implements DAO<Account> {
 
 	private static final String INSERT = "fr.cph.stock.repository.AccountRepository.insertOneAccount";
 	private static final String SELECT = "fr.cph.stock.repository.AccountRepository.selectOneAccount";
 	private static final String UPDATE = "fr.cph.stock.repository.AccountRepository.updateOneAccount";
 	private static final String DELETE = "fr.cph.stock.repository.AccountRepository.deleteOneAccount";
 
-	private final SessionManager sessionManager = SessionManager.INSTANCE;
+	@NonNull
+	private final SqlSession session;
 
 	@Override
 	public void insert(final Account account) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, account);
-		}
+		session.insert(INSERT, account);
 	}
 
 	@Override
 	public Optional<Account> select(final int id) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT, id));
-		}
+		return Optional.ofNullable(session.selectOne(SELECT, id));
 	}
 
 	@Override
 	public void update(final Account account) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, account);
-		}
+		session.update(UPDATE, account);
 	}
 
 	@Override
 	public void delete(final Account account) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, account);
-		}
+		session.delete(DELETE, account);
 	}
 }

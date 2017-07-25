@@ -20,20 +20,21 @@ import fr.cph.stock.entities.Account;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.ShareValue;
-import fr.cph.stock.repository.mybatis.SessionManager;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
- * This class implements Repository functions and add some more. It access to the Portfolio in DB.
+ * This class implements DAO functions and add some more. It access to the Portfolio in DB.
  *
  * @author Carl-Philipp Harmant
  */
-//@org.springframework.stereotype.Repository
+@RequiredArgsConstructor
 @Component
-public class PortfolioRepository implements Repository<Portfolio> {
+public class PortfolioRepository implements DAO<Portfolio> {
 
 	private static final String INSERT = "fr.cph.stock.repository.PortfolioRepository.insertOnePortfolio";
 	private static final String SELECT = "fr.cph.stock.repository.PortfolioRepository.selectOnePortfolio";
@@ -46,77 +47,54 @@ public class PortfolioRepository implements Repository<Portfolio> {
 	private static final String SHARE_VALUE_SELECT_FROM = "fr.cph.stock.repository.ShareValueRepository.selectShareValueFrom";
 	private static final String SHARE_VALUE_SELECT_TO = "fr.cph.stock.repository.ShareValueRepository.selectShareValueFromTo";
 
-	//private final SessionManager sessionManager = SessionManager.INSTANCE;
-
+	@NonNull
 	private final SqlSession session;
-
-	public PortfolioRepository(SqlSession sqlSession) {
-		this.session = sqlSession;
-	}
 
 	@Override
 	public final void insert(final Portfolio portfolio) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, portfolio);
-		//}
+		session.insert(INSERT, portfolio);
 	}
 
 	@Override
 	public final Optional<Portfolio> select(final int id) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT, id));
-		//}
+		return Optional.ofNullable(session.selectOne(SELECT, id));
 	}
 
 	@Override
 	public final void update(final Portfolio portfolio) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, portfolio);
-		//}
+		session.update(UPDATE, portfolio);
 	}
 
 	@Override
 	public final void delete(final Portfolio portfolio) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, portfolio);
-		//}
+		session.delete(DELETE, portfolio);
 	}
 
-	/**
-	 * Get portfolio, loaded with its equities
-	 *
-	 * @param userId the user id
-	 * @param from   the from date
-	 * @param to     the to date
-	 * @return a portfolio
-	 */
 	public final Optional<Portfolio> selectPortfolioFromUserIdWithEquities(final int userId, final Date from, final Date to) {
 		Optional<Portfolio> portfolioOptional;
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			portfolioOptional = Optional.ofNullable(session.selectOne(SELECT_WITH_ID, userId));
-			portfolioOptional.ifPresent(portfolio -> {
-				final List<Equity> equities = session.selectList(SELECT_EQUITY, portfolio.getId());
-				portfolio.setEquities(equities);
-				final List<Account> accounts = session.selectList(ACCOUNT_SELECT, userId);
-				portfolio.setAccounts(accounts);
-				if (from == null) {
-					final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT, userId);
+		portfolioOptional = Optional.ofNullable(session.selectOne(SELECT_WITH_ID, userId));
+		portfolioOptional.ifPresent(portfolio -> {
+			final List<Equity> equities = session.selectList(SELECT_EQUITY, portfolio.getId());
+			portfolio.setEquities(equities);
+			final List<Account> accounts = session.selectList(ACCOUNT_SELECT, userId);
+			portfolio.setAccounts(accounts);
+			if (from == null) {
+				final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT, userId);
+				portfolio.setShareValues(shares);
+			} else {
+				final Map<String, Object> map = new HashMap<>();
+				map.put("userId", userId);
+				map.put("from", from);
+				if (to == null) {
+					final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT_FROM, map);
 					portfolio.setShareValues(shares);
 				} else {
-					final Map<String, Object> map = new HashMap<>();
-					map.put("userId", userId);
-					map.put("from", from);
-					if (to == null) {
-						final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT_FROM, map);
-						portfolio.setShareValues(shares);
-					} else {
-						map.put("to", to);
-						final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT_TO, map);
-						portfolio.setShareValues(shares);
-					}
+					map.put("to", to);
+					final List<ShareValue> shares = session.selectList(SHARE_VALUE_SELECT_TO, map);
+					portfolio.setShareValues(shares);
 				}
-			});
-		//}
+			}
+		});
 		return portfolioOptional;
 	}
 

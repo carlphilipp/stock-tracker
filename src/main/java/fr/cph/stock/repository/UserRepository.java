@@ -16,24 +16,25 @@
 
 package fr.cph.stock.repository;
 
-import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.User;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
 
 /**
- * This class implements Repository functions and add some more. It access to the User in DB.
+ * This class implements DAO functions and add some more. It access to the User in DB.
  *
  * @author Carl-Philipp Harmant
  */
-//@org.springframework.stereotype.Repository
+@Mapper
+@RequiredArgsConstructor
 @Component
-public class UserRepository implements Repository<User> {
+public class UserRepository implements DAO<User> {
 
 	private static final String INSERT = "fr.cph.stock.repository.UserRepository.insertOneUser";
 	private static final String SELECT = "fr.cph.stock.repository.UserRepository.selectOneUser";
@@ -44,85 +45,42 @@ public class UserRepository implements Repository<User> {
 	private static final String SELECT_WITH_EMAIL = "fr.cph.stock.repository.UserRepository.selectOneUserWithEmail";
 	private static final String SELECT_ALL_USER = "fr.cph.stock.repository.UserRepository.selectAllUsers";
 
-	//private final SessionManager sessionManager = SessionManager.INSTANCE;
-	//@Autowired
+	@NonNull
 	private final SqlSession session;
-
-	public UserRepository(SqlSession sqlSession) {
-		this.session = sqlSession;
-	}
 
 	@Override
 	public final void insert(final User user) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, user);
-		//}
+		session.insert(INSERT, user);
 	}
 
 	@Override
 	public final Optional<User> select(final int id) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT, id));
-		//}
+		return Optional.ofNullable(session.selectOne(SELECT, id));
 	}
 
 	@Override
 	public final void update(final User user) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, user);
-		//}
+		session.update(UPDATE, user);
 	}
 
-	/**
-	 * Update one user password
-	 *
-	 * @param user the user
-	 */
 	public final void updateOneUserPassword(final User user) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE_PASSWORD, user);
-		//}
+		session.update(UPDATE_PASSWORD, user);
 	}
 
 	@Override
 	public final void delete(final User user) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, user);
-		//}
+		session.delete(DELETE, user);
 	}
 
-	/**
-	 * Get a user with its login
-	 *
-	 * @param login the login
-	 * @return a user
-	 */
 	public final Optional<User> selectWithLogin(final String login) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT_WITH_LOGIN, login));
-		//}
+		return Optional.ofNullable(session.selectOne(SELECT_WITH_LOGIN, login));
 	}
 
-	/**
-	 * Get a user with its email
-	 *
-	 * @param email the email
-	 * @return a user
-	 */
 	public final Optional<User> selectWithEmail(final String email) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT_WITH_EMAIL, email));
-		//}
+		return Optional.ofNullable(session.selectOne(SELECT_WITH_EMAIL, email));
 	}
 
-	/**
-	 * Get all users
-	 *
-	 * @return a list of user
-	 */
 	public final List<User> selectAllUsers() {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList(SELECT_ALL_USER);
-		//}
+		return session.selectList(SELECT_ALL_USER);
 	}
 }

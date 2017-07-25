@@ -16,52 +16,48 @@
 
 package fr.cph.stock.repository;
 
-import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.Equity;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 /**
- * This class implements Repository functions and add some more. It access to the Equity in DB.
+ * This class implements DAO functions and add some more. It access to the Equity in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@org.springframework.stereotype.Repository
-public class EquityRepository implements Repository<Equity> {
+@RequiredArgsConstructor
+@Component
+public class EquityRepository implements DAO<Equity> {
 
 	private static final String INSERT = "fr.cph.stock.repository.EquityRepository.insertOneEquity";
 	private static final String SELECT = "fr.cph.stock.repository.EquityRepository.selectOneEquity";
 	private static final String UPDATE = "fr.cph.stock.repository.EquityRepository.updateOneEquity";
 	private static final String DELETE = "fr.cph.stock.repository.EquityRepository.deleteOneEquity";
 
-	private final SessionManager sessionManager = SessionManager.INSTANCE;
+	@NonNull
+	private final SqlSession session;
 
 	@Override
 	public final void insert(final Equity equity) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, equity);
-		}
+		session.insert(INSERT, equity);
 	}
 
 	@Override
 	public final Optional<Equity> select(final int id) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT, id));
-		}
+		return Optional.ofNullable(session.selectOne(SELECT, id));
 	}
 
 	@Override
 	public final void update(final Equity equity) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, equity);
-		}
+		session.update(UPDATE, equity);
 	}
 
 	@Override
 	public final void delete(final Equity equity) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, equity);
-		}
+		session.delete(DELETE, equity);
 	}
 }

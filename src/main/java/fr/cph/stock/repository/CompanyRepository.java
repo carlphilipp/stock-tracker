@@ -16,9 +16,11 @@
 
 package fr.cph.stock.repository;
 
-import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.Company;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,12 +30,13 @@ import java.util.Optional;
 import static fr.cph.stock.util.Constants.MANUAL;
 
 /**
- * This class implements Repository functions and add some more. It access to the Company in DB.
+ * This class implements DAO functions and add some more. It access to the Company in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@org.springframework.stereotype.Repository
-public class CompanyRepository implements Repository<Company> {
+@RequiredArgsConstructor
+@Component
+public class CompanyRepository implements DAO<Company> {
 
 	private static final String INSERT = "fr.cph.stock.repository.CompanyRepository.insertOneCompany";
 	private static final String SELECT = "fr.cph.stock.repository.CompanyRepository.selectOneCompany";
@@ -43,72 +46,42 @@ public class CompanyRepository implements Repository<Company> {
 	private static final String SELECT_NOT_REAL_TIME = "fr.cph.stock.repository.CompanyRepository.selectAllCompanyNotRealTime";
 	private static final String SELECT_UNUSED = "fr.cph.stock.repository.CompanyRepository.selectAllUnusedCompanyIds";
 
-	private final SessionManager sessionManager = SessionManager.INSTANCE;
+	@NonNull
+	private final SqlSession session;
 
 	@Override
 	public void insert(final Company company) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, company);
-		}
+		session.insert(INSERT, company);
 	}
 
 	@Override
 	public Optional<Company> select(final int id) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT, id));
-		}
+		return Optional.ofNullable(session.selectOne(SELECT, id));
 	}
 
 	@Override
 	public void update(final Company company) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, company);
-		}
+		session.update(UPDATE, company);
 	}
 
 	@Override
 	public void delete(final Company company) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, company);
-		}
+		session.delete(DELETE, company);
 	}
 
-	/**
-	 * Get a company
-	 *
-	 * @param yahooId the yahoo id
-	 * @return a company
-	 */
 	public Optional<Company> selectWithYahooId(final String yahooId) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT_WITH_ID, yahooId));
-		}
+		return Optional.ofNullable(session.selectOne(SELECT_WITH_ID, yahooId));
 	}
 
-	/**
-	 * Get all the companies in DB
-	 *
-	 * @param realTime a boolean that represents a real time data information. If
-	 * @return a list of company
-	 */
 	public List<Company> selectAllCompany(final boolean realTime) {
 		final Map<String, Boolean> options = new HashMap<>();
 		options.put("realTime", realTime);
 		// Remove manual companies
 		options.put(MANUAL, false);
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList(SELECT_NOT_REAL_TIME, options);
-		}
+		return session.selectList(SELECT_NOT_REAL_TIME, options);
 	}
 
-	/**
-	 * Get a list of unsed company
-	 *
-	 * @return a list of integer representing company ids.
-	 */
 	public List<Integer> selectAllUnusedCompanyIds() {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList(SELECT_UNUSED);
-		}
+		return session.selectList(SELECT_UNUSED);
 	}
 }

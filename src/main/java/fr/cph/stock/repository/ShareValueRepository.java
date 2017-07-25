@@ -16,19 +16,22 @@
 
 package fr.cph.stock.repository;
 
-import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.ShareValue;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 /**
- * This class implements Repository functions and add some more. It access to the ShareValue in DB.
+ * This class implements DAO functions and add some more. It access to the ShareValue in DB.
  *
  * @author Carl-Philipp Harmant
  */
-@org.springframework.stereotype.Repository
-public class ShareValueRepository implements Repository<ShareValue> {
+@RequiredArgsConstructor
+@Component
+public class ShareValueRepository implements DAO<ShareValue> {
 
 	private static final String INSERT = "fr.cph.stock.repository.ShareValueRepository.insertOneShareValue";
 	private static final String SELECT = "fr.cph.stock.repository.ShareValueRepository.selectOneShareValue";
@@ -37,45 +40,31 @@ public class ShareValueRepository implements Repository<ShareValue> {
 	private static final String INSERT_WITH_DATE = "fr.cph.stock.repository.ShareValueRepository.insertOneShareValueWithDate";
 	private static final String SELECT_LAST_VALUE = "fr.cph.stock.repository.ShareValueRepository.selectLastValue";
 
-	private final SessionManager sessionManager = SessionManager.INSTANCE;
+	@NonNull
+	private final SqlSession session;
 
 	@Override
 	public final void insert(final ShareValue shareValue) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, shareValue);
-		}
+		session.insert(INSERT, shareValue);
 	}
 
-	/**
-	 * Insert a share value with a date
-	 *
-	 * @param shareValue the share value
-	 */
 	public final void insertWithDate(final ShareValue shareValue) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT_WITH_DATE, shareValue);
-		}
+		session.insert(INSERT_WITH_DATE, shareValue);
 	}
 
 	@Override
 	public final Optional<ShareValue> select(final int id) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT, id));
-		}
+		return Optional.ofNullable(session.selectOne(SELECT, id));
 	}
 
 	@Override
 	public final void update(final ShareValue shareValue) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, shareValue);
-		}
+		session.update(UPDATE, shareValue);
 	}
 
 	@Override
 	public final void delete(final ShareValue shareValue) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, shareValue);
-		}
+		session.delete(DELETE, shareValue);
 	}
 
 	/**
@@ -85,8 +74,6 @@ public class ShareValueRepository implements Repository<ShareValue> {
 	 * @return a share value
 	 */
 	public final Optional<ShareValue> selectLastValue(final int userId) {
-		try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT_LAST_VALUE, userId));
-		}
+		return Optional.ofNullable(session.selectOne(SELECT_LAST_VALUE, userId));
 	}
 }

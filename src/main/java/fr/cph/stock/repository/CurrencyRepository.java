@@ -16,8 +16,9 @@
 
 package fr.cph.stock.repository;
 
-import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.CurrencyData;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +26,13 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class implements Repository functions and add some more. It access to the Currency in DB.
+ * This class implements DAO functions and add some more. It access to the Currency in DB.
  *
  * @author Carl-Philipp Harmant
  */
-//@org.springframework.stereotype.Repository
+@RequiredArgsConstructor
 @Component
-public class CurrencyRepository implements Repository<CurrencyData> {
+public class CurrencyRepository implements DAO<CurrencyData> {
 
 	private static final String INSERT = "fr.cph.stock.repository.CurrencyData.insertOneCurrencyData";
 	private static final String SELECT = "fr.cph.stock.repository.CurrencyData.selectOneCurrencyData";
@@ -41,74 +42,38 @@ public class CurrencyRepository implements Repository<CurrencyData> {
 	private static final String SELECT_LIST = "fr.cph.stock.repository.CurrencyData.selectListCurrencyData";
 	private static final String SELECT_LIST_ALL = "fr.cph.stock.repository.CurrencyData.selectListAllCurrencyData";
 
-	//private final SessionManager sessionManager = SessionManager.INSTANCE;
-
+	@NonNull
 	private final SqlSession session;
-
-	public CurrencyRepository(SqlSession sqlSession) {
-		this.session = sqlSession;
-	}
 
 	@Override
 	public final void insert(final CurrencyData currencyData) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, currencyData);
-		//}
+		session.insert(INSERT, currencyData);
 	}
 
 	@Override
 	public final Optional<CurrencyData> select(final int id) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT, id));
-		//}
+		return Optional.ofNullable(session.selectOne(SELECT, id));
 	}
 
 	@Override
 	public final void update(final CurrencyData currencyData) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, currencyData);
-		//}
+		session.update(UPDATE, currencyData);
 	}
 
 	@Override
 	public final void delete(final CurrencyData currencyData) {
-		//t//ry (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, currencyData);
-		//}
+		session.delete(DELETE, currencyData);
 	}
 
-	/**
-	 * Get one currency data
-	 *
-	 * @param currencyD the currency data
-	 * @return a currency data
-	 */
 	public final Optional<CurrencyData> selectOneCurrencyDataWithParam(final CurrencyData currencyD) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT_WITH_PARAM, currencyD));
-		//}
+		return Optional.ofNullable(session.selectOne(SELECT_WITH_PARAM, currencyD));
 	}
 
-	/**
-	 * Get a list of currency data
-	 *
-	 * @param currency the currency
-	 * @return a list of currency
-	 */
 	public final List<CurrencyData> selectListCurrency(final String currency) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList(SELECT_LIST, currency);
-		//}
+		return session.selectList(SELECT_LIST, currency);
 	}
 
-	/**
-	 * Get all currency data
-	 *
-	 * @return a list of currency data
-	 */
 	public final List<CurrencyData> selectListAllCurrency() {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList(SELECT_LIST_ALL);
-		//}
+		return session.selectList(SELECT_LIST_ALL);
 	}
 }

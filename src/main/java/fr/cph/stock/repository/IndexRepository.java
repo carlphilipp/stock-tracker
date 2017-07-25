@@ -16,21 +16,22 @@
 
 package fr.cph.stock.repository;
 
-import fr.cph.stock.repository.mybatis.SessionManager;
 import fr.cph.stock.entities.Index;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 /**
- * This class implements Repository functions and add some more. It access to the Index in DB.
+ * This class implements DAO functions and add some more. It access to the Index in DB.
  *
  * @author Carl-Philipp Harmant
  */
-//@org.springframework.stereotype.Repository
+@RequiredArgsConstructor
 @Component
-public class IndexRepository implements Repository<Index> {
+public class IndexRepository implements DAO<Index> {
 
 	private static final String INSERT = "fr.cph.stock.repository.IndexRepository.insertOneIndex";
 	private static final String SELECT = "fr.cph.stock.repository.IndexRepository.selectOneIndex";
@@ -39,69 +40,38 @@ public class IndexRepository implements Repository<Index> {
 	private static final String SELECT_FROM_TO = "fr.cph.stock.repository.IndexRepository.selectListIndexFromTo";
 	private static final String SELECT_LAST = "fr.cph.stock.repository.IndexRepository.selectLastIndex";
 
-	//private final SessionManager sessionManager = SessionManager.INSTANCE;
-
+	@NonNull
 	private final SqlSession session;
-
-	public IndexRepository(SqlSession sqlSession) {
-		this.session = sqlSession;
-	}
 
 	@Override
 	public final void insert(final Index index) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.insert(INSERT, index);
-		//}
+		session.insert(INSERT, index);
 	}
 
 	@Override
 	public final Optional<Index> select(final int id) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT, id));
-		//}
+		return Optional.ofNullable(session.selectOne(SELECT, id));
 	}
 
 	@Override
 	public final void update(final Index index) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.update(UPDATE, index);
-		//}
+		session.update(UPDATE, index);
 	}
 
 	@Override
 	public final void delete(final Index index) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(true)) {
-			session.delete(DELETE, index);
-		//}
+		session.delete(DELETE, index);
 	}
 
-	/**
-	 * Get a list of Index
-	 *
-	 * @param yahooId the index requested
-	 * @param from    first date
-	 * @param to      second date
-	 * @return a list of Index
-	 */
 	public final List<Index> selectListFrom(final String yahooId, final Date from, final Date to) {
 		final Map<String, Object> map = new HashMap<>();
 		map.put("yahooId", yahooId);
 		map.put("from", from);
 		map.put("to", to);
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return session.selectList(SELECT_FROM_TO, map);
-		//}
+		return session.selectList(SELECT_FROM_TO, map);
 	}
 
-	/**
-	 * Get last Index
-	 *
-	 * @param yahooId the index requested
-	 * @return and Index with last data
-	 */
 	public final Optional<Index> selectLast(final String yahooId) {
-		//try (final SqlSession session = sessionManager.getSqlSessionFactory(false)) {
-			return Optional.ofNullable(session.selectOne(SELECT_LAST, yahooId));
-		//}
+		return Optional.ofNullable(session.selectOne(SELECT_LAST, yahooId));
 	}
 }
