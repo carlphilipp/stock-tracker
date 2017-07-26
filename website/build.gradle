@@ -40,13 +40,13 @@ dependencies {
 		[group: 'com.google.code.gson', name: 'gson', version: gson_version],
 
 		// JSTL
-		[group: 'javax.servlet', name: 'jstl', version: jstl_version],
+		[group: 'javax.servlet', name: 'jstl'],
 
 		// Logging
 		[group: 'com.lmax', name: 'disruptor', version: disruptor_version],
 
 		// ORM
-		[group: 'org.mybatis', name: 'mybatis', version: mybatis_version],
+		//[group: 'org.mybatis', name: 'mybatis', version: mybatis_version],
 		[group: 'mysql', name: 'mysql-connector-java', version: mysql_connector_version],
 
 		// Other
@@ -68,7 +68,6 @@ dependencies {
 	providedRuntime(group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat')
 
 	compileOnly(
-		//[group: 'org.apache.tomcat', name: 'tomcat-catalina', version: tomcat_version],
 		[group: 'org.projectlombok', name: 'lombok', version: lombok_version],
 	)
 
@@ -79,7 +78,6 @@ dependencies {
 		testCompile(group: 'org.mockito', name: 'mockito-core', version: mockito_version) {
 			exclude group: 'org.hamcrest', module: 'hamcrest-core'
 		},
-		[group: 'org.apache.tomcat', name: 'tomcat-catalina', version: tomcat_version],
 		[group: 'org.hamcrest', name: 'hamcrest-all', version: hamcrest_version]
 	)
 }
