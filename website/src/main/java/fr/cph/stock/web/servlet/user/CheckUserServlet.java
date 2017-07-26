@@ -34,8 +34,9 @@ import java.util.Optional;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "CheckUserServlet", urlPatterns = {"/check"})
+//@WebServlet(name = "CheckUserServlet", urlPatterns = {"/check"})
 public class CheckUserServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

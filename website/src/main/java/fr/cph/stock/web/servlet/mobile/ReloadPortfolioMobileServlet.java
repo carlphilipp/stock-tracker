@@ -37,8 +37,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "ReloadPortfolioMobileServlet", urlPatterns = {"/reloadportfoliomobile"})
+//@WebServlet(name = "ReloadPortfolioMobileServlet", urlPatterns = {"/reloadportfoliomobile"})
 public class ReloadPortfolioMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5211078955305413271L;

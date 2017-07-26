@@ -34,8 +34,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "NewPasswordConfirmServlet", urlPatterns = {"/newpasswordconf"})
+//@WebServlet(name = "NewPasswordConfirmServlet", urlPatterns = {"/newpasswordconf"})
 public class NewPasswordConfirmServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

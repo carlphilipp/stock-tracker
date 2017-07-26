@@ -44,8 +44,9 @@ import static fr.cph.stock.util.Constants.USER;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "HomeMobileServlet", urlPatterns = {"/homemobile"})
+//@WebServlet(name = "HomeMobileServlet", urlPatterns = {"/homemobile"})
 public class HomeMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -8513475864090485886L;

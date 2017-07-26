@@ -33,8 +33,9 @@ import static fr.cph.stock.util.Constants.SESSION;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "LogOutMobileServlet", urlPatterns = {"/logoutmobile"})
+//@WebServlet(name = "LogOutMobileServlet", urlPatterns = {"/logoutmobile"})
 public class LogOutMobileServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -6390397454452936077L;

@@ -31,8 +31,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "ChangeLanguageServlet", urlPatterns = {"/language"})
+//@WebServlet(name = "ChangeLanguageServlet", urlPatterns = {"/language"})
 public class ChangeLanguageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1381535043505856447L;

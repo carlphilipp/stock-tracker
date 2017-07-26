@@ -43,8 +43,9 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "CreateHistoryServlet", urlPatterns = {"/createhistory"})
+//@WebServlet(name = "CreateHistoryServlet", urlPatterns = {"/createhistory"})
 @MultipartConfig
 public class CreateHistoryServlet extends HttpServlet {
 

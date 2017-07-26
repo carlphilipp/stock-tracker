@@ -40,8 +40,9 @@ import static fr.cph.stock.util.Constants.ERROR;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "LostServlet", urlPatterns = {"/lost"})
+//@WebServlet(name = "LostServlet", urlPatterns = {"/lost"})
 public class LostServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -1724898618001479554L;

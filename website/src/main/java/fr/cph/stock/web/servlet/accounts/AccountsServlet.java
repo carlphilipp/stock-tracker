@@ -44,8 +44,9 @@ import java.util.Arrays;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "AccountsServlet", urlPatterns = {"/accounts"})
+//@WebServlet(name = "AccountsServlet", urlPatterns = {"/accounts"})
 public class AccountsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = -5015939908893417514L;

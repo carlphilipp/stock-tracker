@@ -37,8 +37,9 @@ import static fr.cph.stock.util.Constants.*;
  *
  * @author Carl-Philipp Harmant
  */
+// FIXME to delete
 @Log4j2
-@WebServlet(name = "RegistrationServlet", urlPatterns = {"/register"})
+//@WebServlet(name = "RegistrationServlet", urlPatterns = {"/register"})
 public class RegistrationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 6262531123441177265L;

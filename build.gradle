@@ -1,12 +1,26 @@
-buildscript {
-	ext {
-		springBootVersion = '1.5.4.RELEASE'
+version '3.0.0'
+
+subprojects {
+	buildscript {
+		ext {
+			springBootVersion = '1.5.4.RELEASE'
+		}
+		repositories {
+			mavenCentral()
+			maven { url "http://repo.spring.io/libs-snapshot" }
+		}
+		dependencies {
+			classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		}
 	}
+
+	apply plugin: 'java'
+	apply plugin: 'idea'
+
+	def javaVersion = JavaVersion.VERSION_1_8
+	sourceCompatibility = javaVersion
+	targetCompatibility = javaVersion
 	repositories {
 		mavenCentral()
-		maven { url "http://repo.spring.io/libs-snapshot" }
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
 }
