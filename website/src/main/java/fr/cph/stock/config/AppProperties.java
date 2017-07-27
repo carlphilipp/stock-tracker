@@ -11,8 +11,8 @@ import java.util.List;
 @Data
 public class AppProperties {
 	private String name;
-	private String address;
-	private String folder;
+	private String protocol;
+	private String url;
 	private List<String> admins;
 
 	private final Db db = new Db();

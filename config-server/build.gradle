@@ -1,0 +1,16 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Dalston.SR1'
+	}
+}
+
+dependencies {
+	compile(
+		[group: 'org.springframework.boot', name: 'spring-boot-starter'],
+		[group: 'org.springframework.cloud', name: 'spring-cloud-starter-config'],
+		[group: 'org.springframework.cloud', name: 'spring-cloud-config-server'],
+	)
+}

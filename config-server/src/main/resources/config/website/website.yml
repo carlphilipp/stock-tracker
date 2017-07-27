@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: stock-tracker
+  output:
+    ansi:
+      enabled: always
+management:
+  security:
+    enabled: true
+app:
+  protocol: #
+  url: #
+  admins:
+    - youremail@domain.com
+    - #
+  db:
+    ip: #
+    name: #
+    user: #
+    password: #
+  dropbox:
+    clientId: #
+    accessToken: #
+  email:
+    smtp:
+      host: #
+      port: #
+    from:
+      username: #
+      password: #
+      from: #

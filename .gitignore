@@ -11,3 +11,4 @@ build
 log4j2-prod.xml
 app.properties
 out
+website-*.yml

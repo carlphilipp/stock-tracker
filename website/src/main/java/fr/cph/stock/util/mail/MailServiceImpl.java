@@ -25,15 +25,8 @@ public class MailServiceImpl implements MailService {
 
 	@Autowired
 	public MailServiceImpl(final AppProperties appProperties) throws MessagingException {
-		/*final Properties prop = Util.getProperties();
-		smtpHostName = prop.getProperty("email.smtp_host_name");
-		smtpPort = prop.getProperty("email.smtp_port");
-		emailFromUsername = prop.getProperty("email.from.username");
-		emailFrom = prop.getProperty("email.from");
-		passwordFrom = prop.getProperty("email.password");*/
 		this.appProperties = appProperties;
 		Security.addProvider(new Provider());
-		//sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt);
 	}
 
 	/**

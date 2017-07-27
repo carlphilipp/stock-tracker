@@ -1,35 +1,9 @@
-spring:
-  application:
-    name: stock-tracker
-  output:
-    ansi:
-      enabled: always
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   type-aliases-package: fr.cph.stock.entities
 app:
   name: Stock Tracker
-  address: https://www.stocktracker.fr
-  folder:
-  admins:
-    - cp.harmant@gmail.com
-    - webmaster.stock@yahoo.com
   db:
-    ip: localhost
     driver: com.mysql.cj.jdbc.Driver
-    name: stock
-    user: stock
-    password: exchange
-  dropbox:
-    clientId: stock-tracker
-    accessToken: Doa447jdLREAAAAAAAAaoFsZo3dqwRRLFhYYSMYs308ctpJ0mcWYXcWv9gyyYkVl
-  email:
-    smtp:
-      host: smtp.mail.yahoo.com
-      port: 465
-    from:
-      username: webmaster.stock
-      password: Aa3842100
-      from: webmaster.stock@yahoo.com
   report:
-    ireport: report.jrxml
+      ireport: report.jrxml

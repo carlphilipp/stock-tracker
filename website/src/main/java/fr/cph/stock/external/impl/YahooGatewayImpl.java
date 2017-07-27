@@ -68,9 +68,9 @@ public class YahooGatewayImpl implements YahooGateway {
 	}
 
 	/**
-	 * THis function connect to the given address and return in a string the content of the page
+	 * THis function connect to the given url and return in a string the content of the page
 	 *
-	 * @param address the address
+	 * @param address the url
 	 * @return the content of the page
 	 * @throws YahooException the yahoo exception
 	 */

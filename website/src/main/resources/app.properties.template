@@ -14,7 +14,7 @@
 
 # Base
 name=Stock Tracker
-address=https://www.stocktracker.fr
+url=https://www.stocktracker.fr
 folder=
 admins=email1@gmail.com;email2@gmail.com
 
