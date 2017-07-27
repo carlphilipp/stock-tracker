@@ -16,9 +16,10 @@
 
 package fr.cph.stock.controller;
 
-import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.exception.LoginException;
+import fr.cph.stock.service.UserService;
+import fr.cph.stock.util.Constants;
 import fr.cph.stock.web.servlet.CookieManagement;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import fr.cph.stock.util.Constants;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * This servlet is called when the user want to login
@@ -76,17 +75,17 @@ public class AuthenticationController {
 		@RequestParam(value = Constants.PASSWORD) final String password) throws LoginException {
 		final ModelAndView model = new ModelAndView();
 		request.getSession().invalidate();
-		User user = userService.checkUser(login, password).orElseThrow(() -> new LoginException(login));
-			if (!user.getAllow()) {
-				request.getSession().setAttribute(Constants.ERROR, "Account not confirmed. Check your email!");
-				model.setViewName("index");
-			} else {
-				request.getSession().setAttribute(Constants.USER, user);
-				setUpCookies(request, response);
+		final User user = userService.checkUser(login, password).orElseThrow(() -> new LoginException(login));
+		if (!user.getAllow()) {
+			request.getSession().setAttribute(Constants.ERROR, "Account not confirmed. Check your email!");
+			model.setViewName("index");
+		} else {
+			request.getSession().setAttribute(Constants.USER, user);
+			setUpCookies(request, response);
 
-				log.info("User logged in [{}]", login);
-				model.setViewName("redirect:/home");
-			}
+			log.info("User logged in [{}]", login);
+			model.setViewName("redirect:/home");
+		}
 		return model;
 	}
 
