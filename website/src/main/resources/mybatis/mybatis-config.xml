@@ -17,8 +17,6 @@
 
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<!-- TODO to delete -->
-	<properties resource="app.properties"/>
 	<mappers>
 		<mapper resource="mybatis/User.xml"/>
 		<mapper resource="mybatis/Company.xml"/>

@@ -7,6 +7,8 @@ spring:
 management:
   security:
     enabled: true
+logging:
+  config: classpath:log4j2.xml
 app:
   protocol: #
   url: #
