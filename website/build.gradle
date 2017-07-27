@@ -65,7 +65,10 @@ dependencies {
 		[group: 'org.dom4j', name: 'dom4j', version: dom4j_version],
 	)
 
-	providedRuntime(group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat')
+	providedRuntime(
+		[group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'],
+		//[group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper']
+	)
 
 	compileOnly(
 		[group: 'org.projectlombok', name: 'lombok', version: lombok_version],

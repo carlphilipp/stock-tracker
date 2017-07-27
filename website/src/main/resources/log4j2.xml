@@ -25,7 +25,31 @@
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
 		</AsyncLogger>
-		<AsyncLogger name="org.apache.ibatis" level="info" additivity="false">
+		<AsyncLogger name="org.mybatis.spring" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</AsyncLogger>
+		<AsyncLogger name="org.springframework.core.env" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</AsyncLogger>
+		<AsyncLogger name="org.springframework.jndi" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</AsyncLogger>
+		<AsyncLogger name="org.springframework.web.servlet" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</AsyncLogger>
+		<AsyncLogger name="org.springframework.beans.factory.support" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</AsyncLogger>
+		<AsyncLogger name="org.springframework.jdbc.datasource" level="info" additivity="false">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="File"/>
+		</AsyncLogger>
+		<AsyncLogger name="com.mchange.v2.c3p0" level="info" additivity="false">
 			<AppenderRef ref="Console"/>
 			<AppenderRef ref="File"/>
 		</AsyncLogger>

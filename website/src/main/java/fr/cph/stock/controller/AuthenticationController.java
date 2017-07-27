@@ -76,9 +76,7 @@ public class AuthenticationController {
 		@RequestParam(value = Constants.PASSWORD) final String password) throws LoginException {
 		final ModelAndView model = new ModelAndView();
 		request.getSession().invalidate();
-		final Optional<User> userOptional = userService.checkUser(login, password);
-		if (userOptional.isPresent()) {
-			final User user = userOptional.get();
+		User user = userService.checkUser(login, password).orElseThrow(() -> new LoginException(login));
 			if (!user.getAllow()) {
 				request.getSession().setAttribute(Constants.ERROR, "Account not confirmed. Check your email!");
 				model.setViewName("index");
@@ -89,9 +87,6 @@ public class AuthenticationController {
 				log.info("User logged in [{}]", login);
 				model.setViewName("redirect:/home");
 			}
-		} else {
-			model.setViewName("loginError");
-		}
 		return model;
 	}
 
