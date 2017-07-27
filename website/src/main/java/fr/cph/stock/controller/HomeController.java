@@ -16,7 +16,6 @@
 package fr.cph.stock.controller;
 
 import fr.cph.stock.config.AppProperties;
-import fr.cph.stock.cron.Job;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
@@ -26,16 +25,11 @@ import fr.cph.stock.service.UserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.ServletException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Calendar;
 
 import static fr.cph.stock.util.Constants.*;
@@ -55,21 +49,6 @@ public class HomeController {
 	private AppProperties appProperties;
 	@NonNull
 	private final UserService userService;
-
-	// TODO create quartz job in Spring
-	@PostConstruct
-	public final void init() throws ServletException {
-		try {
-			final InetAddress inetAddress = InetAddress.getLocalHost();
-			final String hostName = inetAddress.getHostName();
-			if (!hostName.equals("carl-Desktop")) {
-				final Job job = new Job();
-				job.run();
-			}
-		} catch (final UnknownHostException | SchedulerException e) {
-			log.error(e.getMessage(), e);
-		}
-	}
 
 	@RequestMapping(value = "/home", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView home(@RequestParam(value = DAYS, required = false) final String days,

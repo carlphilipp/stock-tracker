@@ -16,13 +16,14 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.config.AppProperties;
-import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.util.Constants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.util.TimeZone;
 
@@ -32,29 +33,20 @@ import java.util.TimeZone;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Profile("prod")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Service
 @Log4j2
-public class Cac40CheckJob implements Job {
+public class Cac40CheckJob {
 
-	/**
-	 * AccountServiceImpl
-	 **/
-	private IndexService indexService;
-	private AppProperties appProperties;
+	private final IndexService indexService;
 
-	/**
-	 * Constructor
-	 */
-	public Cac40CheckJob() {
-	}
-
-	@Override
-	public final void execute(final JobExecutionContext context) {
+	@Scheduled(cron = "0 30 18-23 ? * MON-FRI", zone = "Europe/Paris")
+	public void execute() {
 		try {
-			log.debug("Cac40 Check job running");
+			log.debug("Running CAC40 check job");
 			final TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			indexService.checkUpdateIndex(Constants.CAC_40, timeZone);
-		} catch (final YahooException e) {
-			log.warn("Error while executing Cac40CheckJob: {}", e.getMessage());
 		} catch (final Throwable t) {
 			log.error("Error while executing Cac40CheckJob: {}", t.getMessage(), t);
 		}

@@ -16,12 +16,14 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.util.Constants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 /**
  * Job that try to update DB with today's s&p500 value
@@ -29,24 +31,19 @@ import org.quartz.JobExecutionContext;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Profile("prod")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Service
 @Log4j2
-public class SP500Job implements Job {
+public class SP500Job {
 
-	private IndexService indexService;
+	private final IndexService indexService;
 
-	/**
-	 * Constructor
-	 */
-	public SP500Job() {
-	}
-
-	@Override
-	public final void execute(final JobExecutionContext context) {
+	@Scheduled(cron = "0 10 17 ? * MON-FRI", zone = "America/New_York")
+	public void execute() {
 		try {
-			log.info("S&P500 Job");
+			log.info("Running S&P500 Job");
 			indexService.updateIndex(Constants.SP_500);
-		} catch (final YahooException e) {
-			log.warn("Error while executing SP500Job: {}", e.getMessage());
 		} catch (final Throwable t) {
 			log.error("Error while executing SP500Job: {}", t.getMessage(), t);
 		}

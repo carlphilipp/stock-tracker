@@ -31,6 +31,7 @@ dependencies {
 
 		// Spring
 		[group: 'org.springframework', name: 'spring-webmvc', version: '4.3.9.RELEASE'],
+		[group: 'org.springframework', name: 'spring-context-support', version: '4.3.9.RELEASE'],
 
 		// CSV
 		[group: 'com.opencsv', name: 'opencsv', version: opencsv_version],
@@ -66,16 +67,12 @@ dependencies {
 		[group: 'com.lowagie', name: 'itext', version: itext_version],
 		[group: 'org.codehaus.groovy', name: 'groovy-all', version: groovy_version],
 
-		// Scheduler
-		[group: 'org.quartz-scheduler', name: 'quartz', version: quartz_version],
-
 		// XML
 		[group: 'org.dom4j', name: 'dom4j', version: dom4j_version],
 	)
 
 	providedRuntime(
 		[group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'],
-		//[group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper']
 	)
 
 	compileOnly(

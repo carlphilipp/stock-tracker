@@ -19,11 +19,13 @@ package fr.cph.stock.cron;
 import fr.cph.stock.dropbox.DropBox;
 import fr.cph.stock.util.MySQLDumper;
 import fr.cph.stock.util.Util;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
@@ -33,20 +35,20 @@ import java.io.File;
  * @author Carl-Philipp Harmant
  * @version 1
  */
-@Component
+@Profile("prod")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Service
 @Log4j2
-public class MysqlDumpJob implements Job {
+public class MysqlDumpJob {
 
-	@Autowired
+	@NonNull
 	private MySQLDumper mySQLDumper;
 
+	@NonNull
 	private DropBox dropBox;
 
-	public MysqlDumpJob() {
-	}
-
-	@Override
-	public final void execute(final JobExecutionContext context) {
+	@Scheduled(cron = "0 30 3 ? * MON-FRI", zone = "Europe/Paris")
+	public void execute() {
 		File tarGzFile = null;
 		File sqlFile = null;
 		try {

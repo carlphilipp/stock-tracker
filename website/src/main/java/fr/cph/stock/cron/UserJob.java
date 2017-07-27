@@ -17,10 +17,12 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.service.ShareValueService;
-import fr.cph.stock.exception.YahooException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -31,29 +33,23 @@ import java.util.TimeZone;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Profile("prod")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Service
 @Log4j2
-public class UserJob implements Job {
+public class UserJob {
 
-	private ShareValueService shareValueService;
+	private final ShareValueService shareValueService;
 
-	/**
-	 * Constructor
-	 **/
-	public UserJob() {
-	}
-
-	@Override
-	public final void execute(final JobExecutionContext context) {
+	@Scheduled(cron = "0 0 * ? * MON-FRI", zone = "Europe/Paris")
+	public final void execute() {
 		try {
 			log.info("Executing user auto update share value job");
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
 			shareValueService.autoUpdateUserShareValue(cal);
-		} catch (final YahooException e) {
-			log.error("Error while executing UserJob: {}", e.getMessage());
 		} catch (final Throwable t) {
 			log.error("Error while executing UserJob: {}", t.getMessage(), t);
 		}
 	}
-
 }

@@ -18,9 +18,12 @@ package fr.cph.stock.cron;
 
 import fr.cph.stock.service.CurrencyService;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 /**
  * Job that update currencies
@@ -28,20 +31,17 @@ import org.quartz.JobExecutionContext;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Profile("prod")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Service
 @Log4j2
-public class CurrencyJob implements Job {
+public class CurrencyJob {
 
 	@NonNull
-	private CurrencyService currencyService;
+	private final CurrencyService currencyService;
 
-	/**
-	 * Constructor
-	 **/
-	public CurrencyJob() {
-	}
-
-	@Override
-	public final void execute(final JobExecutionContext context) {
+	@Scheduled(cron = "0 55 * ? * MON-FRI", zone = "Europe/Paris")
+	public void execute() {
 		try {
 			log.info("Executing update all currencies job");
 			currencyService.updateAllCurrencies();

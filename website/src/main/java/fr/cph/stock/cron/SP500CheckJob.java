@@ -19,9 +19,12 @@ package fr.cph.stock.cron;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.util.Constants;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.util.TimeZone;
 
@@ -31,21 +34,18 @@ import java.util.TimeZone;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Profile("prod")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Service
 @Log4j2
-public class SP500CheckJob implements Job {
+public class SP500CheckJob {
 
-	private IndexService indexService;
+	private final IndexService indexService;
 
-	/**
-	 * Constructor
-	 */
-	public SP500CheckJob() {
-	}
-
-	@Override
-	public final void execute(final JobExecutionContext context) {
+	@Scheduled(cron = "0 30 18-23 ? * MON-FRI", zone = "America/New_York")
+	public final void execute() {
 		try {
-			log.debug("SP500 Check job running");
+			log.debug("Running SP500 check job");
 			final TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
 			indexService.checkUpdateIndex(Constants.SP_500, timeZone);
 		} catch (final YahooException e) {

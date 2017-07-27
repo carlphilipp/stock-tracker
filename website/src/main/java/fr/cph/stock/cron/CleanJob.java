@@ -17,9 +17,12 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.service.CompanyService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 /**
  * Job that clean companies unused in DB
@@ -27,20 +30,18 @@ import org.quartz.JobExecutionContext;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Profile("prod")
+@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Service
 @Log4j2
-public class CleanJob implements Job {
+public class CleanJob {
 
-	private CompanyService companyService;
+	private final CompanyService companyService;
 
-	/**
-	 * Constructor
-	 **/
-	public CleanJob() {
-	}
-
-	@Override
-	public final void execute(final JobExecutionContext context) {
+	@Scheduled(cron = "0 30 0 ? * MON-FRI", zone = "Europe/Paris")
+	public void execute() {
 		try {
+			log.info("Running clean DB job");
 			companyService.cleanDB();
 		} catch (final Throwable t) {
 			log.error("Error while executing CleanJob: {}", t.getMessage(), t);
