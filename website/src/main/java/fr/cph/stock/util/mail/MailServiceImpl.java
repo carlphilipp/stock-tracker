@@ -82,7 +82,7 @@ public class MailServiceImpl implements MailService {
 		msg.setContent(message, "text/plain");
 		msg.setSentDate(new Date());
 		Transport.send(msg);
-		log.debug("Sending email to [{}]", recipients);
+		log.debug("Sending email to [{}]", recipients[0]);
 	}
 
 	/**
