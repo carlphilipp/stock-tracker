@@ -26,6 +26,7 @@ import fr.cph.stock.exception.YahooUnknownTickerException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.repository.CompanyRepository;
 import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.util.mail.MailService;
 import fr.cph.stock.util.Mail;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
@@ -52,6 +53,8 @@ public class CompanyServiceImpl implements CompanyService {
 	private final ExternalDataAccess yahoo;
 	@NonNull
 	private final CompanyRepository companyRepository;
+	@NonNull
+	private final MailService mailService;
 
 	@Override
 	public void updateCompaniesNotRealTime() {
@@ -145,7 +148,7 @@ public class CompanyServiceImpl implements CompanyService {
 				addOrUpdateCompanies(yahooIdList);
 			} catch (final YahooUnknownTickerException e) {
 				log.warn(e.getMessage());
-				Mail.sendMail("[Error] " + appProperties.getName(), e.getMessage(), appProperties.getAdmins().toArray(new String[appProperties.getAdmins().size()]));
+				mailService.sendMail("[Error] " + appProperties.getName(), e.getMessage(), appProperties.getAdmins().toArray(new String[appProperties.getAdmins().size()]));
 			} catch (final YahooException e) {
 				updateSuccess = false;
 				log.warn("All companies update failed: {}", e.getMessage());
@@ -163,7 +166,7 @@ public class CompanyServiceImpl implements CompanyService {
 					Util.makeAPause(PAUSE);
 				} catch (final YahooUnknownTickerException e) {
 					log.warn(e.getMessage());
-					Mail.sendMail("[Error] " + appProperties.getName(), e.getMessage(), appProperties.getAdmins().toArray(new String[appProperties.getAdmins().size()]));
+					mailService.sendMail("[Error] " + appProperties.getName(), e.getMessage(), appProperties.getAdmins().toArray(new String[appProperties.getAdmins().size()]));
 				} catch (final YahooException e) {
 					updateSuccess = false;
 					isOk = false;

@@ -20,13 +20,11 @@ import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.service.UserService;
-import fr.cph.stock.util.Mail;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -83,7 +81,7 @@ public class LostServlet extends HttpServlet {
 						.append(".\n\nBest regards,\nThe ")
 						.append(appProperties.getName())
 						.append(" team.");
-					Mail.sendMail("[Password Reset] " + appProperties.getName(), body.toString(), new String[]{email});
+					//Mail.sendMail("[Password Reset] " + appProperties.getName(), body.toString(), new String[]{email});
 					request.setAttribute("ok", "Check your email!");
 				} else {
 					request.setAttribute(ERROR, USER_NOT_FOUND);

@@ -36,7 +36,7 @@ public class AppProperties {
 	}
 
 	@Data
-	private static class Email {
+	public static class Email {
 		private final Smtp smtp = new Smtp();
 		private final From from = new From();
 

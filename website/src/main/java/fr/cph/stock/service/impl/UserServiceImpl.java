@@ -28,6 +28,7 @@ import fr.cph.stock.repository.UserRepository;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.service.CurrencyService;
 import fr.cph.stock.service.IndexService;
+import fr.cph.stock.util.mail.MailService;
 import fr.cph.stock.service.UserService;
 import fr.cph.stock.util.Constants;
 import fr.cph.stock.util.Mail;
@@ -55,19 +56,21 @@ public class UserServiceImpl implements UserService {
 	private static final int DB_PASSWORD_LIMIT = 64;
 
 	@NonNull
-	private AppProperties appProperties;
+	private final AppProperties appProperties;
 	@NonNull
-	private CurrencyService currencyService;
+	private final CurrencyService currencyService;
 	@NonNull
-	private SecurityService securityService;
+	private final SecurityService securityService;
 	@NonNull
-	private IndexService indexService;
+	private final IndexService indexService;
 	@NonNull
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 	@NonNull
-	private PortfolioRepository portfolioRepository;
+	private final PortfolioRepository portfolioRepository;
 	@NonNull
-	private AccountRepository accountRepository;
+	private final AccountRepository accountRepository;
+	@NonNull
+	private final MailService mailService;
 
 	@Override
 	public final void createUser(final String login, final String md5Password, final String email) throws NoSuchAlgorithmException, UnsupportedEncodingException, LoginException {
@@ -103,7 +106,7 @@ public class UserServiceImpl implements UserService {
 			.append(".\n\nBest regards,\nThe ")
 			.append(appProperties.getName())
 			.append(" team.");
-		Mail.sendMail("[Registration] " + appProperties.getName(), body.toString(), new String[]{email});
+		mailService.sendMail("[Registration] " + appProperties.getName(), body.toString(), new String[]{email});
 		createUserPortfolio(user.getLogin());
 		createUserDefaultAccount(user);
 	}

@@ -26,6 +26,7 @@ import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.repository.ShareValueRepository;
 import fr.cph.stock.repository.UserRepository;
 import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.util.mail.MailService;
 import fr.cph.stock.service.ShareValueService;
 import fr.cph.stock.service.UserService;
 import fr.cph.stock.util.Mail;
@@ -61,6 +62,8 @@ public class ShareValueServiceImpl implements ShareValueService {
 	private final CompanyService companyService;
 	@NonNull
 	private final UserService userService;
+	@NonNull
+	private final MailService mailService;
 
 	@Override
 	public final void updateCurrentShareValue(final Portfolio portfolio, final Account account, final Double liquidityMovement, final Double yield, final Double buy, final Double sell, final Double tax, final String commentary) {
@@ -134,7 +137,7 @@ public class ShareValueServiceImpl implements ShareValueService {
 								+ user.getLogin()
 								+ ",\n\nThe update today did not work, probably because of Yahoo's API.\nSorry for the inconvenience. You still can try do it manually."
 								+ "\n\nBest regards,\nThe " + appProperties.getName() + " team.");
-							Mail.sendMail("[Auto-update fail] " + appProperties.getName(), body, new String[]{user.getEmail()});
+							mailService.sendMail("[Auto-update fail] " + appProperties.getName(), body, new String[]{user.getEmail()});
 						}
 					}
 				}

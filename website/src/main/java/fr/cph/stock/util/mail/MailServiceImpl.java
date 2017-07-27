@@ -1,23 +1,11 @@
-/**
- * Copyright 2017 Carl-Philipp Harmant
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package fr.cph.stock.util;
+package fr.cph.stock.util.mail;
 
 import com.sun.net.ssl.internal.ssl.Provider;
+import fr.cph.stock.config.AppProperties;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -26,38 +14,26 @@ import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
 
-/**
- * This class is used to send emails
- *
- * @author Carl-Philipp Harmant
- */
 @Log4j2
-public final class Mail {
+@Component
+public class MailServiceImpl implements MailService {
 
-	private static String smtpHostName;
-	private static String smtpPort;
-	private static String emailFromUsername;
-	private static String emailFrom;
-	private static String passwordFrom;
 	private static final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 
-	/**
-	 * Constructor
-	 *
-	 * @param emailSubjectTxt the subject
-	 * @param emailMsgTxt     the content
-	 * @param sendTo          the targets
-	 * @throws MessagingException the messaging exception
-	 */
-	private Mail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo) throws MessagingException {
-		final Properties prop = Util.getProperties();
+	@NonNull
+	private final AppProperties appProperties;
+
+	@Autowired
+	public MailServiceImpl(final AppProperties appProperties) throws MessagingException {
+		/*final Properties prop = Util.getProperties();
 		smtpHostName = prop.getProperty("email.smtp_host_name");
 		smtpPort = prop.getProperty("email.smtp_port");
 		emailFromUsername = prop.getProperty("email.from.username");
 		emailFrom = prop.getProperty("email.from");
-		passwordFrom = prop.getProperty("email.password");
+		passwordFrom = prop.getProperty("email.password");*/
+		this.appProperties = appProperties;
 		Security.addProvider(new Provider());
-		sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt);
+		//sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt);
 	}
 
 	/**
@@ -72,11 +48,11 @@ public final class Mail {
 		final boolean debug = false;
 
 		final Properties props = new Properties();
-		props.put("mail.smtp.host", smtpHostName);
+		props.put("mail.smtp.host", appProperties.getEmail().getSmtp().getHost());
 		props.put("mail.smtp.auth", "true");
 		//props.put("mail.debug", "true");
-		props.put("mail.smtp.port", smtpPort);
-		props.put("mail.smtp.socketFactory.port", smtpPort);
+		props.put("mail.smtp.port", appProperties.getEmail().getSmtp().getPort());
+		props.put("mail.smtp.socketFactory.port", appProperties.getEmail().getSmtp().getPort());
 		props.put("mail.smtp.socketFactory.class", SSL_FACTORY);
 		props.put("mail.smtp.socketFactory.fallback", "false");
 		props.put("mail.smtp.ssl.enable", true);
@@ -85,14 +61,14 @@ public final class Mail {
 			protected PasswordAuthentication getPasswordAuthentication() {
 				// First argument must be the email in case of querying Gmail
 				// Must be only the username if querying Yahoo.
-				return new PasswordAuthentication(emailFromUsername, passwordFrom);
+				return new PasswordAuthentication(appProperties.getEmail().getFrom().getUsername(), appProperties.getEmail().getFrom().getPassword());
 			}
 		});
 
 		session.setDebug(debug);
 
 		final Message msg = new MimeMessage(session);
-		final InternetAddress addressFrom = new InternetAddress(emailFrom);
+		final InternetAddress addressFrom = new InternetAddress(appProperties.getEmail().getFrom().getFrom());
 		msg.setFrom(addressFrom);
 
 		final InternetAddress[] addressTo = new InternetAddress[recipients.length];
@@ -106,6 +82,7 @@ public final class Mail {
 		msg.setContent(message, "text/plain");
 		msg.setSentDate(new Date());
 		Transport.send(msg);
+		log.debug("Sending email to [{}]", recipients);
 	}
 
 	/**
@@ -115,9 +92,9 @@ public final class Mail {
 	 * @param emailMsgTxt     the email content
 	 * @param sendTo          the recipients
 	 */
-	public static void sendMail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo) {
+	public void sendMail(final String emailSubjectTxt, final String emailMsgTxt, final String[] sendTo) {
 		try {
-			new Mail(emailSubjectTxt, emailMsgTxt, sendTo);
+			sendSSLMessage(sendTo, emailSubjectTxt, emailMsgTxt);
 		} catch (final MessagingException e) {
 			log.error("Error while trying to send an email : {}", e.getMessage(), e);
 		}
