@@ -22,6 +22,8 @@ import fr.cph.stock.util.Util;
 import lombok.extern.log4j.Log4j2;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 
@@ -31,8 +33,12 @@ import java.io.File;
  * @author Carl-Philipp Harmant
  * @version 1
  */
+@Component
 @Log4j2
 public class MysqlDumpJob implements Job {
+
+	@Autowired
+	private MySQLDumper mySQLDumper;
 
 	private DropBox dropBox;
 
@@ -45,12 +51,11 @@ public class MysqlDumpJob implements Job {
 		File sqlFile = null;
 		try {
 			log.info("Exporting MYSQL db");
-			final MySQLDumper mysql = new MySQLDumper(Util.getCurrentDateInFormat("dd-MM-yyyy"));
-			mysql.export();
+			mySQLDumper.export();
 
-			final String sqlPath = mysql.getCurrentSqlNameFile();
+			final String sqlPath = mySQLDumper.getCurrentSqlNameFile();
 			sqlFile = new File(sqlPath);
-			final String tarGzPath = mysql.getCurrentTarGzNameFile();
+			final String tarGzPath = mySQLDumper.getCurrentTarGzNameFile();
 			tarGzFile = new File(tarGzPath);
 
 			Util.createTarGz(sqlPath, tarGzPath);

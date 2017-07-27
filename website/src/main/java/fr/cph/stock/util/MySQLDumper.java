@@ -16,19 +16,22 @@
 
 package fr.cph.stock.util;
 
+import fr.cph.stock.config.AppProperties;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.util.Properties;
 
 /**
  * This class dump the mysql database
  *
  * @author Carl-Philipp Harmant
  */
+@Component
 @Log4j2
 public class MySQLDumper {
 
@@ -42,13 +45,14 @@ public class MySQLDumper {
 	private static final String TARGZ_EXT = ".tar.gz";
 	private final String date;
 
-	public MySQLDumper(final String date) {
-		this.date = date;
-		final Properties prop = Util.getProperties();
-		this.ip = prop.getProperty("db.ip");
-		this.database = prop.getProperty("db.name");
-		this.user = prop.getProperty("db.user");
-		this.pass = prop.getProperty("db.password");
+	@Autowired
+	public MySQLDumper(final AppProperties appProperties) {
+		// FIXME handle the date in a different way, this wont work
+		this.date = Util.getCurrentDateInFormat("dd-MM-yyyy");
+		this.ip = appProperties.getDb().getIp();
+		this.database = appProperties.getDb().getName();
+		this.user = appProperties.getDb().getUser();
+		this.pass = appProperties.getDb().getPassword();
 	}
 
 	/**
