@@ -32,12 +32,12 @@ limitations under the License.
 	<div id="error">
 		<c:choose>
 			<c:when test="${!empty error }">
-				${error }<br>Please <a href="index.jsp">try again</a>.
+				${error }<br>Please <a href="/">try again</a>.
 			</c:when>
 			<c:otherwise>
-				Welcome, ${user.login }!<br>
+				Welcome, ${login }!<br>
 				Check your email box, you need to activate your account now !<br>
-				[<a href="index.jsp">index</a>]
+				[<a href="/">index</a>]
 			</c:otherwise>
 		</c:choose>
 	</div>

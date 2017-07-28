@@ -78,10 +78,10 @@ public class UserServiceImpl implements UserService {
 		final String cryptedPasswordSalt = securityService.encodeToSha256(md5PasswordHashed + saltHashed);
 		final Optional<User> userInDbWithLogin = getUser(login);
 		final Optional<User> userInDbWithEmail = getUserWithEmail(email);
-		if (!userInDbWithLogin.isPresent()) {
+		if (userInDbWithLogin.isPresent()) {
 			throw new LoginException("Sorry, '" + login + "' is not available!");
 		}
-		if (!userInDbWithEmail.isPresent()) {
+		if (userInDbWithEmail.isPresent()) {
 			throw new LoginException("Sorry, '" + email + "' is not available!");
 		}
 		final User user = User.builder()

@@ -2,6 +2,7 @@ package fr.cph.stock.controller.user;
 
 import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.entities.User;
+import fr.cph.stock.exception.LoginException;
 import fr.cph.stock.security.SecurityService;
 import fr.cph.stock.service.UserService;
 import fr.cph.stock.util.mail.MailService;
@@ -21,13 +22,17 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import static fr.cph.stock.util.Constants.EMAIL;
+import static fr.cph.stock.util.Constants.*;
 
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Controller
 public class UserController {
+
+	private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$");
 
 	@NonNull
 	private final AppProperties appProperties;
@@ -37,6 +42,31 @@ public class UserController {
 	private final SecurityService securityService;
 	@NonNull
 	private final MailService mailService;
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ModelAndView register(final HttpServletRequest request, final HttpServletResponse response,
+								 @RequestParam(value = LOGIN) final String login,
+								 @RequestParam(value = PASSWORD) final String password,
+								 @RequestParam(value = EMAIL) final String email) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		final ModelAndView model = new ModelAndView("register");
+		if(!isValidEmailAddress(email)){
+			model.setViewName("error");
+		}else {
+			model.setViewName("register");
+			try {
+				userService.createUser(login, password, email);
+			} catch (final LoginException e) {
+				model.addObject(ERROR, e.getMessage());
+			}
+			model.addObject("login", login);
+		}
+		return model;
+	}
+
+	private boolean isValidEmailAddress(final String email) {
+		final Matcher m = EMAIL_PATTERN.matcher(email);
+		return m.matches();
+	}
 
 	@RequestMapping(value = "/lost", method = RequestMethod.POST)
 	public ModelAndView lost(@RequestParam(value = EMAIL) final String email) throws UnsupportedEncodingException, NoSuchAlgorithmException {
