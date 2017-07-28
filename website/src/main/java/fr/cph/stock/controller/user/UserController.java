@@ -44,14 +44,13 @@ public class UserController {
 	private final MailService mailService;
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ModelAndView register(final HttpServletRequest request, final HttpServletResponse response,
-								 @RequestParam(value = LOGIN) final String login,
+	public ModelAndView register(@RequestParam(value = LOGIN) final String login,
 								 @RequestParam(value = PASSWORD) final String password,
 								 @RequestParam(value = EMAIL) final String email) throws UnsupportedEncodingException, NoSuchAlgorithmException {
-		final ModelAndView model = new ModelAndView("register");
-		if(!isValidEmailAddress(email)){
+		final ModelAndView model = new ModelAndView();
+		if (!isValidEmailAddress(email)) {
 			model.setViewName("error");
-		}else {
+		} else {
 			model.setViewName("register");
 			try {
 				userService.createUser(login, password, email);
@@ -66,6 +65,27 @@ public class UserController {
 	private boolean isValidEmailAddress(final String email) {
 		final Matcher m = EMAIL_PATTERN.matcher(email);
 		return m.matches();
+	}
+
+	@RequestMapping(value = "/check", method = RequestMethod.GET)
+	public ModelAndView check(@RequestParam(value = LOGIN) final String login,
+							  @RequestParam(value = CHECK) final String check) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+		final ModelAndView model = new ModelAndView("check");
+		final Optional<User> userOptional = userService.getUser(login);
+		if (userOptional.isPresent()) {
+			final User user = userOptional.get();
+			final String serverCheck = securityService.encodeToSha256(user.getLogin() + user.getPassword() + user.getEmail());
+			if (check.equals(serverCheck)) {
+				userService.validateUser(login);
+				model.addObject(MESSAGE, "It worked!<br>You can now <a href='/'>login</a>");
+			} else {
+				model.addObject(MESSAGE, "Sorry, it did not work");
+			}
+			model.addObject(USER, userOptional);
+		} else {
+			model.addObject(MESSAGE, "Sorry, it did not work");
+		}
+		return model;
 	}
 
 	@RequestMapping(value = "/lost", method = RequestMethod.POST)
