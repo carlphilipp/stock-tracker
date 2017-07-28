@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -61,5 +64,14 @@ public class UserController {
 		}
 		model.addObject("ok", "Check your email!");
 		return model;
+	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(final HttpServletRequest request, final HttpServletResponse response) {
+		final HttpSession session = request.getSession(false);
+		if (session != null) {
+			session.invalidate();
+		}
+		return "index";
 	}
 }
