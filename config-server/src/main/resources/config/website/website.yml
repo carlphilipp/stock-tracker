@@ -20,6 +20,11 @@ app:
     name: #
     user: #
     password: #
+  rest:
+    client:
+      maxTotalConnections: 100
+      maxConnectionsPerRoute: 10
+      readTimeout: 5000
   dropbox:
     clientId: #
     accessToken: #

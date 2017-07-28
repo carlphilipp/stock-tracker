@@ -45,6 +45,9 @@ dependencies {
 		// Dropbox
 		[group: 'com.dropbox.core', name: 'dropbox-core-sdk', version: dropbox_version],
 
+		// Http
+		[group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.3'],
+
 		// JSON
 		[group: 'com.google.code.gson', name: 'gson', version: gson_version],
 

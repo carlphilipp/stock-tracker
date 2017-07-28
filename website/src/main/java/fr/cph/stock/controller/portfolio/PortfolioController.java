@@ -17,10 +17,6 @@
 package fr.cph.stock.controller.portfolio;
 
 import fr.cph.stock.config.AppProperties;
-import fr.cph.stock.service.CompanyService;
-import fr.cph.stock.service.CurrencyService;
-import fr.cph.stock.service.IndexService;
-import fr.cph.stock.service.UserService;
 import fr.cph.stock.entities.Index;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.entities.User;
@@ -30,6 +26,10 @@ import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
 import fr.cph.stock.report.PdfReport;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.CurrencyService;
+import fr.cph.stock.service.IndexService;
+import fr.cph.stock.service.UserService;
 import fr.cph.stock.util.Constants;
 import fr.cph.stock.util.Util;
 import lombok.NonNull;
@@ -203,11 +203,7 @@ public class PortfolioController {
 		@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
 		final ModelAndView model = new ModelAndView("currencies");
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-		final Object[][] tab = currencyService.getAllCurrencyData(portfolio.getCurrency());
-		model.addObject(PORTFOLIO, portfolio);
-		model.addObject(TAB, tab);
-		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
-		model.addObject(APP_TITLE, appProperties.getName() + " &bull;   Currencies");
+		add(model, portfolio, lang);
 		return model;
 	}
 
@@ -215,7 +211,7 @@ public class PortfolioController {
 	public ModelAndView refreshCurrencies(
 		@ModelAttribute final User user,
 		@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
-		final ModelAndView model = currencies(user, lang);
+		final ModelAndView model = new ModelAndView("currencies");
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		try {
 			currencyService.updateOneCurrency(portfolio.getCurrency());
@@ -223,7 +219,16 @@ public class PortfolioController {
 		} catch (final YahooException e) {
 			model.addObject(ERROR, e.getMessage());
 		}
+		add(model, portfolio, lang);
 		return model;
+	}
+
+	public void add(final ModelAndView model, final Portfolio portfolio, final String lang) {
+		final Object[][] tab = currencyService.getAllCurrencyData(portfolio.getCurrency());
+		model.addObject(PORTFOLIO, portfolio);
+		model.addObject(TAB, tab);
+		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
+		model.addObject(APP_TITLE, appProperties.getName() + " &bull;   Currencies");
 	}
 
 	// FIXME: PDF generated does not work

@@ -16,9 +16,11 @@ public class AppProperties {
 	private List<String> admins;
 
 	private final Db db = new Db();
+	private final Rest rest = new Rest();
 	private final Dropbox dropbox = new Dropbox();
 	private final Email email = new Email();
 	private final Report report = new Report();
+
 
 	@Data
 	public static class Db {
@@ -27,6 +29,17 @@ public class AppProperties {
 		private String name;
 		private String user;
 		private String password;
+	}
+
+	@Data
+	public static class Rest {
+		private final Client client = new Client();
+		@Data
+		public static class Client {
+			private int maxTotalConnections;
+			private int maxConnectionsPerRoute;
+			private int readTimeout;
+		}
 	}
 
 	@Data

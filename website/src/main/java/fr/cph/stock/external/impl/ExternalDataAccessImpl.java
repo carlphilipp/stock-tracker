@@ -16,9 +16,6 @@
 
 package fr.cph.stock.external.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.CurrencyData;
 import fr.cph.stock.entities.Index;
@@ -27,6 +24,8 @@ import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.ExternalDataAccess;
 import fr.cph.stock.external.YahooGateway;
+import fr.cph.stock.external.web.company.CompaniesData;
+import fr.cph.stock.external.web.company.CompanyData;
 import fr.cph.stock.external.web.company.Quote;
 import fr.cph.stock.external.web.currency.history.HistoryResult;
 import fr.cph.stock.external.web.currency.xchange.Rate;
@@ -46,9 +45,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
-import static fr.cph.stock.util.Constants.QUOTE;
 
 /**
  * This class connect to yahooGatewayImpl api and convert the jsonObjects to java bean of the app
@@ -61,50 +57,52 @@ import static fr.cph.stock.util.Constants.QUOTE;
 public class ExternalDataAccessImpl implements ExternalDataAccess {
 
 	private static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-	private static final String DIAGNOSTICS = "diagnostics";
-	private static final String JAVASCRIPT = "javascript";
-	private static final String QUERY = "query";
 	private static final String NULL = "null";
-	private static final String RESULTS = "results";
 
 	@NonNull
 	private final YahooGateway yahooGateway;
-	@NonNull
-	private final Gson gson;
 
 	@Override
 	public final Stream<Company> getCompaniesData(final List<String> yahooIds) {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
-		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
-		final JsonArray jsonResults = getJSONArrayFromJSONObject(json);
-		return StreamSupport.stream(jsonResults.spliterator(), false)
-			.map(jsonElement -> gson.fromJson(jsonElement, Quote.class))
-			.map(quote -> {
-				final Company company = Company.builder()
-					.yahooId(quote.getSymbol())
-					.name(WordUtils.capitalizeFully(quote.getName()))
-					.market(Market.getMarket(quote.getStockExchange()))
-					.yield(quote.getDividendYield() == null ? 0.0 : quote.getDividendYield())
-					.quote(quote.getLastTradePriceOnly() == null ? 0.0 : quote.getLastTradePriceOnly())
-					.marketCapitalization(quote.getMarketCapitalization())
-					.yesterdayClose(quote.getPreviousClose() == null ? 0.0 : quote.getPreviousClose())
-					.changeInPercent(quote.getChangeinPercent())
-					.yearLow(quote.getYearLow())
-					.yearHigh(quote.getYearHigh())
-					.realTime(true)
-					.fund(false)
-					.manual(false)
-					.build();
-				if (company.getMarket().equals(Market.UNKNOWN)) {
-					final String currency = quote.getCurrency();
-					if (StringUtils.isNotEmpty(currency) && !currency.equals(NULL)) {
-						company.setCurrency(Currency.getEnum(currency));
-					}
-				} else {
-					company.setCurrency(Market.getCurrency(company.getMarket()));
-				}
-				return company;
-			});
+		return yahooIds.size() == 1
+			? getCompanyData(yahooIds.get(0))
+			: yahooGateway.getObject(requestQuotes, CompaniesData.class).getQuery().getResults().getQuote().stream().map(this::buildCompany);
+	}
+
+	private Stream<Company> getCompanyData(final String yahooId) {
+		final String requestQuote = "select * from yahoo.finance.quotes where symbol in ('" + yahooId + "')";
+		final CompanyData json = yahooGateway.getObject(requestQuote, CompanyData.class);
+		final Quote quote = json.getQuery().getResults().getQuote();
+		final Company company = buildCompany(quote);
+		return Stream.of(company);
+	}
+
+	private Company buildCompany(final Quote quote) {
+		final Company company = Company.builder()
+			.yahooId(quote.getSymbol())
+			.name(WordUtils.capitalizeFully(quote.getName()))
+			.market(Market.getMarket(quote.getStockExchange()))
+			.yield(quote.getDividendYield() == null ? 0.0 : quote.getDividendYield())
+			.quote(quote.getLastTradePriceOnly() == null ? 0.0 : quote.getLastTradePriceOnly())
+			.marketCapitalization(quote.getMarketCapitalization())
+			.yesterdayClose(quote.getPreviousClose() == null ? 0.0 : quote.getPreviousClose())
+			.changeInPercent(quote.getChangeinPercent())
+			.yearLow(quote.getYearLow())
+			.yearHigh(quote.getYearHigh())
+			.realTime(true)
+			.fund(false)
+			.manual(false)
+			.build();
+		if (company.getMarket().equals(Market.UNKNOWN)) {
+			final String currency = quote.getCurrency();
+			if (StringUtils.isNotEmpty(currency) && !currency.equals(NULL)) {
+				company.setCurrency(Currency.getEnum(currency));
+			}
+		} else {
+			company.setCurrency(Market.getCurrency(company.getMarket()));
+		}
+		return company;
 	}
 
 	@Override
@@ -116,7 +114,6 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 				sb.append("\"").append(currency.getCode()).append(c.getCode()).append("\",\"").append(c.getCode()).append(currency.getCode()).append("\"");
 				final String request = "select * from yahoo.finance.xchange where pair in (" + sb + ")";
 				final XChangeResult xChangeResult = yahooGateway.getObject(request, XChangeResult.class);
-				log.info("XChangeResult: " + xChangeResult);
 				final List<Rate> rates = xChangeResult.getQuery().getResults().getRate();
 				if (rates != null && rates.size() == 2) {
 					final CurrencyData currencyData = CurrencyData.builder()
@@ -155,56 +152,11 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	@Override
 	public final Index getIndexData(final String yahooId) throws YahooException {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in ('" + yahooId + "')";
-		final JsonObject json = yahooGateway.getJSONObject(requestQuotes);
-		final Quote quote = gson.fromJson(json.getAsJsonObject(QUERY).getAsJsonObject(RESULTS).getAsJsonObject(QUOTE), Quote.class);
+		final CompanyData companyData = yahooGateway.getObject(requestQuotes, CompanyData.class);
 		return Index.builder()
 			.yahooId(yahooId)
-			.value(quote.getLastTradePriceOnly())
+			.value(companyData.getQuery().getResults().getQuote().getLastTradePriceOnly())
 			.build();
-	}
-
-	/**
-	 * Get a json array from a json object. Don't remember the goal of this function
-	 *
-	 * @param json the jsonObject
-	 * @return a jsonArray
-	 * @throws YahooException the yahooGatewayImpl exception
-	 */
-	private JsonArray getJSONArrayFromJSONObject(final JsonObject json) {
-		final JsonObject jQuery = json.getAsJsonObject(QUERY);
-		JsonArray quotes;
-		if (jQuery != null) {
-			final JsonObject jsonResults = jQuery.getAsJsonObject(RESULTS);
-			if (jsonResults != null) {
-				if (jsonResults.get(QUOTE).isJsonArray()) {
-					quotes = jsonResults.getAsJsonArray(QUOTE);
-				} else {
-					final JsonObject quote = jsonResults.getAsJsonObject(QUOTE);
-					if (quote == null) {
-						final JsonObject error2 = json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS).getAsJsonObject(JAVASCRIPT);
-						if (error2 == null) {
-							throw new YahooException("Can't get the error message");
-						} else {
-							throw new YahooException(error2.getAsJsonObject("content").getAsString());
-						}
-					} else {
-						quotes = new JsonArray();
-						quotes.add(quote);
-					}
-				}
-			} else {
-				final JsonObject error = json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS).getAsJsonObject(JAVASCRIPT);
-				if (error == null) {
-					log.debug("JSONObject found: {}", json.getAsJsonObject(QUERY).getAsJsonObject(DIAGNOSTICS));
-					throw new YahooException("The current table 'yahoo.finance.quotes' has probably been blocked.");
-				} else {
-					throw new YahooException(error.getAsJsonObject("content").getAsString());
-				}
-			}
-		} else {
-			throw new YahooException("Something went wrong. Query object null");
-		}
-		return quotes;
 	}
 
 	/**
@@ -224,16 +176,5 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 			i++;
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * Guess the market from the id
-	 *
-	 * @param yahooId the yahooGatewayImpl id
-	 * @return a Market
-	 */
-	private Market guessMarket(final String yahooId) {
-		final String suffix = yahooId.substring(yahooId.indexOf('.') + 1, yahooId.length());
-		return Market.getMarketFromSuffix(suffix);
 	}
 }
