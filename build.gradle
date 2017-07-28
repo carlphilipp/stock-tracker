@@ -3,7 +3,7 @@ version '3.0.0'
 subprojects {
 	buildscript {
 		ext {
-			springBootVersion = '1.5.4.RELEASE'
+			springBootVersion = '1.5.6.RELEASE'
 		}
 		repositories {
 			mavenCentral()
