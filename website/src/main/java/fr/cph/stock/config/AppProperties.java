@@ -21,7 +21,6 @@ public class AppProperties {
 	private final Email email = new Email();
 	private final Report report = new Report();
 
-
 	@Data
 	public static class Db {
 		private String ip;
@@ -34,6 +33,7 @@ public class AppProperties {
 	@Data
 	public static class Rest {
 		private final Client client = new Client();
+
 		@Data
 		public static class Client {
 			private int maxTotalConnections;

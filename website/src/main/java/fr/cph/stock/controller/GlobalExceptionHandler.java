@@ -1,4 +1,4 @@
-package fr.cph.stock.config;
+package fr.cph.stock.controller;
 
 import fr.cph.stock.exception.LoginException;
 import lombok.extern.log4j.Log4j2;

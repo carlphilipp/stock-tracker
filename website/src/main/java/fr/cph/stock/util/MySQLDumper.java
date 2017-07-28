@@ -19,6 +19,7 @@ package fr.cph.stock.util;
 import fr.cph.stock.config.AppProperties;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -31,28 +32,27 @@ import java.io.PrintStream;
  *
  * @author Carl-Philipp Harmant
  */
+@Scope("prototype")
 @Component
 @Log4j2
 public class MySQLDumper {
 
 	private final String ip;
-	// private static String port = "3306";
 	private final String database;
 	private final String user;
-	private final String pass;
-	private static final String PATH = "fr/cph/stock";
+	private final String password;
+	private static final String PATH = "stock-tracker";
 	private static final String SQL_EXT = ".sql";
 	private static final String TARGZ_EXT = ".tar.gz";
 	private final String date;
 
 	@Autowired
 	public MySQLDumper(final AppProperties appProperties) {
-		// FIXME handle the date in a different way, this wont work
 		this.date = Util.getCurrentDateInFormat("dd-MM-yyyy");
 		this.ip = appProperties.getDb().getIp();
 		this.database = appProperties.getDb().getName();
 		this.user = appProperties.getDb().getUser();
-		this.pass = appProperties.getDb().getPassword();
+		this.password = appProperties.getDb().getPassword();
 	}
 
 	/**
@@ -88,7 +88,7 @@ public class MySQLDumper {
 	 * @throws Exception the exception
 	 */
 	public final void export() throws Exception {
-		final String dumpCommand = "mysqldump " + database + " -h " + ip + " -u " + user + " -p" + pass;
+		final String dumpCommand = "mysqldump " + database + " -h " + ip + " -u " + user + " -p" + password;
 		log.info("Executing '{}'", dumpCommand);
 		final Runtime rt = Runtime.getRuntime();
 		PrintStream ps;
