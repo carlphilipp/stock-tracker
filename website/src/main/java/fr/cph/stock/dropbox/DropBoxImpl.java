@@ -28,7 +28,7 @@ public class DropBoxImpl implements DropBox {
 	@Autowired
 	public DropBoxImpl(final AppProperties appProperties) {
 		final DbxRequestConfig config = new DbxRequestConfig(appProperties.getDropbox().getClientId());
-		client = new DbxClientV2(config, appProperties.getDropbox().getClientId());
+		client = new DbxClientV2(config, appProperties.getDropbox().getAccessToken());
 	}
 
 	/**

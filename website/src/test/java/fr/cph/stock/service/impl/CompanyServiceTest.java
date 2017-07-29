@@ -1,11 +1,13 @@
 package fr.cph.stock.service.impl;
 
+import fr.cph.stock.config.AppProperties;
 import fr.cph.stock.repository.CompanyRepository;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.Market;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.external.ExternalDataAccess;
+import fr.cph.stock.util.mail.MailService;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -36,6 +38,10 @@ public class CompanyServiceTest {
 	private CompanyRepository companyRepository;
 	@Mock
 	private ExternalDataAccess yahoo;
+	@Mock
+	private AppProperties appProperties;
+	@Mock
+	private MailService mailService;
 
 	@InjectMocks
 	private CompanyServiceImpl companyBusiness;

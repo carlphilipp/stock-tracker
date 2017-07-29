@@ -93,7 +93,7 @@ public class OptionController {
 		return model;
 	}
 
-	// TODO REFACTOR AND TO MOVE SOMEWHERE ELSE CAUSE NOT IN THE RIGHT CONTROLLER
+	// TODO REFACTOR
 	@RequestMapping(value = "/options", method = RequestMethod.POST)
 	public ModelAndView updateOptions(final HttpServletRequest request,
 									  final HttpServletResponse response,

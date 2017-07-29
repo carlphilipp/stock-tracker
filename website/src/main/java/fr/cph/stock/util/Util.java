@@ -189,19 +189,4 @@ public enum Util {
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
 	}
-
-	/**
-	 * Get properties from a property file
-	 *
-	 * @return a properties file
-	 */
-	public static Properties getProperties() {
-		final Properties prop = new Properties();
-		try {
-			prop.load(Util.class.getClassLoader().getResourceAsStream("app.properties"));
-		} catch (final IOException e) {
-			log.error(e.getMessage(), e);
-		}
-		return prop;
-	}
 }
