@@ -42,7 +42,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		final FilterRegistrationBean registration = new FilterRegistrationBean();
 		registration.setFilter(new SessionFilter());
 		registration.setOrder(1);
-		registration.addUrlPatterns("/home/*", "/history/*", "/accounts/*", "/charts/*", "/performance/*", "/currencies/*", "/options/*");
+		registration.addUrlPatterns("/home/*", "/history/*", "/accounts/*", "/charts/*", "/performance/*", "/currencies/*", "/options/*", "/language/*");
 		return registration;
 	}
 
