@@ -91,4 +91,15 @@ dependencies {
 	)
 }
 
+war {
+	ext.prod = project.hasProperty('prod')
+	if (ext.prod) {
+		archiveName = 'ROOT.war'
+	} else {
+		archiveName = 'stock-tracker.war'
+	}
+	rootSpec.exclude('log4j2-prod.xml.template')
+	exclude('**/bdd.sql')
+}
+
 compileJava.dependsOn(processResources)
