@@ -26,15 +26,15 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(NoHandlerFoundException.class)
-	@ResponseStatus(value= HttpStatus.NOT_FOUND)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
 	public String requestHandlingNoHandlerFound() {
 		return "error";
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler({HttpRequestMethodNotSupportedException.class, HttpSessionRequiredException.class})
-	public String handleRequestError() {
-		log.error("Request Error");
+	public String handleRequestError(final Exception e) {
+		log.error("Request Error [{}]", e.getMessage(), e);
 		return "error";
 	}
 

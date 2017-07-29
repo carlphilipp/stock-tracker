@@ -53,7 +53,7 @@ public class HomeController {
 	@RequestMapping(value = "/home", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView home(@RequestParam(value = DAYS, required = false) final String days,
 							 @ModelAttribute final User user,
-							 @CookieValue(LANGUAGE) final String lang) {
+							 @CookieValue(value = LANGUAGE, defaultValue = ENGLISH) final String lang) {
 		final ModelAndView model = new ModelAndView(HOME);
 		final Calendar calendar = getCalendarFromDays(days);
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId(), calendar == null ? null : calendar.getTime()).orElseThrow(() -> new NotFoundException(user.getId()));

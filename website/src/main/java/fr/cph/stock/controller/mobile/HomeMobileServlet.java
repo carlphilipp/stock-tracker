@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.web.servlet.mobile;
+package fr.cph.stock.controller.mobile;
 
 import com.google.gson.JsonObject;
 import fr.cph.stock.entities.Index;
@@ -44,7 +44,7 @@ import static fr.cph.stock.util.Constants.USER;
  *
  * @author Carl-Philipp Harmant
  */
-// FIXME to delete
+// FIXME to convert to a spring rest controller
 @Log4j2
 //@WebServlet(name = "HomeMobileServlet", urlPatterns = {"/homemobile"})
 public class HomeMobileServlet extends HttpServlet {

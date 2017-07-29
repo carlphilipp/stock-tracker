@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.web.servlet.mobile;
+package fr.cph.stock.controller.mobile;
 
 import fr.cph.stock.service.ShareValueService;
 import fr.cph.stock.service.UserService;
@@ -39,7 +39,7 @@ import java.math.MathContext;
  *
  * @author Carl-Philipp Harmant
  */
-// FIXME to delete
+// FIXME to convert to a spring rest controller
 @Log4j2
 //@WebServlet(name = "UpdateShareValueMobileServlet", urlPatterns = {"/updatesharevaluemobile"})
 public class UpdateShareValueMobileServlet extends HttpServlet {

@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.web.servlet.mobile;
+package fr.cph.stock.controller.mobile;
 
-import fr.cph.stock.service.CompanyService;
-import fr.cph.stock.service.UserService;
-import fr.cph.stock.entities.Portfolio;
-import fr.cph.stock.entities.User;
-import fr.cph.stock.exception.NotFoundException;
-import fr.cph.stock.exception.YahooException;
+import com.google.gson.JsonObject;
 import lombok.extern.log4j.Log4j2;
-import fr.cph.stock.util.Constants;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,38 +26,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import static fr.cph.stock.util.Constants.SESSION;
+
 /**
- * This servlet is called by mobile to reload the portfolio
+ * This servlet is called by mobiles to logout from the app
  *
  * @author Carl-Philipp Harmant
  */
-// FIXME to delete
+// FIXME to convert to a spring rest controller
 @Log4j2
-//@WebServlet(name = "ReloadPortfolioMobileServlet", urlPatterns = {"/reloadportfoliomobile"})
-public class ReloadPortfolioMobileServlet extends HttpServlet {
+//@WebServlet(name = "LogOutMobileServlet", urlPatterns = {"/logoutmobile"})
+public class LogOutMobileServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 5211078955305413271L;
-	private CompanyService companyService;
-	private UserService userService;
-
-	@Override
-	public final void init() {
-	}
+	private static final long serialVersionUID = -6390397454452936077L;
 
 	@Override
 	protected final void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
 		try {
 			final HttpSession session = request.getSession(false);
-			final User user = (User) session.getAttribute(Constants.USER);
-			try {
-				final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
-				companyService.addOrUpdateCompaniesLimitedRequest(portfolio.getCompaniesYahooIdRealTime());
-				response.sendRedirect(Constants.HOMEMOBILE);
-			} catch (YahooException e) {
-				response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+			if (session != null) {
+				session.invalidate();
 			}
+			response.setCharacterEncoding("UTF-8");
+			response.setContentType("application/json");
+			final JsonObject json = new JsonObject();
+			json.addProperty(SESSION, "null");
+			response.getWriter().write(json.toString());
 		} catch (final Throwable t) {
-			log.error("Error: {}", t.getMessage(), t);
+			log.error(t.getMessage(), t);
 			throw new ServletException("Error: " + t.getMessage(), t);
 		}
 	}

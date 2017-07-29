@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.web.servlet;
+package fr.cph.stock.filter;
 
 import fr.cph.stock.entities.User;
 import org.springframework.web.filter.GenericFilterBean;

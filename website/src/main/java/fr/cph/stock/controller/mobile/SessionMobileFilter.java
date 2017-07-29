@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package fr.cph.stock.web.servlet.mobile;
+package fr.cph.stock.controller.mobile;
 
 import fr.cph.stock.entities.User;
 

@@ -1,6 +1,7 @@
 package fr.cph.stock.config;
 
-import fr.cph.stock.web.servlet.SessionFilter;
+import fr.cph.stock.filter.CookieFilter;
+import fr.cph.stock.filter.SessionFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,7 +41,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public FilterRegistrationBean sessionFilter() {
 		final FilterRegistrationBean registration = new FilterRegistrationBean();
 		registration.setFilter(new SessionFilter());
+		registration.setOrder(1);
 		registration.addUrlPatterns("/home/*", "/history/*", "/accounts/*", "/charts/*", "/performance/*", "/currencies/*", "/options/*");
+		return registration;
+	}
+
+	@Bean
+	public FilterRegistrationBean cookieFilter() {
+		final FilterRegistrationBean registration = new FilterRegistrationBean();
+		registration.setFilter(new CookieFilter());
+		registration.setOrder(2);
+		registration.addUrlPatterns("/home/*");
 		return registration;
 	}
 }

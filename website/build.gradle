@@ -21,7 +21,7 @@ dependencies {
 		// Spring boot
 		[group: 'org.springframework.boot', name: 'spring-boot-starter'],
 		[group: 'org.springframework.boot', name: 'spring-boot-starter-web'],
-		[group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'],
+		//[group: 'org.springframework.boot', name: 'spring-boot-configuration-processor'],
 		[group: 'org.springframework.boot', name: 'spring-boot-actuator'],
 		[group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'],
 		[group: 'org.springframework.cloud', name: 'spring-cloud-config-client'],
