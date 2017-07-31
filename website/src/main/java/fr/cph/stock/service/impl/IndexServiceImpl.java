@@ -49,7 +49,7 @@ public class IndexServiceImpl implements IndexService {
 	private final IndexRepository indexRepository;
 
 	@Override
-	public List<Index> getIndexes(String yahooId, Date from) {
+	public List<Index> getIndexes(final String yahooId, final Date from) {
 		return getIndexes(yahooId, from, null);
 	}
 

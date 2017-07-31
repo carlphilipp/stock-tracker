@@ -222,7 +222,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Optional<Portfolio> getUserPortfolio(int userId, Date from) throws YahooException {
+	public Optional<Portfolio> getUserPortfolio(final int userId, final Date from) throws YahooException {
 		return getUserPortfolio(userId, from, null);
 	}
 

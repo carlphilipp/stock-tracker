@@ -14,7 +14,7 @@ import java.util.Properties;
 public class DataSourceConfig {
 
 	@NonNull
-	public final AppProperties appProperties;
+	private final AppProperties appProperties;
 
 	@Bean
 	public DriverManagerDataSource db() {

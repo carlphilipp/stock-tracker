@@ -109,20 +109,13 @@ public class OptionController {
 									  @RequestParam(value = OBJECTIVE, required = false) final String objective,
 									  @RequestParam(value = YIELD_1, required = false) final String yield1,
 									  @RequestParam(value = YIELD_2, required = false) final String yield2,
-									  @RequestParam(value = UPDATE_TIME, required = false) Integer updateTime,
+									  @RequestParam(value = UPDATE_TIME, required = false) final Integer updateTime,
+									  @RequestParam(value = AUTO_UPDATE_EMAIL, required = false, defaultValue = "false") final boolean updateSendMail,
 									  @ModelAttribute final User user,
 									  @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView("options");
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		String quoteRes = null, currencyRes = null, parityRes = null, stopLossRes = null, objectiveRes = null, yield1Res = null, yield2Res = null;
-		String updateSendMail = null;
-		if (autoUpdate == null) {
-			updateTime = null;
-		} else {
-			updateTime = Integer.valueOf(request.getParameter(UPDATE_TIME));
-			updateSendMail = request.getParameter(AUTO_UPDATE_EMAIL);
-		}
-
 		if (currency != portfolio.getCurrency()) {
 			portfolio.setCurrency(currency);
 			userService.updatePortfolio(portfolio);
@@ -131,11 +124,7 @@ public class OptionController {
 		user.setTimeZone(timeZone);
 		user.setDatePattern(datePattern);
 		user.setUpdateHourTime(updateTime);
-		if (updateSendMail != null) {
-			user.setUpdateSendMail(true);
-		} else {
-			user.setUpdateSendMail(false);
-		}
+		user.setUpdateSendMail(updateSendMail);
 		userService.updateUser(user);
 
 		boolean bool = addCookieToResponse(response, QUOTE, quote);

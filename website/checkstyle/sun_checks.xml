@@ -94,7 +94,7 @@
 			<property name="max" value="500" />
 		</module>
 		<module name="ParameterNumber">
-			<property name="max" value="10" />
+			<property name="max" value="18" />
 			<property name="tokens" value="METHOD_DEF" />
 		</module>
 

@@ -1,6 +1,6 @@
 apply plugin: 'war'
-//apply plugin: 'pmd'
-//apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
 //apply plugin: 'jacoco'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
@@ -100,6 +100,11 @@ war {
 	}
 	rootSpec.exclude('log4j2-prod.xml.template')
 	exclude('**/bdd.sql')
+}
+
+checkstyle {
+	sourceSets = [sourceSets.main]
+	configFile = new File('checkstyle/sun_checks.xml')
 }
 
 compileJava.dependsOn(processResources)
