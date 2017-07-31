@@ -1,12 +1,12 @@
 package fr.cph.stock.external.web.currency.history;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
 public class Quote {
-	@SerializedName("Close")
+	@JsonProperty("Close")
 	private double close;
 }

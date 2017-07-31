@@ -47,7 +47,7 @@ public class CompanyServiceImpl implements CompanyService {
 	private static final int PAUSE = 1000;
 
 	@NonNull
-	private AppProperties appProperties;
+	private final AppProperties appProperties;
 	@NonNull
 	private final ExternalDataAccess yahoo;
 	@NonNull
