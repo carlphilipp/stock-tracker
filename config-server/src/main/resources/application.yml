@@ -8,3 +8,5 @@ spring:
        server:
            native:
               searchLocations: classpath:config/website
+logging:
+  file: /var/log/config-server.log
