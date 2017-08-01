@@ -1,4 +1,17 @@
 # Stock Tracker 3.0.0
+<pre>
+
+
+     _______.___________.  ______     ______  __  ___    .___________..______          ___       ______  __  ___  _______ .______      
+    /       |           | /  __  \   /      ||  |/  /    |           ||   _  \        /   \     /      ||  |/  / |   ____||   _  \     
+   |   (----`---|  |----`|  |  |  | |  ,----'|  '  /     `---|  |----`|  |_)  |      /  ^  \   |  ,----'|  '  /  |  |__   |  |_)  |    
+    \   \       |  |     |  |  |  | |  |     |    <          |  |     |      /      /  /_\  \  |  |     |    <   |   __|  |      /     
+.----)   |      |  |     |  `--'  | |  `----.|  .  \         |  |     |  |\  \----./  _____  \ |  `----.|  .  \  |  |____ |  |\  \----.
+|_______/       |__|      \______/   \______||__|\__\        |__|     | _| `._____/__/     \__\ \______||__|\__\ |_______|| _| `._____|
+                                                                                                                                       
+
+
+</pre>
 
 A web application to track your personal investments with minimum maintenance.
 
@@ -14,14 +27,14 @@ Two "microservices"
 - website: Spring Boot application that is deployed as a `.war` in a Tomcat container. Tomcat is needed for a better JSP support.
 - config-server: Spring Boot/Spring Cloud configuration server. Contains the configurations that will be consumed by the website.
 
-
+<pre>
                                                                                                  ------               _____
                                                                                                /      \ ___\     ___/    ___
                                                                                             --/-  ___  /    \/  /  /    /   \  
- ________________________              __________________             |                   /     /           \__     //_     \    
-|                        |    REST    |                  |            |                  /                     \   / ___     |
-|     config-server      |<---------->|      website     |<-----------|------------>     |           ___       \/+--/        /
-|________________________|            |__________________|            |                   \__           \       \           /
+ ________________________                 __________________             |                   /     /           \__     //_     \    
+|                        |    REST           |                  |            |                  /                     \   / ___     |
+|     config-server            |<---------->|      website     |<-----------|------------>     |           ___       \/+--/        /
+|________________________|                |__________________|            |                   \__           \       \           /
                                                                       |                      \__           WEB      |          /
                                                                                              \     /____      /  /       |   /
                                                                                               _____/         ___       \/  /\
@@ -29,6 +42,8 @@ Two "microservices"
                                                                                                       \____/   \       /   //
                                                                                                            \    / 
                                                                                                             \__/
+                                                                                                            
+</pre>
 ## Usage
 The first step would be to create your config file in `config-server/src/main/resources/config`. There is a `website.yml` already there, you need to create a `website-dev.yml` and `website-prod.yml`, containing your own configurations. The suffix is the spring profile name.
 
