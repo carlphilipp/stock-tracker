@@ -34,6 +34,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+
 import static fr.cph.stock.util.Constants.*;
 
 /**
@@ -57,7 +59,7 @@ public class EquityController {
 								  @RequestParam(value = UNIT_COST_PRICE) final Double unitCostPrice,
 								  @RequestParam(value = QUANTITY) final Double quantity,
 								  @RequestParam(value = PARITY_PERSONAL, required = false) final Double parityPersonal,
-								  @ModelAttribute final User user,
+								  @Valid @ModelAttribute final User user,
 								  @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = homeModelView();
 		final Equity equity = Equity.builder()
@@ -86,7 +88,7 @@ public class EquityController {
 									 @RequestParam(value = OBJECTIVE, required = false) final Double objective,
 									 @RequestParam(value = YIELD_PERSONAL, required = false) final Double yieldPersonal,
 									 @RequestParam(value = MODIFY_PARITY_PERSONAL, required = false) final Double parityPersonal,
-									 @ModelAttribute final User user,
+									 @Valid @ModelAttribute final User user,
 									 @CookieValue(LANGUAGE) final String lang) {
 		final Equity equity = Equity.builder()
 			.namePersonal(namePersonal)
@@ -116,7 +118,7 @@ public class EquityController {
 
 	@RequestMapping(value = "/deleteEquity", method = RequestMethod.POST)
 	public ModelAndView deleteEquity(@RequestParam(value = "equityId") final int id,
-									 @ModelAttribute final User user,
+									 @Valid @ModelAttribute final User user,
 									 @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = homeModelView();
 		equityService.deleteEquity(Equity.builder().id(id).build());
@@ -133,7 +135,7 @@ public class EquityController {
 										@RequestParam(value = MANUAL_UNIT_COST_PRICE) final Double unitCostPrice,
 										@RequestParam(value = MANUAL_QUANTITY) final Double quantity,
 										@RequestParam(value = MANUAL_PARITY_PERSONAL, required = false) final Double parityPersonal,
-										@ModelAttribute final User user,
+										@Valid @ModelAttribute final User user,
 										@CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = homeModelView();
 		final Company company = companyService.createManualCompany(manualName, manualIndustry, manualSector, Currency.getEnum(manualCurrency), manualQuote)
@@ -166,7 +168,7 @@ public class EquityController {
 										   @RequestParam(value = MODIFY_PARITY_PERSONAL, required = false) final Double parityPersonal,
 										   @RequestParam(value = COMPANY_ID) final int companyId,
 										   @RequestParam(value = QUOTE) final Double quote,
-										   @ModelAttribute final User user,
+										   @Valid @ModelAttribute final User user,
 										   @CookieValue(LANGUAGE) final String lang) {
 		final Equity equity = Equity.builder()
 			.namePersonal(namePersonal)
@@ -187,7 +189,7 @@ public class EquityController {
 	@RequestMapping(value = "/deleteManualEquity", method = RequestMethod.POST)
 	public ModelAndView deleteManualEquity(@RequestParam(value = "equityId") final int equityId,
 										   @RequestParam(value = COMPANY_ID) final int companyId,
-										   @ModelAttribute final User user,
+										   @Valid @ModelAttribute final User user,
 										   @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = homeModelView();
 		final Equity equity = Equity.builder().id(equityId).build();

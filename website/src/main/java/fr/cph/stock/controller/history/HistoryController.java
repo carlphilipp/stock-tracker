@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.Optional;
@@ -64,7 +65,7 @@ public class HistoryController {
 
 	@RequestMapping(value = "/history", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView history(@RequestParam(value = PAGE, defaultValue = "1") final int pageNumber,
-								@ModelAttribute final User user,
+								@Valid @ModelAttribute final User user,
 								@CookieValue(LANGUAGE) final String lang) throws ServletException {
 		final ModelAndView model = new ModelAndView("sharevalue");
 		try {
@@ -104,7 +105,7 @@ public class HistoryController {
 		@RequestParam(value = SELL) final double sell,
 		@RequestParam(value = TAXE) final double tax,
 		@RequestParam(value = COMMENTARY, required = false) final String commentary,
-		@ModelAttribute final User user) throws ServletException {
+		@Valid @ModelAttribute final User user) throws ServletException {
 		final ModelAndView model = new ModelAndView("forward:/history");
 		String message = null;
 		try {
@@ -144,7 +145,7 @@ public class HistoryController {
 		@RequestParam(value = SELL) final double sell,
 		@RequestParam(value = TAXE) final double tax,
 		@RequestParam(value = ACCOUNT) final String accountName,
-		@ModelAttribute final User user) {
+		@Valid @ModelAttribute final User user) {
 		final ModelAndView model = new ModelAndView("forward:/history");
 		final StringBuilder message = new StringBuilder();
 

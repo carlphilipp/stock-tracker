@@ -30,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Calendar;
 
 import static fr.cph.stock.util.Constants.*;
@@ -52,7 +53,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/home", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView home(@RequestParam(value = DAYS, required = false) final String days,
-							 @ModelAttribute final User user,
+							 @Valid @ModelAttribute final User user,
 							 @CookieValue(value = LANGUAGE, defaultValue = ENGLISH) final String lang) {
 		final ModelAndView model = new ModelAndView(HOME);
 		final Calendar calendar = getCalendarFromDays(days);

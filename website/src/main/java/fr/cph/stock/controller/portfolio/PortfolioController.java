@@ -47,6 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.awt.*;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -84,7 +85,7 @@ public class PortfolioController {
 
 	@RequestMapping(value = "/portfolio", method = RequestMethod.POST)
 	public ModelAndView updatePortfolio(@RequestParam(value = CURRENCY_UPDATE, required = false) final String updateCurrencies,
-										@ModelAttribute final User user,
+										@Valid @ModelAttribute final User user,
 										@CookieValue(LANGUAGE) final String lang) throws IOException, ServletException {
 		final ModelAndView model = new ModelAndView("forward:/" + HOME);
 		String yahooError = null;
@@ -113,7 +114,7 @@ public class PortfolioController {
 	}
 
 	@RequestMapping(value = "/charts", method = RequestMethod.GET)
-	public ModelAndView charts(@ModelAttribute final User user, @CookieValue(LANGUAGE) final String lang) throws ServletException {
+	public ModelAndView charts(@Valid @ModelAttribute final User user, @CookieValue(LANGUAGE) final String lang) throws ServletException {
 		final ModelAndView model = new ModelAndView("charts");
 		try {
 			final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
@@ -140,7 +141,7 @@ public class PortfolioController {
 	@RequestMapping(value = "/performance", method = RequestMethod.GET)
 	public ModelAndView performance(@RequestParam(value = FROM, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date fromDate,
 									@RequestParam(value = TO, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date toDate,
-									@ModelAttribute final User user,
+									@Valid @ModelAttribute final User user,
 									@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
 		final ModelAndView model = new ModelAndView("performance");
 		try {
@@ -199,7 +200,7 @@ public class PortfolioController {
 
 	@RequestMapping(value = "/currencies", method = RequestMethod.GET)
 	public ModelAndView currencies(
-		@ModelAttribute final User user,
+		@Valid @ModelAttribute final User user,
 		@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
 		final ModelAndView model = new ModelAndView("currencies");
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
@@ -209,7 +210,7 @@ public class PortfolioController {
 
 	@RequestMapping(value = "/currencies", method = RequestMethod.POST)
 	public ModelAndView refreshCurrencies(
-		@ModelAttribute final User user,
+		@Valid @ModelAttribute final User user,
 		@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException {
 		final ModelAndView model = new ModelAndView("currencies");
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
@@ -236,7 +237,7 @@ public class PortfolioController {
 	public void pdf(final HttpServletResponse response,
 					@RequestParam(value = FROM, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date fromDate,
 					@RequestParam(value = TO, required = false) @DateTimeFormat(pattern = DATE_FORMAT) final Date toDate,
-					@ModelAttribute final User user,
+					@Valid @ModelAttribute final User user,
 					@CookieValue(LANGUAGE) final String lang) throws ServletException, ParseException, IOException {
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
 		final Image sectorChart = PdfReport.createPieChart((PieChart) portfolio.getPieChartSector(), "Sector Chart");

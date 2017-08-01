@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.PostConstruct;
+import javax.validation.Valid;
 import java.util.*;
 
 import static fr.cph.stock.util.Constants.*;
@@ -44,7 +45,7 @@ public class AccountController {
 	}
 
 	@RequestMapping(value = "/accounts", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView history(@ModelAttribute final User user,
+	public ModelAndView history(@Valid @ModelAttribute final User user,
 								@CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView("accounts");
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
@@ -60,7 +61,7 @@ public class AccountController {
 	public ModelAndView addAccount(@RequestParam(value = ACCOUNT) final String acc,
 								   @RequestParam(value = CURRENCY) final fr.cph.stock.enumtype.Currency currency,
 								   @RequestParam(value = LIQUIDITY) final double liquidity,
-								   @ModelAttribute final User user) {
+								   @Valid @ModelAttribute final User user) {
 		final ModelAndView model = new ModelAndView("forward:/accounts");
 		final Account account = Account.builder()
 			.currency(currency)
@@ -78,7 +79,7 @@ public class AccountController {
 									@RequestParam(value = ACCOUNT) final String acc,
 									@RequestParam(value = CURRENCY) final String currency,
 									@RequestParam(value = LIQUIDITY) final String liquidity,
-									@ModelAttribute final User user) {
+									@Valid @ModelAttribute final User user) {
 		final ModelAndView model = new ModelAndView("forward:/accounts");
 		final Account account = Account.builder()
 			.id(id)

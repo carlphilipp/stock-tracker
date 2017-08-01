@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -25,6 +26,7 @@ import java.util.TimeZone;
 
 import static fr.cph.stock.util.Constants.*;
 
+@SessionAttributes(USER)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Log4j2
 @Controller
@@ -42,7 +44,7 @@ public class OptionController {
 	// TODO REFACTOR
 	@RequestMapping(value = "/options", method = RequestMethod.GET)
 	public ModelAndView options(final HttpServletRequest request,
-								@ModelAttribute final User user,
+								@Valid @ModelAttribute final User user,
 								@CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView("options");
 		Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));
@@ -111,7 +113,7 @@ public class OptionController {
 									  @RequestParam(value = YIELD_2, required = false) final String yield2,
 									  @RequestParam(value = UPDATE_TIME, required = false) final Integer updateTime,
 									  @RequestParam(value = AUTO_UPDATE_EMAIL, required = false, defaultValue = "false") final boolean updateSendMail,
-									  @ModelAttribute final User user,
+									  @Valid @ModelAttribute final User user,
 									  @CookieValue(LANGUAGE) final String lang) {
 		final ModelAndView model = new ModelAndView("options");
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId()).orElseThrow(() -> new NotFoundException(user.getId()));

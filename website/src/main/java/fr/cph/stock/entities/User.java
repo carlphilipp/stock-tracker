@@ -23,6 +23,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import fr.cph.stock.util.Constants;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -40,6 +41,7 @@ public class User implements Serializable {
 	private static final long serialVersionUID = -7736017495914032958L;
 
 	private int id;
+	@NotNull
 	private String login;
 	private String password;
 	private String email;
