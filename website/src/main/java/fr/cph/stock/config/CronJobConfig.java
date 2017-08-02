@@ -7,7 +7,7 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-@Profile("dev")
+@Profile("prod")
 @EnableScheduling
 @Configuration
 public class CronJobConfig {

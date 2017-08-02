@@ -35,7 +35,7 @@ import java.io.File;
  * @author Carl-Philipp Harmant
  * @version 1
  */
-@Profile("dev")
+@Profile("prod")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 @Log4j2
