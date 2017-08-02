@@ -17,6 +17,7 @@
 package fr.cph.stock.cron;
 
 import fr.cph.stock.service.ShareValueService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,17 +40,18 @@ import java.util.TimeZone;
 @Log4j2
 public class UserJob {
 
+	@NonNull
 	private final ShareValueService shareValueService;
 
 	@Scheduled(cron = "0 0 * ? * MON-FRI", zone = "Europe/Paris")
-	public final void execute() {
+	public void execute() {
 		try {
 			log.info("Executing user auto update share value job");
 			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			Calendar cal = Calendar.getInstance(timeZone);
 			shareValueService.autoUpdateUserShareValue(cal);
-		} catch (final Throwable t) {
-			log.error("Error while executing UserJob: {}", t.getMessage(), t);
+		} catch (final Exception e) {
+			log.error("Error while executing UserJob: {}", e.getMessage(), e);
 		}
 	}
 }

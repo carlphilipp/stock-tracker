@@ -25,7 +25,7 @@ public class SleuthFilter extends GenericFilterBean {
 		final Span currentSpan = (Span) request.getAttribute(TRACE_REQUEST_ATTR);
 		final HttpSession httpSession = ((HttpServletRequest) request).getSession(false);
 		final User user = httpSession == null ? null : (User) httpSession.getAttribute(USER);
-		try (final CloseableThreadContext.Instance ignored = CloseableThreadContext.put("uuid", user == null ? null : user.getLogin() + "-" + currentSpan.getTraceId() + "-" + currentSpan.getSpanId())) {
+		try (final CloseableThreadContext.Instance ignored = CloseableThreadContext.put("uuid", user == null ? null : user.getLogin() + "-" + currentSpan.getTraceId())) {
 			chain.doFilter(request, response);
 		}
 	}

@@ -41,7 +41,7 @@ public class CompanyNotRealTimeJob {
 	private final CompanyService business;
 
 	@Scheduled(cron = "0 30 1-6 ? * MON-FRI", zone = "Europe/Paris")
-	public final void execute() {
+	public void execute() {
 		try {
 			log.debug("Running company not real time job");
 			business.updateCompaniesNotRealTime();

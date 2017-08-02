@@ -18,6 +18,7 @@ package fr.cph.stock.cron;
 
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.util.Constants;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ import java.util.TimeZone;
 @Log4j2
 public class Cac40CheckJob {
 
+	@NonNull
 	private final IndexService indexService;
 
 	@Scheduled(cron = "0 30 18-23 ? * MON-FRI", zone = "Europe/Paris")
@@ -47,8 +49,8 @@ public class Cac40CheckJob {
 			log.debug("Running CAC40 check job");
 			final TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
 			indexService.checkUpdateIndex(Constants.CAC_40, timeZone);
-		} catch (final Throwable t) {
-			log.error("Error while executing Cac40CheckJob: {}", t.getMessage(), t);
+		} catch (final Exception e) {
+			log.error("Error while executing Cac40CheckJob: {}", e.getMessage(), e);
 		}
 	}
 }

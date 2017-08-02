@@ -43,7 +43,7 @@ public class SP500CheckJob {
 	private final IndexService indexService;
 
 	@Scheduled(cron = "0 30 18-23 ? * MON-FRI", zone = "America/New_York")
-	public final void execute() {
+	public void execute() {
 		try {
 			log.debug("Running SP500 check job");
 			final TimeZone timeZone = TimeZone.getTimeZone("America/New_York");

@@ -18,6 +18,7 @@ package fr.cph.stock.cron;
 
 import fr.cph.stock.service.IndexService;
 import fr.cph.stock.util.Constants;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 public class SP500Job {
 
+	@NonNull
 	private final IndexService indexService;
 
 	@Scheduled(cron = "0 10 17 ? * MON-FRI", zone = "America/New_York")

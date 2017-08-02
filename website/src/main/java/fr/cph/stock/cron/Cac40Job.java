@@ -42,7 +42,7 @@ public class Cac40Job {
 	private final IndexService indexService;
 
 	@Scheduled(cron = "0 15 18 ? * MON-FRI", zone = "Europe/Paris")
-	void execute() {
+	public void execute() {
 		try {
 			log.info("Running CAC40 Job");
 			indexService.updateIndex(Constants.CAC_40);
