@@ -45,13 +45,9 @@ public class UserJob {
 
 	@Scheduled(cron = "0 0 * ? * MON-FRI", zone = "Europe/Paris")
 	public void execute() {
-		try {
-			log.info("Executing user auto update share value job");
-			TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-			Calendar cal = Calendar.getInstance(timeZone);
-			shareValueService.autoUpdateUserShareValue(cal);
-		} catch (final Exception e) {
-			log.error("Error while executing UserJob: {}", e.getMessage(), e);
-		}
+		log.info("Executing user auto update share value job");
+		final TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
+		final Calendar cal = Calendar.getInstance(timeZone);
+		shareValueService.autoUpdateUserShareValue(cal);
 	}
 }

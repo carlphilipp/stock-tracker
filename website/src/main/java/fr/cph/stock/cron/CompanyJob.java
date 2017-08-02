@@ -16,8 +16,7 @@
 
 package fr.cph.stock.cron;
 
-import fr.cph.stock.service.IndexService;
-import fr.cph.stock.util.Constants;
+import fr.cph.stock.service.CompanyService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -26,10 +25,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.TimeZone;
-
 /**
- * Job that check if cac40 today's value has been added to DB. If it's not the case, it will update it if possible
+ * Job that clean companies unused in DB
  *
  * @author Carl-Philipp Harmant
  * @version 1
@@ -38,19 +35,22 @@ import java.util.TimeZone;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 @Log4j2
-public class Cac40CheckJob {
+public class CompanyJob {
 
 	@NonNull
-	private final IndexService indexService;
+	private final CompanyService companyService;
+	@NonNull
+	private final CompanyService business;
 
-	@Scheduled(cron = "0 30 18-23 ? * MON-FRI", zone = "Europe/Paris")
-	public void execute() {
-		try {
-			log.debug("Running CAC40 check job");
-			final TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
-			indexService.checkUpdateIndex(Constants.CAC_40, timeZone);
-		} catch (final Exception e) {
-			log.error("Error while executing Cac40CheckJob: {}", e.getMessage(), e);
-		}
+	@Scheduled(cron = "0 30 0 ? * MON-FRI", zone = "Europe/Paris")
+	public void cleanCompanyDB() {
+		log.info("Running clean DB job");
+		companyService.cleanDB();
+	}
+
+	@Scheduled(cron = "0 30 1-6 ? * MON-FRI", zone = "Europe/Paris")
+	public void updateCompaniesNotRealTime() {
+		log.debug("Running company not real time job");
+		business.updateCompaniesNotRealTime();
 	}
 }

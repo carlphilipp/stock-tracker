@@ -42,11 +42,7 @@ public class CurrencyJob {
 
 	@Scheduled(cron = "0 55 * ? * MON-FRI", zone = "Europe/Paris")
 	public void execute() {
-		try {
-			log.info("Executing update all currencies job");
-			currencyService.updateAllCurrencies();
-		} catch (final Throwable t) {
-			log.error("Error while executing CurrencyJob: {}", t.getMessage(), t);
-		}
+		log.info("Executing update all currencies job");
+		currencyService.updateAllCurrencies();
 	}
 }

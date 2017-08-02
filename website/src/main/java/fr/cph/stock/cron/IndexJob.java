@@ -26,6 +26,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.util.TimeZone;
+
 /**
  * Job that update the DB with today's cac40 value
  *
@@ -36,18 +38,34 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 @Log4j2
-public class Cac40Job {
+public class IndexJob {
 
 	@NonNull
 	private final IndexService indexService;
 
 	@Scheduled(cron = "0 15 18 ? * MON-FRI", zone = "Europe/Paris")
-	public void execute() {
-		try {
-			log.info("Running CAC40 Job");
-			indexService.updateIndex(Constants.CAC_40);
-		} catch (final Throwable t) {
-			log.error("Error while executing Cac40Job: {}", t.getMessage(), t);
-		}
+	public void updateCac40() {
+		log.info("Running CAC40 Job");
+		indexService.updateIndex(Constants.CAC_40);
+	}
+
+	@Scheduled(cron = "0 10 17 ? * MON-FRI", zone = "America/New_York")
+	public void updateSP500() {
+		log.info("Running S&P500 Job");
+		indexService.updateIndex(Constants.SP_500);
+	}
+
+	@Scheduled(cron = "0 30 18-23 ? * MON-FRI", zone = "Europe/Paris")
+	public void fallBackUpdateCac40() {
+		log.debug("Running CAC40 check job");
+		final TimeZone timeZone = TimeZone.getTimeZone("Europe/Paris");
+		indexService.checkUpdateIndex(Constants.CAC_40, timeZone);
+	}
+
+	@Scheduled(cron = "0 30 18-23 ? * MON-FRI", zone = "America/New_York")
+	public void fallBackUpdateSP500() {
+		log.debug("Running SP500 check job");
+		final TimeZone timeZone = TimeZone.getTimeZone("America/New_York");
+		indexService.checkUpdateIndex(Constants.SP_500, timeZone);
 	}
 }
