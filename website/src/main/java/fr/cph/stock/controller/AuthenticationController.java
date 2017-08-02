@@ -59,7 +59,6 @@ public class AuthenticationController {
 			model.setViewName("index");
 		} else {
 			model.addObject(USER, user);
-			log.info("User logged in [{}]", login);
 			model.setViewName("redirect:/home");
 		}
 		return model;
