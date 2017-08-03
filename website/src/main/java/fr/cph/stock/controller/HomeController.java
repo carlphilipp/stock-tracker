@@ -55,7 +55,7 @@ public class HomeController {
 	public ModelAndView home(@RequestParam(value = DAYS, required = false) final String days,
 							 @Valid @ModelAttribute final User user,
 							 @CookieValue(value = LANGUAGE, defaultValue = ENGLISH) final String lang) {
-		log.info("User logged in [{}]", user.getLogin());
+		log.info("Loading dashboard for [{}]", user.getLogin());
 		final ModelAndView model = new ModelAndView(HOME);
 		final Calendar calendar = getCalendarFromDays(days);
 		final Portfolio portfolio = userService.getUserPortfolio(user.getId(), calendar == null ? null : calendar.getTime()).orElseThrow(() -> new NotFoundException(user.getId()));

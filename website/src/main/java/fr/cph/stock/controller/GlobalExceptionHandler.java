@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Log4j2
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -33,8 +35,8 @@ public class GlobalExceptionHandler {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler({HttpRequestMethodNotSupportedException.class, HttpSessionRequiredException.class})
-	public String handleRequestError(final Exception e) {
-		log.error("Request Error [{}]", e.getMessage(), e);
+	public String handleRequestError(final HttpServletRequest req, final Exception e) {
+		log.error("Operation [{}] Url [{}] Ip [{}]", req.getMethod(), req.getRequestURL(), req.getRemoteAddr(), e);
 		return "error";
 	}
 
