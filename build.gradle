@@ -1,16 +1,14 @@
 version '3.0.1'
+description 'Stock tracker web application'
 
 subprojects {
 	buildscript {
-		ext {
-			springBootVersion = '1.5.6.RELEASE'
-		}
 		repositories {
 			mavenCentral()
-			maven { url "http://repo.spring.io/libs-snapshot" }
+			maven { url 'http://repo.spring.io/libs-snapshot' }
 		}
 		dependencies {
-			classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+			classpath(group: 'org.springframework.boot', name: 'spring-boot-gradle-plugin', version: spring_boot_version)
 		}
 	}
 
