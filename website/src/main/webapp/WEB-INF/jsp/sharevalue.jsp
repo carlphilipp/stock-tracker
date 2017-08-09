@@ -33,11 +33,13 @@ limitations under the License.
 			document.sendRefreshShare.method = "post";
 			document.sendRefreshShare.submit();
 		}
+
 		function update() {
 			document.updateShareFormName.action = "updatecommentonsharevalue";
 			document.updateShareFormName.method = "post";
 			document.updateShareFormName.submit();
 		}
+
 		function execFunWithTimeout(func) {
 			setTimeout(func, 350);
 		}
@@ -45,12 +47,14 @@ limitations under the License.
 		function formDelete(formz) {
 			document.getElementById(formz).submit();
 		}
+
 		function deleteConfirm(shareId) {
 			var retVal = confirm("Are you sure ?");
 			if (retVal == true) {
 				formDelete(shareId);
 			}
 		}
+
 		function checkForm(formId, divId, buttonId, func) {
 			if ($('#' + formId)[0].checkValidity()) {
 				$('#' + divId).trigger('reveal:close');
@@ -86,38 +90,31 @@ limitations under the License.
 			</tr>
 			<tr>
 				<td>${language['HISTORY_HIDDEN_MOVEMENT']}:</td>
-				<td><input type="text" name="movement" value="0.0" required pattern="-?\d+(\.\d+)?"
-						   placeholder="Pattern: -?\d+(\.\d+)?"></td>
+				<td><input type="text" name="movement" value="0.0" required pattern="-?\d+(\.\d+)?" placeholder="Pattern: -?\d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['HISTORY_HIDDEN_YIELD']}:</td>
-				<td><input type="text" name="yield" value="0.0" required pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input type="text" name="yield" value="0.0" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['HISTORY_HIDDEN_BUY']}:</td>
-				<td><input type="text" name="buy" value="0.0" required pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input type="text" name="buy" value="0.0" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['HISTORY_HIDDEN_SELL']}:</td>
-				<td><input type="text" name="sell" value="0.0" required pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input type="text" name="sell" value="0.0" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['HISTORY_HIDDEN_TAXE']}:</td>
-				<td><input type="text" name="taxe" value="0.0" required pattern="\d+(\.\d+)?"
-						   placeholder="Pattern: \d+(\.\d+)?"></td>
+				<td><input type="text" name="taxe" value="0.0" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
 			</tr>
 			<tr>
 				<td>${language['HISTORY_HIDDEN_COMMENTARY']}:</td>
 				<td><input type="text" name="commentary"></td>
 			</tr>
 		</table>
-		<input type="button" value="${language['HISTORY_HIDDEN_UPDATE']}"
-			   onclick="javascript:execFunWithTimeout(checkForm('sendRefreshShare','refreshShare','processRefreshShare',refresh))">
-		<input
-			id="processRefreshShare" type="submit" style="display: none;">
+		<input type="button" value="${language['HISTORY_HIDDEN_UPDATE']}" onclick="javascript:execFunWithTimeout(checkForm('sendRefreshShare','refreshShare','processRefreshShare',refresh))">
+		<input id="processRefreshShare" type="submit" style="display: none;">
 	</form>
 	<a class="close-reveal-modal">&#215;</a>
 </div>
@@ -152,10 +149,8 @@ limitations under the License.
 				<tr>
 					<td align="center">
 						<span class="bold liquidity">Best performance</span><br>
-						<span class="bold cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="2"
-																	  value="${portfolio.maxShareValue }"/></span>
-						- <fmt:formatDate value="${portfolio.maxShareValueDate }"
-										  pattern="${user.datePatternWithoutHourMin }"/>
+						<span class="bold cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="2" value="${portfolio.maxShareValue }"/></span>
+						- <fmt:formatDate value="${portfolio.maxShareValueDate }" pattern="${user.datePatternWithoutHourMin }"/>
 					</td>
 				</tr>
 			</table>
@@ -179,96 +174,73 @@ limitations under the License.
 			<table id="shareValueTable" border="1" class="shadow">
 				<tr class="tBackGround">
 					<td class="bold" style="max-width: 140px; min-width: 140px">${language['HISTORY_DATE']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 60px; min-width: 60px">${language['HISTORY_ACCOUNT']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 80px; min-width: 80px">${language['HISTORY_LIQUIDITYMOVEMENT']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 70px; min-width: 70px">${language['HISTORY_DIVIDENDS']}</td>
+					<td class="bold tdCenter" style="max-width: 60px; min-width: 60px">${language['HISTORY_ACCOUNT']}</td>
+					<td class="bold tdCenter" style="max-width: 80px; min-width: 80px">${language['HISTORY_LIQUIDITYMOVEMENT']}</td>
+					<td class="bold tdCenter" style="max-width: 70px; min-width: 70px">${language['HISTORY_DIVIDENDS']}</td>
 					<td class="bold tdCenter" style="max-width: 70px; min-width: 70px">${language['HISTORY_BUY']}</td>
 					<td class="bold tdCenter" style="max-width: 70px; min-width: 70px">${language['HISTORY_SELL']}</td>
 					<td class="bold tdCenter" style="max-width: 50px; min-width: 50px">${language['HISTORY_TAXE']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 90px; min-width: 90px">${language['HISTORY_PORTFOLIOVALUE']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 60px; min-width: 60px">${language['HISTORY_SHAREQUANTITY']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 70px; min-width: 70px">${language['HISTORY_SHAREVALUE']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 60px; min-width: 60px">${language['HISTORY_MONTHLYYIELD']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 140px; min-width: 140px">${language['HISTORY_COMMENTARY']}</td>
-					<td class="bold tdCenter"
-						style="max-width: 45px; min-width: 45px">${language['HISTORY_OPTION']}</td>
+					<td class="bold tdCenter" style="max-width: 90px; min-width: 90px">${language['HISTORY_PORTFOLIOVALUE']}</td>
+					<td class="bold tdCenter" style="max-width: 60px; min-width: 60px">${language['HISTORY_SHAREQUANTITY']}</td>
+					<td class="bold tdCenter" style="max-width: 70px; min-width: 70px">${language['HISTORY_SHAREVALUE']}</td>
+					<td class="bold tdCenter" style="max-width: 60px; min-width: 60px">${language['HISTORY_MONTHLYYIELD']}</td>
+					<td class="bold tdCenter" style="max-width: 140px; min-width: 140px">${language['HISTORY_COMMENTARY']}</td>
+					<td class="bold tdCenter" style="max-width: 45px; min-width: 45px">${language['HISTORY_OPTION']}</td>
 				</tr>
 				<c:if test="${fn:length(portfolio.shareValues) > 0 }">
 					<c:forEach var="i" begin="${begin }" end="${end }">
 						<c:set var="share" value="${portfolio.shareValues[i] }"/>
 						<tr>
-							<td class=""><fmt:formatDate value="${share.date }" pattern="${user.datePattern }"/> [<a
-								href="javascript:poufpouf('shareId${share.id}')">${language['HISTORY_DETAILS']}</a>]
+							<td class="">
+								<fmt:formatDate value="${share.date }" pattern="${user.datePattern }"/> [<a href="javascript:poufpouf('shareId${share.id}')">${language['HISTORY_DETAILS']}</a>]
 							</td>
 							<td class="tdCenter">
 								<c:if test="${!empty share.account.name }">
 									${share.account.name }
 								</c:if>
 							</td>
-							<td class="tdCenter"><c:if test="${share.liquidityMovement != 0}">
-								<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2"
-												  value="${share.liquidityMovement }"/>
-							</c:if></td>
-							<td class="tdCenter"><c:if test="${share.yield != 0}">
-								<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2"
-												  value="${share.yield }"/>
-							</c:if></td>
-							<td class="tdCenter"><c:if test="${share.buy != 0}">
-								<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2"
-												  value="${share.buy }"/>
-							</c:if></td>
-							<td class="tdCenter"><c:if test="${share.sell != 0}">
-								<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2"
-												  value="${share.sell }"/>
-							</c:if></td>
 							<td class="tdCenter">
-								<c:if test="${share.taxe != 0}">
-									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2"
-													  value="${share.taxe }"/>
+								<c:if test="${share.liquidityMovement != 0}">
+									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2" value="${share.liquidityMovement }"/>
 								</c:if>
 							</td>
-							<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0"
-																   maxFractionDigits="3"
-																   value="${share.portfolioValue} "/></td>
-							<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0"
-																   maxFractionDigits="3"
-																   value="${share.shareQuantity }"/></td>
-							<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0"
-																   maxFractionDigits="3"
-																   value="${share.shareValue }"/></td>
-							<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0"
-																   maxFractionDigits="3"
-																   value="${share.monthlyYield }"/></td>
 							<td class="tdCenter">
-									<span id="commentary${share.id }" class="shareCommentary">${share.commentary }
-									<a href="#" data-reveal-id="updateShare"
-									   onclick="javascript:updateShare('${share.id}', '${share.commentary }')"> <img
-										width="10px" alt="" src="image/edit.png" style="border: 0"></a>
-									</span>
+								<c:if test="${share.yield != 0}">
+									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2" value="${share.yield }"/>
+								</c:if>
+							</td>
+							<td class="tdCenter">
+								<c:if test="${share.buy != 0}">
+									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2" value="${share.buy }"/>
+								</c:if>
+							</td>
+							<td class="tdCenter">
+								<c:if test="${share.sell != 0}">
+									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2" value="${share.sell }"/>
+								</c:if>
+							</td>
+							<td class="tdCenter">
+								<c:if test="${share.taxe != 0}">
+									<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="2" value="${share.taxe }"/>
+								</c:if>
+							</td>
+							<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="3" value="${share.portfolioValue} "/></td>
+							<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="3" value="${share.shareQuantity }"/></td>
+							<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="3" value="${share.shareValue }"/></td>
+							<td class="tdCenter"><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="3" value="${share.monthlyYield }"/></td>
+							<td class="tdCenter">
+								<span id="commentary${share.id }" class="shareCommentary">${share.commentary }
+									<a href="#" data-reveal-id="updateShare" onclick="javascript:updateShare('${share.id}', '${share.commentary }')">
+										<img width="10px" alt="" src="image/edit.png" style="border: 0">
+									</a>
+								</span>
 							</td>
 							<td class="tdCenter">
 								<form action="deletesharevalue" method="post" id="share${share.id }">
-									<input type="hidden" name="shareId" value="${share.id }"/> <input type="hidden"
-																									  name="liquidityMovement"
-																									  value="${share.liquidityMovement }"/>
-									<input
-										type="hidden" name="yield" value="${share.yield }"/> <input type="hidden"
-																									name="buy"
-																									value="${share.buy }"/>
-									<input type="hidden" name="sell"
-										   value="${share.sell }"/> <input type="hidden" name="taxe"
-																		   value="${share.taxe }"/> <input type="hidden"
-																										   name="account"
-																										   value="${share.account.name }"/><a
-									href="javascript:deleteConfirm('share${share.id }')">${language['HISTORY_DELETE']}</a>
+									<input type="hidden" name="shareId" value="${share.id }"/> <input type="hidden" name="liquidityMovement" value="${share.liquidityMovement }"/>
+									<input type="hidden" name="yield" value="${share.yield }"/> <input type="hidden" name="buy" value="${share.buy }"/>
+									<input type="hidden" name="sell" value="${share.sell }"/> <input type="hidden" name="taxe" value="${share.taxe }"/>
+									<input type="hidden" name="account" value="${share.account.name }"/><a href="javascript:deleteConfirm('share${share.id }')">${language['HISTORY_DELETE']}</a>
 								</form>
 							</td>
 						</tr>
@@ -283,11 +255,11 @@ limitations under the License.
 					<c:choose>
 						<c:when test="${j==page}">${j }&nbsp;</c:when>
 						<c:otherwise>
-							<a href="sharevalue?page=${j }">${j }</a>
+							<a href="history?page=${j }">${j }</a>
 						</c:otherwise>
 					</c:choose>
 				</c:forEach>
-				[<a href="sharevalue?page=0">${language['HISTORY_ALL']}</a>]
+				[<a href="history?page=0">${language['HISTORY_ALL']}</a>]
 			</p>
 		</div>
 	</div>
