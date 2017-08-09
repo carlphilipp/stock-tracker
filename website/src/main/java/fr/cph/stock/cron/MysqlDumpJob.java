@@ -47,7 +47,7 @@ public class MysqlDumpJob {
 	@NonNull
 	private DropBox dropBox;
 
-	@Scheduled(cron = "0 30 3 ? * MON-FRI", zone = "Europe/Paris")
+	@Scheduled(cron = "0 30 3 ? * *", zone = "America/Chicago")
 	public void execute() {
 		File tarGzFile = null;
 		File sqlFile = null;
@@ -65,12 +65,12 @@ public class MysqlDumpJob {
 			log.info("Delete old file in Dropbox if needed");
 			dropBox.deleteOldFileIfNeeded(tarGzFile);
 
-			log.info("Upload new dump in Dropbox if needed");
+			log.info("Upload new dump in Dropbox");
 			dropBox.uploadFile(tarGzFile);
 
 			log.info("Done!");
 		} catch (final Throwable t) {
-			log.error("Error while executing MysqlDumpJob: {}", t.getMessage(), t);
+			log.error("Error while executing MysqlDumpJob for file [{}], {}", tarGzFile == null ? null : tarGzFile.getName(), t.getMessage(), t);
 		} finally {
 			if (tarGzFile != null && tarGzFile.exists()) {
 				boolean del = tarGzFile.delete();

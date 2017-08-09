@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -35,17 +34,16 @@ public class DropBoxImpl implements DropBox {
 	 * Delete the file from last week.
 	 *
 	 * @param file the file to delete
-	 * @throws ParseException the parse exception
-	 * @throws DbxException   the dropbox exception
+	 * @throws DbxException the dropbox exception
 	 */
 	@Override
 	public final void deleteOldFileIfNeeded(final File file) throws DbxException {
 		final String date = calculateNewDateFromFileName(file);
 
-		final List<SearchMatch> searchMatches = client.files().search("", date + "-stock.tar.gz").getMatches();
+		final List<SearchMatch> searchMatches = client.files().search("", date + "-stock-tracker.tar.gz").getMatches();
 		searchMatches.stream().findAny().ifPresent(searchMatch -> {
 			try {
-				client.files().delete("/" + date + "-stock.tar.gz");
+				client.files().delete("/" + date + "-stock-tracker.tar.gz");
 			} catch (final DbxException e) {
 				log.error("Error while deleting DropBox file", e);
 			}
