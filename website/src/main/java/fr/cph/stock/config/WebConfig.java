@@ -4,6 +4,7 @@ import fr.cph.stock.filter.CookieFilter;
 import fr.cph.stock.filter.SessionFilter;
 import fr.cph.stock.filter.SleuthFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.support.ErrorPageFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -63,5 +64,18 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registration.setOrder(3);
 		registration.addUrlPatterns("/home/*");
 		return registration;
+	}
+
+	@Bean
+	public ErrorPageFilter errorPageFilter() {
+		return new ErrorPageFilter();
+	}
+
+	@Bean
+	public FilterRegistrationBean disableSpringBootErrorFilter(final ErrorPageFilter filter) {
+		final FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(filter);
+		filterRegistrationBean.setEnabled(false);
+		return filterRegistrationBean;
 	}
 }

@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	private static final String HEADER_FORWARDED_FOR = "X-FORWARDED-FOR";
+
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = LoginException.class)
 	public String handleLoginException(final LoginException loginException) {
@@ -36,7 +38,10 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler({HttpRequestMethodNotSupportedException.class, HttpSessionRequiredException.class})
 	public String handleRequestError(final HttpServletRequest req, final Exception e) {
-		log.error("Operation [{}] Url [{}] Ip [{}]", req.getMethod(), req.getRequestURL(), req.getRemoteAddr(), e);
+		final String ipAddress = req.getHeader(HEADER_FORWARDED_FOR) == null
+			? req.getRemoteAddr()
+			: req.getHeader(HEADER_FORWARDED_FOR);
+		log.warn("Operation [{}] url [{}] ip [{}] resulted in [{}]", req.getMethod(), req.getRequestURL(), ipAddress, e.getClass().getSimpleName());
 		return "error";
 	}
 

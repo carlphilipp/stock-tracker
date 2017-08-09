@@ -1,6 +1,10 @@
 mybatis:
   config-location: classpath:mybatis/mybatis-config.xml
   type-aliases-package: fr.cph.stock.entities
+server:
+  error:
+    whitelabel:
+      enabled: false
 app:
   name: Stock Tracker
   db:
