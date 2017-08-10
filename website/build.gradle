@@ -1,4 +1,3 @@
-apply plugin: 'war'
 apply plugin: 'pmd'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
@@ -25,6 +24,8 @@ dependencies {
 		[group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2'],
 		[group: 'org.springframework.cloud', name: 'spring-cloud-config-client'],
 		[group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth'],
+		[group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'],
+		[group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf'],
 
 		// Mybatis Spring boot
 		[group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: spring_mybatis_version],
@@ -73,10 +74,6 @@ dependencies {
 		[group: 'org.dom4j', name: 'dom4j', version: dom4j_version],
 	)
 
-	providedRuntime(
-		[group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat'],
-	)
-
 	compileOnly(
 		[group: 'org.projectlombok', name: 'lombok', version: lombok_version],
 	)
@@ -90,17 +87,6 @@ dependencies {
 		},
 		[group: 'org.hamcrest', name: 'hamcrest-all', version: hamcrest_version]
 	)
-}
-
-war {
-	ext.prod = project.hasProperty('prod')
-	if (ext.prod) {
-		archiveName = 'ROOT.war'
-	} else {
-		archiveName = 'stock-tracker.war'
-	}
-	rootSpec.exclude('log4j2-prod.xml.template')
-	exclude('**/bdd.sql')
 }
 
 checkstyle {
