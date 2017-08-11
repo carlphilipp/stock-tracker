@@ -31,6 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 import static fr.cph.stock.util.Constants.ERROR;
 import static fr.cph.stock.util.Constants.USER;
 
@@ -50,14 +52,21 @@ public class AuthenticationController {
 
 	@RequestMapping(value = "/auth", method = RequestMethod.POST)
 	public ModelAndView auth(
+		final HttpServletRequest request,
 		@RequestParam(value = Constants.LOGIN) final String login,
 		@RequestParam(value = Constants.PASSWORD) final String password) throws LoginException {
 		final ModelAndView model = new ModelAndView();
-		final User user = userService.checkUser(login, password).orElseThrow(() -> new LoginException(login));
+		final User user = User.builder()
+			.login("cp")
+			.locale("en_US")
+			.timeZone("America/Chicago")
+			.allow(true)
+			.build();//userService.checkUser(login, password).orElseThrow(() -> new LoginException(login));
 		if (!user.getAllow()) {
 			model.addObject(ERROR, "Account not confirmed. Check your email!");
 			model.setViewName("index");
 		} else {
+			request.getSession().setAttribute(USER, user);
 			model.addObject(USER, user);
 			model.setViewName("redirect:/home");
 		}

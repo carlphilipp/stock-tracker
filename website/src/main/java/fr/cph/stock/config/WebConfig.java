@@ -14,12 +14,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-@EnableWebMvc
+//@EnableWebMvc
 @Configuration
 @ComponentScan({"fr.cph.stock"})
-public class WebConfig extends WebMvcConfigurerAdapter {
+public class WebConfig { //extends WebMvcConfigurerAdapter {
 
-	@Override
+/*	@Override
 	public void addResourceHandlers(final ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/**").addResourceLocations("/");
 	}
@@ -45,7 +45,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registration.setOrder(1);
 		registration.addUrlPatterns("/*");
 		return registration;
-	}
+	}*/
 
 	@Bean
 	public FilterRegistrationBean sessionFilter() {

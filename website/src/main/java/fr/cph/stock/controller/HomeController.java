@@ -16,7 +16,9 @@
 package fr.cph.stock.controller;
 
 import fr.cph.stock.config.AppProperties;
+import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
+import fr.cph.stock.entities.ShareValue;
 import fr.cph.stock.entities.User;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.exception.NotFoundException;
@@ -30,8 +32,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 
 import static fr.cph.stock.util.Constants.*;
 
@@ -52,18 +58,29 @@ public class HomeController {
 	private final UserService userService;
 
 	@RequestMapping(value = "/home", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView home(@RequestParam(value = DAYS, required = false) final String days,
+	public ModelAndView home(final HttpServletRequest request,
+		@RequestParam(value = DAYS, required = false) final String days,
 							 @Valid @ModelAttribute final User user,
 							 @CookieValue(value = LANGUAGE, defaultValue = ENGLISH) final String lang) {
 		log.info("Loading dashboard for [{}]", user.getLogin());
 		final ModelAndView model = new ModelAndView(HOME);
 		final Calendar calendar = getCalendarFromDays(days);
-		final Portfolio portfolio = userService.getUserPortfolio(user.getId(), calendar == null ? null : calendar.getTime()).orElseThrow(() -> new NotFoundException(user.getId()));
+		final Portfolio portfolio = new Portfolio();//userService.getUserPortfolio(user.getId(), calendar == null ? null : calendar.getTime()).orElseThrow(() -> new NotFoundException(user.getId()));
+		portfolio.setLastCompanyUpdate(new Date());
+		Equity equity = new Equity();
+		equity.setCompanyId(8);
+		portfolio.setEquities(Arrays.asList(equity));
+		portfolio.setCurrency(Currency.USD);
+		ShareValue shareValue = new ShareValue();
+		shareValue.setShareValue(10.0);
+		portfolio.setShareValues(Arrays.asList(shareValue));
 
 		model.addObject(PORTFOLIO, portfolio);
 		model.addObject(LANGUAGE, LanguageFactory.INSTANCE.getLanguage(lang));
 		model.addObject(APP_TITLE, appProperties.getName() + " &bull; Portfolio");
 		model.addObject(CURRENCIES, Currency.values());
+
+		model.addObject("equities", Arrays.asList(equity));
 		return model;
 	}
 

@@ -1,0 +1,752 @@
+<!--
+Copyright 2017 Carl-Philipp Harmant
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="js/flotr2.min.js"></script>
+	<script type="text/javascript" src="js/jquery.reveal.js"></script>
+	<script type="text/javascript" src="js/jquery.confirm-1.3.js"></script>
+	<script type="text/javascript" src="js/jquery.tablesorter.min.js"></script>
+	<script type="text/javascript" src="js/base.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			// call the tablesorter plugin
+			$("table").tablesorter({
+				// define a custom text extraction function
+				sortList: [[0, 0]],
+				textExtraction: function (node) {
+					var size = node.childNodes.length;
+					if (size == 5) {
+						var percent = node.childNodes[3].innerHTML;
+						return parseFloat(percent.replace('%', '').replace(',', '.'));
+					} else {
+						if (size == 3) {
+							var val = parseFloat(node.firstChild.nodeValue.replace(/\s+/g, '').replace(',', '').replace('&nbsp;', ''));
+							if (!isNaN(val)) {
+								return val;
+							} else {
+								return parseFloat(node.childNodes[1].innerHTML.replace(/\s+/g, '').replace(',', '').replace('&nbsp;', ''));
+							}
+						} else {
+							if (size == 9) {
+								return node.childNodes[0].innerHTML.replace(/\s+/g, '').replace('&nbsp;', '');
+							} else {
+								return node.innerHTML.replace(/\s+/g, '').replace('&nbsp;', '').replace(',', '.');
+							}
+						}
+					}
+				}
+			});
+		});
+	</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<link type="text/css" rel="stylesheet" href="./style.css"/>
+	<link type="text/css" rel="stylesheet" href="./reveal.css">
+	<link rel="shortcut icon" href="./favicon.ico"/>
+	<title>${appTitle }</title>
+	<script type="text/javascript" src="js/analytics.js"></script>
+</head>
+<body>
+${portfolio.getLastCompanyUpdate()?string('dd.MM.yyyy HH:mm:ss')}
+<#assign x = 1>
+${x}<br>
+<#list portfolio.getEquities() as equity>
+	${equity.getCompanyId()}
+</#list>
+
+<fmt:setLocale value="${user.locale }"/>
+<fmt:setTimeZone value="${user.timeZone }"/>
+<div id="addEquity" class="reveal-modal">
+	<h1>${language['PORTFOLIO_HIDDEN_ADD']}</h1>
+	<input id="manual" type="checkbox" onclick="hideShowManual();"/>Manual
+	<form id="sendEquity" name="sendEquity" autocomplete="on" action="add">
+		<table id="notManualForm">
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_YAHOOID']}:</td>
+				<td><input name="ticker" type="text" required autofocus placeholder="Ex: GOOG"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_QUANTITY']}:</td>
+				<td><input name="quantity" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_UNITCOSTPRICE']}:</td>
+				<td><input name="unitCostPrice" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
+				<td><input name="parityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?">
+				</td>
+			</tr>
+			<tr>
+				<td><input type="button" value="Add" onclick="javascript:execFunWithTimeout(checkForm('sendEquity', 'addEquity', 'processSendEquity', addEquity))">
+					<input id="processSendEquity" type="submit" style="display: none;"></td>
+				<td></td>
+			</tr>
+		</table>
+	</form>
+	<form id="sendEquityManual" name="sendEquityManual" autocomplete="on" action="manualEquity">
+		<input type="hidden" name="manual" value="true">
+		<table id="manualForm">
+			<tr>
+				<td>Manual Name:</td>
+				<td><input name="manualName" type="text"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_QUANTITY']}:</td>
+				<td><input name="manualQuantity" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_UNITCOSTPRICE']}:</td>
+				<td><input name="manualUnitCostPrice" type="text" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
+				<td><input name="manualParityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>Currency:</td>
+				<td>
+					<select name="manualCurrency" required>
+						<#list currencies as currency>
+							<option value="${currency.getCode()}">${currency.getName()}</option>
+						</#list>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Industry:</td>
+				<td><input name="manualIndustry" type="text"></td>
+			</tr>
+			<tr>
+				<td>Sector:</td>
+				<td><input name="manualSector" type="text"></td>
+			</tr>
+			<tr>
+				<td>Quote:</td>
+				<td><input name="manualQuote" required pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="Add" onclick="javascript:execFunWithTimeout(checkForm('sendEquityManual', 'addEquity', 'processSendEquity2', addEquityManual))">
+					<input id="processSendEquity2" type="submit" style="display: none;"></td>
+				<td></td>
+			</tr>
+		</table>
+	</form>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+<div id="modifyEquity" class="reveal-modal">
+	<h1>${language['PORTFOLIO_HIDDEN_MODIFYEQUITY']}</h1>
+	<form name="sendEquityModify" id="sendEquityModify" autocomplete="on">
+		<table id="notManualForm2">
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_YAHOOID']}:</td>
+				<td><span id="modifyTicker"></span><input type="hidden" id="modifyTickerHidden" name="ticker" value="">
+				</td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZENAME']}:</td>
+				<td><input id="modifyNamePersonal" name="namePersonal" type="text" placeholder="Custom Company Name" pattern="[\w\d _\-àèé/%\.,&\(\)]+"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZESECTOR']}:</td>
+				<td><input id="modifySectorPersonal" name="sectorPersonal" type="text" placeholder="Custom Sector"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEINDUSTRY']}:</td>
+				<td><input id="modifyIndustryPersonal" name="industryPersonal" type="text" placeholder="Custom Industry"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEMARKETCAP']}:</td>
+				<td><input id="modifyMarketCapPersonal" name="marketCapPersonal" type="text" pattern="\d+(\.\d+)?[BM]" placeholder="Pattern: \d+(\.\d+)?[BM]"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_QUANTITY']}:</td>
+				<td><input id="modifyQuantity" name="quantity" type="text" pattern="\d+(\.\d+)?" required autofocus>
+				</td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_UNITCOSTPRICE']}:</td>
+				<td><input id="modifyUnitCostPrice" name="unitCostPrice" type="text" required></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_DEFAUTPARITY']}:</td>
+				<td><span id="modifyParity"></span></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
+				<td><input id="modifyParityPersonal" name="modifyParityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_YAHOOYIELD']}:</td>
+				<td><span id="modifyYieldYahoo"></span></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_PERSONALYIELD']}:</td>
+				<td><input id="modifyYieldPersonal" name="yieldPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_STOPLOSS']}:</td>
+				<td><input id="modifyStopLoss" name="stopLoss" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_OBJECTIVE']}:</td>
+				<td><input type="text" id="modifyObjective" name="objective" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}" onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify', 'modifyEquity', 'processModifyEquity', modifyEquity))">
+					<input id="processModifyEquity" type="submit" style="display: none;">
+				</td>
+				<td></td>
+			</tr>
+		</table>
+	</form>
+	<form name="sendEquityDelete" id="sendEquityDelete">
+		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
+		<input id="processDeleteEquity" type="submit" style="display: none;">
+		<input id="deleteTicker" type="hidden" name="equityId" value="">
+	</form>
+	<%-- Manual modify Equity --%>
+	<form name="sendEquityModify2" id="sendEquityModify2" autocomplete="on">
+		<input type="hidden" id="manual" name="manual" value="true">
+		<input type="hidden" id="modifyTickerHidden2" name="ticker" value="">
+		<table id="manualForm2">
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZENAME']}:</td>
+				<td><input id="modifyNamePersonal2" name="namePersonal" type="text" placeholder="Custom Company Name" pattern="[\w\d _\-àèé/%\.,&\(\)]+"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZESECTOR']}:</td>
+				<td><input id="modifySectorPersonal2" name="sectorPersonal" type="text" placeholder="Custom Sector">
+				</td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEINDUSTRY']}:</td>
+				<td><input id="modifyIndustryPersonal2" name="industryPersonal" type="text" placeholder="Custom Industry"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_CUSTOMIZEMARKETCAP']}:</td>
+				<td><input id="modifyMarketCapPersonal2" name="marketCapPersonal" type="text" pattern="\d+(\.\d+)?[BM]" placeholder="Pattern: \d+(\.\d+)?[BM]"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_QUANTITY']}:</td>
+				<td><input id="modifyQuantity2" name="quantity" type="text" pattern="\d+(\.\d+)?" required autofocus>
+				</td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_UNITCOSTPRICE']}:</td>
+				<td><input id="modifyUnitCostPrice2" name="unitCostPrice" type="text" required></td>
+			</tr>
+			<tr>
+				<td>Quote:</td>
+				<td><input id="modifyQuote2" name="quote" type="text" required></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_DEFAUTPARITY']}:</td>
+				<td><span id="modifyParity2"></span></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_PERSONALPARITY']}:</td>
+				<td><input id="modifyParityPersonal2" name="modifyParityPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_PERSONALYIELD']}:</td>
+				<td><input id="modifyYieldPersonal2" name="yieldPersonal" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_STOPLOSS']}:</td>
+				<td><input id="modifyStopLoss2" name="stopLoss" type="text" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td>${language['PORTFOLIO_HIDDEN_OBJECTIVE']}:</td>
+				<td><input type="text" id="modifyObjective2" name="objective" pattern="\d+(\.\d+)?" placeholder="Pattern: \d+(\.\d+)?"></td>
+			</tr>
+			<tr>
+				<td><input type="button" value="${language['PORTFOLIO_HIDDEN_MODIFY']}" onclick="javascript:execFunWithTimeout(checkForm('sendEquityModify2', 'modifyEquity', 'processModifyEquity', modifyEquityManual))">
+					<input id="processModifyEquity" type="submit" style="display: none;">
+				</td>
+				<td></td>
+			</tr>
+		</table>
+		<input id="companyId2" type="hidden" name="companyId" value="">
+	</form>
+	<form name="sendEquityDelete2" id="sendEquityDelete2">
+		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete2', 'modifyEquity', 'processDeleteEquity2', deleteEquityManual))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
+		<input name="delete" type="hidden" value="true">
+		<input id="processDeleteEquity2" type="submit" style="display: none;">
+		<input id="deleteTicker2" type="hidden" name="equityId" value="">
+		<input id="companyId" type="hidden" name="companyId" value="">
+		<input type="hidden" id="manual" name="manual" value="true">
+	</form>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+<div id="refresh" class="reveal-modal">
+	<h1>${language['PORTFOLIO_HIDDEN_REFRESH']}</h1>
+	<form id="sendRefresh" name="sendRefresh" autocomplete="on">
+		<input name="currencyUpdate" type="checkbox"> ${language['PORTFOLIO_HIDDEN_UPDATECURRENCIES']}<br><br>
+		<input type="button" value="Confirm" onclick="javascript:checkForm('sendRefresh', 'refresh','refreshButton',refresh)">
+		<input id="refreshButton" type="hidden">
+	</form>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="container">
+	<%@ include file="menu.html" %>
+	<div class="main">
+		<div class="equities_container">
+			<div class="floatLeft">
+				<h2 style="margin-top: 5px;display:inline;">
+					${language['PORTFOLIO_TITLE']}&nbsp;<a href="#" data-reveal-id="refresh"><img alt="Refresh" src="image/refresh.png" style="border: 0"></a>
+				</h2>
+				<#-- TODO to fix -->
+				<br>Last update:<#-- <fmt:formatDate value="${portfolio.lastCompanyUpdate}" pattern="${user.datePattern }"/>-->
+
+			</div>
+			<#if portfolio.getEquities()?has_content>
+				<table id="tableEquityTotal" border="1" class="shadow">
+					<tr>
+						<td class="center">
+							<span class="totalValue"><fmt:formatNumber type="currency" value="${portfolio.getTotalValue() }" maxFractionDigits="1" currencySymbol="${portfolio.getCurrency().getSymbol() }"/></span>
+							<span class="totalGain">
+								<#if portfolio.getTotalGain()?starts_with("-")>
+									<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif"
+										 alt="Down">
+									<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="0" value="${portfolio.getTotalGain()}"/></span>
+								<#else>
+									<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up">
+									<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="0" value="${portfolio.getTotalGain()}"/></span>
+								</#if>
+								<#if portfolio.getTotalPlusMinusValue()?starts_with("-")>
+									<span class="cQuoteDown">(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.getTotalPlusMinusValueAbsolute()}"/>%)</span>
+								<#else>
+									<span class="cQuoteUp">(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.getTotalPlusMinusValue()}"/>%)</span>
+								</#if>
+							</span>
+<#--							<br>
+								${language['PORTFOLIO_LIQUIDITY']}:
+								<span class="liquidity bold">
+									<fmt:formatNumber type="currency" value="${portfolio.getLiquidity() }" maxFractionDigits="2" currencySymbol="${portfolio.getCurrency().getSymbol() }"/>
+								</span>
+								| ${language['PORTFOLIO_YIELDYEAR']}:
+								<span class="yield bold">
+									<fmt:formatNumber type="currency" maxFractionDigits="0" value="${portfolio.getYieldYear()}" currencySymbol="${portfolio.getCurrency().getSymbol() }"/>
+									(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.getYieldYearPerc()}"/>%)
+								</span>
+							<br>
+								${language['PORTFOLIO_SHAREVALUE']}:
+								<#if portfolio.shareValues[true].getShareValue().doubleValue() < 100>
+									<span class="cQuoteDown shareValue"><fmt:formatNumber type="number"
+																						  minFractionDigits="2"
+																						  maxFractionDigits="1"
+																						  value="${portfolio.getShareValues()[0].getShareValue() }"/></span>
+								<#else>
+									<span class="cQuoteUp shareValue"><fmt:formatNumber type="number"
+																						minFractionDigits="2"
+																						maxFractionDigits="1"
+																						value="${portfolio.getShareValues().[0].getShareValue() }"/></span>
+								</#if>-->
+							<#--| Today:
+								<#if portfolio.totalGainToday < 0>
+									<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif" alt="Down">
+									<span class="cQuoteDown shareValue"><fmt:formatNumber type="number"
+																						  minFractionDigits="0"
+																						  maxFractionDigits="0"
+																						  value="${portfolio.totalGainTodayAbsolute }"/> </span>
+								<#else>
+									<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up">
+									<span class="cQuoteUp shareValue"><fmt:formatNumber type="number"
+																						minFractionDigits="0"
+																						maxFractionDigits="0"
+																						value="${portfolio.totalGainToday }"/> </span>
+								</#if>
+								<#if portfolio.totalVariation < 0>
+									<span class="cQuoteDown shareValue">(<fmt:formatNumber type="number"
+																						   minFractionDigits="2"
+																						   maxFractionDigits="1"
+																						   value="${portfolio.totalVariation }"/>%)</span>
+								<#else>
+									<span class="cQuoteUp shareValue">(<fmt:formatNumber type="number"
+																						 minFractionDigits="2"
+																						 maxFractionDigits="1"
+																						 value="${portfolio.totalVariation }"/>%)</span>
+								</#if>-->
+						</td>
+					</tr>
+				</table>
+			</#if>
+			<#--<div class="clear">
+				<div id="clear">
+					<#if updateStatus??>
+						${updateStatus}<br>
+					</#if>
+					<h3 style="margin-top: 5px;">
+						<#if updated??>
+							<span class="cQuoteUp">${updated}</span><br>
+						</#if>
+						<#if error??>
+							<span class="cQuoteDown">${error}</span><br>
+						</#if>
+					</h3>
+					<#if added??>
+						<span class="cQuoteUp">${added}</span><br>
+					</#if>
+					<#if addError??>
+						<span class="cQuoteDown">${addError}</span><br>
+					</#if>
+					<#if modified??>
+						<span class="cQuoteUp">${modified}</span><br>
+					</#if>
+					<#if modifyError??>
+						<span class="cQuoteDown">${modifyError}</span><br>
+					</#if>
+				</div>
+			</div>
+			[<a href="#" data-reveal-id="addEquity">${language['PORTFOLIO_ADD']}</a>]
+			<table id="tableEquity" border="1" class="shadow tablesorter">
+				<thead>
+				<tr class="tBackGround" style="height:50px;">
+					<th class="bold" style="min-width: 180px">${language['PORTFOLIO_COMPANY']}</th>
+					<th class="bold tdCenter" style="min-width: 60px">${language['PORTFOLIO_QUANTITY']}</th>
+					<th class="bold tdCenter" style="min-width: 60px">${language['PORTFOLIO_UNITCOSTPRICE']}</th>
+					<#if cookie.quote.value == 'checked'>
+						<th class="bold tdCenter" style="min-width: 60px">${language['PORTFOLIO_QUOTE']}<br>Today</th>
+					</#if>
+					<#if cookie.currency.value == 'checked'>
+						<th class="bold tdCenter" style="min-width: 60px">${language['PORTFOLIO_CURRENCY']}</th>
+					</#if>
+					<#if cookie.parity.value == 'checked'>
+						<th class="bold tdCenter" style="min-width: 60px">${language['PORTFOLIO_PARITIES']}</th>
+					</#if>
+					<th class="bold tdCenter"
+						style="min-width: 80px">${language['PORTFOLIO_VALUE']}<br>(${portfolio.currency.code})
+					</th>
+					<th class="bold tdCenter" style="min-width: 60px">${language['PORTFOLIO_PERCENTTOTAL']}</th>
+					<#if cookie.yield1.value == 'checked'>
+						<th class="bold tdCenter" style="min-width: 80px">${language['PORTFOLIO_YIELDTTM']}</th>
+					</#if>
+					<#if cookie.yield2.value == 'checked'>
+						<th class="bold tdCenter"
+							style="min-width: 90px">${language['PORTFOLIO_YIELDPERUNITCOSTPRICE']}</th>
+					</#if>
+					<th class="bold tdCenter"
+						style="min-width: 70px">${language['PORTFOLIO_VALUEGAINED']}<br>(${portfolio.currency.code})
+					</th>
+					<#if cookie.stopLoss.value == 'checked'>
+						<th class="bold tdCenter" style="min-width: 65px">${language['PORTFOLIO_STOPLOSS']}</th>
+					</#if>
+					<#if cookie.objective.value == 'checked'>
+						<th class="bold tdCenter" style="min-width: 65px">${language['PORTFOLIO_OBJECTIVE']}</th>
+					</#if>
+				</tr>
+				</thead>
+				<c:forEach var="equity" items="${portfolio.equities}">
+					<tr>
+						<td><span class="bold">${equity.currentName}</span><br>
+							<#if equity.company.manual == false>
+								(${equity.company.yahooId})
+							</#if>
+							[<a href="javascript:poufpouf('${equity.company.yahooId}')">${language['PORTFOLIO_INFO']}</a>]
+							<c:choose>
+								<c:when test="${equity.company.manual == false }">
+									[<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateTicker('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+								</c:when>
+								<c:otherwise>
+									[<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateManual('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}','${equity.company.id}', '${equity.company.quote}');return false">${language['PORTFOLIO_MODIFY']}</a>]
+								</c:otherwise>
+							</c:choose>
+							<span id="${equity.company.yahooId}" class="companyInfo" style="display: none;">
+											<br> -
+													<#if equity.currentSector??>
+														${equity.currentSector}
+													<#else>
+														Unknown sector
+													</#if>
+											<br> -
+								<c:choose>
+								<#if equity.currentIndustry??>
+									${equity.currentIndustry}
+								<#else>
+									Unknown industry
+								</#if>
+											<br> -
+													<#if equity.currentMarketCap??>
+														${equity.currentMarketCap} ${equity.company.currency.symbol} (${equity.marketCapitalizationType.value})
+													<#else>
+														Unknown market cap
+													</#if>
+											<br> - <fmt:formatDate value="${equity.company.lastUpdate}" pattern="${user.datePattern }"/>
+									</span>
+						</td>
+						<td class="tdRight"><fmt:formatNumber type="number" value="${equity.quantity}" maxFractionDigits="0"/></td>
+						<td class="tdRight"><fmt:formatNumber type="number" maxFractionDigits="3" value="${equity.unitCostPrice}"/></td>
+						<#if cookie.quote.value == 'checked'>
+							<td class="tdRight">
+								<fmt:formatNumber type="number" maxFractionDigits="3" value="${equity.company.quote}"/>
+								<#if equity.company.manual == false>
+									<br>
+										<#if equity.company.change < 0>
+											<span class="cQuoteDown"><fmt:formatNumber type="number"
+																					   minFractionDigits="2"
+																					   maxFractionDigits="1"
+																					   value="${equity.company.change}"/>%</span>
+										<#else>
+											<span class="cQuoteUp">+<fmt:formatNumber type="number"
+																					  minFractionDigits="2"
+																					  maxFractionDigits="1"
+																					  value="${equity.company.change}"/>%</span>
+										</#if>
+								</#if>
+							</td>
+						</#if>
+						<#if cookie.currency.value == 'checked'>
+							<td class="tdCenter">${equity.company.currency }</td>
+						</#if>
+						<#if cookie.parity.value == 'checked'>
+							<td class="tdCenter">
+								<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5" value="${equity.parity }"/>
+								<#if equity.parityPersonal != 1>
+									<br><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5" value="${equity.parityPersonal }"/>
+								</#if>
+							</td>
+						</#if>
+						<td class="tdRight"><fmt:formatNumber type="number" value="${equity.value }" maxFractionDigits="0"/><br>
+							<#if equity.unitCostPrice == 0.0>
+									<span class="cQuoteUp">N/A</span>
+							<#else>
+								<#if equity.plusMinusValue?starts_with('-')>
+									<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.plusMinusValue }"/>%</span>
+								<#else>
+									<span class="cQuoteUp">+<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.plusMinusValue }"/>%</span>
+								</#if>
+							</#if>
+						</td>
+						<td class="tdRight">
+							<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.value / (portfolio.totalValue-portfolio.liquidity) * 100}"/>%
+						</td>
+						<#if cookie.yield1.value == 'checked'>
+							<td class="tdRight"><#if equity.currentYield != 0>
+								<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.currentYield}"/>%
+								<#if equity.yieldPersonal??>
+									*
+								</#if>
+
+							</#if></td>
+						</#if>
+						<#if cookie.yield2.value == 'checked'>
+							<td class="tdRight">
+								<#if equity.yieldUnitCostPrice != 0>
+									<fmt:formatNumber type="number" maxFractionDigits="0" value="${equity.yieldYear}"/><br>
+									<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.yieldUnitCostPrice}"/>%
+								</#if>
+							</td>
+						</#if>
+						<td class="tdRight">
+							<#if equity.plusMinusUnitCostPriceValue?starts_with('-')>
+									<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="0" value="${equity.plusMinusUnitCostPriceValue}"/></span>
+							<#else>
+									<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="0" value="${equity.plusMinusUnitCostPriceValue}"/></span>
+									<c:set var="classType" value="cQuoteUp"/>
+							</#if>
+						</td>
+						<#if cookie.stopLoss.value == 'checked'>
+							<td class="tdRight"><#if equity.gapStopLossLocal??>
+								<fmt:formatNumber type="number" minFractionDigits="3" value="${equity.stopLossLocal}"/>
+								<br>
+									<#if equity.gapStopLossLocal < 0 >
+										<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapStopLossLocal}"/>%</span>
+									<#elseif equity.gapStopLossLocal < 5>
+										<span class="cQuoteOrange"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapStopLossLocal}"/>%</span>
+									<#else>
+										<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapStopLossLocal}"/>%
+									</#if>
+							</#if></td>
+						</#if>
+						<#if cookie.objective.value == 'checked'>
+							<td class="tdRight">
+								<#if equity.gapObjectivLocal??>
+									<fmt:formatNumber type="number" minFractionDigits="3" value="${equity.objectivLocal}"/>
+									<br>
+										<#if equity.gapObjectivLocal < 0>
+											<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapObjectivLocal}"/>%</span>
+										<#elseif equity.gapObjectivLocal < 5>
+											<span class="cQuoteOrange"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapObjectivLocal}"/>%</span>
+										<#else>
+											<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapObjectivLocal}"/>%
+										</#if>
+								</#if>
+						</#if></td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br>
+			<br>
+			<br>
+			<div id="shareValue">
+				<#if portfolio.shareValues??>
+					<h2 style="margin-top: 5px;">
+							${language['PORTFOLIO_CHARTTITLE']}
+					</h2>
+
+					<span id="graphTop">[ <a href="home#shareValue">${language['PORTFOLIO_ALL']}</a> - <a
+						href="home?days=1825#shareValue">${language['PORTFOLIO_FIVEYEARS']}</a> - <a
+						href="home?days=730#shareValue">${language['PORTFOLIO_TWOYEARS']}</a> - <a
+						href="home?days=365#shareValue">${language['PORTFOLIO_ONEYEAR']}</a> - <a
+						href="home?days=183#shareValue">${language['PORTFOLIO_SIXMONTHS']}</a> - <a
+						href="home?days=90#shareValue">${language['PORTFOLIO_THREEMONTHS']}</a> - <a
+						href="home?days=30#shareValue">${language['PORTFOLIO_ONEMONTH']}</a> - <a
+						href="home?days=7#shareValue">${language['PORTFOLIO_ONEWEEK']}</a> ]</span>
+					<div id="graphicShareValue" class="shadow"></div>
+
+					<br><br>
+
+					<h2 style="margin-top: 5px;">${language['PORTFOLIO_CHARTTITLEVALUE']}</h2>
+
+					<span id="graphTop2">[ <a href="home#shareValue">${language['PORTFOLIO_ALL']}</a> - <a
+						href="home?days=1825#shareValue">${language['PORTFOLIO_FIVEYEARS']}</a> - <a
+						href="home?days=730#shareValue">${language['PORTFOLIO_TWOYEARS']}</a> - <a
+						href="home?days=365#shareValue">${language['PORTFOLIO_ONEYEAR']}</a> - <a
+						href="home?days=183#shareValue">${language['PORTFOLIO_SIXMONTHS']}</a> - <a
+						href="home?days=90#shareValue">${language['PORTFOLIO_THREEMONTHS']}</a> - <a
+						href="home?days=30#shareValue">${language['PORTFOLIO_ONEMONTH']}</a> - <a
+						href="home?days=7#shareValue">${language['PORTFOLIO_ONEWEEK']}</a> ]</span>
+					<div id="graphicShareValue2" class="shadow"></div>
+				</#if>
+			</div>
+		</div>-->
+	</div>
+	<div id="footer">Stock Tracker © <a href="http://www.apache.org/licenses/LICENSE-2.0">Copyright</a> 2017</div>
+</div>
+
+<script type="text/javascript">
+	<!--
+	(function basic_time(container) {
+		var
+			<c:out value="${portfolio.timeChart.data}" escapeXml="false"/>,
+		start = new Date("<c:out value="${portfolio.timeChart.date}" escapeXml="false"/>").getTime(),
+			options, graph, i, x, o;
+		options = {
+			xaxis: {
+				mode: 'time',
+				labelsAngle: 45,
+				timeMode: 'local'
+			},
+			selection: {
+				mode: 'x'
+			},
+			HtmlText: false,
+			//colors: ['#3e933d', '#190525', '#6a0efc'],
+			colors: [<c:out value="${portfolio.timeChart.colors}" escapeXml="false"/>],
+		};
+
+		// Draw graph with default options, overwriting with passed options
+
+
+		function drawGraph(opts) {
+
+			// Clone the options, so the 'options' variable always keeps intact.
+			o = Flotr._.extend(Flotr._.clone(options), opts || {});
+
+			// Return a new graph.
+			return Flotr.draw(
+				container, <c:out value="${portfolio.timeChart.draw}" escapeXml="false"/>, o);
+		}
+
+		graph = drawGraph();
+
+		Flotr.EventAdapter.observe(container, 'flotr:select', function (area) {
+			// Draw selected area
+			graph = drawGraph({
+				xaxis: {
+					min: area.x1,
+					max: area.x2,
+					mode: 'time',
+					labelsAngle: 45
+				},
+				yaxis: {
+					min: area.y1,
+					max: area.y2
+				}
+			});
+		});
+
+		// When graph is clicked, draw the graph with default area.
+		Flotr.EventAdapter.observe(container, 'flotr:click', function () {
+			graph = drawGraph();
+		});
+	})(document.getElementById("graphicShareValue"));
+	//-->
+	<!--
+	(function basic_time(container) {
+		var
+			<c:out value="${portfolio.timeValueChart.data}" escapeXml="false"/>,
+		start = new Date("<c:out value="${portfolio.timeChart.date}" escapeXml="false"/>").getTime(),
+			options, graph, i, x, o;
+		options = {
+			xaxis: {
+				mode: 'time',
+				labelsAngle: 45
+			},
+			selection: {
+				mode: 'x'
+			},
+			HtmlText: false,
+			//colors: ['#3e933d', '#190525', '#6a0efc'],
+			colors: [<c:out value="${portfolio.timeValueChart.colors}" escapeXml="false"/>],
+		};
+
+		// Draw graph with default options, overwriting with passed options
+
+
+		function drawGraph(opts) {
+
+			// Clone the options, so the 'options' variable always keeps intact.
+			o = Flotr._.extend(Flotr._.clone(options), opts || {});
+
+			// Return a new graph.
+			return Flotr.draw(
+				container, <c:out value="${portfolio.timeValueChart.draw}" escapeXml="false"/>, o);
+		}
+
+		graph = drawGraph();
+
+		Flotr.EventAdapter.observe(container, 'flotr:select', function (area) {
+			// Draw selected area
+			graph = drawGraph({
+				xaxis: {
+					min: area.x1,
+					max: area.x2,
+					mode: 'time',
+					labelsAngle: 45
+				},
+				yaxis: {
+					min: area.y1,
+					max: area.y2
+				}
+			});
+		});
+
+		// When graph is clicked, draw the graph with default area.
+		Flotr.EventAdapter.observe(container, 'flotr:click', function () {
+			graph = drawGraph();
+		});
+	})(document.getElementById("graphicShareValue2"));
+	//-->
+</script>
+</body>
+</html>

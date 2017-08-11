@@ -62,6 +62,9 @@ public class Portfolio {
 	@Getter
 	@Setter
 	private List<Equity> equities;
+	public List<Equity> getEquities(){
+		return equities;
+	}
 	@Getter
 	@Setter
 	private List<ShareValue> shareValues;
