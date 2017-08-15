@@ -41,14 +41,9 @@ public class MySQLDumper {
 	private final String database;
 	private final String user;
 	private final String password;
-	private static final String PATH = "stock-tracker";
-	private static final String SQL_EXT = ".sql";
-	private static final String TARGZ_EXT = ".tar.gz";
-	private final String date;
 
 	@Autowired
 	public MySQLDumper(final AppProperties appProperties) {
-		this.date = Util.getCurrentDateInFormat("dd-MM-yyyy");
 		this.ip = appProperties.getDb().getIp();
 		this.database = appProperties.getDb().getName();
 		this.user = appProperties.getDb().getUser();
@@ -56,45 +51,18 @@ public class MySQLDumper {
 	}
 
 	/**
-	 * Get current file name
-	 *
-	 * @return the file name
-	 */
-	private String getCurrentNameFile() {
-		return date + "-" + PATH;
-	}
-
-	/**
-	 * Get current file name with extension
-	 *
-	 * @return the file name with extension
-	 */
-	public final String getCurrentSqlNameFile() {
-		return getCurrentNameFile() + SQL_EXT;
-	}
-
-	/**
-	 * Get current file name with compression
-	 *
-	 * @return the current file name with compression
-	 */
-	public final String getCurrentTarGzNameFile() {
-		return getCurrentNameFile() + TARGZ_EXT;
-	}
-
-	/**
 	 * Get the dump database and export to to local
 	 *
 	 * @throws Exception the exception
 	 */
-	public final void export() throws Exception {
+	public final void export(final String fileName) throws Exception {
 		final String dumpCommand = "mysqldump " + database + " -h " + ip + " -u " + user + " -p" + password;
-		log.info("Executing '{}'", dumpCommand);
+		log.info("Executing mysqldump");
 		final Runtime rt = Runtime.getRuntime();
 		PrintStream ps;
 		final Process child = rt.exec(dumpCommand);
 		try {
-			ps = new PrintStream(date + "-" + PATH + SQL_EXT, "UTF-8");
+			ps = new PrintStream(fileName, "UTF-8");
 		} catch (final FileNotFoundException fileEx) {
 			final File file = new File("");
 			throw new FileNotFoundException(fileEx.getMessage() + " / " + file.getPath());
@@ -107,6 +75,6 @@ public class MySQLDumper {
 		} catch (Throwable t) {
 			log.error("Failed at exporting MYSQL db {}", t.getMessage(), t);
 		}
-		log.info("File exported to '{}'", getCurrentSqlNameFile());
+		log.info("File exported to '{}'", fileName);
 	}
 }

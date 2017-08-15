@@ -40,10 +40,10 @@ public class DropBoxImpl implements DropBox {
 	public final void deleteOldFileIfNeeded(final File file) throws DbxException {
 		final String date = calculateNewDateFromFileName(file);
 
-		final List<SearchMatch> searchMatches = client.files().search("", date + "-stock-tracker.tar.gz").getMatches();
+		final List<SearchMatch> searchMatches = client.files().search("", date + "-stock-tracker.sql.tar.gz").getMatches();
 		searchMatches.stream().findAny().ifPresent(searchMatch -> {
 			try {
-				client.files().delete("/" + date + "-stock-tracker.tar.gz");
+				client.files().delete("/" + date + "-stock-tracker.sql.tar.gz");
 			} catch (final DbxException e) {
 				log.error("Error while deleting DropBox file", e);
 			}

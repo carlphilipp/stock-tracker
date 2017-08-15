@@ -41,6 +41,10 @@ import java.io.File;
 @Log4j2
 public class MysqlDumpJob {
 
+	private static final String PATH = "stock-tracker";
+	private static final String SQL_EXT = ".sql";
+	private static final String TARGZ_EXT = ".tar.gz";
+
 	@NonNull
 	private MySQLDumper mySQLDumper;
 
@@ -53,14 +57,14 @@ public class MysqlDumpJob {
 		File sqlFile = null;
 		try {
 			log.info("Exporting MYSQL db");
-			mySQLDumper.export();
+			final String currentFileBase = currentFileBase();
+			mySQLDumper.export(currentFileBase);
 
-			final String sqlPath = mySQLDumper.getCurrentSqlNameFile();
-			sqlFile = new File(sqlPath);
-			final String tarGzPath = mySQLDumper.getCurrentTarGzNameFile();
+			sqlFile = new File(currentFileBase);
+			final String tarGzPath = currentFileBase + TARGZ_EXT;
 			tarGzFile = new File(tarGzPath);
 
-			Util.createTarGz(sqlPath, tarGzPath);
+			Util.createTarGz(currentFileBase, tarGzPath);
 
 			log.info("Delete old file in Dropbox if needed");
 			dropBox.deleteOldFileIfNeeded(tarGzFile);
@@ -85,5 +89,9 @@ public class MysqlDumpJob {
 				}
 			}
 		}
+	}
+
+	private String currentFileBase() {
+		return Util.getCurrentDateInFormat("dd-MM-yyyy") + "-" + PATH + SQL_EXT;
 	}
 }
