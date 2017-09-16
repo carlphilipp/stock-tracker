@@ -219,7 +219,8 @@ limitations under the License.
 		</table>
 	</form>
 	<form name="sendEquityDelete" id="sendEquityDelete">
-		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
+		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity"
+												   onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
 		<input id="processDeleteEquity" type="submit" style="display: none;">
 		<input id="deleteTicker" type="hidden" name="equityId" value="">
 	</form>
@@ -288,8 +289,10 @@ limitations under the License.
 		<input id="companyId2" type="hidden" name="companyId" value="">
 	</form>
 	<form name="sendEquityDelete2" id="sendEquityDelete2">
-		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity"
-												   onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete2', 'modifyEquity', 'processDeleteEquity2', deleteEquityManual))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
+		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;
+			<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete2', 'modifyEquity', 'processDeleteEquity2', deleteEquityManual))">
+				${language['PORTFOLIO_HIDDEN_DELETE']}
+			</a>
 		<input name="delete" type="hidden" value="true">
 		<input id="processDeleteEquity2" type="submit" style="display: none;">
 		<input id="deleteTicker2" type="hidden" name="equityId" value="">
@@ -302,8 +305,7 @@ limitations under the License.
 	<h1>${language['PORTFOLIO_HIDDEN_REFRESH']}</h1>
 	<form id="sendRefresh" name="sendRefresh" autocomplete="on">
 		<input name="currencyUpdate" type="checkbox"> ${language['PORTFOLIO_HIDDEN_UPDATECURRENCIES']}<br><br>
-		<input type="button" value="Confirm"
-			   onclick="javascript:checkForm('sendRefresh', 'refresh','refreshButton',refresh)">
+		<input type="button" value="Confirm" onclick="javascript:checkForm('sendRefresh', 'refresh','refreshButton',refresh)">
 		<input id="refreshButton" type="hidden">
 	</form>
 	<a class="close-reveal-modal">&#215;</a>
@@ -318,7 +320,6 @@ limitations under the License.
 					${language['PORTFOLIO_TITLE']}&nbsp;<a href="#" data-reveal-id="refresh"><img alt="Refresh" src="image/refresh.png" style="border: 0"></a>
 				</h2>
 				<br>Last update: <fmt:formatDate value="${portfolio.lastCompanyUpdate}" pattern="${user.datePattern }"/>
-
 			</div>
 			<c:if test="${fn:length(portfolio.equities) != 0}">
 				<table id="tableEquityTotal" border="1" class="shadow">
@@ -326,80 +327,76 @@ limitations under the License.
 						<td class="center">
 							<span class="totalValue"><fmt:formatNumber type="currency" value="${portfolio.totalValue }" maxFractionDigits="1" currencySymbol="${portfolio.currency.symbol }"/></span>
 							<span class="totalGain">
-				<c:choose>
-					<c:when test="${fn:startsWith(portfolio.totalGain, '-')}">
-						<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif"
-							 alt="Down">
-						<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="0" value="${portfolio.totalGain}"/></span>
-					</c:when>
-					<c:otherwise>
-						<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up">
-						<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="0" value="${portfolio.totalGain}"/></span>
-					</c:otherwise>
-				</c:choose>
-				<c:choose>
-					<c:when test="${fn:startsWith(portfolio.totalPlusMinusValue, '-')}">
-						<span class="cQuoteDown">(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.totalPlusMinusValueAbsolute}"/>%)</span>
-					</c:when>
-					<c:otherwise>
-						<span class="cQuoteUp">(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.totalPlusMinusValue}"/>%)</span>
-					</c:otherwise>
-				</c:choose>
-				</span>
+								<c:choose>
+									<c:when test="${fn:startsWith(portfolio.totalGain, '-')}">
+										<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif"
+											 alt="Down">
+										<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="0" value="${portfolio.totalGain}"/></span>
+									</c:when>
+									<c:otherwise>
+										<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up">
+										<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="0" value="${portfolio.totalGain}"/></span>
+									</c:otherwise>
+								</c:choose>
+								<c:choose>
+									<c:when test="${fn:startsWith(portfolio.totalPlusMinusValue, '-')}">
+										<span class="cQuoteDown">(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.totalPlusMinusValueAbsolute}"/>%)</span>
+									</c:when>
+									<c:otherwise>
+										<span class="cQuoteUp">(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.totalPlusMinusValue}"/>%)</span>
+									</c:otherwise>
+								</c:choose>
+							</span>
 							<br>
-								${language['PORTFOLIO_LIQUIDITY']}: <span class="liquidity bold"><fmt:formatNumber
-							type="currency" value="${portfolio.liquidity }" maxFractionDigits="2"
-							currencySymbol="${portfolio.currency.symbol }"/></span>
-							| ${language['PORTFOLIO_YIELDYEAR']}: <span class="yield bold">
-					<fmt:formatNumber type="currency" maxFractionDigits="0" value="${portfolio.yieldYear}"
-									  currencySymbol="${portfolio.currency.symbol }"/>
-					(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.yieldYearPerc}"/>%)
-				</span>
+								${language['PORTFOLIO_LIQUIDITY']}:
+							<span class="liquidity bold">
+								<fmt:formatNumber type="currency" value="${portfolio.liquidity }" maxFractionDigits="2" currencySymbol="${portfolio.currency.symbol }"/>
+								(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.liquidity / portfolio.totalValue * 100}"/>%)
+							</span>
+								| ${language['PORTFOLIO_YIELDYEAR']}:
+							<span class="yield bold">
+								<fmt:formatNumber type="currency" maxFractionDigits="0" value="${portfolio.yieldYear}" currencySymbol="${portfolio.currency.symbol }"/>
+								(<fmt:formatNumber type="number" maxFractionDigits="1" value="${portfolio.yieldYearPerc}"/>%)
+							</span>
 							<br>
 								${language['PORTFOLIO_SHAREVALUE']}:
 							<c:choose>
 								<c:when test="${portfolio.shareValues[0].shareValue < 100}">
-									<span class="cQuoteDown shareValue"><fmt:formatNumber type="number"
-																						  minFractionDigits="2"
-																						  maxFractionDigits="1"
-																						  value="${portfolio.shareValues[0].shareValue }"/></span>
+									<span class="cQuoteDown shareValue">
+										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.shareValues[0].shareValue }"/>
+									</span>
 								</c:when>
 								<c:otherwise>
-									<span class="cQuoteUp shareValue"><fmt:formatNumber type="number"
-																						minFractionDigits="2"
-																						maxFractionDigits="1"
-																						value="${portfolio.shareValues[0].shareValue }"/></span>
+									<span class="cQuoteUp shareValue">
+										<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.shareValues[0].shareValue }"/>
+									</span>
 								</c:otherwise>
 							</c:choose>
 							| Today:
 							<c:choose>
 								<c:when test="${portfolio.totalGainToday < 0}">
 									<img width="10" height="14" style="margin-right:-2px;border:0" src="image/down_r.gif" alt="Down">
-									<span class="cQuoteDown shareValue"><fmt:formatNumber type="number"
-																						  minFractionDigits="0"
-																						  maxFractionDigits="0"
-																						  value="${portfolio.totalGainTodayAbsolute }"/> </span>
+									<span class="cQuoteDown shareValue">
+										<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="0" value="${portfolio.totalGainTodayAbsolute }"/>
+									</span>
 								</c:when>
 								<c:otherwise>
 									<img width="10" height="14" style="margin-right:-2px;border:0;" src="image/up_g.gif" alt="Up">
-									<span class="cQuoteUp shareValue"><fmt:formatNumber type="number"
-																						minFractionDigits="0"
-																						maxFractionDigits="0"
-																						value="${portfolio.totalGainToday }"/> </span>
+									<span class="cQuoteUp shareValue">
+										<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="0" value="${portfolio.totalGainToday }"/>
+									</span>
 								</c:otherwise>
 							</c:choose>
 							<c:choose>
 								<c:when test="${portfolio.totalVariation < 0}">
-									<span class="cQuoteDown shareValue">(<fmt:formatNumber type="number"
-																						   minFractionDigits="2"
-																						   maxFractionDigits="1"
-																						   value="${portfolio.totalVariation }"/>%)</span>
+									<span class="cQuoteDown shareValue">
+										(<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.totalVariation }"/>%)
+									</span>
 								</c:when>
 								<c:otherwise>
-									<span class="cQuoteUp shareValue">(<fmt:formatNumber type="number"
-																						 minFractionDigits="2"
-																						 maxFractionDigits="1"
-																						 value="${portfolio.totalVariation }"/>%)</span>
+									<span class="cQuoteUp shareValue">
+										(<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${portfolio.totalVariation }"/>%)
+									</span>
 								</c:otherwise>
 							</c:choose>
 						</td>
@@ -449,20 +446,15 @@ limitations under the License.
 					<c:if test="${cookie.parity.value == 'checked' }">
 						<th class="bold tdCenter" style="min-width: 60px">${language['PORTFOLIO_PARITIES']}</th>
 					</c:if>
-					<th class="bold tdCenter"
-						style="min-width: 80px">${language['PORTFOLIO_VALUE']}<br>(${portfolio.currency.code})
-					</th>
+					<th class="bold tdCenter" style="min-width: 80px">${language['PORTFOLIO_VALUE']}<br>(${portfolio.currency.code})</th>
 					<th class="bold tdCenter" style="min-width: 60px">${language['PORTFOLIO_PERCENTTOTAL']}</th>
 					<c:if test="${cookie.yield1.value == 'checked' }">
 						<th class="bold tdCenter" style="min-width: 80px">${language['PORTFOLIO_YIELDTTM']}</th>
 					</c:if>
 					<c:if test="${cookie.yield2.value == 'checked' }">
-						<th class="bold tdCenter"
-							style="min-width: 90px">${language['PORTFOLIO_YIELDPERUNITCOSTPRICE']}</th>
+						<th class="bold tdCenter" style="min-width: 90px">${language['PORTFOLIO_YIELDPERUNITCOSTPRICE']}</th>
 					</c:if>
-					<th class="bold tdCenter"
-						style="min-width: 70px">${language['PORTFOLIO_VALUEGAINED']}<br>(${portfolio.currency.code})
-					</th>
+					<th class="bold tdCenter" style="min-width: 70px">${language['PORTFOLIO_VALUEGAINED']}<br>(${portfolio.currency.code})</th>
 					<c:if test="${cookie.stopLoss.value == 'checked' }">
 						<th class="bold tdCenter" style="min-width: 65px">${language['PORTFOLIO_STOPLOSS']}</th>
 					</c:if>
@@ -494,12 +486,13 @@ limitations under the License.
 													</c:when>
 													<c:otherwise>Unknown sector</c:otherwise>
 												</c:choose>
-											<br> - <c:choose>
-								<c:when test="${!empty equity.currentIndustry}">
-									${equity.currentIndustry}
-								</c:when>
-								<c:otherwise>Unknown industry</c:otherwise>
-							</c:choose>
+											<br> -
+											<c:choose>
+												<c:when test="${!empty equity.currentIndustry}">
+													${equity.currentIndustry}
+												</c:when>
+												<c:otherwise>Unknown industry</c:otherwise>
+											</c:choose>
 											<br> -
 												<c:choose>
 													<c:when test="${!empty equity.currentMarketCap}">
@@ -507,14 +500,11 @@ limitations under the License.
 													</c:when>
 													<c:otherwise>Unknown market cap</c:otherwise>
 												</c:choose>
-											<br> - <fmt:formatDate value="${equity.company.lastUpdate}"
-																   pattern="${user.datePattern }"/>
+											<br> - <fmt:formatDate value="${equity.company.lastUpdate}" pattern="${user.datePattern }"/>
 									</span>
 						</td>
-						<td class="tdRight"><fmt:formatNumber type="number" value="${equity.quantity}"
-															  maxFractionDigits="0"/></td>
-						<td class="tdRight"><fmt:formatNumber type="number" maxFractionDigits="3"
-															  value="${equity.unitCostPrice}"/></td>
+						<td class="tdRight"><fmt:formatNumber type="number" value="${equity.quantity}" maxFractionDigits="0"/></td>
+						<td class="tdRight"><fmt:formatNumber type="number" maxFractionDigits="3" value="${equity.unitCostPrice}"/></td>
 						<c:if test="${cookie.quote.value == 'checked' }">
 							<td class="tdRight">
 								<fmt:formatNumber type="number" maxFractionDigits="3" value="${equity.company.quote}"/>
@@ -522,16 +512,14 @@ limitations under the License.
 									<br>
 									<c:choose>
 										<c:when test="${equity.company.change < 0}">
-											<span class="cQuoteDown"><fmt:formatNumber type="number"
-																					   minFractionDigits="2"
-																					   maxFractionDigits="1"
-																					   value="${equity.company.change}"/>%</span>
+											<span class="cQuoteDown">
+												<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${equity.company.change}"/>%
+											</span>
 										</c:when>
 										<c:otherwise>
-											<span class="cQuoteUp">+<fmt:formatNumber type="number"
-																					  minFractionDigits="2"
-																					  maxFractionDigits="1"
-																					  value="${equity.company.change}"/>%</span>
+											<span class="cQuoteUp">
+												+<fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="1" value="${equity.company.change}"/>%
+											</span>
 										</c:otherwise>
 									</c:choose>
 								</c:if>
@@ -542,16 +530,13 @@ limitations under the License.
 						</c:if>
 						<c:if test="${cookie.parity.value == 'checked' }">
 							<td class="tdCenter">
-								<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5"
-												  value="${equity.parity }"/>
+								<fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5" value="${equity.parity }"/>
 								<c:if test="${equity.parityPersonal != 1 }">
-									<br><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5"
-														  value="${equity.parityPersonal }"/>
+									<br><fmt:formatNumber type="number" minFractionDigits="0" maxFractionDigits="5" value="${equity.parityPersonal }"/>
 								</c:if>
 							</td>
 						</c:if>
-						<td class="tdRight"><fmt:formatNumber type="number" value="${equity.value }"
-															  maxFractionDigits="0"/><br>
+						<td class="tdRight"><fmt:formatNumber type="number" value="${equity.value }" maxFractionDigits="0"/><br>
 							<c:choose>
 								<c:when test="${equity.unitCostPrice == 0.0}">
 									<span class="cQuoteUp">N/A</span>
@@ -559,22 +544,21 @@ limitations under the License.
 								<c:otherwise>
 									<c:choose>
 										<c:when test="${fn:startsWith(equity.plusMinusValue, '-')}">
-											<span class="cQuoteDown"><fmt:formatNumber type="number"
-																					   maxFractionDigits="1"
-																					   value="${equity.plusMinusValue }"/>%</span>
+											<span class="cQuoteDown">
+												<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.plusMinusValue }"/>%
+											</span>
 										</c:when>
 										<c:otherwise>
-											<span class="cQuoteUp">+<fmt:formatNumber type="number"
-																					  maxFractionDigits="1"
-																					  value="${equity.plusMinusValue }"/>%</span>
+											<span class="cQuoteUp">
+												+<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.plusMinusValue }"/>%
+											</span>
 										</c:otherwise>
 									</c:choose>
 								</c:otherwise>
 							</c:choose>
 						</td>
 						<td class="tdRight">
-							<fmt:formatNumber type="number" maxFractionDigits="1"
-											  value="${equity.value / (portfolio.totalValue-portfolio.liquidity) * 100}"/>%
+							<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.value / portfolio.totalValue * 100}"/>%
 						</td>
 						<c:if test="${cookie.yield1.value == 'checked' }">
 							<td class="tdRight"><c:if test="${equity.currentYield != 0}">
@@ -582,25 +566,23 @@ limitations under the License.
 								<c:if test="${!empty equity.yieldPersonal}">
 									*
 								</c:if>
-
 							</c:if></td>
 						</c:if>
 						<c:if test="${cookie.yield2.value == 'checked' }">
-							<td class="tdRight"><c:if test="${equity.yieldUnitCostPrice != 0}">
-								<fmt:formatNumber type="number" maxFractionDigits="0" value="${equity.yieldYear}"/><br>
-								<fmt:formatNumber type="number" maxFractionDigits="1"
-												  value="${equity.yieldUnitCostPrice}"/>%
-							</c:if></td>
+							<td class="tdRight">
+								<c:if test="${equity.yieldUnitCostPrice != 0}">
+									<fmt:formatNumber type="number" maxFractionDigits="0" value="${equity.yieldYear}"/><br>
+									<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.yieldUnitCostPrice}"/>%
+								</c:if>
+							</td>
 						</c:if>
 						<td class="tdRight">
 							<c:choose>
 								<c:when test="${fn:startsWith(equity.plusMinusUnitCostPriceValue, '-')}">
-									<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="0"
-																			   value="${equity.plusMinusUnitCostPriceValue}"/></span>
+									<span class="cQuoteDown"><fmt:formatNumber type="number" maxFractionDigits="0" value="${equity.plusMinusUnitCostPriceValue}"/></span>
 								</c:when>
 								<c:otherwise>
-									<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="0"
-																			 value="${equity.plusMinusUnitCostPriceValue}"/></span>
+									<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="0" value="${equity.plusMinusUnitCostPriceValue}"/></span>
 									<c:set var="classType" value="cQuoteUp"/>
 								</c:otherwise>
 							</c:choose>
@@ -617,8 +599,7 @@ limitations under the License.
 										<span class="cQuoteOrange"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapStopLossLocal}"/>%</span>
 									</c:when>
 									<c:otherwise>
-										<fmt:formatNumber type="number" maxFractionDigits="1"
-														  value="${equity.gapStopLossLocal}"/>%
+										<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapStopLossLocal}"/>%
 									</c:otherwise>
 								</c:choose>
 							</c:if></td>
@@ -629,16 +610,13 @@ limitations under the License.
 								<br>
 								<c:choose>
 									<c:when test="${equity.gapObjectivLocal < 0 }">
-										<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="1"
-																				 value="${equity.gapObjectivLocal}"/>%</span>
+										<span class="cQuoteUp"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapObjectivLocal}"/>%</span>
 									</c:when>
 									<c:when test="${equity.gapObjectivLocal < 5 }">
-										<span class="cQuoteOrange"><fmt:formatNumber type="number" maxFractionDigits="1"
-																					 value="${equity.gapObjectivLocal}"/>%</span>
+										<span class="cQuoteOrange"><fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapObjectivLocal}"/>%</span>
 									</c:when>
 									<c:otherwise>
-										<fmt:formatNumber type="number" maxFractionDigits="1"
-														  value="${equity.gapObjectivLocal}"/>%
+										<fmt:formatNumber type="number" maxFractionDigits="1" value="${equity.gapObjectivLocal}"/>%
 									</c:otherwise>
 								</c:choose>
 							</c:if></td>
