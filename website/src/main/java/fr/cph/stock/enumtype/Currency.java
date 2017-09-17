@@ -32,6 +32,7 @@ public enum Currency {
 	// CHF("Switzerland Franc", "CHF", "CHF"),
 	EUR("Euro", "€", "EUR"),
 	GBP("United Kingdom Pound", "£", "GBP"),
+	JPY("Japanese Yen", "¥", "JPY"),
 	// HKD("Hong Kong Dollar", "$", "HKD"),
 	// SGD("Singapore Dollar", "$", "SGD"),
 	USD("United States Dollar", "$", "USD");
