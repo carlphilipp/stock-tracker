@@ -25,6 +25,8 @@ import fr.cph.stock.util.Constants;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -128,7 +130,8 @@ public class User implements Serializable {
 		json.addProperty("datePattern", getDatePattern());
 		json.addProperty("datePatternWithoutHourMin", getDatePatternWithoutHourMin());
 		json.addProperty("allow", getAllow());
-		json.addProperty("lastUpdate", getLastUpdate() != null ? getLastUpdate().toString() : "");
+		final DateFormat formatter = new SimpleDateFormat(getDatePattern());
+		json.addProperty("lastUpdate", getLastUpdate() != null ? formatter.format(getLastUpdate()) : "");
 		return json;
 	}
 }

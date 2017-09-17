@@ -737,7 +737,7 @@ public class Portfolio {
 		json.addProperty("userId", getUserId());
 		json.add(Constants.CURRENCY, getCurrency().getJSONObject());
 		json.addProperty(Constants.LIQUIDITY, getLiquidity());
-		json.addProperty("lastUpdate", getLastCompanyUpdate().toString());
+		json.addProperty("lastUpdate", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(getLastCompanyUpdate()));
 		json.addProperty("totalValue", getTotalValue());
 		json.addProperty("totalGain", getTotalGain());
 		json.addProperty("totalPlusMinusValue", getTotalPlusMinusValue());
