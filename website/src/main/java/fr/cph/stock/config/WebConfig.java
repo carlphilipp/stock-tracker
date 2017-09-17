@@ -1,5 +1,6 @@
 package fr.cph.stock.config;
 
+import fr.cph.stock.controller.mobile.SessionMobileFilter;
 import fr.cph.stock.filter.CookieFilter;
 import fr.cph.stock.filter.SessionFilter;
 import fr.cph.stock.filter.SleuthFilter;
@@ -54,6 +55,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registration.setFilter(new SessionFilter());
 		registration.setOrder(2);
 		registration.addUrlPatterns("/home/*", "/history/*", "/accounts/*", "/charts/*", "/performance/*", "/currencies/*", "/options/*", "/language/*");
+		return registration;
+	}
+
+	@Bean
+	public FilterRegistrationBean sessionMobileFilter() {
+		final FilterRegistrationBean registration = new FilterRegistrationBean();
+		registration.setFilter(new SessionMobileFilter());
+		registration.setOrder(4);
+		registration.addUrlPatterns("/homemobile/*", "/logoutmobile/*", "/reloadportfoliomobile/*", "/updatesharevaluemobile/*");
 		return registration;
 	}
 

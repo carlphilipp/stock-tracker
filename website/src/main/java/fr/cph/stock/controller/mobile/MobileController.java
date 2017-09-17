@@ -113,7 +113,7 @@ public class MobileController {
 			request.getSession().invalidate();
 			final String login = request.getParameter(LOGIN);
 			final String password = request.getParameter(PASSWORD);
-			final Optional<User> userOptional = Optional.empty();//userBusiness.checkUser(login, password);
+			final Optional<User> userOptional = userService.checkUser(login, password);
 			if (userOptional.isPresent()) {
 				final User user = userOptional.get();
 				if (!user.getAllow()) {
