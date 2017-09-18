@@ -25,9 +25,9 @@ import fr.cph.stock.entities.chart.TimeValueChart;
 import fr.cph.stock.enumtype.Currency;
 import fr.cph.stock.enumtype.MarketCapitalization;
 import fr.cph.stock.exception.NotFoundException;
+import fr.cph.stock.util.Constants;
 import lombok.Getter;
 import lombok.Setter;
-import fr.cph.stock.util.Constants;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -750,13 +750,13 @@ public class Portfolio {
 		json.add("equities", equitiess);
 		JsonArray shareValuess = new JsonArray();
 		int i = 0;
-		while (i < this.shareValues.size()) {
+		while (i < this.shareValues.size() && i < 11) {
 			shareValuess.add(this.shareValues.get(i).getJSONObject());
 			i++;
 		}
 		json.add("shareValues", shareValuess);
 		JsonArray accs = new JsonArray();
-		for (Account acc : this.accounts) {
+		for (final Account acc : this.accounts) {
 			accs.add(acc.getJSONObject());
 		}
 		json.add("accounts", accs);

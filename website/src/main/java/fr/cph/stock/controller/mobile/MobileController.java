@@ -95,8 +95,9 @@ public class MobileController {
 
 			if (portfolio != null) {
 				final JsonObject json = new JsonObject();
-				json.add(PORTFOLIO, portfolio.getJSONObject());
-				json.add(USER, user.getJSONObject());
+				final JsonObject jsonObjectPortfolio = portfolio.getJSONObject();
+				jsonObjectPortfolio.addProperty("locale", user.getLocale());
+				json.add(PORTFOLIO, jsonObjectPortfolio);
 				response.getWriter().write(json.toString());
 			} else {
 				response.getWriter().write("{\"error\":empty\"}");
