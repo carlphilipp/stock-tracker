@@ -111,7 +111,7 @@ public class EquityController {
 			model.addObject(MODIFY_ERROR, "Error: quantity can not be 0 or lower");
 		} else {
 			equityService.updateEquity(user.getId(), ticker, equity);
-			model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_DELETED) + " !");
+			model.addObject(MODIFIED, LanguageFactory.INSTANCE.getLanguage(lang).get(CONSTANT_MODIFIED) + " !");
 		}
 		return model;
 	}
