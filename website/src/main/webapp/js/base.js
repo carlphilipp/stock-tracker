@@ -154,6 +154,7 @@ function updateTicker(id, ticker, namePersonal, sector, industry, marketCap,
 function updateTicker(id, ticker, namePersonal, sector, industry, marketCap,
     quantity, unitCostPrice, yieldYahoo, yieldPersonal, parity, parityPersonal,
     stopLoss, objective) {
+  document.getElementById('equityId').value = id;
   document.getElementById('manualForm2').style.display = 'none';
   document.getElementById('notManualForm2').style.display = 'block';
   document.getElementById('sendEquityDelete').style.display = 'block';

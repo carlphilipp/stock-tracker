@@ -154,6 +154,7 @@ limitations under the License.
 <div id="modifyEquity" class="reveal-modal">
 	<h1>${language['PORTFOLIO_HIDDEN_MODIFYEQUITY']}</h1>
 	<form name="sendEquityModify" id="sendEquityModify" autocomplete="on">
+		<input id="equityId" type="hidden" name="equityId" value="">
 		<table id="notManualForm2">
 			<tr>
 				<td>${language['PORTFOLIO_HIDDEN_YAHOOID']}:</td>
@@ -219,8 +220,7 @@ limitations under the License.
 		</table>
 	</form>
 	<form name="sendEquityDelete" id="sendEquityDelete">
-		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity"
-												   onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
+		${language['PORTFOLIO_HIDDEN_OR']}&nbsp;<a href="#" id="deleteEquity" onClick="if(confirm('${language['PORTFOLIO_HIDDEN_DELETECONFIRM']}')) execFunWithTimeout(checkForm('sendEquityDelete', 'modifyEquity', 'processDeleteEquity', deleteEquity))">${language['PORTFOLIO_HIDDEN_DELETE']}</a>
 		<input id="processDeleteEquity" type="submit" style="display: none;">
 		<input id="deleteTicker" type="hidden" name="equityId" value="">
 	</form>
@@ -469,7 +469,7 @@ limitations under the License.
 							<c:if test="${equity.company.manual == false }">
 								(${equity.company.yahooId})
 							</c:if>
-							[<a href="javascript:poufpouf('${equity.company.yahooId}')">${language['PORTFOLIO_INFO']}</a>]
+							[<a href="javascript:poufpouf('${equity.id}')">${language['PORTFOLIO_INFO']}</a>]
 							<c:choose>
 								<c:when test="${equity.company.manual == false }">
 									[<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateTicker('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}');return false">${language['PORTFOLIO_MODIFY']}</a>]
@@ -478,7 +478,7 @@ limitations under the License.
 									[<a href="#" data-reveal-id="modifyEquity" onclick="javascript:updateManual('${equity.id}', '${equity.company.yahooId}', '${equity.namePersonal }', '${equity.sectorPersonal }', '${equity.industryPersonal }', '${equity.marketCapPersonal }', '${equity.quantity}','${equity.unitCostPrice}','${equity.company.yield}','${equity.yieldPersonal}','${equity.parity }','${equity.parityPersonal }','${equity.stopLossLocal}','${equity.objectivLocal}','${equity.company.id}', '${equity.company.quote}');return false">${language['PORTFOLIO_MODIFY']}</a>]
 								</c:otherwise>
 							</c:choose>
-							<span id="${equity.company.yahooId}" class="companyInfo" style="display: none;">
+							<span id="${equity.id}" class="companyInfo" style="display: none;">
 											<br> -
 												<c:choose>
 													<c:when test="${!empty equity.currentSector}">

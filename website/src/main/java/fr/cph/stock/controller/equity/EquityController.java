@@ -16,8 +16,6 @@
 
 package fr.cph.stock.controller.equity;
 
-import fr.cph.stock.service.CompanyService;
-import fr.cph.stock.service.EquityService;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.User;
@@ -26,6 +24,8 @@ import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
 import fr.cph.stock.language.LanguageFactory;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.EquityService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -77,7 +77,8 @@ public class EquityController {
 	}
 
 	@RequestMapping(value = "/updateEquity", method = RequestMethod.POST)
-	public ModelAndView updateEquity(@RequestParam(value = TICKER) final String ticker,
+	public ModelAndView updateEquity(@RequestParam(value = "equityId") final int equityId,
+									 @RequestParam(value = TICKER) final String ticker,
 									 @RequestParam(value = NAME_PERSONAL, required = false) final String namePersonal,
 									 @RequestParam(value = SECTOR_PERSONAL, required = false) final String sectorPersonal,
 									 @RequestParam(value = INDUSTRY_PERSONAL, required = false) final String industryPersonal,
@@ -91,6 +92,7 @@ public class EquityController {
 									 @Valid @ModelAttribute final User user,
 									 @CookieValue(LANGUAGE) final String lang) {
 		final Equity equity = Equity.builder()
+			.id(equityId)
 			.namePersonal(namePersonal)
 			.sectorPersonal(sectorPersonal)
 			.industryPersonal(industryPersonal)

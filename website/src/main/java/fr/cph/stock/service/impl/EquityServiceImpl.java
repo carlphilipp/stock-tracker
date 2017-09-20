@@ -16,17 +16,17 @@
 
 package fr.cph.stock.service.impl;
 
-import fr.cph.stock.service.CompanyService;
-import fr.cph.stock.service.EquityService;
-import fr.cph.stock.repository.CompanyRepository;
-import fr.cph.stock.repository.EquityRepository;
-import fr.cph.stock.repository.PortfolioRepository;
 import fr.cph.stock.entities.Company;
 import fr.cph.stock.entities.Equity;
 import fr.cph.stock.entities.Portfolio;
 import fr.cph.stock.exception.EquityException;
 import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.exception.YahooException;
+import fr.cph.stock.repository.CompanyRepository;
+import fr.cph.stock.repository.EquityRepository;
+import fr.cph.stock.repository.PortfolioRepository;
+import fr.cph.stock.service.CompanyService;
+import fr.cph.stock.service.EquityService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,8 +79,9 @@ public class EquityServiceImpl implements EquityService {
 		final Portfolio portfolio = portfolioRepository.selectPortfolioFromUserIdWithEquities(userId).orElseThrow(() -> new NotFoundException(userId));
 
 		final Optional<Equity> found = portfolio.getEquities().stream()
-			.filter(e -> e.getCompanyId() == company.getId())
+			.filter(e -> e.getId() == equity.getId())
 			.findAny();
+
 		equity.setCompanyId(company.getId());
 		equity.setPortfolioId(portfolio.getId());
 		if (found.isPresent()) {
