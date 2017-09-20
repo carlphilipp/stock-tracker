@@ -28,6 +28,7 @@ import fr.cph.stock.exception.NotFoundException;
 import fr.cph.stock.util.Constants;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -290,7 +291,7 @@ public class Portfolio {
 					addEquityValueToMap(data, Constants.FUND, equity);
 				} else {
 					final String sector = equity.getCurrentSector();
-					if (sector == null) {
+					if (StringUtils.isEmpty(sector)) {
 						addEquityValueToMap(data, Constants.UNKNOWN, equity);
 					} else {
 						addEquityValueToMap(data, sector, equity);
@@ -538,13 +539,22 @@ public class Portfolio {
 		final Map<String, List<Equity>> map = new TreeMap<>();
 		List<Equity> companies;
 		for (final Equity equity : getEquities()) {
-			String sector = equity.getCurrentSector() == null ? Constants.UNKNOWN : equity.getCurrentSector();
-			sector = equity.getCompany().getFund() ? Constants.FUND : sector;
-			equity.getCompany().setSector(sector);
-
-			companies = map.getOrDefault(equity.getCurrentSector(), new ArrayList<>());
-			companies.add(equity);
-			map.put(equity.getCurrentSector(), companies);
+			if (equity.getCompany().getFund()) {
+				companies = map.getOrDefault(Constants.FUND, new ArrayList<>());
+				companies.add(equity);
+				map.putIfAbsent(Constants.FUND, companies);
+			} else {
+				final String sector = equity.getCurrentSector();
+				if (StringUtils.isEmpty(sector)) {
+					companies = map.getOrDefault(Constants.UNKNOWN, new ArrayList<>());
+					companies.add(equity);
+					map.putIfAbsent(Constants.UNKNOWN, companies);
+				} else {
+					companies = map.getOrDefault(sector, new ArrayList<>());
+					companies.add(equity);
+					map.putIfAbsent(sector, companies);
+				}
+			}
 		}
 		return map;
 	}
