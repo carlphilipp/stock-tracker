@@ -226,6 +226,7 @@ limitations under the License.
 	</form>
 	<%-- Manual modify Equity --%>
 	<form name="sendEquityModify2" id="sendEquityModify2" autocomplete="on">
+		<input id="equityId2" type="hidden" name="equityId" value="">
 		<input type="hidden" id="manual" name="manual" value="true">
 		<input type="hidden" id="modifyTickerHidden2" name="ticker" value="">
 		<table id="manualForm2">

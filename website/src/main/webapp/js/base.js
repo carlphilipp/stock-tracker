@@ -188,6 +188,7 @@ function updateTicker(id, ticker, namePersonal, sector, industry, marketCap,
 function updateManual(id, ticker, namePersonal, sector, industry, marketCap,
     quantity, unitCostPrice, yieldYahoo, yieldPersonal, parity, parityPersonal,
     stopLoss, objective, companyId, quote) {
+  document.getElementById('equityId2').value = id;
   document.getElementById('manualForm2').style.display = 'block';
   document.getElementById('notManualForm2').style.display = 'none';
   document.getElementById('sendEquityDelete').style.display = 'none';

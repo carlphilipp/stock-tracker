@@ -157,7 +157,8 @@ public class EquityController {
 	}
 
 	@RequestMapping(value = "/updateManualEquity", method = RequestMethod.POST)
-	public ModelAndView updateManualEquity(@RequestParam(value = TICKER) final String ticker,
+	public ModelAndView updateManualEquity(@RequestParam(value = "equityId") final int equityId,
+										   @RequestParam(value = TICKER) final String ticker,
 										   @RequestParam(value = NAME_PERSONAL, required = false) final String namePersonal,
 										   @RequestParam(value = SECTOR_PERSONAL, required = false) final String sectorPersonal,
 										   @RequestParam(value = INDUSTRY_PERSONAL, required = false) final String industryPersonal,
@@ -173,6 +174,7 @@ public class EquityController {
 										   @Valid @ModelAttribute final User user,
 										   @CookieValue(LANGUAGE) final String lang) {
 		final Equity equity = Equity.builder()
+			.id(equityId)
 			.namePersonal(namePersonal)
 			.sectorPersonal(sectorPersonal)
 			.industryPersonal(industryPersonal)
