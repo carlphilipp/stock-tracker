@@ -101,7 +101,7 @@ public class PortfolioController {
 			yahooError = yahooException.getMessage();
 		}
 		if (StringUtils.isNotBlank(yahooError)) {
-			model.addObject(UPDATE_STATUS, "<span class='cQuoteDown'>Error !</span>");
+			model.addObject(UPDATE_STATUS, "<span class='cQuoteDown'>Error while refreshing data :(</span>");
 		} else if (StringUtils.isNotBlank(yahooUpdateCompanyError)) {
 			model.addObject(UPDATE_STATUS,
 				"<span class='cQuoteOrange'>"

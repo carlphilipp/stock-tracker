@@ -65,9 +65,17 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 	@Override
 	public final Stream<Company> getCompaniesData(final List<String> yahooIds) {
 		final String requestQuotes = "select * from yahoo.finance.quotes where symbol in (" + getFormattedList(yahooIds) + ")";
-		return yahooIds.size() == 1
-			? getCompanyData(yahooIds.get(0))
-			: yahooGateway.getObject(requestQuotes, CompaniesData.class).getQuery().getResults().getQuote().stream().map(this::buildCompany);
+		if (yahooIds.size() == 1) {
+			return getCompanyData(yahooIds.get(0));
+		} else {
+			final CompaniesData.Query.Results results = yahooGateway.getObject(requestQuotes, CompaniesData.class).getQuery().getResults();
+			if (results != null) {
+				return yahooGateway.getObject(requestQuotes, CompaniesData.class).getQuery().getResults().getQuote().stream().map(this::buildCompany);
+			} else {
+				log.error("The YQL http request worked but the response did not contain any results");
+				throw new YahooException("Error while refreshing data");
+			}
+		}
 	}
 
 	private Stream<Company> getCompanyData(final String yahooId) {
@@ -114,6 +122,10 @@ public class ExternalDataAccessImpl implements ExternalDataAccess {
 				sb.append("\"").append(currency.getCode()).append(c.getCode()).append("\",\"").append(c.getCode()).append(currency.getCode()).append("\"");
 				final String request = "select * from yahoo.finance.xchange where pair in (" + sb + ")";
 				final XChangeResult xChangeResult = yahooGateway.getObject(request, XChangeResult.class);
+				if (xChangeResult.getQuery().getResults() == null) {
+					log.error("The YQL http request worked but the response did not contain any results");
+					throw new YahooException("Error while refreshing currencies");
+				}
 				final List<Rate> rates = xChangeResult.getQuery().getResults().getRate();
 				if (rates != null && rates.size() == 2) {
 					final CurrencyData currencyData = CurrencyData.builder()
